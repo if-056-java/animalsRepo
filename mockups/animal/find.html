@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>    
+    <title>Знайдені тварини</title>
+    <meta charset="utf-8">
+    <link href="css/styles.css" rel="stylesheet" media="screen">  
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/navbar_green.css" rel="stylesheet">
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script> 
+<body>
+
+<header>
+   <nav role="navigation" class="navbar navbar-fixed-top navbar-default">
+        <div class="container">
+
+      <!-- Бренд і переключення згруповано для покращення показу на мобільних екранах -->
+      <div class="navbar-header">
+        <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="index.html" class="navbar-brand">ЛКП "Лев"</a>
+      </div>
+
+      <!-- Колекція навігаційних меню та форма для переключення -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">Пропонуємо <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="adoption.html">Адопція</a></li>
+                    <li class="divider" role="presentation"></li>
+                    <li><a href="find.html">Знайдено</a></li>
+                </ul>
+             </li>
+
+             <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">Реєстрація <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Безпритульних тварин</a></li>
+                    <li class="divider" role="presentation"></li>
+                    <li><a href="#">Власних тварин</a></li>
+                    <li class="divider" role="presentation"></li>
+                    <li><a href="#">Опікунських тварин</a></li>
+                </ul>
+             </li>
+           <li><a href="contacts.html">Контакти</a></li>
+
+          <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">Модерація <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Реєстр</a></li>
+                    <li class="divider" role="presentation"></li>
+                    <li><a href="#">Оплати</a></li>
+                    <li class="divider" role="presentation"></li>
+                    <li><a href="#">Імпорт/Експорт</a></li>
+                </ul>
+          
+        </li></ul>
+        <!-- Форма входу -->
+                <form role="form" class="navbar-form navbar-right">
+                    <button data-target="#enterModal" data-toggle="modal" class="btn btn-success" type="submit">Вхід <span class="glyphicon glyphicon-door"></span></button>
+                </form>
+            </div><!-- /.nav-collapse -->
+    </div>  
+</nav>
+</header>
+
+<section id="contacts">
+<div class="jumbotron">     
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-lg-12">
+                    <div class="col-sm-1 col-lg-1">
+                        <p><image src="img/main_dog.jpg" width="70"></p>
+                    </div>
+                    <div class="col-sm-11 col-lg-11">   
+                        <h2>Знайдені тварини</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<div class="container">   
+    <div class="row">
+        <br>
+        <div class="col-xs-12 col-sm-2">
+            
+            <div>
+                <h4>Фільтр пошуку</h4>                
+            </div>             
+            <label >Виберіть тип тварини:</label>            
+                <div>              
+                    <select class="form-control col-sm-12" name="animals">
+                        <option  value="dog">Собака</option>
+                        <option  value="cat">Кіт</option>
+                        <option  value="horse">Кінь</option>
+                        <option  value="bear">Ведмідь</option>
+                        <option  value="bird">Птах</option>
+                        <option  value="rodent">Гризун</option>
+                    </select>
+                </div> 
+            <br> 
+
+            <hr>           
+            <label>Розмір тварини:</label>
+            <div >
+            <select class="form-control col-sm-12" name="size">
+                <option  value="small">Малий (до 45 см)</option>
+                <option  value="normal">Середній (45-65 см)</option>
+                <option  value="big">Великий (від 65 см)</option>                       
+            </select>
+            </div>
+            <br> 
+            <hr>            
+            <label>Стать:</label>
+            <div class="checkbox">                          
+                <label><input type="checkbox" value="">Самець</label><br> 
+                <label><input type="checkbox" value="">Самка</label>       
+            </div>             
+              
+            <hr> 
+            
+
+            <div class="row">
+                <p><a class="btn btn-default" role="button" href="#">Фільтрувати</a></p>                
+            </div>            
+        </div>
+
+
+
+        <div class="col-xs-12 col-sm-10">
+            <div class="row">
+                <div class="col-xs-6 col-lg-4" style="height:400px;">
+                    <h4 class="blocktext">ID код оголошення:5678</h4>
+                    <div class="smallIMG">
+                        <p><image class="displayed" src="img/1.jpg" height="200"></p>
+                    </div>
+                    <p class="blocktext2">Файна німецька вівчарка. Мохната. Кусається Багато їсть. Відгукується на кличку Дозор</p>
+                    <p class="blocktext2">
+                        <a class="btn btn-default" role="button" href="#" >Дізнатися більше »</a>
+                    </p>
+                </div>
+                <div class="col-xs-6 col-lg-4" style="height:400px;">
+                    <h4 class="blocktext">ID код оголошення:5678</h4>
+                    <div class="smallIMG">
+                        <p><image class="displayed" src="img/no-image.jpg" height="200"></p>
+                    </div>
+                    <p class="blocktext2">Файна німецька вівчарка. Мохната</p>
+                    <p class="blocktext2">
+                        <a class="btn btn-default" role="button" href="#">Дізнатися більше »</a>
+                    </p>
+                </div>
+                <div class="col-xs-6 col-lg-4" style="height:400px;">
+                    <h4 class="blocktext">ID код оголошення:5678</h4>
+                    <div class="smallIMG">
+                        <p><image class="displayed" src="img/main_dog.jpg" height="200"></p>
+                    </div>
+                    <p class="blocktext2">Файна німецька вівчарка. Мохната</p>
+                    <p class="blocktext2">
+                        <a class="btn btn-default" role="button" href="#">Дізнатися більше »</a>
+                    </p>
+                </div>
+            
+                <div class="col-xs-6 col-lg-4" style="height:400px;">
+                    <h4 class="blocktext">ID код оголошення:5678</h4>
+                    <div class="smallIMG">
+                        <p><image class="displayed" src="img/no-image.jpg" height="200"></p>
+                    </div>
+                    <p class="blocktext2">Файна німецька вівчарка. Мохната</p>
+                    <p class="blocktext2">
+                        <a class="btn btn-default" role="button" href="#">Дізнатися більше »</a>
+                    </p>
+                </div>
+                <div class="col-xs-6 col-lg-4" style="height:400px;">
+                    <h4 class="blocktext">ID код оголошення:5678</h4>
+                    <div class="smallIMG">
+                        <p><image class="displayed" src="img/no-image.jpg" height="200"></p>
+                    </div>
+                    <p class="blocktext2">Файна німецька вівчарка. Мохната</p>
+                    <p class="blocktext2">
+                        <a class="btn btn-default" role="button" href="#">Дізнатися більше »</a>
+                    </p>
+                </div>
+                <div class="col-xs-6 col-lg-4" style="height:400px;">
+                    <h4 class="blocktext">ID код оголошення:5678</h4>
+                    <div class="smallIMG">
+                        <p><image class="displayed" src="img/no-image.jpg" height="200"></p>
+                    </div>
+                    <p class="blocktext2">Файна німецька вівчарка. Мохната</p>
+                    <p class="blocktext2">
+                        <a class="btn btn-default" role="button" href="#">Дізнатися більше »</a>
+                    </p>
+                </div>
+            
+                <div class="col-xs-6 col-lg-4" style="height:400px;">
+                    <h4 class="blocktext">ID код оголошення:5678</h4>
+                    <div class="smallIMG">
+                        <p><image class="displayed" src="img/main_dog.jpg" height="200"></p>
+                    </div>
+                    <p class="blocktext2">Файна німецька вівчарка. Мохната</p>
+                    <p class="blocktext2">
+                        <a class="btn btn-default" role="button" href="#">Дізнатися більше »</a>
+                    </p>
+                </div>
+            </div> 
+
+
+
+        </div>
+    </div>
+</div>
+      
+<footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2 col-lg-2" >
+                    <span class="copyright">&copy; ЛКП "Лев" 2015</span>
+                </div>
+                <div class="col-sm-10 col-lg-10">
+                    <form method="POST" accept-charset="utf-8" action="https://www.liqpay.com/api/pay" class="custom">
+                        <input type="hidden" name="public_key" value="i0199959990" />
+                        <div class="row">
+                            <div class="col-sm-1 col-lg-1">
+                                <input type="text" name="amount" value="50" size="2"/>
+                            </div>
+                            <div class="col-sm-1 col-lg-1">
+                                <select name="currency">
+                                    <option value="UAH" selected="selected">UAH</option>
+                                    <option value="USD" >USD</option>
+                                    <option value="EUR">EUR</option>
+                                </select>
+
+                            </div>
+                            <div class="col-sm-10 col-lg-10">
+                                <button class="btn btn-success" style="display: block; margin-top: 10px;">Оплатити
+                                </button>
+                            </div>                       
+                        </div>
+                    </form>
+                 </div>
+                </div>
+            </div>
+    </footer>
+</body>
+</html>
