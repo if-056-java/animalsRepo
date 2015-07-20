@@ -7,12 +7,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"-->
     <link rel="stylesheet" href="css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="css/datepicker.css">
 
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="js/bootstrap-select.min.js"></script>
-    <script src="js/bootstrap-datepicker.js"></script>
 </head>
 <body>
     <div class="row" style="height: 50px"></div>
@@ -59,6 +57,8 @@
                         <td><strong>Окрас</strong></td>
                         <td><strong>Номер мікрочіпу</strong></td>
                         <td><strong>Дата народження</strong></td>
+                        <td></td>
+                        <td></td>
                     </tr>    
                 </thead>
                 <tbody>
@@ -69,6 +69,8 @@
                         <td>Стандарт</td>
                         <td>451251231</td>
                         <td>1998.05.16</td>
+                        <td><a href="#"><img src="img/view_fullscreen.png"></a></td>
+                        <td><a href="#"><img src="img/deletered.png"></a></td>
                     </tr>    
                     <tr>
                         <td>Собака</td>
@@ -77,6 +79,8 @@
                         <td>Стандарт</td>
                         <td>451251231</td>
                         <td>1998.05.16</td>
+                        <td><a href="#"><img src="img/view_fullscreen.png"></a></td>
+                        <td><a href="#"><img src="img/deletered.png"></a></td>
                     </tr>    
                     <tr>
                         <td>Собака</td>
@@ -85,6 +89,8 @@
                         <td>Стандарт</td>
                         <td>451251231</td>
                         <td>1998.05.16</td>
+                        <td><a href="#"><img src="img/view_fullscreen.png"></a></td>
+                        <td><a href="#"><img src="img/deletered.png"></a></td>
                     </tr>    
                     <tr>
                         <td>Собака</td>
@@ -93,6 +99,8 @@
                         <td>Стандарт</td>
                         <td>451251231</td>
                         <td>1998.05.16</td>
+                        <td><a href="#"><img src="img/view_fullscreen.png"></a></td>
+                        <td><a href="#"><img src="img/deletered.png"></a></td>
                     </tr>   
                     <tr>
                         <td>Собака</td>
@@ -101,6 +109,8 @@
                         <td>Стандарт</td>
                         <td>451251231</td>
                         <td>1998.05.16</td>
+                        <td><a href="#"><img src="img/view_fullscreen.png"></a></td>
+                        <td><a href="#"><img src="img/deletered.png"></a></td>
                     </tr>   
                     <tr>
                         <td>Собака</td>
@@ -109,6 +119,8 @@
                         <td>Стандарт</td>
                         <td>451251231</td>
                         <td>1998.05.16</td>
+                        <td><a href="#"><img src="img/view_fullscreen.png"></a></td>
+                        <td><a href="#"><img src="img/deletered.png"></a></td>
                     </tr>   
                     <tr>
                         <td>Собака</td>
@@ -117,6 +129,8 @@
                         <td>Стандарт</td>
                         <td>451251231</td>
                         <td>1998.05.16</td>
+                        <td><a href="#"><img src="img/view_fullscreen.png"></a></td>
+                        <td><a href="#"><img src="img/deletered.png"></a></td>
                     </tr>   
                 </tbody>
                 </table>
@@ -124,25 +138,27 @@
     </div>
     <div class="row">
         <div class="col-md-6 col-md-offset-3 panel panel-success text-center">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
             <nav>
-              <ul class="pagination">
-                <li class="disabled">
-                  <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li class="active"><a href="#" style="background-color: #5cb85c; border-color: #5cb85c;">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li>
-                  <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
+                <ul class="pagination">
+                    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                    <li class="active"><a href="#" style="background-color: #5cb85c; border-color: #5cb85c;">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                </ul>
             </nav>
+            </div>
+            <div class="col-md-1">
+                <select class="form-control panel-success" style="border-radius: 4px; width: 70px; margin: 20px 0;">
+                    <option>10</option>
+                    <option>20</option>
+                    <option>40</option>
+                </select>  
+            </div>
         </div>
     </div>
 </body>
