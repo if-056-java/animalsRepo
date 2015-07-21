@@ -1,0 +1,90 @@
+
+    <div class="row" style="height: 50px"></div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 panel panel-success">
+            <div class="row">
+                <div class="panel-body">
+                    <div class="col-md-6" style="padding-left: 0px;">
+                        <img src="img/noimg.png" style="max-width: 400px; max-height: 400px;">
+                    </div>
+                    <div class="col-md-6" style="padding-top: 20px">
+                        <div class="row">
+                            <div class="col-md-4">Тип:</div>
+                            <div class="col-md-8">{{ animal.type }}</div>                       
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">Порода:</div>
+                            <div class="col-md-8">{{ animal.sort }}</div>                       
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">Стать:</div>
+                            <div class="col-md-8">{{ animal.sex }}</div>                       
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">Окрас:</div>
+                            <div class="col-md-8">{{ animal.color }}</div>                       
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">CITE:</div>
+                            <div class="col-md-8">{{ animal.cites }}</div>                       
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">Номер мікрочіпу:</div>
+                            <div class="col-md-8">{{ animal.transpNumber }}</div>                       
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">Номер жетону:</div>
+                            <div class="col-md-8">{{ animal.tokenNumber }}</div>                       
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 20px">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4">Дата народження:</div>
+                        <div class="col-md-8">{{ animal.dateOfBirth }}</div>                       
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">Дата стерелізації:</div>
+                        <div class="col-md-8">{{ animal.dateOfSterilization }}</div>                       
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">Поштовий індекс:</div>
+                        <div class="col-md-8"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4">Дата реєстрації:</div>
+                        <div class="col-md-8">{{ animal.dateOfRegister }}</div>                       
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">Власник:</div>
+                        <div class="col-md-8">{{ animal.owner }}</div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">Адреса:</div>
+                        <div class="col-md-8">{{ animal.address }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-7" style="padding-right: 0px; padding-left: 0px;">
+            <div class="col-md-6" style="padding-right: 0px;"><a class="btn btn-success col-md-12" href="#/animals_detailed_editor/{{ animal.id }}" role="button">Редагувати</a></div>
+            <div class="col-md-6" style="padding-right: 0px;"><a class="btn btn-success col-md-12" href="#/animals_list" role="button">Повернутись</a></div>
+        </div>
+    </div>
