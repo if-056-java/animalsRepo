@@ -1,136 +1,116 @@
-
-    <div class="row" style="height: 50px"></div>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3 panel panel-success">
+<div class="row" style="height: 50px"></div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 panel panel-success">
+        <div class="panel-body">
             <div class="row">
-                <div class="panel-body">
-                    <div class="col-md-6" style="padding-left: 0px;">
-                        <img src="img/noimg.png" style="max-width: 400px; max-height: 400px;">
-                    </div>
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="input-group" dropdown-close>
-                                <span class="input-group-addon">Тип</span>
-                                <dropdown-toggle>
-                                    <select selectpicker class="selectpicker" data-width="100%" ng-model="animal.type">
-                                        <option>Не визначено</option>
-                                        <option>Собака</option>
-                                        <option>Кіт</option>
-                                    </select>
-                                </dropdown-toggle>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1">Порода</span>
-                                <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.sort">
-                            </div>                    
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="input-group" dropdown-close>
-                                <span class="input-group-addon" id="basic-addon1">Стать</span>
-                                <dropdown-toggle>
-                                    <select selectpicker class="selectpicker" data-width="100%" ng-model="animal.sex">
-                                        <option>Не визначено</option>
-                                        <option>Самець</option>
-                                        <option>Самка</option>
-                                    </select>
-                                </dropdown-toggle>
-                            </div>                       
-                        </div>               
-                        <hr>
-                        <div class="row">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1">Окрас</span>
-                                <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.color">
-                            </div>                         
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="input-group" dropdown-close>
-                                <span class="input-group-addon" id="basic-addon1">CITES</span>
-                                <dropdown-toggle>
-                                    <select selectpicker class="selectpicker" data-width="100%"  ng-model="animal.cites">
-                                        <option>Не належить</option>
-                                        <option>CITES I</option>
-                                        <option>CITES II</option>
-                                        <option>CITES III</option>
-                                    </select>
-                                </dropdown-toggle>
-                            </div>                        
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1">Номер мікрочіпу</span>
-                                <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.transpNumber">
-                            </div>                      
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1">Номер жетону</span>
-                                <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.tokenNumber">
-                            </div>                     
-                        </div>
-                        <hr>
-                    </div>
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 20px; padding-left: 15px; padding-right: 15px;">
-                <div class="col-md-6">
-                    <div class="row" style="margin-right: 0px;">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">Дата народження</span>
-                            <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.dateOfBirth">
-                        </div>                      
-                    </div>
-                    <hr>
-                    <div class="row" style="margin-right: 0px;">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">Дата стерелізації</span>
-                            <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.dateOfSterilization">
-                        </div>                     
-                    </div>
-                    
-                    <hr>
-                    <div class="row" style="margin-right: 0px;">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">Поштовий індекс</span>
-                            <input type="text" class="form-control" aria-describedby="basic-addon1" value="">
-                        </div>  
-                    </div>
+                <div class="col-md-6 text-center">
+                    <img src="img/noimg.png" style="max-width: 400px; max-height: 400px;">
                 </div>
                 <div class="col-md-6">
-                    <div class="row">
+                    <div class="input-group" dropdown-close>
+                        <span class="input-group-addon">Тип</span>
+                        <dropdown-toggle>
+                            <select selectpicker class="selectpicker" data-width="100%" ng-model="animal.type">
+                                <option>Не визначено</option>
+                                <option>Собака</option>
+                                <option>Кіт</option>
+                            </select>
+                        </dropdown-toggle>
+                    </div>
+                    <hr>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Порода</span>
+                        <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.sort">
+                    </div>                    
+                    <hr>
+                    <div class="input-group" dropdown-close>
+                        <span class="input-group-addon" id="basic-addon1">Стать</span>
+                        <dropdown-toggle>
+                            <select selectpicker class="selectpicker" data-width="100%" ng-model="animal.sex">
+                                <option>Не визначено</option>
+                                <option>Самець</option>
+                                <option>Самка</option>
+                            </select>
+                        </dropdown-toggle>
+                        </div>                                
+                        <hr>
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">Дата реєстрації</span>
-                            <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.dateOfRegister">
+                            <span class="input-group-addon" id="basic-addon1">Окрас</span>
+                            <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.color">
+                        </div>                         
+                        <hr>
+                        <div class="input-group" dropdown-close>
+                            <span class="input-group-addon" id="basic-addon1">CITES</span>
+                            <dropdown-toggle>
+                                <select selectpicker class="selectpicker" data-width="100%"  ng-model="animal.cites">
+                                    <option>Не належить</option>
+                                    <option>CITES I</option>
+                                    <option>CITES II</option>
+                                    <option>CITES III</option>
+                                </select>
+                            </dropdown-toggle>
                         </div>                        
+                        <hr>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Номер мікрочіпу</span>
+                            <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.transpNumber">
+                        </div>                      
+                        <hr>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Номер жетону</span>
+                            <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.tokenNumber">
+                        </div>                     
+                        <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="input-group" ng-controller="DPController">
+                        <span class="input-group-addon" id="basic-addon1">Дата народження</span>
+                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="animal.dateOfBirth" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                    <hr>
+                    <p class="input-group" ng-controller="DPController">
+                        <span class="input-group-addon" id="basic-addon1">Дата стерелізації</span>
+                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="animal.dateOfSterilization" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                    <hr>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Поштовий індекс</span>
+                        <input type="text" class="form-control" aria-describedby="basic-addon1" value="">
+                    </div>  
+                </div>
+                <div class="col-md-6">
+                    <p class="input-group" ng-controller="DPController">
+                        <span class="input-group-addon" id="basic-addon1">Дата реєстрації</span>
+                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="animal.dateOfRegister" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                    <hr>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Власник</span>
+                        <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.owner">
                     </div>
                     <hr>
-                    <div class="row">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">Власник</span>
-                            <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.owner">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">Адреса</span>
-                            <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.address">
-                        </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Адреса</span>
+                        <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.address">
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-1 col-md-offset-8" style="padding-right: 0px; padding-left: 0px;">
-            <button type="button" class="btn btn-success col-md-12" ng-click="setAnimal()">Зберегти</button>
-        </div>
+</div>
+<div class="row">
+    <div class="col-md-1 col-md-offset-8" style="padding-right: 0px; padding-left: 0px;">
+        <button type="button" class="btn btn-success col-md-12" ng-click="setAnimal()">Зберегти</button>
     </div>
-
+</div>
