@@ -30,8 +30,8 @@ SELECT  a.ID, a.transpNumber, a.tokenNumber, a.dateOfRegister, a.dateOfBirth, a.
  left join animals.animalsizes d on d.ID = a.sizeId
  left join animals.animaltypes e on e.ID = a.typeId
  left join animals.animalcitestypes f on f.ID = a.citesId
- left join animals.adresses g on g.ID = a.addressId
+ left join animals.addresses g on g.ID = a.addressId
  left join animals.users h on h.ID = a.userId
- left join animals.adresses i on i.ID = h.addressId
+ left join animals.addresses i on i.ID = h.addressId
  
  where a.ID = 2;
