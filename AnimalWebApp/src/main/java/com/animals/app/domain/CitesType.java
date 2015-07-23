@@ -3,10 +3,10 @@ package com.animals.app.domain;
 /**
  * Created by Rostyslav.Viner on 22.07.2015.
  */
-public class AnimalSexType {
+public class CitesType {
 
     private Long id;
-    private String sex;
+    private String type;
 
     public Long getId() {
         return id;
@@ -16,12 +16,12 @@ public class AnimalSexType {
         this.id = id;
     }
 
-    public String getSex() {
-        return sex;
+    public String getType() {
+        return type;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
@@ -29,25 +29,25 @@ public class AnimalSexType {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AnimalSexType that = (AnimalSexType) o;
+        CitesType citesType = (CitesType) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        return !(sex != null ? !sex.equals(that.sex) : that.sex != null);
+        if (id != null ? !id.equals(citesType.id) : citesType.id != null) return false;
+        return !(type != null ? !type.equals(citesType.type) : citesType.type != null);
 
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "AnimalSexType{" +
+        return "CitesType{" +
                 "id=" + id +
-                ", sex='" + sex + "'" +
+                ", type='" + type + "'" +
                 '}';
     }
 }
