@@ -1,0 +1,29 @@
+2015-07-23 21:51:38,342 INFO  R - Saving data to File
+2015-07-23 21:51:38,376 INFO  R - Saved! PEREMOGA!!!
+2015-07-23 21:51:38,383 INFO  R - From RepositoryStub: findPet was launched
+2015-07-23 21:51:38,387 ERROR R - Pet not found. ZRADA
+2015-07-23 21:51:38,389 INFO  R - From RepositoryStub: findAllPets was launched
+2015-07-23 21:51:38,391 INFO  R - From RepositoryStub: findPet was launched
+2015-07-23 21:51:38,393 INFO  R - Pet was found. PEREMOGA
+2015-07-23 21:51:38,395 INFO  R - Saving data to File
+2015-07-23 21:51:38,396 INFO  R - Saved! PEREMOGA!!!
+2015-07-23 21:51:38,398 INFO  R - From RepositoryStub: Creating Pet
+2015-07-23 21:51:38,398 INFO  R - From RepositoryStub: findPet was launched
+2015-07-23 21:51:38,400 ERROR R - File not found or error happend/ ZRADAnull
+2015-07-23 21:51:38,400 INFO  R - Pet was found. PEREMOGA
+2015-07-23 21:51:38,401 INFO  R - From RepositoryStub: findPet was launched
+2015-07-23 21:51:38,402 ERROR R - File not found or error happend/ ZRADAnull
+2015-07-23 21:51:38,402 INFO  R - Pet was found. PEREMOGA
+2015-07-23 21:51:38,403 INFO  R - From RepositoryStub: update was launched
+2015-07-23 21:51:38,405 ERROR R - File not found or error happend/ ZRADAnull
+2015-07-23 21:51:38,405 INFO  R - Pet Type successfully updated. PEREMOGA
+2015-07-23 21:51:38,405 INFO  R - Saving data to File
+2015-07-23 21:51:38,406 INFO  R - Saved! PEREMOGA!!!
+2015-07-23 21:51:38,408 INFO  R - From RepositoryStub: delete was launched
+2015-07-23 21:51:38,410 ERROR R - File not found or error happend/ ZRADAnull
+2015-07-23 21:51:38,410 INFO  R - Pet successfully deleted. PEREMOGA
+2015-07-23 21:51:38,410 INFO  R - Saving data to File
+2015-07-23 21:51:38,411 INFO  R - Saved! PEREMOGA!!!
+2015-07-23 22:02:03,000 INFO  R - Saving data to File
+2015-07-23 22:02:03,030 INFO  R - Saved! PEREMOGA!!!
+2015-07-23 22:02:03,031 WARN  R - Initializing data.ser file
