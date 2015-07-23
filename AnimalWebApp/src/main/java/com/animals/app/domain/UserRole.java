@@ -1,4 +1,4 @@
-package com.example.Model.Entity;
+package com.animals.app.domain;
 
 /**
  * Created by oleg on 22.07.2015.

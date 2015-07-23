@@ -1,6 +1,7 @@
-package com.example.Model.Entity;
+package com.animals.app.domain;
 
-import java.lang.Boolean;import java.lang.Integer;import java.lang.Long;import java.lang.String;import java.sql.Date;
+
+import java.sql.Date;
 
 /**
  * Created by Rostyslav.Viner on 22.07.2015.
@@ -19,12 +20,11 @@ public class Animal {
     private Date dateOfBirth;
     private Date dateOfSterilization;
     private String color;
-    private Integer ownerID;
-    private String address;
-    private Boolean status;
+    private User user;
+    private UserAddress address;
+    private Boolean active;
     private String image;
     private AnimalService service;
-    private User user;
 
     public Long getId() {
         return id;
@@ -122,28 +122,28 @@ public class Animal {
         this.color = color;
     }
 
-    public Integer getOwnerID() {
-        return ownerID;
+    public User getUser() {
+        return user;
     }
 
-    public void setOwnerID(Integer ownerID) {
-        this.ownerID = ownerID;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getAddress() {
+    public UserAddress getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(UserAddress address) {
         this.address = address;
     }
 
-    public Boolean getStatus() {
-        return status;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getImage() {
@@ -162,11 +162,26 @@ public class Animal {
         this.service = service;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    @Override
+    public String toString() {
+        return "Animal{" +
+                "id=" + id +
+                ", sex=" + sex +
+                ", type=" + type +
+                ", size=" + size +
+                ", cites=" + cites +
+                ", sort='" + sort + "'" +
+                ", transpNumber='" + transpNumber + "'" +
+                ", tokenNumber='" + tokenNumber + "'" +
+                ", dateOfRegister='" + dateOfRegister + "'" +
+                ", dateOfBirth='" + dateOfBirth + "'" +
+                ", dateOfSterilization='" + dateOfSterilization + "'" +
+                ", color='" + color + "'" +
+                ", user=" + user +
+                ", address=" + address +
+                ", active='" + active + "'" +
+                ", image='" + image + "'" +
+                ", service=" + service +
+                '}';
     }
 }

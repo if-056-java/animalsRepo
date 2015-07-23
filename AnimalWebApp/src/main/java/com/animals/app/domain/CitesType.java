@@ -1,4 +1,4 @@
-package com.example.Model.Entity;
+package com.animals.app.domain;
 
 /**
  * Created by Rostyslav.Viner on 22.07.2015.
@@ -22,5 +22,13 @@ public class CitesType {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "CitesType{" +
+                "id=" + id +
+                ", type='" + type + "'" +
+                '}';
     }
 }

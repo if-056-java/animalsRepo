@@ -1,4 +1,4 @@
-package com.example.Model.Entity;
+package com.animals.app.domain;
 
 import java.sql.Date;
 import java.util.List;

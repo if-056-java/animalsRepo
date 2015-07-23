@@ -1,4 +1,4 @@
-package com.example.Model.Entity;
+package com.animals.app.domain;
 
 /**
  * Created by Rostyslav.Viner on 22.07.2015.
@@ -22,5 +22,13 @@ public class AnimalSize {
 
     public void setSize(String size) {
         this.size = size;
+    }
+
+    @Override
+    public String toString() {
+        return "AnimalSize{" +
+                "id=" + id +
+                ", size='" + size + "'" +
+                '}';
     }
 }
