@@ -1,4 +1,4 @@
-package com.animals.app.domain;
+package com.example.Model.Entity;
 
 import java.lang.Boolean;import java.lang.Integer;import java.lang.Long;import java.lang.String;import java.sql.Date;
 
@@ -24,6 +24,7 @@ public class Animal {
     private Boolean status;
     private String image;
     private AnimalService service;
+    private User user;
 
     public Long getId() {
         return id;
@@ -159,5 +160,13 @@ public class Animal {
 
     public void setService(AnimalService service) {
         this.service = service;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
