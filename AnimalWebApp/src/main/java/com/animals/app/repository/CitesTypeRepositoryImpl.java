@@ -1,7 +1,6 @@
 package com.animals.app.repository;
 
 import com.animals.app.domain.CitesType;
-import com.animals.app.controller.MyBatisConnectionFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -22,13 +21,13 @@ public class CitesTypeRepositoryImpl {
      * Returns the list of all Cites type instances from the database.
      * @return the list of all Cites type instances from the database.
      */
-    public List<CitesType> query(){
+    public List<CitesType> getAll(){
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             CitesTypeRepository mapper = session.getMapper(CitesTypeRepository.class);
-            return mapper.selectAll();
+            return mapper.getAll();
         } finally {
             session.close();
         }
@@ -39,13 +38,13 @@ public class CitesTypeRepositoryImpl {
      * @param id primary key value used for lookup.
      * @return A Cites type instance with a primary key value equals to pk. null if there is no matching row.
      */
-    public CitesType query(int id){
+    public CitesType getById(int id){
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             CitesTypeRepository mapper = session.getMapper(CitesTypeRepository.class);
-            return mapper.selectById(id);
+            return mapper.getById(id);
         } finally {
             session.close();
         }

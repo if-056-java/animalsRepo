@@ -24,7 +24,7 @@ public interface AnimalSizeRepository {
             @Result(property="id", column="id"),
             @Result(property="size", column="size")
     })
-    List<AnimalSize> selectAll();
+    List<AnimalSize> getAll();
 
     /**
      * Returns a Animal size instance from the database.
@@ -36,5 +36,5 @@ public interface AnimalSizeRepository {
             @Result(property="id", column="id"),
             @Result(property="size", column="size")
     })
-    AnimalSize selectById(int id);
+    AnimalSize getById(int id);
 }

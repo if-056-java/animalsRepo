@@ -1,6 +1,5 @@
 package com.animals.app.repository;
 
-import com.animals.app.controller.MyBatisConnectionFactory;
 import com.animals.app.domain.AnimalType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -21,13 +20,13 @@ public class AnimalTypeRepositoryImpl {
      * Returns the list of all Animal type instances from the database.
      * @return the list of all Animal type instances from the database.
      */
-    public List<AnimalType> query(){
+    public List<AnimalType> getAll(){
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             AnimalTypeRepository mapper = session.getMapper(AnimalTypeRepository.class);
-            return mapper.selectAll();
+            return mapper.getAll();
         } finally {
             session.close();
         }
@@ -38,13 +37,13 @@ public class AnimalTypeRepositoryImpl {
      * @param id primary key value used for lookup.
      * @return A Animal type instance with a primary key value equals to pk. null if there is no matching row.
      */
-    public AnimalType query(int id){
+    public AnimalType getById(int id){
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             AnimalTypeRepository mapper = session.getMapper(AnimalTypeRepository.class);
-            return mapper.selectById(id);
+            return mapper.getById(id);
         } finally {
             session.close();
         }

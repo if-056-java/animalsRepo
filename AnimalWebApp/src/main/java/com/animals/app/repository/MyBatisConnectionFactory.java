@@ -1,4 +1,4 @@
-package com.animals.app.controller;
+package com.animals.app.repository;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
