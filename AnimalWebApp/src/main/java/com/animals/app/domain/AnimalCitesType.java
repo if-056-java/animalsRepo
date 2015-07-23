@@ -3,7 +3,7 @@ package com.animals.app.domain;
 /**
  * Created by Rostyslav.Viner on 22.07.2015.
  */
-public class CitesType {
+public class AnimalCitesType {
 
     private Long id;
     private String type;
