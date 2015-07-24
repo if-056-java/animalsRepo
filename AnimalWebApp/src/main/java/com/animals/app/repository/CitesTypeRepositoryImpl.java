@@ -21,7 +21,7 @@ public class CitesTypeRepositoryImpl {
      * Returns the list of all Cites type instances from the database.
      * @return the list of all Cites type instances from the database.
      */
-    public List<CitesType> query(){
+    public List<CitesType> getAll(){
 
         SqlSession session = sqlSessionFactory.openSession();
 
@@ -38,7 +38,7 @@ public class CitesTypeRepositoryImpl {
      * @param id primary key value used for lookup.
      * @return A Cites type instance with a primary key value equals to pk. null if there is no matching row.
      */
-    public CitesType query(int id){
+    public CitesType getById(int id){
 
         SqlSession session = sqlSessionFactory.openSession();
 

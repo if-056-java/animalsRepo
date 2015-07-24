@@ -20,7 +20,7 @@ public class AnimalTypeRepositoryImpl {
      * Returns the list of all Animal type instances from the database.
      * @return the list of all Animal type instances from the database.
      */
-    public List<AnimalType> query(){
+    public List<AnimalType> getAll(){
 
         SqlSession session = sqlSessionFactory.openSession();
 
@@ -37,7 +37,7 @@ public class AnimalTypeRepositoryImpl {
      * @param id primary key value used for lookup.
      * @return A Animal type instance with a primary key value equals to pk. null if there is no matching row.
      */
-    public AnimalType query(int id){
+    public AnimalType getById(int id){
 
         SqlSession session = sqlSessionFactory.openSession();
 

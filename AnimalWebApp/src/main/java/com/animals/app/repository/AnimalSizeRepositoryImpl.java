@@ -21,7 +21,7 @@ public class AnimalSizeRepositoryImpl {
      * Returns the list of all Animal size instances from the database.
      * @return the list of all Animal size instances from the database.
      */
-    public List<AnimalSize> query(){
+    public List<AnimalSize> getAll(){
 
         SqlSession session = sqlSessionFactory.openSession();
 
@@ -38,7 +38,7 @@ public class AnimalSizeRepositoryImpl {
      * @param id primary key value used for lookup.
      * @return An Animal size type instance with a primary key value equals to pk. null if there is no matching row.
      */
-    public AnimalSize query(int id){
+    public AnimalSize getById(int id){
 
         SqlSession session = sqlSessionFactory.openSession();
 
