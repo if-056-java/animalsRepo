@@ -10,10 +10,10 @@ import java.util.List;
 /**
  * Created by Rostyslav.Viner on 23.07.2015.
  */
-public interface CitesTypeRepository {
+public interface AnimalCitesTypeRepository {
 
-    final String SELECT_ALL = "SELECT id, type FROM citestypes";
-    final String SELECT_BY_ID = "SELECT id, type FROM citestypes WHERE id = #{id}";
+    final String SELECT_ALL = "SELECT id, type FROM animalcitestypes";
+    final String SELECT_BY_ID = "SELECT id, type FROM animalcitestypes WHERE id = #{id}";
 
     /**
      * Returns the list of all Cites type instances from the database.
@@ -24,7 +24,7 @@ public interface CitesTypeRepository {
             @Result(property="id", column="id"),
             @Result(property="type", column="type")
     })
-    List<CitesType> getAll();
+    List<AnimalCitesType> getAll();
 
     /**
      * Returns a Cites type instance from the database.
@@ -36,5 +36,5 @@ public interface CitesTypeRepository {
             @Result(property="id", column="id"),
             @Result(property="type", column="type")
     })
-    CitesType getById(int id);
+    AnimalCitesType getById(int id);
 }

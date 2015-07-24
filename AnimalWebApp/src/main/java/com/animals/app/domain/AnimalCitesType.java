@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Rostyslav.Viner on 22.07.2015.
  */
-public class CitesType implements Serializable{
+public class AnimalCitesType implements Serializable{
 
     private Long id;
     private String type;
@@ -31,10 +31,10 @@ public class CitesType implements Serializable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CitesType citesType = (CitesType) o;
+        AnimalCitesType animalCitesType = (AnimalCitesType) o;
 
-        if (id != null ? !id.equals(citesType.id) : citesType.id != null) return false;
-        return !(type != null ? !type.equals(citesType.type) : citesType.type != null);
+        if (id != null ? !id.equals(animalCitesType.id) : animalCitesType.id != null) return false;
+        return !(type != null ? !type.equals(animalCitesType.type) : animalCitesType.type != null);
 
     }
 
@@ -47,7 +47,7 @@ public class CitesType implements Serializable{
 
     @Override
     public String toString() {
-        return "CitesType{" +
+        return "AnimalCitesType{" +
                 "id=" + id +
                 ", type='" + type + "'" +
                 '}';

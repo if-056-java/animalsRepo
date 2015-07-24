@@ -9,11 +9,11 @@ import java.util.List;
 /**
  * Created by Rostyslav.Viner on 23.07.2015.
  */
-public class CitesTypeRepositoryImpl {
+public class AnimalCitesTypeRepositoryImpl {
 
     private SqlSessionFactory sqlSessionFactory;
 
-    public CitesTypeRepositoryImpl() {
+    public AnimalCitesTypeRepositoryImpl() {
         sqlSessionFactory = new MyBatisConnectionFactory().getSqlSessionFactory();
     }
 
@@ -21,12 +21,12 @@ public class CitesTypeRepositoryImpl {
      * Returns the list of all Cites type instances from the database.
      * @return the list of all Cites type instances from the database.
      */
-    public List<CitesType> getAll(){
+    public List<AnimalCitesType> getAll(){
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
-            CitesTypeRepository mapper = session.getMapper(CitesTypeRepository.class);
+            AnimalCitesTypeRepository mapper = session.getMapper(AnimalCitesTypeRepository.class);
             return mapper.getAll();
         } finally {
             session.close();
@@ -38,12 +38,12 @@ public class CitesTypeRepositoryImpl {
      * @param id primary key value used for lookup.
      * @return A Cites type instance with a primary key value equals to pk. null if there is no matching row.
      */
-    public CitesType getById(int id){
+    public AnimalCitesType getById(int id){
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
-            CitesTypeRepository mapper = session.getMapper(CitesTypeRepository.class);
+            AnimalCitesTypeRepository mapper = session.getMapper(AnimalCitesTypeRepository.class);
             return mapper.getById(id);
         } finally {
             session.close();

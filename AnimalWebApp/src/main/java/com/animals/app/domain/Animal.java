@@ -13,7 +13,7 @@ public class Animal implements Serializable{
     private AnimalSexType sex;
     private AnimalType type;
     private AnimalSize size;
-    private CitesType cites;
+    private AnimalCitesType cites;
     private String sort;
     private String transpNumber;
     private String tokenNumber;
@@ -59,11 +59,11 @@ public class Animal implements Serializable{
         this.size = size;
     }
 
-    public CitesType getCites() {
+    public AnimalCitesType getAnimalCites() {
         return cites;
     }
 
-    public void setCites(CitesType cites) {
+    public void setAnimalCites(AnimalCitesType cites) {
         this.cites = cites;
     }
 
