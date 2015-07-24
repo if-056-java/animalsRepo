@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `animals` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `animals`;
--- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
 --
--- Host: 127.0.0.1    Database: animals
+-- Host: localhost    Database: animals
 -- ------------------------------------------------------
--- Server version	5.6.15
+-- Server version	5.7.7-rc-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,31 +18,56 @@ USE `animals`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `addresses`
+-- Table structure for table `adresses`
 --
 
-DROP TABLE IF EXISTS `addresses`;
+DROP TABLE IF EXISTS `adresses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `addresses` (
+CREATE TABLE `adresses` (
   `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Адреси користувачів, власників та перебування тварин',
-  `country` varchar(25) DEFAULT NULL COMMENT 'Місто',
-  `region` varchar(30) DEFAULT NULL COMMENT 'Вулиця',
-  `town` varchar(25) DEFAULT NULL COMMENT 'Номер будинку',
-  `street` varchar(30) DEFAULT NULL COMMENT 'Номер квартири',
-  `postIndex` int(11) DEFAULT NULL COMMENT 'Поштовий індекс',
+  `city` varchar(20) DEFAULT NULL COMMENT 'Місто',
+  `street` varchar(20) DEFAULT NULL COMMENT 'Вулиця',
+  `houseNumber` varchar(6) DEFAULT NULL COMMENT 'Номер будинку',
+  `apartmentNumber` varchar(6) DEFAULT NULL COMMENT 'Номер квартири',
+  `postIndex` varchar(6) DEFAULT NULL COMMENT 'Поштовий індекс',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `addresses`
+-- Dumping data for table `adresses`
 --
 
-LOCK TABLES `addresses` WRITE;
-/*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
-INSERT INTO `addresses` VALUES (1,'Ukraine','Lviv','Bibrka','Sumonenka 25A',74995);
-/*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
+LOCK TABLES `adresses` WRITE;
+/*!40000 ALTER TABLE `adresses` DISABLE KEYS */;
+INSERT INTO `adresses` VALUES (1,'Львів','Незалежності','2','1','72000'),(2,'Івано-Франківськ','С.Стрільців','23',NULL,'76000'),(3,'Чернігів','Зелена','4','12','26000'),(4,'Київ','Центральна','42','14','11001'),(5,'Львів','Височана','1','1','72000'),(6,'Чернівці','Валова','45',NULL,'71000'),(7,'Галич','Центр',NULL,NULL,NULL),(8,'Львів','К. Данила',NULL,NULL,'72000');
+/*!40000 ALTER TABLE `adresses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `animalcitestypes`
+--
+
+DROP TABLE IF EXISTS `animalcitestypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `animalcitestypes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Код виду класифікації CITES',
+  `type` varchar(15) NOT NULL COMMENT 'Назва класифікації CITES',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `type_UNIQUE` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `animalcitestypes`
+--
+
+LOCK TABLES `animalcitestypes` WRITE;
+/*!40000 ALTER TABLE `animalcitestypes` DISABLE KEYS */;
+INSERT INTO `animalcitestypes` VALUES (2,'CITES I'),(3,'CITES II'),(4,'CITES III'),(1,'не відноситься');
+/*!40000 ALTER TABLE `animalcitestypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -79,15 +104,14 @@ CREATE TABLE `animals` (
   KEY `fkServices_idx` (`serviceId`),
   KEY `fkUser_idx` (`userId`),
   KEY `fkAdress_idx` (`addressId`),
-  KEY `fkAdress_idx1` (`ID`,`addressId`),
-  CONSTRAINT `FK_AddressId_AddressesId` FOREIGN KEY (`addressId`) REFERENCES `addresses` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fkCites` FOREIGN KEY (`citesId`) REFERENCES `citestypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fkAdress` FOREIGN KEY (`addressId`) REFERENCES `adresses` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fkCites` FOREIGN KEY (`citesId`) REFERENCES `animalcitestypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkServices` FOREIGN KEY (`serviceId`) REFERENCES `animalservices` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkSex` FOREIGN KEY (`sexTypeId`) REFERENCES `animalsextypes` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkSize` FOREIGN KEY (`sizeId`) REFERENCES `animalsizes` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkType` FOREIGN KEY (`typeId`) REFERENCES `animaltypes` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkUser` FOREIGN KEY (`userId`) REFERENCES `users` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,6 +120,7 @@ CREATE TABLE `animals` (
 
 LOCK TABLES `animals` WRITE;
 /*!40000 ALTER TABLE `animals` DISABLE KEYS */;
+INSERT INTO `animals` VALUES (1,1,1,2,1,'дог',NULL,NULL,'2015-07-23','2015-07-01',NULL,'чорний',1,3,1,NULL,1),(2,2,2,1,1,'сибірська','111111111111111',NULL,'2015-06-30','2015-06-01','2015-07-01','білий',2,4,1,NULL,2),(3,3,3,3,1,'папуга',NULL,'2342','2015-06-20',NULL,NULL,'жовтий',1,5,1,NULL,3),(4,1,4,2,1,'хом\'як',NULL,NULL,'2015-06-21',NULL,NULL,'білий',2,6,0,NULL,1),(5,2,5,1,1,'тхір',NULL,NULL,'2015-06-22',NULL,NULL,'коричневий',1,7,1,NULL,2),(6,3,6,3,1,'хамелеон',NULL,'1111','2015-06-23',NULL,NULL,'зелений',2,8,1,NULL,3);
 /*!40000 ALTER TABLE `animals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,31 +225,6 @@ INSERT INTO `animaltypes` VALUES (9,'ведмідь'),(4,'гризун'),(8,'к�
 UNLOCK TABLES;
 
 --
--- Table structure for table `citestypes`
---
-
-DROP TABLE IF EXISTS `citestypes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `citestypes` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Код виду класифікації CITES',
-  `type` varchar(15) NOT NULL COMMENT 'Назва класифікації CITES',
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `type_UNIQUE` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `citestypes`
---
-
-LOCK TABLES `citestypes` WRITE;
-/*!40000 ALTER TABLE `citestypes` DISABLE KEYS */;
-INSERT INTO `citestypes` VALUES (2,'CITES I'),(3,'CITES II'),(4,'CITES III'),(1,'не відноситься');
-/*!40000 ALTER TABLE `citestypes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `useroperationslogger`
 --
 
@@ -322,13 +322,13 @@ CREATE TABLE `users` (
   `socialLogin` varchar(30) DEFAULT NULL COMMENT 'Логін в Фейсбуці чи інших соц-мережах',
   `password` varchar(30) NOT NULL COMMENT 'Пароль',
   `organizationName` varchar(50) DEFAULT NULL COMMENT 'Назва організації',
-  `organizationInfo` varchar(70) DEFAULT NULL COMMENT 'Інформація про організацію',
+  `organizarionInfo` varchar(70) DEFAULT NULL COMMENT 'Інформація про організацію',
   `isActive` tinyint(1) DEFAULT NULL COMMENT 'Індикація блокування користувача',
   PRIMARY KEY (`ID`),
   KEY `fkUserRoles_idx` (`userRoleId`),
   KEY `fkUserKinds_idx` (`userTypeId`),
   KEY `fkAdress_idx` (`addressId`),
-  CONSTRAINT `fkAdressId` FOREIGN KEY (`addressId`) REFERENCES `addresses` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fkAdressId` FOREIGN KEY (`addressId`) REFERENCES `adresses` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkUserKinds` FOREIGN KEY (`userTypeId`) REFERENCES `usertypes` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkUserRoles` FOREIGN KEY (`userRoleId`) REFERENCES `userroles` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
@@ -340,7 +340,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Василь','Махно','2015-07-23',1,2,NULL,1,'mama1@i.ua',NULL,'mama1@i.ua',NULL,NULL,NULL),(2,'Андрій','Петрович','2015-07-23',5,2,NULL,NULL,'mama2@i.ua',NULL,'mama2@i.ua',NULL,NULL,NULL);
+INSERT INTO `users` VALUES (1,'Василь','Махно','2015-07-23',1,2,NULL,1,'mama1@i.ua',NULL,'mama1@i.ua',NULL,NULL,1),(2,'Андрій','Петрович','2015-07-23',5,2,'0502721256',2,'mama2@i.ua',NULL,'mama2@i.ua',NULL,NULL,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -367,10 +367,6 @@ LOCK TABLES `usertypes` WRITE;
 INSERT INTO `usertypes` VALUES (1,'власник'),(2,'ветеринар'),(3,'спілка кінологів'),(4,'організація'),(5,'інше');
 /*!40000 ALTER TABLE `usertypes` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'animals'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -381,4 +377,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-24  4:11:03
+-- Dump completed on 2015-07-24 12:59:47
