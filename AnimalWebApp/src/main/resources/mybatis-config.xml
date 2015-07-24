@@ -31,6 +31,8 @@
         <typeAlias alias="User" type="com.animals.app.domain.User"/>
         <typeAlias alias="UserType" type="com.animals.app.domain.UserType"/>
         <typeAlias alias="UserRole" type="com.animals.app.domain.UserRole"/>
+        <typeAlias alias="UserOperationLogger" type="com.animals.app.domain.UserOperationLogger"/>
+        <typeAlias alias="UserOperationType" type="com.animals.app.domain.UserOperationType"/>
 
         <typeAlias alias="Address" type="com.animals.app.domain.Address"/>
     </typeAliases>
@@ -60,6 +62,8 @@
         <mapper class="com.animals.app.repository.UserRepository" />
         <mapper class="com.animals.app.repository.UserTypeRepository" />
         <mapper class="com.animals.app.repository.UserRoleRepository" />
+        <mapper class="com.animals.app.repository.UserOperationLoggerRepository" />
+        <mapper class="com.animals.app.repository.UserOperationTypeRepository" />
 
         <mapper class="com.animals.app.repository.AddressRepository" />
     </mappers>

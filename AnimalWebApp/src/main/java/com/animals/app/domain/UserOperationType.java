@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class UserOperationType implements Serializable{
 
     private Integer id;
-    private String operationType;
+    private String type;
 
     public UserOperationType() {
     }
@@ -21,12 +21,12 @@ public class UserOperationType implements Serializable{
         this.id = id;
     }
 
-    public String getOperationType() {
-        return operationType;
+    public String getType() {
+        return type;
     }
 
-    public void setOperationType(String operationType) {
-        this.operationType = operationType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class UserOperationType implements Serializable{
         UserOperationType that = (UserOperationType) o;
 
         if (!id.equals(that.id)) return false;
-        if (!operationType.equals(that.operationType)) return false;
+        if (!type.equals(that.type)) return false;
 
         return true;
     }
@@ -45,7 +45,7 @@ public class UserOperationType implements Serializable{
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + operationType.hashCode();
+        result = 31 * result + type.hashCode();
         return result;
     }
 
@@ -53,7 +53,7 @@ public class UserOperationType implements Serializable{
     public String toString() {
         return "UserOperationType{" +
                 "id=" + id +
-                ", operationType='" + operationType + '\'' +
+                ", type='" + type + '\'' +
                 '}';
     }
 }

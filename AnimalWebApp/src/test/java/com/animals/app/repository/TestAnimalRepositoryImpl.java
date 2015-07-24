@@ -28,7 +28,7 @@ public class TestAnimalRepositoryImpl {
     @Test
     public void testGetAll() {
         List<Animal> expected = animalRepositoryImpl.getAll();
-        System.out.println("rr" + expected);
+
         assertNotNull(expected);
     }
 

@@ -80,8 +80,11 @@ public class UserOperationLogger implements Serializable{
     @Override
     public String toString() {
         return "UserOperationLogger{" +
-                "date=" + date +
-                ", id=" + id +
+                "id=" + id +
+                ", date=" + date +
+                ", user=" + user +
+                ", userOperationType=" + userOperationType +
+                ", animal=" + animal +
                 '}';
     }
 }

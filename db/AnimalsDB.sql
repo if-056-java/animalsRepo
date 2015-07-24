@@ -32,7 +32,7 @@ CREATE TABLE `addresses` (
   `street` varchar(30) DEFAULT NULL COMMENT 'Номер квартири',
   `postIndex` int(11) DEFAULT NULL COMMENT 'Поштовий індекс',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,33 @@ CREATE TABLE `addresses` (
 
 LOCK TABLES `addresses` WRITE;
 /*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
+INSERT INTO `addresses` VALUES (1,'ukr','lvyv','lvyv','test',86354),(2,'Great Britain','London','London','Street of Glory',6564);
 /*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `animalcitestypes`
+--
+
+DROP TABLE IF EXISTS `animalcitestypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `animalcitestypes` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Код виду класифікації CITES',
+  `type` varchar(15) NOT NULL COMMENT 'Назва класифікації CITES',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `type_UNIQUE` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `animalcitestypes`
+--
+
+LOCK TABLES `animalcitestypes` WRITE;
+/*!40000 ALTER TABLE `animalcitestypes` DISABLE KEYS */;
+INSERT INTO `animalcitestypes` VALUES (2,'CITES I'),(3,'CITES II'),(4,'CITES III'),(1,'не відноситься');
+/*!40000 ALTER TABLE `animalcitestypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -79,13 +105,14 @@ CREATE TABLE `animals` (
   KEY `fkUser_idx` (`userId`),
   KEY `fkAdress_idx` (`addressId`),
   KEY `fkAdress_idx1` (`ID`,`addressId`),
-  CONSTRAINT `fkCites` FOREIGN KEY (`citesId`) REFERENCES `citestypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_AddressId_Address_Id` FOREIGN KEY (`addressId`) REFERENCES `addresses` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fkCites` FOREIGN KEY (`citesId`) REFERENCES `animalcitestypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkServices` FOREIGN KEY (`serviceId`) REFERENCES `animalservices` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkSex` FOREIGN KEY (`sexTypeId`) REFERENCES `animalsextypes` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkSize` FOREIGN KEY (`sizeId`) REFERENCES `animalsizes` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkType` FOREIGN KEY (`typeId`) REFERENCES `animaltypes` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkUser` FOREIGN KEY (`userId`) REFERENCES `users` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,6 +121,7 @@ CREATE TABLE `animals` (
 
 LOCK TABLES `animals` WRITE;
 /*!40000 ALTER TABLE `animals` DISABLE KEYS */;
+INSERT INTO `animals` VALUES (1,2,9,2,1,'wtf??','53423423','realy?','2015-07-21','2000-03-12',NULL,'red',2,2,1,NULL,3);
 /*!40000 ALTER TABLE `animals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,31 +226,6 @@ INSERT INTO `animaltypes` VALUES (9,'ведмідь'),(4,'гризун'),(8,'к�
 UNLOCK TABLES;
 
 --
--- Table structure for table `citestypes`
---
-
-DROP TABLE IF EXISTS `citestypes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `citestypes` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Код виду класифікації CITES',
-  `type` varchar(15) NOT NULL COMMENT 'Назва класифікації CITES',
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `type_UNIQUE` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `citestypes`
---
-
-LOCK TABLES `citestypes` WRITE;
-/*!40000 ALTER TABLE `citestypes` DISABLE KEYS */;
-INSERT INTO `citestypes` VALUES (2,'CITES I'),(3,'CITES II'),(4,'CITES III'),(1,'не відноситься');
-/*!40000 ALTER TABLE `citestypes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `useroperationslogger`
 --
 
@@ -240,7 +243,7 @@ CREATE TABLE `useroperationslogger` (
   KEY `fkOperationKinds_idx` (`operationId`),
   CONSTRAINT `fkOperationKinds` FOREIGN KEY (`operationId`) REFERENCES `useroperationtypes` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkUserId` FOREIGN KEY (`userId`) REFERENCES `users` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -249,6 +252,7 @@ CREATE TABLE `useroperationslogger` (
 
 LOCK TABLES `useroperationslogger` WRITE;
 /*!40000 ALTER TABLE `useroperationslogger` DISABLE KEYS */;
+INSERT INTO `useroperationslogger` VALUES (1,'2015-07-24 00:00:00',2,3,1),(2,'2015-07-24 00:00:00',2,1,1);
 /*!40000 ALTER TABLE `useroperationslogger` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -338,7 +342,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Василь','Махно','2015-07-23',1,2,NULL,NULL,'mama1@i.ua',NULL,'mama1@i.ua',NULL,NULL,NULL),(2,'Андрій','Петрович','2015-07-23',5,2,NULL,NULL,'mama2@i.ua',NULL,'mama2@i.ua',NULL,NULL,NULL);
+INSERT INTO `users` VALUES (1,'Василь','Махно','2015-07-23',1,2,NULL,1,'mama1@i.ua',NULL,'mama1@i.ua',NULL,NULL,NULL),(2,'Андрій','Петрович','2015-07-23',5,2,NULL,1,'mama2@i.ua',NULL,'mama2@i.ua',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -379,4 +383,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-23 23:20:01
+-- Dump completed on 2015-07-24 23:35:28
