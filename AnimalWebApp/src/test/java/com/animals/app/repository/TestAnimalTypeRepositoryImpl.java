@@ -27,13 +27,13 @@ public class TestAnimalTypeRepositoryImpl {
 
     @Test
     public void testGetAll() {
-        List<AnimalType> list = animalTypeRepositoryImpl.query();
+        List<AnimalType> list = animalTypeRepositoryImpl.getAll();
         assertNotNull(list);
     }
 
     @Test
     public void testGetById() {
-        AnimalType expected = animalTypeRepositoryImpl.query(1);
+        AnimalType expected = animalTypeRepositoryImpl.getById(1);
 
         assertNotNull(expected);
     }
