@@ -4,6 +4,8 @@ import com.animals.app.domain.User;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import java.util.List;
+
 /**
  * Created by oleg on 24.07.2015.
  */
@@ -31,5 +33,21 @@ public class UserRepositoryImpl {
             sqlSession.close();
         }
     }
+
+    /**
+     * Returns the list of all Users instances from the database.
+     * @return the list of all Users instances from the database.
+     */
+    public List<User> getAll(){
+        SqlSession sqlSession =  sqlSessionFactory.openSession();
+
+        try{
+            UserRepository mapper = sqlSession.getMapper(UserRepository.class);
+            return mapper.getAll();
+        } finally {
+            sqlSession.close();
+        }
+    }
+
 
 }

@@ -27,20 +27,19 @@ public class TestUserRepositoryImpl {
         userRepository = null;
     }
 
-/*
+
     @Test
     public void testGetAll(){
         List<User> userList = userRepository.getAll();
 
         assertNotNull(userList);
     }
-*/
+
 
     @Test
     public void testGetById(){
         User user = userRepository.getById(1);
 
-        System.out.println(user);
         assertNotNull(user);
     }
 }
