@@ -29,13 +29,13 @@ public class TestCitesRepositoryImpl {
     }
 
     @Test
-    public void testSelectAll() {
+    public void testGetAll() {
         List<CitesType> list = citesTypeRepositoryImpl.query();
         assertNotNull(list);
     }
 
     @Test
-    public void testSelectById() {
+    public void testGetById() {
         CitesType expected = citesTypeRepositoryImpl.query(1);
 
         assertNotNull(expected);

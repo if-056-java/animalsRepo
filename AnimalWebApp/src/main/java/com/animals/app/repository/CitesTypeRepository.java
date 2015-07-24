@@ -24,7 +24,7 @@ public interface CitesTypeRepository {
             @Result(property="id", column="id"),
             @Result(property="type", column="type")
     })
-    List<CitesType> selectAll();
+    List<CitesType> getAll();
 
     /**
      * Returns a Cites type instance from the database.
@@ -36,5 +36,5 @@ public interface CitesTypeRepository {
             @Result(property="id", column="id"),
             @Result(property="type", column="type")
     })
-    CitesType selectById(int id);
+    CitesType getById(int id);
 }

@@ -1,7 +1,6 @@
 package com.animals.app.repository;
 
 import com.animals.app.domain.CitesType;
-import com.animals.app.controller.MyBatisConnectionFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -28,7 +27,7 @@ public class CitesTypeRepositoryImpl {
 
         try {
             CitesTypeRepository mapper = session.getMapper(CitesTypeRepository.class);
-            return mapper.selectAll();
+            return mapper.getAll();
         } finally {
             session.close();
         }
@@ -45,7 +44,7 @@ public class CitesTypeRepositoryImpl {
 
         try {
             CitesTypeRepository mapper = session.getMapper(CitesTypeRepository.class);
-            return mapper.selectById(id);
+            return mapper.getById(id);
         } finally {
             session.close();
         }

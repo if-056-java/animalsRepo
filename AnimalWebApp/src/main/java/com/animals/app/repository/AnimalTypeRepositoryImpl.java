@@ -1,6 +1,5 @@
 package com.animals.app.repository;
 
-import com.animals.app.controller.MyBatisConnectionFactory;
 import com.animals.app.domain.AnimalType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -27,7 +26,7 @@ public class AnimalTypeRepositoryImpl {
 
         try {
             AnimalTypeRepository mapper = session.getMapper(AnimalTypeRepository.class);
-            return mapper.selectAll();
+            return mapper.getAll();
         } finally {
             session.close();
         }
@@ -44,7 +43,7 @@ public class AnimalTypeRepositoryImpl {
 
         try {
             AnimalTypeRepository mapper = session.getMapper(AnimalTypeRepository.class);
-            return mapper.selectById(id);
+            return mapper.getById(id);
         } finally {
             session.close();
         }

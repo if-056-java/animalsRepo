@@ -1,9 +1,11 @@
 package com.animals.app.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by Rostyslav.Viner on 22.07.2015.
  */
-public class CitesType {
+public class CitesType implements Serializable{
 
     private Long id;
     private String type;

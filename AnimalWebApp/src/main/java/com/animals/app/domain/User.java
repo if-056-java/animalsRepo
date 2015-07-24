@@ -1,13 +1,13 @@
 package com.animals.app.domain;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by oleg on 22.07.2015.
  */
-public class User {
+public class User implements Serializable{
 
     private Integer id;
     private String name;
@@ -22,7 +22,7 @@ public class User {
     private boolean isActive;
 
     private List<UserRole> userRole;
-    private UserAddress userAddress;
+    private Address address;
     private UserType userType;
 
     public User() {
@@ -116,12 +116,12 @@ public class User {
         this.isActive = isActive;
     }
 
-    public UserAddress getUserAddress() {
-        return userAddress;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setUserAddress(UserAddress userAddress) {
-        this.userAddress = userAddress;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public List<UserRole> getUserRole() {
@@ -141,6 +141,46 @@ public class User {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (isActive != user.isActive) return false;
+        if (!email.equals(user.email)) return false;
+        if (!id.equals(user.id)) return false;
+        if (!name.equals(user.name)) return false;
+        if (organizationInfo != null ? !organizationInfo.equals(user.organizationInfo) : user.organizationInfo != null)
+            return false;
+        if (organizationName != null ? !organizationName.equals(user.organizationName) : user.organizationName != null)
+            return false;
+        if (!password.equals(user.password)) return false;
+        if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
+        if (!registrationDate.equals(user.registrationDate)) return false;
+        if (socialLogin != null ? !socialLogin.equals(user.socialLogin) : user.socialLogin != null) return false;
+        if (!surname.equals(user.surname)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + surname.hashCode();
+        result = 31 * result + registrationDate.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (socialLogin != null ? socialLogin.hashCode() : 0);
+        result = 31 * result + (organizationName != null ? organizationName.hashCode() : 0);
+        result = 31 * result + (organizationInfo != null ? organizationInfo.hashCode() : 0);
+        result = 31 * result + (isActive ? 1 : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
@@ -154,6 +194,9 @@ public class User {
                 ", organizationName='" + organizationName + '\'' +
                 ", organizationInfo='" + organizationInfo + '\'' +
                 ", isActive=" + isActive +
+                ", userRole=" + userRole +
+                ", address=" + address +
+                ", userType=" + userType +
                 '}';
     }
 }

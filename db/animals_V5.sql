@@ -32,7 +32,7 @@ CREATE TABLE `addresses` (
   `street` varchar(30) DEFAULT NULL COMMENT 'Номер квартири',
   `postIndex` int(11) DEFAULT NULL COMMENT 'Поштовий індекс',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,7 @@ CREATE TABLE `addresses` (
 
 LOCK TABLES `addresses` WRITE;
 /*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
+INSERT INTO `addresses` VALUES (1,'Ukraine','Lviv','Bibrka','Sumonenka 25A',74995);
 /*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,6 +80,7 @@ CREATE TABLE `animals` (
   KEY `fkUser_idx` (`userId`),
   KEY `fkAdress_idx` (`addressId`),
   KEY `fkAdress_idx1` (`ID`,`addressId`),
+  CONSTRAINT `FK_AddressId_AddressesId` FOREIGN KEY (`addressId`) REFERENCES `addresses` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkCites` FOREIGN KEY (`citesId`) REFERENCES `citestypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkServices` FOREIGN KEY (`serviceId`) REFERENCES `animalservices` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkSex` FOREIGN KEY (`sexTypeId`) REFERENCES `animalsextypes` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -338,7 +340,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Василь','Махно','2015-07-23',1,2,NULL,NULL,'mama1@i.ua',NULL,'mama1@i.ua',NULL,NULL,NULL),(2,'Андрій','Петрович','2015-07-23',5,2,NULL,NULL,'mama2@i.ua',NULL,'mama2@i.ua',NULL,NULL,NULL);
+INSERT INTO `users` VALUES (1,'Василь','Махно','2015-07-23',1,2,NULL,1,'mama1@i.ua',NULL,'mama1@i.ua',NULL,NULL,NULL),(2,'Андрій','Петрович','2015-07-23',5,2,NULL,NULL,'mama2@i.ua',NULL,'mama2@i.ua',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -379,4 +381,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-23 23:20:01
+-- Dump completed on 2015-07-24  4:11:03

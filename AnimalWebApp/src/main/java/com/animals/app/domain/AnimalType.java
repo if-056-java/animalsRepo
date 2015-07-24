@@ -1,9 +1,11 @@
 package com.animals.app.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by Rostyslav.Viner on 22.07.2015.
  */
-public class AnimalType {
+public class AnimalType implements Serializable{
 
     private Long id;
     private String type;

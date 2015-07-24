@@ -24,7 +24,7 @@ public interface AnimalTypeRepository {
             @Result(property="id", column="id"),
             @Result(property="type", column="type")
     })
-    List<AnimalType> selectAll();
+    List<AnimalType> getAll();
 
     /**
      * Returns a Animal type instance from the database.
@@ -36,5 +36,5 @@ public interface AnimalTypeRepository {
             @Result(property="id", column="id"),
             @Result(property="type", column="type")
     })
-    AnimalType selectById(int id);
+    AnimalType getById(int id);
 }

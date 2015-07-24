@@ -1,11 +1,12 @@
 package com.animals.app.domain;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * Created by oleg on 23.07.2015.
  */
-public class UserOperationLogger {
+public class UserOperationLogger implements Serializable{
 
     private Integer id;
     private Timestamp date;
@@ -54,6 +55,26 @@ public class UserOperationLogger {
 
     public void setAnimal(Animal animal) {
         this.animal = animal;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserOperationLogger that = (UserOperationLogger) o;
+
+        if (!date.equals(that.date)) return false;
+        if (!id.equals(that.id)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + date.hashCode();
+        return result;
     }
 
     @Override

@@ -1,9 +1,11 @@
 package com.animals.app.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by oleg on 22.07.2015.
  */
-public class UserRole {
+public class UserRole implements Serializable{
 
     private Integer id;
     private String role;
@@ -25,6 +27,26 @@ public class UserRole {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserRole userRole = (UserRole) o;
+
+        if (!id.equals(userRole.id)) return false;
+        if (!role.equals(userRole.role)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + role.hashCode();
+        return result;
     }
 
     @Override

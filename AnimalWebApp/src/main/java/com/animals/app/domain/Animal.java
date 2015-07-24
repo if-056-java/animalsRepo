@@ -1,12 +1,13 @@
 package com.animals.app.domain;
 
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Created by Rostyslav.Viner on 22.07.2015.
  */
-public class Animal {
+public class Animal implements Serializable{
 
     private Long id;
     private AnimalSexType sex;
@@ -21,7 +22,7 @@ public class Animal {
     private Date dateOfSterilization;
     private String color;
     private User user;
-    private UserAddress address;
+    private Address address;
     private Boolean active;
     private String image;
     private AnimalService service;
@@ -130,11 +131,11 @@ public class Animal {
         this.user = user;
     }
 
-    public UserAddress getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(UserAddress address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
