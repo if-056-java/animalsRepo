@@ -1,10 +1,7 @@
 package com.animals.app.repository;
 
 import com.animals.app.domain.*;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -13,14 +10,52 @@ import java.util.List;
  */
 public interface AnimalRepository {
 
+    final String INSERT = "INSERT INTO animals SET sexTypeId=#{sexTypeId}, typeId=#{typeId}, sizeId=#{sizeId}, " +
+            "sort='#{sort}', transpNumber='#{transpNumber}', tokenNumber='#{tokenNumber}', " +
+            "dateOfRegister='#{dateOfRegister}', dateOfBirth='#{dateOfBirth}', " +
+            "dateOfSterilization='#{dateOfSterilization}', color='#{color}', userId=#{userId}, " +
+            "addressId=#{addressId}, isActive=#{isActive}, image='#{image}', serviceId=#{serviceId}";
+
+    final String UPDATE = "UPDATE animals SET sexTypeId=#{sexTypeId}, typeId=#{typeId}, sizeId=#{sizeId}, " +
+            "sort='#{sort}', transpNumber='#{transpNumber}', tokenNumber='#{tokenNumber}', " +
+            "dateOfRegister='#{dateOfRegister}', dateOfBirth='#{dateOfBirth}', " +
+            "dateOfSterilization='#{dateOfSterilization}', color='#{color}', userId=#{userId}, " +
+            "addressId=#{addressId}, isActive=#{isActive}, image='#{image}', serviceId=#{serviceId}" +
+            "WHERE id=#{id}";
+
+    final String DELETE = "DELETE FROM animals WHERE id = #{id}";
+
     final String SELECT_ALL = "SELECT id, sexTypeId, typeId, sizeId, citesId, sort, transpNumber, tokenNumber, " +
             "dateOfRegister, dateOfBirth, dateOfSterilization, color, userId, addressId, " +
             "isActive, image, serviceId " +
             "FROM animals";
+
     final String SELECT_BY_ID = "SELECT id, sexTypeId, typeId, sizeId, citesId, sort, transpNumber, tokenNumber, " +
             "dateOfRegister, dateOfBirth, dateOfSterilization, color, userId, addressId, " +
             "isActive, image, serviceId " +
             "FROM animals WHERE id = #{id}";
+
+    /**
+     * Insert an instance of Animal into the database.
+     * @param animal the instance to be persisted.
+     */
+    @Insert(INSERT)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insert(Animal animal);
+
+    /**
+     * Update an instance of Animal in the database.
+     * @param animal the instance to be updated.
+     */
+    @Update(UPDATE)
+    void update(Animal animal);
+
+    /**
+     * Delete an instance of Animal from the database.
+     * @param id primary key value of the instance to be deleted.
+     */
+    @Delete(DELETE)
+    void delete(int id);
 
     /**
      * Returns the list of all Animal instances from the database.

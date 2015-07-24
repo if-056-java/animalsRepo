@@ -25,10 +25,18 @@ public class TestAnimalRepositoryImpl {
         animalRepositoryImpl = null;
     }
 
+    /*@Test
+    public void testInsert() {
+        Animal actual = new Animal();
+
+
+        assertNotNull(expected);
+    }*/
+
     @Test
     public void testGetAll() {
         List<Animal> expected = animalRepositoryImpl.getAll();
-        System.out.println("rr" + expected);
+
         assertNotNull(expected);
     }
 
