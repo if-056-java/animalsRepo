@@ -32,7 +32,7 @@ CREATE TABLE `addresses` (
   `street` varchar(30) DEFAULT NULL COMMENT 'Номер квартири',
   `postIndex` int(11) DEFAULT NULL COMMENT 'Поштовий індекс',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `addresses` (
 
 LOCK TABLES `addresses` WRITE;
 /*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
-INSERT INTO `addresses` VALUES (1,'ukr','lvyv','lvyv','test',86354),(2,'Great Britain','London','London','Street of Glory',6564);
+INSERT INTO `addresses` VALUES (23,'Country','lvyv','lvyv','test',86354),(24,'ukr','lvyv','lvyv','test',86354),(25,'ukr','lvyv','lvyv','test',86354),(28,'ukr','lvyv','lvyv','test',86354),(29,'ukr','lvyv','lvyv','test',86354),(30,'ukr','lvyv','lvyv','test',86354),(31,'ukr','lvyv','lvyv','test',86354),(32,'ukr','lvyv','lvyv','test',86354),(33,'ukr','lvyv','lvyv','test',86354),(34,'ukr','lvyv','lvyv','test',86354),(35,'ukr','lvyv','lvyv','test',86354),(36,'ukr','lvyv','lvyv','test',86354);
 /*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +121,7 @@ CREATE TABLE `animals` (
 
 LOCK TABLES `animals` WRITE;
 /*!40000 ALTER TABLE `animals` DISABLE KEYS */;
-INSERT INTO `animals` VALUES (1,2,9,2,1,'wtf??','53423423','realy?','2015-07-21','2000-03-12',NULL,'red',2,2,1,NULL,3);
+INSERT INTO `animals` VALUES (1,1,1,2,3,'wtf','213121','312321221','2015-07-22',NULL,NULL,'red',1,31,1,NULL,1);
 /*!40000 ALTER TABLE `animals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -252,7 +252,7 @@ CREATE TABLE `useroperationslogger` (
 
 LOCK TABLES `useroperationslogger` WRITE;
 /*!40000 ALTER TABLE `useroperationslogger` DISABLE KEYS */;
-INSERT INTO `useroperationslogger` VALUES (1,'2015-07-24 00:00:00',2,3,1),(2,'2015-07-24 00:00:00',2,1,1);
+INSERT INTO `useroperationslogger` VALUES (1,'2015-06-12 00:00:00',1,2,1),(2,'2015-06-22 00:00:00',1,3,1);
 /*!40000 ALTER TABLE `useroperationslogger` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -342,7 +342,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Василь','Махно','2015-07-23',1,2,NULL,1,'mama1@i.ua',NULL,'mama1@i.ua',NULL,NULL,NULL),(2,'Андрій','Петрович','2015-07-23',5,2,NULL,1,'mama2@i.ua',NULL,'mama2@i.ua',NULL,NULL,NULL);
+INSERT INTO `users` VALUES (1,'Ігор','Ботвин','2015-07-22',1,3,NULL,30,'Igor@bigmir.et',NULL,'password',NULL,NULL,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -383,4 +383,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-24 23:35:28
+-- Dump completed on 2015-07-25  2:30:02

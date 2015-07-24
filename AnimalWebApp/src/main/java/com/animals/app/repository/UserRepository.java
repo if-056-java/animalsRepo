@@ -16,11 +16,11 @@ public interface UserRepository {
     final String SELECT_BY_ID = "SELECT Id, Name, Surname, DateOfRegistration, " +
             " UserTypeId, UserRoleId, Phone, AddressId, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive " +
-            " FROM Users WHERE Id = #{id};";
+            " FROM users WHERE Id = #{id};";
     final String SELECT_ALL = "SELECT Id, Name, Surname, DateOfRegistration, " +
             " UserTypeId, UserRoleId, Phone, AddressId, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive " +
-            " FROM Users;";
+            " FROM users;";
 
     /**
      * Returns a User instance from the database.

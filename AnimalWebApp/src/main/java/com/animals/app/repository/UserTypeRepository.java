@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface UserTypeRepository {
 
-    final String SELECT_BY_ID = "SELECT Id, Type FROM UserTypes WHERE Id = #{id};";
-    final String SELECT_ALL = "SELECT Id, Type FROM UserTypes;";
+    final String SELECT_BY_ID = "SELECT Id, Type FROM usertypes WHERE Id = #{id};";
+    final String SELECT_ALL = "SELECT Id, Type FROM usertypes;";
 
     /**
      * Returns a User type instance from the database.

@@ -1,9 +1,7 @@
 package com.animals.app.repository;
 
 import com.animals.app.domain.Address;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -12,8 +10,35 @@ import java.util.List;
  */
 public interface AddressRepository {
 
-    final String SELECT_ALL = "SELECT Id, Country, Region, Town, Street, PostIndex FROM Addresses";
-    final String SELECT_BY_ID = "SELECT Id, Country, Region, Town, Street, PostIndex FROM Addresses WHERE Id = #{id}";
+    final String INSERT = "INSERT INTO addresses(Country, Region, Town, Street, PostIndex) " +
+            "VALUES(#{country}, #{region}, #{town}, #{street}, #{postIndex});";
+    final String UPDATE = "UPDATE addresses SET Country = #{country}, Region = #{region}," +
+            "Town = #{town}, Street = #{street}, PostIndex = #{postIndex} WHERE Id = #{id};";
+    final String DELETE = "DELETE FROM addresses WHERE Id = #{id};";
+    final String SELECT_ALL = "SELECT Id, Country, Region, Town, Street, PostIndex FROM addresses";
+    final String SELECT_BY_ID = "SELECT Id, Country, Region, Town, Street, PostIndex FROM addresses WHERE Id = #{id}";
+
+    /**
+     * Insert a Address instance into the database.
+     * @param address Address instance that will be inserted.
+     */
+    @Insert(INSERT)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insert(Address address);
+
+    /**
+     * Update a Address instance into the database.
+     * @param address Address instance that will be updated.
+     */
+    @Update(UPDATE)
+    void update(Address address);
+
+    /**
+     * Delete a Address instance from the database.
+     * @param address Address instance that will be deleted.
+     */
+    @Delete(DELETE)
+    void delete(Address address);
 
     /**
      * Returns a Address instance from the database.

@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface UserOperationTypeRepository {
 
-    final String SELECT_BY_ID = "SELECT Id, Type FROM UserOperationTypes WHERE Id = #{id};";
-    final String SELECT_ALL = "SELECT Id, Type FROM UserOperationTypes;";
+    final String SELECT_BY_ID = "SELECT Id, Type FROM useroperationtypes WHERE Id = #{id};";
+    final String SELECT_ALL = "SELECT Id, Type FROM useroperationtypes;";
 
     /**
      * Returns a User operation type instance from the database.

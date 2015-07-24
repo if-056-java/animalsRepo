@@ -13,8 +13,8 @@ import java.util.List;
  */
 public interface UserOperationLoggerRepository {
 
-    final String SELECT_BY_ID = "SELECT Id, Date, UserId, OperationId, AnimalId FROM UserOperationsLogger WHERE Id = #{id};";
-    final String SELECT_ALL = "SELECT Id, Date, UserId, OperationId, AnimalId FROM UserOperationsLogger;";
+    final String SELECT_BY_ID = "SELECT Id, Date, UserId, OperationId, AnimalId FROM useroperationslogger WHERE Id = #{id};";
+    final String SELECT_ALL = "SELECT Id, Date, UserId, OperationId, AnimalId FROM useroperationslogger;";
 
     /**
      * Returns a User operations logger instance from the database.

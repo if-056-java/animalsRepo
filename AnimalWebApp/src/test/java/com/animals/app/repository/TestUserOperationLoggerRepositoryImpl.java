@@ -40,7 +40,6 @@ public class TestUserOperationLoggerRepositoryImpl {
     public void testGetById(){
         UserOperationLogger userOperationLogger = userOperationLoggerRepository.getById(1);
 
-        System.out.println(userOperationLogger);
         assertNotNull(userOperationLogger);
     }
 }
