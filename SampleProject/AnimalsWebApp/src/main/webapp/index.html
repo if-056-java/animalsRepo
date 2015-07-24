@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Rest with JavaScript</title>	
+	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src="js/script.js"></script>
+
+	<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css" rel="stylesheet"></link>	
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<link href="css/bootstrap.css" rel="stylesheet"></link>	
+</head>
+<body>
+<div class="container" id="cont1">
+	<br>
+	<div>
+	<h2> TEST REST SERVICE WITH JAVASCRIPT</h2>
+	</div>
+
+	<div class="row">
+		<br>
+        <div class="col-xs-5 col-sm-5 col-lg-8">
+        	<div>
+        		<h4>REST GET Request<h4>
+        		<form class="form-horizontal">
+					<div class="form-group">
+					</div>
+					<button id="getAll" type="button" class="btn btn-default btn-lg">GET all pets</button>
+				</form>
+        	</div>
+        	<hr>
+        	<div>
+        		<h4>REST GET Request 2<h4>
+        		<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-lg-5 control-label">Pet ID:</label>
+						<div class="col-lg-5">
+	      					<input class="form-control" name="petId" id="petIdGet" placeholder="ID">
+	    				</div>						
+					</div>
+					<button id="getPet" type="button" class="btn btn-default btn-lg">GET Pet by ID</button>
+				</form>
+        	</div>
+        	<hr>
+        	<div>
+        		<h4>REST GET Request 3<h4>
+        		<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-lg-5 control-label">Pet ID:</label>
+						<div class="col-lg-5">
+	      					<input class="form-control" name="petIdOw" id="petIdOwGet" placeholder="ID">
+	    				</div>						
+					</div>
+					<button id="getPetOw" type="button" class="btn btn-default btn-lg">GET Owner by Pet ID</button>
+				</form>
+        	</div>
+        	<hr>
+        	<div>
+        		<h4>REST POST Request<h4>
+        		<form class="form-horizontal">
+					<div class="form-group">
+
+						<label class="col-lg-2 control-label">Pet ID:</label>
+						<div class="col-lg-3">
+	      					<input class="form-control" name="petIdP" id="petIdP" placeholder="ID">
+	    				</div>	
+
+						<label class="col-lg-2 control-label">Owner ID:</label>
+						<div class="col-lg-3">
+	      					<input class="form-control" name="petOwIdP" id="petOwIdP" placeholder="ID">
+	    				</div>						
+					</div>
+
+					<div class="form-group">						
+						<label class="col-lg-2 control-label">Pet Type:</label>
+						<div class="col-lg-3">
+	      					<input class="form-control" name="petTypeP" id="petTypeP" placeholder="Dog or Cat">
+	    				</div>	
+
+						<label class="col-lg-2 control-label">Owner Name:</label>
+						<div class="col-lg-3">
+	      					<input class="form-control" name="petOwNameP" id="petOwNameP" placeholder="Name">
+	    				</div>						
+					</div>
+
+					<div class="form-group">						
+						<label class="col-lg-2 control-label">Pet Size:</label>
+						<div class="col-lg-3">
+	      					<input class="form-control" name="petSizeP" id="petSizeP" placeholder="50">
+	    				</div>	
+
+						<label class="col-lg-2 control-label">Owner Adress:</label>
+						<div class="col-lg-3">
+	      					<input class="form-control" name="petOwAdP" id="petOwAdP" placeholder="City">
+	    				</div>						
+					</div>					
+					<button id="postPet" type="button" class="btn btn-default btn-lg">Add Pet</button>
+				</form>
+        	</div>
+        	<hr>
+
+        	<div>
+        		<h4>REST DELETE Request<h4>
+        		<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-lg-5 control-label">Pet ID:</label>
+						<div class="col-lg-5">
+	      					<input class="form-control" name="petDelId" id="petDelId" placeholder="ID">
+	    				</div>						
+					</div>
+					<button id="delPet" type="button" class="btn btn-default btn-lg">DELETE Pet by ID</button>
+				</form>
+        	</div>
+        	<hr>
+
+        	<div>
+        		<h4>REST PUT Request<h4>
+        		<form class="form-horizontal" >
+					<div class="form-group">
+						<label class="col-lg-5 control-label">Pet ID:</label>
+						<div class="col-lg-5">
+	      					<input class="form-control" name="petIdUp" id="petIdUp" placeholder="ID">
+	    				</div>						
+					</div>
+					<div class="form-group">
+						<label class="col-lg-5 control-label">Update Pet Type:</label>
+						<div class="col-lg-5">
+	      					<input class="form-control" name="petTypeUp" id="petTypeUp" placeholder="Dog or Cat">
+	    				</div>						
+					</div>
+					<button id="updPet" type="button" class="btn btn-default btn-lg">Update Pet by ID</button>
+				</form>
+        	</div>
+
+
+        </div>
+        <div class="col-xs-5 col-sm-5 col-lg-4">
+        	<h4>REST Response<h4>
+        	<div class="form-group">	    		
+	    		<p id="result" class="json hljs  col-sm-12">
+					<span class="hljs-string">"ZRADA No response!"</span>
+				</p>
+	  		</div>
+        </div>
+	<div>
+</div>
+
+
+<script>
+
+
+
+
+</script>
+
+
+</body>
