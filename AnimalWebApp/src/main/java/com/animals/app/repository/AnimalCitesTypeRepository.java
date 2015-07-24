@@ -1,6 +1,6 @@
 package com.animals.app.repository;
 
-import com.animals.app.domain.CitesType;
+import com.animals.app.domain.AnimalCitesType;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
