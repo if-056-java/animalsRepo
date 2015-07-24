@@ -2,9 +2,9 @@ CREATE DATABASE  IF NOT EXISTS `animals` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `animals`;
 -- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
 --
--- Host: localhost    Database: animals
+-- Host: tym.dp.ua    Database: animals
 -- ------------------------------------------------------
--- Server version	5.7.7-rc-log
+-- Server version	5.5.44-0+deb7u1-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,13 +18,13 @@ USE `animals`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `adresses`
+-- Table structure for table `addresses`
 --
 
-DROP TABLE IF EXISTS `adresses`;
+DROP TABLE IF EXISTS `addresses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `adresses` (
+CREATE TABLE `addresses` (
   `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Адреси користувачів, власників та перебування тварин',
   `city` varchar(20) DEFAULT NULL COMMENT 'Місто',
   `street` varchar(20) DEFAULT NULL COMMENT 'Вулиця',
@@ -36,13 +36,13 @@ CREATE TABLE `adresses` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `adresses`
+-- Dumping data for table `addresses`
 --
 
-LOCK TABLES `adresses` WRITE;
-/*!40000 ALTER TABLE `adresses` DISABLE KEYS */;
-INSERT INTO `adresses` VALUES (1,'Львів','Незалежності','2','1','72000'),(2,'Івано-Франківськ','С.Стрільців','23',NULL,'76000'),(3,'Чернігів','Зелена','4','12','26000'),(4,'Київ','Центральна','42','14','11001'),(5,'Львів','Височана','1','1','72000'),(6,'Чернівці','Валова','45',NULL,'71000'),(7,'Галич','Центр',NULL,NULL,NULL),(8,'Львів','К. Данила',NULL,NULL,'72000');
-/*!40000 ALTER TABLE `adresses` ENABLE KEYS */;
+LOCK TABLES `addresses` WRITE;
+/*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
+INSERT INTO `addresses` VALUES (1,'Львів','Незалежності','2','1','72000'),(2,'Івано-Франківськ','С.Стрільців','23',NULL,'76000'),(3,'Чернігів','Зелена','4','12','26000'),(4,'Київ','Центральна','42','14','11001'),(5,'Львів','Височана','1','1','72000'),(6,'Чернівці','Валова','45',NULL,'71000'),(7,'Галич','Центр',NULL,NULL,NULL),(8,'Львів','К. Данила',NULL,NULL,'72000');
+/*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -104,7 +104,7 @@ CREATE TABLE `animals` (
   KEY `fkServices_idx` (`serviceId`),
   KEY `fkUser_idx` (`userId`),
   KEY `fkAdress_idx` (`addressId`),
-  CONSTRAINT `fkAdress` FOREIGN KEY (`addressId`) REFERENCES `adresses` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fkAdress` FOREIGN KEY (`addressId`) REFERENCES `addresses` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkCites` FOREIGN KEY (`citesId`) REFERENCES `animalcitestypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkServices` FOREIGN KEY (`serviceId`) REFERENCES `animalservices` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkSex` FOREIGN KEY (`sexTypeId`) REFERENCES `animalsextypes` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -328,7 +328,7 @@ CREATE TABLE `users` (
   KEY `fkUserRoles_idx` (`userRoleId`),
   KEY `fkUserKinds_idx` (`userTypeId`),
   KEY `fkAdress_idx` (`addressId`),
-  CONSTRAINT `fkAdressId` FOREIGN KEY (`addressId`) REFERENCES `adresses` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fkAdressId` FOREIGN KEY (`addressId`) REFERENCES `addresses` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkUserKinds` FOREIGN KEY (`userTypeId`) REFERENCES `usertypes` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fkUserRoles` FOREIGN KEY (`userRoleId`) REFERENCES `userroles` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
@@ -377,4 +377,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-24 12:59:47
+-- Dump completed on 2015-07-24 17:11:02
