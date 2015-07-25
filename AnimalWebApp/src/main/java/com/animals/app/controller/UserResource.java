@@ -15,7 +15,7 @@ public class UserResource {
 	
 	UserRepositoryImpl userRep = new UserRepositoryImpl();
 	
-	@GET //http:localhost:8080/AnimalsWebApp/webapi/users
+	@GET //http:localhost:8080/AnimalWebApp/webapi/users
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})	
 	public List<User> getAllUsers() {
 		
@@ -23,7 +23,7 @@ public class UserResource {
 		
 	}
 	
-	@GET //http:localhost:8080/AnimalsWebApp/webapi/users/id
+	@GET //http:localhost:8080/AnimalWebApp/webapi/users/id
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("{userId}") //http:localhost:8080/AnimalsWebApp/webapi/users/id
 	public User getUserById(@PathParam ("userId") String id) {

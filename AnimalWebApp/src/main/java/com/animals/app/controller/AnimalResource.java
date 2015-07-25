@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("animals") //http:localhost:8080/AnimalsWebApp/webapi/animals
+@Path("animals") //http:localhost:8080/AnimalWebApp/webapi/animals
 public class AnimalResource {
 	
 	private AnimalRepositoryImpl anRep = new AnimalRepositoryImpl();
@@ -23,7 +23,7 @@ public class AnimalResource {
 		
 	}
 	
-	@GET //http:localhost:8080/AnimalsWebApp/webapi/users/id
+	@GET //http:localhost:8080/AnimalWebApp/webapi/users/id
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("{animalId}") //http:localhost:8080/AnimalsWebApp/webapi/animals/id
 	public Animal getAnimal(@PathParam ("animalId") String id) {
