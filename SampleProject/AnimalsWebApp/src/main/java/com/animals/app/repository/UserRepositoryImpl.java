@@ -1,6 +1,9 @@
 package com.animals.app.repository;
 
 import com.animals.app.domain.User;
+
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -30,6 +33,18 @@ public class UserRepositoryImpl {
         } finally {
             sqlSession.close();
         }
+    }
+    
+    public List<User> getAllUsers(){
+    	
+    	SqlSession sqlSession =  sqlSessionFactory.openSession();
+
+        try{
+            UserRepository mapper = sqlSession.getMapper(UserRepository.class);
+            return mapper.getAllUsers();
+        } finally {
+            sqlSession.close();
+        }    	 	
     }
 
 }

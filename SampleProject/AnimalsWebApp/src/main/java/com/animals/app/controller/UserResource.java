@@ -1,5 +1,7 @@
 package com.animals.app.controller;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -13,6 +15,14 @@ import com.animals.app.repository.UserRepositoryImpl;
 public class UserResource {
 	
 	UserRepositoryImpl userRep = new UserRepositoryImpl();
+	
+	@GET //http:localhost:8080/AnimalsWebApp/webapi/users
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})	
+	public List<User> getAllUsers() {
+		
+		return userRep.getAllUsers();
+		
+	}
 	
 	@GET //http:localhost:8080/AnimalsWebApp/webapi/users/id
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

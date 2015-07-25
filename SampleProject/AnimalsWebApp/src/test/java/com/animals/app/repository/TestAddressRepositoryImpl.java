@@ -37,7 +37,7 @@ public class TestAddressRepositoryImpl {
 
     @Test
     public void testGetById(){
-        Address address = addressRepository.getById(1);
+        Address address = addressRepository.getById(31);
 
         assertNotNull(address);
     }
