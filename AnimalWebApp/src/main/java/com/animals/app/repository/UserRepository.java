@@ -68,7 +68,5 @@ public interface UserRepository {
             @Result(property="organizationInfo", column="OrganizationInfo"),
             @Result(property="isActive", column="IsActive")
     })
-    List<User> getAllUsers();
-
-    //to be continues...;)
+    List<User> getAll();
 }

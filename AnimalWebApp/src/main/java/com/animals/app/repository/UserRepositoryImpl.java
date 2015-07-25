@@ -35,13 +35,13 @@ public class UserRepositoryImpl {
         }
     }
     
-    public List<User> getAllUsers(){
+    public List<User> getAll(){
     	
     	SqlSession sqlSession =  sqlSessionFactory.openSession();
 
         try{
             UserRepository mapper = sqlSession.getMapper(UserRepository.class);
-            return mapper.getAllUsers();
+            return mapper.getAll();
         } finally {
             sqlSession.close();
         }    	 	
