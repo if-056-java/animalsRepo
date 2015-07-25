@@ -26,11 +26,13 @@
         <typeAlias alias="AnimalSexType" type="com.animals.app.domain.AnimalSexType"/>
         <typeAlias alias="AnimalSize" type="com.animals.app.domain.AnimalSize"/>
         <typeAlias alias="AnimalType" type="com.animals.app.domain.AnimalType"/>
-        <typeAlias alias="CitesType" type="com.animals.app.domain.CitesType"/>
+        <typeAlias alias="AnimalCitesType" type="com.animals.app.domain.AnimalCitesType"/>
 
         <typeAlias alias="User" type="com.animals.app.domain.User"/>
         <typeAlias alias="UserType" type="com.animals.app.domain.UserType"/>
         <typeAlias alias="UserRole" type="com.animals.app.domain.UserRole"/>
+        <typeAlias alias="UserOperationLogger" type="com.animals.app.domain.UserOperationLogger"/>
+        <typeAlias alias="UserOperationType" type="com.animals.app.domain.UserOperationType"/>
 
         <typeAlias alias="Address" type="com.animals.app.domain.Address"/>
     </typeAliases>
@@ -55,11 +57,13 @@
         <mapper class="com.animals.app.repository.AnimalSexTypeRepository" />
         <mapper class="com.animals.app.repository.AnimalSizeRepository" />
         <mapper class="com.animals.app.repository.AnimalTypeRepository" />
-        <mapper class="com.animals.app.repository.CitesTypeRepository" />
+        <mapper class="com.animals.app.repository.AnimalCitesTypeRepository" />
 
         <mapper class="com.animals.app.repository.UserRepository" />
         <mapper class="com.animals.app.repository.UserTypeRepository" />
         <mapper class="com.animals.app.repository.UserRoleRepository" />
+        <mapper class="com.animals.app.repository.UserOperationLoggerRepository" />
+        <mapper class="com.animals.app.repository.UserOperationTypeRepository" />
 
         <mapper class="com.animals.app.repository.AddressRepository" />
     </mappers>

@@ -4,6 +4,7 @@ import com.animals.app.domain.Address;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -15,6 +16,61 @@ public class AddressRepositoryImpl {
 
     public AddressRepositoryImpl() {
         sqlSessionFactory = new MyBatisConnectionFactory().getSqlSessionFactory();
+    }
+
+    /**
+     * Insert a Address instance into the database.
+     * @param address Address instance that will be inserted.
+     */
+    public void insert(Address address){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try {
+            AddressRepository mapper = sqlSession.getMapper(AddressRepository.class);
+            mapper.insert(address);
+            sqlSession.commit();
+        } catch (Exception e){
+            sqlSession.rollback();
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    /**
+     * Update a Address instance into the database.
+     * @param address Address instance that will be updated.
+     */
+    public void update(Address address){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try {
+            AddressRepository mapper = sqlSession.getMapper(AddressRepository.class);
+            mapper.update(address);
+            sqlSession.commit();
+        } catch (Exception e){
+            sqlSession.rollback();
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    /**
+     * Delete a Address instance from the database.
+     * @param address Address instance that will be deleted.
+     */
+    public void delete(Address address){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try {
+            AddressRepository mapper = sqlSession.getMapper(AddressRepository.class);
+            mapper.delete(address);
+            sqlSession.commit();
+        } catch (Exception e){
+            sqlSession.rollback();
+        } finally {
+            sqlSession.close();
+        }
+
     }
 
     /**

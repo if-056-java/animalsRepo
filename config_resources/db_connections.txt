@@ -1,0 +1,3 @@
+DNS: tym.dp.ua (IP - 89.184.73.187)
+login: u_remoteuser
+password: ZF008NBp

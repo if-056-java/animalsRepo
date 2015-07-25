@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface UserRoleRepository {
 
-    final String SELECT_BY_ID = "SELECT Id, UserRole FROM UserRoles WHERE Id = #{id};";
-    final String SELECT_ALL = "SELECT Id, UserRole FROM UserRoles;";
+    final String SELECT_BY_ID = "SELECT Id, UserRole FROM userroles WHERE Id = #{id};";
+    final String SELECT_ALL = "SELECT Id, UserRole FROM userroles;";
 
     /**
      * Returns a User role instance from the database.
