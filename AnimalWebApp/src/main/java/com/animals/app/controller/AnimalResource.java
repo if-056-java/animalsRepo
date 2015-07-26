@@ -22,7 +22,7 @@ public class AnimalResource {
 		return anRep.getAll();
 		
 	}
-	
+
 	@GET //http:localhost:8080/AnimalWebApp/webapi/animals/id
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("{animalId}")
