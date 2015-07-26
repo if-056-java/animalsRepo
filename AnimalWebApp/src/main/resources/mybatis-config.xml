@@ -17,6 +17,7 @@
         <setting name="useGeneratedKeys" value="false"/>
         <setting name="defaultExecutorType" value="SIMPLE"/>
         <setting name="defaultStatementTimeout" value="100"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
     </settings>
 
     <!-- Use type aliases to avoid typing the full classname every time -->

@@ -58,7 +58,7 @@ public class AnimalRepositoryImpl {
      * Delete an instance of Animal from the database.
      * @param id primary key value of the instance to be deleted.
      */
-    public void delete(int id) {
+    public void delete(long id) {
 
         SqlSession session = sqlSessionFactory.openSession();
 
@@ -94,7 +94,7 @@ public class AnimalRepositoryImpl {
      * @param id primary key value used for lookup.
      * @return An Animal instance with a primary key value equals to pk. null if there is no matching row.
      */
-    public Animal getById(int id){
+    public Animal getById(long id){
 
         SqlSession session = sqlSessionFactory.openSession();
 

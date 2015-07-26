@@ -10,17 +10,18 @@ import java.util.List;
  */
 public interface AnimalRepository {
 
-    final String INSERT = "INSERT INTO animals SET sexTypeId=#{sexTypeId}, typeId=#{typeId}, sizeId=#{sizeId}, " +
-            "sort='#{sort}', transpNumber='#{transpNumber}', tokenNumber='#{tokenNumber}', " +
-            "dateOfRegister='#{dateOfRegister}', dateOfBirth='#{dateOfBirth}', " +
-            "dateOfSterilization='#{dateOfSterilization}', color='#{color}', userId=#{userId}, " +
-            "addressId=#{addressId}, isActive=#{isActive}, image='#{image}', serviceId=#{serviceId}";
+    final String INSERT = "INSERT INTO animals (sexTypeId, typeId, sizeId, citesId, sort, transpNumber, " +
+            "tokenNumber, dateOfRegister, dateOfBirth, dateOfSterilization, color, userId, " +
+            "addressId, isActive, image, serviceId) " +
+            "VALUES (#{sex.id}, #{type.id}, #{size.id}, #{cites.id}, #{sort}, #{transpNumber}, #{tokenNumber}, " +
+            "#{dateOfRegister}, #{dateOfBirth}, #{dateOfSterilization}, #{color}, #{user.id}, #{address.id}, " +
+            "#{active}, #{image}, #{service.id})";
 
-    final String UPDATE = "UPDATE animals SET sexTypeId=#{sexTypeId}, typeId=#{typeId}, sizeId=#{sizeId}, " +
-            "sort='#{sort}', transpNumber='#{transpNumber}', tokenNumber='#{tokenNumber}', " +
-            "dateOfRegister='#{dateOfRegister}', dateOfBirth='#{dateOfBirth}', " +
-            "dateOfSterilization='#{dateOfSterilization}', color='#{color}', userId=#{userId}, " +
-            "addressId=#{addressId}, isActive=#{isActive}, image='#{image}', serviceId=#{serviceId}" +
+    final String UPDATE = "UPDATE animals SET sexTypeId=#{sex.id}, typeId=#{type.id}, sizeId=#{size.id}, " +
+            "sort=#{sort}, transpNumber=#{transpNumber}, tokenNumber=#{tokenNumber}, " +
+            "dateOfRegister=#{dateOfRegister}, dateOfBirth=#{dateOfBirth}, " +
+            "dateOfSterilization=#{dateOfSterilization}, color=#{color}, userId=#{user.id}, " +
+            "addressId=#{address.id}, isActive=#{active}, image=#{image}, serviceId=#{service.id} " +
             "WHERE id=#{id}";
 
     final String DELETE = "DELETE FROM animals WHERE id = #{id}";
@@ -55,7 +56,7 @@ public interface AnimalRepository {
      * @param id primary key value of the instance to be deleted.
      */
     @Delete(DELETE)
-    void delete(int id);
+    void delete(long id);
 
     /**
      * Returns the list of all Animal instances from the database.
@@ -122,5 +123,5 @@ public interface AnimalRepository {
             @Result(property="service", column="serviceId", javaType = AnimalService.class,
                     one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById"))
     })
-    Animal getById(int id);
+    Animal getById(long id);
 }
