@@ -6,6 +6,13 @@ function highlightResult() {
 	});
 }
 
+function prepareJson(str) {
+	var newstr =  str.replace(/\n/g, '<br/>')
+					.replace(/\\n/g, ' ')
+					.replace(/\t/g, '&nbsp;&nbsp;');
+	return newstr
+}
+
 function getAllPets() {
 	$('#getAll').click(function() {
 
@@ -13,13 +20,10 @@ function getAllPets() {
 			url: root,
 			method: 'GET'
 			}).then(function(data) {
-				var str = JSON.stringify(data, null, '\t')
-				$('#result').html(
-					str.replace(/\n/g, '<br/>')
-						.replace(/\\n/g, ' ')
-						.replace(/\t/g, '&nbsp;&nbsp;')
-				);
-			highlightResult();
+				var str = JSON.stringify(data, null, '\t');
+				str = prepareJson(str);
+				$('#result').html(str);
+				highlightResult();
         });
     });
 }        
@@ -35,14 +39,11 @@ function getPet() {
 			url: root + petId,
 			method: 'GET'
 			}).then(function(data) {
-				var str = JSON.stringify(data, null, '\t')
-				$('#result').html(
-					str.replace(/\n/g, '<br/>')
-						.replace(/\\n/g, ' ')
-						.replace(/\t/g, '&nbsp;&nbsp;')
-				);
+				var str = JSON.stringify(data, null, '\t');
+				str = prepareJson(str);
+				$('#result').html(str);
 				highlightResult();
-         	});
+         });
     });	
 }
 
@@ -56,14 +57,11 @@ function getPetOw() {
 			url: root + petId + "/owner",
 			method: 'GET'
 			}).then(function(data) {
-				var str = JSON.stringify(data, null, '\t')
-				$('#result').html(
-					str.replace(/\n/g, '<br/>')
-						.replace(/\\n/g, ' ')
-						.replace(/\t/g, '&nbsp;&nbsp;')
-				);
+				var str = JSON.stringify(data, null, '\t');
+				str = prepareJson(str);
+				$('#result').html(str);
 				highlightResult();
-         	});
+         });
     });	
 }
 
@@ -85,16 +83,11 @@ function postPet() {
 			method: 'POST',
 			data: params
 			}).then(function(data) {
-				var str = JSON.stringify(data, null, '\t')
-				$('#result').html(
-					str.replace(/\n/g, '<br/>')
-						.replace(/\\n/g, ' ')
-						.replace(/\t/g, '&nbsp;&nbsp;')
-				);
+				var str = JSON.stringify(data, null, '\t');
+				str = prepareJson(str);
+				$('#result').html(str);
 				highlightResult();
-         	});		
-
-		
+         });	
 	});
 }
 
@@ -112,8 +105,7 @@ function postPet2() {
 
 //		var json = $.parseJSON(string); no need!!!
 
-		console.log(string);
-		console.log(json);
+		console.log(string);		
 
 		$.ajax({			
 			method: 'POST',
@@ -122,19 +114,16 @@ function postPet2() {
 			url: root + "pet",
 			data: string			
 			}).then(function(data) {
-				var str = JSON.stringify(data, null, '\t')
-				$('#result').html(
-					str.replace(/\n/g, '<br/>')
-						.replace(/\\n/g, ' ')
-						.replace(/\t/g, '&nbsp;&nbsp;')
-				);
+				var str = JSON.stringify(data, null, '\t');
+				str = prepareJson(str);
+				$('#result').html(str);
 				highlightResult();
-         	});			
+         });			
 	});
 }
 
 
-//problem with response. In previous javascript version all worked correctly.
+//No Problem
 function delPet() {
 	$('#delPet').click(function() {		
 		
@@ -144,12 +133,11 @@ function delPet() {
 		$.ajax({
 			url: root + petId,
 			method: 'DELETE'
-			}).then(function() {
-				//$('#result').val()="ok";
-				document.getElementById("result").innerHTML="smth happened";
-
+			}).then(function(data) {
+				var str = JSON.stringify(data, null, '\t');
+				str = prepareJson(str);
+				$('#result').html(str);
 				highlightResult();
-
 		});
 	});	
 }
@@ -167,14 +155,11 @@ function updatePet() {
 			method: 'PUT',
 			data: params
 			}).then(function(data) {
-				var str = JSON.stringify(data, null, '\t')
-				$('#result').html(
-					str.replace(/\n/g, '<br/>')
-						.replace(/\\n/g, ' ')
-						.replace(/\t/g, '&nbsp;&nbsp;')
-				);
+				var str = JSON.stringify(data, null, '\t');
+				str = prepareJson(str);
+				$('#result').html(str);
 				highlightResult();
-         	});
+        });
     });	
 }
 
