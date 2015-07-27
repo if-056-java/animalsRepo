@@ -84,7 +84,11 @@ public class UserRepositoryImpl {
             sqlSession.close();
         }
     }
-    
+
+    /**
+     * Returns the list of all Users instances from the database.
+     * @return the list of all Users instances from the database.
+     */
     public List<User> getAll(){
     	SqlSession sqlSession =  sqlSessionFactory.openSession();
 

@@ -10,7 +10,6 @@
 
     <!-- Configure MyBatis-specific settings -->
     <settings>
-        <setting name="logImpl" value="LOG4J"/>
         <setting name="cacheEnabled" value="true"/>
         <setting name="lazyLoadingEnabled" value="true"/>
         <setting name="multipleResultSetsEnabled" value="true"/>
@@ -39,7 +38,7 @@
         <typeAlias alias="Address" type="com.animals.app.domain.Address"/>
     </typeAliases>
 
-    <!-- Define type handlers -->
+    <!-- Define type handelrs -->
     <typeHandlers>
         <typeHandler javaType="java.util.List" handler="com.animals.app.domain.UserRole"/>
     </typeHandlers>
@@ -74,4 +73,5 @@
 
         <mapper class="com.animals.app.repository.AddressRepository" />
     </mappers>
+
 </configuration>
