@@ -17,6 +17,63 @@ public class AnimalRepositoryImpl {
     }
 
     /**
+     * Insert an instance of Animal into the database.
+     * @param animal the instance to be persisted.
+     */
+    public void insert(Animal animal) {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            mapper.insert(animal);
+
+            session.commit();
+        } finally {
+            session.close();
+        }
+
+    }
+
+    /**
+     * Update an instance of Animal in the database.
+     * @param animal the instance to be updated.
+     */
+    public void update(Animal animal) {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            mapper.update(animal);
+
+            session.commit();
+        } finally {
+            session.close();
+        }
+
+    }
+
+    /**
+     * Delete an instance of Animal from the database.
+     * @param id primary key value of the instance to be deleted.
+     */
+    public void delete(long id) {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            mapper.delete(id);
+
+            session.commit();
+        } finally {
+            session.close();
+        }
+
+    }
+
+    /**
      * Returns the list of all Animal instances from the database.
      * @return the list of all Animal instances from the database.
      */
@@ -37,7 +94,7 @@ public class AnimalRepositoryImpl {
      * @param id primary key value used for lookup.
      * @return An Animal instance with a primary key value equals to pk. null if there is no matching row.
      */
-    public Animal getById(int id){
+    public Animal getById(long id){
 
         SqlSession session = sqlSessionFactory.openSession();
 

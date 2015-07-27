@@ -1,0 +1,1 @@
+{"active":false,"address":{"id":32},"animalCites":{"id":1},"color":"white","dateOfRegister":"2015-07-22","service":{"id":1},"sex":{"id":2},"size":{"id":1},"sort":"wtf","tokenNumber":"555351221","transpNumber":"697127","type":{"id":3},"user":{"active":false,"address":{"id":30},"id":2, "userRole":[{"id":3}],"userType":{"id":1}}}

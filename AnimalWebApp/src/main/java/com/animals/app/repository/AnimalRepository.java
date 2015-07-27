@@ -1,10 +1,7 @@
 package com.animals.app.repository;
 
 import com.animals.app.domain.*;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -13,14 +10,53 @@ import java.util.List;
  */
 public interface AnimalRepository {
 
+    final String INSERT = "INSERT INTO animals (sexTypeId, typeId, sizeId, citesId, sort, transpNumber, " +
+            "tokenNumber, dateOfRegister, dateOfBirth, dateOfSterilization, color, userId, " +
+            "addressId, isActive, image, serviceId) " +
+            "VALUES (#{sex.id}, #{type.id}, #{size.id}, #{cites.id}, #{sort}, #{transpNumber}, #{tokenNumber}, " +
+            "#{dateOfRegister}, #{dateOfBirth}, #{dateOfSterilization}, #{color}, #{user.id}, #{address.id}, " +
+            "#{active}, #{image}, #{service.id})";
+
+    final String UPDATE = "UPDATE animals SET sexTypeId=#{sex.id}, typeId=#{type.id}, sizeId=#{size.id}, " +
+            "sort=#{sort}, transpNumber=#{transpNumber}, tokenNumber=#{tokenNumber}, " +
+            "dateOfRegister=#{dateOfRegister}, dateOfBirth=#{dateOfBirth}, " +
+            "dateOfSterilization=#{dateOfSterilization}, color=#{color}, userId=#{user.id}, " +
+            "addressId=#{address.id}, isActive=#{active}, image=#{image}, serviceId=#{service.id} " +
+            "WHERE id=#{id}";
+
+    final String DELETE = "DELETE FROM animals WHERE id = #{id}";
+
     final String SELECT_ALL = "SELECT id, sexTypeId, typeId, sizeId, citesId, sort, transpNumber, tokenNumber, " +
             "dateOfRegister, dateOfBirth, dateOfSterilization, color, userId, addressId, " +
             "isActive, image, serviceId " +
             "FROM animals";
+
     final String SELECT_BY_ID = "SELECT id, sexTypeId, typeId, sizeId, citesId, sort, transpNumber, tokenNumber, " +
             "dateOfRegister, dateOfBirth, dateOfSterilization, color, userId, addressId, " +
             "isActive, image, serviceId " +
             "FROM animals WHERE id = #{id}";
+
+    /**
+     * Insert an instance of Animal into the database.
+     * @param animal the instance to be persisted.
+     */
+    @Insert(INSERT)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insert(Animal animal);
+
+    /**
+     * Update an instance of Animal in the database.
+     * @param animal the instance to be updated.
+     */
+    @Update(UPDATE)
+    void update(Animal animal);
+
+    /**
+     * Delete an instance of Animal from the database.
+     * @param id primary key value of the instance to be deleted.
+     */
+    @Delete(DELETE)
+    void delete(long id);
 
     /**
      * Returns the list of all Animal instances from the database.
@@ -36,7 +72,7 @@ public interface AnimalRepository {
             @Result(property="size", column="sizeId", javaType = AnimalSize.class,
                     one = @One(select = "com.animals.app.repository.AnimalSizeRepository.getById")),
             @Result(property="cites", column="citesId", javaType = AnimalCitesType.class,
-                    one = @One(select = "com.animals.app.repository.CitesTypeRepository.getById")),
+                    one = @One(select = "com.animals.app.repository.AnimalCitesTypeRepository.getById")),
             @Result(property="sort", column="sort"),
             @Result(property="transpNumber", column="transpNumber"),
             @Result(property="tokenNumber", column="tokenNumber"),
@@ -70,7 +106,7 @@ public interface AnimalRepository {
             @Result(property="size", column="sizeId", javaType = AnimalSize.class,
                     one = @One(select = "com.animals.app.repository.AnimalSizeRepository.getById")),
             @Result(property="cites", column="citesId", javaType = AnimalCitesType.class,
-                    one = @One(select = "com.animals.app.repository.CitesTypeRepository.getById")),
+                    one = @One(select = "com.animals.app.repository.AnimalCitesTypeRepository.getById")),
             @Result(property="sort", column="sort"),
             @Result(property="transpNumber", column="transpNumber"),
             @Result(property="tokenNumber", column="tokenNumber"),
@@ -87,5 +123,5 @@ public interface AnimalRepository {
             @Result(property="service", column="serviceId", javaType = AnimalService.class,
                     one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById"))
     })
-    Animal getById(int id);
+    Animal getById(long id);
 }
