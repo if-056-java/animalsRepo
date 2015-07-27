@@ -37,12 +37,12 @@ public interface UserRepository {
     final String SELECT_BY_ID = "SELECT Id, Name, Surname, DateOfRegistration, " +
             " UserTypeId, UserRoleId, Phone, AddressId, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive " +
-            " FROM Users WHERE Id = #{id}";
+            " FROM users WHERE Id = #{id}";
     
     final String SELECT_USERS = "SELECT Id, Name, Surname, DateOfRegistration, " +
             " UserTypeId, UserRoleId, Phone, AddressId, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive " +
-            " FROM Users";
+            " FROM users";
 
     /**
      * Insert an instance of User into the database.

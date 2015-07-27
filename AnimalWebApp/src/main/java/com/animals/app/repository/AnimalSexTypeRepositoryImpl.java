@@ -3,6 +3,7 @@ package com.animals.app.repository;
 import com.animals.app.domain.AnimalSexType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
