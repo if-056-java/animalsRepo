@@ -29,6 +29,7 @@ public class TestAnimalSizeRepositoryImpl {
     @Test
     public void testGetAll() {
         List<AnimalSize> expected = animalSizeRepositoryImpl.getAll();
+
         assertNotNull(expected);
     }
 
