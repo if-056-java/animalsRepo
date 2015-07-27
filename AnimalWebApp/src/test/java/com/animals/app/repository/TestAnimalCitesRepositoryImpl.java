@@ -31,6 +31,7 @@ public class TestAnimalCitesRepositoryImpl {
     @Test
     public void testGetAll() {
         List<AnimalCitesType> list = animalCitesTypeRepositoryImpl.getAll();
+
         assertNotNull(list);
     }
 

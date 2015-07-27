@@ -28,6 +28,7 @@ public class TestAnimalSexTypeRepositoryImpl {
     @Test
     public void testGetAll() {
         List<AnimalSexType> list = animalSexTypeRepositoryImpl.getAll();
+
         assertNotNull(list);
     }
 

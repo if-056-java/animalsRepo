@@ -93,6 +93,7 @@ public class TestAnimalRepositoryImpl {
         expected.setImage(RandomStringUtils.random(10, true, true));
 
         animalRepositoryImpl.update(expected);
+        expected = animalRepositoryImpl.getById(expected.getId());
 
         assertNotNull(expected);
         assertNotSame(expected, actual);

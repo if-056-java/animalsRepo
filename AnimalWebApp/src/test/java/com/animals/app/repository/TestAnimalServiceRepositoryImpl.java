@@ -28,6 +28,7 @@ public class TestAnimalServiceRepositoryImpl {
     @Test
     public void testGetAll() {
         List<AnimalService> list = animalServiceRepositoryImpl.getAll();
+
         assertNotNull(list);
     }
 
