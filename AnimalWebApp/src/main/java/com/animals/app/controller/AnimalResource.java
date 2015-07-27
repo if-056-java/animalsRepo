@@ -69,9 +69,9 @@ public class AnimalResource {
 		return anRep.getAll().get(i-1);
 	}
 	
-	// what exactly we need from update? how we specify pet to update? if with ID than need PUT if other way - we need POST. wrong repository implementation!
 	
-	@PUT //not ready
+	
+	@PUT 
 	@Path("animal") //http:localhost:8080/AnimalWebApp/webapi/animals/animal
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

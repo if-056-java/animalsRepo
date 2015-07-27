@@ -70,7 +70,7 @@ public class UserResource {
 	}
 		
 	
-	@PUT //not ready
+	@PUT 
 	@Path("user") //http:localhost:8080/AnimalWebApp/webapi/users/user
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
