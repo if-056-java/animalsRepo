@@ -19,12 +19,62 @@ public class UserRepositoryImpl {
     }
 
     /**
+     * Insert an instance of User into the database.
+     * @param user the instance to be persisted.
+     */
+    public void insert(User user) {
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            UserRepository mapper = session.getMapper(UserRepository.class);
+            mapper.insert(user);
+
+            session.commit();
+        } finally {
+            session.close();
+        }
+    }
+
+    /**
+     * Update an instance of User in the database.
+     * @param user the instance to be updated.
+     */
+    public void update(User user) {
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            UserRepository mapper = session.getMapper(UserRepository.class);
+            mapper.update(user);
+
+            session.commit();
+        } finally {
+            session.close();
+        }
+    }
+
+    /**
+     * Delete an instance of User from the database.
+     * @param id primary key value of the instance to be deleted.
+     */
+    public void delete(Integer id) {
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            UserRepository mapper = session.getMapper(UserRepository.class);
+            mapper.delete(id);
+
+            session.commit();
+        } finally {
+            session.close();
+        }
+    }
+
+    /**
      * Returns a User instance from the database.
      * @param id primary key value used for lookup.
      * @return A User instance with a primary key value equals to pk. null if there is no matching row.
      */
     public User getById(int id){
-
         SqlSession sqlSession =  sqlSessionFactory.openSession();
 
         try{
@@ -36,7 +86,6 @@ public class UserRepositoryImpl {
     }
     
     public List<User> getAll(){
-    	
     	SqlSession sqlSession =  sqlSessionFactory.openSession();
 
         try{

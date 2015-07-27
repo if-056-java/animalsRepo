@@ -22,6 +22,7 @@ import static junit.framework.Assert.assertNotNull;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAnimalRepositoryImpl {
+
     private static AnimalRepositoryImpl animalRepositoryImpl;
     private static Animal actual;
 
@@ -92,8 +93,6 @@ public class TestAnimalRepositoryImpl {
         expected.setImage(RandomStringUtils.random(10, true, true));
 
         animalRepositoryImpl.update(expected);
-
-        expected = animalRepositoryImpl.getById(actual.getId());
 
         assertNotNull(expected);
         assertNotSame(expected, actual);

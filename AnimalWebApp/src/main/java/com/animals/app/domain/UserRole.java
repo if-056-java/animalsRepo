@@ -1,11 +1,19 @@
 package com.animals.app.domain;
 
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandler;
+
 import java.io.Serializable;
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by oleg on 22.07.2015.
  */
-public class UserRole implements Serializable{
+public class UserRole implements Serializable, TypeHandler<List<? extends UserRole>> {
 
     private Integer id;
     private String role;
@@ -55,5 +63,35 @@ public class UserRole implements Serializable{
                 "role='" + role + '\'' +
                 ", id=" + id +
                 '}';
+    }
+
+    /**
+     * Override from TypeHandler interface.
+     * #setParametr method set parameter data when executing query
+     * #getResult methods getting result from query by name column, index column and return value from stored procedure.
+     * @param preparedStatement Pre-pared format of query
+     * @param i Index column
+     * @param userRoles List of values
+     * @param jdbcType Type of jdbc data for inserting in database
+     * @throws SQLException
+     */
+    @Override
+    public void setParameter(PreparedStatement preparedStatement, int i, List<? extends UserRole> userRoles, JdbcType jdbcType) throws SQLException {
+        preparedStatement.setObject(i, userRoles.get(0).getId());
+    }
+
+    @Override
+    public List<? extends UserRole> getResult(ResultSet resultSet, String s) throws SQLException {
+        return (List<? extends UserRole>) resultSet.getObject(s);
+    }
+
+    @Override
+    public List<? extends UserRole> getResult(ResultSet resultSet, int i) throws SQLException {
+        return (List<? extends UserRole>) resultSet.getObject(i);
+    }
+
+    @Override
+    public List<? extends UserRole> getResult(CallableStatement callableStatement, int i) throws SQLException {
+        return null;
     }
 }
