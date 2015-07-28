@@ -38,6 +38,11 @@
         <typeAlias alias="Address" type="com.animals.app.domain.Address"/>
     </typeAliases>
 
+    <!-- Define type handelrs -->
+    <typeHandlers>
+        <typeHandler javaType="java.util.List" handler="com.animals.app.domain.UserRole"/>
+    </typeHandlers>
+
     <!-- Configure the data source -->
     <environments default="development">
         <environment id="development">

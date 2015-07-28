@@ -2,7 +2,6 @@ package com.animals.app.repository;
 
 import com.animals.app.domain.Address;
 import com.animals.app.domain.User;
-import com.animals.app.domain.UserRole;
 import com.animals.app.domain.UserType;
 import org.apache.ibatis.annotations.*;
 
@@ -13,15 +12,58 @@ import java.util.List;
  */
 public interface UserRepository {
 
+    final String INSERT = "<script> " +
+            "INSERT INTO users (Name, Surname, DateOfRegistration, " +
+            "UserTypeId, UserRoleId, Phone, AddressId, Email, SocialLogin, " +
+            "Password, OrganizationName, OrganizationInfo, IsActive) " +
+            "VALUES " +
+            "<foreach collection='userRole' item='element' index='index' open='(' separator='),(' close=')'> " +
+            "#{name}, #{surname}, #{registrationDate}, #{userType.id}, " +
+            "#{element.id}, #{phone}, #{address.id}, #{email}, #{socialLogin}, " +
+            "#{password}, #{organizationName}, #{organizationInfo}, #{isActive} " +
+            "</foreach></script>";
+
+    final String UPDATE = "UPDATE users SET Name=#{name}, Surname=#{surname}, " +
+            "DateOfRegistration=#{registrationDate}, UserTypeId=#{userType.id}, " +
+            "UserRoleId=#{userRole, typeHandler=com.animals.app.domain.UserRole}, Phone=#{phone}, AddressId=#{address.id}, " +
+            "Email=#{email}, SocialLogin=#{socialLogin}, Password=#{password}, " +
+            "OrganizationName=#{organizationName}, OrganizationInfo=#{organizationInfo}, " +
+            "IsActive=#{isActive} " +
+            "WHERE Id=#{id}";
+
+    final String DELETE = "DELETE FROM users WHERE Id = #{id}";
+
     final String SELECT_BY_ID = "SELECT Id, Name, Surname, DateOfRegistration, " +
             " UserTypeId, UserRoleId, Phone, AddressId, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive " +
-            " FROM Users WHERE Id = #{id}";
+            " FROM users WHERE Id = #{id}";
     
     final String SELECT_USERS = "SELECT Id, Name, Surname, DateOfRegistration, " +
             " UserTypeId, UserRoleId, Phone, AddressId, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive " +
-            " FROM Users";
+            " FROM users";
+
+    /**
+     * Insert an instance of User into the database.
+     * @param user the instance to be persisted.
+     */
+    @Insert(INSERT)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insert(User user);
+
+    /**
+     * Update an instance of User in the database.
+     * @param user the instance to be updated.
+     */
+    @Update(UPDATE)
+    void update(User user);
+
+    /**
+     * Delete an instance of User from the database.
+     * @param id primary key value of the instance to be deleted.
+     */
+    @Delete(DELETE)
+    void delete(Integer id);
 
     /**
      * Returns a User instance from the database.
@@ -48,10 +90,13 @@ public interface UserRepository {
             @Result(property="isActive", column="IsActive")
     })
     User getById(int id);
-    
+
+    /**
+     * Returns the list of all User instances from the database.
+     * @return the list of all User instances from the database.
+     */
     @Select(SELECT_USERS)
     @Results(value = {
-            
             @Result(property="name", column="Name"),
             @Result(property="surname", column="Surname"),
             @Result(property="registrationDate", column="DateOfRegistration"),

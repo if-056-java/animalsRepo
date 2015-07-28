@@ -1,0 +1,108 @@
+package com.animals.app.repository.Impl;
+
+import com.animals.app.domain.Address;
+import com.animals.app.repository.AddressRepository;
+import com.animals.app.repository.MyBatisConnectionFactory;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+
+import java.util.List;
+
+/**
+ * Created by oleg on 24.07.2015.
+ */
+public class AddressRepositoryImpl {
+
+    private SqlSessionFactory sqlSessionFactory;
+
+    public AddressRepositoryImpl() {
+        sqlSessionFactory = new MyBatisConnectionFactory().getSqlSessionFactory();
+    }
+
+    /**
+     * Insert a Address instance into the database.
+     * @param address Address instance that will be inserted.
+     */
+    public void insert(Address address){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try {
+            AddressRepository mapper = sqlSession.getMapper(AddressRepository.class);
+            mapper.insert(address);
+            sqlSession.commit();
+        } catch (Exception e){
+            sqlSession.rollback();
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    /**
+     * Update a Address instance into the database.
+     * @param address Address instance that will be updated.
+     */
+    public void update(Address address){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try {
+            AddressRepository mapper = sqlSession.getMapper(AddressRepository.class);
+            mapper.update(address);
+            sqlSession.commit();
+        } catch (Exception e){
+            sqlSession.rollback();
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    /**
+     * Delete a Address instance from the database.
+     * @param address Address instance that will be deleted.
+     */
+    public void delete(Address address){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try {
+            AddressRepository mapper = sqlSession.getMapper(AddressRepository.class);
+            mapper.delete(address);
+            sqlSession.commit();
+        } catch (Exception e){
+            sqlSession.rollback();
+        } finally {
+            sqlSession.close();
+        }
+
+    }
+
+    /**
+     * Returns a Address instance from the database.
+     * @param id primary key value used for lookup.
+     * @return A Address instance with a primary key value equals to pk. null if there is no matching row.
+     */
+    public Address getById(int id){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try{
+            AddressRepository mapper = sqlSession.getMapper(AddressRepository.class);
+            return mapper.getById(id);
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    /**
+     * Returns the list of all Addresses instances from the database.
+     * @return the list of all Addresses instances from the database.
+     */
+    public List<Address> getAll(){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try{
+            AddressRepository mapper = sqlSession.getMapper(AddressRepository.class);
+            return mapper.getAll();
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+}
