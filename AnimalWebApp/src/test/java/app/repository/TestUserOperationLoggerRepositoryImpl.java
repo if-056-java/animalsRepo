@@ -38,7 +38,7 @@ public class TestUserOperationLoggerRepositoryImpl {
 
     @Test
     public void testGetById(){
-        UserOperationLogger userOperationLogger = userOperationLoggerRepository.getById(1);
+        UserOperationLogger userOperationLogger = userOperationLoggerRepository.getById(userOperationLoggerRepository.getAll().get(0).getId());
 
         assertNotNull(userOperationLogger);
     }
