@@ -1,5 +1,5 @@
-var root = 'http://localhost:8080/AnimalWebApp/webapi/animals/';
-var root2 = 'http://localhost:8080/AnimalWebApp/webapi/users/';
+var root = 'http://localhost:8080/webapi/animals/';
+var root2 = 'http://localhost:8080/webapi/users/';
 
 function highlightResult() {
 	$('#result').each(function(i, block) {
