@@ -1,8 +1,5 @@
 package com.animals.app.domain;
 
-
-import org.apache.log4j.Logger;
-
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -10,7 +7,7 @@ import java.sql.Date;
  * Created by Rostyslav.Viner on 22.07.2015.
  */
 public class Animal implements Serializable{
-    private static final Logger log = Logger.getLogger(Animal.class);
+
     private Long id;
     private AnimalSexType sex;
     private AnimalType type;

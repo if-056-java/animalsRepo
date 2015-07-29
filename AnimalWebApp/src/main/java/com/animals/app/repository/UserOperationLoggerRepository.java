@@ -1,6 +1,9 @@
 package com.animals.app.repository;
 
-import com.animals.app.domain.*;
+import com.animals.app.domain.Animal;
+import com.animals.app.domain.User;
+import com.animals.app.domain.UserOperationLogger;
+import com.animals.app.domain.UserOperationType;
 import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
