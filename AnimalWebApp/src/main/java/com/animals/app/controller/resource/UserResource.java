@@ -109,7 +109,12 @@ public class UserResource {
 		
 		if (user==null) return BAD_REQUEST;
 		
-		int id = user.getId();		
+		int id;		
+		try {
+			id = user.getId();
+		} catch (Exception e) {
+			return BAD_REQUEST;
+		}		
 				
 		if (userRep.getById(id) == null) return NOT_FOUND;     
 		
