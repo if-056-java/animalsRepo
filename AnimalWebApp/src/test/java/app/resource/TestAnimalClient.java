@@ -1,3 +1,4 @@
+/*
 package app.resource;
 
 import com.animals.app.controller.client.AnimalClient;
@@ -17,9 +18,11 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
 import static org.junit.Assert.assertNotNull;
 
+*/
 /**
  * Created by oleg on 28.07.2015.
- */
+ *//*
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAnimalClient {
 
@@ -115,4 +118,4 @@ public class TestAnimalClient {
 
         assertNotSame(beforeDelete, afterDelete);
     }
-}
+}*/
