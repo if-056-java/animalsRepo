@@ -7,17 +7,17 @@
     <script src="js/bootstrap.js"></script>
     <script src="js/script.js"></script>
 
-    <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css" rel="stylesheet" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css" rel="stylesheet"></link>   
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap.css" rel="stylesheet"></link> 
     <link href="css/styles.css" rel="stylesheet" media="screen">  
     <link href="css/navbar_green.css" rel="stylesheet">
     
 <body>
 
 <header>
-   <nav role="navigation" class="navbar navbar-fixed-top navbar-default">
+   <nav id = "hideusers" role="navigation" class="navbar navbar-fixed-top navbar-default">
         <div class="container">
 
       <!-- Бренд і переключення згруповано для покращення показу на мобільних екранах -->
@@ -76,12 +76,12 @@
 </nav>
 </header>
 <section id="contacts">
-<div class="jumbotron">     
+<div class="jumbotron" id="hideshow">     
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-lg-12">
                     <div class="col-sm-1 col-lg-1">
-                        <p><image src="img/main_dog.jpg" width="70" /></p>
+                        <p><image src="img/main_dog.jpg" width="70"></p>
                     </div>
                     <div class="col-sm-11 col-lg-11">   
                         <h2>TEST REST DEMO</h2>
@@ -90,7 +90,8 @@
             </div>
         </div>
 </div>
-</section>
+
+
 
 
 
@@ -100,8 +101,9 @@
 	<div class="row">
 		<br>
         <div class="col-xs-5 col-sm-5 col-lg-8">
-        	<div>
-        		<h4>REST GET Request</h4>
+        	<div id="animals">
+            <div>
+        		<h4>REST GET Request<h4>
         		<form class="form-horizontal">
 					<div class="form-group">
 					</div>
@@ -110,7 +112,7 @@
         	</div>
         	<hr>
         	<div>
-        		<h4>REST GET Request 2</h4>
+        		<h4>REST GET Request 2<h4>
         		<form class="form-horizontal">
 					<div class="form-group">
 						<label class="col-lg-5 control-label">Animal ID:</label>
@@ -123,7 +125,7 @@
         	</div>
         	<hr>
         	<div>
-        		<h4>REST POST & PUT Request</h4>
+        		<h4>REST POST & PUT Request<h4>
         		<form class="form-horizontal">
 					<div class="form-group">
 
@@ -142,7 +144,7 @@
         	</div>
         	<hr>
         	<div>
-        		<h4>REST DELETE Request</h4>
+        		<h4>REST DELETE Request<h4>
         		<form class="form-horizontal">
 					<div class="form-group">
 						<label class="col-lg-5 control-label">Animal ID:</label>
@@ -153,14 +155,16 @@
 					<button id="delPet" type="button" class="btn btn-default btn-lg">DELETE Animal by ID</button>
 				</form>
         	</div>
+            </div>
         	<hr>
             <hr>
             <hr>
 
 
 
-        	<div>
-        		<h4>REST GET Request</h4>
+        	<div id="users">
+            <div>
+        		<h4>REST GET Request<h4>
         		<form class="form-horizontal">
 					<div class="form-group">
 					</div>
@@ -169,7 +173,7 @@
         	</div>
         	<hr>
         	<div>
-        		<h4>REST GET Request 2</h4>
+        		<h4>REST GET Request 2<h4>
         		<form class="form-horizontal">
 					<div class="form-group">
 						<label class="col-lg-5 control-label">User ID:</label>
@@ -182,7 +186,7 @@
         	</div>
         	<hr>
         	<div>
-        		<h4>REST POST & PUT Request</h4>
+        		<h4>REST POST & PUT Request<h4>
         		<form class="form-horizontal">
 					<div class="form-group">
 
@@ -201,7 +205,7 @@
         	</div>
         	<hr>
         	<div>
-        		<h4>REST DELETE Request</h4>
+        		<h4>REST DELETE Request<h4>
         		<form class="form-horizontal">
 					<div class="form-group">
 						<label class="col-lg-5 control-label">User ID:</label>
@@ -212,6 +216,7 @@
 					<button id="delUs" type="button" class="btn btn-default btn-lg">DELETE User by ID</button>
 				</form>
         	</div>
+            </div>
         	<hr>
 
 
@@ -219,14 +224,14 @@
 
         </div>
         <div class="col-xs-5 col-sm-5 col-lg-4">
-        	<h4>REST Response</h4>
+        	<h4>REST Response<h4>
         	<div class="form-group">	    		
 	    		<p id="result" class="json hljs col-sm-12">
 					<span class="hljs-string">"No response!"</span>
 				</p>
 	  		</div>
         </div>
-	</div>
+	<div>
 </div>
 
 
@@ -249,8 +254,8 @@
                 <div class="col-sm-10 col-lg-10">
                    
                  </div>
+                </div>
             </div>
-        </div>
-</footer>
+    </footer>
 </body>
 </html>
