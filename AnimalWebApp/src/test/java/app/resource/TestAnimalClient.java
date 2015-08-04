@@ -1,4 +1,3 @@
-/*
 package app.resource;
 
 import com.animals.app.controller.client.AnimalClient;
@@ -18,10 +17,9 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
 import static org.junit.Assert.assertNotNull;
 
-*/
 /**
  * Created by oleg on 28.07.2015.
- *//*
+ */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAnimalClient {
@@ -73,6 +71,15 @@ public class TestAnimalClient {
     }
 
     @Test
+    public void test021GetAllForAdopting() {
+        AnimalClient client = new AnimalClient();
+
+        List<Animal> animalList = client.getAllForAdopting();
+
+        assertNotNull(animalList);
+    }
+
+    @Test
     public void test03Get() {
         AnimalClient client = new AnimalClient();
 
@@ -118,4 +125,4 @@ public class TestAnimalClient {
 
         assertNotSame(beforeDelete, afterDelete);
     }
-}*/
+}

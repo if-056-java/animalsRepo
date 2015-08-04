@@ -121,4 +121,22 @@ public class AnimalClient {
 
         return response.readEntity(new GenericType<List<Animal>>() {});
     }
+
+    /**
+     * This method imitate GET query on server to get all animals for adopting
+     * @return List instances of Animal class
+     */
+    public List<Animal> getAllForAdopting() {
+        WebTarget target = client.target(URL);
+
+        Response response = target.path("animals/adopting")
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+
+        if(response.getStatus() != Response.Status.OK.getStatusCode())
+            throw new RuntimeException(response.getStatus() + " there was an error on server.");
+
+        return response.readEntity(new GenericType<List<Animal>>() {});
+    }
+
 }

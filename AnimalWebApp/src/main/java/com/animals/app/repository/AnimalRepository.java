@@ -44,7 +44,10 @@ public interface AnimalRepository {
             "isActive, image, serviceId " +
             "FROM animals WHERE id = #{id}";
 
+    final String SELECT_LIST_FOR_ADOPTING = "SELECT Id, TypeId, Sort, DateOfBirth " +
+            "FROM animals";
     /**
+
      * Insert an instance of Animal into the database.
      * @param animal the instance to be persisted.
      */
@@ -150,9 +153,28 @@ public interface AnimalRepository {
     })
     List<Animal> getAdminAnimalsListByPage(Pagenator page);
 
+    /**
+     * Returns count of rows selected from DB by method getAdminAnimalsListByPage
+     * @return count of rows selected by getAdminAnimalsListByPage
+     */
     @Select(ADMIN_LIST_SELECT_BY_PAGE_COUNT)
     @Results(value = {
             @Result(property="rowsCount", column="count")
     })
     Pagenator getAdminAnimalsListByPageCount();
+
+    /**
+     * This method return short information about animals for showing on adopting page.
+     * @return the list of all Animal instances from the database.
+     */
+    @Select(SELECT_LIST_FOR_ADOPTING)
+    @Results(value = {
+            @Result(property="id", column="id"),
+            @Result(property="type", column="typeId", javaType = AnimalType.class,
+                    one = @One(select = "com.animals.app.repository.AnimalTypeRepository.getById")),
+            @Result(property="sort", column="sort"),
+            @Result(property="dateOfBirth", column="dateOfBirth"),
+            @Result(property="image", column="image"),
+    })
+    List<Animal> getAllForAdopting();
 }

@@ -13,7 +13,7 @@ public class Animal implements Serializable{
     private AnimalType type;
     private AnimalSize size;
     private AnimalCitesType cites;
-    private String sort;
+    private String sort; //kind of animal(labrador, husky)
     private String transpNumber;
     private String tokenNumber;
     private Date dateOfRegister;

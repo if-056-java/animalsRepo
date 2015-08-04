@@ -112,6 +112,22 @@ public class AnimalResource {
         return ok(genericAnimals);
 	}
 
+    @GET //http:localhost:8080/webapi/animals
+    @Path("adoption")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAllAnimalsForAdopting() {
+
+        //cast list of animals to generic list
+        List<Animal> animals = anRep.getAllForAdopting();
+        GenericEntity<List<Animal>> genericAnimals =
+                new GenericEntity<List<Animal>>(animals) {};
+
+        if(genericAnimals == null)
+            return NOT_FOUND;
+
+        return ok(genericAnimals);
+    }
+
     /**
      * Return response with code 200(OK) and build returned entity
      * @param entity Returned json instance from client
