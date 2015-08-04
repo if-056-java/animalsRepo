@@ -52,7 +52,7 @@ function getPet() {
 function postPet() {
 	$('#postPet').click(function() {
 		var animalJson=$("#petJSON").val(); 
-		console.log(animalJson);
+		//console.log(animalJson);
 
 		//var string = ('{"id" :' + petId +', "type" : ' + petType + ', "owner":{"name":' + petOwName + ', "id" : ' + petOwId + ', "adress" : ' + petOwAd + '}, "size" : ' + petSize + '}' );
 	
@@ -76,7 +76,7 @@ function postPet() {
 function putPet() {
 	$('#putPet').click(function() {
 		var animalJson=$("#petJSON").val(); 
-		console.log(animalJson);
+		//console.log(animalJson);
 
 		//var string = ('{"id" :' + petId +', "type" : ' + petType + ', "owner":{"name":' + petOwName + ', "id" : ' + petOwId + ', "adress" : ' + petOwAd + '}, "size" : ' + petSize + '}' );
 	
@@ -153,7 +153,7 @@ function getUser() {
 function postUser() {
 	$('#postUs').click(function() {
 		var animalJson=$("#UsJson").val(); 
-		console.log(animalJson);
+		//console.log(animalJson);
 
 		
 		$.ajax({			
@@ -176,7 +176,7 @@ function postUser() {
 function putUser() {
 	$('#putUs').click(function() {
 		var animalJson=$("#UsJson").val(); 
-		console.log(animalJson);
+		//console.log(animalJson);
 		
 		$.ajax({			
 			method: 'PUT',
@@ -212,6 +212,17 @@ function delUser() {
 	});	
 }
 
+function switch1(){
+	$('#hideshow').click(function() {
+		$('#animals').toggle();
+});
+}
+
+function switch2(){
+	$('#hideusers').click(function() {
+		$('#users').toggle();
+});
+}
 
 
 window.onload = function() {
@@ -226,6 +237,9 @@ window.onload = function() {
 	postUser();
 	putUser();
 	delUser();
+
+	switch1();
+	switch2();
 	
 }
 
