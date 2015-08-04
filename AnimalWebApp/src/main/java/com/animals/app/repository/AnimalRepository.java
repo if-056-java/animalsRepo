@@ -36,6 +36,9 @@ public interface AnimalRepository {
             "isActive, image, serviceId " +
             "FROM animals WHERE id = #{id}";
 
+    final String SELECT_LIST_FOR_ADOPTING = "SELECT Id, TypeId, Sort, DateOfBirth " +
+            "FROM animals";
+
     /**
      * Insert an instance of Animal into the database.
      * @param animal the instance to be persisted.
@@ -124,4 +127,21 @@ public interface AnimalRepository {
                     one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById"))
     })
     Animal getById(long id);
+
+
+    /**
+     * This method return short information about animals for showing on adopting page.
+     * @return the list of all Animal instances from the database.
+     */
+    @Select(SELECT_LIST_FOR_ADOPTING)
+    @Results(value = {
+            @Result(property="id", column="id"),
+            @Result(property="type", column="typeId", javaType = AnimalType.class,
+                    one = @One(select = "com.animals.app.repository.AnimalTypeRepository.getById")),
+            @Result(property="sort", column="sort"),
+            @Result(property="dateOfBirth", column="dateOfBirth"),
+            @Result(property="image", column="image"),
+    })
+    List<Animal> getAllForAdopting();
+
 }

@@ -107,4 +107,20 @@ public class AnimalRepositoryImpl {
             session.close();
         }
     }
+
+    /**
+     * This method return short information about animals for showing on adopting page.
+     * @return the list of all Animal instances from the database.
+     */
+    public List<Animal> getAllForAdopting(){
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            return mapper.getAllForAdopting();
+        } finally {
+            session.close();
+        }
+    }
 }
