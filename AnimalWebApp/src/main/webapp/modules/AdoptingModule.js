@@ -1,30 +1,6 @@
-///**
-// * Created by oleg on 04.08.2015.
-// */
-
 var adoptingModule = angular.module('AdoptionModule', ['ngResource']);
 
 /*
-adoptingModule
-    .factory('AdoptionFactory', function($resource) {
-        return $resource('/webapi/animals/adoption', {}, {
-            'get':{
-                method:'GET',
-                params:{},
-                isArray:false
-            },
-            'query': {
-                method:'GET',
-                params:{
-                    //id:id,
-                    //type:type.type,
-
-                },
-                isArray:true}
-        })
-    });
-*/
-
 adoptingModule.factory('AdoptionFactory', function ($resource) {
     return $resource('/webapi/animals/animal', {}, {
         create: {
@@ -50,6 +26,7 @@ adoptingModule.factory('AdoptionFactory', function ($resource) {
         }
     })
 });
+*/
 
 adoptingModule.factory('AdoptionFactory', function ($resource) {
     return $resource('/webapi/animals/', {}, {
