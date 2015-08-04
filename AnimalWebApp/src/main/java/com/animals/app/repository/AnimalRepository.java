@@ -31,6 +31,14 @@ public interface AnimalRepository {
             "isActive, image, serviceId " +
             "FROM animals";
 
+    final String ADMIN_LIST_SELECT_BY_PAGE = "SELECT id, sexTypeId, typeId, sort, transpNumber, dateOfBirth " +
+            "FROM animals " +
+            "WHERE isActive>0 LIMIT #{offset},#{limit}";
+
+    final String ADMIN_LIST_SELECT_BY_PAGE_COUNT = "SELECT count(*) AS count " +
+            "FROM animals " +
+            "WHERE isActive>0";
+
     final String SELECT_BY_ID = "SELECT id, sexTypeId, typeId, sizeId, citesId, sort, transpNumber, tokenNumber, " +
             "dateOfRegister, dateOfBirth, dateOfSterilization, color, userId, addressId, " +
             "isActive, image, serviceId " +
@@ -124,4 +132,27 @@ public interface AnimalRepository {
                     one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById"))
     })
     Animal getById(long id);
+
+    /**
+     * Returns the list of all Animal instances from the database.
+     * @return the list of all Animal instances from the database.
+     */
+    @Select(ADMIN_LIST_SELECT_BY_PAGE)
+    @Results(value = {
+            @Result(property="id", column="id"),
+            @Result(property="sex", column="sexTypeId", javaType = AnimalSexType.class,
+                    one = @One(select = "com.animals.app.repository.AnimalSexTypeRepository.getById")),
+            @Result(property="type", column="typeId", javaType = AnimalType.class,
+                    one = @One(select = "com.animals.app.repository.AnimalTypeRepository.getById")),
+            @Result(property="sort", column="sort"),
+            @Result(property="transpNumber", column="transpNumber"),
+            @Result(property="dateOfBirth", column="dateOfBirth")
+    })
+    List<Animal> getAdminAnimalsListByPage(Pagenator page);
+
+    @Select(ADMIN_LIST_SELECT_BY_PAGE_COUNT)
+    @Results(value = {
+            @Result(property="rowsCount", column="count")
+    })
+    Pagenator getAdminAnimalsListByPageCount();
 }

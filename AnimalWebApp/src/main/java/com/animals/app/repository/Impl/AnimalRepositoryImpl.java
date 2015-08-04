@@ -1,6 +1,7 @@
 package com.animals.app.repository.Impl;
 
 import com.animals.app.domain.Animal;
+import com.animals.app.domain.Pagenator;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -103,6 +104,34 @@ public class AnimalRepositoryImpl {
         try {
             AnimalRepository mapper = session.getMapper(AnimalRepository.class);
             return mapper.getById(id);
+        } finally {
+            session.close();
+        }
+    }
+
+    /**
+     * Returns the list of all Animal instances from the database.
+     * @return the list of all Animal instances from the database.
+     */
+    public List<Animal> getAdminAnimalsListByPage(Pagenator page) {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            return mapper.getAdminAnimalsListByPage(page);
+        } finally {
+            session.close();
+        }
+    }
+
+    public Pagenator getAdminAnimalsListByPageCount() {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            return mapper.getAdminAnimalsListByPageCount();
         } finally {
             session.close();
         }
