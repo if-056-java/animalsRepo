@@ -69,6 +69,13 @@ public class TestAnimalRepositoryImpl {
     }
 
     @Test
+    public void test021GetAllForAdopting() {
+        List<Animal> expected = animalRepositoryImpl.getAllForAdopting();
+
+        assertNotNull(expected);
+    }
+
+    @Test
     public void test03GetById() {
         actual = animalRepositoryImpl.getById(actual.getId());
 
