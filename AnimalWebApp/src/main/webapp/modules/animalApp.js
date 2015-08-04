@@ -8,7 +8,8 @@ var animalApp = angular.module('animalApp', [
 'HomelessController',
 'AnimalsDetailController',
 'ContactsController',
-'StarterPageController'
+'StarterPageController',
+  'AnimalsListAdminController'
 ]);
 
 animalApp .config(['$routeProvider',
@@ -42,6 +43,10 @@ animalApp .config(['$routeProvider',
         templateUrl: 'views/login.html',
         controller: 'LoginController'
       }).
+        when('/ua/user/animals_admin', {
+          templateUrl: 'views/animals_admin.html',
+          controller: 'AnimalsListAdminController'
+        }).
       otherwise({
         redirectTo: '/ua'
       });

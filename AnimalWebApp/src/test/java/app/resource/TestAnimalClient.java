@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by oleg on 28.07.2015.
  */
-
+/*
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAnimalClient {
 
@@ -125,4 +125,4 @@ public class TestAnimalClient {
 
         assertNotSame(beforeDelete, afterDelete);
     }
-}
+}*/

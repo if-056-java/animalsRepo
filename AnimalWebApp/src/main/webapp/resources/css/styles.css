@@ -38,3 +38,8 @@ IMG.displayed {
     margin-right: auto;
     width: 15em;
 }
+
+.bootstrap-select>.btn:first-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
