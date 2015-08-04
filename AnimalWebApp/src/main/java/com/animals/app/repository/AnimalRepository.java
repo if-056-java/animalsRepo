@@ -38,8 +38,8 @@ public interface AnimalRepository {
 
     final String SELECT_LIST_FOR_ADOPTING = "SELECT Id, TypeId, Sort, DateOfBirth " +
             "FROM animals";
-
     /**
+
      * Insert an instance of Animal into the database.
      * @param animal the instance to be persisted.
      */
