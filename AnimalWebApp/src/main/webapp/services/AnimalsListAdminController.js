@@ -1,4 +1,4 @@
-angular.module('AnimalsListAdminController', ['angular-bootstrap-select', 'angular-bootstrap-select.extra', 'ui.bootstrap', 'AnimalsListAdminService'])
+angular.module('AnimalsListAdminController', ['angular-bootstrap-select', 'ui.bootstrap', 'AnimalsListAdminService'])
     .controller('AnimalsListAdminController', ['$scope', 'AnimalsListAdminService', '$window', function($scope, AnimalsListAdminService, $window) {
         
         $scope.totalItems = 0;
@@ -36,4 +36,10 @@ angular.module('AnimalsListAdminController', ['angular-bootstrap-select', 'angul
         $scope.pageChanged = function() {
             ACL.getAnimals($scope.currentPage, $scope.limit);
         };
+
+        $scope.countChanged = function(count) {
+            $scope.limit = count;
+            ACL.getAnimals($scope.currentPage, $scope.limit);
+        };
+
     }]);

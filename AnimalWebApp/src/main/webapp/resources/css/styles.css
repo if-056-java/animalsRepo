@@ -39,7 +39,23 @@ IMG.displayed {
     width: 15em;
 }
 
-.bootstrap-select>.btn:first-child {
+.bootstrap-select-mod > .bootstrap-select > .btn:first-child {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
+
+.paginator > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.rows-count {
+    margin-top: 20px;
+    padding-right: 0px;
+    text-align: right;
+}
+
+.rows-count > .btn-group > .btn-group:last-child > .btn:first-child {
+    border-radius: 4px;
+}
+

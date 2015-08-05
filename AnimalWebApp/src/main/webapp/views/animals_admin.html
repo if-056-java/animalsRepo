@@ -31,18 +31,21 @@
     <div class="col-md-6 col-md-offset-3 panel panel-success text-center">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>  
+            <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="paginator" items-per-page="limit"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>
-        <div class="col-md-2"  style="margin-top: 20px;">
-            <div class="input-group" dropdown-close>
-                <span class="input-group-addon">Результатів</span>
-                <dropdown-toggle>
-                    <select selectpicker class="selectpicker" data-width="100%" ng-model="limit">
-                        <option>10</option>
-                        <option>20</option>
-                        <option>40</option>
-                    </select>
-                </dropdown-toggle>
+        <div class="col-md-2 rows-count">
+            <div class="btn-group" dropdown keyboard-nav>
+                <div class="btn-group" dropdown is-open="status.isopen">
+                    <button id="single-button" type="button" class="btn btn-success" dropdown-toggle ng-disabled="disabled">
+                        {{ limit }} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
+                        <li role="menuitem"><a href ng-click="countChanged('10')">10</a></li>
+                        <li role="menuitem"><a href ng-click="countChanged('20')">20</a></li>
+                        <li role="menuitem"><a href ng-click="countChanged('30')">30</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
