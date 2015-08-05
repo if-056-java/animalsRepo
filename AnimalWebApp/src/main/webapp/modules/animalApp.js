@@ -4,6 +4,7 @@ var animalApp = angular.module('animalApp', [
 'AdoptionModule',
 'FindController',
 'AdoptionController',
+'LostController',
 'LoginController',
 'HomelessController',
 'AnimalsDetailController',
@@ -25,8 +26,12 @@ animalApp .config(['$routeProvider',
         controller: 'AdoptionController'
       }).
 	  when('/ua/animal/find', {
-        templateUrl: 'views/find.html',
+        templateUrl: 'views/find_lost.html',
         controller: 'FindController'
+      }).
+	  when('/ua/animal/lost', {
+        templateUrl: 'views/find_lost.html',
+        controller: 'LostController'
       }).
 	  when('/ua/animal/homeless', {
         templateUrl: 'views/reg_homeless.html',

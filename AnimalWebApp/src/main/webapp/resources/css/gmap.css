@@ -1,6 +1,5 @@
       body {
         padding-top: 40px;
-        padding-bottom: 40px;
       }
 	  
 	header .jumbotron{
@@ -15,8 +14,8 @@
 		color:#358cce;
 	}
 	 #map {
-		width:100%;
-		height:450px;
+		width:80%;
+		height:350px;
 		display:block;
 	 }
 		 /* Fix Google Maps canvas
@@ -27,12 +26,12 @@
 	 * necessary with Bootstrap 3 though as that behavior is relegated to the
 	 * `.img-responsive` class.)
 	 */
-
+/*
 	.google-map-canvas,
 	.google-map-canvas * { .box-sizing(content-box); }
 
 	/* Optional responsive image override */
-	img { max-width: none; }
+	/*img { max-width: none; }
 	
 	@media (max-width: 768px) {
 		

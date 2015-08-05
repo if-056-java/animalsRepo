@@ -4,7 +4,7 @@ animalApp.controller('ContactsController', function($scope) {
 
   var myLatlng = new google.maps.LatLng(49.863400,24.044500);
   var mapOptions = {
-    zoom: 17,
+    zoom: 16,
     center: myLatlng
   }
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -27,5 +27,4 @@ function toggleBounce() {
   }
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
 });
