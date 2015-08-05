@@ -1,0 +1,89 @@
+h3 {
+	text-align: center;
+}
+
+p {
+	display: inline-block;
+}
+
+.buttonSing {
+	padding: 0px;
+	margin: 0 px;
+	
+}
+
+.socialButtons {
+	border: 1px solid grey;	
+	border-radius: 5px;
+	margin-top: 10px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 20px;	
+	padding: 15px;
+}
+
+
+
+#loginblock {
+	border: 2px solid grey;
+	border-radius: 5px;
+	margin-top: 30px;
+	margin-right: auto;
+	margin-left: auto;	
+	padding: 15px;
+}
+
+#profileblock {
+	border-right: 2px solid grey;
+	border-left: 2px solid grey;	
+	margin-top: 0px;
+	margin-right: auto;
+	margin-left: auto;
+	padding: 15px;
+
+}
+
+#editUser{
+	display:none;
+}
+
+#regblock {
+	border-right: 2px solid grey;
+	border-left: 2px solid grey;
+	/*border-radius: 5px;	*/
+	margin-top:-10px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: -60px;
+	padding: 20 px;
+
+}
+
+.usualReg {
+	border: 1px solid #ccc;	
+	border-radius: 5px;
+	margin-top: 10px;
+	margin-right: auto;
+	margin-left: auto;	
+	padding: 15px;
+}
+
+.socialButtons {
+
+	text-align: center;	
+	margin-top: 10px;	
+	padding: 10px;
+
+}
+
+#GResult {
+	/*display:none;*/
+}
+
+#FBResult {
+	/*display:none;*/
+}
+
+#resGoogleTA{
+	padding-bottom: 0px;
+}
