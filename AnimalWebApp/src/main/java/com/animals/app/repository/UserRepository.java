@@ -37,9 +37,12 @@ public interface UserRepository {
             " UserTypeId, UserRoleId, Phone, AddressId, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive " +
             " FROM users WHERE Id = #{id}";
+
+    final String SELECT_BY_ID_FOR_ADMIN_ANIMAL_LIST = "SELECT id, name, surname, userTypeId, phone, email  " +
+            "FROM users WHERE Id = #{id}";
     
     final String SELECT_USERS = "SELECT Id, Name, Surname, DateOfRegistration, " +
-            " UserTypeId, UserRoleId, Phone, AddressId, Email, SocialLogin, " +
+            " UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive " +
             " FROM users";
 
@@ -92,6 +95,23 @@ public interface UserRepository {
     User getById(int id);
 
     /**
+     * Returns a User instance from the database for admin animals list.
+     * @param id primary key value used for lookup.
+     * @return A User instance with a primary key value equals to pk. null if there is no matching row.
+     */
+    @Select(SELECT_BY_ID_FOR_ADMIN_ANIMAL_LIST)
+    @Results(value = {
+            @Result(property="id", column="id"),
+            @Result(property="name", column="name"),
+            @Result(property="surname", column="surname"),
+            @Result(property="userType", column="userTypeId", javaType = UserType.class,
+                    one = @One(select = "com.animals.app.repository.UserTypeRepository.getById")),
+            @Result(property="phone", column="phone"),
+            @Result(property="email", column="email")
+    })
+    User getByIdForAdminAnimalList(int id);
+
+    /**
      * Returns the list of all User instances from the database.
      * @return the list of all User instances from the database.
      */
@@ -105,8 +125,7 @@ public interface UserRepository {
             @Result(property="userRole", column="userRoleId", javaType = List.class,
             many = @Many(select = "com.animals.app.repository.UserRoleRepository.getById")),
             @Result(property="phone", column="Phone"),
-            @Result(property="address", column="addressId", javaType = Address.class,
-            one = @One(select = "com.animals.app.repository.AddressRepository.getById")),
+            @Result(property="address", column="address"),
             @Result(property="email", column="Email"),
             @Result(property="socialLogin", column="SocialLogin"),
             @Result(property="organizationName", column="OrganizationName"),

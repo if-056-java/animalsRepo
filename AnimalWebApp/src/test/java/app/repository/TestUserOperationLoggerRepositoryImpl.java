@@ -12,8 +12,7 @@ import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by oleg on 24.07.2015.
- */
-
+ *//*
 public class TestUserOperationLoggerRepositoryImpl {
 
     private static UserOperationLoggerRepositoryImpl userOperationLoggerRepository;
@@ -42,4 +41,4 @@ public class TestUserOperationLoggerRepositoryImpl {
 
         assertNotNull(userOperationLogger);
     }
-}
+}*/

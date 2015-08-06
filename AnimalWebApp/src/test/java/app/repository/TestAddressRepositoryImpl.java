@@ -13,7 +13,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by oleg on 24.07.2015.
  */
-
+/*
 public class TestAddressRepositoryImpl {
 
     private static AddressRepositoryImpl addressRepository;
@@ -41,4 +41,4 @@ public class TestAddressRepositoryImpl {
 
         assertNotNull(address);
     }
-}
+}*/

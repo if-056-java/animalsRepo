@@ -113,13 +113,13 @@ public class AnimalRepositoryImpl {
      * Returns the list of all Animal instances from the database.
      * @return the list of all Animal instances from the database.
      */
-    public List<Animal> getAdminAnimalsListByPage(Pagenator page) {
+    public List<Animal> getAllForAdminAnimalsListByPage(Pagenator page) {
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             AnimalRepository mapper = session.getMapper(AnimalRepository.class);
-            return mapper.getAdminAnimalsListByPage(page);
+            return mapper.getAllForAdminAnimalsListByPage(page);
         } finally {
             session.close();
         }

@@ -45,7 +45,7 @@ public class AnimalListAdminResource {
         }
 
         //cast list of animals to generic list
-        List<Animal> animals = animalRepository.getAdminAnimalsListByPage(new Pagenator(page, limit));
+        List<Animal> animals = animalRepository.getAllForAdminAnimalsListByPage(new Pagenator(page, limit));
         GenericEntity<List<Animal>> genericAnimals =
                 new GenericEntity<List<Animal>>(animals) {};
 

@@ -13,7 +13,7 @@ import static junit.framework.TestCase.assertNotNull;
 
 /**
  * Created by Rostyslav.Viner on 23.07.2015.
- */
+ *//*
 public class TestAnimalCitesRepositoryImpl {
 
     private static AnimalCitesTypeRepositoryImpl animalCitesTypeRepositoryImpl;
@@ -41,4 +41,4 @@ public class TestAnimalCitesRepositoryImpl {
 
         assertNotNull(expected);
     }
-}
+}*/

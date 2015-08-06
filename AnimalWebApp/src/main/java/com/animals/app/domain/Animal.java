@@ -1,18 +1,55 @@
 package com.animals.app.domain;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Created by Rostyslav.Viner on 22.07.2015.
  */
+
 public class Animal implements Serializable{
+    @XmlEnum(String.class)
+    public enum SexType {
+        @XmlEnumValue("не визначено")
+        NONE,
+        @XmlEnumValue("самець")
+        MALE,
+        @XmlEnumValue("самка")
+        FEMALE
+    }
+
+    @XmlEnum(String.class)
+    public enum CitesType {
+        @XmlEnumValue("не визначено")
+        NONE,
+        @XmlEnumValue("CITES I")
+        CITES1,
+        @XmlEnumValue("CITES II")
+        CITES2,
+        @XmlEnumValue("CITES III")
+        CITES3
+    }
+
+    public enum SizeType {
+        @XmlEnumValue("не визначено")
+        NONE,
+        @XmlEnumValue("мала")
+        SMALL,
+        @XmlEnumValue("середня")
+        MIDDLE,
+        @XmlEnumValue("велика")
+        LARGE
+    }
 
     private Long id;
-    private AnimalSexType sex;
+    private SexType sex;
     private AnimalType type;
-    private AnimalSize size;
-    private AnimalCitesType cites;
+    private SizeType size;
+    private CitesType cites;
     private String sort; //kind of animal(labrador, husky)
     private String transpNumber;
     private String tokenNumber;
@@ -21,7 +58,7 @@ public class Animal implements Serializable{
     private Date dateOfSterilization;
     private String color;
     private User user;
-    private Address address;
+    private String address;
     private Boolean active;
     private String image;
     private AnimalService service;
@@ -34,11 +71,11 @@ public class Animal implements Serializable{
         this.id = id;
     }
 
-    public AnimalSexType getSex() {
+    public SexType getSex() {
         return sex;
     }
 
-    public void setSex(AnimalSexType sex) {
+    public void setSex(SexType sex) {
         this.sex = sex;
     }
 
@@ -50,19 +87,19 @@ public class Animal implements Serializable{
         this.type = type;
     }
 
-    public AnimalSize getSize() {
+    public SizeType getSize() {
         return size;
     }
 
-    public void setSize(AnimalSize size) {
+    public void setSize(SizeType size) {
         this.size = size;
     }
 
-    public AnimalCitesType getAnimalCites() {
+    public CitesType getCites() {
         return cites;
     }
 
-    public void setAnimalCites(AnimalCitesType cites) {
+    public void setCites(CitesType cites) {
         this.cites = cites;
     }
 
@@ -130,11 +167,11 @@ public class Animal implements Serializable{
         this.user = user;
     }
 
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -170,10 +207,10 @@ public class Animal implements Serializable{
         Animal animal = (Animal) o;
 
         if (id != null ? !id.equals(animal.id) : animal.id != null) return false;
-        if (sex != null ? !sex.equals(animal.sex) : animal.sex != null) return false;
+        if (sex != animal.sex) return false;
         if (type != null ? !type.equals(animal.type) : animal.type != null) return false;
-        if (size != null ? !size.equals(animal.size) : animal.size != null) return false;
-        if (cites != null ? !cites.equals(animal.cites) : animal.cites != null) return false;
+        if (size != animal.size) return false;
+        if (cites != animal.cites) return false;
         if (sort != null ? !sort.equals(animal.sort) : animal.sort != null) return false;
         if (transpNumber != null ? !transpNumber.equals(animal.transpNumber) : animal.transpNumber != null)
             return false;
@@ -222,17 +259,17 @@ public class Animal implements Serializable{
                 ", type=" + type +
                 ", size=" + size +
                 ", cites=" + cites +
-                ", sort='" + sort + "'" +
-                ", transpNumber='" + transpNumber + "'" +
-                ", tokenNumber='" + tokenNumber + "'" +
-                ", dateOfRegister='" + dateOfRegister + "'" +
-                ", dateOfBirth='" + dateOfBirth + "'" +
-                ", dateOfSterilization='" + dateOfSterilization + "'" +
-                ", color='" + color + "'" +
+                ", sort='" + sort + '\'' +
+                ", transpNumber='" + transpNumber + '\'' +
+                ", tokenNumber='" + tokenNumber + '\'' +
+                ", dateOfRegister=" + dateOfRegister +
+                ", dateOfBirth=" + dateOfBirth +
+                ", dateOfSterilization=" + dateOfSterilization +
+                ", color='" + color + '\'' +
                 ", user=" + user +
-                ", address=" + address +
-                ", active='" + active + "'" +
-                ", image='" + image + "'" +
+                ", address='" + address + '\'' +
+                ", active=" + active +
+                ", image='" + image + '\'' +
                 ", service=" + service +
                 '}';
     }
