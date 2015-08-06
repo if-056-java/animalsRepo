@@ -4,7 +4,7 @@ angular.module('AnimalsListAdminService', [])
         this.getAnimals = function(page, limit) {
             var def = $q.defer();
 
-            $http.get("/AnimalWebApp/webapi/user/home/animals/" + page + "/" + limit)
+            $http.get("/webapi/user/home/animals/" + page + "/" + limit)
                 .success(function(data) {
                     def.resolve(data);
                 })
@@ -18,7 +18,7 @@ angular.module('AnimalsListAdminService', [])
         this.getPagesCount = function(limit) {
             var def = $q.defer();
 
-            $http.get("/AnimalWebApp/webapi/user/home/animals/pagenator")
+            $http.get("/webapi/user/home/animals/pagenator")
                 .success(function(data) {
                     def.resolve(data);
                 })
@@ -32,7 +32,7 @@ angular.module('AnimalsListAdminService', [])
         this.getAnimal = function(animalId) {
             var def = $q.defer();
 
-            $http.get("/AnimalWebApp/webapi/user/home/animals/" + animalId)
+            $http.get("/webapi/user/home/animals/" + animalId)
                 .success(function(data) {
                     def.resolve(data);
                 })
@@ -46,7 +46,7 @@ angular.module('AnimalsListAdminService', [])
         this.deleteAnimal = function(animalId) {
             var def = $q.defer();
 
-            $http.delete("/AnimalWebApp/webapi/user/home/animals/" + animalId)
+            $http.delete("/webapi/user/home/animals/" + animalId)
                 .success(function(data) {
                     def.resolve(data);
                 })

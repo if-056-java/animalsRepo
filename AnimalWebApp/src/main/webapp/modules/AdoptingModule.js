@@ -29,7 +29,7 @@ adoptingModule.factory('AdoptionFactory', function ($resource) {
 */
 
 adoptingModule.factory('AdoptionFactory', function ($resource) {
-    return $resource('/webapi/animals/', {}, {
+    return $resource('/webapi/animals/adoption', {}, {
         query: {
             method: 'GET',
             params: {},
