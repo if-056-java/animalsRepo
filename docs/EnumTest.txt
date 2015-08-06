@@ -1,5 +1,5 @@
 //json example: {'value':'CITES1'}...
-//якщо треба вивести пояснення:
+//СЏРєС‰Рѕ РїРѕС‚СЂС–Р±РЅРѕ РІРёРІРµСЃС‚Рё Р·РЅР°С‡РµРЅРЅСЏ РґР»СЏ РЅР°РіР»СЏРґРЅРѕСЃС‚С–:
 //List<Cites> listCites = Arrays.asList(Cites.values());
 //for(int i = 0; i < listCites.size(); i++)
 //System.out.println(listCites.get(i).toValue());
@@ -27,7 +27,7 @@ public enum Cites {
         citesMap.put("CITES I", CITES1);
         citesMap.put("CITES II", CITES2);
         citesMap.put("CITES III", CITES3);
-        citesMap.put("Не відноситься", DEFAULT);
+        citesMap.put("ГЌГҐ ГўВіГ¤Г­Г®Г±ГЁГІГјГ±Гї", DEFAULT);
     }
 
     @JsonCreator
