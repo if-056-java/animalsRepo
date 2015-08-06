@@ -10,11 +10,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-/**
- * Created by Rostyslav.Viner on 04.08.2015.
- */
 @Path("user")
 public class UserResource {
+    //return response with 400 code
+    private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
+
+    //return response with 404 code
+    private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
+
     AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
 
     @GET //http:localhost:8080/AnimalWebApp/webapi/home/animals/{animalId}
@@ -77,5 +80,14 @@ public class UserResource {
             return Response.status(Response.Status.NOT_FOUND).build();
 
         return Response.status(Response.Status.OK).entity(genericAnimals).build();
+    }
+
+    /**
+     * Return response with code 200(OK) and build returned entity
+     * @param entity Returned json instance from client
+     * @return HTTP code K
+     */
+    private Response ok(Object entity) {
+        return Response.ok().entity(entity).build();
     }
 }
