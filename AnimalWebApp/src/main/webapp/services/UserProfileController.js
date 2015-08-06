@@ -3,19 +3,14 @@ var animalAppControllers = angular.module('UserProfileController', []);
 animalApp.controller('UserProfileController', function($scope) {
 	
 	$scope.IsHidden = true;
-    $scope.ShowHide = function () {
-        //If DIV is hidden it will be visible and vice versa.
-        $scope.IsHidden = $scope.IsHidden ? false : true;
+    $scope.showPopup = function () {
+        //show div.
+        $scope.IsHidden =  false;
     }
+    
+    $scope.closePopup = function () {
+    	 //hide div.
+        $scope.IsHidden =  true;
+    }
+	
 });
-
-//var app = angular.module('MyApp', [])
-//app.controller('MyController', function ($scope) {
-//    //This will hide the DIV by default.
-//    $scope.IsHidden = true;
-//    $scope.ShowHide = function () {
-//        //If DIV is hidden it will be visible and vice versa.
-//        $scope.IsHidden = $scope.IsHidden ? false : true;
-//    }
-//});
-
