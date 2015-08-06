@@ -9,7 +9,7 @@
 			<div class="col-xs-10 col-lg-10 text-center" style="height:400px;">
                     <h4 class="blocktext">Photo from social net</h4>
                     <div class="smallIMG">
-                        <p><image class="displayed" src="img/no-image.jpg" height="200"></p>
+                        <p><image class="displayed" src="resources/img/no-image.jpg" height="200"></p>
                     </div>
 
                     <p class="blocktext2">Join account with social net</p>
@@ -84,7 +84,7 @@
 				</div>
 			</div>
 			<div class="form-group">				
-				<button class="btn btn-default btn-md col-xs-12 col-sm-12 col-md-4 col-lg-4" id = "editProfile">Edit Profile</button>				
+				<button ng-click='showPopup()' class="btn btn-default btn-md col-xs-12 col-sm-12 col-md-4 col-lg-4" id = "editProfile">Edit Profile</button>				
 			</div>
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<p>Для можливості додавання власної тварини слід вказати повну контактну інформацію користувача</p>
@@ -93,7 +93,8 @@
 
 
 		<hr>
-		<div id="editUser">
+		
+		<div ng-show="popupVisible"  id="editUser">
 
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 usualReg">
@@ -173,7 +174,9 @@
 
 		  		<div class="form-group">		  		
 			  		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">	  			
-					<button class="btn btn-danger btn-md col-xs-12 col-sm-12 col-md-12 col-lg-12" id = "usualReg">Edit Profile</button>
+					<button class="btn btn-danger btn-md col-xs-12 col-sm-12 col-md-6 col-lg-6" id = "usualReg">Edit Profile</button>
+					<button ng-click='closePopup()' class="btn btn-default btn-sm col-xs-12 col-sm-12 col-md-6 col-lg-6" >Hide Profile</button>
+
 					</div>	  			 			
 				</div>
 
@@ -230,8 +233,8 @@
                         <td>Стандарт</td>
                         <td>451251231</td>
                         <td>1998.05.16</td>
-                        <td><a href="#"><img src="img/view_fullscreen.png"></a></td>
-                        <td><a href="#"><img src="img/deletered.png"></a></td>
+                        <td><a href="#"><img src="resources/img/view_fullscreen.png"></a></td>
+                        <td><a href="#"><img src="resources/img/deletered.png"></a></td>
                     </tr>
                     <tr>
                         <td>Собака</td>
@@ -240,8 +243,8 @@
                         <td>Стандарт</td>
                         <td>451251231</td>
                         <td>1998.05.16</td>
-                        <td><a href="#"><img src="img/view_fullscreen.png"></a></td>
-                        <td><a href="#"><img src="img/deletered.png"></a></td>
+                        <td><a href="#"><img src="resources/img/view_fullscreen.png"></a></td>
+                        <td><a href="#"><img src="resources/img/deletered.png"></a></td>
                     </tr>                                       
                 </tbody>
                 </table>
