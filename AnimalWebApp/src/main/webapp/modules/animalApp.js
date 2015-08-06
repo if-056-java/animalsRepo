@@ -9,7 +9,8 @@ var animalApp = angular.module('animalApp', [
 'AnimalsDetailController',
 'ContactsController',
 'StarterPageController',
-  'AnimalsListAdminController'
+  'AnimalsListAdminController',
+  'AnimalsDetailedAdminController'
 ]);
 
 animalApp .config(['$routeProvider',
@@ -43,9 +44,13 @@ animalApp .config(['$routeProvider',
         templateUrl: 'views/login.html',
         controller: 'LoginController'
       }).
-        when('/ua/user/animals_admin', {
+        when('/ua/user/home/animals', {
           templateUrl: 'views/animals_admin.html',
           controller: 'AnimalsListAdminController'
+        }).
+        when('/ua/user/home/animals/:animalId', {
+          templateUrl: 'views/animals_detailed.html',
+          controller: 'AnimalsDetailedAdminController'
         }).
       otherwise({
         redirectTo: '/ua'

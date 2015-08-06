@@ -4,12 +4,12 @@ angular.module('AnimalsListAdminService', [])
         this.getAnimals = function(page, limit) {
             var def = $q.defer();
 
-            $http.get("/AnimalWebApp/webapi/adm_animals_list/" + page + "/" + limit)
+            $http.get("/AnimalWebApp/webapi/user/home/animals/" + page + "/" + limit)
                 .success(function(data) {
                     def.resolve(data);
                 })
                 .error(function() {
-                    def.reject("Failed to get albums");
+                    def.reject("Failed to get animals");
                 });
             
             return def.promise;    
@@ -18,7 +18,7 @@ angular.module('AnimalsListAdminService', [])
         this.getPagesCount = function(limit) {
             var def = $q.defer();
 
-            $http.get("/AnimalWebApp/webapi/adm_animals_list/pagenator")
+            $http.get("/AnimalWebApp/webapi/user/home/animals/pagenator")
                 .success(function(data) {
                     def.resolve(data);
                 })
@@ -27,5 +27,33 @@ angular.module('AnimalsListAdminService', [])
                 });
             
             return def.promise;    
+        }
+
+        this.getAnimal = function(animalId) {
+            var def = $q.defer();
+
+            $http.get("/AnimalWebApp/webapi/user/home/animals/" + animalId)
+                .success(function(data) {
+                    def.resolve(data);
+                })
+                .error(function() {
+                    def.reject("Failed to get animal");
+                });
+
+            return def.promise;
+        }
+
+        this.deleteAnimal = function(animalId) {
+            var def = $q.defer();
+
+            $http.delete("/AnimalWebApp/webapi/user/home/animals/" + animalId)
+                .success(function(data) {
+                    def.resolve(data);
+                })
+                .error(function() {
+                    def.reject("Failed to delete animal");
+                });
+
+            return def.promise;
         }
     }]);

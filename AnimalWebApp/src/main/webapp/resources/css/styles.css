@@ -59,3 +59,30 @@ IMG.displayed {
     border-radius: 4px;
 }
 
+/* ua/user/home/animals/detailed */
+.detailed-left {
+    padding-left: 0px;
+}
+
+.detailed-left > img {
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.detailed-right {
+    padding-top: 20px;
+}
+
+.detailed-bottom {
+    padding-bottom: 20px;
+}
+
+.detailed-buttons {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.detailed-buttons > div {
+    padding-right: 0px;
+}
+
