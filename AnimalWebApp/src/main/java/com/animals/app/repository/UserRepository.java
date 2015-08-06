@@ -1,6 +1,5 @@
 package com.animals.app.repository;
 
-import com.animals.app.domain.Address;
 import com.animals.app.domain.User;
 import com.animals.app.domain.UserType;
 import org.apache.ibatis.annotations.*;

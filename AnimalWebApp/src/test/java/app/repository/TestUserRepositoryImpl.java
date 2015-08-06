@@ -1,7 +1,6 @@
 package app.repository;
 
 import com.animals.app.domain.User;
-import com.animals.app.repository.Impl.AddressRepositoryImpl;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 import com.animals.app.repository.Impl.UserRoleRepositoryImpl;
 import com.animals.app.repository.Impl.UserTypeRepositoryImpl;
