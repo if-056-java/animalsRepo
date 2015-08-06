@@ -1,13 +1,9 @@
 package app.resource;
 
-import com.animals.app.controller.client.AnimalClient;
 import com.animals.app.domain.Animal;
 import com.animals.app.repository.Impl.*;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import java.sql.Date;
@@ -20,7 +16,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by oleg on 28.07.2015.
  */
-/*
+@Ignore
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAnimalClient {
 
@@ -29,11 +25,11 @@ public class TestAnimalClient {
     @BeforeClass
     public static void runBeforeClass() {
         actual = new Animal();
-        actual.setSex(new AnimalSexTypeRepositoryImpl().getAll().get(0));
+        actual.setSex(Animal.SexType.NONE);
         actual.setType(new AnimalTypeRepositoryImpl().getAll().get(0));
-        actual.setSize(new AnimalSizeRepositoryImpl().getAll().get(0));
-        actual.setAnimalCites(new AnimalCitesTypeRepositoryImpl().getAll().get(0));
-        actual.setSort(RandomStringUtils.random(10, true, true));
+        actual.setSize(Animal.SizeType.NONE);
+        actual.setCites(Animal.CitesType.NONE);
+        actual.setBreed(new AnimalBreedRepositoryImpl().getById(1));//--------------fix
         actual.setTranspNumber(RandomStringUtils.random(10, true, true));
         actual.setTokenNumber(RandomStringUtils.random(10, true, true));
         actual.setDateOfRegister(new Date(System.currentTimeMillis()));
@@ -41,7 +37,7 @@ public class TestAnimalClient {
         actual.setDateOfSterilization(new Date(System.currentTimeMillis()));
         actual.setColor(RandomStringUtils.random(10, true, true));
         actual.setUser(new UserRepositoryImpl().getAll().get(0));
-        actual.setAddress(new AddressRepositoryImpl().getAll().get(0));
+        actual.setAddress(RandomStringUtils.random(10, true, true));
         actual.setActive(true);
         actual.setImage(RandomStringUtils.random(10, true, true));
         actual.setService(new AnimalServiceRepositoryImpl().getAll().get(0));
@@ -97,7 +93,6 @@ public class TestAnimalClient {
         assertNotNull(expected);
         assertEquals(expected, actual);
 
-        expected.setSort(RandomStringUtils.random(10, true, true));
         expected.setTranspNumber(RandomStringUtils.random(10, true, true));
         expected.setTokenNumber(RandomStringUtils.random(10, true, true));
         expected.setColor(RandomStringUtils.random(10, true, true));
@@ -125,4 +120,4 @@ public class TestAnimalClient {
 
         assertNotSame(beforeDelete, afterDelete);
     }
-}*/
+}

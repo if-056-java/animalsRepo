@@ -77,22 +77,6 @@ public class AnimalRepositoryImpl {
     }
 
     /**
-     * Returns the list of all Animal instances from the database.
-     * @return the list of all Animal instances from the database.
-     */
-    public List<Animal> getAll(){
-
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try {
-            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
-            return mapper.getAll();
-        } finally {
-            session.close();
-        }
-    }
-
-    /**
      * Returns an Animal instance from the database.
      * @param id primary key value used for lookup.
      * @return An Animal instance with a primary key value equals to pk. null if there is no matching row.

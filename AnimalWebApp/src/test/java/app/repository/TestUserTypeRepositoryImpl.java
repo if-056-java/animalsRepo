@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by oleg on 24.07.2015.
- *//*
+ */
 
 public class TestUserTypeRepositoryImpl {
 
@@ -41,4 +41,4 @@ public class TestUserTypeRepositoryImpl {
 
         assertNotNull(userType);
     }
-}*/
+}

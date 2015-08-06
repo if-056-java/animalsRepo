@@ -34,6 +34,7 @@ public class Animal implements Serializable{
         CITES3
     }
 
+    @XmlEnum(String.class)
     public enum SizeType {
         @XmlEnumValue("не визначено")
         NONE,
@@ -50,7 +51,7 @@ public class Animal implements Serializable{
     private AnimalType type;
     private SizeType size;
     private CitesType cites;
-    private String sort; //kind of animal(labrador, husky)
+    private AnimalBreed breed;
     private String transpNumber;
     private String tokenNumber;
     private Date dateOfRegister;
@@ -103,12 +104,12 @@ public class Animal implements Serializable{
         this.cites = cites;
     }
 
-    public String getSort() {
-        return sort;
+    public AnimalBreed getBreed() {
+        return breed;
     }
 
-    public void setSort(String sort) {
-        this.sort = sort;
+    public void setBreed(AnimalBreed breed) {
+        this.breed = breed;
     }
 
     public String getTranspNumber() {
@@ -211,7 +212,7 @@ public class Animal implements Serializable{
         if (type != null ? !type.equals(animal.type) : animal.type != null) return false;
         if (size != animal.size) return false;
         if (cites != animal.cites) return false;
-        if (sort != null ? !sort.equals(animal.sort) : animal.sort != null) return false;
+        if (breed != null ? !breed.equals(animal.breed) : animal.breed != null) return false;
         if (transpNumber != null ? !transpNumber.equals(animal.transpNumber) : animal.transpNumber != null)
             return false;
         if (tokenNumber != null ? !tokenNumber.equals(animal.tokenNumber) : animal.tokenNumber != null) return false;
@@ -236,7 +237,7 @@ public class Animal implements Serializable{
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (size != null ? size.hashCode() : 0);
         result = 31 * result + (cites != null ? cites.hashCode() : 0);
-        result = 31 * result + (sort != null ? sort.hashCode() : 0);
+        result = 31 * result + (breed != null ? breed.hashCode() : 0);
         result = 31 * result + (transpNumber != null ? transpNumber.hashCode() : 0);
         result = 31 * result + (tokenNumber != null ? tokenNumber.hashCode() : 0);
         result = 31 * result + (dateOfRegister != null ? dateOfRegister.hashCode() : 0);
@@ -259,7 +260,7 @@ public class Animal implements Serializable{
                 ", type=" + type +
                 ", size=" + size +
                 ", cites=" + cites +
-                ", sort='" + sort + '\'' +
+                ", breed=" + breed +
                 ", transpNumber='" + transpNumber + '\'' +
                 ", tokenNumber='" + tokenNumber + '\'' +
                 ", dateOfRegister=" + dateOfRegister +

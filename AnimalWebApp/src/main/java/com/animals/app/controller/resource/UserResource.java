@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Rostyslav.Viner on 04.08.2015.
  */
 @Path("user")
-public class UserResource1 {
+public class UserResource {
     AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
 
     @GET //http:localhost:8080/AnimalWebApp/webapi/home/animals/{animalId}

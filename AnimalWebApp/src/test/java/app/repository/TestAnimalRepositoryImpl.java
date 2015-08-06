@@ -1,6 +1,7 @@
 package app.repository;
 
 import com.animals.app.domain.Animal;
+import com.animals.app.domain.AnimalBreed;
 import com.animals.app.domain.Pagenator;
 import com.animals.app.repository.Impl.*;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -33,7 +34,7 @@ public class TestAnimalRepositoryImpl {
         actual.setType(new AnimalTypeRepositoryImpl().getAll().get(0));
         actual.setSize(Animal.SizeType.NONE);
         actual.setCites(Animal.CitesType.NONE);
-        actual.setSort(RandomStringUtils.random(10, true, true));
+        actual.setBreed(new AnimalBreedRepositoryImpl().getById(1));//--------------fix
         actual.setTranspNumber(RandomStringUtils.random(10, true, true));
         actual.setTokenNumber(RandomStringUtils.random(10, true, true));
         actual.setDateOfRegister(new Date(System.currentTimeMillis()));
@@ -68,7 +69,7 @@ public class TestAnimalRepositoryImpl {
 
         assertNotNull(expected);
     }
-    @Ignore
+
     @Test
     public void test03GetAllForAdopting() {
         List<Animal> expected = animalRepositoryImpl.getAllForAdopting();
@@ -90,7 +91,6 @@ public class TestAnimalRepositoryImpl {
         assertNotNull(expected);
         assertEquals(expected, actual);
 
-        expected.setSort(RandomStringUtils.random(10, true, true));
         expected.setTranspNumber(RandomStringUtils.random(10, true, true));
         expected.setTokenNumber(RandomStringUtils.random(10, true, true));
         expected.setColor(RandomStringUtils.random(10, true, true));

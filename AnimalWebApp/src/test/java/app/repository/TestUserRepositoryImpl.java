@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by oleg on 24.07.2015.
- *//*
+ */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestUserRepositoryImpl {
@@ -39,7 +39,7 @@ public class TestUserRepositoryImpl {
         actual.setUserType(new UserTypeRepositoryImpl().getAll().get(0));
         actual.setUserRole(new UserRoleRepositoryImpl().getAll().subList(0,1));
         actual.setPhone(RandomStringUtils.random(10, true, true));
-        actual.setAddress(new AddressRepositoryImpl().getAll().get(0));
+        actual.setAddress(RandomStringUtils.random(10, true, true));
         actual.setEmail(RandomStringUtils.random(10, true, true));
         actual.setSocialLogin(RandomStringUtils.random(10, true, true));
         actual.setPassword(RandomStringUtils.random(10, true, true));
@@ -84,7 +84,7 @@ public class TestUserRepositoryImpl {
         assertNotNull(expected);
         /*assertSame(expected, actual); //comment, because conflict in list object*/
 
-        /*expected.setName(RandomStringUtils.random(10, true, true));
+        expected.setName(RandomStringUtils.random(10, true, true));
         expected.setSurname(RandomStringUtils.random(10, true, true));
         expected.setEmail(RandomStringUtils.random(10, true, true));
         expected.setPassword(RandomStringUtils.random(10, true, true));
@@ -105,4 +105,4 @@ public class TestUserRepositoryImpl {
 
         assertNull(expected);
     }
-}*/
+}

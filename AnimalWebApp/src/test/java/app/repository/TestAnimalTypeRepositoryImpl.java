@@ -12,7 +12,7 @@ import static junit.framework.TestCase.assertNotNull;
 
 /**
  * Created by Rostyslav.Viner on 23.07.2015.
- *//*
+ */
 public class TestAnimalTypeRepositoryImpl {
     private static AnimalTypeRepositoryImpl animalTypeRepositoryImpl;
 
@@ -39,4 +39,4 @@ public class TestAnimalTypeRepositoryImpl {
 
         assertNotNull(expected);
     }
-}*/
+}
