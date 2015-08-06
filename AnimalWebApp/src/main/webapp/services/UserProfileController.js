@@ -1,12 +1,21 @@
 var animalAppControllers = angular.module('UserProfileController', []);
 
 animalApp.controller('UserProfileController', function($scope) {
-
-
-// $('#editProfile').click(function() {
-// 	console.log("ping");
-// 	$('#editUser').css("display", "block");
-// }
-
-
+	
+	$scope.IsHidden = true;
+    $scope.ShowHide = function () {
+        //If DIV is hidden it will be visible and vice versa.
+        $scope.IsHidden = $scope.IsHidden ? false : true;
+    }
 });
+
+//var app = angular.module('MyApp', [])
+//app.controller('MyController', function ($scope) {
+//    //This will hide the DIV by default.
+//    $scope.IsHidden = true;
+//    $scope.ShowHide = function () {
+//        //If DIV is hidden it will be visible and vice versa.
+//        $scope.IsHidden = $scope.IsHidden ? false : true;
+//    }
+//});
+
