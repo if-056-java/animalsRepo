@@ -4,13 +4,16 @@ var animalApp = angular.module('animalApp', [
 'AdoptionModule',
 'FindController',
 'AdoptionController',
+'LostController',
 'LoginController',
 'HomelessController',
 'AnimalsDetailController',
 'ContactsController',
 'StarterPageController',
   'AnimalsListAdminController',
-  'AnimalsDetailedAdminController'
+  'AnimalsDetailedAdminController',
+'RegistrationController',
+'UserProfileController'
 ]);
 
 animalApp .config(['$routeProvider',
@@ -25,8 +28,12 @@ animalApp .config(['$routeProvider',
         controller: 'AdoptionController'
       }).
 	  when('/ua/animal/find', {
-        templateUrl: 'views/find.html',
+        templateUrl: 'views/find_lost.html',
         controller: 'FindController'
+      }).
+	  when('/ua/animal/lost', {
+        templateUrl: 'views/find_lost.html',
+        controller: 'LostController'
       }).
 	  when('/ua/animal/homeless', {
         templateUrl: 'views/reg_homeless.html',
@@ -52,6 +59,14 @@ animalApp .config(['$routeProvider',
           templateUrl: 'views/animals_detailed.html',
           controller: 'AnimalsDetailedAdminController'
         }).
+      when('/ua/user/registration', {
+        templateUrl: 'views/registration.html',
+        controller: 'RegistrationController'
+      }).
+      when('/ua/user/profile', {
+        templateUrl: 'views/user_profile.html',
+        controller: 'UserProfileController'
+      }).
       otherwise({
         redirectTo: '/ua'
       });

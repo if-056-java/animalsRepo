@@ -15,6 +15,8 @@
     <!-- CSS-ядро Bootstrap -->
     <link href="resources/css/bootstrap.css" rel="stylesheet">
     <link href="resources/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="resources/css/bootstrap-social.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <!-- Підібрані стилі для Google Maps -->
     <link href="resources/css/gmap.css" rel="stylesheet">
@@ -24,6 +26,7 @@
 
     <!-- Підібрані стилі для сторінки -->
     <link href="resources/css/styles.css" rel="stylesheet">
+    <link href="resources/css/styles3.css" rel="stylesheet">
 
     <!-- Вставка HTML5 поєднується з Respond.js для підтримки в IE8 елементів HTML5 та медіа-запитів -->
     <!--[if lt IE 9]>
@@ -60,33 +63,30 @@
 					<li><a href="#ua/animal/adoption">Адопція</a></li>
 					<li role="presentation" class="divider"></li>
 					<li><a href="#ua/animal/find">Знайдено</a></li>
+					<li role="presentation" class="divider"></li>
+					<li><a href="#ua/animal/lost">Загублено</a></li>
 				</ul>
 		 	 </li>
+			 
+		    <li><a href="#ua/contacts">Контакти</a></li>
+	
+			<li><a href="#ua/user/profile">Мій Кабінет</a></li>
 
-		 	 <li class="dropdown">
-				<a href="" class="dropdown-toggle" data-toggle="dropdown">Реєстрація <b class="caret"></b></a>
-				<ul class="dropdown-menu">
-					<li><a href="#ua/animal/homeless">Безпритульних тварин</a></li>
-					<li role="presentation" class="divider"></li>
-					<li><a href="#">Власних тварин</a></li>
-					<li role="presentation" class="divider"></li>
-					<li><a href="#">Опікунських тварин</a></li>
-					<li role="presentation" class="divider"></li>
-					<li><a href="#">Втрачених тварин</a></li>
-				</ul>
-		 	 </li>
-		   <li><a href="#ua/contacts">Контакти</a></li>
 
 		  <li class="dropdown">
 				<a href="" class="dropdown-toggle" data-toggle="dropdown">Модерація <b class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li><a href="#">Реєстр</a></li>
+					<li><a href="#">Реєстр тварин</a></li>
 					<li role="presentation" class="divider"></li>
+<<<<<<< HEAD
 					<li><a href="#">Оплати</a></li>
 					<li role="presentation" class="divider"></li>
 					<li><a href="#">Імпорт/Експорт</a></li>
                     <li role="presentation" class="divider"></li>
                     <li><a href="#ua/user/home/animals">Cписок всіх тварин</a></li>
+=======
+					<li><a href="#">Реєстр тварин</a></li>
+>>>>>>> master
 				</ul>
 		  
 		</ul>
@@ -149,7 +149,7 @@
 <!-- Le javascript
 ================================================== -->
 <!-- Need for bootstrap -->
-<script src="resources/js/jquery-2.1.4.min.js" type="text/javascript"></script>
+<script src="resources/js/jquery.js" type="text/javascript"></script>
 
 <!-- Bootstrap Script -->
 <script src="resources/js/bootstrap.js"></script>
@@ -175,11 +175,18 @@
  <script src="services/AnimalsDetailController.js"></script>
  <script src="services/ContactsController.js"></script>
  <script src="services/FindController.js"></script>
+ <script src="services/LostController.js"></script>
  <script src="services/HomelessController.js"></script>
  <script src="services/LoginController.js"></script>
  <script src="services/StarterPageController.js"></script>
+<<<<<<< HEAD
  <script src="services/AnimalsListAdminController.js"></script>
  <script src="modules/AnimalsListAdminModule.js"></script>
  <script src="services/AnimalsDetailedAdminController.js"></script>
+=======
+ <script src="services/RegistrationController.js"></script>
+ <script src="services/UserProfileController.js"></script>
+ 
+>>>>>>> master
 </body>
 </html>
