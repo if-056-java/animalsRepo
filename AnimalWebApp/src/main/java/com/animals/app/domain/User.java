@@ -22,7 +22,7 @@ public class User implements Serializable{
     private boolean isActive;
 
     private List<UserRole> userRole;
-    private Address address;
+    private String address;
     private UserType userType;
 
     public User() {
@@ -116,11 +116,11 @@ public class User implements Serializable{
         this.isActive = isActive;
     }
 
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -148,35 +148,41 @@ public class User implements Serializable{
         User user = (User) o;
 
         if (isActive != user.isActive) return false;
-        if (!email.equals(user.email)) return false;
-        if (!id.equals(user.id)) return false;
-        if (!name.equals(user.name)) return false;
-        if (organizationInfo != null ? !organizationInfo.equals(user.organizationInfo) : user.organizationInfo != null)
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (surname != null ? !surname.equals(user.surname) : user.surname != null) return false;
+        if (registrationDate != null ? !registrationDate.equals(user.registrationDate) : user.registrationDate != null)
             return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
+        if (socialLogin != null ? !socialLogin.equals(user.socialLogin) : user.socialLogin != null) return false;
         if (organizationName != null ? !organizationName.equals(user.organizationName) : user.organizationName != null)
             return false;
-        if (!password.equals(user.password)) return false;
-        if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
-        if (!registrationDate.equals(user.registrationDate)) return false;
-        if (socialLogin != null ? !socialLogin.equals(user.socialLogin) : user.socialLogin != null) return false;
-        if (!surname.equals(user.surname)) return false;
+        if (organizationInfo != null ? !organizationInfo.equals(user.organizationInfo) : user.organizationInfo != null)
+            return false;
+        if (userRole != null ? !userRole.equals(user.userRole) : user.userRole != null) return false;
+        if (address != null ? !address.equals(user.address) : user.address != null) return false;
+        return !(userType != null ? !userType.equals(user.userType) : user.userType != null);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + surname.hashCode();
-        result = 31 * result + registrationDate.hashCode();
-        result = 31 * result + email.hashCode();
-        result = 31 * result + password.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (registrationDate != null ? registrationDate.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (socialLogin != null ? socialLogin.hashCode() : 0);
         result = 31 * result + (organizationName != null ? organizationName.hashCode() : 0);
         result = 31 * result + (organizationInfo != null ? organizationInfo.hashCode() : 0);
         result = 31 * result + (isActive ? 1 : 0);
+        result = 31 * result + (userRole != null ? userRole.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (userType != null ? userType.hashCode() : 0);
         return result;
     }
 
@@ -195,7 +201,7 @@ public class User implements Serializable{
                 ", organizationInfo='" + organizationInfo + '\'' +
                 ", isActive=" + isActive +
                 ", userRole=" + userRole +
-                ", address=" + address +
+                ", address='" + address + '\'' +
                 ", userType=" + userType +
                 '}';
     }

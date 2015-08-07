@@ -1,6 +1,7 @@
 package com.animals.app.repository.Impl;
 
 import com.animals.app.domain.Animal;
+import com.animals.app.domain.Pagenator;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -76,22 +77,6 @@ public class AnimalRepositoryImpl {
     }
 
     /**
-     * Returns the list of all Animal instances from the database.
-     * @return the list of all Animal instances from the database.
-     */
-    public List<Animal> getAll(){
-
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try {
-            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
-            return mapper.getAll();
-        } finally {
-            session.close();
-        }
-    }
-
-    /**
      * Returns an Animal instance from the database.
      * @param id primary key value used for lookup.
      * @return An Animal instance with a primary key value equals to pk. null if there is no matching row.
@@ -109,6 +94,38 @@ public class AnimalRepositoryImpl {
     }
 
     /**
+     * Returns the list of all Animal instances from the database.
+     * @return the list of all Animal instances from the database.
+     */
+    public List<Animal> getAllForAdminAnimalsListByPage(Pagenator page) {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            return mapper.getAllForAdminAnimalsListByPage(page);
+        } finally {
+            session.close();
+        }
+    }
+
+    /**
+     * Returns count of rows selected from DB by method getAdminAnimalsListByPage
+     * @return count of rows selected by getAdminAnimalsListByPage
+     */
+    public Pagenator getAdminAnimalsListByPageCount() {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            return mapper.getAdminAnimalsListByPageCount();
+        } finally {
+            session.close();
+        }
+    }
+
+    /*
      * This method return short information about animals for showing on adopting page.
      * @return the list of all Animal instances from the database.
      */

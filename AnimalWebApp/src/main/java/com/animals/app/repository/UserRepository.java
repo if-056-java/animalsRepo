@@ -1,6 +1,5 @@
 package com.animals.app.repository;
 
-import com.animals.app.domain.Address;
 import com.animals.app.domain.User;
 import com.animals.app.domain.UserType;
 import org.apache.ibatis.annotations.*;
@@ -14,18 +13,18 @@ public interface UserRepository {
 
     final String INSERT = "<script> " +
             "INSERT INTO users (Name, Surname, DateOfRegistration, " +
-            "UserTypeId, UserRoleId, Phone, AddressId, Email, SocialLogin, " +
+            "UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
             "Password, OrganizationName, OrganizationInfo, IsActive) " +
             "VALUES " +
             "<foreach collection='userRole' item='element' index='index' open='(' separator='),(' close=')'> " +
             "#{name}, #{surname}, #{registrationDate}, #{userType.id}, " +
-            "#{element.id}, #{phone}, #{address.id}, #{email}, #{socialLogin}, " +
+            "#{element.id}, #{phone}, #{address}, #{email}, #{socialLogin}, " +
             "#{password}, #{organizationName}, #{organizationInfo}, #{isActive} " +
             "</foreach></script>";
 
     final String UPDATE = "UPDATE users SET Name=#{name}, Surname=#{surname}, " +
             "DateOfRegistration=#{registrationDate}, UserTypeId=#{userType.id}, " +
-            "UserRoleId=#{userRole, typeHandler=com.animals.app.domain.UserRole}, Phone=#{phone}, AddressId=#{address.id}, " +
+            "UserRoleId=#{userRole, typeHandler=com.animals.app.domain.UserRole}, Phone=#{phone}, Address=#{address}, " +
             "Email=#{email}, SocialLogin=#{socialLogin}, Password=#{password}, " +
             "OrganizationName=#{organizationName}, OrganizationInfo=#{organizationInfo}, " +
             "IsActive=#{isActive} " +
@@ -34,12 +33,15 @@ public interface UserRepository {
     final String DELETE = "DELETE FROM users WHERE Id = #{id}";
 
     final String SELECT_BY_ID = "SELECT Id, Name, Surname, DateOfRegistration, " +
-            " UserTypeId, UserRoleId, Phone, AddressId, Email, SocialLogin, " +
+            " UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive " +
             " FROM users WHERE Id = #{id}";
+
+    final String SELECT_BY_ID_FOR_ADMIN_ANIMAL_LIST = "SELECT id, name, surname, userTypeId, phone, email  " +
+            "FROM users WHERE Id = #{id}";
     
     final String SELECT_USERS = "SELECT Id, Name, Surname, DateOfRegistration, " +
-            " UserTypeId, UserRoleId, Phone, AddressId, Email, SocialLogin, " +
+            " UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive " +
             " FROM users";
 
@@ -81,8 +83,7 @@ public interface UserRepository {
             @Result(property="userRole", column="userRoleId", javaType = List.class,
             many = @Many(select = "com.animals.app.repository.UserRoleRepository.getById")),
             @Result(property="phone", column="Phone"),
-            @Result(property="address", column="addressId", javaType = Address.class,
-            one = @One(select = "com.animals.app.repository.AddressRepository.getById")),
+            @Result(property="address", column="address"),
             @Result(property="email", column="Email"),
             @Result(property="socialLogin", column="SocialLogin"),
             @Result(property="organizationName", column="OrganizationName"),
@@ -90,6 +91,23 @@ public interface UserRepository {
             @Result(property="isActive", column="IsActive")
     })
     User getById(int id);
+
+    /**
+     * Returns a User instance from the database for admin animals list.
+     * @param id primary key value used for lookup.
+     * @return A User instance with a primary key value equals to pk. null if there is no matching row.
+     */
+    @Select(SELECT_BY_ID_FOR_ADMIN_ANIMAL_LIST)
+    @Results(value = {
+            @Result(property="id", column="id"),
+            @Result(property="name", column="name"),
+            @Result(property="surname", column="surname"),
+            @Result(property="userType", column="userTypeId", javaType = UserType.class,
+                    one = @One(select = "com.animals.app.repository.UserTypeRepository.getById")),
+            @Result(property="phone", column="phone"),
+            @Result(property="email", column="email")
+    })
+    User getByIdForAdminAnimalList(int id);
 
     /**
      * Returns the list of all User instances from the database.
@@ -105,8 +123,7 @@ public interface UserRepository {
             @Result(property="userRole", column="userRoleId", javaType = List.class,
             many = @Many(select = "com.animals.app.repository.UserRoleRepository.getById")),
             @Result(property="phone", column="Phone"),
-            @Result(property="address", column="addressId", javaType = Address.class,
-            one = @One(select = "com.animals.app.repository.AddressRepository.getById")),
+            @Result(property="address", column="address"),
             @Result(property="email", column="Email"),
             @Result(property="socialLogin", column="SocialLogin"),
             @Result(property="organizationName", column="OrganizationName"),

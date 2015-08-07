@@ -37,3 +37,51 @@ IMG.displayed {
     margin-right: auto;
     width: 15em;
 }
+
+.bootstrap-select-mod > .bootstrap-select > .btn:first-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.paginator > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.rows-count {
+    margin-top: 20px;
+    padding-right: 0px;
+    text-align: right;
+}
+
+.rows-count > .btn-group > .btn-group:last-child > .btn:first-child {
+    border-radius: 4px;
+}
+
+/* ua/user/home/animals/detailed */
+.detailed-left {
+    padding-left: 0px;
+}
+
+.detailed-left > img {
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.detailed-right {
+    padding-top: 20px;
+}
+
+.detailed-bottom {
+    padding-bottom: 20px;
+}
+
+.detailed-buttons {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.detailed-buttons > div {
+    padding-right: 0px;
+}
+

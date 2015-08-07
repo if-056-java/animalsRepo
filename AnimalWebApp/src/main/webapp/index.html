@@ -14,7 +14,8 @@
 
     <!-- CSS-ядро Bootstrap -->
     <link href="resources/css/bootstrap.css" rel="stylesheet">
-    <link href="resources/css/bootstrap-social.css" rel="stylesheet"></link> 
+    <link href="resources/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="resources/css/bootstrap-social.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <!-- Підібрані стилі для Google Maps -->
@@ -77,6 +78,11 @@
 				<ul class="dropdown-menu">
 					<li><a href="#">Реєстр тварин</a></li>
 					<li role="presentation" class="divider"></li>
+					<li><a href="#">Оплати</a></li>
+					<li role="presentation" class="divider"></li>
+					<li><a href="#">Імпорт/Експорт</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li><a href="#ua/user/home/animals">Cписок всіх тварин</a></li>
 					<li><a href="#">Реєстр тварин</a></li>
 				</ul>
 		  
@@ -144,11 +150,14 @@
 
 <!-- Bootstrap Script -->
 <script src="resources/js/bootstrap.js"></script>
+<script src="resources/js/bootstrap-select.js"></script>
 
 <!-- Angular Script -->
 <script src="resources/js/angular.js"></script>
 <script src="resources/js/angular-route.js"></script>
 <script src="resources/js/angular-resource.min.js"></script>
+<script src="resources/js/angular-bootstrap-select.js"></script>
+<script src="resources/js/ui-bootstrap-tpls-0.13.0.js"></script>
 
 <!-- CONTACTS SCRIPT-->
  <script src="resources/js/contact-form.js"></script>
@@ -167,8 +176,11 @@
  <script src="services/HomelessController.js"></script>
  <script src="services/LoginController.js"></script>
  <script src="services/StarterPageController.js"></script>
+ <script src="services/AnimalsListAdminController.js"></script>
+ <script src="modules/AnimalsListAdminModule.js"></script>
+ <script src="services/AnimalsDetailedAdminController.js"></script>
  <script src="services/RegistrationController.js"></script>
  <script src="services/UserProfileController.js"></script>
- 
+
 </body>
 </html>

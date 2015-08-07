@@ -1,132 +1,88 @@
 package com.animals.app.controller.resource;
 
-import com.animals.app.domain.User;
-import com.animals.app.repository.Impl.UserRepositoryImpl;
+import com.animals.app.domain.Animal;
+import com.animals.app.domain.Pagenator;
+import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import java.util.List;
 
-
-@Path("users") //http:localhost:8080/AnimalWebApp/webapi/users
+@Path("user")
 public class UserResource {
-	
-	//return response with 400 code
+    //return response with 400 code
     private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
 
     //return response with 404 code
     private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
-	
-	private UserRepositoryImpl userRep = new UserRepositoryImpl();
-	
-	@GET //http:localhost:8080/AnimalWebApp/webapi/users
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})	
-	public Response getAllUsers() {
-		
-		List<User> users=userRep.getAll();
-		
-		GenericEntity<List<User>> genericUsers =new GenericEntity<List<User>>(users) {};
 
-		//if(genericUsers == null) return NOT_FOUND;  //We really need it???
+    AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
 
-		return ok(genericUsers);
-		
-	}
-	
-	
-	
-	@GET //http:localhost:8080/AnimalWebApp/webapi/users/id
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	@Path("{userId}") 
-	public Response getUserById(@PathParam ("userId") String id) {
-				
-		int parseId = 0;
-		
-		try {
-            if (id == null)
-                return BAD_REQUEST;
-            parseId = Integer.parseInt(id);
-        } catch (NumberFormatException e){
-            return BAD_REQUEST;
+    @GET //http:localhost:8080/AnimalWebApp/webapi/home/animals/{animalId}
+    @Path("home/animals/{animalId}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getById(@PathParam("animalId") int animalId) {
+        if (animalId == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-		
-		User user = userRep.getById(parseId);
-		
-		if (user == null) return NOT_FOUND;
-		
-		return ok(user);
-		
-	}
-	
-	@DELETE
-	@Path("{userId}") //http:localhost:8080/AnimalWebApp/webapi/users/id
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response delete (@PathParam ("userId") String userId) {
-		
-		int parseId = 0;
 
-        try {
-            if (userId == null)
-                return BAD_REQUEST;
-            parseId = Integer.parseInt(userId);
-        } catch (NumberFormatException e){
-            return BAD_REQUEST;
+        //cast list of animals to generic list
+        Animal animal = animalRepository.getById(animalId);
+
+        return Response.status(Response.Status.OK).entity(animal).build();
+    }
+
+    @DELETE //http:localhost:8080/AnimalWebApp/webapi/home/animals/{animalId}
+    @Path("home/animals/{animalId}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response delete(@PathParam("animalId") long animalId) {
+        if (animalId == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        
-        if (userRep.getById(parseId) == null) return NOT_FOUND;
-		
-		userRep.delete(parseId);		    
 
-        return ok('{' +"\"Response\":\"User deleted!\"" + '}');
-		
-	}
-	
-	
-	@POST
-	@Path("user")//http:localhost:8080/AnimalWebApp/webapi/users/user
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response insertUser (User user) {
-		
-		if (user==null) return BAD_REQUEST;
-		
-		userRep.insert(user);
-		
-		return ok(user);
-		
-	}
-		
-	
-	@PUT 
-	@Path("user") //http:localhost:8080/AnimalWebApp/webapi/users/user
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response updateUser (User user) {
-		
-		if (user==null) return BAD_REQUEST;
-		
-		int id;		
-		try {
-			id = user.getId();
-		} catch (Exception e) {
-			return BAD_REQUEST;
-		}		
-				
-		if (userRep.getById(id) == null) return NOT_FOUND;     
-		
-        userRep.update(user);
-		
-		User updatedUser = userRep.getById(id);
-		
-		return ok(updatedUser);
-		
-	}
-	
-	/**
+        //cast list of animals to generic list
+        animalRepository.delete(animalId);
+
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @GET //http:localhost:8080/AnimalWebApp/webapi/home/animals/pagenator
+    @Path("home/animals/pagenator")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAdminAnimalsListByPageCount() {
+
+        Pagenator pages = animalRepository.getAdminAnimalsListByPageCount();
+
+        if(pages == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        String str = "{\"rowsCount\" : " + String.valueOf(pages.getRowsCount()) + "}";
+
+        return Response.status(Response.Status.OK).entity(str).build();
+    }
+
+    @GET //http:localhost:8080/AnimalWebApp/webapi/home/animals/{page}/{limit}
+    @Path("home/animals/{page}/{limit}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAdminAnimalsListByPage(@PathParam("page") int page, @PathParam("limit") int limit) {
+        if (page == 0 || limit == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        //cast list of animals to generic list
+        List<Animal> animals = animalRepository.getAllForAdminAnimalsListByPage(new Pagenator(page, limit));
+        GenericEntity<List<Animal>> genericAnimals =
+                new GenericEntity<List<Animal>>(animals) {};
+
+        if(genericAnimals == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        return Response.status(Response.Status.OK).entity(genericAnimals).build();
+    }
+
+    /**
      * Return response with code 200(OK) and build returned entity
      * @param entity Returned json instance from client
      * @return HTTP code K
@@ -134,5 +90,4 @@ public class UserResource {
     private Response ok(Object entity) {
         return Response.ok().entity(entity).build();
     }
-    
 }

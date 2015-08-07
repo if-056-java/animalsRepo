@@ -8,18 +8,13 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 
-import com.animals.app.controller.client.UserClient;
 import com.animals.app.domain.User;
-import com.animals.app.repository.Impl.AddressRepositoryImpl;
 import com.animals.app.repository.Impl.UserRoleRepositoryImpl;
 import com.animals.app.repository.Impl.UserTypeRepositoryImpl;
-
+@Ignore
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestUserClient {
 		

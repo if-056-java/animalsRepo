@@ -87,6 +87,22 @@ public class UserRepositoryImpl {
     }
 
     /**
+     * Returns a User instance from the database for admin animals list.
+     * @param id primary key value used for lookup.
+     * @return A User instance with a primary key value equals to pk. null if there is no matching row.
+     */
+    public User getByIdForAdminAnimalList(int id){
+        SqlSession sqlSession =  sqlSessionFactory.openSession();
+
+        try{
+            UserRepository mapper = sqlSession.getMapper(UserRepository.class);
+            return mapper.getByIdForAdminAnimalList(id);
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    /**
      * Returns the list of all Users instances from the database.
      * @return the list of all Users instances from the database.
      */
