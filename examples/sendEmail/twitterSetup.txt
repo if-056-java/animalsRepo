@@ -1,0 +1,2 @@
+user = ifjava056
+password = ifjava056
