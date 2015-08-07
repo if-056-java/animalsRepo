@@ -16,13 +16,13 @@ public class User implements Serializable{
     private String email;
     private String password;
     private String phone;
+    private String address;
     private String socialLogin;
     private String organizationName;
     private String organizationInfo;
     private boolean isActive;
 
     private List<UserRole> userRole;
-    private String address;
     private UserType userType;
 
     public User() {
