@@ -34,7 +34,7 @@ public class TestAnimalRepositoryImpl {
         actual.setType(new AnimalTypeRepositoryImpl().getAll().get(0));
         actual.setSize(Animal.SizeType.NONE);
         actual.setCites(Animal.CitesType.NONE);
-        actual.setBreed(new AnimalBreedRepositoryImpl().getById(1));//--------------fix
+        actual.setBreed(new AnimalBreedRepositoryImpl().getAll().get(0));
         actual.setTranspNumber(RandomStringUtils.random(10, true, true));
         actual.setTokenNumber(RandomStringUtils.random(10, true, true));
         actual.setDateOfRegister(new Date(System.currentTimeMillis()));

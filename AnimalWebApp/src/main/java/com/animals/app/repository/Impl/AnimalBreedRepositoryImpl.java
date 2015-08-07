@@ -6,6 +6,8 @@ import com.animals.app.repository.MyBatisConnectionFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import java.util.List;
+
 /**
  * Created by root on 06.08.2015.
  */
@@ -28,6 +30,22 @@ public class AnimalBreedRepositoryImpl {
         try {
             AnimalBreedRepository mapper = session.getMapper(AnimalBreedRepository.class);
             return mapper.getById(id);
+        } finally {
+            session.close();
+        }
+    }
+
+    /**
+     * Returns the list of all AnimalBreed instances from the database.
+     * @return the list of all AnimalBreed instances from the database.
+     */
+    public List<AnimalBreed> getAll(){
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalBreedRepository mapper = session.getMapper(AnimalBreedRepository.class);
+            return mapper.getAll();
         } finally {
             session.close();
         }
