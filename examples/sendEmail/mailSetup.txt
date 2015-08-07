@@ -1,0 +1,19 @@
+# Configuration file for javax.mail 
+# If a value for an item is not provided, then 
+# system defaults will be used. These items can 
+# also be set in code.
+
+# Return address to appear on emails 
+mail.from=ifjava056@gmail.com
+
+# User for sending e-mail 
+mail.user=ifjava056@gmail.com
+mail.userpassword=ifjava056!@#
+
+# Host and port whose mail services will be used 
+mail.smtp.host=smtp.gmail.com
+mail.smtp.port=587
+
+# Specific parameters for Gmail 
+mail.smtp.auth=true
+mail.smtp.starttls.enable=true
