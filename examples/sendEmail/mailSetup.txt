@@ -8,7 +8,7 @@ mail.from=ifjava056@gmail.com
 
 # User for sending e-mail 
 mail.user=ifjava056@gmail.com
-mail.userpassword=ifjava056!@#
+mail.userpassword=ifjava056
 
 # Host and port whose mail services will be used 
 mail.smtp.host=smtp.gmail.com
