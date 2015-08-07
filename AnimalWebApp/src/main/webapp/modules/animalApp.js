@@ -1,8 +1,8 @@
 var animalApp = angular.module('animalApp', [
 'ngRoute',
 'ngResource',
-'AdoptionModule',
-'FindController',
+	'AdoptionModule',
+	'FindController',
 'AdoptionController',
 'LostController',
 'LoginController',
