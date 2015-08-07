@@ -1,19 +1,20 @@
 var animalApp = angular.module('animalApp', [
-'ngRoute',
-'ngResource',
-'AdoptionModule',
-'FindController',
-'AdoptionController',
-'LostController',
-'LoginController',
-'HomelessController',
-'AnimalsDetailController',
-'ContactsController',
-'StarterPageController',
-  'AnimalsListAdminController',
-  'AnimalsDetailedAdminController',
-'RegistrationController',
-'UserProfileController'
+    'ngRoute',
+    'ngResource',
+    'AdoptionModule',
+    'FindController',
+    'AdoptionController',
+    'LostController',
+    'LoginController',
+    'HomelessController',
+    'AnimalsDetailController',
+    'ContactsController',
+    'StarterPageController',
+    'AnimalsListAdminController',
+    'AnimalsDetailedAdminController',
+    'AnimalsDetailedEditorAdminController',
+    'RegistrationController',
+    'UserProfileController'
 ]);
 
 animalApp .config(['$routeProvider',
@@ -58,6 +59,10 @@ animalApp .config(['$routeProvider',
         when('/ua/user/home/animals/:animalId', {
           templateUrl: 'views/animals_detailed.html',
           controller: 'AnimalsDetailedAdminController'
+        }).
+        when('/ua/user/home/animals/editor/:animalId', {
+            templateUrl: 'views/animals_detailed_editor.html',
+            controller: 'AnimalsDetailedEditorAdminController'
         }).
       when('/ua/user/registration', {
         templateUrl: 'views/registration.html',
