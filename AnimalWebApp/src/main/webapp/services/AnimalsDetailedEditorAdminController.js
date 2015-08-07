@@ -1,4 +1,4 @@
-angular.module('AnimalsDetailedEditorAdminController', ['angular-bootstrap-select', 'angular-bootstrap-select.extra', 'ui.bootstrap', 'AnimalsListAdminService'])
+angular.module('AnimalsDetailedEditorAdminController', ['angular-bootstrap-select', 'ui.bootstrap', 'AnimalsListAdminService'])
     .controller('AnimalsDetailedEditorAdminController', ['$scope', 'AnimalsListAdminService', '$routeParams', '$window', '$filter',
         function($scope, AnimalsListAdminService, $routeParams, $window, $filter) {
 
@@ -20,8 +20,13 @@ angular.module('AnimalsDetailedEditorAdminController', ['angular-bootstrap-selec
                 $scope.animal.dateOfBirth = $filter('date')($scope.animal.dateOfBirth, 'yyyy-MM-dd');
                 $scope.animal.dateOfSterilization = $filter('date')($scope.animal.dateOfSterilization, 'yyyy-MM-dd');
                 $scope.animal.dateOfRegister = $filter('date')($scope.animal.dateOfRegister, 'yyyy-MM-dd');
-                AnimalsListService.setAnimal($scope.animal);
-                $window.location.href = '#/animals_detailed/' + animalId;
+                AnimalsListAdminService.updateAnimal($scope.animal)
+                    .then(function(data) {
+                        $window.location.href = "#/ua/user/home/animals/" + $scope.animal.id;
+                    },
+                    function(data) {
+                        console.log('Animal update failed.')
+                    });
             }
         
     }])

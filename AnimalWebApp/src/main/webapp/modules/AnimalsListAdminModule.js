@@ -56,4 +56,18 @@ angular.module('AnimalsListAdminService', [])
 
             return def.promise;
         }
+
+        this.updateAnimal = function(animal) {
+            var def = $q.defer();
+
+            $http.post("/webapi/user/home/animals/editor", animal)
+                .success(function(data) {
+                    def.resolve(data);
+                })
+                .error(function() {
+                    def.reject("Failed to delete animal");
+                });
+
+            return def.promise;
+        }
     }]);

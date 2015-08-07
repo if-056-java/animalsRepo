@@ -82,6 +82,18 @@ public class UserResource {
         return Response.status(Response.Status.OK).entity(genericAnimals).build();
     }
 
+    @POST //http:localhost:8080/AnimalWebApp/webapi/home/animals/editor
+    @Path("home/animals/editor")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateAdminAnimalsList(Animal animal) {
+        if(animal == null)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        animalRepository.update(animal);
+
+        return Response.status(Response.Status.OK).build();
+    }
+
     /**
      * Return response with code 200(OK) and build returned entity
      * @param entity Returned json instance from client
