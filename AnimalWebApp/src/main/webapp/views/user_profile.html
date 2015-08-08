@@ -146,7 +146,7 @@
 		    	<div class="form-group">		    			  		
 		    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label" >Новий Пароль:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-		      		<input class="form-control" type="password" id="password" ng-model="fields.password">
+		      		<input class="form-control" type="password" id="password" ng-model="fields.passwordNew">
 		    		</div>
 		    	</div>
 		    	<div class="form-group">		    			  		
@@ -184,7 +184,7 @@
 
 		  		<div class="form-group">		  		
 			  		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">	  			
-					<button class="btn btn-danger btn-md col-xs-12 col-sm-12 col-md-6 col-lg-6" id = "usualReg" type="submit">Edit Profile</button>
+					<button class="btn btn-danger btn-md col-xs-12 col-sm-12 col-md-6 col-lg-6" id = "usualReg" type="submit" ng-click="closePopup()">Edit Profile</button>
 					<button ng-click="closePopup()" class="btn btn-default btn-sm col-xs-12 col-sm-12 col-md-6 col-lg-6" >Cancel</button>
 					</div>	  			 			
 				</div>
@@ -202,61 +202,33 @@
 			<div class = "text-center">
 				<h4> Список власних тварин</h4>
 			</div>
+			
+			
 			<table class="table table-hover">
-                <thead>
-                    <tr>
-                        <td class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>Тип</strong> <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Всі</a></li>
-                                    <li><a href="#">Собаки</a></li>
-                                    <li><a href="#">Коти</a></li>
-                                </ul>
-                        </td>
-                        <td class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>Порода</strong> <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Всі</a></li>
-                                </ul>
-                        </td>
-                        <td class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>Стать</strong> <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Всі</a></li>
-                                    <li><a href="#">Чоловіча</a></li>
-                                    <li><a href="#">Жіноча</a></li>
-                                </ul>
-                        </td>
-                        <td><strong>Окрас</strong></td>
-                        <td><strong>Номер мікрочіпу</strong></td>
-                        <td><strong>Дата народження</strong></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>                    
-                    <tr>
-                        <td>Собака</td>
-                        <td>Німецька вівчарка</td>
-                        <td>чол</td>
-                        <td>Стандарт</td>
-                        <td>451251231</td>
-                        <td>1998.05.16</td>
-                        <td><a href="#"><img src="resources/img/view_fullscreen.png"></a></td>
-                        <td><a href="#"><img src="resources/img/deletered.png"></a></td>
-                    </tr>
-                    <tr>
-                        <td>Собака</td>
-                        <td>Німецька вівчарка</td>
-                        <td>чол</td>
-                        <td>Стандарт</td>
-                        <td>451251231</td>
-                        <td>1998.05.16</td>
-                        <td><a href="#"><img src="resources/img/view_fullscreen.png"></a></td>
-                        <td><a href="#"><img src="resources/img/deletered.png"></a></td>
-                    </tr>                                       
-                </tbody>
-                </table>
+            <thead>
+            <tr>
+                <td><strong>Тип</strong></td>
+                <td><strong>Порода</strong></td>
+                <td><strong>Стать</strong></td>
+                <td><strong>Окрас</strong></td>
+                <td><strong>Номер мікрочіпу</strong></td>
+                <td><strong>Дата народження</strong></td>
+
+                <td />
+            </tr>    
+            </thead>
+            <tbody>
+            <tr ng-repeat="animal in userAnimalInfo">
+                <td>{{ animal.type.type }}</td>
+                <td>{{ animal.sort }}</td>
+                <td>{{ animal.sex }}</td>
+                <td>{{ animal.color }}</td>
+                <td>{{ animal.transpNumber }}</td>
+                <td>{{ animal.dateOfBirth }}</td>
+                <td><a href="#/ua/user/home/animals/{{ animal.id }}"><img src="resources/img/view_fullscreen.png"></a></td>
+            </tr>    
+            </tbody>
+        </table>
 
 		</div>
 		
@@ -280,4 +252,3 @@
 
 <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
 
- -->

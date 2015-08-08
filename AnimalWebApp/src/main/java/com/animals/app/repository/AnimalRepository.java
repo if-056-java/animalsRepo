@@ -41,6 +41,13 @@ public interface AnimalRepository {
 
     final String SELECT_LIST_FOR_ADOPTING = "SELECT Id, TypeId, breed, DateOfBirth " +
             "FROM animals";
+    
+    final String USERPROFILE_SELECT_BY_USER_ID = "SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
+            "FROM animals " +
+            "WHERE userId=#{id}";
+    
+    
+    
     /**
 
      * Insert an instance of Animal into the database.
@@ -138,4 +145,18 @@ public interface AnimalRepository {
             @Result(property="image", column="image"),
     })
     List<Animal> getAllForAdopting();
+    
+    @Select(USERPROFILE_SELECT_BY_USER_ID)
+    @Results(value = {
+            @Result(property="id", column="id"),
+            @Result(property="sex", column="sex", javaType = Animal.SexType.class),
+            @Result(property="type", column="typeId", javaType = AnimalType.class,
+                    one = @One(select = "com.animals.app.repository.AnimalTypeRepository.getById")),
+            @Result(property="breed", column="breed", javaType = AnimalBreed.class,
+                    one = @One(select = "com.animals.app.repository.AnimalBreedRepository.getById")),
+            @Result(property="transpNumber", column="transpNumber"),
+            @Result(property="dateOfBirth", column="dateOfBirth"),
+            @Result(property="color", column="color")
+    })
+    List<Animal> getAnimalByUserId(int parseId);
 }
