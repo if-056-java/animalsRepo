@@ -28,19 +28,35 @@
 			<br>
 			<div class="row">
 				<div class="col-lg-6">
+					<label >Логін:</label>
+				</div>
+				<div class="col-lg-6">
+					<label >{{userInfo.socialLogin}}</label>
+				</div>
+				
+			</div>
+			<div class="row">
+				<div class="col-lg-6">
 					<label >Ім'я користувача:</label>
 				</div>
 				<div class="col-lg-6">
-					<label >{{ userInfo.name }}</label>
-				</div>
-				
+					<label >{{userInfo.name}}</label>
+				</div>				
 			</div>
 			<div class="row">
 				<div class="col-lg-6">
 					<label >Фамілія користувача:</label>
 				</div>
 				<div class="col-lg-6">
-					<label >{{ userInfo.surname }}</label>
+					<label >{{userInfo.surname}}</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6">
+					<label >Дата реєстрації:</label>
+				</div>
+				<div class="col-lg-6">
+					<label >{{userInfo.registrationDate}}</label>
 				</div>
 			</div>
 			<div class="row">
@@ -48,7 +64,7 @@
 					<label >Email користувача:</label>
 				</div>
 				<div class="col-lg-6">
-					<label >{{ userInfo.email }}</label>
+					<label >{{userInfo.email}}</label>
 				</div>
 			</div>
 			<div class="row">
@@ -56,7 +72,7 @@
 					<label >Телефон користувача:</label>
 				</div>
 				<div class="col-lg-6">
-					<label >{{ userInfo.phone }}</label>
+					<label >{{userInfo.phone}}</label>
 				</div>
 			</div>
 			<div class="row">
@@ -64,7 +80,7 @@
 					<label >Адреса користувача:</label>
 				</div>
 				<div class="col-lg-6">
-					<label >{{ userInfo.address }}</label>
+					<label >{{userInfo.address}}</label>
 				</div>
 			</div>
 			<div class="row">
@@ -72,7 +88,7 @@
 					<label >Назва організації:</label>
 				</div>
 				<div class="col-lg-6">
-					<label >{{ userInfo.organizationName }}</label>
+					<label >{{userInfo.organizationName}}</label>
 				</div>
 			</div>
 			<div class="row">
@@ -80,7 +96,7 @@
 					<label >Додаткова інформація:</label>
 				</div>
 				<div class="col-lg-6">
-					<label >{{ userInfo.organizationInfo }}</label>
+					<label >{{userInfo.organizationInfo}}</label>
 				</div>
 			</div>
 			<div class="form-group">				
@@ -98,11 +114,7 @@
 
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 usualReg">
-			<form class="form-horizontal" method="post" enctype="multipart/form-data">
-
-
-
-
+			<form class="form-horizontal" name="updateForm" ng-submit="submitUpdateForm()">
 			<h2>Редагування даних користувача</h2>
 			<div class="col-xs-0 col-sm-0 col-md-2 col-lg-2"></div>
 			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
@@ -110,71 +122,69 @@
 				<div class="form-group">
 		    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label" >Логін:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-		      		<input class="form-control" id="userLogin">
+		      		<input class="form-control" id="userLogin" ng-model="fields.socialLogin" placeholder="{{userInfo.socialLogin}}">
 		    		</div>
 		    	</div>
 				<div class="form-group">
 		    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label" >Ім'я:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-		      		<input class="form-control" id="userName">
+		      		<input class="form-control" id="userName" ng-model="fields.name" placeholder="{{userInfo.name}}">
 		    		</div>
 		    	</div>
 		    	<div class="form-group">		    			  		
 		    		<label class="col-xs-5 col-sm-5col-md-3 col-lg-3 control-label" >Прізвище:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-		      		<input class="form-control" id="userSurname">
+		      		<input class="form-control" id="userSurname" ng-model="fields.surname" placeholder="{{userInfo.surname}}">
 		    		</div>
 		    	</div>
 		    	<div class="form-group">		    			  		
 		    		<label class="col-xs-5 col-sm-5col-md-3 col-lg-3 control-label" >Email:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-		      		<input class="form-control" id="userEmail" type="email">
+		      		<input class="form-control" id="userEmail" type="email" ng-model="fields.email" placeholder="{{userInfo.email}}">
 		    		</div>
 		    	</div>
 		    	<div class="form-group">		    			  		
-		    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label" >Пароль:</label>
+		    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label" >Новий Пароль:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-		      		<input class="form-control" required="required" type="password" id="password">
+		      		<input class="form-control" type="password" id="password" ng-model="fields.password">
 		    		</div>
 		    	</div>
 		    	<div class="form-group">		    			  		
 		    		<label class="col-xs-10 col-sm-5 col-md-3 col-lg-3 control-label" >Повторіть пароль:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-		      		<input class="form-control" required="required" type="password" id="password_confirm" oninput="check(this)">
+		      		<input class="form-control" type="password" id="password_confirm" oninput="check(this)">
 		    		</div>
 		    	</div>
 		    	<div class="form-group">		    			  		
 		    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label"  >Телефон:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-		      		<input class="form-control" id="userPhone" type="text" pattern="^[0-9]{3}-[0-9]{7}$">&nbsp; &nbsp;<label>Phone patern: '000-0000000'</label>
+		      		<input class="form-control" id="userPhone" type="text" pattern="^[0-9]{3}-[0-9]{7}$" ng-model="fields.phone" placeholder="{{userInfo.phone}}">&nbsp; &nbsp;<label>Phone patern: '000-0000000'</label>
 		    		</div>
 		    	</div>
 		    	<div class="form-group">		    			  		
 		    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label">Адреса:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-		    			<textarea class="form-control" id="userAdress" rows="2">
-		    			</textarea>
+		    			<textarea class="form-control" id="userAdress" rows="2" ng-model="fields.address" placeholder="{{userInfo.address}}"></textarea>
 		    		</div>
 		    	</div>
 		    	<hr>		    	
 		    	<div class="form-group">		    			  		
 		    		<label class="col-xs-5 col-sm-5 col-md-4 col-lg-4 control-label" >Назва організації:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-		      		<input class="form-control" id="userCompany">
+		      		<input class="form-control" id="userCompany" ng-model="fields.organizationName" placeholder="{{userInfo.organizationName}}">
 		    		</div>
 		    	</div>
 
 		    	<div class="form-group">		    			  		
 		    		<label class="col-xs-5 col-sm-5 col-md-4 col-lg-4 control-label" >Додаткова інформація про організацію:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-		    			<textarea class="form-control" name="comments" id="userCompanyInfo" rows="2">
-		    			</textarea>
+		    			<textarea class="form-control" name="comments" id="userCompanyInfo" rows="2" ng-model="fields.organizationInfo" placeholder="{{userInfo.organizationInfo}}"></textarea>
 		    		</div>
 		    	</div>
 
 		  		<div class="form-group">		  		
 			  		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">	  			
-					<button class="btn btn-danger btn-md col-xs-12 col-sm-12 col-md-6 col-lg-6" id = "usualReg">Edit Profile</button>
+					<button class="btn btn-danger btn-md col-xs-12 col-sm-12 col-md-6 col-lg-6" id = "usualReg" type="submit">Edit Profile</button>
 					<button ng-click="closePopup()" class="btn btn-default btn-sm col-xs-12 col-sm-12 col-md-6 col-lg-6" >Cancel</button>
 					</div>	  			 			
 				</div>
@@ -257,17 +267,17 @@
 
  
  
-
-<!-- <script src="resources/js/temp/script3.js"></script> -->
-
-<!-- 
 <script type='text/javascript'>
-	function switch1(){
-		$('#editProfile').click(function() {
-			console.log("ping");
-			$('#editUser').css("display", "block");
-	});
-	} 
+	function check(input) {
+		if (input.value != document.getElementById('password').value) {
+		input.setCustomValidity('Password Must be Matching.');
+		} else {
+		// input is valid -- reset the error message
+		input.setCustomValidity('');
+		}
+	}
 </script>
+
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
 
  -->
