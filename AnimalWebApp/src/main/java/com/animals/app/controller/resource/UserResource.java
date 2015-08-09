@@ -1,8 +1,10 @@
 package com.animals.app.controller.resource;
 
 import com.animals.app.domain.Animal;
+import com.animals.app.domain.AnimalType;
 import com.animals.app.domain.Pagenator;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
+import com.animals.app.repository.Impl.AnimalTypeRepositoryImpl;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;

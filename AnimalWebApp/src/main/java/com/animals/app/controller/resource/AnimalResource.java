@@ -1,7 +1,9 @@
 package com.animals.app.controller.resource;
 
 import com.animals.app.domain.Animal;
+import com.animals.app.domain.AnimalType;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
+import com.animals.app.repository.Impl.AnimalTypeRepositoryImpl;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -35,6 +37,21 @@ public class AnimalResource {
             return NOT_FOUND;
 
         return ok(genericAnimals);
+    }
+
+    @GET //http:localhost:8080/AnimalWebApp/webapi/home/animals/editor
+    @Path("animal_types")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAnimalTypesAdminAnimalsList() {
+        List<AnimalType> animalTypes = new AnimalTypeRepositoryImpl().getAll();
+
+        GenericEntity<List<AnimalType>> genericAnimalTypes =
+                new GenericEntity<List<AnimalType>>(animalTypes) {};
+
+        if(genericAnimalTypes == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        return Response.status(Response.Status.OK).entity(genericAnimalTypes).build();
     }
 
     /**

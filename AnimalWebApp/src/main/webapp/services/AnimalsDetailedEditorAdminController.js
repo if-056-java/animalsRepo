@@ -1,6 +1,21 @@
-angular.module('AnimalsDetailedEditorAdminController', ['angular-bootstrap-select', 'ui.bootstrap', 'AnimalsListAdminService'])
+angular.module('AnimalsDetailedEditorAdminController', ['nya.bootstrap.select', 'ui.bootstrap', 'AnimalsListAdminService'])
     .controller('AnimalsDetailedEditorAdminController', ['$scope', 'AnimalsListAdminService', '$routeParams', '$window', '$filter',
         function($scope, AnimalsListAdminService, $routeParams, $window, $filter) {
+            $scope.goBack = function() {
+                $window.history.back();
+            }
+
+            this.getAnimalTypes = function() {
+                AnimalsListAdminService.getAnimalTypes()
+                    .then(function(data) {
+                        $scope.animalTypes = data;
+                    },
+                    function(data) {
+                        console.log('Animal retrieval failed.')
+                    });
+            }
+
+            this.getAnimalTypes();
 
             var animalId = $routeParams.animalId;
 

@@ -70,4 +70,19 @@ angular.module('AnimalsListAdminService', [])
 
             return def.promise;
         }
+
+        this.getAnimalTypes = function() {
+            var def = $q.defer();
+
+            $http.get("/webapi/animals/animal_types")
+                .success(function(data) {
+                    def.resolve(data);
+                })
+                .error(function() {
+                    def.reject("Failed to get animal");
+                });
+
+            return def.promise;
+        }
+
     }]);

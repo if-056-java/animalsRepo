@@ -1,6 +1,9 @@
 angular.module('AnimalsDetailedAdminController', ['AnimalsListAdminService'])
     .controller('AnimalsDetailedAdminController', ['$scope', 'AnimalsListAdminService', '$routeParams', '$window',
         function($scope, AnimalsListAdminService, $routeParams, $window) {
+            $scope.goBack = function() {
+                $window.history.back();
+            }
         
             var animalId = $routeParams.animalId;
 

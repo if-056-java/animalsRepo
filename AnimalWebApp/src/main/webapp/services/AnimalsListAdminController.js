@@ -1,4 +1,4 @@
-angular.module('AnimalsListAdminController', ['angular-bootstrap-select', 'ui.bootstrap', 'AnimalsListAdminService'])
+angular.module('AnimalsListAdminController', ['ui.bootstrap', 'AnimalsListAdminService'])
     .controller('AnimalsListAdminController', ['$scope', 'AnimalsListAdminService', '$window', function($scope, AnimalsListAdminService, $window) {
         
         $scope.totalItems = 0;

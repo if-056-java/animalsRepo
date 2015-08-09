@@ -81,8 +81,35 @@ IMG.displayed {
 }
 
 /* ua/user/home/animals/detailed/editor */
-dropdown-toggle > div > button {
-    border-top-left-radius: 0px !important;
-    border-bottom-left-radius: 0px !important;
+.nya-bs-select-mod {
+    width: 100%;
+    margin-bottom: 0px;
+    padding-left: 0px;
+}
+
+.nya-bs-select-mod > button {
+    width: inherit;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.nya-bs-select-mod > button > .filter-option {
+    width: 97%;
+    text-align: left;
+}
+
+.nya-bs-select-mod > .open {
+    width: 100%;
+    min-width: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+}
+
+.nya-bs-select-mod > .open > .inner {
+    width: 100%;
 }
 
