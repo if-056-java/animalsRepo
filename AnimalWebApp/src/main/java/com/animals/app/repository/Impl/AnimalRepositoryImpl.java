@@ -111,6 +111,7 @@ public class AnimalRepositoryImpl {
     }
 
     /**
+     * Created by 41X 08.08.2015
      * Returns count of rows selected from DB by method getAdminAnimalsListByPage
      * @return count of rows selected by getAdminAnimalsListByPage
      */
@@ -142,6 +143,7 @@ public class AnimalRepositoryImpl {
             session.close();
         }
     }
+<<<<<<< HEAD
 
     /**
      * Returns count of rows selected from DB by method getAllForAdopting
@@ -159,4 +161,22 @@ public class AnimalRepositoryImpl {
         }
     }
 
+=======
+    
+    /* 41{
+     * This method return short information about animals by UserId for showing on UserCabinet.
+     * @return the list of Animal instances from the database with UserId.
+     */
+    public List<Animal> getAnimalByUserId(int parseId) {
+    	
+    	SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            return mapper.getAnimalByUserId(parseId);
+        } finally {
+            session.close();
+        }
+	}
+>>>>>>> 15ea11fcacaa8612da669f496b2ad28bdcdf19de
 }
