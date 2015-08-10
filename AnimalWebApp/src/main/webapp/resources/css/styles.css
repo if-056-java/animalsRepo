@@ -58,11 +58,6 @@ IMG.displayed {
     padding-left: 0px;
 }
 
-.detailed-left > img {
-    max-width: 400px;
-    max-height: 400px;
-}
-
 .detailed-right {
     padding-top: 20px;
 }
@@ -81,6 +76,11 @@ IMG.displayed {
 }
 
 /* ua/user/home/animals/detailed/editor */
+.image-sample {
+    max-width: 400px;
+    max-height: 400px;
+}
+
 .nya-bs-select-mod {
     width: 100%;
     margin-bottom: 0px;

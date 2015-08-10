@@ -1,6 +1,6 @@
 angular.module('AnimalsListAdminService', [])
     .service('AnimalsListAdminService', ['$http', '$q', function($http, $q) {
-        
+
         this.getAnimals = function(page, limit) {
             var def = $q.defer();
 

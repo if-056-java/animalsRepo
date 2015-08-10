@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Rostyslav.Viner on 06.08.2015.
  */
 public interface AnimalBreedRepository {
-    final String SELECT_BY_ID = "SELECT id, breedUa, breedRu, breedEn, animalTypeId FROM animalbreeds WHERE id=#{id}";
+    final String SELECT_BY_ID = "SELECT id, breedUa, breedRu, breedEn FROM animalbreeds WHERE id=#{id}";
 
     final String SELECT_ALL = "SELECT id, breedUa, breedRu, breedEn, animalTypeId FROM animalbreeds";
 
@@ -18,7 +18,7 @@ public interface AnimalBreedRepository {
             "FROM animalbreeds " +
             "WHERE animalTypeId=#{animalTypeId}";
 
-    final String INSERT_UA = "INSERT INTO animalbreeds (breedUa) VALUES (#{breedUa})";
+    final String INSERT_UA = "INSERT INTO animalbreeds (breedUa, animalTypeId) VALUES (#{breedUa}, #{type.id})";
 
     /**
      * Returns an AnimalBreed instance from the database.

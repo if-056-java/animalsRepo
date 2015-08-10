@@ -93,9 +93,9 @@ public class UserResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         //Check breed, if it new insert it into database
         if ((animal.getBreed().getId()) == null && (animal.getBreed().getBreedUa() != null)) {
+            animal.getBreed().setType(animal.getType());
             new AnimalBreedRepositoryImpl().insert_ua(animal.getBreed());
         }
-System.out.println(animal);
         //Update animal
         animalRepository.update(animal);
 
