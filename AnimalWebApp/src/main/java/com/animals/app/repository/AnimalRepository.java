@@ -164,8 +164,7 @@ public interface AnimalRepository {
             @Result(property = "rowsCount", column = "count")
     })
     Pagenator getAmountListForAdopting();
-    List<Animal> getAllForAdopting();
-    
+
     @Select(USERPROFILE_SELECT_BY_USER_ID)
     @Results(value = {
             @Result(property="id", column="id"),
