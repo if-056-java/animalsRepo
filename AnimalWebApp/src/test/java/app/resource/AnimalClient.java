@@ -28,11 +28,14 @@ public class AnimalClient {
         client = ClientBuilder.newClient();
     }
 
-    /**
+/*
+    */
+/**
      * This method imitate POST query on server to insert new record
      * @param animal Instance of Animal class
      * @return Instance of Animal class
-     */
+     *//*
+
     public Animal insert(Animal animal) {
         WebTarget webTarget = client.target(URL);
 
@@ -46,11 +49,13 @@ public class AnimalClient {
         return response.readEntity(Animal.class);
     }
 
-    /**
+    */
+/**
      * This method imitate PUT query on server to update record
      * @param animal Instance of Animal class
      * @return Instance of Animal class
-     */
+     *//*
+
     public Animal update(Animal animal) {
         WebTarget webTarget = client.target(URL);
 
@@ -64,11 +69,13 @@ public class AnimalClient {
         return response.readEntity(Animal.class);
     }
 
-    /**
+    */
+/**
      * This method imitate DELETE query on server to delete record
      * @param id Id instance of Animal class
      * @return List instances of Animal class
-     */
+     *//*
+
     public List<Animal> delete(String id) {
         WebTarget target = client.target(URL);
 
@@ -82,11 +89,13 @@ public class AnimalClient {
         return response.readEntity(new GenericType<List<Animal>>() {});
     }
 
-    /**
+    */
+/**
      * This method imitate GET query on server to get record by id
      * @param id Id instance of Animal class
      * @return Instance of Animal class
-     */
+     *//*
+
     public Animal get(String id) {
 
         //get target to testing
@@ -105,10 +114,12 @@ public class AnimalClient {
         return response.readEntity(Animal.class);
     }
 
-    /**
+    */
+/**
      * This method imitate GET query on server to get all records
      * @return List instances of Animal class
-     */
+     *//*
+
     public List<Animal> getAll() {
         WebTarget target = client.target(URL);
 
@@ -121,22 +132,24 @@ public class AnimalClient {
 
         return response.readEntity(new GenericType<List<Animal>>() {});
     }
+*/
 
     /**
      * This method imitate GET query on server to get all animals for adopting
      * @return List instances of Animal class
      */
-    public List<Animal> getAllForAdopting() {
+    public String getAllForAdopting() {
         WebTarget target = client.target(URL);
 
-        Response response = target.path("animals/adopting")
+        Response response = target.path("animals/adoption/pagenator")
                 .request(MediaType.APPLICATION_JSON)
-                .get();
+                .get(Response.class);
 
         if(response.getStatus() != Response.Status.OK.getStatusCode())
             throw new RuntimeException(response.getStatus() + " there was an error on server.");
 
-        return response.readEntity(new GenericType<List<Animal>>() {});
+
+        return response.readEntity(String.class);
     }
 
 }

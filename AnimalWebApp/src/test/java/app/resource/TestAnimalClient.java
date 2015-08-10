@@ -48,6 +48,7 @@ public class TestAnimalClient {
         actual = null;
     }
 
+/*
     @Test
     public void test01Insert() {
         AnimalClient client = new AnimalClient();
@@ -120,4 +121,16 @@ public class TestAnimalClient {
 
         assertNotSame(beforeDelete, afterDelete);
     }
+*/
+
+    @Test
+    public void test021GetAllForAdopting() {
+        AnimalClient client = new AnimalClient();
+
+        String s  = client.getAllForAdopting();
+
+        System.out.println(s);
+        assertNotNull(s);
+    }
+
 }

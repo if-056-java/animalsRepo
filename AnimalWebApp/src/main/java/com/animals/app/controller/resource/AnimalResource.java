@@ -1,10 +1,13 @@
 package com.animals.app.controller.resource;
 
 import com.animals.app.domain.Animal;
+import com.animals.app.domain.Pagenator;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
+import org.apache.ibatis.session.RowBounds;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
@@ -21,13 +24,31 @@ public class AnimalResource {
 
     AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
 
-    @GET //http:localhost:8080/webapi/animals
-    @Path("adoption")
+    @GET //http:localhost:8080/webapi/adoption/pagenator
+    @Path("adoption/pagenator")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getAllAnimalsForAdopting() {
+    public Response getAmountListForAdopting() {
+
+        Pagenator pages = animalRepository.getAmountListForAdopting();
+
+        if(pages == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        String str = "{\"rowsCount\" : " + String.valueOf(pages.getRowsCount()) + "}";
+
+        return Response.status(Response.Status.OK).entity(str).build();
+    }
+
+    @GET //http:localhost:8080/webapi/animals/adoption
+    @Path("adoption/{page}/{limit}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAllAnimalsForAdopting(@PathParam("page") int page, @PathParam("limit") int limit) {
+        if (page == 0 || limit == 0) {
+            return BAD_REQUEST;
+        }
 
         //cast list of animals to generic list
-        List<Animal> animals = animalRepository.getAllForAdopting();
+        List<Animal> animals = animalRepository.getAllForAdopting(new Pagenator(page, limit));
         GenericEntity<List<Animal>> genericAnimals =
                 new GenericEntity<List<Animal>>(animals) {};
 

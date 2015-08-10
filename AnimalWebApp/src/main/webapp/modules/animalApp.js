@@ -1,9 +1,8 @@
 var animalApp = angular.module('animalApp', [
 'ngRoute',
 'ngResource',
-'AdoptionModule',
 'FindController',
-'AdoptionController',
+	'FindController',
 'LostController',
 'LoginController',
 'HomelessController',
@@ -71,3 +70,10 @@ animalApp .config(['$routeProvider',
         redirectTo: '/ua'
       });
   }]);
+
+//Constants
+animalApp.constant('RESOURCES', {
+    RESOURCE: 'http://127.0.0.1:8080/',
+        ANIMALS_FOR_ADOPTING_PAGINATOR: 'webapi/animals/adoption/pagenator',
+        ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption/'
+});

@@ -4,6 +4,7 @@ import com.animals.app.domain.Animal;
 import com.animals.app.domain.Pagenator;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -110,6 +111,7 @@ public class AnimalRepositoryImpl {
     }
 
     /**
+     * Created by 41X 08.08.2015
      * Returns count of rows selected from DB by method getAdminAnimalsListByPage
      * @return count of rows selected by getAdminAnimalsListByPage
      */
@@ -127,17 +129,50 @@ public class AnimalRepositoryImpl {
 
     /*
      * This method return short information about animals for showing on adopting page.
+     * @param pagenator Separating records for a parts.
      * @return the list of all Animal instances from the database.
      */
-    public List<Animal> getAllForAdopting(){
+    public List<Animal> getAllForAdopting(Pagenator pagenator){
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             AnimalRepository mapper = session.getMapper(AnimalRepository.class);
-            return mapper.getAllForAdopting();
+            return mapper.getAllForAdopting(pagenator);
         } finally {
             session.close();
         }
     }
+
+    /**
+     * Returns count of rows selected from DB by method getAllForAdopting
+     * @return count of rows selected by getAllForAdopting
+     */
+    public Pagenator getAmountListForAdopting() {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            return mapper.getAmountListForAdopting();
+        } finally {
+            session.close();
+        }
+    }
+
+    /*
+     * This method return short information about animals by UserId for showing on UserCabinet.
+     * @return the list of Animal instances from the database with UserId.
+     */
+    public List<Animal> getAnimalByUserId(int parseId) {
+    	
+    	SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            return mapper.getAnimalByUserId(parseId);
+        } finally {
+            session.close();
+        }
+	}
 }
