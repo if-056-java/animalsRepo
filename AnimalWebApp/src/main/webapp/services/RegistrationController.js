@@ -1,9 +1,10 @@
 var animalAppControllers = angular.module('RegistrationController', []);
 
-animalApp.controller('RegistrationController', function($scope, $location, $http) {
+animalApp.controller('RegistrationController', function($scope, $location, $http, $rootScope) {
 	
 		$scope.submitRegForm=function(){
-        		
+			
+			        		
 			$scope.fields.active = true; 
 			$scope.fields.userRole = {"id": 3};
 			$scope.fields.userType = {"id": 1};
@@ -21,10 +22,14 @@ animalApp.controller('RegistrationController', function($scope, $location, $http
 			
 	        $http.post("/webapi/users/user", data)
 	        .success(function(data){
-	        	console.log(data);        
-	        });
+	        	console.log(data);
+	        	console.log(data.id);
+	        	$rootScope.id =data.id;
+	        	$location.path("/ua/user/profile");
+	        });   
 	        
-	        $location.path("/ua/user/profile");  //id session should be used
+	       
+	        
 		
 		};               
         

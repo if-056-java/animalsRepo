@@ -49,31 +49,31 @@
 			<div class="form-group">
 	    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label" >Логін *:</label>
 	    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-	      		<input class="form-control" id="userLogin" ng-model="fields.socialLogin">
+	      		<input class="form-control" type="text" ng-model="fields.socialLogin"  ng-required="true" >
 	    		</div>
 	    	</div>
 			<div class="form-group">
 	    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label" >Ім'я *:</label>
 	    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-	      		<input class="form-control" id="userName" ng-model="fields.name">
+	      		<input class="form-control" id="userName" ng-model="fields.name" ng-required="true">
 	    		</div>
 	    	</div>
 	    	<div class="form-group">		    			  		
 	    		<label class="col-xs-5 col-sm-5col-md-3 col-lg-3 control-label" >Прізвище *:</label>
 	    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-	      		<input class="form-control" id="userSurname" ng-model="fields.surname">
+	      		<input class="form-control" id="userSurname" ng-model="fields.surname" ng-required="true">
 	    		</div>
 	    	</div>
 	    	<div class="form-group">		    			  		
 	    		<label class="col-xs-5 col-sm-5col-md-3 col-lg-3 control-label" >Email *:</label>
 	    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-	      		<input class="form-control" id="userEmail" type="email" ng-model="fields.email">
+	      		<input class="form-control" id="userEmail" type="email" ng-model="fields.email" ng-required="true">
 	    		</div>
 	    	</div>
 	    	<div class="form-group">		    			  		
 	    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label" >Пароль *:</label>
 	    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-	      		<input class="form-control" required="required" type="password" id="password" ng-model="fields.password">
+	      		<input class="form-control"  type="password" id="password" ng-model="fields.password" ng-required="true">
 	    		</div>
 	    	</div>
 	    	<div class="form-group">		    			  		
