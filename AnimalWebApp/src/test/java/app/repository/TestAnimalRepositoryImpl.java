@@ -70,12 +70,14 @@ public class TestAnimalRepositoryImpl {
         assertNotNull(expected);
     }
 
+/*
     @Test
     public void test03GetAllForAdopting() {
         List<Animal> expected = animalRepositoryImpl.getAllForAdopting();
 
         assertNotNull(expected);
     }
+*/
 
     @Test
     public void test04GetById() {

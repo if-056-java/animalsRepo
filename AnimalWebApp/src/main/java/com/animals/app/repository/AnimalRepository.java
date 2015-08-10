@@ -2,6 +2,7 @@ package com.animals.app.repository;
 
 import com.animals.app.domain.*;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -39,8 +40,16 @@ public interface AnimalRepository {
             "isActive, image, serviceId " +
             "FROM animals WHERE id = #{id}";
 
-    final String SELECT_LIST_FOR_ADOPTING = "SELECT Id, TypeId, breed, DateOfBirth " +
-            "FROM animals";
+    final String SELECT_LIST_FOR_ADOPTING = "SELECT Id, TypeId, Breed, DateOfBirth, DateOfRegister, ServiceId " +
+            "FROM animals " +
+            "WHERE (serviceId = 1) AND (isActive = 1) " +
+            "ORDER BY DateOfRegister DESC " +
+            "LIMIT #{offset}, #{limit};";
+
+    final String SELECT_LIST_FOR_ADOPTING_COUNT = "SELECT count(*) AS count " +
+            "FROM animals " +
+            "WHERE (isActive = 1) AND (serviceId = 1);";
+
     /**
      * Insert an instance of Animal into the database.
      * @param animal the instance to be persisted.
@@ -124,6 +133,7 @@ public interface AnimalRepository {
 
     /**
      * This method return short information about animals for showing on adopting page.
+     * @param pagenator Separating records for a parts.
      * @return the list of all Animal instances from the database.
      */
     @Select(SELECT_LIST_FOR_ADOPTING)
@@ -131,10 +141,23 @@ public interface AnimalRepository {
             @Result(property="id", column="id"),
             @Result(property="type", column="typeId", javaType = AnimalType.class,
                     one = @One(select = "com.animals.app.repository.AnimalTypeRepository.getById")),
+            @Result(property="dateOfBirth", column="dateOfBirth"),
+            @Result(property="dateOfRegister", column = "dateOfRegister"),
             @Result(property="breed", column="breed", javaType = AnimalBreed.class,
                     one = @One(select = "com.animals.app.repository.AnimalBreedRepository.getById")),
-            @Result(property="dateOfBirth", column="dateOfBirth"),
+            @Result(property="service", column="serviceId", javaType = AnimalService.class,
+                    one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById")),
             @Result(property="image", column="image"),
     })
-    List<Animal> getAllForAdopting();
+    List<Animal> getAllForAdopting(Pagenator pagenator);
+
+    /**
+     * Returns count of rows selected from DB by method getAllForAdopting
+     * @return count of rows selected by getAllForAdopting
+     */
+    @Select(SELECT_LIST_FOR_ADOPTING_COUNT)
+    @Results(value = {
+            @Result(property = "rowsCount", column = "count")
+    })
+    Pagenator getAmountListForAdopting();
 }
