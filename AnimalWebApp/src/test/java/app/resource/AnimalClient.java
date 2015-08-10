@@ -152,4 +152,22 @@ public class AnimalClient {
         return response.readEntity(String.class);
     }
 
+    /**
+     * This method imitate GET query on server to get  animal for adopting by id
+     * @return instance of Animal class
+     */
+    public Animal getAnimalShortInfo(String id){
+        WebTarget target = client.target(URL);
+
+        Response response = target.path("animals/adoption/" + id)
+                .request(MediaType.APPLICATION_JSON)
+                .get(Response.class);
+
+        if(response.getStatus() != Response.Status.OK.getStatusCode())
+            throw new RuntimeException(response.getStatus() + " there was an error on server.");
+
+        //return generated instance
+        return response.readEntity(Animal.class);
+    }
+
 }

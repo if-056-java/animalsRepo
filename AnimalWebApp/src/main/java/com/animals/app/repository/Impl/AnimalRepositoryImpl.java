@@ -175,4 +175,20 @@ public class AnimalRepositoryImpl {
             session.close();
         }
 	}
+
+    /**
+     * Returns short information about animal by id.
+     * @param id primary key value used for lookup.
+     * @return An Animal instance with a primary key value equals to pk. null if there is no matching row.
+     */
+    public Animal getShortInfoById(long id){
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            return mapper.getShortInfoById(id);
+        } finally {
+            session.close();
+        }
+    }
 }

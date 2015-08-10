@@ -58,6 +58,24 @@ public class AnimalResource {
         return ok(genericAnimals);
     }
 
+    @GET //http:localhost:8080/webapi/animals/adoption/id
+    @Path("adoption")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getShortInfo(@PathParam ("animalId") String id) {
+
+        if(id == null)
+            return BAD_REQUEST;
+
+        int idAnimal = (int) Integer.parseInt(id);
+
+        Animal animalShortInfo =  animalRepository.getShortInfoById(idAnimal);
+
+        if(animalShortInfo == null)
+            return NOT_FOUND;
+
+        return ok(animalShortInfo);
+    }
+
     /**
      * Return response with code 200(OK) and build returned entity
      * @param entity Returned json instance from client

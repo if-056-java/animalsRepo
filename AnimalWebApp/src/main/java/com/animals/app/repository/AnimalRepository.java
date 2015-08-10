@@ -54,6 +54,10 @@ public interface AnimalRepository {
             "FROM animals " +
             "WHERE userId=#{id}";
 
+    final String SELECT_SHORT_INFO_BY_ID = "SELECT id, sex, typeId, size, citesType, breed, " +
+            "dateOfBirth, dateOfSterilization, color, " +
+            "FROM animals WHERE id = #{id}";
+
     /**
      * Insert an instance of Animal into the database.
      * @param animal the instance to be persisted.
@@ -178,4 +182,32 @@ public interface AnimalRepository {
             @Result(property="color", column="color")
     })
     List<Animal> getAnimalByUserId(int parseId);
+
+    /**
+     * Returns short information about animal by id.
+     * @param id primary key value used for lookup.
+     * @return An Animal instance with a primary key value equals to pk. null if there is no matching row.
+     */
+    @Select(SELECT_SHORT_INFO_BY_ID)
+    @Results(value = {
+            @Result(property="id", column="id"),
+            @Result(property="sex", column="sex", javaType = Animal.SexType.class),
+            @Result(property="type", column="typeId", javaType = AnimalType.class,
+                    one = @One(select = "com.animals.app.repository.AnimalTypeRepository.getById")),
+            @Result(property="size", column="size", javaType = Animal.SizeType.class),
+            @Result(property="cites", column="citesType", javaType = Animal.CitesType.class),
+            @Result(property="breed", column="breed", javaType = AnimalBreed.class,
+                    one = @One(select = "com.animals.app.repository.AnimalBreedRepository.getById")),
+            @Result(property="dateOfBirth", column="dateOfBirth"),
+            @Result(property="dateOfSterilization", column="dateOfSterilization"),
+            @Result(property="color", column="color"),
+            @Result(property="user", column="userId", javaType = User.class,
+                    one = @One(select = "com.animals.app.repository.UserRepository.getByIdForAdminAnimalList")),
+            @Result(property="address", column="address"),
+            @Result(property="active", column="isActive"),
+            @Result(property="image", column="image"),
+            @Result(property="service", column="serviceId", javaType = AnimalService.class,
+                    one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById"))
+    })
+    Animal getShortInfoById(long id);
 }
