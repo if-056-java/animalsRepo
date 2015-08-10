@@ -19,14 +19,26 @@ angular.module('AnimalsDetailedEditorAdminController', ['nya.bootstrap.select', 
 
             var animalId = $routeParams.animalId;
 
+            $scope.getAnimalBreeds = function() {
+                AnimalsListAdminService.getAnimalBreeds($scope.animal.type.id)
+                    .then(function(data) {
+                        $scope.animalBreeds = data;
+                    },
+                    function(data) {
+                        console.log('Animal breeds retrieval failed.')
+                    });
+            }
+
             this.getAnimal = function(animalId) {
                 AnimalsListAdminService.getAnimal(animalId)
                     .then(function(data) {
                         $scope.animal = data;
+                        $scope.getAnimalBreeds();
                     },
                     function(data) {
                         console.log('Animal retrieval failed.')
                     });
+
             };
 
             this.getAnimal(animalId);
@@ -35,6 +47,9 @@ angular.module('AnimalsDetailedEditorAdminController', ['nya.bootstrap.select', 
                 $scope.animal.dateOfBirth = $filter('date')($scope.animal.dateOfBirth, 'yyyy-MM-dd');
                 $scope.animal.dateOfSterilization = $filter('date')($scope.animal.dateOfSterilization, 'yyyy-MM-dd');
                 $scope.animal.dateOfRegister = $filter('date')($scope.animal.dateOfRegister, 'yyyy-MM-dd');
+                if (typeof $scope.animal.breed.id == "undefined") {
+                    $scope.animal.breed = {breedUa: $scope.animal.breed};
+                }
                 AnimalsListAdminService.updateAnimal($scope.animal)
                     .then(function(data) {
                         $window.location.href = "#/ua/user/home/animals/" + $scope.animal.id;

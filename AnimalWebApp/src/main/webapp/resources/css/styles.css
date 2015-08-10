@@ -113,3 +113,8 @@ IMG.displayed {
     width: 100%;
 }
 
+.border-right-radius {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+}
+

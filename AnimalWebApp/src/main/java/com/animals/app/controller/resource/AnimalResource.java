@@ -1,13 +1,13 @@
 package com.animals.app.controller.resource;
 
 import com.animals.app.domain.Animal;
+import com.animals.app.domain.AnimalBreed;
 import com.animals.app.domain.AnimalType;
+import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalTypeRepositoryImpl;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,10 +39,10 @@ public class AnimalResource {
         return ok(genericAnimals);
     }
 
-    @GET //http:localhost:8080/AnimalWebApp/webapi/home/animals/editor
+    @GET //http:localhost:8080/webapi/animals/animal_types
     @Path("animal_types")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getAnimalTypesAdminAnimalsList() {
+    public Response getAnimalTypes() {
         List<AnimalType> animalTypes = new AnimalTypeRepositoryImpl().getAll();
 
         GenericEntity<List<AnimalType>> genericAnimalTypes =
@@ -52,6 +52,25 @@ public class AnimalResource {
             return Response.status(Response.Status.NOT_FOUND).build();
 
         return Response.status(Response.Status.OK).entity(genericAnimalTypes).build();
+    }
+
+    @GET //http:localhost:8080/webapi/animals/animal_breeds
+    @Path("animal_breeds/{id}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAnimalBreadsByAnimalTypeId(@PathParam("id") int animalTypeId) {
+        if (animalTypeId == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        List<AnimalBreed> animalBreeds = new AnimalBreedRepositoryImpl().getByTypeId(animalTypeId);
+
+        GenericEntity<List<AnimalBreed>> genericAnimalBreeds =
+                new GenericEntity<List<AnimalBreed>>(animalBreeds) {};
+
+        if(genericAnimalBreeds == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        return Response.status(Response.Status.OK).entity(genericAnimalBreeds).build();
     }
 
     /**

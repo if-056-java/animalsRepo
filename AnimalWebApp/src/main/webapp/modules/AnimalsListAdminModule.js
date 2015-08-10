@@ -65,7 +65,7 @@ angular.module('AnimalsListAdminService', [])
                     def.resolve(data);
                 })
                 .error(function() {
-                    def.reject("Failed to delete animal");
+                    def.reject("Failed to update animal");
                 });
 
             return def.promise;
@@ -79,7 +79,21 @@ angular.module('AnimalsListAdminService', [])
                     def.resolve(data);
                 })
                 .error(function() {
-                    def.reject("Failed to get animal");
+                    def.reject("Failed to get animal types");
+                });
+
+            return def.promise;
+        }
+
+        this.getAnimalBreeds = function(animalTypeId) {
+            var def = $q.defer();
+
+            $http.get("/webapi/animals/animal_breeds/" + animalTypeId)
+                .success(function(data) {
+                    def.resolve(data);
+                })
+                .error(function() {
+                    def.reject("Failed to get breeds");
                 });
 
             return def.promise;

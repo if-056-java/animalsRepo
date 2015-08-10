@@ -3,6 +3,7 @@ package com.animals.app.controller.resource;
 import com.animals.app.domain.Animal;
 import com.animals.app.domain.AnimalType;
 import com.animals.app.domain.Pagenator;
+import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalTypeRepositoryImpl;
 
@@ -90,7 +91,12 @@ public class UserResource {
     public Response updateAdminAnimalsList(Animal animal) {
         if(animal == null)
             return Response.status(Response.Status.BAD_REQUEST).build();
-
+        //Check breed, if it new insert it into database
+        if ((animal.getBreed().getId()) == null && (animal.getBreed().getBreedUa() != null)) {
+            new AnimalBreedRepositoryImpl().insert_ua(animal.getBreed());
+        }
+System.out.println(animal);
+        //Update animal
         animalRepository.update(animal);
 
         return Response.status(Response.Status.OK).build();
