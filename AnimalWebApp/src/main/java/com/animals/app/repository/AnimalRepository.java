@@ -40,7 +40,6 @@ public interface AnimalRepository {
             "isActive, image, serviceId " +
             "FROM animals WHERE id = #{id}";
 
-<<<<<<< HEAD
     final String SELECT_LIST_FOR_ADOPTING = "SELECT Id, TypeId, Breed, DateOfBirth, DateOfRegister, ServiceId " +
             "FROM animals " +
             "WHERE (serviceId = 1) AND (isActive = 1) " +
@@ -50,18 +49,10 @@ public interface AnimalRepository {
     final String SELECT_LIST_FOR_ADOPTING_COUNT = "SELECT count(*) AS count " +
             "FROM animals " +
             "WHERE (isActive = 1) AND (serviceId = 1);";
-=======
-    final String SELECT_LIST_FOR_ADOPTING = "SELECT Id, TypeId, breed, DateOfBirth " +
-            "FROM animals";
-    
+
     final String USERPROFILE_SELECT_BY_USER_ID = "SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
             "FROM animals " +
             "WHERE userId=#{id}";
-    
-    
-    
-    /**
->>>>>>> 15ea11fcacaa8612da669f496b2ad28bdcdf19de
 
     /**
      * Insert an instance of Animal into the database.
@@ -162,7 +153,6 @@ public interface AnimalRepository {
                     one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById")),
             @Result(property="image", column="image"),
     })
-<<<<<<< HEAD
     List<Animal> getAllForAdopting(Pagenator pagenator);
 
     /**
@@ -174,7 +164,6 @@ public interface AnimalRepository {
             @Result(property = "rowsCount", column = "count")
     })
     Pagenator getAmountListForAdopting();
-=======
     List<Animal> getAllForAdopting();
     
     @Select(USERPROFILE_SELECT_BY_USER_ID)
@@ -190,5 +179,4 @@ public interface AnimalRepository {
             @Result(property="color", column="color")
     })
     List<Animal> getAnimalByUserId(int parseId);
->>>>>>> 15ea11fcacaa8612da669f496b2ad28bdcdf19de
 }

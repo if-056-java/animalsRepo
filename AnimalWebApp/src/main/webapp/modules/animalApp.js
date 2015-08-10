@@ -1,13 +1,10 @@
 var animalApp = angular.module('animalApp', [
 'ngRoute',
 'ngResource',
-<<<<<<< HEAD
 'FindController',
-=======
 	'AdoptionModule',
 	'FindController',
 'AdoptionController',
->>>>>>> 15ea11fcacaa8612da669f496b2ad28bdcdf19de
 'LostController',
 'LoginController',
 'HomelessController',
