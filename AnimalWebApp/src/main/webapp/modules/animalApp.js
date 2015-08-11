@@ -12,7 +12,8 @@ var animalApp = angular.module('animalApp', [
 'AnimalsListAdminController',
 'AnimalsDetailedAdminController',
 'RegistrationController',
-'UserProfileController'
+'UserProfileController',
+'AnimalShortInfoController'
 ]);
 
 animalApp .config(['$routeProvider',
@@ -65,6 +66,10 @@ animalApp .config(['$routeProvider',
       when('/ua/user/profile', {
         templateUrl: 'views/user_profile.html',
         controller: 'UserProfileController'
+      }).
+	  when('/ua/animal/adoption/:animalId', {
+        templateUrl: 'views/animal_short_info.html',
+        controller: 'AnimalShortInfoController'
       }).
       otherwise({
         redirectTo: '/ua'
