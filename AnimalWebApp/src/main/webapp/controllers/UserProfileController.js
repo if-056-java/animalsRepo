@@ -1,8 +1,8 @@
+//created by 41X
 var animalAppControllers = angular.module('UserProfileController', []);
 
-animalApp.controller('UserProfileController', function($scope, $http, $rootScope) {
-	
-	
+animalApp.controller('UserProfileController', function($scope, userData, hashPassword, $rootScope) {
+		
 	console.log("before" + $rootScope.id);
 	
 	$scope.IsHidden = true;
@@ -13,53 +13,38 @@ animalApp.controller('UserProfileController', function($scope, $http, $rootScope
 	$scope.fields = null;
 		
 	var id = $rootScope.id;
-	console.log("inside"+id);
-		
-	$http.get("/webapi/users/user/" + id)				//webapi/users/user/{id}
-	.success(function(data) {
-	    $scope.userInfo = data;
-	    $scope.fields=$scope.userInfo;
-	    console.log(data);
-	})
+	
+	userData.getUser(id).success(function(data){				//webapi/users/user/{id}
+		$scope.userInfo=data;		
+	}) 	
+	
+	userData.getUserAnimals(id).success(function(data){			//webapi/users/user/{id}/animals
+		$scope.userAnimalInfo=data;
+	});
 	    
-	$http.get("/webapi/users/user/"+id+"/animals")  	//webapi/users/user/{id}/animals
-	.success(function(data) {
-	    $scope.userAnimalInfo = data;
-	    console.log(data);
-	})
+	$scope.fields=$scope.userInfo;
 	
-	
-         
     $scope.submitUpdateForm=function(){    	
     	
-    	$scope.fields.password=CryptoJS.MD5($scope.fields.passwordNew).toString();
+    	$scope.fields.password=hashPassword($scope.fields.passwordNew);
     	
-		var data=$scope.fields; 
-        console.log(data);
-		
-        $http.put("/webapi/users/user", data)
-        .success(function(data){
-        	console.log(data);      
-        });  
+		userData.updateUser($scope.fields);       
 	
 	};
 	
-	$scope.setId=function(){		
+	$scope.setId=function(){
+		
 		var id = $scope.set.id;
 		console.log("inside"+id);
 		
-		$http.get("/webapi/users/user/" + id)				//webapi/users/user/{id}
-	    .success(function(data) {
-	    	$scope.userInfo = data;
-	    	$scope.fields=$scope.userInfo;
-	    	console.log(data);
-	    })
+		userData.getUser(id).success(function(data){				//webapi/users/user/{id}/
+			$scope.userInfo=data;		
+		})
+		
+		userData.getUserAnimals(id).success(function(data){			//webapi/users/user/{id}/animals
+			$scope.userAnimalInfo=data;
+		});	    
 	    
-	    $http.get("/webapi/users/user/"+id+"/animals")  	//webapi/users/user/{id}/animals
-	    .success(function(data) {
-	    	$scope.userAnimalInfo = data;
-	    	console.log(data);
-	    })
 	};         
 	
 });

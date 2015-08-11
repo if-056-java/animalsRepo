@@ -8,8 +8,7 @@ animalApp.controller('RegistrationController', function($scope, currentDate, use
 			        		
 			$scope.fields.active = true; 
 			$scope.fields.userRole = {"id": 3};
-			$scope.fields.userType = {"id": 1};
-			
+			$scope.fields.userType = {"id": 1};			
 			
 			$scope.fields.registrationDate = currentDate;
 			
