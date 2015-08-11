@@ -53,7 +53,7 @@ animalApp .config(['$routeProvider',
         controller: 'LoginController'
       }).
         when('/ua/user/home/animals', {
-          templateUrl: 'views/animals_admin.html',
+          templateUrl: 'views/admin_animals.html',
           controller: 'AnimalsListAdminController'
         }).
         when('/ua/user/home/animals/:animalId', {

@@ -40,7 +40,8 @@ angular.module('AnimalsListAdminController', ['ui.bootstrap', 'AnimalsListAdminS
             $scope.filter.limit = count;
             ACL.getAnimals($scope.filter);
         };
-
+    }])
+    .controller('AdminAnimalsFilterController', ['$scope', 'AnimalsListAdminService', function($scope, AnimalsListAdminService) {
         this.getAnimalTypes = function() {
             AnimalsListAdminService.getAnimalTypes()
                 .then(function(data) {
@@ -72,9 +73,20 @@ angular.module('AnimalsListAdminController', ['ui.bootstrap', 'AnimalsListAdminS
         }
 
         $scope.doFilter = function() {
-            ACL.getPagesCount($scope.filter);
+            AnimalsListAdminService.getPagesCount($scope.filter)
+                .then(function(data) {
+                    $scope.$parent.totalItems = data.rowsCount;
+                },
+                function(data) {
+                    console.log('Pages count retrieval failed.')
+                });
 
-            ACL.getAnimals($scope.filter)
+            AnimalsListAdminService.getAnimals($scope.filter)
+                .then(function(data) {
+                    $scope.$parent.animals = data;
+                },
+                function(data) {
+                    console.log('Animals retrieval failed.')
+                });
         };
-
     }]);
