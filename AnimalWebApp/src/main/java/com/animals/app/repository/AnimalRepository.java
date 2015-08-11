@@ -29,7 +29,8 @@ public interface AnimalRepository {
 
     final String ADMIN_LIST_SELECT_BY_PAGE = "SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
             "FROM animals " +
-            "WHERE isActive>0 LIMIT #{offset},#{limit}";
+            "WHERE isActive>0 " +
+            "LIMIT #{offset},#{limit}";
 
     final String ADMIN_LIST_SELECT_BY_PAGE_COUNT = "SELECT count(*) AS count " +
             "FROM animals " +
@@ -40,11 +41,18 @@ public interface AnimalRepository {
             "isActive, image, serviceId " +
             "FROM animals WHERE id = #{id}";
 
-    final String SELECT_LIST_FOR_ADOPTING = "SELECT Id, TypeId, Breed, DateOfBirth, DateOfRegister, ServiceId " +
+    final String SELECT_LIST_FOR_ADOPTING = "<script> " +
+            "SELECT Id, TypeId, Breed, DateOfBirth, DateOfRegister, ServiceId " +
             "FROM animals " +
             "WHERE (serviceId = 1) AND (isActive = 1) " +
+/*
+            "<set>" +
+            "<if test='imageExist != null'> " +
+            " AND (image IS NOT NULL) </if>" +
+            "</set> " +
+*/
             "ORDER BY DateOfRegister DESC " +
-            "LIMIT #{offset}, #{limit};";
+            "LIMIT #{offset}, #{limit} </script>";
 
     final String SELECT_LIST_FOR_ADOPTING_COUNT = "SELECT count(*) AS count " +
             "FROM animals " +

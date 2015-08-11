@@ -1,49 +1,29 @@
 /**
- * Created by oleg on 09.08.2015.
+ * Created by oleg on 11.08.2015.
  */
-angular.module('animalApp')
+adoptionModule
     .factory('AdoptionFactory',
-        function AdoptionFactory($resource, $q, RESOURCES){
+        function AdoptionFactory($http, $q, RESOURCES){
 
         //Create instance of current factory
         var factory = {};
 
         //Get amount animals for adoption
-        factory.getAmountRecords = function(limit){
-
-            //Create instance of Defer
+        factory.getAmountRecords = function() {
             var def = $q.defer();
 
-            //Do request to REST server
-            $resource(RESOURCES.ANIMALS_FOR_ADOPTING_PAGINATOR, {}, {
-
-                //Choose method of request
-                query: {
-                    method: 'GET',
-                    params: {},
-                    isArray: false
-                }
+            $http({
+                url: RESOURCES.ANIMALS_FOR_ADOPTING_PAGINATOR,
+                method: 'GET',
+                isArray: false
             })
-                //callback current function
-                .query()
+                .success(function (data) {
+                    def.resolve(data);
+                })
+                .error(function () {
+                    def.reject("Failed to get animals");
+                });
 
-                //do logic of promise object
-                .$promise.then(
-
-                //success query
-                function(response){
-                    //return values
-                    def.resolve(response);
-                },
-
-                //error in query
-                function(error){
-                    //return info about error
-                    def.reject(error);
-                }
-            );
-
-            //return completed Defer instance
             return def.promise;
         };
 
@@ -51,32 +31,23 @@ angular.module('animalApp')
         factory.getListOfAdoptionAnimals = function(page, limits){
             var def = $q.defer();
 
-            $resource(RESOURCES.ANIMALS_FOR_ADOPTING + ':page/:limits', {}, {
-                query: {
-                    method: 'GET',
-                    params: {page:page, limits:limits},
-                    isArray: true
-                }
+            $http({
+                url: RESOURCES.ANIMALS_FOR_ADOPTING + page + '/' + limits,
+                method: 'GET',
+                isArray: true
             })
-                .query()
-                .$promise.then(
-
-                    //success query
-                    function(response){
-                        def.resolve(response);
-                    },
-
-                    //error in query
-                    function(error){
-                        def.reject(error);
-                    }
-                );
+                .success(function(data) {
+                    def.resolve(data);
+                })
+                .error(function() {
+                    def.reject("Failed to get animals");
+                });
 
             return def.promise;
         };
 
         //Inject dependencies
-        AdoptionFactory.$inject = ['ngResource', '$q', 'RESOURCES'];
+        AdoptionFactory.$inject = ['$q', 'RESOURCES'];
 
         return factory;
         }

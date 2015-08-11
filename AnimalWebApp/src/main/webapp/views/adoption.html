@@ -13,8 +13,7 @@
             </div>
         </div>
 </div>
-    </section>
-<div class="container">   
+<div class="container">
     <div class="row">
         <br>
         <div class="col-xs-5 col-sm-3 col-lg-3">
@@ -45,18 +44,31 @@
             </select>
             </div>
             <br> 
-            <hr>            
+            <hr>
+
             <label>Стать:</label>
-            <div class="checkbox">                          
-                <label><input type="checkbox" value="">Самець</label><br> 
-                <label><input type="checkbox" value="">Самка</label>       
-            </div>             
-              
-            <hr> 
-            
+            <div class="radio">
+                <label><input type="radio" value="m">Він</label><br>
+                <label><input type="radio" value="w">Вона</label>
+            </div>
+
+            <label>Стерилізована:</label>
+            <div class="radio">
+                <label><input type="radio" value="yes">Так</label><br>
+                <label><input type="radio" value="no">Ні</label>
+            </div>
+
+            <label>Фото:</label>
+            <div class="checkbox">
+                <label><input type="checkbox" ng-model="imageExist"
+                        ng-true-value="'yes'" ng-false-value="null">Тільки з фото</label><br>
+            </div>
+
+            <hr>
 
             <div class="row">
-                <p><a class="btn btn-default" role="button" href="#">Фільтрувати</a></p>                
+                <p><a class="btn btn-default" role="button"
+                      ng-href='#/ua/animal/adoption' ng-click="doFilter();">Фільтрувати</a></p>
             </div>            
         </div>
 
@@ -106,3 +118,4 @@
         </div>
     </div>
 </div>
+</section>

@@ -1,8 +1,16 @@
-angular.module('animalApp')
+/**
+ * Created by oleg on 11.08.2015.
+ */
+adoptionModule
     .controller('AdoptionController',
         function AdoptionController($scope, AdoptionFactory){
 
             $scope.header_a_f_l="Тварини на адопцію :";
+
+
+            //test
+            $scope.imageExist = 'yes';
+            //test
 
             //Pages
             $scope.totalItems = 0;
@@ -11,20 +19,24 @@ angular.module('animalApp')
 
             var ACL = this;
 
+            $scope.params = {
+                imageExist: $scope.imageExist
+            };
+
             //Amount animals for adoption
-            this.amountRecords = function(limit) {
+            this.amountRecords = function() {
                 return AdoptionFactory.
-                    getAmountRecords(limit)
+                    getAmountRecords()
                     .then(
                     function (data) {
                         $scope.totalItems = data.rowsCount;
                     },
                     function (data) {
-                        console.log('Error.')
+                        console.log('Error.' + data)
                     });
             };
 
-            this.amountRecords($scope.limit);
+            this.amountRecords();
 
             //Animals for adoption
             this.animalsForAdoption = function(page, limit) {
@@ -33,26 +45,25 @@ angular.module('animalApp')
                     .then(
                     function (data) {
                         $scope.animalsForAdoption = data;
-                        console.log(data);
                     },
                     function (data) {
-                        console.log('Error.')
+                        console.log('Error.' + data)
                     });
             };
 
             this.animalsForAdoption($scope.currentPage, $scope.limit);
 
             $scope.pageChanged = function() {
-                ACL.animalsForAdoption($scope.currentPage, $scope.limit);
+                ACL.animalsForAdoption($scope.currentPage, $scope.limit, $scope.params);
             };
 
             $scope.countChanged = function(count) {
                 $scope.limit = count;
-                ACL.animalsForAdoption($scope.currentPage, $scope.limit);
+                ACL.animalsForAdoption($scope.currentPage, $scope.limit, $scope.params);
             };
 
 
             //Dependency injection
-            AdoptionController.$inject = ['$scope', 'ui.bootstrap', 'AdoptionFactory'];
+            AdoptionController.$inject = ['$scope', 'AdoptionFactory'];
         }
     );
