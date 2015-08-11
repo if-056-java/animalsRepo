@@ -50,4 +50,40 @@ public class AnimalBreedRepositoryImpl {
             session.close();
         }
     }
+
+    /**
+     * Returns the list of all AnimalBreed instances from the database.
+     * @param animalTypeId primary key value used for lookup.
+     * @return the list of all AnimalBreed instances from the database.
+     */
+    public List<AnimalBreed> getByTypeId(long animalTypeId) {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalBreedRepository mapper = session.getMapper(AnimalBreedRepository.class);
+            return mapper.getByTypeId(animalTypeId);
+        } finally {
+            session.close();
+        }
+    }
+
+    /**
+     * Insert an instance of AnimalBreed into the database.
+     * @param animalBreed the instance to be persisted.
+     */
+    public void insert_ua(AnimalBreed animalBreed) {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalBreedRepository mapper = session.getMapper(AnimalBreedRepository.class);
+            mapper.insert_ua(animalBreed);
+
+            session.commit();
+        } finally {
+            session.close();
+        }
+
+    }
 }

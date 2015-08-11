@@ -2,7 +2,6 @@ package com.animals.app.repository;
 
 import com.animals.app.domain.*;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -27,13 +26,37 @@ public interface AnimalRepository {
 
     final String DELETE = "DELETE FROM animals WHERE id = #{id}";
 
-    final String ADMIN_LIST_SELECT_BY_PAGE = "SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
+    final String ADMIN_ANIMALS = "<script>SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
             "FROM animals " +
-            "WHERE isActive>0 LIMIT #{offset},#{limit}";
+            "WHERE id>0 " +
+            "<if test = \"animal != null\">" +
+                "<if test = \"animal.type != null\"> " +
+                    "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
+                "</if>" +
+                "<if test = \"animal.breed != null\"> " +
+                    "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
+                "</if>" +
+                "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+                "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
+                "<if test = \"animal.cites != null\"> AND citesType=#{animal.cites} </if> " +
+            "</if> " +
+            "LIMIT #{offset},#{limit}</script>";
 
-    final String ADMIN_LIST_SELECT_BY_PAGE_COUNT = "SELECT count(*) AS count " +
+    final String ADMIN_ANIMALS_PAGINATOR = "<script>SELECT count(*) AS count " +
             "FROM animals " +
-            "WHERE isActive>0";
+            "WHERE id>0 " +
+            "<if test = \"animal != null\">" +
+                "<if test = \"animal.type != null\"> " +
+                    "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
+                "</if>" +
+                "<if test = \"animal.breed != null\"> " +
+                    "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
+                "</if>" +
+                "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+                "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
+                "<if test = \"animal.cites != null\"> AND citesType=#{animal.cites} </if> " +
+            "</if> " +
+            "</script>";
 
     final String SELECT_BY_ID = "SELECT id, sex, typeId, size, citesType, breed, transpNumber, tokenNumber, " +
             "dateOfRegister, dateOfBirth, dateOfSterilization, color, userId, address, " +
@@ -115,7 +138,7 @@ public interface AnimalRepository {
      * Returns the list of all Animal instances from the database.
      * @return the list of all Animal instances from the database.
      */
-    @Select(ADMIN_LIST_SELECT_BY_PAGE)
+    @Select(ADMIN_ANIMALS)
     @Results(value = {
             @Result(property="id", column="id"),
             @Result(property="sex", column="sex", javaType = Animal.SexType.class),
@@ -127,21 +150,18 @@ public interface AnimalRepository {
             @Result(property="dateOfBirth", column="dateOfBirth"),
             @Result(property="color", column="color")
     })
-    List<Animal> getAllForAdminAnimalsListByPage(Pagenator page);
+    List<Animal> getAdminAnimals(AnimalsFilter animalsFilter);
 
     /**
      * Returns count of rows selected from DB by method getAdminAnimalsListByPage
      * @return count of rows selected by getAdminAnimalsListByPage
      */
-    @Select(ADMIN_LIST_SELECT_BY_PAGE_COUNT)
-    @Results(value = {
-            @Result(property="rowsCount", column="count")
-    })
-    Pagenator getAdminAnimalsListByPageCount();
+    @Select(ADMIN_ANIMALS_PAGINATOR)
+    long getAdminAnimalsPaginator(AnimalsFilter animalsFilter);
 
     /**
      * This method return short information about animals for showing on adopting page.
-     * @param pagenator Separating records for a parts.
+     * @param animalsFilter Separating records for a parts.
      * @return the list of all Animal instances from the database.
      */
     @Select(SELECT_LIST_FOR_ADOPTING)
@@ -157,17 +177,14 @@ public interface AnimalRepository {
                     one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById")),
             @Result(property="image", column="image"),
     })
-    List<Animal> getAllForAdopting(Pagenator pagenator);
+    List<Animal> getAllForAdopting(AnimalsFilter animalsFilter);
 
     /**
      * Returns count of rows selected from DB by method getAllForAdopting
      * @return count of rows selected by getAllForAdopting
      */
     @Select(SELECT_LIST_FOR_ADOPTING_COUNT)
-    @Results(value = {
-            @Result(property = "rowsCount", column = "count")
-    })
-    Pagenator getAmountListForAdopting();
+    long getAmountListForAdopting();
 
     @Select(USERPROFILE_SELECT_BY_USER_ID)
     @Results(value = {

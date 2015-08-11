@@ -4,8 +4,8 @@
         <div class="row">
             <div class="panel-body">
                 <div class="col-md-6 detailed-left">
-                    <img ng-hide="animal.image" src="resources/img/noimg.png">
-                    <img ng-show="animal.image" src="{{ animal.image }}">
+                    <img class="img-responsive img-thumbnail center-block" ng-hide="animal.image" src="resources/img/noimg.png">
+                    <img class="img-responsive img-thumbnail center-block" ng-show="animal.image" src="{{ animal.image }}">
                 </div>
                 <div class="col-md-6 detailed-right">
                     <div class="row">
@@ -15,10 +15,15 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-4">Порода:</div>
-                        <div class="col-md-8">{{ animal.sort }}</div>
+                        <div class="col-md-8">{{ animal.breed.breedUa }}</div>
                     </div>
                     <hr>
-                    <div class="row" id="">
+                    <div class="row">
+                        <div class="col-md-4">Розмір:</div>
+                        <div class="col-md-8">{{ animal.size }}</div>
+                    </div>
+                    <hr>
+                    <div class="row">
                         <div class="col-md-4">Стать:</div>
                         <div class="col-md-8">{{ animal.sex }}</div>
                     </div>
@@ -33,21 +38,16 @@
                         <div class="col-md-8">{{ animal.cites }}</div>
                     </div>
                     <hr>
-                    <div class="row">
-                        <div class="col-md-4">Номер мікрочіпу:</div>
-                        <div class="col-md-8">{{ animal.transpNumber }}</div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-4">Номер жетону:</div>
-                        <div class="col-md-8">{{ animal.tokenNumber }}</div>
-                    </div>
-                    <hr>
                 </div>
             </div>
         </div>
         <div class="row detailed-bottom">
             <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4">Номер мікрочіпу:</div>
+                    <div class="col-md-8">{{ animal.transpNumber }}</div>
+                </div>
+                <hr>
                 <div class="row">
                     <div class="col-md-4">Дата народження:</div>
                     <div class="col-md-8">{{ animal.dateOfBirth }}</div>
@@ -59,6 +59,11 @@
                 </div>
             </div>
             <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4">Номер жетону:</div>
+                    <div class="col-md-8">{{ animal.tokenNumber }}</div>
+                </div>
+                <hr>
                 <div class="row">
                     <div class="col-md-4">Дата реєстрації:</div>
                     <div class="col-md-8">{{ animal.dateOfRegister }}</div>

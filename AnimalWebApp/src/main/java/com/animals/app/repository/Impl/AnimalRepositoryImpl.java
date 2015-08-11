@@ -1,7 +1,7 @@
 package com.animals.app.repository.Impl;
 
 import com.animals.app.domain.Animal;
-import com.animals.app.domain.Pagenator;
+import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import org.apache.ibatis.session.RowBounds;
@@ -98,13 +98,13 @@ public class AnimalRepositoryImpl {
      * Returns the list of all Animal instances from the database.
      * @return the list of all Animal instances from the database.
      */
-    public List<Animal> getAllForAdminAnimalsListByPage(Pagenator page) {
+    public List<Animal> getAdminAnimals(AnimalsFilter animalsFilter) {
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             AnimalRepository mapper = session.getMapper(AnimalRepository.class);
-            return mapper.getAllForAdminAnimalsListByPage(page);
+            return mapper.getAdminAnimals(animalsFilter);
         } finally {
             session.close();
         }
@@ -115,13 +115,13 @@ public class AnimalRepositoryImpl {
      * Returns count of rows selected from DB by method getAdminAnimalsListByPage
      * @return count of rows selected by getAdminAnimalsListByPage
      */
-    public Pagenator getAdminAnimalsListByPageCount() {
+    public long getAdminAnimalsPaginator(AnimalsFilter animalsFilter) {
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             AnimalRepository mapper = session.getMapper(AnimalRepository.class);
-            return mapper.getAdminAnimalsListByPageCount();
+            return mapper.getAdminAnimalsPaginator(animalsFilter);
         } finally {
             session.close();
         }
@@ -132,13 +132,13 @@ public class AnimalRepositoryImpl {
      * @param pagenator Separating records for a parts.
      * @return the list of all Animal instances from the database.
      */
-    public List<Animal> getAllForAdopting(Pagenator pagenator){
+    public List<Animal> getAllForAdopting(AnimalsFilter animalsFilter){
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             AnimalRepository mapper = session.getMapper(AnimalRepository.class);
-            return mapper.getAllForAdopting(pagenator);
+            return mapper.getAllForAdopting(animalsFilter);
         } finally {
             session.close();
         }
@@ -148,7 +148,7 @@ public class AnimalRepositoryImpl {
      * Returns count of rows selected from DB by method getAllForAdopting
      * @return count of rows selected by getAllForAdopting
      */
-    public Pagenator getAmountListForAdopting() {
+    public long getAmountListForAdopting() {
 
         SqlSession session = sqlSessionFactory.openSession();
 

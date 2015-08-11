@@ -35,7 +35,7 @@ public class TestAnimalBreedRepositoryImpl {
 
     @Test
     public void testGetById() {
-        AnimalBreed expected = animalBreedRepositoryImpl.getById(0);
+        AnimalBreed expected = animalBreedRepositoryImpl.getById(1);
 
         assertNotNull(expected);
     }

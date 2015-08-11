@@ -38,11 +38,11 @@ public class Animal implements Serializable{
     public enum SizeType {
         @XmlEnumValue("не визначено")
         NONE,
-        @XmlEnumValue("мала")
+        @XmlEnumValue("малий")
         SMALL,
-        @XmlEnumValue("середня")
+        @XmlEnumValue("середній")
         MIDDLE,
-        @XmlEnumValue("велика")
+        @XmlEnumValue("великий")
         LARGE
     }
 

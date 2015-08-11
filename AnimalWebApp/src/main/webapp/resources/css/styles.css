@@ -38,9 +38,22 @@ IMG.displayed {
     width: 15em;
 }
 
-.bootstrap-select-mod > .bootstrap-select > .btn:first-child {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+#top {
+    height: 50px;
+}
+
+/* ua/user/home/animals */
+#animals-admin-main {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#animals-admin-left {
+    padding-left: 0px;
+}
+
+#animals-admin-drop-filters {
+    margin-bottom: 30px;
 }
 
 .paginator > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
@@ -63,11 +76,6 @@ IMG.displayed {
     padding-left: 0px;
 }
 
-.detailed-left > img {
-    max-width: 400px;
-    max-height: 400px;
-}
-
 .detailed-right {
     padding-top: 20px;
 }
@@ -83,5 +91,48 @@ IMG.displayed {
 
 .detailed-buttons > div {
     padding-right: 0px;
+}
+
+/* ua/user/home/animals/detailed/editor */
+.image-sample {
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.nya-bs-select-mod {
+    width: 100%;
+    margin-bottom: 0px;
+    padding-left: 0px;
+}
+
+.nya-bs-select-mod > button {
+    width: inherit;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.nya-bs-select-mod > button > .filter-option {
+    width: 97%;
+    text-align: left;
+}
+
+.nya-bs-select-mod > .open {
+    width: 100%;
+    min-width: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+}
+
+.nya-bs-select-mod > .open > .inner {
+    width: 100%;
+}
+
+.border-right-radius {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
 }
 

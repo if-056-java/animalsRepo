@@ -1,8 +1,8 @@
 package app.repository;
 
 import com.animals.app.domain.Animal;
-import com.animals.app.domain.AnimalBreed;
-import com.animals.app.domain.Pagenator;
+import com.animals.app.domain.AnimalType;
+import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.repository.Impl.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.LogManager;
@@ -64,15 +64,27 @@ public class TestAnimalRepositoryImpl {
     }
 
     @Test
-    public void test02GetAllForAdminAnimalsListByPage() {
-        List<Animal> expected = animalRepositoryImpl.getAllForAdminAnimalsListByPage(new Pagenator(1,10));
+    public void test02GetAdminAnimals() {
+        List<Animal> expected = animalRepositoryImpl.getAdminAnimals(new AnimalsFilter(1,10));
 
         assertNotNull(expected);
     }
 
 /*
     @Test
-    public void test03GetAllForAdopting() {
+    public void test03GetAdminAnimalsPaginator() {
+        AnimalsFilter animalsFilter = new AnimalsFilter(1, 10);
+        Animal animal = new Animal();
+        animal.setSex(Animal.SexType.FEMALE);
+        animal.setSize(Animal.SizeType.SMALL);
+        animalsFilter.setAnimal(animal);
+        long count = animalRepositoryImpl.getAdminAnimalsPaginator(animalsFilter);
+
+        assertNotEquals(0, count);
+    }
+
+    @Test
+    public void test04GetAllForAdopting() {
         List<Animal> expected = animalRepositoryImpl.getAllForAdopting();
 
         assertNotNull(expected);
@@ -80,14 +92,14 @@ public class TestAnimalRepositoryImpl {
 */
 
     @Test
-    public void test04GetById() {
+    public void test05GetById() {
         actual = animalRepositoryImpl.getById(actual.getId());
 
         assertNotNull(actual);
     }
 
     @Test
-    public void test05Update() {
+    public void test06Update() {
         Animal expected = animalRepositoryImpl.getById(actual.getId());
 
         assertNotNull(expected);
@@ -108,7 +120,7 @@ public class TestAnimalRepositoryImpl {
     }
 
     @Test
-    public void test06Delete() {
+    public void test07Delete() {
         animalRepositoryImpl.delete(actual.getId());
 
         Animal expected = animalRepositoryImpl.getById(actual.getId());
