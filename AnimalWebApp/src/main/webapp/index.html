@@ -1,0 +1,198 @@
+﻿
+<!DOCTYPE html>
+<html lang="ua" >
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="resources/img/favicon.ico">
+
+    <title>ЛКП Лев</title>
+
+    <!-- CSS-ядро Bootstrap -->
+    <link href="resources/css/bootstrap.css" rel="stylesheet">
+    <link href="resources/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="resources/css/bootstrap-social.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Підібрані стилі для Google Maps -->
+    <link href="resources/css/gmap.css" rel="stylesheet">
+    
+    <!-- Підібрані стилі для навігаційної панелі -->
+    <link href="resources/css/navbar_green.css" rel="stylesheet">
+
+    <!-- Підібрані стилі для сторінки -->
+    <link href="resources/css/styles.css" rel="stylesheet">
+    <link href="resources/css/styles3.css" rel="stylesheet">
+
+    <!-- Вставка HTML5 поєднується з Respond.js для підтримки в IE8 елементів HTML5 та медіа-запитів -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body ng-app="animalApp">
+
+<header>
+   <nav class="navbar navbar-fixed-top navbar-default" role="navigation">
+		<div class="container">
+
+	  <!-- Бренд і переключення згруповано для покращення показу на мобільних екранах -->
+	  <div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+		  <span class="sr-only">Toggle navigation</span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#ua">ЛКП "Лев"</a>
+	  </div>
+
+	  <!-- Колекція навігаційних меню та форма для переключення -->
+	  <div class="collapse navbar-collapse navbar-ex1-collapse">
+		<ul class="nav navbar-nav">
+
+			<li class="dropdown">
+				<a href="" class="dropdown-toggle" data-toggle="dropdown">Пропонуємо <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href="#ua/animal/adoption">Адопція</a></li>
+					<li role="presentation" class="divider"></li>
+					<li><a href="#ua/animal/find">Знайдено</a></li>
+					<li role="presentation" class="divider"></li>
+					<li><a href="#ua/animal/lost">Загублено</a></li>
+				</ul>
+		 	 </li>
+			 
+		    <li><a href="#ua/contacts">Контакти</a></li>
+	
+			<li><a href="#ua/user/profile">Мій Кабінет</a></li>
+
+
+		  <li class="dropdown">
+				<a href="" class="dropdown-toggle" data-toggle="dropdown">Модерація <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href="#">Реєстр тварин</a></li>
+					<li role="presentation" class="divider"></li>
+					<li><a href="#">Оплати</a></li>
+					<li role="presentation" class="divider"></li>
+					<li><a href="#">Імпорт/Експорт</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li><a href="#ua/user/home/animals">Cписок всіх тварин</a></li>
+					<li><a href="#">Реєстр тварин</a></li>
+				</ul>
+		  
+		</ul>
+		<!-- Форма входу -->
+				
+				<form class="navbar-form navbar-right" role="form">
+				    <a href="#ua/user/login" class="btn btn-success" role="button">Вхід <span class="glyphicon glyphicon-door"></span></a>
+				</form>				
+		</div><!-- /.nav-collapse -->
+	</div>	
+</nav>
+
+</header>
+
+      <!-- Всі вьюхи вставляємо сюди -->
+        <div class="ng-view"></div>
+
+<br>
+<br>
+<br>
+
+	<footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2 col-lg-2" >
+                    <span class="copyright">&copy; ЛКП "Лев" 2015</span>
+                </div>
+				<!-- Оплата за допомогою Приватбанку (потрібна попередня реєстрація)
+                <div class="col-sm-10 col-lg-10">
+                    <form method="POST" accept-charset="utf-8" action="https://www.liqpay.com/api/pay" class="custom">
+                        <input type="hidden" name="public_key" value="i0199959990" />
+                        <div class="row">
+                            <div class="col-sm-1 col-lg-1">
+                                <input type="text" name="amount" value="50" size="2"/>
+                            </div>
+                            <div class="col-sm-1 col-lg-1">
+                                <select name="currency">
+                                    <option value="UAH" selected="selected">UAH</option>
+                                    <option value="USD" >USD</option>
+                                    <option value="EUR">EUR</option>
+                                </select>
+
+                            </div>
+                            <div class="col-sm-10 col-lg-10">
+                                <button type="submit" id="feedbackSubmit" class="btn btn-success" style="display: block; margin-top: 10px;">Оплатити
+                                    <span class="help-block" style="display: none;">Будь-ласка, введіть код, зображений на картинці.</span> </button>
+                            </div>
+                        <!--   <input type="hidden" name="currency" value="UAH" /> 
+                        <input type="hidden" name="description" value="Безвозвратная финансовая помощь на осуществление уставной деятельности" />
+                        <input type="hidden" name="type" value="donate" />
+                        <input type="hidden" name="pay_way" value="card,delayed" />
+                        <input type="hidden" name="language" value="ua" />
+                        </div>
+                    </form>
+                 </div> -->
+                </div>
+			</div>
+    </footer>
+
+ 
+<!-- Le javascript
+================================================== -->
+<!-- Need for bootstrap -->
+<script src="resources/js/jquery.js" type="text/javascript"></script>
+
+<!-- Bootstrap Script -->
+<script src="resources/js/bootstrap.js"></script>
+<script src="resources/js/bootstrap-select.js"></script>
+
+<!-- Angular Script -->
+<script src="resources/js/angular.js"></script>
+<script src="resources/js/angular-route.js"></script>
+<script src="resources/js/angular-resource.min.js"></script>
+<script src="resources/js/nya-bs-select.js"></script>
+<!--script src="resources/js/angular-bootstrap-select.js"></script-->
+<script src="resources/js/ui-bootstrap-tpls-0.13.0.js"></script>
+
+<!-- CONTACTS SCRIPT-->
+ <script src="resources/js/contact-form.js"></script>
+ 
+<!-- GOOGLE MAPS-->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false"></script>
+
+<!-- Site Scripts-->
+ <script src="modules/animalApp.js"></script>
+
+ <script src="modules/AdoptionModule.js"></script>
+ <script src="services/AdoptionFactory.js"></script>
+ <script src="controllers/AdoptionController.js"></script>
+
+ <script src="services/AnimalsListAdminModule.js"></script>
+ <script src="services/AnimalShortInfoModule.js"></script>
+ <script src="services/AnimalsListAdminModule.js"></script>
+ <script src="controllers/AnimalsDetailController.js"></script>
+ <script src="controllers/ContactsController.js"></script>
+ <script src="controllers/FindController.js"></script>
+ <script src="controllers/LostController.js"></script>
+ <script src="controllers/HomelessController.js"></script>
+ <script src="controllers/LoginController.js"></script>
+ <script src="controllers/StarterPageController.js"></script>
+ <script src="controllers/AnimalsListAdminController.js"></script>
+ <script src="controllers/AnimalsDetailedAdminController.js"></script>
+ <script src="services/AnimalsDetailedEditorAdminController.js"></script>
+ <script src="controllers/RegistrationController.js"></script>
+ <script src="controllers/UserProfileController.js"></script>
+ <script src="controllers/AnimalShortInfoController.js"></script>
+ <script src="services/currentDate.js"></script>
+ <script src="services/hashPassword.js"></script>
+ <script src="services/userData.js"></script>
+
+</body>
+</html>
