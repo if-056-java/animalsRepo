@@ -1,2 +1,0 @@
-user = ifjava
-password = ifjava056
