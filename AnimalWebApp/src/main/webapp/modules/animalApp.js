@@ -11,6 +11,7 @@ var animalApp = angular.module('animalApp', [
     'StarterPageController',
     'AnimalsListAdminController',
     'AnimalsDetailedAdminController',
+    'AnimalsDetailedEditorAdminController',
     'RegistrationController',
     'UserProfileController',
     'AnimalShortInfoController'
