@@ -97,13 +97,13 @@ public class AnimalRepositoryImpl {
      * Returns the list of all Animal instances from the database.
      * @return the list of all Animal instances from the database.
      */
-    public List<Animal> getAllForAdminAnimalsListByPage(AnimalsFilter animalsFilter) {
+    public List<Animal> getAdminAnimals(AnimalsFilter animalsFilter) {
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             AnimalRepository mapper = session.getMapper(AnimalRepository.class);
-            return mapper.getAllForAdminAnimalsListByPage(animalsFilter);
+            return mapper.getAdminAnimals(animalsFilter);
         } finally {
             session.close();
         }
@@ -113,13 +113,13 @@ public class AnimalRepositoryImpl {
      * Returns count of rows selected from DB by method getAdminAnimalsListByPage
      * @return count of rows selected by getAdminAnimalsListByPage
      */
-    public long getAdminAnimalsListByPageCount(AnimalsFilter animalsFilter) {
+    public long getAdminAnimalsPaginator(AnimalsFilter animalsFilter) {
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             AnimalRepository mapper = session.getMapper(AnimalRepository.class);
-            return mapper.getAdminAnimalsListByPageCount(animalsFilter);
+            return mapper.getAdminAnimalsPaginator(animalsFilter);
         } finally {
             session.close();
         }

@@ -3,7 +3,7 @@ angular.module('AnimalsListAdminService', [])
         this.getAnimals = function(filter) {
             var def = $q.defer();
 
-            $http.post("/webapi/user/home/animals", filter)
+            $http.post("/webapi/admin/animals", filter)
                 .success(function(data) {
                     def.resolve(data);
                 })
@@ -17,7 +17,7 @@ angular.module('AnimalsListAdminService', [])
         this.getPagesCount = function(filter) {
             var def = $q.defer();
 
-            $http.post("/webapi/user/home/animals/pagenator", filter)
+            $http.post("/webapi/admin/animals/paginator", filter)
                 .success(function(data) {
                     def.resolve(data);
                 })
@@ -31,7 +31,7 @@ angular.module('AnimalsListAdminService', [])
         this.getAnimal = function(animalId) {
             var def = $q.defer();
 
-            $http.get("/webapi/user/home/animals/" + animalId)
+            $http.get("/webapi/admin/animals/" + animalId)
                 .success(function(data) {
                     def.resolve(data);
                 })
@@ -45,7 +45,7 @@ angular.module('AnimalsListAdminService', [])
         this.deleteAnimal = function(animalId) {
             var def = $q.defer();
 
-            $http.delete("/webapi/user/home/animals/" + animalId)
+            $http.delete("/webapi/admin/animals/" + animalId)
                 .success(function(data) {
                     def.resolve(data);
                 })
@@ -59,7 +59,7 @@ angular.module('AnimalsListAdminService', [])
         this.updateAnimal = function(animal) {
             var def = $q.defer();
 
-            $http.post("/webapi/user/home/animals/editor", animal)
+            $http.post("/webapi/admin/animals/editor", animal)
                 .success(function(data) {
                     def.resolve(data);
                 })

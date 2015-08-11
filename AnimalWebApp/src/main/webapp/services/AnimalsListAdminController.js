@@ -55,7 +55,7 @@ angular.module('AnimalsListAdminController', ['ui.bootstrap', 'AnimalsListAdminS
 
 
         $scope.getAnimalBreeds = function() {
-            AnimalsListAdminService.getAnimalBreeds($scope.filter.type.id)
+            AnimalsListAdminService.getAnimalBreeds($scope.filter.animal.type.id)
                 .then(function(data) {
                     $scope.animalBreeds = data;
                 },
@@ -65,10 +65,10 @@ angular.module('AnimalsListAdminController', ['ui.bootstrap', 'AnimalsListAdminS
         }
 
         $scope.reset = function() {
-            $scope.filter.type = undefined;
-            $scope.filter.breed = undefined;
-            $scope.filter.sex = undefined;
-            $scope.filter.size = undefined;
+            $scope.filter.animal.type = undefined;
+            $scope.filter.animal.breed = undefined;
+            $scope.filter.animal.sex = undefined;
+            $scope.filter.animal.size = undefined;
         }
 
         $scope.doFilter = function() {

@@ -5,7 +5,7 @@
             <a class="btn btn-success col-md-12" href ng-click="reset()" role="button" id="animals-admin-drop-filters">Скинути фільтри</a>
             <div class="input-group">
                 <span class="input-group-addon">Тип</span>
-                <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.type" ng-change="getAnimalBreeds()" title="Нічого не вибрано">
+                <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.type" ng-change="getAnimalBreeds()" title="Нічого не вибрано">
                     <li nya-bs-option="animalType in animalTypes">
                         <a>{{ animalType.type }}</a>
                     </li>
@@ -14,12 +14,12 @@
             <hr>
             <div class="input-group">
                 <span class="input-group-addon">Порода</span>
-                <input type="text" ng-model="filter.breed" typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8" class="form-control border-right-radius">
+                <input type="text" ng-model="filter.animal.breed" typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8" class="form-control border-right-radius">
             </div>
             <hr>
             <div class="input-group">
                 <span class="input-group-addon">Стать</span>
-                <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.sex" title="Нічого не вибрано">
+                <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.sex" title="Нічого не вибрано">
                     <li class="nya-bs-option" value="не визначено"><a>не визначено</a></li>
                     <li class="nya-bs-option" value="самець"><a>самець</a></li>
                     <li class="nya-bs-option" value="самка"><a>самка</a></li>
@@ -28,7 +28,7 @@
             <hr>
             <div class="input-group">
                 <span class="input-group-addon">Розмір</span>
-                <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.size" title="Нічого не вибрано">
+                <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.size" title="Нічого не вибрано">
                     <li class="nya-bs-option" value="не визначено"><a>не визначено</a></li>
                     <li class="nya-bs-option" value="малий"><a>малий</a></li>
                     <li class="nya-bs-option" value="середній"><a>середній</a></li>
@@ -78,7 +78,7 @@
             <div class="btn-group" dropdown keyboard-nav>
                 <div class="btn-group" dropdown is-open="status.isopen">
                     <button id="single-button" type="button" class="btn btn-success" dropdown-toggle ng-disabled="disabled">
-                        {{ limit }} <span class="caret"></span>
+                        {{ filter.limit }} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
                         <li role="menuitem"><a href ng-click="countChanged('10')">10</a></li>

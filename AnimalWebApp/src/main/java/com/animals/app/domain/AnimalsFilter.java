@@ -5,13 +5,8 @@ package com.animals.app.domain;
  */
 public class AnimalsFilter {
     private int page;
-    private long offset;
     private int limit;
-    private AnimalType type;
-    private AnimalBreed breed;
-    private Animal.SexType sex;
-    private Animal.SizeType size;
-    private Animal.CitesType cites;
+    private Animal animal;
 
     public AnimalsFilter() {
     }
@@ -41,43 +36,20 @@ public class AnimalsFilter {
         this.limit = limit;
     }
 
-    public AnimalType getType() {
-        return type;
+    public Animal getAnimal() {
+        return animal;
     }
 
-    public void setType(AnimalType type) {
-        this.type = type;
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
     }
 
-    public AnimalBreed getBreed() {
-        return breed;
-    }
-
-    public void setBreed(AnimalBreed breed) {
-        this.breed = breed;
-    }
-
-    public Animal.SexType getSex() {
-        return sex;
-    }
-
-    public void setSex(Animal.SexType sex) {
-        this.sex = sex;
-    }
-
-    public Animal.SizeType getSize() {
-        return size;
-    }
-
-    public void setSize(Animal.SizeType size) {
-        this.size = size;
-    }
-
-    public Animal.CitesType getCites() {
-        return cites;
-    }
-
-    public void setCites(Animal.CitesType cites) {
-        this.cites = cites;
+    @Override
+    public String toString() {
+        return "AnimalsFilter{" +
+                "page=" + page +
+                ", limit=" + limit +
+                ", animal=" + animal +
+                '}';
     }
 }

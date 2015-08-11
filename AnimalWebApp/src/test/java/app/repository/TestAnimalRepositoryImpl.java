@@ -1,6 +1,7 @@
 package app.repository;
 
 import com.animals.app.domain.Animal;
+import com.animals.app.domain.AnimalType;
 import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.repository.Impl.*;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -63,15 +64,20 @@ public class TestAnimalRepositoryImpl {
     }
 
     @Test
-    public void test02GetAllForAdminAnimalsListByPage() {
-        List<Animal> expected = animalRepositoryImpl.getAllForAdminAnimalsListByPage(new AnimalsFilter(1,10));
+    public void test02GetAdminAnimals() {
+        List<Animal> expected = animalRepositoryImpl.getAdminAnimals(new AnimalsFilter(1,10));
 
         assertNotNull(expected);
     }
 
     @Test
-    public void test03GetAdminAnimalsListByPageCount() {
-        long count = animalRepositoryImpl.getAdminAnimalsListByPageCount(new AnimalsFilter());
+    public void test03GetAdminAnimalsPaginator() {
+        AnimalsFilter animalsFilter = new AnimalsFilter(1, 10);
+        Animal animal = new Animal();
+        animal.setSex(Animal.SexType.FEMALE);
+        animal.setSize(Animal.SizeType.SMALL);
+        animalsFilter.setAnimal(animal);
+        long count = animalRepositoryImpl.getAdminAnimalsPaginator(animalsFilter);
 
         assertNotEquals(0, count);
     }

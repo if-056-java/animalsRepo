@@ -26,23 +26,36 @@ public interface AnimalRepository {
 
     final String DELETE = "DELETE FROM animals WHERE id = #{id}";
 
-    final String ADMIN_ANIMALS_LIST = "<script>SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
+    final String ADMIN_ANIMALS = "<script>SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
             "FROM animals " +
-            "WHERE isActive>0 " +
-            "<if test = \"type != null\"> AND typeId=#{type.id}</if> " +
-            "<if test = \"breed != null\"> AND breed=#{breed.id}</if> " +
-            "<if test = \"sex != null\"> AND sex=#{sex}</if> " +
-            "<if test = \"size != null\"> AND size=#{size}</if> " +
-            "<if test = \"cites != null\"> AND citesType=#{cites}</if> " +
+            "WHERE id>0 " +
+            "<if test = \"animal != null\">" +
+                "<if test = \"animal.type != null\"> " +
+                    "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
+                "</if>" +
+                "<if test = \"animal.breed != null\"> " +
+                    "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
+                "</if>" +
+                "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+                "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
+                "<if test = \"animal.cites != null\"> AND citesType=#{animal.cites} </if> " +
+            "</if> " +
             "LIMIT #{offset},#{limit}</script>";
 
-    final String ADMIN_LIST_SELECT_BY_PAGE_COUNT = "<script>SELECT count(*) AS count " +
+    final String ADMIN_ANIMALS_PAGINATOR = "<script>SELECT count(*) AS count " +
             "FROM animals " +
-            "WHERE isActive>0 " +
-            "<if test = \"type != null\"> AND typeId=#{type.id}</if> " +
-            "<if test = \"sexType != null\"> AND sex=#{sexType}</if> " +
-            "<if test = \"sizeType != null\"> AND size=#{sizeType}</if> " +
-            "<if test = \"citesType != null\"> AND citesType=#{citesType}</if> " +
+            "WHERE id>0 " +
+            "<if test = \"animal != null\">" +
+                "<if test = \"animal.type != null\"> " +
+                    "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
+                "</if>" +
+                "<if test = \"animal.breed != null\"> " +
+                    "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
+                "</if>" +
+                "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+                "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
+                "<if test = \"animal.cites != null\"> AND citesType=#{animal.cites} </if> " +
+            "</if> " +
             "</script>";
 
     final String SELECT_BY_ID = "SELECT id, sex, typeId, size, citesType, breed, transpNumber, tokenNumber, " +
@@ -109,7 +122,7 @@ public interface AnimalRepository {
      * Returns the list of all Animal instances from the database.
      * @return the list of all Animal instances from the database.
      */
-    @Select(ADMIN_ANIMALS_LIST)
+    @Select(ADMIN_ANIMALS)
     @Results(value = {
             @Result(property="id", column="id"),
             @Result(property="sex", column="sex", javaType = Animal.SexType.class),
@@ -121,14 +134,14 @@ public interface AnimalRepository {
             @Result(property="dateOfBirth", column="dateOfBirth"),
             @Result(property="color", column="color")
     })
-    List<Animal> getAllForAdminAnimalsListByPage(AnimalsFilter animalsFilter);
+    List<Animal> getAdminAnimals(AnimalsFilter animalsFilter);
 
     /**
      * Returns count of rows selected from DB by method getAdminAnimalsListByPage
      * @return count of rows selected by getAdminAnimalsListByPage
      */
-    @Select(ADMIN_LIST_SELECT_BY_PAGE_COUNT)
-    long getAdminAnimalsListByPageCount(AnimalsFilter animalsFilter);
+    @Select(ADMIN_ANIMALS_PAGINATOR)
+    long getAdminAnimalsPaginator(AnimalsFilter animalsFilter);
 
     /**
      * This method return short information about animals for showing on adopting page.

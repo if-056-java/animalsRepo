@@ -20,6 +20,7 @@ angular.module('AnimalsDetailedEditorAdminController', ['nya.bootstrap.select', 
             var animalId = $routeParams.animalId;
 
             $scope.getAnimalBreeds = function() {
+                $scope.animal.breed = undefined;
                 AnimalsListAdminService.getAnimalBreeds($scope.animal.type.id)
                     .then(function(data) {
                         $scope.animalBreeds = data;

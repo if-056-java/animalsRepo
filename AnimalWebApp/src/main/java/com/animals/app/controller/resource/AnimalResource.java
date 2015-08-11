@@ -48,10 +48,11 @@ public class AnimalResource {
         GenericEntity<List<AnimalType>> genericAnimalTypes =
                 new GenericEntity<List<AnimalType>>(animalTypes) {};
 
-        if(genericAnimalTypes == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
+        if(genericAnimalTypes == null) {
+            return NOT_FOUND;
+        }
 
-        return Response.status(Response.Status.OK).entity(genericAnimalTypes).build();
+        return ok(genericAnimalTypes);
     }
 
     @GET //http:localhost:8080/webapi/animals/animal_breeds
@@ -59,7 +60,7 @@ public class AnimalResource {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimalBreadsByAnimalTypeId(@PathParam("id") int animalTypeId) {
         if (animalTypeId == 0) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return BAD_REQUEST;
         }
 
         List<AnimalBreed> animalBreeds = new AnimalBreedRepositoryImpl().getByTypeId(animalTypeId);
@@ -67,10 +68,11 @@ public class AnimalResource {
         GenericEntity<List<AnimalBreed>> genericAnimalBreeds =
                 new GenericEntity<List<AnimalBreed>>(animalBreeds) {};
 
-        if(genericAnimalBreeds == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
+        if(genericAnimalBreeds == null) {
+            return NOT_FOUND;
+        }
 
-        return Response.status(Response.Status.OK).entity(genericAnimalBreeds).build();
+        return ok(genericAnimalBreeds);
     }
 
     /**
