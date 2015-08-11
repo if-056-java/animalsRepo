@@ -1,11 +1,9 @@
 package com.animals.app.controller.resource;
 
 import com.animals.app.domain.Animal;
-import com.animals.app.domain.AnimalType;
-import com.animals.app.domain.Pagenator;
+import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
-import com.animals.app.repository.Impl.AnimalTypeRepositoryImpl;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
@@ -51,38 +49,20 @@ public class UserResource {
         return Response.status(Response.Status.OK).build();
     }
 
-    @GET //http:localhost:8080/AnimalWebApp/webapi/home/animals/pagenator
+    @POST //http:localhost:8080/AnimalWebApp/webapi/home/animals/pagenator
     @Path("home/animals/pagenator")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getAdminAnimalsListByPageCount() {
+    public Response getAdminAnimalsListByPageCount(AnimalsFilter animalsFilter) {
 
-        Pagenator pages = animalRepository.getAdminAnimalsListByPageCount();
+        long pages = animalRepository.getAdminAnimalsListByPageCount(animalsFilter);
 
-        if(pages == null)
+        if(pages == 0)
             return Response.status(Response.Status.NOT_FOUND).build();
 
-        String str = "{\"rowsCount\" : " + String.valueOf(pages.getRowsCount()) + "}";
+        String str = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
 
         return Response.status(Response.Status.OK).entity(str).build();
-    }
-
-    @GET //http:localhost:8080/AnimalWebApp/webapi/home/animals/{page}/{limit}
-    @Path("home/animals/{page}/{limit}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getAdminAnimalsListByPage(@PathParam("page") int page, @PathParam("limit") int limit) {
-        if (page == 0 || limit == 0) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-
-        //cast list of animals to generic list
-        List<Animal> animals = animalRepository.getAllForAdminAnimalsListByPage(new Pagenator(page, limit));
-        GenericEntity<List<Animal>> genericAnimals =
-                new GenericEntity<List<Animal>>(animals) {};
-
-        if(genericAnimals == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
-
-        return Response.status(Response.Status.OK).entity(genericAnimals).build();
     }
 
     @POST //http:localhost:8080/AnimalWebApp/webapi/home/animals/editor
@@ -100,6 +80,30 @@ public class UserResource {
         animalRepository.update(animal);
 
         return Response.status(Response.Status.OK).build();
+    }
+
+    @POST //http:localhost:8080/AnimalWebApp/webapi/home/animals/editor
+    @Path("home/animals")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAnimalsList(AnimalsFilter animalsFilter) {
+
+        if(animalsFilter == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        if ((animalsFilter.getPage() == 0) || (animalsFilter.getLimit() == 0)) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        List<Animal> animals = animalRepository.getAllForAdminAnimalsListByPage(animalsFilter);
+
+        //cast list of animals to generic list
+        GenericEntity<List<Animal>> genericAnimals = new GenericEntity<List<Animal>>(animals) {};
+
+        if(genericAnimals == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.status(Response.Status.OK).entity(genericAnimals).build();
     }
 
     /**

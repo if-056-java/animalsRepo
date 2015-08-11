@@ -1,32 +1,31 @@
 angular.module('AnimalsListAdminService', [])
     .service('AnimalsListAdminService', ['$http', '$q', function($http, $q) {
-
-        this.getAnimals = function(page, limit) {
+        this.getAnimals = function(filter) {
             var def = $q.defer();
 
-            $http.get("/webapi/user/home/animals/" + page + "/" + limit)
+            $http.post("/webapi/user/home/animals", filter)
                 .success(function(data) {
                     def.resolve(data);
                 })
                 .error(function() {
                     def.reject("Failed to get animals");
                 });
-            
-            return def.promise;    
+
+            return def.promise;
         }
-        
-        this.getPagesCount = function(limit) {
+
+        this.getPagesCount = function(filter) {
             var def = $q.defer();
 
-            $http.get("/webapi/user/home/animals/pagenator")
+            $http.post("/webapi/user/home/animals/pagenator", filter)
                 .success(function(data) {
                     def.resolve(data);
                 })
                 .error(function() {
                     def.reject("Failed to get page count");
                 });
-            
-            return def.promise;    
+
+            return def.promise;
         }
 
         this.getAnimal = function(animalId) {

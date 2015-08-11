@@ -58,7 +58,6 @@ angular.module('AnimalsDetailedEditorAdminController', ['nya.bootstrap.select', 
                         console.log('Animal update failed.')
                     });
             }
-        
     }])
     .controller('DPController', ['$scope', function($scope) {
         

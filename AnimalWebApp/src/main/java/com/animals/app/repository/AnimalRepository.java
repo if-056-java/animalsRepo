@@ -26,13 +26,24 @@ public interface AnimalRepository {
 
     final String DELETE = "DELETE FROM animals WHERE id = #{id}";
 
-    final String ADMIN_LIST_SELECT_BY_PAGE = "SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
+    final String ADMIN_ANIMALS_LIST = "<script>SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
             "FROM animals " +
-            "WHERE isActive>0 LIMIT #{offset},#{limit}";
+            "WHERE isActive>0 " +
+            "<if test = \"type != null\"> AND typeId=#{type.id}</if> " +
+            "<if test = \"breed != null\"> AND breed=#{breed.id}</if> " +
+            "<if test = \"sex != null\"> AND sex=#{sex}</if> " +
+            "<if test = \"size != null\"> AND size=#{size}</if> " +
+            "<if test = \"cites != null\"> AND citesType=#{cites}</if> " +
+            "LIMIT #{offset},#{limit}</script>";
 
-    final String ADMIN_LIST_SELECT_BY_PAGE_COUNT = "SELECT count(*) AS count " +
+    final String ADMIN_LIST_SELECT_BY_PAGE_COUNT = "<script>SELECT count(*) AS count " +
             "FROM animals " +
-            "WHERE isActive>0";
+            "WHERE isActive>0 " +
+            "<if test = \"type != null\"> AND typeId=#{type.id}</if> " +
+            "<if test = \"sexType != null\"> AND sex=#{sexType}</if> " +
+            "<if test = \"sizeType != null\"> AND size=#{sizeType}</if> " +
+            "<if test = \"citesType != null\"> AND citesType=#{citesType}</if> " +
+            "</script>";
 
     final String SELECT_BY_ID = "SELECT id, sex, typeId, size, citesType, breed, transpNumber, tokenNumber, " +
             "dateOfRegister, dateOfBirth, dateOfSterilization, color, userId, address, " +
@@ -98,7 +109,7 @@ public interface AnimalRepository {
      * Returns the list of all Animal instances from the database.
      * @return the list of all Animal instances from the database.
      */
-    @Select(ADMIN_LIST_SELECT_BY_PAGE)
+    @Select(ADMIN_ANIMALS_LIST)
     @Results(value = {
             @Result(property="id", column="id"),
             @Result(property="sex", column="sex", javaType = Animal.SexType.class),
@@ -110,17 +121,14 @@ public interface AnimalRepository {
             @Result(property="dateOfBirth", column="dateOfBirth"),
             @Result(property="color", column="color")
     })
-    List<Animal> getAllForAdminAnimalsListByPage(Pagenator page);
+    List<Animal> getAllForAdminAnimalsListByPage(AnimalsFilter animalsFilter);
 
     /**
      * Returns count of rows selected from DB by method getAdminAnimalsListByPage
      * @return count of rows selected by getAdminAnimalsListByPage
      */
     @Select(ADMIN_LIST_SELECT_BY_PAGE_COUNT)
-    @Results(value = {
-            @Result(property="rowsCount", column="count")
-    })
-    Pagenator getAdminAnimalsListByPageCount();
+    long getAdminAnimalsListByPageCount(AnimalsFilter animalsFilter);
 
     /**
      * This method return short information about animals for showing on adopting page.

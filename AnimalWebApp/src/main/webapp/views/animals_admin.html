@@ -1,38 +1,77 @@
-<div class="row" style="height: 50px"></div>
+<div class="row" id="top"></div>
 <div class="row">
-    <div class="col-md-6 col-md-offset-3 panel panel-success">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <td><strong>Тип</strong></td>
-                <td><strong>Порода</strong></td>
-                <td><strong>Стать</strong></td>
-                <td><strong>Окрас</strong></td>
-                <td><strong>Номер мікрочіпу</strong></td>
-                <td><strong>Дата народження</strong></td>
+    <div class="col-md-6 col-md-offset-3" id="animals-admin-main">
+        <div class="col-md-3 detailed-bottom" id="animals-admin-left">
+            <a class="btn btn-success col-md-12" href ng-click="reset()" role="button" id="animals-admin-drop-filters">Скинути фільтри</a>
+            <div class="input-group">
+                <span class="input-group-addon">Тип</span>
+                <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.type" ng-change="getAnimalBreeds()" title="Нічого не вибрано">
+                    <li nya-bs-option="animalType in animalTypes">
+                        <a>{{ animalType.type }}</a>
+                    </li>
+                </ol>
+            </div>
+            <hr>
+            <div class="input-group">
+                <span class="input-group-addon">Порода</span>
+                <input type="text" ng-model="filter.breed" typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8" class="form-control border-right-radius">
+            </div>
+            <hr>
+            <div class="input-group">
+                <span class="input-group-addon">Стать</span>
+                <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.sex" title="Нічого не вибрано">
+                    <li class="nya-bs-option" value="не визначено"><a>не визначено</a></li>
+                    <li class="nya-bs-option" value="самець"><a>самець</a></li>
+                    <li class="nya-bs-option" value="самка"><a>самка</a></li>
+                </ol>
+            </div>
+            <hr>
+            <div class="input-group">
+                <span class="input-group-addon">Розмір</span>
+                <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.size" title="Нічого не вибрано">
+                    <li class="nya-bs-option" value="не визначено"><a>не визначено</a></li>
+                    <li class="nya-bs-option" value="малий"><a>малий</a></li>
+                    <li class="nya-bs-option" value="середній"><a>середній</a></li>
+                    <li class="nya-bs-option" value="великий"><a>великий</a></li>
+                </ol>
+            </div>
+            <hr>
+            <a class="btn btn-success col-md-12" href ng-click="doFilter()" role="button">Фільтрувати</a>
+        </div>
+        <div class="col-md-9 panel panel-success">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <td><strong>Тип</strong></td>
+                    <td><strong>Порода</strong></td>
+                    <td><strong>Стать</strong></td>
+                    <td><strong>Окрас</strong></td>
+                    <td><strong>Номер мікрочіпу</strong></td>
+                    <td><strong>Дата народження</strong></td>
 
-                <td />
-            </tr>    
-            </thead>
-            <tbody>
-            <tr ng-repeat="animal in animals">
-                <td>{{ animal.type.type }}</td>
-                <td>{{ animal.breed.breedUa }}</td>
-                <td>{{ animal.sex }}</td>
-                <td>{{ animal.color }}</td>
-                <td>{{ animal.transpNumber }}</td>
-                <td>{{ animal.dateOfBirth }}</td>
-                <td><a href="#/ua/user/home/animals/{{ animal.id }}"><img src="resources/img/view_fullscreen.png"></a></td>
-            </tr>    
-            </tbody>
-        </table>
+                    <td />
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="animal in animals">
+                    <td>{{ animal.type.type }}</td>
+                    <td>{{ animal.breed.breedUa }}</td>
+                    <td>{{ animal.sex }}</td>
+                    <td>{{ animal.color }}</td>
+                    <td>{{ animal.transpNumber }}</td>
+                    <td>{{ animal.dateOfBirth }}</td>
+                    <td><a href="#/ua/user/home/animals/{{ animal.id }}"><img src="resources/img/view_fullscreen.png"></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <div class="row">
     <div class="col-md-6 col-md-offset-3 panel panel-success text-center">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="paginator" items-per-page="limit"
+            <pagination boundary-links="true" total-items="totalItems" ng-model="filter.page" ng-change="pageChanged()" class="paginator" items-per-page="filter.limit"
                         previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>
         <div class="col-md-2 rows-count">

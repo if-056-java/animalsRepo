@@ -38,6 +38,24 @@ IMG.displayed {
     width: 15em;
 }
 
+#top {
+    height: 50px;
+}
+
+/* ua/user/home/animals */
+#animals-admin-main {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#animals-admin-left {
+    padding-left: 0px;
+}
+
+#animals-admin-drop-filters {
+    margin-bottom: 30px;
+}
+
 .paginator > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
     background-color: #5cb85c;
     border-color: #4cae4c;

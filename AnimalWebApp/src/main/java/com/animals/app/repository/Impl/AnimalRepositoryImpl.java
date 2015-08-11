@@ -1,7 +1,7 @@
 package com.animals.app.repository.Impl;
 
 import com.animals.app.domain.Animal;
-import com.animals.app.domain.Pagenator;
+import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -97,13 +97,13 @@ public class AnimalRepositoryImpl {
      * Returns the list of all Animal instances from the database.
      * @return the list of all Animal instances from the database.
      */
-    public List<Animal> getAllForAdminAnimalsListByPage(Pagenator page) {
+    public List<Animal> getAllForAdminAnimalsListByPage(AnimalsFilter animalsFilter) {
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             AnimalRepository mapper = session.getMapper(AnimalRepository.class);
-            return mapper.getAllForAdminAnimalsListByPage(page);
+            return mapper.getAllForAdminAnimalsListByPage(animalsFilter);
         } finally {
             session.close();
         }
@@ -113,13 +113,13 @@ public class AnimalRepositoryImpl {
      * Returns count of rows selected from DB by method getAdminAnimalsListByPage
      * @return count of rows selected by getAdminAnimalsListByPage
      */
-    public Pagenator getAdminAnimalsListByPageCount() {
+    public long getAdminAnimalsListByPageCount(AnimalsFilter animalsFilter) {
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             AnimalRepository mapper = session.getMapper(AnimalRepository.class);
-            return mapper.getAdminAnimalsListByPageCount();
+            return mapper.getAdminAnimalsListByPageCount(animalsFilter);
         } finally {
             session.close();
         }

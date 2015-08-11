@@ -4,8 +4,8 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-6">
-                    <img class="image-sample" ng-hide="animal.image" src="resources/img/noimg.png">
-                    <img class="image-sample" ng-show="animal.image" src="{{ animal.image }}">
+                    <img class="img-responsive img-thumbnail center-block" ng-hide="animal.image" src="resources/img/noimg.png">
+                    <img class="img-responsive img-thumbnail center-block" ng-show="animal.image" src="{{ animal.image }}">
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
@@ -105,8 +105,9 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-2 col-md-offset-7 detailed-buttons">
-        <div class="col-md-6"><a class="btn btn-warning col-md-12" href ng-click="setAnimal()" role="button">Зберегти</a></div>
-        <div class="col-md-6"><a class="btn btn-success col-md-12" href ng-click="goBack()" role="button">Повернутись</a></div>
+    <div class="col-md-3 col-md-offset-6 detailed-buttons">
+        <div class="col-md-4"><a class="btn btn-warning col-md-12" href ng-click="setAnimal()" role="button">Зберегти</a></div>
+        <div class="col-md-4"><a class="btn btn-info col-md-12" href ng-click="setImage()" role="button">Змінити фото</a></div>
+        <div class="col-md-4"><a class="btn btn-success col-md-12" href ng-click="goBack()" role="button">Повернутись</a></div>
     </div>
 </div>

@@ -1,8 +1,7 @@
 package app.repository;
 
 import com.animals.app.domain.Animal;
-import com.animals.app.domain.AnimalBreed;
-import com.animals.app.domain.Pagenator;
+import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.repository.Impl.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.LogManager;
@@ -65,27 +64,34 @@ public class TestAnimalRepositoryImpl {
 
     @Test
     public void test02GetAllForAdminAnimalsListByPage() {
-        List<Animal> expected = animalRepositoryImpl.getAllForAdminAnimalsListByPage(new Pagenator(1,10));
+        List<Animal> expected = animalRepositoryImpl.getAllForAdminAnimalsListByPage(new AnimalsFilter(1,10));
 
         assertNotNull(expected);
     }
 
     @Test
-    public void test03GetAllForAdopting() {
+    public void test03GetAdminAnimalsListByPageCount() {
+        long count = animalRepositoryImpl.getAdminAnimalsListByPageCount(new AnimalsFilter());
+
+        assertNotEquals(0, count);
+    }
+
+    @Test
+    public void test04GetAllForAdopting() {
         List<Animal> expected = animalRepositoryImpl.getAllForAdopting();
 
         assertNotNull(expected);
     }
 
     @Test
-    public void test04GetById() {
+    public void test05GetById() {
         actual = animalRepositoryImpl.getById(actual.getId());
 
         assertNotNull(actual);
     }
 
     @Test
-    public void test05Update() {
+    public void test06Update() {
         Animal expected = animalRepositoryImpl.getById(actual.getId());
 
         assertNotNull(expected);
@@ -106,7 +112,7 @@ public class TestAnimalRepositoryImpl {
     }
 
     @Test
-    public void test06Delete() {
+    public void test07Delete() {
         animalRepositoryImpl.delete(actual.getId());
 
         Animal expected = animalRepositoryImpl.getById(actual.getId());
