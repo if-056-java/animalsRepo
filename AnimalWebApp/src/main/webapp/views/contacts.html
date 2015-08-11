@@ -4,7 +4,7 @@
 	}
 	 #map {
 		width:100%;
-		height:2px;
+		height:350px;
 		display:block;
 	 }
 		 /* Fix Google Maps canvas
@@ -16,15 +16,15 @@
 	 * `.img-responsive` class.)
 	 */
 
-	.google-map-canvas,
+	/*.google-map-canvas,
 	.google-map-canvas * { .box-sizing(content-box); }
 
-	/* Optional responsive image override */
+	/* Optional responsive image override
 	img { max-width: none; }
 	
 	@media (max-width: 768px) {		
 		.nav-tabs.nav-justified > li{					
-		}		}
+		}		}*/
 </style>
 <div class="contacts">
 
@@ -144,7 +144,7 @@
 			<div class="panel-body">
 			<!-- CONTACT FORM https://github.com/jonmbake/bootstrap3-contact-form -->
 			
-			<form role="form" id="feedbackForm">
+			<form role="form" id="feedbackForm" action="?" method="POST">
 			      <div class="form-group">
 				<input type="text" class="form-control" id="name" name="name" placeholder="Ім'я">
 				<span class="help-block" style="display: none;">Будь-ласка, введіть ім'я.</span>
@@ -157,14 +157,10 @@
 				<textarea rows="10" cols="100" class="form-control" id="message" name="message" placeholder="Повідомлення"></textarea>
 				<span class="help-block" style="display: none;">Будь-ласка, введіть повідомлення.</span>
 			      </div>
-			      <img id="captcha" src="" alt="CAPTCHA Image" />
-			      <a href="#" onclick="document.getElementById('captcha').src = 'library/vender/securimage/securimage_show.php?' + Math.random(); return false" class="btn btn-info btn-sm">Показати іншу картинку</a><br/>
-			      <div class="form-group" style="margin-top: 10px;">
-				<input type="text" class="form-control" name="captcha_code" id="captcha_code" placeholder="Для безпеки, введіть код, зображений на картинці." />
-				<span class="help-block" style="display: none;">Будь-ласка, введіть код, зображений на картинці.</span>
-			      </div>
-			      
-			      <span class="help-block" style="display: none;">Будь-ласка, введіть код, зображений на картинці.</span>
+
+				<div class="g-recaptcha"
+					 data-sitekey="6LdMAgMTAAAAAGYY5PEQeW7b3L3tqACmUcU6alQf">
+				</div>
 			      <button type="submit" id="feedbackSubmit1" class="btn btn-primary btn-lg" style="display: block; margin-top: 10px;">Надіслати</button>
 			    </form>
 			<!-- END CONTACT FORM -->
