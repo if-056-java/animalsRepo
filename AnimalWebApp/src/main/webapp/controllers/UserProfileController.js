@@ -15,18 +15,21 @@ animalApp.controller('UserProfileController', function($scope, userData, hashPas
 	var id = $rootScope.id;
 	
 	userData.getUser(id).success(function(data){				//webapi/users/user/{id}
-		$scope.userInfo=data;		
+		$scope.userInfo=data;
+		$scope.fields = $scope.userInfo;
 	}) 	
 	
 	userData.getUserAnimals(id).success(function(data){			//webapi/users/user/{id}/animals
 		$scope.userAnimalInfo=data;
 	});
-	    
-	$scope.fields=$scope.userInfo;
+	
 	
     $scope.submitUpdateForm=function(){    	
     	
     	$scope.fields.password=hashPassword($scope.fields.passwordNew);
+    	console.log($scope.fields.password);
+    	
+    	console.log($scope.fields);
     	
 		userData.updateUser($scope.fields);       
 	

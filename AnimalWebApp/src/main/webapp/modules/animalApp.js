@@ -2,15 +2,15 @@ var animalApp = angular.module('animalApp', [
 'ngRoute',
 'ngResource',
 'FindController',
-	'FindController',
+'FindController',
 'LostController',
 'LoginController',
 'HomelessController',
 'AnimalsDetailController',
 'ContactsController',
 'StarterPageController',
-  'AnimalsListAdminController',
-  'AnimalsDetailedAdminController',
+'AnimalsListAdminController',
+'AnimalsDetailedAdminController',
 'RegistrationController',
 'UserProfileController'
 ]);
@@ -77,3 +77,4 @@ animalApp.constant('RESOURCES', {
         ANIMALS_FOR_ADOPTING_PAGINATOR: 'webapi/animals/adoption/pagenator',
         ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption/'
 });
+
