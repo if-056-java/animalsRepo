@@ -1,12 +1,12 @@
-angular.module('AnimalsDetailedEditorAdminController', ['nya.bootstrap.select', 'ui.bootstrap', 'AnimalsListAdminService'])
-    .controller('AnimalsDetailedEditorAdminController', ['$scope', 'AnimalsListAdminService', '$routeParams', '$window', '$filter',
-        function($scope, AnimalsListAdminService, $routeParams, $window, $filter) {
+angular.module('AdminAnimalsEditor', ['nya.bootstrap.select', 'ui.bootstrap', 'AdminAnimalsModule'])
+    .controller('AdminAnimalsEditorController', ['$scope', 'AdminAnimalsService', '$routeParams', '$window', '$filter',
+        function($scope, AdminAnimalsService, $routeParams, $window, $filter) {
             $scope.goBack = function() {
                 $window.history.back();
             }
 
             this.getAnimalTypes = function() {
-                AnimalsListAdminService.getAnimalTypes()
+                AdminAnimalsService.getAnimalTypes()
                     .then(function(data) {
                         $scope.animalTypes = data;
                     },
@@ -20,18 +20,29 @@ angular.module('AnimalsDetailedEditorAdminController', ['nya.bootstrap.select', 
             var animalId = $routeParams.animalId;
 
             $scope.getAnimalBreeds = function() {
-                $scope.animal.breed = undefined;
-                AnimalsListAdminService.getAnimalBreeds($scope.animal.type.id)
+                $scope.animalBreeds = undefined;
+
+                AdminAnimalsService.getAnimalBreeds($scope.animal.type.id)
                     .then(function(data) {
                         $scope.animalBreeds = data;
                     },
                     function(data) {
                         console.log('Animal breeds retrieval failed.')
                     });
+
+                if ($scope.animal.breed != undefined) {
+                    if ($scope.animal.breed.type != undefined) {
+                        if ($scope.animal.breed.type.id != $scope.animal.type.id) {
+                            $scope.animal.breed = undefined;
+                        }
+                    } else {
+                        $scope.animal.breed = undefined;
+                    }
+                }
             }
 
             this.getAnimal = function(animalId) {
-                AnimalsListAdminService.getAnimal(animalId)
+                AdminAnimalsService.getAnimal(animalId)
                     .then(function(data) {
                         $scope.animal = data;
                         $scope.getAnimalBreeds();
@@ -51,7 +62,7 @@ angular.module('AnimalsDetailedEditorAdminController', ['nya.bootstrap.select', 
                 if (typeof $scope.animal.breed.id == "undefined") {
                     $scope.animal.breed = {breedUa: $scope.animal.breed};
                 }
-                AnimalsListAdminService.updateAnimal($scope.animal)
+                AdminAnimalsService.updateAnimal($scope.animal)
                     .then(function(data) {
                         $window.location.href = "#/ua/user/home/animals/" + $scope.animal.id;
                     },

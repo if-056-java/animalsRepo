@@ -10,11 +10,11 @@ import java.util.List;
  * Created by Rostyslav.Viner on 06.08.2015.
  */
 public interface AnimalBreedRepository {
-    final String SELECT_BY_ID = "SELECT id, breedUa, breedRu, breedEn FROM animalbreeds WHERE id=#{id}";
+    final String SELECT_BY_ID = "SELECT id, breedUa, breedRu, breedEn, animalTypeId FROM animalbreeds WHERE id=#{id}";
 
     final String SELECT_ALL = "SELECT id, breedUa, breedRu, breedEn, animalTypeId FROM animalbreeds";
 
-    final String SELECT_BY_TYPE_ID = "SELECT id, breedUa, breedRu, breedEn " +
+    final String SELECT_BY_TYPE_ID = "SELECT id, breedUa, breedRu, breedEn, animalTypeId " +
             "FROM animalbreeds " +
             "WHERE animalTypeId=#{animalTypeId}";
 
@@ -30,7 +30,9 @@ public interface AnimalBreedRepository {
             @Result(property="id", column="id"),
             @Result(property="breedUa", column="breedUa"),
             @Result(property="breedRu", column="breedRu"),
-            @Result(property="breedEn", column="breedEn")
+            @Result(property="breedEn", column="breedEn"),
+            @Result(property="type", column="animalTypeId", javaType = AnimalType.class,
+                    one = @One(select = "com.animals.app.repository.AnimalTypeRepository.getById"))
     })
     AnimalBreed getById(long id);
 
@@ -59,7 +61,9 @@ public interface AnimalBreedRepository {
             @Result(property="id", column="id"),
             @Result(property="breedUa", column="breedUa"),
             @Result(property="breedRu", column="breedRu"),
-            @Result(property="breedEn", column="breedEn")
+            @Result(property="breedEn", column="breedEn"),
+            @Result(property="type", column="animalTypeId", javaType = AnimalType.class,
+                one = @One(select = "com.animals.app.repository.AnimalTypeRepository.getById"))
     })
     List<AnimalBreed> getByTypeId(long animalTypeId);
 

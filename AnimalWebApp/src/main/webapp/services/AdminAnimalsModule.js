@@ -1,5 +1,5 @@
-angular.module('AnimalsListAdminService', [])
-    .service('AnimalsListAdminService', ['$http', '$q', function($http, $q) {
+angular.module('AdminAnimalsModule', [])
+    .service('AdminAnimalsService', ['$http', '$q', function($http, $q) {
         this.getAnimals = function(filter) {
             var def = $q.defer();
 

@@ -1,6 +1,6 @@
-angular.module('AnimalsDetailedAdminController', ['AnimalsListAdminService'])
-    .controller('AnimalsDetailedAdminController', ['$scope', 'AnimalsListAdminService', '$routeParams', '$window',
-        function($scope, AnimalsListAdminService, $routeParams, $window) {
+angular.module('AdminAnimalsDetailed', ['AdminAnimalsModule'])
+    .controller('AdminAnimalsDetailedController', ['$scope', 'AdminAnimalsService', '$routeParams', '$window',
+        function($scope, AdminAnimalsService, $routeParams, $window) {
             $scope.goBack = function() {
                 $window.history.back();
             }
@@ -8,7 +8,7 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsListAdminService'])
             var animalId = $routeParams.animalId;
 
             this.getAnimal = function(animalId) {
-                AnimalsListAdminService.getAnimal(animalId)
+                AdminAnimalsService.getAnimal(animalId)
                     .then(function(data) {
                         $scope.animal = data;
                     },
@@ -20,7 +20,7 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsListAdminService'])
             this.getAnimal(animalId);
 
             $scope.deleteAnimal = function() {
-                AnimalsListAdminService.deleteAnimal($scope.animal.id)
+                AdminAnimalsService.deleteAnimal($scope.animal.id)
                     .then(function(data) {
                         $window.location.href = "#/ua/user/home/animals";
                     },

@@ -11,9 +11,9 @@ var animalApp = angular.module('animalApp', [
     'AnimalsDetailController',
     'ContactsController',
     'StarterPageController',
-    'AnimalsListAdminController',
-    'AnimalsDetailedAdminController',
-    'AnimalsDetailedEditorAdminController',
+    'AdminAnimals',
+    'AdminAnimalsDetailed',
+    'AdminAnimalsEditor',
     'RegistrationController',
     'UserProfileController',
     'AnimalShortInfoController'
@@ -43,7 +43,7 @@ animalApp .config(['$routeProvider',
         controller: 'HomelessController'
       }).
 	  when('/ua/animal/detail', {
-        templateUrl: 'views/animals_detailed.html',
+        templateUrl: 'views/admin_animals_detailed.html',
         controller: 'AnimalsDetailController'
       }).
 	  when('/ua/contacts', {
@@ -56,15 +56,15 @@ animalApp .config(['$routeProvider',
       }).
         when('/ua/user/home/animals', {
           templateUrl: 'views/admin_animals.html',
-          controller: 'AnimalsListAdminController'
+          controller: 'AdminAnimalsController'
         }).
         when('/ua/user/home/animals/:animalId', {
-          templateUrl: 'views/animals_detailed.html',
-          controller: 'AnimalsDetailedAdminController'
+          templateUrl: 'views/admin_animals_detailed.html',
+          controller: 'AdminAnimalsDetailedController'
         }).
         when('/ua/user/home/animals/editor/:animalId', {
-            templateUrl: 'views/animals_detailed_editor.html',
-            controller: 'AnimalsDetailedEditorAdminController'
+            templateUrl: 'views/admin_animals_editor.html',
+            controller: 'AdminAnimalsEditorController'
         }).
       when('/ua/user/registration', {
         templateUrl: 'views/registration.html',

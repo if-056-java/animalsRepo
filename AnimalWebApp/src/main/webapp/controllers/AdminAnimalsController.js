@@ -1,5 +1,5 @@
-angular.module('AnimalsListAdminController', ['ui.bootstrap', 'AnimalsListAdminService'])
-    .controller('AnimalsListAdminController', ['$scope', 'AnimalsListAdminService', '$window', function($scope, AnimalsListAdminService, $window) {
+angular.module('AdminAnimals', ['ui.bootstrap', 'AdminAnimalsModule'])
+    .controller('AdminAnimalsController', ['$scope', 'AdminAnimalsService', '$window', function($scope, AdminAnimalsService, $window) {
         $scope.filter = {}
         $scope.filter.page = 1;
         $scope.filter.limit = '10';
@@ -9,7 +9,7 @@ angular.module('AnimalsListAdminController', ['ui.bootstrap', 'AnimalsListAdminS
         var ACL = this;
 
         this.getPagesCount = function(filter) {
-            AnimalsListAdminService.getPagesCount(filter)
+            AdminAnimalsService.getPagesCount(filter)
                 .then(function(data) {
                     $scope.totalItems = data.rowsCount;
                 },
@@ -21,7 +21,7 @@ angular.module('AnimalsListAdminController', ['ui.bootstrap', 'AnimalsListAdminS
         this.getPagesCount($scope.filter);
 
         this.getAnimals = function(filter) {
-            AnimalsListAdminService.getAnimals(filter)
+            AdminAnimalsService.getAnimals(filter)
                 .then(function(data) {
                     $scope.animals = data;
                 },
@@ -41,9 +41,9 @@ angular.module('AnimalsListAdminController', ['ui.bootstrap', 'AnimalsListAdminS
             ACL.getAnimals($scope.filter);
         };
     }])
-    .controller('AdminAnimalsFilterController', ['$scope', 'AnimalsListAdminService', function($scope, AnimalsListAdminService) {
+    .controller('AdminAnimalsFilterController', ['$scope', 'AdminAnimalsService', function($scope, AdminAnimalsService) {
         this.getAnimalTypes = function() {
-            AnimalsListAdminService.getAnimalTypes()
+            AdminAnimalsService.getAnimalTypes()
                 .then(function(data) {
                     $scope.animalTypes = data;
                 },
@@ -56,7 +56,9 @@ angular.module('AnimalsListAdminController', ['ui.bootstrap', 'AnimalsListAdminS
 
 
         $scope.getAnimalBreeds = function() {
-            AnimalsListAdminService.getAnimalBreeds($scope.filter.animal.type.id)
+            $scope.animalBreeds = undefined;
+
+            AdminAnimalsService.getAnimalBreeds($scope.filter.animal.type.id)
                 .then(function(data) {
                     $scope.animalBreeds = data;
                 },
@@ -73,7 +75,7 @@ angular.module('AnimalsListAdminController', ['ui.bootstrap', 'AnimalsListAdminS
         }
 
         $scope.doFilter = function() {
-            AnimalsListAdminService.getPagesCount($scope.filter)
+            AdminAnimalsService.getPagesCount($scope.filter)
                 .then(function(data) {
                     $scope.$parent.totalItems = data.rowsCount;
                 },
@@ -81,7 +83,7 @@ angular.module('AnimalsListAdminController', ['ui.bootstrap', 'AnimalsListAdminS
                     console.log('Pages count retrieval failed.')
                 });
 
-            AnimalsListAdminService.getAnimals($scope.filter)
+            AdminAnimalsService.getAnimals($scope.filter)
                 .then(function(data) {
                     $scope.$parent.animals = data;
                 },
