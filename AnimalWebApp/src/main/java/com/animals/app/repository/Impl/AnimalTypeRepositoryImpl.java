@@ -39,7 +39,7 @@ public class AnimalTypeRepositoryImpl {
      * @param id primary key value used for lookup.
      * @return A Animal type instance with a primary key value equals to pk. null if there is no matching row.
      */
-    public AnimalType getById(int id){
+    public AnimalType getById(long id){
 
         SqlSession session = sqlSessionFactory.openSession();
 

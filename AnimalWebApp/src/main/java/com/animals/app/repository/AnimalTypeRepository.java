@@ -36,5 +36,5 @@ public interface AnimalTypeRepository {
             @Result(property="id", column="id"),
             @Result(property="type", column="type")
     })
-    AnimalType getById(int id);
+    AnimalType getById(long id);
 }
