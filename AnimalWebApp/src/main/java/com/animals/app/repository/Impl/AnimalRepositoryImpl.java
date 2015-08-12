@@ -148,13 +148,13 @@ public class AnimalRepositoryImpl {
      * Returns count of rows selected from DB by method getAllForAdopting
      * @return count of rows selected by getAllForAdopting
      */
-    public long getAmountListForAdopting() {
+    public long getAmountListForAdopting(AnimalsFilter animalsFilter) {
 
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
             AnimalRepository mapper = session.getMapper(AnimalRepository.class);
-            return mapper.getAmountListForAdopting();
+            return mapper.getAmountListForAdopting(animalsFilter);
         } finally {
             session.close();
         }

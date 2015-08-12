@@ -87,6 +87,8 @@ animalApp .config(['$routeProvider',
 animalApp.constant('RESOURCES', {
     RESOURCE: 'http://127.0.0.1:8080/',
         ANIMALS_FOR_ADOPTING_PAGINATOR: 'webapi/animals/adoption/pagenator',
-        ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption/'
+        ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption',
+        ANIMAL_TYPES: 'webapi/animals/animal_types',
+        ANIMAL_BREEDS: 'webapi/animals/animal_breeds/'
 });
 

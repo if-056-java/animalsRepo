@@ -28,22 +28,17 @@ public interface AnimalRepository {
 
     final String ADMIN_ANIMALS = "<script>SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
             "FROM animals " +
-            "WHERE isActive>0 " +
-            "LIMIT #{offset},#{limit}";
-
-    final String ADMIN_LIST_SELECT_BY_PAGE_COUNT = "SELECT count(*) AS count " +
-            "FROM animals " +
             "WHERE id>0 " +
             "<if test = \"animal != null\">" +
-                "<if test = \"animal.type != null\"> " +
-                    "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
-                "</if>" +
-                "<if test = \"animal.breed != null\"> " +
-                    "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
-                "</if>" +
-                "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
-                "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
-                "<if test = \"animal.cites != null\"> AND citesType=#{animal.cites} </if> " +
+            "<if test = \"animal.type != null\"> " +
+            "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
+            "</if>" +
+            "<if test = \"animal.breed != null\"> " +
+            "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
+            "</if>" +
+            "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+            "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
+            "<if test = \"animal.cites != null\"> AND citesType=#{animal.cites} </if> " +
             "</if> " +
             "LIMIT #{offset},#{limit}</script>";
 
@@ -72,18 +67,36 @@ public interface AnimalRepository {
             "SELECT Id, TypeId, Breed, DateOfBirth, DateOfRegister, ServiceId " +
             "FROM animals " +
             "WHERE (serviceId = 1) AND (isActive = 1) " +
-/*
-            "<set>" +
-            "<if test='imageExist != null'> " +
-            " AND (image IS NOT NULL) </if>" +
-            "</set> " +
-*/
+            "<if test = \"animal != null\"> " +
+            "<if test = \"animal.type != null\"> " +
+                "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
+            "</if> " +
+            "<if test = \"animal.breed != null\"> " +
+                "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
+            "</if>" +
+            "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+            "<if test = \"animal.dateOfSterilization != null\"> AND dateOfSterilization IS NOT NULL </if> " +
+            "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
+            "<if test = \"animal.image != null\"> AND image IS NOT NULL </if> " +
+            "</if> " +
             "ORDER BY DateOfRegister DESC " +
             "LIMIT #{offset}, #{limit} </script>";
 
-    final String SELECT_LIST_FOR_ADOPTING_COUNT = "SELECT count(*) AS count " +
+    final String SELECT_LIST_FOR_ADOPTING_COUNT = "<script> SELECT count(*) AS count " +
             "FROM animals " +
-            "WHERE (isActive = 1) AND (serviceId = 1);";
+            "WHERE (isActive = 1) AND (serviceId = 1) " +
+            "<if test = \"animal != null\"> " +
+            "<if test = \"animal.type != null\"> " +
+                "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
+            "</if> " +
+            "<if test = \"animal.breed != null\"> " +
+                "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
+            "</if>" +
+            "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+            "<if test = \"animal.dateOfSterilization != null\"> AND dateOfSterilization IS NOT NULL </if> " +
+            "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
+            "<if test = \"animal.image != null\"> AND image IS NOT NULL </if> " +
+            "</if> </script>";
 
     final String USERPROFILE_SELECT_BY_USER_ID = "SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
             "FROM animals " +
@@ -196,7 +209,7 @@ public interface AnimalRepository {
      * @return count of rows selected by getAllForAdopting
      */
     @Select(SELECT_LIST_FOR_ADOPTING_COUNT)
-    long getAmountListForAdopting();
+    long getAmountListForAdopting(AnimalsFilter animalsFilter);
 
     @Select(USERPROFILE_SELECT_BY_USER_ID)
     @Results(value = {

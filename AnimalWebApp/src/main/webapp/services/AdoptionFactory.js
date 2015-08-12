@@ -9,14 +9,10 @@ adoptionModule
         var factory = {};
 
         //Get amount animals for adoption
-        factory.getAmountRecords = function() {
+        factory.getAmountRecords = function(filter) {
             var def = $q.defer();
 
-            $http({
-                url: RESOURCES.ANIMALS_FOR_ADOPTING_PAGINATOR,
-                method: 'GET',
-                isArray: false
-            })
+            $http.post(RESOURCES.ANIMALS_FOR_ADOPTING_PAGINATOR, filter)
                 .success(function (data) {
                     def.resolve(data);
                 })
@@ -28,25 +24,50 @@ adoptionModule
         };
 
         //Get list of animals for adoption
-        factory.getListOfAdoptionAnimals = function(page, limits){
+        factory.getListOfAdoptionAnimals = function(filter){
             var def = $q.defer();
 
-            $http({
-                url: RESOURCES.ANIMALS_FOR_ADOPTING + page + '/' + limits,
-                method: 'GET',
-                isArray: true
-            })
-                .success(function(data) {
+            $http.post(RESOURCES.ANIMALS_FOR_ADOPTING, filter)
+                .success(function (data) {
                     def.resolve(data);
                 })
-                .error(function() {
+                .error(function () {
                     def.reject("Failed to get animals");
                 });
 
             return def.promise;
         };
 
-        //Inject dependencies
+            factory.getAnimalTypes = function() {
+                var def = $q.defer();
+
+                $http.get(RESOURCES.ANIMAL_TYPES)
+                    .success(function(data) {
+                        def.resolve(data);
+                    })
+                    .error(function() {
+                        def.reject("Failed to get animal types");
+                    });
+
+                return def.promise;
+            };
+
+            factory.getAnimalBreeds = function(animalTypeId) {
+                var def = $q.defer();
+
+                $http.get(RESOURCES.ANIMAL_BREEDS + animalTypeId)
+                    .success(function(data) {
+                        def.resolve(data);
+                    })
+                    .error(function() {
+                        def.reject("Failed to get breeds");
+                    });
+
+                return def.promise;
+            }
+
+
+            //Inject dependencies
         AdoptionFactory.$inject = ['$q', 'RESOURCES'];
 
         return factory;

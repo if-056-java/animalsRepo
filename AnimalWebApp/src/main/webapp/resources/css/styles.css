@@ -136,3 +136,19 @@ IMG.displayed {
     border-bottom-right-radius: 4px !important;
 }
 
+.simple-border{
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+
+.blocktext-h4{
+    text-align: center;
+}
+.simple-side-padding{
+/*
+    padding-left: 5px;
+    margin-left:3px;
+    padding-right: 5px;
+    margin-right: 3px;
+*/
+}

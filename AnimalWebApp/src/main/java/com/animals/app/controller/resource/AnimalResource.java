@@ -4,10 +4,7 @@ import com.animals.app.domain.Animal;
 import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 
 import com.animals.app.domain.AnimalBreed;
 import com.animals.app.domain.AnimalType;
@@ -29,12 +26,14 @@ public class AnimalResource {
 
     AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
 
-    @GET //http:localhost:8080/webapi/adoption/pagenator
+    @POST //http:localhost:8080/webapi/adoption/pagenator
     @Path("adoption/pagenator")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getAmountListForAdopting() {
+    public Response getAmountListForAdopting(AnimalsFilter animalsFilter) {
 
-        long pages = animalRepository.getAmountListForAdopting();
+        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+        long pages = animalRepository.getAmountListForAdopting(animalsFilter);
 
         if(pages == 0)
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -44,16 +43,27 @@ public class AnimalResource {
         return Response.status(Response.Status.OK).entity(str).build();
     }
 
-    @GET //http:localhost:8080/webapi/animals/adoption
-    @Path("adoption/{page}/{limit}")
+    @POST //http:localhost:8080/webapi/animals/adoption
+    @Path("adoption"/*/{page}/{limit}*/)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getAllAnimalsForAdopting(@PathParam("page") int page, @PathParam("limit") int limit) {
+    public Response getAllAnimalsForAdopting(/*@PathParam("page") int page, @PathParam("limit") int limit*/ AnimalsFilter animalsFilter) {
+/*
         if (page == 0 || limit == 0) {
             return BAD_REQUEST;
         }
+*/
 
+        if(animalsFilter == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        if ((animalsFilter.getPage() == 0) || (animalsFilter.getLimit() == 0)) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
         //cast list of animals to generic list
-        List<Animal> animals = animalRepository.getAllForAdopting(new AnimalsFilter(page, limit));
+        List<Animal> animals = animalRepository.getAllForAdopting(animalsFilter);
         GenericEntity<List<Animal>> genericAnimals =
                 new GenericEntity<List<Animal>>(animals) {};
 
@@ -62,6 +72,7 @@ public class AnimalResource {
 
         return ok(genericAnimals);
     }
+
 
     @GET //http:localhost:8080/webapi/animals/adoption/id
     @Path("adoption")
@@ -80,6 +91,7 @@ public class AnimalResource {
 
         return ok(animalShortInfo);
     }
+
 
     @GET //http:localhost:8080/webapi/animals/animal_types
     @Path("animal_types")
