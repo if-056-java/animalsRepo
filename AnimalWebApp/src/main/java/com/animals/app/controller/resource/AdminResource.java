@@ -4,15 +4,23 @@ import com.animals.app.domain.Animal;
 import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.*;
 import java.util.List;
 
 @Path("admin")
 public class AdminResource {
+    private static Logger LOG = LogManager.getLogger(AdminResource.class);
+
     //return response with 400 code
     private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
 
@@ -23,7 +31,7 @@ public class AdminResource {
     @Path("animals")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getAnimalsList(AnimalsFilter animalsFilter) {
+    public Response getAnimals(AnimalsFilter animalsFilter) {
         if(animalsFilter == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -48,7 +56,7 @@ public class AdminResource {
     @Path("animals/paginator")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getAdminAnimalsListByPageCount(AnimalsFilter animalsFilter) {
+    public Response getAnimalsPaginator(AnimalsFilter animalsFilter) {
         if(animalsFilter == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -68,7 +76,7 @@ public class AdminResource {
     @GET //http:localhost:8080/webapi/animals/{animalId}
     @Path("animals/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getById(@PathParam("animalId") long animalId) {
+    public Response getAnimal(@PathParam("animalId") long animalId) {
         if (animalId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -82,7 +90,7 @@ public class AdminResource {
     @DELETE //http:localhost:8080/webapi/animals/{animalId}
     @Path("animals/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response delete(@PathParam("animalId") long animalId) {
+    public Response deleteAnimal(@PathParam("animalId") long animalId) {
         if (animalId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -96,7 +104,7 @@ public class AdminResource {
     @POST //http:localhost:8080/webapi/animals/editor
     @Path("animals/editor")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAdminAnimalsList(Animal animal) {
+    public Response updateAnimal(Animal animal) {
         if(animal == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -110,6 +118,37 @@ public class AdminResource {
         animalRepository.update(animal);
 
         return Response.status(Response.Status.OK).build();
+    }
+
+    @POST //http:localhost:8080/webapi/animals/editor/upload
+    @Path("animals/editor/upload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response uploadImage(@FormDataParam("file") InputStream uploadedInputStream, @FormDataParam("file") FormDataContentDisposition fileDetail) {
+        String filePath = "e://" + fileDetail.getFileName();
+        System.out.println(filePath);
+        // save the file to the server
+        OutputStream os = null;
+        try {
+            File fileToUpload = new File(filePath);
+            os = new FileOutputStream(fileToUpload);
+            byte[] b = new byte[1024];
+            int length;
+            while ((length = uploadedInputStream.read(b)) != -1) {
+                os.write(b, 0, length);
+            }
+        } catch (IOException ex) {
+            LOG.error(ex);
+        } finally {
+            try {
+                os.close();
+            } catch (IOException ex) {
+                LOG.error(ex);
+            }
+        }
+
+        return Response.status(200).entity(filePath).build();
+
     }
 
     /**

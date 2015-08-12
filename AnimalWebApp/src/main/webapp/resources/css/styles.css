@@ -136,6 +136,10 @@ IMG.displayed {
     border-bottom-right-radius: 4px !important;
 }
 
+.progress-striped {
+    height: 34px;
+}
+
 .simple-border{
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;
