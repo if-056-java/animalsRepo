@@ -1,6 +1,6 @@
-var animalAppControllers = angular.module('ContactsController', ['vcRecaptcha']);
+var animalAppControllers = angular.module('ContactsController', []);
 
-animalApp.controller('ContactsController', function ($scope, vcRecaptchaService) {
+animalApp.controller('ContactsController', function ($scope) {
 
     var myLatlng = new google.maps.LatLng(49.863400, 24.044500);
     var mapOptions = {
@@ -42,21 +42,14 @@ animalApp.controller('ContactsController', function ($scope, vcRecaptchaService)
     };
     $scope.submit = function () {
         var valid = 1;
-                /**
-                 * SERVER SIDE VALIDATION
-                 *
-                 * You need to implement your server side validation here.
-                 * Send the reCaptcha response to the server and use some of the server side APIs to validate it
-                 * See https://developers.google.com/recaptcha/docs/verify
-                 */
-        consolelog('sending the captcha response to the server', $scope.response);
+        console.log('sending the captcha response to the server', $scope.response);
         if (valid) {
             console.log('Success');
         } else {
             console.log('Failed validation');
                     // In case of a failed validation you need to reload the captcha
                     // because each response can be checked just once
-            vcRecaptchaService.reload($scope.widgetId);
+            //vcRecaptchaService.reload($scope.widgetId);
         }
     };
 }
