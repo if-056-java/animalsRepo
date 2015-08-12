@@ -19,7 +19,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, $root
             };
             
             console.log($rootScope.globals.currentUser.username+ " - rootscope username");
-            console.log($rootScope.globals.currentUser.id+ " - rootscope id");
+            console.log($rootScope.globals.currentUser.id + " - rootscope id");
             
             
             
@@ -29,9 +29,9 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, $root
 			
 			$http.post("/webapi/account/login", {})
 	        .success(function(data){
-//	        	$rootscope.sessionId=data;
-//		        console.log("inside auth. success" + $rootscope.sessionId);
-		        $location.path("/ua");	        
+	        	$rootScope.sessionId=data;
+		        console.log("inside auth. success. Session Id - " + $rootScope.sessionId);
+		        $location.path("/ua/user/profile");	        
 	        }) 
 			.error(function(data){
 				console.log("zrada");

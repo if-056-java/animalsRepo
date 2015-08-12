@@ -16,20 +16,23 @@ import javax.ws.rs.core.Response;
 public class AuthorizationResource {
 	
 	@POST
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("login")//http:localhost:8080/webapi/account/login
-	public String createSession (@Context HttpServletRequest req) {
+	public Response createSession (@Context HttpServletRequest req) {
 		
 		System.out.println("inside rest");
 		
 		HttpSession session = req.getSession(true);
 		
 		System.out.println(session.getId());
+		
+		session.setAttribute("name","Ivan");
+		session.setAttribute("userId","25");
 
 //        HashMap<String, String> json = new HashMap<String, String>();
 //        json.put("SessionId", session.getId());
 
-        return session.getId();
+        return Response.ok(session).build();
 		
 	}
 
