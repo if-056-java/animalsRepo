@@ -72,6 +72,12 @@
             <artifactId>jersey-media-moxy</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.servlet</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+
         <!-- Junit -->
         <dependency>
             <groupId>junit</groupId>

@@ -10,7 +10,10 @@ import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -124,9 +127,9 @@ public class AdminResource {
     @Path("animals/editor/upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response uploadImage(@FormDataParam("file") InputStream uploadedInputStream, @FormDataParam("file") FormDataContentDisposition fileDetail) {
-        String filePath = "e://" + fileDetail.getFileName();
-        System.out.println(filePath);
+    public Response uploadImage(@Context HttpServletRequest httpServlet, @FormDataParam("file") InputStream uploadedInputStream, @FormDataParam("file") FormDataContentDisposition fileDetail) {
+        String httpPath = "images/" + fileDetail.getFileName();
+        String filePath = httpServlet.getServletContext().getRealPath("/") + httpPath;
         // save the file to the server
         OutputStream os = null;
         try {
@@ -147,7 +150,9 @@ public class AdminResource {
             }
         }
 
-        return Response.status(200).entity(filePath).build();
+        String json = "{\"filePath\":\"" + httpPath + "\"}";
+
+        return Response.status(200).entity(json).build();
 
     }
 

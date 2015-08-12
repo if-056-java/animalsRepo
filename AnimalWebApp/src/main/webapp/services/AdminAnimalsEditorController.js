@@ -72,7 +72,7 @@ angular.module('AdminAnimalsEditor', ['nya.bootstrap.select', 'ui.bootstrap', 'a
             }
 
             var uploader = $scope.uploader = new FileUploader({
-                url: '/webapi/animals/editor/upload'
+                url: "/webapi/admin/animals/editor/upload"
             });
 
             uploader.autoUpload = true;
@@ -86,9 +86,15 @@ angular.module('AdminAnimalsEditor', ['nya.bootstrap.select', 'ui.bootstrap', 'a
                 }
             });
 
-            uploader.onCompleteItem = function (fileItem, response, status, headers) {
-                console.log(response);
+            uploader.onBeforeUploadItem = function(item) {
+                item.formData = {animalId: $scope.animal.id};
             }
+
+            uploader.onCompleteItem = function(fileItem, response, status, headers) {
+                if (status == 200) {
+                    $scope.animal.image = response.filePath;
+                }
+            };
 
             $scope.setImage = function () {
 
