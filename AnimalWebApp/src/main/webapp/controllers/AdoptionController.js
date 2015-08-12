@@ -11,9 +11,6 @@ adoptionModule
             var target = document.getElementById('loading-block')
             new Spinner(opts).spin(target);
 
-            //filters
-            $scope.imageExist = 'yes';
-
             //Pages
             $scope.filter = {};
             $scope.filter.page = 1;
@@ -23,6 +20,7 @@ adoptionModule
 
             $scope.animals = {};
 
+            //This variable decides when spinner loading is closed.
             $scope.loading = 0;
 
             //Amount animals for adoption
