@@ -8,8 +8,8 @@ adoptionModule
             $scope.header_a_f_l = "Тварини на адопцію :";
 
             //initialize loading spinner
-            var target = document.getElementById('loading-block')
-            new Spinner(opts).spin(target);
+            var targetContent = document.getElementById('loading-block');
+            new Spinner(opts).spin(targetContent);
 
             //Pages
             $scope.filter = {};
@@ -20,12 +20,14 @@ adoptionModule
 
             $scope.animals = {};
 
-            //This variable decides when spinner loading is closed.
-            $scope.loading = 0;
+            //This variable decides when spinner loading for contentis closed.
+            $scope.contentLoading = 0;
 
             //Amount animals for adoption
             this.amountRecords = function (filter) {
-                $scope.loading++;
+
+                //Show spinner loading
+                $scope.contentLoading++;
                 return AdoptionFactory.
                     getAmountRecords(filter)
                     .then(
@@ -40,8 +42,9 @@ adoptionModule
                         console.log('Error.' + data)
                     }
                 ).finally(function() {
-                    // called no matter success or failure
-                    $scope.loading--;
+
+                    //hide spinner loading
+                    $scope.contentLoading--;
                 });
             };
 
@@ -49,7 +52,9 @@ adoptionModule
 
             //Animals for adoption
             this.animalsForAdoption = function (filter) {
-                $scope.loading++;
+
+                //Show spinner loading
+                $scope.contentLoading++;
                 return AdoptionFactory.
                     getListOfAdoptionAnimals(filter)
                     .then(
@@ -62,8 +67,9 @@ adoptionModule
                         console.log('Error.' + data)
                     }
                 ).finally(function() {
-                        // called no matter success or failure
-                        $scope.loading--;
+
+                        //hide spinner loading
+                        $scope.contentLoading--;
                 });
             };
 
@@ -71,6 +77,8 @@ adoptionModule
 
             $scope.pageChanged = function () {
                 ACL.animalsForAdoption($scope.filter);
+
+                //scrolling on top of page
                 jQuery('html, body').animate({ scrollTop: 0 }, 500);
             };
 
@@ -98,17 +106,19 @@ adoptionModule
         this.getAnimalTypes();
 
         $scope.getAnimalBreeds = function() {
-            AdoptionFactory.getAnimalBreeds($scope.filter.animal.type.id)
+
+            AdoptionFactory.getAnimalBreeds($scope.$parent.filter.animal.type.id)
                 .then(function(data) {
                     $scope.animalBreeds = data;
                 },
                 function(data) {
                     console.log('Animal breeds retrieval failed.')
+                }).finally(function() {
                 });
         };
 
         $scope.doFilter = function() {
-            $scope.$parent.loading++;
+            $scope.$parent.contentLoading++;
             AdoptionFactory.getAmountRecords($scope.filter)
                 .then(function(data) {
                     $scope.$parent.totalItems = data.rowsCount;
@@ -132,7 +142,7 @@ adoptionModule
                     console.log('Animals retrieval failed.')
                 }).finally(function() {
                     // called no matter success or failure
-                    $scope.$parent.loading--;
+                    $scope.$parent.contentLoading--;
                 });
         };
 

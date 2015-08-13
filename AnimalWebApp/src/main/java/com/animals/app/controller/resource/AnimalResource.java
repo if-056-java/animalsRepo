@@ -26,6 +26,19 @@ public class AnimalResource {
 
     AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
 
+    @POST
+    @Path("animal")//http:localhost:8080/AnimalWebApp/webapi/animals/animal
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response insertAnimal (Animal animal) {
+        if(animal == null)
+            return BAD_REQUEST;
+
+        animalRepository.insert(animal);
+
+        return ok(animal);
+    }
+
     @POST //http:localhost:8080/webapi/adoption/pagenator
     @Path("adoption/pagenator")
     @Consumes(MediaType.APPLICATION_JSON)

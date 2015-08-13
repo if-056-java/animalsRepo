@@ -72,6 +72,14 @@
 	
 			<li><a href="#ua/user/profile">Мій Кабінет</a></li>
 
+            <li class="dropdown">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown">Реєстація тварини <b class="caret"></b> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#ua/animal/registration_homeless">Зареєструвати бездомну</a> </li>
+                    <li><a href="#ua/animal/registration_owned">Зареєструвати власну</a> </li>
+                    <li><a href="#ua/animal/registration_curator">Зареєструвати на опікунство</a> </li>
+                </ul>
+            </li>
 
 		  <li class="dropdown">
 				<a href="" class="dropdown-toggle" data-toggle="dropdown">Модерація <b class="caret"></b></a>
@@ -177,6 +185,10 @@
  <script src="modules/AdoptionModule.js"></script>
  <script src="services/AdoptionFactory.js"></script>
  <script src="controllers/AdoptionController.js"></script>
+
+ <script src="modules/AnimalRegistrationModule.js"></script>
+ <script src="services/AnimalRegistrationFactory.js"></script>
+ <script src="controllers/AnimalRegistrationController.js"></script>
 
  <script src="services/AdminAnimalsModule.js"></script>
  <script src="services/AnimalShortInfoModule.js"></script>

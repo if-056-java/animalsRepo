@@ -3,6 +3,7 @@ var animalApp = angular.module('animalApp', [
     'ngResource',
 
     'AdoptionModule',
+    'AnimalRegistrationModule',
 
     'FindController',
     'LostController',
@@ -78,6 +79,10 @@ animalApp .config(['$routeProvider',
         templateUrl: 'views/animal_short_info.html',
         controller: 'AnimalShortInfoController'
       }).
+      when('/ua/animal/registration_homeless', {
+        templateUrl: 'views/reg_homeless.html',
+        controller: 'AnimalRegistrationController'
+      }).
       otherwise({
         redirectTo: '/ua'
       });
@@ -89,6 +94,7 @@ animalApp.constant('RESOURCES', {
         ANIMALS_FOR_ADOPTING_PAGINATOR: 'webapi/animals/adoption/pagenator',
         ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption',
         ANIMAL_TYPES: 'webapi/animals/animal_types',
-        ANIMAL_BREEDS: 'webapi/animals/animal_breeds/'
+        ANIMAL_BREEDS: 'webapi/animals/animal_breeds/',
+        ANIMAL_REGISTRATION: 'webapi/animals/animal'
 });
 

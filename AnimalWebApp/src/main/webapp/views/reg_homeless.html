@@ -1,11 +1,10 @@
-<div class="reg_losted"> 
 <section id="reg_losted">
     <div class="jumbotron">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-lg-12">
                     <div class="col-sm-1 col-lg-1">
-                        <p><img src="img/main_dog.jpg" width="70"></p>
+                        <p><img src="../resources/img/main_dog.jpg" width="70"></p>
                     </div>
                     <div class="col-sm-11 col-lg-11">
                         <h2>Реєстрація безпритульної тварини</h2>
@@ -15,315 +14,204 @@
         </div>
     </div>
 
-<div class="container">
-	<div class="row">
-		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-4">
-			<form>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Загальні</h3>
-					</div>
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
-					<div class="dropdown">
-						<label for="animal-kind">Тип(вид) тварини:</label><br>
-							<button class="btn btn-default dropdown-toggle"
-									type="button" id="animal-kind"
-									data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="true">
-									Тип(вид) тварини:
-									<span class="caret"></span>
-							</button>
-						<ul class="dropdown-menu" aria-labelledby="animal-kind">
-							<li><a href="#">Собака</a></li>
-							<li><a href="#">Кішка</a></li>
-							<li><a href="#">Папуга</a></li>
-							<li><a href="#">Кінь</a></li>
-							<li><a href="#">Крокодил</a></li>
-						</ul>
-					</div>
-				</div>
-				
-							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
-					<div class="dropdown">
-						<label for="cites">Приналежність до CITES:</label><br>
-						<button class="btn btn-default dropdown-toggle"
-								type="button" id="cites"
-								data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="true">
-								CITES:
-								<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="cites">
-							<li><a href="#">Не визначено</a></li>
-							<li><a href="#">CITES I</a></li>
-							<li><a href="#">CITES II</a></li>
-							<li><a href="#">CITES III</a></li>
-						</ul>
-					</div>
-				</div>
-				
-							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
-					<div class="dropdown">
-						<label for="animal-size">Розмір тварини:</label><br>
-						<button class="btn btn-default dropdown-toggle"
-								type="button" id="animal-size"
-								data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="true">
-								Розмір тварини:
-								<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="cites">
-							<li><a href="#">Маленька(до 45см.)</a></li>
-							<li><a href="#">Середня(45-85см.)</a></li>
-							<li><a href="#">Велика(від 85см.)</a></li>
-						</ul>
-					</div>
-				</div>
-						</div>
-			
-			<hr>
-			
-				<div class="row">
-				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
-					<div class="form-group">
-						<label for="breed">Порода:</label>
-						<input type="text" class="form-control"
-						   id="breed" placeholder="Порода"/>
-					</div>
-				</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-4" ng-controller="AnimalDetailController">
+                <form>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Загальні відомості</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
 
-				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">	
-					<label for="sex-m" class="control-label input-group">Стать:</label>
-					<div class="btn-group" data-toggle="buttons">
-						<label class="btn btn-default">
-							<input type="radio" id="sex-m" value="M">Ч
-						</label>
-						<label class="btn btn-default">
-							<input type="radio" id="sex-w" value="W">Ж
-						</label>
-					</div>
-				</div>
-				
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-3">	
-					<div class="form-group">
-						<label for="birth-date">Дата народження:</label>
-						<input type="text" class="form-control"
-						   id="birth-date" placeholder="Дата народження"/>
-					</div>
-				</div>
-			</div>
-					</div>
-				</div>
-	
-				<div class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-6">
-		<!-- Окрас -->
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Окрас</h3>
-				</div>
-				<div class="panel-body">
-					<label>Виберіть основний колір в окрасі:</label><br>
-					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-						<input type="checkbox" id="color-white"> Білий
-					</label>
-					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-						<input type="checkbox" id="color-black"> Чорний
-					</label>
-					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-						<input type="checkbox" id="color-gray"> Сірий
-					</label>
-					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-						<input type="checkbox" id="color-rudi"> Рудий
-					</label>
-					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-						<input type="checkbox" id="color-brown"> Коричневий
-					</label>
-					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-						<input type="checkbox" id="color-pail"> Палевий
-					</label>`
-					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-						<input type="checkbox" id="color-yellow"> Жовтий
-					</label>
-					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-6"
-						   style="margin-top: -20px;">
-						<input type="checkbox" id="color-red"> Червоний
-					</label>
-					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-						<input type="checkbox" id="color-blue"> Синій
-					</label>
-					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-						<input type="checkbox" id="color-green"> Зелений
-					</label>
-					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-						<input type="checkbox" id="color-orange"> Оранжевий
-					</label>
-					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-						<input type="checkbox" id="color-light-green"> Салатовий
-					</label>
-	
-					<label>Виберіть окрас(не обов'язково):</label><br>
+                                <!-- Animal type -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+                                    <label for="animal-kind">Тип(вид) тварини:</label><br>
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/_white.png" alt="Білий">
-						<div class="caption">
-							<p>Білий</p>
-						</div>
-					</div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Тип:</span>
+                                        <ol id="animal-kind" class="nya-bs-select nya-bs-select-mod"
+                                            ng-model="animal.type"
+                                            ng-change="getAnimalBreeds()" style="cursor: pointer" title="Не вибрано">
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/black.png" alt="Чорний">
-						<div class="caption">
-							<p>Чорний</p>
-						</div>
-					</div>
+                                            <li nya-bs-option="animalType in animalTypes">
+                                                <a>{{ animalType.type }}</a>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/red.png" alt="Рудий">
-						<div class="caption">
-							<p>Рудий</p>
-						</div>
-					</div>
+                                <!-- Animal size -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+                                    <label>Розмір тварини:</label>
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/_brown.png" alt="Коричневий">
-						<div class="caption">
-							<p>Коричневий</p>
-						</div>
-					</div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Розмір:</span>
+                                        <ol class="nya-bs-select nya-bs-select-mod" style="cursor: pointer"
+                                            ng-model="animal.size" title="Не вибрано">
+                                            <li class="nya-bs-option" value="малий"><a>маленький</a></li>
+                                            <li class="nya-bs-option" value="середній"><a>середній</a></li>
+                                            <li class="nya-bs-option" value="великий"><a>великий</a></li>
+                                        </ol>
+                                    </div>
+                                </div>
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/tiger.png" alt="Тигровий">
-						<div class="caption">
-							<p>Тигровий</p>
-						</div>
-					</div>
+                                <!-- Animal CITES -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+                                    <label>Приналежність до CITES:</label>
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/podpaliy.png" alt="Підпалий">
-						<div class="caption">
-							<p>Підпалий</p>
-						</div>
-					</div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">CITES:</span>
+                                        <ol class="nya-bs-select nya-bs-select-mod" style="cursor: pointer"
+                                            ng-model="animal.citesType" title="Не вибрано">
+                                            <li class="nya-bs-option" value="не визначено"><a>Не належить</a></li>
+                                            <li class="nya-bs-option" value="CITES I"><a>CITES I</a></li>
+                                            <li class="nya-bs-option" value="CITES II"><a>CITES II</a></li>
+                                            <li class="nya-bs-option" value="CITES III"><a>CITES III</a></li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/paleviy.png" alt="Палевий">
-						<div class="caption">
-							<p>Палевий</p>
-						</div>
-					</div>
+                            <hr>
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/pyatnistiy.png" alt="Плямистий">
-						<div class="caption">
-							<p>Плямистий</p>
-						</div>
-					</div>
+                            <div class="row">
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/tricolor.png" alt="Триколірний">
-						<div class="caption">
-							<p>Триколірний</p>
-						</div>
-					</div>
+                                <!-- Animal birth date -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+                                    <div class="form-group">
+                                        <label for="birth-date">Дата народження:</label>
+                                        <input type="text" class="form-control"
+                                               id="birth-date" ng-model="animal.dateOfBirth"
+                                               placeholder="Дата народження"/>
+                                    </div>
+                                </div>
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/grey.png" alt="Сірий">
-						<div class="caption">
-							<p>Сірий</p>
-						</div>
-					</div>
+                                <!-- Animal sex -->
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <label class="control-label input-group">Стать:</label>
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/pegiy2.png" alt="Рябий">
-						<div class="caption">
-							<p>Рябий</p>
-						</div>
-					</div>
+                                    <div class="form-group">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="sex" value="самець" ng-model="animal.sex">
+                                                Самець
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="sex" value="самка" ng-model="animal.sex">
+                                                Самка
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/cherpak.png" alt="Черпачний">
-						<div class="caption">
-							<p>Черпачний</p>
-						</div>
-					</div>
+                                <!-- Animal breed -->
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-3">
+                                    <label>Введіть породу тварини:</label>
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/_mramor.png" alt="Мармуровий">
-						<div class="caption">
-							<p>Мармуровий</p>
-						</div>
-					</div>
+                                    <div class="form-group">
+                                        <input type="text" ng-model="animal.breed"
+                                               typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8"
+                                               class="form-control border-right-radius"
+                                               placeholder="Порода тварини">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-					<div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin">
-						<img src="img/animalColors/_wolf.png" alt="Вовчий">
-						<div class="caption">
-							<p>Вовчий</p>
-						</div>
-					</div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6">
+                            <!-- Окрас -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Окрас</h3>
+                                </div>
+                                <div class="panel-body">
 
-					<input type="text" class="form-control"
-							id="animal-color" placeholder="Або введіть вручну"/>
+                                    <!-- Animal colors (on image) -->
+                                    <label>Виберіть основний окрас:</label><br>
+                                    <div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin"
+                                         ng-repeat="color in colorTypes">
 
-				</div>
-			</div>
-		</div>
+                                        <a ng-href class="sprite-image" id="color-sprites-{{$index}}"
+                                           ng-click="addColor(color)"></a>
+                                        {{color}}
+                                    </div>
+
+                                    <!-- Animal colors (text field) -->
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6">
+                                        <label>Або введіть вручну:</label>
+                                        <input type="text" class="form-control"
+                                               id="animal-color" placeholder="Або введіть вручну"
+                                               ng-model="animal.color" value="{{animal.color}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Інформація про місцезнаходження</h3>
+                                </div>
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <label for="country">Країна:</label>
+                                        <input type="text" class="form-control"
+                                               id="country" placeholder="Країна"
+                                                ng-model="address.country"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="town">Місто:</label>
+                                        <input type="text" class="form-control"
+                                               id="town" placeholder="Місто"
+                                               ng-model="address.town"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="animal-address">Адреса місця перебування тварини:</label>
+                                        <input type="text" class="form-control"
+                                               id="animal-address" placeholder="Поштова адреса"
+                                               ng-model="address.street"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="animal-post-index">Поштовий індекс місця перебування
+                                            тварини:</label>
+                                        <input type="text" class="form-control"
+                                               id="animal-post-index" placeholder="Поштовий індекс"
+                                               ng-model="address.index"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Фотографія тварини</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <label for="animal-photo">Завантажте фотографію тварини:</label><br>
+                                    <input type="file" id="animal-photo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" ng-click="insertHomelessAnimal(animal)">Зареєструвати</button>
+
+                </form>
+            </div>
+        </div>
     </div>
-				<div class="row">
-        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-4">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Інформація про локацію</h3>
-				</div>
-				<div class="panel-body">
-
-					<div class="form-group">
-						<label for="country">Країна:</label>
-						<input type="text" class="form-control"
-								id="country" placeholder="Країна"/>
-					</div>
-
-					<div class="form-group">
-						<label for="town">Місто:</label>
-						<input type="text" class="form-control"
-							   id="town" placeholder="Місто"/>
-					</div>
-
-					<div class="form-group">
-						<label for="animal-address">Адреса місця перебування тварини:</label>
-						<input type="text" class="form-control"
-							   id="animal-address" placeholder="Поштова адреса"/>
-					</div>
-
-					<div class="form-group">
-						<label for="animal-post-index">Поштовий індекс місця перебування тварини:</label>
-						<input type="text" class="form-control"
-							   id="animal-post-index" placeholder="Поштовий індекс"/>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-lg-5 col-md-5 col-sm-5 col-xs-4">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Фотографія тварини</h3>
-				</div>
-				<div class="panel-body">
-					<label for="animal-photo">Виберіть фотографію тварини:</label><br>
-					<span class="btn btn-default btn-file">
-							Завантажити <input type="file" id="animal-photo">
-					</span>
-				</div>
-			</div>
-		</div>
-    </div>
-
-				<button type="submit" class="btn btn-primary">Зареєструвати</button>
-
-			</form>   
-		</div>
-	</div>
-</div>
+</section>
