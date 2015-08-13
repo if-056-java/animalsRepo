@@ -3,6 +3,8 @@ package sendEmail;
  * Created by aquarius on 8/7/2015.
  */
 
+    import java.io.File;
+    import java.io.FileInputStream;
     import java.io.IOException;
     import java.io.InputStream;
     import java.nio.file.Files;
@@ -115,13 +117,13 @@ public class GmailSender {
 
 
 
-        public static void refreshConfig() {
+        public void refreshConfig() {
             MailServerConfig.clear();
             fetchConfig();
         }
 
-    private static Properties MailServerConfig = new Properties();
-    static {
+    private Properties MailServerConfig = new Properties();
+    {
         fetchConfig();
     }
 
@@ -129,10 +131,15 @@ public class GmailSender {
      * Open a specific text file containing mail server
      * parameters, and populate a corresponding Properties object.
      */
-    private static void fetchConfig() {
+    private void fetchConfig() {
         //This file contains the javax.mail config properties mentioned above.
-        Path path = Paths.get("D:\\mailSetup.txt");
-        try (InputStream input = Files.newInputStream(path)) {
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("mail.properties").getFile());
+
+        System.out.println("file" + file.toString());
+
+        try (InputStream input = new FileInputStream(file);) {
             MailServerConfig.load(input);
         }
         catch (IOException ex){
