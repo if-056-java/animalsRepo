@@ -53,7 +53,7 @@ public class AuthorizationResource {
 		
 		if(session.getAttribute("userId") == null){
 			
-			String str = "{\"sessionId\" : \"0\"}";
+			String str = "{\"userId\" : \"0\"}";
 					
 			return Response.status(Response.Status.OK).entity(str).build();
 		}
@@ -66,6 +66,28 @@ public class AuthorizationResource {
 		System.out.println(str);
 
 		return Response.status(Response.Status.OK).entity(str).build();
+		
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("logout")//http:localhost:8080/webapi/account/refresh
+	public Response destroySession(@Context HttpServletRequest req) {
+		
+		System.out.println("destroying");
+		
+		HttpSession session = req.getSession(true);
+		
+		//session.setAttribute("userId","0");
+		
+		session.invalidate();	
+		
+		//System.out.println((String)session.getAttribute("userId"));
+			
+		String str = "{\"userId\" : \"0\"}";
+					
+		return Response.status(Response.Status.OK).entity(str).build();
+		
 		
 	}
 

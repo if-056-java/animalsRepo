@@ -93,7 +93,21 @@ animalApp.constant('RESOURCES', {
 });
 
 
-animalApp.controller('MainController', function($scope, userAccount) {
+animalApp.controller('MainController', function($scope, $rootScope, userAccount) {
 	userAccount.refreshSession();
+	$scope.logout = function() {
+        console.log("logout");
+        userAccount.logout();
+    };
+    
+    $scope.session = function(value) {
+        
+        if ($rootScope.userId == 0)
+          return true;
+        else 
+          return false;
+        
+      };
+      
 });
 

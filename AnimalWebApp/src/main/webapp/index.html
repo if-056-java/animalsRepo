@@ -91,7 +91,9 @@
 		<!-- Форма входу -->
 				
 				<form class="navbar-form navbar-right" role="form">
-				    <a href="#ua/user/login" class="btn btn-success" role="button">Вхід <span class="glyphicon glyphicon-door"></span></a>
+				    <a ng-show="session()" href="#ua/user/login" class="btn btn-success" role="button">Вхід <span class="glyphicon glyphicon-door"></span></a>
+				    <label ng-show="!session()">Welcome {{userName}}</label>
+				    <a ng-show="!session()" ng-click="logout()" class="btn btn-success" role="button">Logout</a>
 				</form>				
 		</div><!-- /.nav-collapse -->
 	</div>	

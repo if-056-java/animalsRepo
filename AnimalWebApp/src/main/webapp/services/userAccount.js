@@ -1,5 +1,5 @@
 //created by 41X
-angular.module('animalApp').factory('userAccount',function (Base64, $http, $rootScope, $location){
+angular.module('animalApp').factory('userAccount',function (Base64, $http, $rootScope, $location, $route){
 	
 	return {
 		
@@ -53,8 +53,24 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, $root
 			
 			$rootScope.globals = {};
             //$cookieStore.remove('globals');
-            $http.defaults.headers.common.Authorization = 'Basic ';
-            $location.path("/ua");	
+            //$http.defaults.headers.common.Authorization = 'Basic ';
+			
+            $http.get("/webapi/account/logout")
+	        .success(function(data){	        	
+	        	$rootScope.userId=data.userId;
+	        	$rootScope.userName=null;
+		        console.log("Logout. success. Session Id - " + $rootScope.userId);	
+		        $location.path("/ua");
+		        $route.reload();
+	        }) 
+			.error(function(data){
+				$rootScope.sessionId=null;
+				console.log("logout session error");
+			});
+           
+            
+            
+            
 		},
 		
 		refreshSession:function(){
