@@ -92,3 +92,8 @@ animalApp.constant('RESOURCES', {
         ANIMAL_BREEDS: 'webapi/animals/animal_breeds/'
 });
 
+
+animalApp.controller('MainController', function($scope, userAccount) {
+	userAccount.refreshSession();
+});
+

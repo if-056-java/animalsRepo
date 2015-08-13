@@ -3,7 +3,7 @@ var animalAppControllers = angular.module('UserProfileController', []);
 
 animalApp.controller('UserProfileController', function($scope, userData, hashPassword, $rootScope) {
 		
-	console.log("before" + $rootScope.globals.currentUser.id);
+	console.log("before" + $rootScope.userId);
 	
 	$scope.IsHidden = true;
 	$scope.showPopup = function () {$scope.IsHidden =  false;}    
@@ -12,7 +12,7 @@ animalApp.controller('UserProfileController', function($scope, userData, hashPas
 	$scope.userInfo = null;
 	$scope.fields = null;
 		
-	var id = $rootScope.globals.currentUser.id;
+	var id = $rootScope.userId;
 	
 	userData.getUser(id).success(function(data){				//webapi/users/user/{id}
 		$scope.userInfo=data;

@@ -29,9 +29,18 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, $root
 			
 			$http.post("/webapi/account/login", {})
 	        .success(function(data){
-	        	$rootScope.sessionId=data;
+	        	
+	        	$rootScope.sessionId=data.sessionId;
+	        	$rootScope.userName=data.userName;
+	        	$rootScope.userId=data.userId;
+	        	
 		        console.log("inside auth. success. Session Id - " + $rootScope.sessionId);
-		        $location.path("/ua/user/profile");	        
+		        console.log(" UserName - " + $rootScope.userName);
+		        console.log(" userId - " + $rootScope.userId);
+		        
+		        $location.path("/ua/user/profile");	
+		        $route.reload();
+		        //$window.location.reload();
 	        }) 
 			.error(function(data){
 				console.log("zrada");
@@ -40,10 +49,29 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, $root
 		
 		logout:function(){
 			
+			console.log("logout");
+			
 			$rootScope.globals = {};
             //$cookieStore.remove('globals');
             $http.defaults.headers.common.Authorization = 'Basic ';
             $location.path("/ua");	
+		},
+		
+		refreshSession:function(){
+			
+			console.log("restart Session");
+			
+			$http.get("/webapi/account/refresh")
+	        .success(function(data){
+	        	$rootScope.sessionId=data.sessionId;
+	        	$rootScope.userName=data.userName;
+	        	$rootScope.userId=data.userId;
+		        console.log("Restart. success. Session Id - " + $rootScope.sessionId);		                
+	        }) 
+			.error(function(data){
+				$rootScope.sessionId=null;
+				console.log("restart session error");
+			});
 		}
 		
 	};	
