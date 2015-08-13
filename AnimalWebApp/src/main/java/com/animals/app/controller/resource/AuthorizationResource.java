@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import java.io.IOException;
-import java.util.Base64;
+import org.apache.commons.codec.binary.Base64;
 import java.util.StringTokenizer;
 
 @Path("account")
@@ -39,8 +39,9 @@ public class AuthorizationResource {
 		String usernameAndPassword=null;
 		
 		try {
-            byte[] decodedBytes = Base64.getDecoder().decode(sub);
-            usernameAndPassword = new String(decodedBytes, "UTF-8");
+			byte[] decoded = Base64.decodeBase64(sub);
+//            byte[] decodedBytes = Base64.getDecoder().decode(sub);
+            usernameAndPassword = new String(decoded, "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
         }
