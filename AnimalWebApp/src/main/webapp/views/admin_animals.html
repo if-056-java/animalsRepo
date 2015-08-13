@@ -4,6 +4,7 @@
         <div class="col-md-3 detailed-bottom" id="animals-admin-left" ng-controller="AdminAnimalsFilterController">
             <a class="btn btn-success col-md-12" href ng-click="reset()" role="button" id="animals-admin-drop-filters">Скинути фільтри</a>
 
+            <!-- Type filter -->
             <div class="input-group">
                 <span class="input-group-addon">Тип</span>
                 <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.type" ng-change="getAnimalBreeds()" title="Нічого не вибрано">
@@ -12,12 +13,19 @@
                     </li>
                 </ol>
             </div>
+
             <hr>
+
+            <!-- Breed filter -->
             <div class="input-group">
                 <span class="input-group-addon">Порода</span>
-                <input type="text" ng-model="filter.animal.breed" typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8" class="form-control border-right-radius">
+                <input type="text" ng-model="filter.animal.breed" typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8"
+                       class="form-control border-right-radius" ng-disabled="filterAnimalBreedFlag">
             </div>
+
             <hr>
+
+            <!-- Sex filter -->
             <div class="input-group">
                 <span class="input-group-addon">Стать</span>
                 <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.sex" title="Нічого не вибрано">
@@ -27,6 +35,8 @@
                 </ol>
             </div>
             <hr>
+
+            <!-- Size filter -->
             <div class="input-group">
                 <span class="input-group-addon">Розмір</span>
                 <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.size" title="Нічого не вибрано">
@@ -36,9 +46,12 @@
                     <li class="nya-bs-option" value="великий"><a>великий</a></li>
                 </ol>
             </div>
+
             <hr>
             <a class="btn btn-success col-md-12" href ng-click="doFilter()" role="button">Фільтрувати</a>
         </div>
+
+        <!-- Animals list -->
         <div class="col-md-9 panel panel-success">
             <table class="table table-hover">
                 <thead>
@@ -49,7 +62,6 @@
                     <td><strong>Окрас</strong></td>
                     <td><strong>Номер мікрочіпу</strong></td>
                     <td><strong>Дата народження</strong></td>
-
                     <td />
                 </tr>
                 </thead>
@@ -66,15 +78,20 @@
                 </tbody>
             </table>
         </div>
+
     </div>
 </div>
 <div class="row">
     <div class="col-md-6 col-md-offset-3 panel panel-success text-center">
         <div class="col-md-2"></div>
+
+        <!-- Pagination -->
         <div class="col-md-8">
             <pagination boundary-links="true" total-items="totalItems" ng-model="filter.page" ng-change="pageChanged()" class="paginator" items-per-page="filter.limit"
                         previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>
+
+        <!-- Row count selector -->
         <div class="col-md-2 rows-count">
             <div class="btn-group" dropdown keyboard-nav>
                 <div class="btn-group" dropdown is-open="status.isopen">
@@ -89,5 +106,6 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>

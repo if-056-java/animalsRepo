@@ -70,7 +70,7 @@ public class TestAnimalRepositoryImpl {
         assertNotNull(expected);
     }
 
-/*
+
     @Test
     public void test03GetAdminAnimalsPaginator() {
         AnimalsFilter animalsFilter = new AnimalsFilter(1, 10);
@@ -85,11 +85,10 @@ public class TestAnimalRepositoryImpl {
 
     @Test
     public void test04GetAllForAdopting() {
-        List<Animal> expected = animalRepositoryImpl.getAllForAdopting();
+        List<Animal> expected = animalRepositoryImpl.getAllForAdopting(new AnimalsFilter(1,10));
 
         assertNotNull(expected);
     }
-*/
 
     @Test
     public void test05GetById() {

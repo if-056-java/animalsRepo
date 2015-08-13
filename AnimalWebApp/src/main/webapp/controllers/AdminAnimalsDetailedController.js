@@ -1,16 +1,20 @@
 angular.module('AdminAnimalsDetailed', ['AdminAnimalsModule'])
     .controller('AdminAnimalsDetailedController', ['$scope', 'AdminAnimalsService', '$routeParams', '$window',
         function($scope, AdminAnimalsService, $routeParams, $window) {
-            $scope.goBack = function() {
-                $window.history.back();
-            }
         
-            var animalId = $routeParams.animalId;
+            var animalId = $routeParams.animalId;   //route parameter - animal id
 
+            /**
+             * @param animalId id of animal used for lookup.
+             * @return animal instance.
+             */
             this.getAnimal = function(animalId) {
                 AdminAnimalsService.getAnimal(animalId)
                     .then(function(data) {
                         $scope.animal = data;
+                        if ($scope.animal.image != undefined) {
+                            $scope.animal.image = $scope.animal.image + "?timestamp=" + new Date().getTime();
+                        }
                     },
                     function(data) {
                         console.log('Animal retrieval failed.')
@@ -19,6 +23,9 @@ angular.module('AdminAnimalsDetailed', ['AdminAnimalsModule'])
 
             this.getAnimal(animalId);
 
+            /**
+             * delete animal.
+             */
             $scope.deleteAnimal = function() {
                 AdminAnimalsService.deleteAnimal($scope.animal.id)
                     .then(function(data) {
