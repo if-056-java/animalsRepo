@@ -74,8 +74,8 @@ public class AnimalResource {
     }
 
 
-    @GET //http:localhost:8080/webapi/animals/adoption/id
-    @Path("adoption")
+    @GET //http:localhost:8080/webapi/animals/{adoption|found|lost}/id
+    @Path("{parameter: adoption|found|lost}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getShortInfo(@PathParam ("animalId") String id) {
 
@@ -85,6 +85,7 @@ public class AnimalResource {
         int idAnimal = (int) Integer.parseInt(id);
 
         Animal animalShortInfo = animalRepository.getShortInfoById(idAnimal);
+       
 
         if (animalShortInfo == null)
             return NOT_FOUND;

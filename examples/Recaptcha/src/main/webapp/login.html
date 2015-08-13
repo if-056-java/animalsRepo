@@ -25,6 +25,13 @@
             This way it's safer because we don't depend on a timeout hack that we are currently using in the directive.
         </p>
 
+        <label>¬вед≥ть породу тварини:</label>
+        <div class="input-group">
+            <input type="text" ng-model="filter.animal.breed"
+                   class="form-control border-right-radius">
+        </div>
+        <hr>
+
         <!-- Call a method in the scope of your controller to handle data submit -->
         <form ng-submit="submit()">
             <div

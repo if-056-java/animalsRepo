@@ -102,8 +102,8 @@ public interface AnimalRepository {
             "FROM animals " +
             "WHERE userId=#{id}";
 
-    final String SELECT_SHORT_INFO_BY_ID = "SELECT id, sex, typeId, size, citesType, breed, " +
-            "dateOfBirth, dateOfSterilization, color, " +
+    final String SELECT_SHORT_INFO_BY_ID = "SELECT id, sex, typeId, citesType, breed, " +
+            "dateOfBirth, dateOfSterilization, color, dateOfRegister, size, image " +
             "FROM animals WHERE id = #{id}";
 
     /**
@@ -236,20 +236,15 @@ public interface AnimalRepository {
             @Result(property="sex", column="sex", javaType = Animal.SexType.class),
             @Result(property="type", column="typeId", javaType = AnimalType.class,
                     one = @One(select = "com.animals.app.repository.AnimalTypeRepository.getById")),
-            @Result(property="size", column="size", javaType = Animal.SizeType.class),
             @Result(property="cites", column="citesType", javaType = Animal.CitesType.class),
             @Result(property="breed", column="breed", javaType = AnimalBreed.class,
                     one = @One(select = "com.animals.app.repository.AnimalBreedRepository.getById")),
             @Result(property="dateOfBirth", column="dateOfBirth"),
             @Result(property="dateOfSterilization", column="dateOfSterilization"),
             @Result(property="color", column="color"),
-            @Result(property="user", column="userId", javaType = User.class,
-                    one = @One(select = "com.animals.app.repository.UserRepository.getByIdForAdminAnimalList")),
-            @Result(property="address", column="address"),
-            @Result(property="active", column="isActive"),
-            @Result(property="image", column="image"),
-            @Result(property="service", column="serviceId", javaType = AnimalService.class,
-                    one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById"))
-    })
+            @Result(property="dateOfRegister", column = "dateOfRegister"),
+            @Result(property="size", column="size", javaType = Animal.SizeType.class),
+            @Result(property="image", column="image")
+	})
     Animal getShortInfoById(long id);
 }
