@@ -10,6 +10,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.io.IOException;
+import java.util.Base64;
+import java.util.StringTokenizer;
+
 @Path("account")
 public class AuthorizationResource {
 	
@@ -24,10 +28,33 @@ public class AuthorizationResource {
 		
 		HttpSession session = req.getSession(true);
 		
+		String header = req.getHeader("Authorization");
+		
+		System.out.println("header - " + header);
+		
+		String sub = header.replaceFirst("Basic" + " ", "");
+		
+		System.out.println(sub);
+		
+		String usernameAndPassword=null;
+		
+		try {
+            byte[] decodedBytes = Base64.getDecoder().decode(sub);
+            usernameAndPassword = new String(decodedBytes, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        final StringTokenizer tokenizer = new StringTokenizer(usernameAndPassword, ":");
+        final String username = tokenizer.nextToken();
+        final String password = tokenizer.nextToken();
+        
+        System.out.println("username - "+username);
+        System.out.println("username - "+password);
+		
 		System.out.println(session.getId());
 		
-		session.setAttribute("userName","root");
-		session.setAttribute("userId","101");      
+		session.setAttribute("userName",username);
+		session.setAttribute("userId",password);      
 
         String str = "{\"sessionId\" : \"" + (String)session.getId() + 
         			"\", \"userId\" : \"" + (String)session.getAttribute("userId") +
