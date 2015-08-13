@@ -92,3 +92,22 @@ animalApp.constant('RESOURCES', {
         ANIMAL_BREEDS: 'webapi/animals/animal_breeds/'
 });
 
+
+animalApp.controller('MainController', function($scope, $rootScope, userAccount) {
+	userAccount.refreshSession();
+	$scope.logout = function() {
+        console.log("logout");
+        userAccount.logout();
+    };
+    
+    $scope.session = function(value) {
+        
+        if ($rootScope.userId == 0)
+          return true;
+        else 
+          return false;
+        
+      };
+      
+});
+

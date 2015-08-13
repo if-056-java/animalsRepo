@@ -23,6 +23,7 @@
     
     <!-- Підібрані стилі для навігаційної панелі -->
     <link href="resources/css/navbar_green.css" rel="stylesheet">
+    
 
     <!-- Підібрані стилі для сторінки -->
     <link href="resources/css/styles.css" rel="stylesheet">
@@ -36,7 +37,7 @@
 
 </head>
 
-<body ng-app="animalApp">
+<body ng-app="animalApp" ng-controller="MainController">
 
 <header>
    <nav class="navbar navbar-fixed-top navbar-default" role="navigation">
@@ -70,11 +71,11 @@
 			 
 		    <li><a href="#ua/contacts">Контакти</a></li>
 	
-			<li><a href="#ua/user/profile">Мій Кабінет</a></li>
+			<li><a ng-show="!session()" href="#ua/user/profile">Мій Кабінет</a></li>
 
 
 		  <li class="dropdown">
-				<a href="" class="dropdown-toggle" data-toggle="dropdown">Модерація <b class="caret"></b></a>
+				<a ng-show="!session()" href="" class="dropdown-toggle" data-toggle="dropdown">Модерація <b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<li><a href="#">Реєстр тварин</a></li>
 					<li role="presentation" class="divider"></li>
@@ -90,7 +91,9 @@
 		<!-- Форма входу -->
 				
 				<form class="navbar-form navbar-right" role="form">
-				    <a href="#ua/user/login" class="btn btn-success" role="button">Вхід <span class="glyphicon glyphicon-door"></span></a>
+				    <a ng-show="session()" href="#ua/user/login" class="btn btn-success" role="button">Вхід <span class="glyphicon glyphicon-door"></span></a>
+				    <label ng-show="!session()">Welcome {{userName}}</label>
+				    <a ng-show="!session()" ng-click="logout()" class="btn btn-success" role="button">Logout</a>
 				</form>				
 		</div><!-- /.nav-collapse -->
 	</div>	
@@ -200,6 +203,8 @@
  <script src="services/currentDate.js"></script>
  <script src="services/hashPassword.js"></script>
  <script src="services/userData.js"></script>
+ <script src="services/userAccount.js"></script>
+ <script src="services/Base64.js"></script>
 
 </body>
 </html>
