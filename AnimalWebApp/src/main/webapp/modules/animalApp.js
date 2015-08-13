@@ -74,7 +74,7 @@ animalApp .config(['$routeProvider',
         templateUrl: 'views/user_profile.html',
         controller: 'UserProfileController'
       }).
-	  when('/ua/animal/adoption/:animalId', {
+	  when('/ua/animal/:service/:animalId', {
         templateUrl: 'views/animal_short_info.html',
         controller: 'AnimalShortInfoController'
       }).
