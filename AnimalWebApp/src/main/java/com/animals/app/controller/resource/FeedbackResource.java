@@ -31,14 +31,14 @@ public class FeedbackResource {
         @POST
         @Path("mail")//http:localhost:8080/webapi/contacts/mail
         @Consumes(MediaType.APPLICATION_JSON)
-        @Produces(MediaType.APPLICATION_JSON)
+        @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
         public Response sendFeedback (Feedback feedback) {
 
             if (feedback==null) return BAD_REQUEST;
 
-            System.out.println("POST" + feedback);
+            System.out.println("reCaptcha =" + feedback.getgRecaptchaResponse());
 
-            return ok("1");
+            return ok("0");
 
         }
 
