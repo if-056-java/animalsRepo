@@ -1,6 +1,6 @@
 var animalAppControllers = angular.module('ContactsController', ['vcRecaptcha']);
 
-animalApp.controller('ContactsController', function ($scope, vcRecaptchaService) {
+animalApp.controller('ContactsController', function ($http, $scope, vcRecaptchaService) {
 
     var myLatlng = new google.maps.LatLng(49.863400, 24.044500);
     var mapOptions = {
@@ -42,14 +42,40 @@ animalApp.controller('ContactsController', function ($scope, vcRecaptchaService)
     };
     $scope.submit = function () {
         var valid = 1;
-                /**
+
+        if(vcRecaptchaService.getResponse() === ""){ //if answer from Google is empty
+            alert("Пройдіть перевірку на захист від спаму - клацніть на картинці - 'Я не робот'")
+        }else {
+            var feedback = { //prepare JSON for sending e-mail
+				'mail' : {
+                'signup':$scope.feedback.signature,
+                'email':$scope.feedback.email,
+                'text':$scope.feedback.text
+				},
+                'g-recaptcha-response': $scope.response  //g-captcah-reponse for server
+            }
+
+        }
+        console.log('sending the captcha response to the server', feedback);
+ /* MAKE AJAX REQUEST to our server with g-captcha-string */
+        $http.post('//localhost:8080/webapi/contacts/mail',feedback).success(function(response){
+            if(response.error === 0){
+                alert("Лист відправлено! 				Дякуємо за Ваш відгук!");
+            }else{
+                alert("Лист не відправлено - помилка в  ");
+            }
+        })
+            .error(function(error){
+
+            })
+            /**
                  * SERVER SIDE VALIDATION
                  *
                  * You need to implement your server side validation here.
                  * Send the reCaptcha response to the server and use some of the server side APIs to validate it
                  * See https://developers.google.com/recaptcha/docs/verify
                  */
-        consolelog('sending the captcha response to the server', $scope.response);
+
         if (valid) {
             console.log('Success');
         } else {
