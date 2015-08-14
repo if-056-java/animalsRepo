@@ -125,8 +125,9 @@
                          style="height:400px; margin-bottom: 10px;" ng-repeat="animal in animals">
                         <h4 class="blocktext blocktext-h4">Оголошення № {{animal.id}}</h4>
 
-                        <p class="center-block">
-                            <image class="displayed" src="../resources/img/no-image.jpg" height="200"/>
+                        <p class="center-block" id="animal-image-id">
+                            <img ng-src="{{animal.image}}" alt="Зображення відсутнє"
+                                 height="200" width="200"/>
                         </p>
 
                         <p class="blocktext2 center-block">Тип тварини: {{animal.type.type}}</p>

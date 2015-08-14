@@ -1,13 +1,18 @@
 angular.module('AdminAnimals', ['ui.bootstrap', 'AdminAnimalsModule'])
     .controller('AdminAnimalsController', ['$scope', 'AdminAnimalsService', '$window', function($scope, AdminAnimalsService, $window) {
-        $scope.filter = {}
-        $scope.filter.page = 1;
-        $scope.filter.limit = '10';
 
-        $scope.animals = [];
+        $scope.filter = {}          //filter
+        $scope.filter.page = 1;     //page number
+        $scope.filter.limit = '10'; //row count per page
 
-        var ACL = this;
+        $scope.animals = [];        //animal instance
 
+        var ACL = this;             //for colling class methods from scope methods
+
+        /**
+         * @param filter instance used for lookup.
+         * @return count of rows for pagination.
+         */
         this.getPagesCount = function(filter) {
             AdminAnimalsService.getPagesCount(filter)
                 .then(function(data) {
@@ -20,6 +25,10 @@ angular.module('AdminAnimals', ['ui.bootstrap', 'AdminAnimalsModule'])
 
         this.getPagesCount($scope.filter);
 
+        /**
+         * @param filter instance used for lookup.
+         * @return list of animals.
+         */
         this.getAnimals = function(filter) {
             AdminAnimalsService.getAnimals(filter)
                 .then(function(data) {
@@ -32,16 +41,25 @@ angular.module('AdminAnimals', ['ui.bootstrap', 'AdminAnimalsModule'])
 
         this.getAnimals($scope.filter);
 
+        /**
+         * @return next page.
+         */
         $scope.pageChanged = function() {
             ACL.getAnimals($scope.filter);
         };
 
+        /**
+         * @return list of animals with given count of rows.
+         */
         $scope.countChanged = function(count) {
             $scope.filter.limit = count;
             ACL.getAnimals($scope.filter);
         };
     }])
     .controller('AdminAnimalsFilterController', ['$scope', 'AdminAnimalsService', function($scope, AdminAnimalsService) {
+        /**
+         * @return list of animal types.
+         */
         this.getAnimalTypes = function() {
             AdminAnimalsService.getAnimalTypes()
                 .then(function(data) {
@@ -54,19 +72,27 @@ angular.module('AdminAnimals', ['ui.bootstrap', 'AdminAnimalsModule'])
 
         this.getAnimalTypes();
 
-
+        /**
+         * @return list of animal breeds according to animal type.
+         */
         $scope.getAnimalBreeds = function() {
-            $scope.animalBreeds = undefined;
-
+            $scope.filterAnimalBreedFlag = true;
             AdminAnimalsService.getAnimalBreeds($scope.filter.animal.type.id)
                 .then(function(data) {
                     $scope.animalBreeds = data;
                 },
                 function(data) {
                     console.log('Animal breeds retrieval failed.')
+                })
+                .finally(function() {
+                    $scope.filterAnimalBreedFlag = false;
                 });
+
         }
 
+        /**
+         * reset filter values.
+         */
         $scope.reset = function() {
             $scope.filter.animal.type = undefined;
             $scope.filter.animal.breed = undefined;
@@ -74,6 +100,9 @@ angular.module('AdminAnimals', ['ui.bootstrap', 'AdminAnimalsModule'])
             $scope.filter.animal.size = undefined;
         }
 
+        /**
+         * @return list of animals according to filter values.
+         */
         $scope.doFilter = function() {
             AdminAnimalsService.getPagesCount($scope.filter)
                 .then(function(data) {

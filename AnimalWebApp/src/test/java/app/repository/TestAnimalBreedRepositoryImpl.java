@@ -39,4 +39,11 @@ public class TestAnimalBreedRepositoryImpl {
 
         assertNotNull(expected);
     }
+
+    @Test
+    public void testGetByTypeId() {
+        List<AnimalBreed> expected = animalBreedRepositoryImpl.getByTypeId(1);
+
+        assertNotNull(expected);
+    }
 }

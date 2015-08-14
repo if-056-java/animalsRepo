@@ -1,23 +1,15 @@
 //created by 41X
 var animalAppControllers = angular.module('LoginController', []);
 
-animalApp.controller('LoginController', function($scope, $rootScope, $location) {
+animalApp.controller('LoginController', function($scope, userAccount) {
 	
-	$scope.showPopup = function () {
-		$rootScope.Hide = false; 
-		$rootScope.Show = false; 
-		console.log($rootScope.Hide);
-	} 
-	
-	
-	$scope.setId=function(){
+	$scope.login=function(){
 		
-		var id = $scope.set.id;
-		$rootScope.id = id;	
-		$rootScope.socialLogin = "root";
-		console.log("inside"+id); 
-		$location.path("/ua/user/profile");			
-	        
-	};               
-        
+		var id = $scope.login.sessionId;
+		var userName = $scope.login.userName;
+		
+		userAccount.login(userName, id);
+		
+	}	
+	
 });

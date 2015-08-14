@@ -60,6 +60,7 @@ adoptionModule
                     .then(
                     function (data) {
                         $scope.animals = data;
+                        console.log($scope.animals);
                     },
                     function (data) {
                         $scope.errorMessage = "Немає записів.";
@@ -160,3 +161,9 @@ adoptionModule
         //Dependency injection
         AdoptionFilterController.$inject = ['$scope', 'AdoptionFactory'];
     });
+
+//$controller('AdminAnimalsEditorSetImageController',{$scope:$scope});
+/*
+ $scope.$parent.animalImage = response.filePath + "?timestamp=" + new Date().getTime();
+ console.log($scope.animalImage);
+ */

@@ -1,74 +1,112 @@
-<div class="row" style="height: 50px"></div>
+<div class="row" id="top"></div>
 <div class="row">
     <div class="col-md-6 col-md-offset-3 panel panel-success">
         <div class="row">
             <div class="panel-body">
+
+                <!-- Animal photo -->
                 <div class="col-md-6 detailed-left">
                     <img class="img-responsive img-thumbnail center-block" ng-hide="animal.image" src="resources/img/noimg.png">
                     <img class="img-responsive img-thumbnail center-block" ng-show="animal.image" src="{{ animal.image }}">
                 </div>
+
                 <div class="col-md-6 detailed-right">
+
+                    <!-- Animal type -->
                     <div class="row">
                         <div class="col-md-4">Тип:</div>
                         <div class="col-md-8">{{ animal.type.type }}</div>
                     </div>
+
                     <hr>
+
+                    <!-- Animal breed -->
                     <div class="row">
                         <div class="col-md-4">Порода:</div>
                         <div class="col-md-8">{{ animal.breed.breedUa }}</div>
                     </div>
+
                     <hr>
+
+                    <!-- Animal size -->
                     <div class="row">
                         <div class="col-md-4">Розмір:</div>
                         <div class="col-md-8">{{ animal.size }}</div>
                     </div>
+
                     <hr>
+
+                    <!-- Animal sex -->
                     <div class="row">
                         <div class="col-md-4">Стать:</div>
                         <div class="col-md-8">{{ animal.sex }}</div>
                     </div>
+
                     <hr>
+
+                    <!-- Animal color -->
                     <div class="row">
                         <div class="col-md-4">Окрас:</div>
                         <div class="col-md-8">{{ animal.color }}</div>
                     </div>
+
                     <hr>
+
+                    <!-- Animal cites -->
                     <div class="row">
                         <div class="col-md-4">CITE:</div>
                         <div class="col-md-8">{{ animal.cites }}</div>
                     </div>
+
                     <hr>
                 </div>
             </div>
         </div>
         <div class="row detailed-bottom">
             <div class="col-md-6">
+
+                <!-- Animal transpounder number -->
                 <div class="row">
                     <div class="col-md-4">Номер мікрочіпу:</div>
                     <div class="col-md-8">{{ animal.transpNumber }}</div>
                 </div>
+
                 <hr>
+
+                <!-- Animal date of birth -->
                 <div class="row">
                     <div class="col-md-4">Дата народження:</div>
                     <div class="col-md-8">{{ animal.dateOfBirth }}</div>
                 </div>
+
                 <hr>
+
+                <!-- Animal date of sterilization -->
                 <div class="row">
                     <div class="col-md-4">Дата стерелізації:</div>
                     <div class="col-md-8">{{ animal.dateOfSterilization }}</div>
                 </div>
+
             </div>
             <div class="col-md-6">
+
+                <!-- Animal token number -->
                 <div class="row">
                     <div class="col-md-4">Номер жетону:</div>
                     <div class="col-md-8">{{ animal.tokenNumber }}</div>
                 </div>
+
                 <hr>
+
+                <!-- Animal date of registration -->
                 <div class="row">
                     <div class="col-md-4">Дата реєстрації:</div>
                     <div class="col-md-8">{{ animal.dateOfRegister }}</div>
                 </div>
+
                 <hr>
+
+                <!-- Animal address -->
                 <div class="row">
                     <div class="col-md-4">Адреса:</div>
                     <div class="col-md-8">{{ animal.address }}</div>
@@ -79,6 +117,8 @@
 </div>
 <div class="row">
     <div class="col-md-6 col-md-offset-3 panel panel-success">
+
+        <!-- Animal owner -->
         <table class="table table-hover">
             <thead>
             <tr>
@@ -99,6 +139,7 @@
             </tr>
             </tbody>
         </table>
+
     </div>
 </div>
 <div class="row">

@@ -42,15 +42,38 @@ animalApp.controller('ContactsController', function ($scope) {
     };
     $scope.submit = function () {
         var valid = 1;
-        console.log('sending the captcha response to the server', $scope.response);
-        if (valid) {
-            console.log('Success');
+
+        if (vcRecaptchaService.getResponse() === "") { //if answer from Google is empty
+            alert("Пройдіть перевірку на захист від спаму - клацніть на картинці - 'Я не робот'");
         } else {
-            console.log('Failed validation');
-                    // In case of a failed validation you need to reload the captcha
-                    // because each response can be checked just once
-            //vcRecaptchaService.reload($scope.widgetId);
+            var feedback = { //prepare JSON for sending e-mail
+                    'mail': {
+                        'signup': $scope.feedback.signature,
+                        'email': $scope.feedback.email,
+                        'text': $scope.feedback.text
+                    },
+                    'gRecaptchaResponse': $scope.response                 //g-captcah-reponse for server
+                };
+            console.log(feedback);
+
+                    /**
+                     * SERVER SIDE VALIDATION
+                     *
+                     * You need to implement your server side validation here.
+                     * Send the reCaptcha response to the server and use some of the server side APIs to validate it
+                     * See https://developers.google.com/recaptcha/docs/verify
+                     */
+
+                    /* MAKE AJAX REQUEST to our server with g-captcha-string */
+
+            $http.post('//localhost:8080/webapi/contacts/mail', feedback).success(function (response) {
+                if (response.error === 0) {
+                    alert("Лист відправлено! Дякуємо за Ваш відгук!");
+                } else {
+                    alert("Лист не відправлено - помилка в  ");
+                }
+            });
         }
-    };
+    }
 }
-                    );
+);

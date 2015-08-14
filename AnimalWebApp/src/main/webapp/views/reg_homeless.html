@@ -64,7 +64,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">CITES:</span>
                                         <ol class="nya-bs-select nya-bs-select-mod" style="cursor: pointer"
-                                            ng-model="animal.citesType" title="Не вибрано">
+                                            ng-model="animal.cites" title="Не вибрано">
                                             <li class="nya-bs-option" value="не визначено"><a>Не належить</a></li>
                                             <li class="nya-bs-option" value="CITES I"><a>CITES I</a></li>
                                             <li class="nya-bs-option" value="CITES II"><a>CITES II</a></li>
@@ -201,8 +201,14 @@
                                     <h3 class="panel-title">Фотографія тварини</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <label for="animal-photo">Завантажте фотографію тварини:</label><br>
-                                    <input type="file" id="animal-photo">
+                                    <label for="upload">Завантажте фотографію тварини:</label><br>
+                                    <div ng-controller="AnimalImageController">
+                                        <a class="btn btn-info col-md-12" href role="button" ng-hide="uploader.isUploading"
+                                           onclick="document.getElementById('upload').click();" >Завантажити фото</a>
+
+                                        <progressbar class="progress-striped active " value="uploader.queue[0].progress" ng-show="uploader.isUploading"></progressbar>
+                                        <input type="file" id="upload" nv-file-select uploader="uploader" style="visibility: hidden;" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

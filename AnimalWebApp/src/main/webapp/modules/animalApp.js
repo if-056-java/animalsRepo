@@ -75,7 +75,7 @@ animalApp .config(['$routeProvider',
         templateUrl: 'views/user_profile.html',
         controller: 'UserProfileController'
       }).
-	  when('/ua/animal/adoption/:animalId', {
+	  when('/ua/animal/:service/:animalId', {
         templateUrl: 'views/animal_short_info.html',
         controller: 'AnimalShortInfoController'
       }).
@@ -95,6 +95,26 @@ animalApp.constant('RESOURCES', {
         ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption',
         ANIMAL_TYPES: 'webapi/animals/animal_types',
         ANIMAL_BREEDS: 'webapi/animals/animal_breeds/',
-        ANIMAL_REGISTRATION: 'webapi/animals/animal'
+        ANIMAL_REGISTRATION: 'webapi/animals/animal',
+        ANIMAL_REGISTRATION_IMAGE: 'webapi/animals/animal/image'
+});
+
+
+animalApp.controller('MainController', function($scope, $rootScope, userAccount) {
+	userAccount.refreshSession();
+	$scope.logout = function() {
+        console.log("logout");
+        userAccount.logout();
+    };
+    
+    $scope.session = function(value) {
+        
+        if ($rootScope.userId == 0)
+          return true;
+        else 
+          return false;
+        
+      };
+      
 });
 

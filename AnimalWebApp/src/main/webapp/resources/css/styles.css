@@ -245,3 +245,9 @@ IMG.displayed {
     display: inline-block; /* Display icon as inline block */
     background-position: -12px -600px; /* Icon background position in sprite */
 }
+
+#animal-image-id{
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+}

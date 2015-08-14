@@ -128,15 +128,15 @@
 			
 			<form role="form" id="feedbackForm" ng-submit="submit()">
 			      <div class="form-group">
-				<input type="text" class="form-control" id="name" name="name" placeholder="Ім'я">
+				<input type="text" class="form-control" id="name" ng-model="feedback.signature" name="name" placeholder="Ім'я">
 				<span class="help-block" style="display: none;">Будь-ласка, введіть ім'я.</span>
 			      </div>
 			      <div class="form-group">
-				<input type="email" class="form-control" id="email" name="email" placeholder="e-mail">
+				<input type="email" class="form-control" id="email" ng-model="feedback.email" name="email" placeholder="e-mail">
 				<span class="help-block" style="display: none;">Будь-ласка, введіть вірну e-mail адресу.</span>
 			      </div>
 			      <div class="form-group">
-				<textarea rows="10" cols="100" class="form-control" id="message" name="message" placeholder="Повідомлення"></textarea>
+				<textarea rows="10" cols="100" class="form-control" id="message" ng-model="feedback.text" name="message" placeholder="Повідомлення"></textarea>
 				<span class="help-block" style="display: none;">Будь-ласка, введіть повідомлення.</span>
 			      </div>
 

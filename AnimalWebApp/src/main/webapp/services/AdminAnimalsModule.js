@@ -1,5 +1,10 @@
 angular.module('AdminAnimalsModule', [])
     .service('AdminAnimalsService', ['$http', '$q', function($http, $q) {
+
+        /**
+         * @param filter instance used for lookup.
+         * @return list of animals.
+         */
         this.getAnimals = function(filter) {
             var def = $q.defer();
 
@@ -14,6 +19,10 @@ angular.module('AdminAnimalsModule', [])
             return def.promise;
         }
 
+        /**
+         * @param filter instance used for lookup.
+         * @return count of rows for pagination.
+         */
         this.getPagesCount = function(filter) {
             var def = $q.defer();
 
@@ -28,6 +37,10 @@ angular.module('AdminAnimalsModule', [])
             return def.promise;
         }
 
+        /**
+         * @param animalId id of animal used for lookup.
+         * @return animal instance.
+         */
         this.getAnimal = function(animalId) {
             var def = $q.defer();
 
@@ -42,6 +55,9 @@ angular.module('AdminAnimalsModule', [])
             return def.promise;
         }
 
+        /**
+         * delete animal.
+         */
         this.deleteAnimal = function(animalId) {
             var def = $q.defer();
 
@@ -56,6 +72,9 @@ angular.module('AdminAnimalsModule', [])
             return def.promise;
         }
 
+        /**
+         * update animal.
+         */
         this.updateAnimal = function(animal) {
             var def = $q.defer();
 
@@ -70,6 +89,9 @@ angular.module('AdminAnimalsModule', [])
             return def.promise;
         }
 
+        /**
+         * @return list of animal types.
+         */
         this.getAnimalTypes = function() {
             var def = $q.defer();
 
@@ -84,6 +106,9 @@ angular.module('AdminAnimalsModule', [])
             return def.promise;
         }
 
+        /**
+         * @return list of animal breeds according to animal type.
+         */
         this.getAnimalBreeds = function(animalTypeId) {
             var def = $q.defer();
 
