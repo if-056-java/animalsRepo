@@ -94,7 +94,7 @@ public class UserResource {
 	@Path("user")//http:localhost:8080/webapi/users/user/
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response insertUser (User user) {
+	public Response insertUser (User user) {		//registration
 		
 		if (user==null) return BAD_REQUEST;
 		

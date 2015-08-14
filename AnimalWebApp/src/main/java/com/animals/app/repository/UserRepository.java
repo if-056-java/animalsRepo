@@ -45,8 +45,8 @@ public interface UserRepository {
             " Password, OrganizationName, OrganizationInfo, IsActive " +
             " FROM users";
     
-//    final String SELECT_UNIQUE_USERNAME = "SELECT SocialLogin " +		//for registration
-//            "FROM users WHERE SocialLogin = #{socialLogin}";
+    final String SELECT_UNIQUE_USERNAME = "SELECT SocialLogin " +		//for registration
+            "FROM users WHERE SocialLogin = #{socialLogin}";
     
     final String SELECT_USER_AUTHENTICATION =  "SELECT Id, Name, Surname, " +
             " UserTypeId, UserRoleId, Email, SocialLogin, " +
@@ -142,7 +142,11 @@ public interface UserRepository {
     })
     List<User> getAll();
     
-    //boolean checkIfUsernameUnique(String username);
+    @Select(SELECT_UNIQUE_USERNAME)
+    @Results(value = {
+    		@Result(property="socialLogin", column="SocialLogin")
+    })    
+    String checkIfUsernameUnique(String username);
     
     @Select(SELECT_USER_AUTHENTICATION)
     @Results(value = {

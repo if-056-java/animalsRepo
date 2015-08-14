@@ -133,5 +133,21 @@ public class UserRepositoryImpl {
         }
     } 
     
+    /** created 41X
+     * Returns a String instance from the database.
+     * @param socialLogin primary key value used for lookup.
+     * @return A String with value equals to pk. null if there is no matching row.
+     */
+    public String checkIfUsernameUnique(String socialLogin){
+        SqlSession sqlSession =  sqlSessionFactory.openSession();
+
+        try{
+            UserRepository mapper = sqlSession.getMapper(UserRepository.class);
+            return mapper.checkIfUsernameUnique(socialLogin);
+        } finally {
+            sqlSession.close();
+        }
+    }
+    
 
 }

@@ -6,8 +6,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.StringTokenizer;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -30,6 +32,9 @@ public class AuthorizationResource {
 	
 	private UserRepositoryImpl userRep = new UserRepositoryImpl();
 	
+	//@Context
+    //HttpServletRequest req;					//for creating session inside registration
+	
 	@POST
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("login")//http:localhost:8080/webapi/account/login
@@ -51,8 +56,7 @@ public class AuthorizationResource {
         }
 		
         final StringTokenizer tokenizer = new StringTokenizer(usernameAndPassword, ":");
-//        final String username = tokenizer.nextToken();
-//        final String password = tokenizer.nextToken();
+
         String username = tokenizer.nextToken();
         String password = tokenizer.nextToken();      
        
@@ -62,8 +66,13 @@ public class AuthorizationResource {
                      
         
                 
-        //checking if user exist. If not - return username or password is not correct
-        User user=userRep.checkIfUserExistInDB(username, password); //, password);
+        //checking if user exist. If not - return username or password is not correct        
+        User user;
+		try {
+			user = userRep.checkIfUserExistInDB(username, password);
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}
         
         System.out.println("ping");
         
@@ -151,6 +160,70 @@ public class AuthorizationResource {
 		String str = "{\"userId\" : \"0\"}";
 					
 		return Response.status(Response.Status.OK).entity(str).build();		
+		
+	}
+	
+	
+	@POST
+	@Path("registration")//http:localhost:8080/webapi/account/registration
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)	
+	public Response registerUser (@Context HttpServletRequest req, User user) {	
+		
+		if (user==null) return BAD_REQUEST;
+		
+		String socialLogin = user.getSocialLogin();
+		
+		System.out.println(socialLogin);
+		//check if user socialLogin unique
+		String socialLogin2="logintoChange";
+		try {
+			 socialLogin2 = userRep.checkIfUsernameUnique(socialLogin);
+			 System.out.println("socialLogin2"+socialLogin2);
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}
+		
+		if(socialLogin2 != null && !socialLogin2.isEmpty()){
+			System.out.println("zrada");
+			
+			String str = "{\"userId\" : \"0\"}";
+			
+			return Response.status(Response.Status.OK).entity(str).build();
+		}		
+				
+		
+		
+		try {
+			userRep.insert(user);			
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}
+		
+		//creating session
+        HttpSession session = req.getSession(true);
+		
+        System.out.println("ping2");
+        
+		session.setAttribute("userName",user.getName());
+		session.setAttribute("userId",user.getId().toString()); 
+		session.setAttribute("userSurname",user.getSurname());
+		session.setAttribute("socialLogin",user.getSocialLogin());
+		session.setAttribute("userRole",user.getUserRole().get(0).getId().toString());
+		
+		//returning json with session params
+
+        String str = "{\"sessionId\" : \"" + (String)session.getId() + 
+        			"\", \"userId\" : \"" + (String)session.getAttribute("userId") +
+        			"\", \"userName\" : \"" + (String)session.getAttribute("userName") +
+        			"\", \"userSurname\" : \"" + (String)session.getAttribute("userSurname") +
+        			"\", \"socialLogin\" : \"" + (String)session.getAttribute("socialLogin") +
+        			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
+        			"\"}";
+        
+        System.out.println(str);
+
+	    return Response.status(Response.Status.OK).entity(str).build();		
 		
 	}
 	
