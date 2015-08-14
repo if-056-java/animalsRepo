@@ -1,19 +1,16 @@
 package sendEmail;
 
-import sendEmail.GmailSender;
+import sendEmail.MailSender;
 
 public class sendEmail {
 
-    private static GmailSender tlsSender = new GmailSender(
-            "Test 2", // Subject
-            "mama1@i.ua"); // To
-
-
     public static void main(String[] args) {
+        MailSender tlsSender = new MailSender( );
 
-                tlsSender.send();
+           //     tlsSender.newsSend("mama1@i.ua", "test1");
+             //   tlsSender.newsSend("mama1@i.ua", "test1", "D:\\mailSetup.txt");
 
-              //  tlsSender.send("d:\\startup.txt");
+                tlsSender.feedback("mama1@i.ua", "Навіщо Ви робите цеєї. ", "Юрій");
 
     }
 }
