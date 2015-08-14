@@ -24,38 +24,40 @@ public class AuthorizationResource {
 	@Path("login")//http:localhost:8080/webapi/account/login
 	public Response createSession (@Context HttpServletRequest req) {
 		
-		System.out.println("inside rest");
-		
+		//creating session
 		HttpSession session = req.getSession(true);
 		
+		//reading header from request
 		String header = req.getHeader("Authorization");
 		
-		System.out.println("header - " + header);
-		
+		//formating header
 		String sub = header.replaceFirst("Basic" + " ", "");
-		
-		System.out.println(sub);
-		
+				
 		String usernameAndPassword=null;
 		
 		try {
 			byte[] decoded = Base64.decodeBase64(sub);
-//            byte[] decodedBytes = Base64.getDecoder().decode(sub);
+
             usernameAndPassword = new String(decoded, "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
         }
+		
         final StringTokenizer tokenizer = new StringTokenizer(usernameAndPassword, ":");
         final String username = tokenizer.nextToken();
         final String password = tokenizer.nextToken();
         
-        System.out.println("username - "+username);
-        System.out.println("username - "+password);
+        //hashing values of username and password
+        
+        //checking if user exist. If not - return username or password is not correct
+        
+        // User exist. setting session params(username, userrole, userId) from User		
 		
-		System.out.println(session.getId());
 		
 		session.setAttribute("userName",username);
-		session.setAttribute("userId",password);      
+		session.setAttribute("userId",password);  
+		
+		//returning json with session params
 
         String str = "{\"sessionId\" : \"" + (String)session.getId() + 
         			"\", \"userId\" : \"" + (String)session.getAttribute("userId") +
@@ -73,18 +75,18 @@ public class AuthorizationResource {
 	@Path("refresh")//http:localhost:8080/webapi/account/refresh
 	public Response refreshSession(@Context HttpServletRequest req) {
 		
-		System.out.println("ping");
-				
+		//creating session				
 		HttpSession session = req.getSession(true);	
 		
-		System.out.println((String)session.getAttribute("userId"));
-		
+		//checking if session is stil going on by geting params from it. if not - returning json with empty user	
 		if(session.getAttribute("userId") == null){
 			
 			String str = "{\"userId\" : \"0\"}";
 					
 			return Response.status(Response.Status.OK).entity(str).build();
 		}
+		
+		//if session has params - returning json with session same params. REFRESH
 		
 		String str = "{\"sessionId\" : \"" + (String)session.getId() + 
     			"\", \"userId\" : \"" + (String)session.getAttribute("userId") +
@@ -101,21 +103,17 @@ public class AuthorizationResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("logout")//http:localhost:8080/webapi/account/refresh
 	public Response destroySession(@Context HttpServletRequest req) {
+				
 		
-		System.out.println("destroying");
+		HttpSession session = req.getSession(true);	
 		
-		HttpSession session = req.getSession(true);
-		
-		//session.setAttribute("userId","0");
-		
+		//destroying session		
 		session.invalidate();	
 		
-		//System.out.println((String)session.getAttribute("userId"));
-			
+		//returning json with empty user		
 		String str = "{\"userId\" : \"0\"}";
 					
-		return Response.status(Response.Status.OK).entity(str).build();
-		
+		return Response.status(Response.Status.OK).entity(str).build();		
 		
 	}
 
