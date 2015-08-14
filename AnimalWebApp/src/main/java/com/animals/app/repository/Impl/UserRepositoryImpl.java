@@ -116,5 +116,22 @@ public class UserRepositoryImpl {
             sqlSession.close();
         }    	 	
     }
+    
+    /** created 41X
+     * Returns a User instance from the database.
+     * @param socialLogin and password primary key value used for lookup.
+     * @return A User instance with a primary key value equals to pk. null if there is no matching row.
+     */
+    public User checkIfUserExistInDB(String socialLogin, String password){
+        SqlSession sqlSession =  sqlSessionFactory.openSession();
+
+        try{
+            UserRepository mapper = sqlSession.getMapper(UserRepository.class);
+            return mapper.checkIfUserExistInDB(socialLogin, password);
+        } finally {
+            sqlSession.close();
+        }
+    } 
+    
 
 }

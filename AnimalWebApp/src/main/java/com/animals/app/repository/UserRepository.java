@@ -44,6 +44,16 @@ public interface UserRepository {
             " UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive " +
             " FROM users";
+    
+//    final String SELECT_UNIQUE_USERNAME = "SELECT SocialLogin " +
+//            "FROM users WHERE SocialLogin = #{socialLogin}";
+    
+    final String SELECT_USER_AUTHENTICATION =  "SELECT Id, Name, Surname, " +
+            " UserTypeId, UserRoleId, Email, SocialLogin, " +
+            " IsActive " +
+            " FROM users WHERE (SocialLogin = #{socialLogin} AND Password = #{password})" ;
+    
+    
 
     /**
      * Insert an instance of User into the database.
@@ -131,4 +141,20 @@ public interface UserRepository {
             @Result(property="isActive", column="IsActive")
     })
     List<User> getAll();
+    
+    //boolean checkIfUsernameUnique(String username);
+    
+    @Select(SELECT_USER_AUTHENTICATION)
+    @Results(value = {
+    		@Result(property="id", column="id"),
+    		@Result(property="name", column="Name"),
+    		@Result(property="surname", column="Surname"),
+    		@Result(property="userType", column="userTypeId", javaType = UserType.class,
+            one = @One(select = "com.animals.app.repository.UserTypeRepository.getById")), 
+    		@Result(property="userRole", column="userRoleId", javaType = List.class,
+            many = @Many(select = "com.animals.app.repository.UserRoleRepository.getById")),
+    		@Result(property="socialLogin", column="SocialLogin"),
+    		@Result(property="isActive", column="IsActive")    		
+    })
+    User checkIfUserExistInDB(String username, String password);
 }
