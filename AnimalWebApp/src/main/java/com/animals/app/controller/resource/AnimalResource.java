@@ -112,7 +112,7 @@ public class AnimalResource {
     public Response uploadImage(@FormDataParam("file") InputStream uploadedInputStream,
                                 @FormDataParam("file") FormDataContentDisposition fileDetail) {
 
-        String fileName = System.currentTimeMillis() + "_" + fileDetail.getFileName();
+        String fileName = ("images/") + (System.currentTimeMillis()) + ("_") + fileDetail.getFileName();
         String uploadedFileLocation = "D:/AGIT/animalsRepo/AnimalWebApp/src/main/webapp/images/" + fileName;
 
         //Load and save image
