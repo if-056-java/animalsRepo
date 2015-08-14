@@ -12,14 +12,13 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, $root
 
             $rootScope.globals = {
                 currentUser: {
-                    username: username,
-                    id:password,  				//TEMPORARY Remove when real authorization
+                    username: username,                    		
                     authdata: authdata
                 }
             };
             
             console.log($rootScope.globals.currentUser.username+ " - rootscope username");
-            console.log($rootScope.globals.currentUser.id + " - rootscope id");
+            console.log($rootScope.globals.currentUser.authdata + " - rootscope authdata");
             
             
             
@@ -32,7 +31,12 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, $root
 	        	
 	        	$rootScope.sessionId=data.sessionId;
 	        	$rootScope.userName=data.userName;
+	        	$rootScope.userSurname=data.userSurname;
 	        	$rootScope.userId=data.userId;
+	        	$rootScope.socialLogin=data.socialLogin;
+	        	$rootScope.userRole=data.userRole;
+	        	//$rootScope.userType=data.userId;
+	        	
 	        	
 		        console.log("inside auth. success. Session Id - " + $rootScope.sessionId);
 		        console.log(" UserName - " + $rootScope.userName);
@@ -42,8 +46,9 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, $root
 		        $route.reload();
 		        //$window.location.reload();
 	        }) 
-			.error(function(data){
+			.error(function(data, status){
 				console.log("zrada");
+				console.log(status);
 			});
 		},
 		

@@ -13,7 +13,9 @@ angular.module('animalApp').factory('userData',function ($http, $rootScope, $loc
 		        var id = data.id;
 		        var name = data.name;
 		        console.log("id rootscope - " + id);
-		        userAccount.login(name, id)
+		        //userAccount.login(name, id)
+		        $location.path("/ua/user/profile");	
+		        //$route.reload();
 	        }); 			
 		},
 		

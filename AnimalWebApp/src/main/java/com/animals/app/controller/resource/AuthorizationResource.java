@@ -45,7 +45,6 @@ public class AuthorizationResource {
 		
 		try {
 			byte[] decoded = Base64.decodeBase64(sub);
-
             usernameAndPassword = new String(decoded, "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,39 +54,39 @@ public class AuthorizationResource {
 //        final String username = tokenizer.nextToken();
 //        final String password = tokenizer.nextToken();
         String username = tokenizer.nextToken();
-        String password = tokenizer.nextToken();
+        String password = tokenizer.nextToken();      
+       
         
-                
-        //hashing values of password. Checking if User exist. username and password
-        //MessageDigest messageDigest;
-		try {
-			System.out.println("before - " + password);
-			byte[] bytesOfMessage = password.getBytes("UTF-8");
-			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-	        byte[] thedigest = messageDigest.digest(bytesOfMessage);
-	        password = new String(thedigest, "UTF-8");
-	        System.out.println("after - " + password);
-		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}               
+        System.out.println("password - " + password);
+        System.out.println("socialLogin - " + username);    
+                     
         
                 
         //checking if user exist. If not - return username or password is not correct
-        User user=userRep.checkIfUserExistInDB(username, password);
+        User user=userRep.checkIfUserExistInDB(username, password); //, password);
+        
+        System.out.println("ping");
         
         if (user == null) return NOT_FOUND;
+        
+        System.out.println(user.getId());
+        System.out.println(user.getName());
+        System.out.println(user.getSurname());
+        System.out.println(user.getSocialLogin());
+        System.out.println(user.getUserRole().get(0));
      	
         // User exist. setting session params(username, userrole, userId) from User		
 		
         //creating session
         HttpSession session = req.getSession(true);
 		
+        System.out.println("ping2");
+        
 		session.setAttribute("userName",user.getName());
-		session.setAttribute("userId",user.getId()); 
+		session.setAttribute("userId",user.getId().toString()); 
 		session.setAttribute("userSurname",user.getSurname());
 		session.setAttribute("socialLogin",user.getSocialLogin());
-		session.setAttribute("userRole",user.getUserRole().get(0));
+		session.setAttribute("userRole",user.getUserRole().get(0).getId().toString());
 		
 		//returning json with session params
 

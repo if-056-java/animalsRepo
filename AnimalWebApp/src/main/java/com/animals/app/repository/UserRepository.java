@@ -45,12 +45,12 @@ public interface UserRepository {
             " Password, OrganizationName, OrganizationInfo, IsActive " +
             " FROM users";
     
-//    final String SELECT_UNIQUE_USERNAME = "SELECT SocialLogin " +
+//    final String SELECT_UNIQUE_USERNAME = "SELECT SocialLogin " +		//for registration
 //            "FROM users WHERE SocialLogin = #{socialLogin}";
     
     final String SELECT_USER_AUTHENTICATION =  "SELECT Id, Name, Surname, " +
             " UserTypeId, UserRoleId, Email, SocialLogin, " +
-            " IsActive " +
+            " Password, IsActive " +
             " FROM users WHERE (SocialLogin = #{socialLogin} AND Password = #{password})" ;
     
     
@@ -153,8 +153,10 @@ public interface UserRepository {
             one = @One(select = "com.animals.app.repository.UserTypeRepository.getById")), 
     		@Result(property="userRole", column="userRoleId", javaType = List.class,
             many = @Many(select = "com.animals.app.repository.UserRoleRepository.getById")),
+    		@Result(property="email", column="Email"),
     		@Result(property="socialLogin", column="SocialLogin"),
+    		@Result(property="password", column="Password"),
     		@Result(property="isActive", column="IsActive")    		
     })
-    User checkIfUserExistInDB(String username, String password);
+    User checkIfUserExistInDB(@Param("socialLogin") String socialLogin, @Param("password") String password);
 }

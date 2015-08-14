@@ -1,14 +1,17 @@
 //created by 41X
 var animalAppControllers = angular.module('LoginController', []);
 
-animalApp.controller('LoginController', function($scope, userAccount) {
+animalApp.controller('LoginController', function($scope, userAccount, hashPassword) {
 	
 	$scope.login=function(){
 		
-		var id = $scope.login.sessionId;
-		var userName = $scope.login.userName;
+		var userLogin = $scope.login.userLogin;
+		var password = hashPassword($scope.login.password);
 		
-		userAccount.login(userName, id);
+		console.log($scope.login.password);
+		console.log(password);
+		
+		userAccount.login(userLogin, password);
 		
 	}	
 	
