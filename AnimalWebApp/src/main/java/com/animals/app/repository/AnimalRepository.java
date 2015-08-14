@@ -64,7 +64,7 @@ public interface AnimalRepository {
             "FROM animals WHERE id = #{id}";
 
     final String SELECT_LIST_FOR_ADOPTING = "<script> " +
-            "SELECT Id, TypeId, Breed, DateOfBirth, DateOfRegister, ServiceId " +
+            "SELECT Id, TypeId, Breed, DateOfBirth, DateOfRegister, ServiceId, image " +
             "FROM animals " +
             "WHERE (serviceId = 1) AND (isActive = 1) " +
             "<if test = \"animal != null\"> " +

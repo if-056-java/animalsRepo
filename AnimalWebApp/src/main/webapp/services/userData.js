@@ -1,5 +1,5 @@
 //created by 41X
-angular.module('animalApp').factory('userData',function ($http, $rootScope, $location){
+angular.module('animalApp').factory('userData',function ($http, $rootScope, $location, userAccount){
 	
 	return {
 		
@@ -10,9 +10,10 @@ angular.module('animalApp').factory('userData',function ($http, $rootScope, $loc
 		createUser:function (user){
 			$http.post("/webapi/users/user", user)
 	        .success(function(data){	        	
-		        $rootScope.id =data.id;	
-		        console.log("id rootscope - " + $rootScope.id);
-		        $location.path("/ua/user/profile");		        
+		        var id = data.id;
+		        var name = data.name;
+		        console.log("id rootscope - " + id);
+		        userAccount.login(name, id)
 	        }); 			
 		},
 		

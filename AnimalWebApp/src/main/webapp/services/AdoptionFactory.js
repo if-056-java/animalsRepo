@@ -64,10 +64,10 @@ adoptionModule
                     });
 
                 return def.promise;
-            }
+            };
 
 
-            //Inject dependencies
+        //Inject dependencies
         AdoptionFactory.$inject = ['$q', 'RESOURCES'];
 
         return factory;

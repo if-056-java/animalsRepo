@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html lang="ua" >
 
@@ -23,6 +23,7 @@
 
     <!-- Підібрані стилі для навігаційної панелі -->
     <link href="resources/css/navbar_green.css" rel="stylesheet">
+    
 
     <!-- Підібрані стилі для сторінки -->
     <link href="resources/css/styles.css" rel="stylesheet">
@@ -36,65 +37,75 @@
 
 </head>
 
-<body ng-app="animalApp">
+<body ng-app="animalApp" ng-controller="MainController">
 
 <header>
-    <nav class="navbar navbar-fixed-top navbar-default" role="navigation">
-        <div class="container">
+   <nav class="navbar navbar-fixed-top navbar-default" role="navigation">
+		<div class="container">
 
-            <!-- Бренд і переключення згруповано для покращення показу на мобільних екранах -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#ua">ЛКП "Лев"</a>
-            </div>
+	  <!-- Бренд і переключення згруповано для покращення показу на мобільних екранах -->
+	  <div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+		  <span class="sr-only">Toggle navigation</span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#ua">ЛКП "Лев"</a>
+	  </div>
 
-            <!-- Колекція навігаційних меню та форма для переключення -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
+	  <!-- Колекція навігаційних меню та форма для переключення -->
+	  <div class="collapse navbar-collapse navbar-ex1-collapse">
+		<ul class="nav navbar-nav">
 
-                    <li class="dropdown">
-                        <a href="" class="dropdown-toggle" data-toggle="dropdown">Пропонуємо <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#ua/animal/adoption">Адопція</a></li>
-                            <li role="presentation" class="divider"></li>
-                            <li><a href="#ua/animal/find">Знайдено</a></li>
-                            <li role="presentation" class="divider"></li>
-                            <li><a href="#ua/animal/lost">Загублено</a></li>
-                        </ul>
-                    </li>
+			<li class="dropdown">
+				<a href="" class="dropdown-toggle" data-toggle="dropdown">Пропонуємо <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href="#ua/animal/adoption">Адопція</a></li>
+					<li role="presentation" class="divider"></li>
+					<li><a href="#ua/animal/find">Знайдено</a></li>
+					<li role="presentation" class="divider"></li>
+					<li><a href="#ua/animal/lost">Загублено</a></li>
+				</ul>
+		 	 </li>
+			 
+		    <li><a href="#ua/contacts">Контакти</a></li>
+	
+			<li><a ng-show="!session()" href="#ua/user/profile">Мій Кабінет</a></li>
 
-                    <li><a href="#ua/contacts">Контакти</a></li>
-
-                    <li><a href="#ua/user/profile">Мій Кабінет</a></li>
-
-
-                    <li class="dropdown">
-                        <a href="" class="dropdown-toggle" data-toggle="dropdown">Модерація <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Реєстр тварин</a></li>
-                            <li role="presentation" class="divider"></li>
-                            <li><a href="#">Оплати</a></li>
-                            <li role="presentation" class="divider"></li>
-                            <li><a href="#">Імпорт/Експорт</a></li>
-                            <li role="presentation" class="divider"></li>
-                            <li><a href="#ua/user/home/animals">Cписок всіх тварин</a></li>
-                            <li><a href="#">Реєстр тварин</a></li>
-                        </ul>
-
+            <li class="dropdown">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown">Реєстація тварини <b class="caret"></b> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#ua/animal/registration_homeless">Зареєструвати бездомну</a> </li>
+                    <li><a href="#ua/animal/registration_owned">Зареєструвати власну</a> </li>
+                    <li><a href="#ua/animal/registration_curator">Зареєструвати на опікунство</a> </li>
                 </ul>
-                <!-- Форма входу -->
+            </li>
 
-                <form class="navbar-form navbar-right" role="form">
-                    <a href="#ua/user/login" class="btn btn-success" role="button">Вхід <span class="glyphicon glyphicon-door"></span></a>
-                </form>
-            </div><!-- /.nav-collapse -->
-        </div>
-    </nav>
+		  <li class="dropdown">
+				<a ng-show="!session()" href="" class="dropdown-toggle" data-toggle="dropdown">Модерація <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href="#">Реєстр тварин</a></li>
+					<li role="presentation" class="divider"></li>
+					<li><a href="#">Оплати</a></li>
+					<li role="presentation" class="divider"></li>
+					<li><a href="#">Імпорт/Експорт</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li><a href="#ua/user/home/animals">Cписок всіх тварин</a></li>
+					<li><a href="#">Реєстр тварин</a></li>
+				</ul>
+		  
+		</ul>
+		<!-- Форма входу -->
+				
+				<form class="navbar-form navbar-right" role="form">
+				    <a ng-show="session()" href="#ua/user/login" class="btn btn-success" role="button">Вхід <span class="glyphicon glyphicon-door"></span></a>
+				    <label ng-show="!session()">Welcome {{userName}}</label>
+				    <a ng-show="!session()" ng-click="logout()" class="btn btn-success" role="button">Logout</a>
+				</form>				
+		</div><!-- /.nav-collapse -->
+	</div>	
+</nav>
 
 </header>
 
@@ -164,10 +175,6 @@
 <script src="resources/js/nya-bs-select.js"></script>
 <!--script src="resources/js/angular-bootstrap-select.js"></script-->
 <script src="resources/js/ui-bootstrap-tpls-0.13.0.js"></script>
-<script src="resources/js/angular-recaptcha.min.js"></script>
-
-<!-- Include the JS ReCaptcha API -->
-<script src="//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded&hl=uk" async defer></script>
 
 <!-- CONTACTS SCRIPT-->
 <script src="resources/js/contact-form.js"></script>
@@ -176,29 +183,35 @@
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false"></script>
 
 <!-- Site Scripts-->
-<script src="modules/animalApp.js"></script>
+ <script src="modules/animalApp.js"></script>
 
-<script src="modules/AdoptionModule.js"></script>
-<script src="services/AdoptionFactory.js"></script>
-<script src="controllers/AdoptionController.js"></script>
+ <script src="modules/AdoptionModule.js"></script>
+ <script src="services/AdoptionFactory.js"></script>
+ <script src="controllers/AdoptionController.js"></script>
 
-<script src="services/AdminAnimalsModule.js"></script>
-<script src="services/AnimalShortInfoService.js"></script>
-<script src="controllers/AnimalsDetailController.js"></script>
-<script src="controllers/ContactsController.js"></script>
-<script src="controllers/FindController.js"></script>
-<script src="controllers/LostController.js"></script>
-<script src="controllers/HomelessController.js"></script>
-<script src="controllers/LoginController.js"></script>
-<script src="controllers/StarterPageController.js"></script>
-<script src="controllers/AdminAnimalsController.js"></script>
-<script src="controllers/AdminAnimalsDetailedController.js"></script>
-<script src="controllers/RegistrationController.js"></script>
-<script src="controllers/UserProfileController.js"></script>
-<script src="controllers/AnimalShortInfoController.js"></script>
-<script src="services/currentDate.js"></script>
-<script src="services/hashPassword.js"></script>
-<script src="services/userData.js"></script>
+ <script src="modules/AnimalRegistrationModule.js"></script>
+ <script src="services/AnimalRegistrationFactory.js"></script>
+ <script src="controllers/AnimalRegistrationController.js"></script>
+
+ <script src="services/AdminAnimalsModule.js"></script>
+ <script src="services/AnimalShortInfoService.js"></script>
+ <script src="controllers/AnimalsDetailController.js"></script>
+ <script src="controllers/ContactsController.js"></script>
+ <script src="controllers/FindController.js"></script>
+ <script src="controllers/LostController.js"></script>
+ <script src="controllers/HomelessController.js"></script>
+ <script src="controllers/LoginController.js"></script>
+ <script src="controllers/StarterPageController.js"></script>
+ <script src="controllers/AdminAnimalsController.js"></script>
+ <script src="controllers/AdminAnimalsDetailedController.js"></script>
+ <script src="controllers/RegistrationController.js"></script>
+ <script src="controllers/UserProfileController.js"></script>
+ <script src="controllers/AnimalShortInfoController.js"></script>
+ <script src="services/currentDate.js"></script>
+ <script src="services/hashPassword.js"></script>
+ <script src="services/userData.js"></script>
+ <script src="services/userAccount.js"></script>
+ <script src="services/Base64.js"></script>
 
 </body>
 </html>

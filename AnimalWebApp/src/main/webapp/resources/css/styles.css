@@ -156,3 +156,98 @@ IMG.displayed {
     margin-right: 3px;
 */
 }
+
+.sprite-image{
+    background: url('../img/animalColors/animal-color-sprite.png') no-repeat;
+}
+
+#color-sprites-0{
+    width: 116px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0 0; /* Icon background position in sprite */
+}
+#color-sprites-1{
+    width: 116px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: -120px -390px; /* Icon background position in sprite */
+}
+#color-sprites-2{
+    width: 116px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: -5px -295px; /* Icon background position in sprite */
+}
+#color-sprites-3{
+    width: 116px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: -120px 0; /* Icon background position in sprite */
+}
+#color-sprites-4{
+    width: 116px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: -120px -290px; /* Icon background position in sprite */
+}
+#color-sprites-5{
+     width: 116px; /* Icon width */
+     height: 90px; /* Icon height */
+     display: inline-block; /* Display icon as inline block */
+     background-position: -4px -95px; /* Icon background position in sprite */
+}
+#color-sprites-6{
+    width: 116px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */ /* Icon background position in sprite */
+    background-position: -122px -492px;
+}
+#color-sprites-7{
+     width: 116px; /* Icon width */
+     height: 90px; /* Icon height */
+     display: inline-block; /* Display icon as inline block */
+     background-position: -5px -495px; /* Icon background position in sprite */
+}
+#color-sprites-8{
+    width: 116px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: -5px -390px; /* Icon background position in sprite */
+}
+#color-sprites-9{
+     width: 116px; /* Icon width */
+     height: 90px; /* Icon height */
+     display: inline-block; /* Display icon as inline block */
+     background-position: -3px -200px; /* Icon background position in sprite */
+}
+#color-sprites-10{
+    width: 116px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: -119px -200px; /* Icon background position in sprite */
+}
+#color-sprites-11{
+    width: 116px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: -124px -95px; /* Icon background position in sprite */
+}
+#color-sprites-12{
+    width: 116px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: -130px -600px; /* Icon background position in sprite */
+}
+#color-sprites-13{
+    width: 116px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: -12px -600px; /* Icon background position in sprite */
+}
+
+#animal-image-id{
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+}

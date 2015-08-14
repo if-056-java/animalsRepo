@@ -1,9 +1,8 @@
 var animalApp = angular.module('animalApp', [
     'ngRoute',
     'ngResource',
-
     'AdoptionModule',
-
+    'AnimalRegistrationModule',
     'FindController',
     'LostController',
     'LoginController',
@@ -73,10 +72,14 @@ animalApp .config(['$routeProvider',
                 templateUrl: 'views/animal_short_info.html',
                 controller: 'AnimalShortInfoController'
             }).
+            when('/ua/animal/registration_homeless', {
+                templateUrl: 'views/reg_homeless.html',
+                controller: 'AnimalRegistrationController'
+            }).
             otherwise({
                 redirectTo: '/ua'
             });
-    }]);
+  }]);
 
 //Constants
 animalApp.constant('RESOURCES', {
@@ -84,5 +87,26 @@ animalApp.constant('RESOURCES', {
     ANIMALS_FOR_ADOPTING_PAGINATOR: 'webapi/animals/adoption/pagenator',
     ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption',
     ANIMAL_TYPES: 'webapi/animals/animal_types',
-    ANIMAL_BREEDS: 'webapi/animals/animal_breeds/'
+    ANIMAL_BREEDS: 'webapi/animals/animal_breeds/',
+    ANIMAL_REGISTRATION: 'webapi/animals/animal',
+    ANIMAL_REGISTRATION_IMAGE: 'webapi/animals/animal/image'
+});
+
+
+animalApp.controller('MainController', function($scope, $rootScope, userAccount) {
+	userAccount.refreshSession();
+	$scope.logout = function() {
+        console.log("logout");
+        userAccount.logout();
+    };
+    
+    $scope.session = function(value) {
+        
+        if ($rootScope.userId == 0)
+          return true;
+        else 
+          return false;
+        
+      };
+      
 });

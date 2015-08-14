@@ -1,6 +1,6 @@
-var animalAppControllers = angular.module('ContactsController', ['vcRecaptcha']);
+var animalAppControllers = angular.module('ContactsController', []);
 
-animalApp.controller('ContactsController', function ($http, $scope, vcRecaptchaService) {
+animalApp.controller('ContactsController', function ($scope) {
 
     var myLatlng = new google.maps.LatLng(49.863400, 24.044500);
     var mapOptions = {
@@ -29,7 +29,7 @@ animalApp.controller('ContactsController', function ($http, $scope, vcRecaptchaS
     $scope.response = null;
     $scope.widgetId = null;
     $scope.model = {
-        key: '6LdMAgMTAAAAAGYY5PEQeW7b3L3tqACmUcU6alQf'
+        key: '6LdeAQsTAAAAAFYDoWkW8_zNKVu1tu6D-RlLfgnR'
     };
     $scope.setResponse = function (response) {
         $scope.response = response;
@@ -47,41 +47,25 @@ animalApp.controller('ContactsController', function ($http, $scope, vcRecaptchaS
             alert("Пройдіть перевірку на захист від спаму - клацніть на картинці - 'Я не робот'");
         } else {
             var feedback = { //prepare JSON for sending e-mail
-                    'mail': {
-                        'signup': $scope.feedback.signature,
-                        'email': $scope.feedback.email,
-                        'text': $scope.feedback.text
-                    },
-                    'gRecaptchaResponse': $scope.response                 //g-captcah-reponse for server
-                };
+                'mail': {
+                    'signup': $scope.feedback.signature,
+                    'email': $scope.feedback.email,
+                    'text': $scope.feedback.text
+                },
+                'gRecaptchaResponse': $scope.response                 //g-captcah-reponse for server
+            };
             console.log(feedback);
-                
-                    /**
-                     * SERVER SIDE VALIDATION
-                     *
-                     * You need to implement your server side validation here.
-                     * Send the reCaptcha response to the server and use some of the server side APIs to validate it
-                     * See https://developers.google.com/recaptcha/docs/verify
-                     */
-
-                    /* MAKE AJAX REQUEST to our server with g-captcha-string */
 
             $http.post('//localhost:8080/webapi/contacts/mail', feedback).success(function (response) {
-                if (response.error === 0) {
+                console.log(response);
+                if (response.success === true) {
                     alert("Лист відправлено! Дякуємо за Ваш відгук!");
+                    vcRecaptchaService.reload($scope.widgetId);
                 } else {
                     alert("Лист не відправлено - помилка в  ");
+                    vcRecaptchaService.reload($scope.widgetId);
                 }
             });
-                /*        .error(function (error) {
-                    console.log('Помилка звязку. Спробуйте пізніше.');
-                        // In case of a failed validation you need to reload the captcha
-                        // because each response can be checked just once
-                    vcRecaptchaService.reload($scope.widgetId);
-
-                }
-                    )*/
         }
     }
-}
-)
+});

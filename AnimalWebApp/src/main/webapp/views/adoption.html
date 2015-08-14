@@ -1,151 +1,175 @@
 <section id="adoption">
-<div class="jumbotron">     
+    <div class="jumbotron">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-lg-12">
                     <div class="col-sm-1 col-lg-1">
-                        <p><image src="../resources/img/main_dog.jpg" width="70"/></p>
+                        <p>
+                            <image src="../resources/img/main_dog.jpg" width="70"/>
+                        </p>
                     </div>
-                    <div class="col-sm-11 col-lg-11">   
+                    <div class="col-sm-11 col-lg-11">
                         <h2>Тварини на адопцію</h2>
                     </div>
                 </div>
             </div>
         </div>
-</div>
-<div class="container">
-    <div class="row">
-        <br>
-        <div class="col-xs-5 col-sm-3 col-lg-3" ng-controller="AdoptionFilterController">
-            
-            <div>
-                <h4>Фільтр пошуку</h4>                
-            </div>
-
-            <!-- Type filter -->
-            <div class="input-group">
-                <span class="input-group-addon">Тварина:</span>
-                <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.type" ng-change="getAnimalBreeds()" style="cursor: pointer" title="Не вибрано">
-                    <li nya-bs-option="animalType in animalTypes">
-                        <a>{{ animalType.type }}</a>
-                    </li>
-                </ol>
-            </div>
+    </div>
+    <div class="container">
+        <div class="row">
             <br>
 
-            <!-- Breed filter -->
-            <label>Введіть породу тварини:</label>
-            <div class="input-group">
-                <input type="text" ng-model="filter.animal.breed"
-                       typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8"
-                       class="form-control border-right-radius">
-            </div>
-            <hr>
+            <div class="col-xs-5 col-sm-3 col-lg-3" ng-controller="AdoptionFilterController">
 
-            <!-- Size filter -->
-            <label>Розмір тварини:</label>
-            <div class="input-group">
-                <span class="input-group-addon">Розмір:</span>
-                <ol class="nya-bs-select nya-bs-select-mod" style="cursor: pointer" ng-model="filter.animal.size" title="Не вибрано">
-                    <li class="nya-bs-option" value="малий"><a>маленький</a></li>
-                    <li class="nya-bs-option" value="середній"><a>середній</a></li>
-                    <li class="nya-bs-option" value="великий"><a>великий</a></li>
-                </ol>
-            </div>
-            <br> 
-            <hr>
+                <div>
+                    <h4>Фільтр пошуку</h4>
+                </div>
 
-            <!-- Sex filter -->
-            <label>Стать:</label>
-            <div class="form-group">
-                <div class="radio">
+                <!-- Type filter -->
+                <div class="input-group">
+                    <span class="input-group-addon">Тварина:</span>
+                    <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.type"
+                        ng-change="getAnimalBreeds()" style="cursor: pointer" title="Не вибрано">
+                        <li nya-bs-option="animalType in animalTypes">
+                            <a>{{ animalType.type }}</a>
+                        </li>
+                    </ol>
+                </div>
+                <br>
+
+                <!-- Breed filter -->
+                <label>Введіть породу тварини:</label>
+
+                <div class="input-group">
+                    <input type="text" ng-model="filter.animal.breed"
+                           typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8"
+                           class="form-control border-right-radius">
+                </div>
+                <hr>
+
+                <!-- Size filter -->
+                <label>Розмір тварини:</label>
+
+                <div class="input-group">
+                    <span class="input-group-addon">Розмір:</span>
+                    <ol class="nya-bs-select nya-bs-select-mod" style="cursor: pointer" ng-model="filter.animal.size"
+                        title="Не вибрано">
+                        <li class="nya-bs-option" value="малий"><a>маленький</a></li>
+                        <li class="nya-bs-option" value="середній"><a>середній</a></li>
+                        <li class="nya-bs-option" value="великий"><a>великий</a></li>
+                    </ol>
+                </div>
+                <br>
+                <hr>
+
+                <!-- Sex filter -->
+                <label>Стать:</label>
+
+                <div class="form-group">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="sex" value="самець" ng-model="filter.animal.sex">
+                            Самець
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="sex" value="самка" ng-model="filter.animal.sex">
+                            Самка
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Sterilization filter -->
+                <label>Стерилізація:</label>
+
+                <div class="checkbox">
                     <label>
-                        <input type="radio" name="sex" value="самець" ng-model="filter.animal.sex">
-                        Самець
+                        <input type="checkbox" name="sterilization" ng-model="filter.animal.dateOfSterilization"
+                               ng-true-value="'2000-01-01'" ng-false-value="">
+                        Так
                     </label>
                 </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="sex" value="самка" ng-model="filter.animal.sex">
-                        Самка
-                    </label>
+
+                <!-- Image filter -->
+                <label>Фотографія:</label>
+
+                <div class="checkbox">
+                    <label><input type="checkbox" ng-model="filter.animal.image"
+                                  ng-true-value="'yes'" ng-false-value="">Тільки з фотографією</label><br>
+                </div>
+                <hr>
+
+                <!-- Do filtering -->
+                <div class="row">
+                    <p><a class="btn btn-success" role="button" href ng-click="doFilter()">Фільтрувати</a></p><br>
+
+                    <p><a class="btn btn-warning" role="button" href ng-click="reset()" id="animals-admin-drop-filters">Скинути
+                        фільтри</a></p>
                 </div>
             </div>
 
-            <!-- Sterilization filter -->
-            <label>Стерилізація:</label>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" name="awesome" ng-model="filter.animal.dateOfSterilization" ng-true-value="'2000-01-01'" ng-false-value="">
-                    Так
-                </label>
+            <!-- Spinner -->
+            <div class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top: 320px;" ng-show="contentLoading"
+                 id="loading-block">
             </div>
 
-            <!-- Image filter -->
-            <label>Фотографія:</label>
-            <div class="checkbox">
-                <label><input type="checkbox" ng-model="filter.animal.image"
-                        ng-true-value="'yes'" ng-false-value="">Тільки з фотографією</label><br>
-            </div>
-            <hr>
+            <!-- Error message -->
+            <h3 class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top: 320px;" ng-show="totalItems == 0">
+                {{errorMessage}}</h3>
 
-            <!-- Do filtering -->
-            <div class="row">
-                <p><a class="btn btn-success" role="button" href ng-click="doFilter()">Фільтрувати</a></p><br>
-                <p><a class="btn btn-warning" role="button" href ng-click="reset()"  id="animals-admin-drop-filters">Скинути фільтри</a></p>
-            </div>            
-        </div>
+            <!-- List of animals for adoption -->
+            <div class="col-xs-7 col-sm-9 col-md-8 col-lg-9 simple-border" ng-show="!contentLoading">
+                <div class="row">
+                    <div class="col-xs-12 col-lg-4 col-sm-6 simple-side-padding"
+                         style="height:400px; margin-bottom: 10px;" ng-repeat="animal in animals">
+                        <h4 class="blocktext blocktext-h4">Оголошення № {{animal.id}}</h4>
 
-        <!-- Spinner -->
-        <div class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top: 320px;" ng-show="loading" id="loading-block">
-        </div>
-
-        <!-- Error message -->
-        <h3 class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top: 320px;" ng-show="totalItems == 0">{{errorMessage}}</h3>
-
-        <!-- List of animals for adoption -->
-        <div class="col-xs-7 col-sm-9 col-md-8 col-lg-9 simple-border" ng-show="!loading">
-            <div class="row">
-                <div class="col-xs-12 col-lg-4 col-sm-6 simple-side-padding" style="height:400px; margin-bottom: 10px;" ng-repeat="animal in animals">
-                    <h4 class="blocktext blocktext-h4">Оголошення № {{animal.id}}</h4>
-
-                    <p class="center-block"><image class="displayed" src="../resources/img/no-image.jpg" height="200" /></p>
+                        <p class="center-block" id="animal-image-id">
+                            <img ng-src="{{animal.image}}" alt="Зображення відсутнє"
+                                 height="200" width="200"/>
+                        </p>
 
                         <p class="blocktext2 center-block">Тип тварини: {{animal.type.type}}</p>
+
                         <p class="blocktext2 center-block">Порода: {{animal.breed.breedUa}}</p>
+
                         <p class="blocktext2 center-block">Дата реєстрації: {{animal.dateOfRegister}}</p>
 
-                    <p class="blocktext2 center-block" style="text-aling: center;">
-                        <a class="btn btn-default" role="button" href="#ua/animal/detail">Дізнатися більше »</a>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Pagination -->
-            <div class="row" ng-show="totalItems">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-success text-center">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
-                        <pagination boundary-links="true" total-items="totalItems" ng-model="filter.page" ng-change="pageChanged()" class="paginator" items-per-page="filter.limit"
-                                    previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                        <p class="blocktext2 center-block" style="text-aling: center;">
+                            <a class="btn btn-default" role="button" href="#ua/animal/detail">Дізнатися більше »</a>
+                        </p>
                     </div>
-                    <div align="center" class="col-md-2 col-sm-12 col-xs-12 rows-count">
-                        <div class="btn-group" dropdown keyboard-nav>
-                            <div class="btn-group" dropdown is-open="status.isopen">
-                                <button id="single-button" type="button" class="btn btn-success" dropdown-toggle ng-disabled="disabled">
-                                    {{ filter.limit }} <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
-                                    <li role="menuitem"><a href ng-click="countChanged('15')">15</a></li>
-                                    <li role="menuitem"><a href ng-click="countChanged('30')">30</a></li>
-                                </ul>
+                </div>
+
+                <!-- Pagination -->
+                <div class="row" ng-show="totalItems">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-success text-center">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8">
+                            <pagination boundary-links="true" total-items="totalItems" ng-model="filter.page"
+                                        ng-change="pageChanged()" class="paginator" items-per-page="filter.limit"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                        last-text="&raquo;"></pagination>
+                        </div>
+                        <div align="center" class="col-md-2 col-sm-12 col-xs-12 rows-count">
+                            <div class="btn-group" dropdown keyboard-nav>
+                                <div class="btn-group" dropdown is-open="status.isopen">
+                                    <button id="single-button" type="button" class="btn btn-success" dropdown-toggle
+                                            ng-disabled="disabled">
+                                        {{ filter.limit }} <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
+                                        <li role="menuitem"><a href ng-click="countChanged('15')">15</a></li>
+                                        <li role="menuitem"><a href ng-click="countChanged('30')">30</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
 </section>
