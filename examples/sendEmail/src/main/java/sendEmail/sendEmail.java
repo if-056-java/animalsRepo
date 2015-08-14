@@ -13,7 +13,7 @@ public class sendEmail {
 
                 tlsSender.send();
 
-                tlsSender.send("d:\\startup.txt");
+              //  tlsSender.send("d:\\startup.txt");
 
     }
 }
