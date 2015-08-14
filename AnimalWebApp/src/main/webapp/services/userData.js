@@ -17,8 +17,8 @@ angular.module('animalApp').factory('userData',function ($http, $rootScope, $loc
 	        }); 			
 		},
 		
-		updateUser:function (user){
-			$http.put("/webapi/users/user", user)
+		updateUser:function (user , id){
+			$http.put("/webapi/users/user/" + id, user)
 	        .success(function(data){
 	        	console.log("user update");
 	        	console.log(data);	        		        

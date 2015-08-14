@@ -30,8 +30,9 @@ animalApp.controller('UserProfileController', function($scope, userData, hashPas
     	console.log($scope.fields.password);
     	
     	console.log($scope.fields);
+    	console.log("id - "+$scope.fields.id);
     	
-		userData.updateUser($scope.fields);       
+		userData.updateUser($scope.fields, $scope.fields.id);       
 	
 	};
 	
