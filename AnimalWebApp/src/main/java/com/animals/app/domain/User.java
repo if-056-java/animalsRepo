@@ -26,6 +26,11 @@ public class User implements Serializable{
     private String organizationName = "N/A";
     private String organizationInfo = "N/A";
     private boolean isActive = true;
+    
+    private String googleId;
+    private String facebookId;
+    private String twitterId;
+    private String socialPhoto;
 
     private List<UserRole> userRole;
     private UserType userType;
@@ -144,8 +149,42 @@ public class User implements Serializable{
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
+    
+    
 
-    @Override
+    public String getGoogleId() {
+		return googleId;
+	}
+
+	public void setGoogleId(String googleId) {
+		this.googleId = googleId;
+	}
+
+	public String getFacebookId() {
+		return facebookId;
+	}
+
+	public void setFacebookId(String facebookId) {
+		this.facebookId = facebookId;
+	}
+
+	public String getTwitterId() {
+		return twitterId;
+	}
+
+	public void setTwitterId(String twitterId) {
+		this.twitterId = twitterId;
+	}
+
+	public String getSocialPhoto() {
+		return socialPhoto;
+	}
+
+	public void setSocialPhoto(String socialPhoto) {
+		this.socialPhoto = socialPhoto;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -167,8 +206,13 @@ public class User implements Serializable{
         if (organizationInfo != null ? !organizationInfo.equals(user.organizationInfo) : user.organizationInfo != null)
             return false;
         if (userRole != null ? !userRole.equals(user.userRole) : user.userRole != null) return false;
-        if (address != null ? !address.equals(user.address) : user.address != null) return false;
+        if (address != null ? !address.equals(user.address) : user.address != null) return false;        
+        if (googleId != null ? !googleId.equals(user.googleId) : user.googleId != null) return false;
+        if (facebookId != null ? !facebookId.equals(user.facebookId) : user.facebookId != null) return false;
+        if (twitterId != null ? !twitterId.equals(user.twitterId) : user.twitterId != null) return false;
+        if (socialPhoto != null ? !socialPhoto.equals(user.socialPhoto) : user.socialPhoto != null) return false;
         return !(userType != null ? !userType.equals(user.userType) : user.userType != null);
+        
 
     }
 
@@ -188,6 +232,10 @@ public class User implements Serializable{
         result = 31 * result + (userRole != null ? userRole.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (userType != null ? userType.hashCode() : 0);
+        result = 31 * result + (googleId != null ? googleId.hashCode() : 0);
+        result = 31 * result + (facebookId != null ? facebookId.hashCode() : 0);
+        result = 31 * result + (twitterId != null ? twitterId.hashCode() : 0);
+        result = 31 * result + (socialPhoto != null ? socialPhoto.hashCode() : 0);
         return result;
     }
 
@@ -208,6 +256,10 @@ public class User implements Serializable{
                 ", userRole=" + userRole +
                 ", address='" + address + '\'' +
                 ", userType=" + userType +
+                ", googleId=" + googleId +
+                ", facebookId=" + facebookId +
+                ", twitterId=" + twitterId +
+                ", socialPhoto=" + socialPhoto +
                 '}';
     }
 }
