@@ -27,14 +27,14 @@ public interface UserRepository {
             "UserRoleId=#{userRole, typeHandler=com.animals.app.domain.UserRole}, Phone=#{phone}, Address=#{address}, " +
             "Email=#{email}, SocialLogin=#{socialLogin}, Password=#{password}, " +
             "OrganizationName=#{organizationName}, OrganizationInfo=#{organizationInfo}, " +
-            "IsActive=#{isActive} " +
+            "IsActive=#{isActive}, GoogleId=#{googleId}, SocialPhoto=#{socialPhoto} " +
             "WHERE Id=#{id}";
 
     final String DELETE = "DELETE FROM users WHERE Id = #{id}";
 
     final String SELECT_BY_ID = "SELECT Id, Name, Surname, DateOfRegistration, " +
             " UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
-            " Password, OrganizationName, OrganizationInfo, IsActive " +
+            " Password, OrganizationName, OrganizationInfo, IsActive, GoogleId, SocialPhoto" +
             " FROM users WHERE Id = #{id}";
 
     final String SELECT_BY_ID_FOR_ADMIN_ANIMAL_LIST = "SELECT id, name, surname, userTypeId, phone, email  " +

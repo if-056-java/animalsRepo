@@ -50,7 +50,8 @@ public class AuthorizationResource {
 	private static final String callbackUrlG = "http://localhost:8080/webapi/account/login/google_token";
 	
 	// url to redirect after OAuth end
-	private String url = "http://localhost:8080/#/ua/user/profile";
+	//private String url = "http://localhost:8080/#/ua/user/profile";  //temporary Bug with session
+	private String url = "http://localhost:8080/#/ua";
 	
 	
 	
@@ -196,6 +197,7 @@ public class AuthorizationResource {
 		String socialLogin = user.getSocialLogin();
 		
 		System.out.println(socialLogin);
+		
 		//check if user socialLogin unique
 		String socialLogin2="logintoChange";
 		try {
@@ -211,8 +213,7 @@ public class AuthorizationResource {
 			String str = "{\"userId\" : \"0\"}";
 			
 			return Response.status(Response.Status.OK).entity(str).build();
-		}		
-				
+		}				
 		
 		
 		try {
@@ -308,29 +309,9 @@ public class AuthorizationResource {
 
 		Token accessToken = new Token("ACCESS_TOKEN", "REFRESH_TOKEN");
 
-		//if (startOver) {
-
-			// Trade the Request Token and Verfier for the Access Token
-			System.out.println("Trading the Request Token for an Access Token...");
-			accessToken = service2.getAccessToken(EMPTY_TOKEN, v);
-			System.out.println("Got the Access Token!");
-			System.out.println("(if your curious it looks like this: " + accessToken + " )");
-			System.out.println();
-		//}
-
-//		if (refresh) {
-//			try {
-//				// Trade the Refresh Token for a new Access Token
-//				System.out.println("Trading the Refresh Token for a new Access Token...");
-//				Token newAccessToken = service2.getAccessToken(accessToken, v);
-//				System.out.println("Got the Access Token!");
-//				System.out.println("(if your curious it looks like this: " + newAccessToken + " )");
-//				System.out.println();
-//				accessToken = newAccessToken;
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
+				
+		accessToken = service2.getAccessToken(EMPTY_TOKEN, v);
+			
 
 		System.out.println("Now we're going to access a protected resource...");
 		OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
@@ -375,30 +356,27 @@ public class AuthorizationResource {
 		
 		HttpSession session = req.getSession(true);
 		
-        System.out.println("ping2");
-        
 		String userId = (String)session.getAttribute("userId");
 		
 		System.out.println(userId);
 		
+		int userId2 = Integer.parseInt(userId);
+		
 		//insert in User value of googleId and picture by userId
-//		try {
-//			userRep.insertGoogleCredentialsToUserById(googleId, link, userId);			
-//		} catch (Exception e) {
-//			return SERVER_ERROR;
-//		}
+		try {
+			
+			User user = userRep.getById(userId2);	
+			
+			user.setGoogleId(googleId);
+			user.setSocialPhoto(link);
+			
+			userRep.update(user);
+			
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}
 		
-		
-		
-		
-		// check if user exist in DB
-		//if exist - start session
-		//if nor - create User (with a lot empty fields)
-		//start session for created user
-
-		System.out.println();
-		System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
-		
+		System.out.println("Thats it man! Go and build something awesome with Scribe! :)");	
 		
 		
 		return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
