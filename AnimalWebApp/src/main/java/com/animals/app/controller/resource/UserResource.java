@@ -19,11 +19,13 @@ import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 
 @Path("users")
-public class U41Xresource {
+public class UserResource {
 	
 	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
 	
 	private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
+	
+	private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 	
 	private UserRepositoryImpl userRep = new UserRepositoryImpl();
 	AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
@@ -43,11 +45,16 @@ public class U41Xresource {
             return BAD_REQUEST;
         }
 		
-		User user = userRep.getById(parseId);
-		
-		if (user == null) return NOT_FOUND;
-		
-		return Response.ok().entity(user).build();	
+		try {
+			User user = userRep.getById(parseId);
+			
+			if (user == null) return NOT_FOUND;
+			
+			return Response.ok().entity(user).build();
+			
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}	
 		
 	}
 	
@@ -66,34 +73,44 @@ public class U41Xresource {
             return BAD_REQUEST;
         }
 		
-		List<Animal> animals = animalRepository.getAnimalByUserId(parseId);
-		
-		GenericEntity<List<Animal>> genericAnimals =
-                new GenericEntity<List<Animal>>(animals) {};
+		try {
+			List<Animal> animals = animalRepository.getAnimalByUserId(parseId);
+			
+			GenericEntity<List<Animal>> genericAnimals =
+			        new GenericEntity<List<Animal>>(animals) {};
 
-        if(genericAnimals == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
+			if(genericAnimals == null)
+			    return Response.status(Response.Status.NOT_FOUND).build();
 
-        return Response.status(Response.Status.OK).entity(genericAnimals).build();
+			return Response.status(Response.Status.OK).entity(genericAnimals).build();
+			
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}
 		
 	}
 	
 	@POST
-	@Path("user")//http:localhost:8080/webapi/users/user
+	@Path("user")//http:localhost:8080/webapi/users/user/
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response insertUser (User user) {
+	public Response insertUser (User user) {		//registration
 		
 		if (user==null) return BAD_REQUEST;
 		
-		userRep.insert(user);
+		try {
+			userRep.insert(user);			
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}
 		
 		return Response.ok().entity(user).build();
 		
 	}
 	
+	
 	@PUT 
-	@Path("user") //http:localhost:8080/webapi/users/user
+	@Path("user/{userId}") //http:localhost:8080/webapi/users/user/{userId}
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateUser (User user) {
@@ -109,12 +126,16 @@ public class U41Xresource {
 				
 		if (userRep.getById(id) == null) return NOT_FOUND;     
 		
-        userRep.update(user);
-		
-		User updatedUser = userRep.getById(id);
-		
-		return Response.ok().entity(updatedUser).build();
-		
+       	try {
+			userRep.update(user);
+			
+			User updatedUser = userRep.getById(id);
+			
+			return Response.ok().entity(updatedUser).build();
+			
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}		
 	}
 
 }

@@ -13,12 +13,14 @@ angular.module('animalApp').factory('userData',function ($http, $rootScope, $loc
 		        var id = data.id;
 		        var name = data.name;
 		        console.log("id rootscope - " + id);
-		        userAccount.login(name, id)
+		        //userAccount.login(name, id)
+		        $location.path("/ua/user/profile");	
+		        //$route.reload();
 	        }); 			
 		},
 		
-		updateUser:function (user){
-			$http.put("/webapi/users/user", user)
+		updateUser:function (user , id){
+			$http.put("/webapi/users/user/" + id, user)
 	        .success(function(data){
 	        	console.log("user update");
 	        	console.log(data);	        		        

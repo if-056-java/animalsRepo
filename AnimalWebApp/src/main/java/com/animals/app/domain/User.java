@@ -4,9 +4,13 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Created by oleg on 22.07.2015.
  */
+
 public class User implements Serializable{
 
     private Integer id;
@@ -16,11 +20,12 @@ public class User implements Serializable{
     private String email;
     private String password;
     private String phone;
-    private String address;
+    private String address = "N/A";
+    
     private String socialLogin;
-    private String organizationName;
-    private String organizationInfo;
-    private boolean isActive;
+    private String organizationName = "N/A";
+    private String organizationInfo = "N/A";
+    private boolean isActive = true;
 
     private List<UserRole> userRole;
     private UserType userType;
@@ -116,10 +121,10 @@ public class User implements Serializable{
         this.isActive = isActive;
     }
 
-    public String getAddress() {
+        public String getAddress() {
         return address;
     }
-
+    
     public void setAddress(String address) {
         this.address = address;
     }

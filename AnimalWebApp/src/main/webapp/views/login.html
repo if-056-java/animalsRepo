@@ -19,24 +19,7 @@
 
 <div class="container">
 
-<div class="col-xs-1 col-sm-1 col-md-1 col-lg-2">
-	<br><br>
-	<form class="form-horizontal" ng-submit="setId()" ng-click="showPopup()">
-		<div class="row">
-		<h4> temporary stub for creating session</h4>
-				<div class="col-lg-7">
-					<label >Session ID:</label>
-				</div>
-				<div class="col-lg-5">
-					<input class="form-control" ng-model="set.id" placeholder="25">
-				</div>	
-				<div class="col-lg-6">
-					<label >{{set.id}}</label>
-				</div>
-				<button type="submit" class="btn btn-default btn-md col-lg-7" >Set Id</button>			
-		</div>	
-	</form>
-	</div>
+<div class="col-xs-1 col-sm-1 col-md-1 col-lg-2"></div>
 
 
 	<div class="row">
@@ -45,15 +28,15 @@
 		<form>
 			<br>
 			<div class="form-group">
-	    		<label class="col-xs-5 col-sm-5 col-lg-5 control-label" >User Name:</label>
+	    		<label class="col-xs-5 col-sm-5 col-lg-5 control-label" >User Login:</label>
 	    		<div class="col-xs-12 col-sm-12 col-lg-12">
-	      		<input class="form-control" id="login" ng-model="login.userName">
+	      		<input class="form-control" id="login" ng-model="login.userLogin">
 	    		</div>
 	    	</div>
 	    	<div class="form-group">		    			  		
-	    		<label class="col-xs-5 col-sm-5 col-lg-5 control-label" >Session ID:</label>
+	    		<label class="col-xs-5 col-sm-5 col-lg-5 control-label" >Password:</label>
 	    		<div class="col-xs-12 col-sm-12 col-lg-12">
-	      		<input class="form-control" id="password" ng-model="login.sessionId">
+	      		<input class="form-control" id="password" ng-model="login.password">
 	    		</div>
 	    	</div>
 	    	<div class="form-group checkbox">
@@ -64,7 +47,7 @@
 	  		<div class="form-group">
 		  		<label class="col-xs-12 col-sm-12 col-lg-12 control-label"></label>
 		  		<div class="col-xs-12 col-sm-12 col-lg-12">	  			
-				<button name="submit" type="submit" ng-click = "login()" class="btn btn-default btn-lg col-xs-12 col-sm-12 col-lg-12">Create Session</button>
+				<button name="submit" type="submit" ng-click = "login()" class="btn btn-default btn-lg col-xs-12 col-sm-12 col-lg-12">Enter</button>
 				</div>	  			 			
 			</div>
 			
