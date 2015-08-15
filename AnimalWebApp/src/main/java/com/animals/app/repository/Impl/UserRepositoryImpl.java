@@ -126,6 +126,7 @@ public class UserRepositoryImpl {
         SqlSession sqlSession =  sqlSessionFactory.openSession();
 
         try{
+        	System.out.println("inside usRep");
             UserRepository mapper = sqlSession.getMapper(UserRepository.class);
             return mapper.checkIfUserExistInDB(socialLogin, password);
         } finally {

@@ -1,12 +1,8 @@
 package com.animals.app.controller.resource;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.StringTokenizer;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
@@ -14,11 +10,23 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.codec.binary.Base64;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.builder.api.Google2Api;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Token;
+import org.scribe.model.Verb;
+import org.scribe.model.Verifier;
+import org.scribe.oauth.OAuthService;
 
 import com.animals.app.domain.User;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
@@ -32,8 +40,18 @@ public class AuthorizationResource {
 	
 	private UserRepositoryImpl userRep = new UserRepositoryImpl();
 	
-	//@Context
-    //HttpServletRequest req;					//for creating session inside registration
+	// Google OAuth preferences
+	private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json";
+	private static final String SCOPE = "https://mail.google.com/ https://www.googleapis.com/auth/userinfo.email";
+	private static final Token EMPTY_TOKEN = null;
+	private static final String apiKeyG = "1061082540782-02vuauouhb8v5caiavepvgkuuiv4t178.apps.googleusercontent.com";
+	private static final String apiSecretG = "rYsnWUSHf4S2z-LHM1oMocJT";
+	private static final String callbackUrlG = "http://localhost:8080/webapi/account/login/google_token";
+	
+	// url to redirect after OAuth end
+	private String url = "http://localhost:8080/#/ua/user/profile";
+	
+	
 	
 	@POST
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -70,6 +88,8 @@ public class AuthorizationResource {
         User user;
 		try {
 			user = userRep.checkIfUserExistInDB(username, password);
+			System.out.println(user.getName());
+			System.out.println(user.getSocialLogin());			
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
@@ -227,76 +247,76 @@ public class AuthorizationResource {
 		
 	}
 	
-//	@GET
-//	@Path("login/google")		//http:localhost:8080/webapi/account/login/google
-//	public Response googleLogin() {
-//
-//		OAuthService service = null;
-//
-//		try {
-//			service = new ServiceBuilder()
-//					.provider(Google2Api.class)
-//					.apiKey(apiKeyG)
-//					.apiSecret(apiSecretG)
-//					.callback(callbackUrlG)
-//					.scope(SCOPE)
-//					.offline(true)
-//					.build();
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		if (service == null) {
-//			return Response.status(404).build();
-//		}
-//
-//		String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
-//
-//		System.out.println("url - " + authorizationUrl);
-//
-//		return Response.temporaryRedirect(UriBuilder.fromUri(authorizationUrl).build()).build();
-//	}
-//
-//	@GET
-//	@Path("login/google_token")			//http:localhost:8080/webapi/account/login/google_token
-//	public Response getGoogleAccessToken(@QueryParam("code") String token) {
-//
-//		boolean refresh = true;
-//		boolean startOver = true;
-//
-//		Verifier v = new Verifier(token);
-//
-//		System.out.println("token - " + token);
-//		
-//		OAuthService service2 =null;
-//
-//		try {
-//			service2 = new ServiceBuilder()
-//					.provider(Google2Api.class)
-//					.apiKey(apiKeyG)
-//					.apiSecret(apiSecretG)
-//					.callback(callbackUrlG)
-//					.scope(SCOPE)
-//					.offline(true)
-//					.build();
-//			
-//		} catch (Exception e1) {			
-//			e1.printStackTrace();
-//		}
-//
-//		Token accessToken = new Token("ACCESS_TOKEN", "REFRESH_TOKEN");
-//
-//		if (startOver) {
-//
-//			// Trade the Request Token and Verfier for the Access Token
-//			System.out.println("Trading the Request Token for an Access Token...");
-//			accessToken = service2.getAccessToken(EMPTY_TOKEN, v);
-//			System.out.println("Got the Access Token!");
-//			System.out.println("(if your curious it looks like this: " + accessToken + " )");
-//			System.out.println();
-//		}
-//
+	@GET
+	@Path("login/google")		//http:localhost:8080/webapi/account/login/google
+	public Response googleLogin() {
+
+		OAuthService service = null;
+
+		try {
+			service = new ServiceBuilder()
+					.provider(Google2Api.class)
+					.apiKey(apiKeyG)
+					.apiSecret(apiSecretG)
+					.callback(callbackUrlG)
+					.scope(SCOPE)
+					.offline(true)
+					.build();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if (service == null) {
+			return Response.status(404).build();
+		}
+
+		String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+
+		System.out.println("url - " + authorizationUrl);
+
+		return Response.temporaryRedirect(UriBuilder.fromUri(authorizationUrl).build()).build();
+	}
+
+	@GET
+	@Path("login/google_token")			//http://localhost:8080/webapi/account/login/google_token
+	public Response getGoogleAccessToken(@QueryParam("code") String token, @Context HttpServletRequest req) {
+
+		boolean refresh = true;
+		boolean startOver = true;
+
+		Verifier v = new Verifier(token);
+
+		System.out.println("token - " + token);
+		
+		OAuthService service2 =null;
+
+		try {
+			service2 = new ServiceBuilder()
+					.provider(Google2Api.class)
+					.apiKey(apiKeyG)
+					.apiSecret(apiSecretG)
+					.callback(callbackUrlG)
+					.scope(SCOPE)
+					.offline(true)
+					.build();
+			
+		} catch (Exception e1) {			
+			e1.printStackTrace();
+		}
+
+		Token accessToken = new Token("ACCESS_TOKEN", "REFRESH_TOKEN");
+
+		//if (startOver) {
+
+			// Trade the Request Token and Verfier for the Access Token
+			System.out.println("Trading the Request Token for an Access Token...");
+			accessToken = service2.getAccessToken(EMPTY_TOKEN, v);
+			System.out.println("Got the Access Token!");
+			System.out.println("(if your curious it looks like this: " + accessToken + " )");
+			System.out.println();
+		//}
+
 //		if (refresh) {
 //			try {
 //				// Trade the Refresh Token for a new Access Token
@@ -310,31 +330,79 @@ public class AuthorizationResource {
 //				e.printStackTrace();
 //			}
 //		}
-//
-//		System.out.println("Now we're going to access a protected resource...");
-//		OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
-//		service2.signRequest(accessToken, request);
-//		org.scribe.model.Response response = request.send();
-//		System.out.println("Got it! Lets see what we found...");
-//		System.out.println();
-//		System.out.println(response.getCode());
-//		System.out.println(response.getBody());
-//		
-//		//get GoogleID and SocsalLogin from response
-//		
-//		// check if user exist in DB
-//		//if exist - start session
-//		//if nor - create User (with a lot empty fields)
-//		//start session for created user
-//
-//		System.out.println();
-//		System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
-//		
-//		
-//		
-//		return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
-//		
-//	}
+
+		System.out.println("Now we're going to access a protected resource...");
+		OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+		service2.signRequest(accessToken, request);
+		org.scribe.model.Response response = request.send();
+		System.out.println("Got it! Lets see what we found...");
+		System.out.println();
+		System.out.println(response.getCode());
+		System.out.println(response.getBody());
+		
+		//json string from Google response
+		String json = response.getBody();
+		
+		//parse string 
+		String googleId=null;
+		String name=null;
+		String link=null;
+		String email=null;
+		try {
+			JSONParser jsonParser = new JSONParser();
+			JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
+			
+			name = (String) jsonObject.get("name");
+			System.out.println("The first name is: " + name);
+			
+			googleId = (String) jsonObject.get("id");
+			System.out.println("id is: " + googleId);
+			
+			link = (String) jsonObject.get("picture");
+			System.out.println("Link to photo: " + link);
+			
+			email = (String) jsonObject.get("email");
+			System.out.println("Email: " + email);
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (NullPointerException ex) {
+			ex.printStackTrace();
+		}
+		
+		//getting userId from current session
+		
+		HttpSession session = req.getSession(true);
+		
+        System.out.println("ping2");
+        
+		String userId = (String)session.getAttribute("userId");
+		
+		System.out.println(userId);
+		
+		//insert in User value of googleId and picture by userId
+//		try {
+//			userRep.insertGoogleCredentialsToUserById(googleId, link, userId);			
+//		} catch (Exception e) {
+//			return SERVER_ERROR;
+//		}
+		
+		
+		
+		
+		// check if user exist in DB
+		//if exist - start session
+		//if nor - create User (with a lot empty fields)
+		//start session for created user
+
+		System.out.println();
+		System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
+		
+		
+		
+		return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
+		
+	}
 	
 	
 
