@@ -25,13 +25,14 @@
 			<div class="col-xs-10 col-lg-10 text-center" style="height:400px;">
                     <h4 class="blocktext">Photo from social net</h4>
                     <div class="smallIMG">
-                        <p><image class="displayed" src="resources/img/no-image.jpg" height="200"></p>
+                        <p><image ng-hide="userInfo.socialPhoto" class="displayed" src="resources/img/no-image.jpg" height="200"></p>
+                        <p><image ng-show="userInfo.socialPhoto" class="displayed" src="{{userInfo.socialPhoto}}" height="200"></p>
                     </div>
 
                     <p class="blocktext2">Join account with social net</p>
                     <div class="text-center">
                     	<a class="btn btn-social-icon btn-facebook btn-md"><i class="fa fa-facebook"></i></a>
-                    	<a href="http://localhost:8080/webapi/account/login/google" class="btn btn-social-icon btn-google btn-md"><i class="fa fa-google"></i></a>
+                    	<a ng-disabled="userInfo.socialPhoto"href="http://localhost:8080/webapi/account/login/google" class="btn btn-social-icon btn-google btn-md"><i class="fa fa-google"></i></a>
                     	<a class="btn btn-social-icon btn-twitter btn-md"><i class="fa fa-twitter"></i></a>                    	
 					</div>
             </div>
