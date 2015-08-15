@@ -81,7 +81,9 @@ angular.module('AdminAnimalsDetailed', ['AdminAnimalsModule', 'angularFileUpload
                     return;
                 }
                 $scope.animalBreeds = undefined;
-                $scope.$parent.animal.breed = undefined;
+                if ($scope.$parent.editor === true) {
+                    $scope.$parent.animal.breed = undefined;
+                }
                 $scope.filterAnimalBreedFlag = true;
                 AdminAnimalsService.getAnimalBreeds($scope.$parent.animal.type.id)
                     .then(function(data) {
