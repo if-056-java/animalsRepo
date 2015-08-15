@@ -58,18 +58,31 @@ angular.module('AdminAnimalsDetailed', ['AdminAnimalsModule', 'angularFileUpload
             }
 
             /**
-             * @return list of animal types.
+             * @return list of animal types and services.
              */
             $scope.$parent.$watch('editor', function(newValue, oldValue) {
                 if (newValue === false || $scope.animalTypes != undefined) {
                     return;
                 }
+
                 AdminAnimalsService.getAnimalTypes()
                     .then(function (data) {
                         $scope.animalTypes = data;
                     },
                     function (data) {
-                        console.log('Animal retrieval failed.')
+                        console.log('Animal types retrieval failed.')
+                    });
+
+                if ($scope.animalServices != undefined) {
+                    return;
+                }
+
+                AdminAnimalsService.getAnimalServices()
+                    .then(function (data) {
+                        $scope.animalServices = data;
+                    },
+                    function (data) {
+                        console.log('Animal services retrieval failed.')
                     });
             });
 

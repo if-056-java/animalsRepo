@@ -107,6 +107,23 @@ angular.module('AdminAnimalsModule', [])
         }
 
         /**
+         * @return list of animal services.
+         */
+        this.getAnimalServices = function() {
+            var def = $q.defer();
+
+            $http.get("/webapi/animals/animal_services")
+                .success(function(data) {
+                    def.resolve(data);
+                })
+                .error(function() {
+                    def.reject("Failed to get animal services");
+                });
+
+            return def.promise;
+        }
+
+        /**
          * @return list of animal breeds according to animal type.
          */
         this.getAnimalBreeds = function(animalTypeId) {

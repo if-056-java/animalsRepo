@@ -83,10 +83,6 @@ public class AdminResource {
         AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
         long pages = animalRepository.getAdminAnimalsPaginator(animalsFilter);
 
-        if(pages == 0) {
-            return NOT_FOUND;
-        }
-
         String json = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
 
         return ok(json);

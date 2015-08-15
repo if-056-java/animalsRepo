@@ -1,15 +1,13 @@
 package com.animals.app.controller.resource;
 
-import com.animals.app.domain.Animal;
-import com.animals.app.domain.AnimalsFilter;
+import com.animals.app.domain.*;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 
-import com.animals.app.domain.AnimalBreed;
-import com.animals.app.domain.AnimalType;
 import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
+import com.animals.app.repository.Impl.AnimalServiceRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalTypeRepositoryImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -170,14 +168,29 @@ public class AnimalResource {
         List<AnimalType> animalTypes = new AnimalTypeRepositoryImpl().getAll();
 
         GenericEntity<List<AnimalType>> genericAnimalTypes =
-                new GenericEntity<List<AnimalType>>(animalTypes) {
-                };
+                new GenericEntity<List<AnimalType>>(animalTypes) {};
 
         if (genericAnimalTypes == null) {
             return NOT_FOUND;
         }
 
         return ok(genericAnimalTypes);
+    }
+
+    @GET //http:localhost:8080/webapi/animals/animal_services
+    @Path("animal_services")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAnimalServices() {
+        List<AnimalService> animalServices = new AnimalServiceRepositoryImpl().getAll();
+
+        GenericEntity<List<AnimalService>> genericAnimalServices =
+                new GenericEntity<List<AnimalService>>(animalServices) {};
+
+        if (genericAnimalServices == null) {
+            return NOT_FOUND;
+        }
+
+        return ok(genericAnimalServices);
     }
 
     @GET //http:localhost:8080/webapi/animals/animal_breeds

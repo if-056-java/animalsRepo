@@ -60,6 +60,14 @@
                         </div>
 
                         <hr>
+
+                        <!-- Animal service -->
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Тип:</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.service.service }}</div>
+                        </div>
+
+                        <hr>
                     </div>
                 </div>
                 <div class="row">
@@ -227,6 +235,18 @@
                                 <li class="nya-bs-option" value="CITES I"><a>CITES I</a></li>
                                 <li class="nya-bs-option" value="CITES II"><a>CITES II</a></li>
                                 <li class="nya-bs-option" value="CITES III"><a>CITES III</a></li>
+                            </ol>
+                        </div>
+
+                        <hr>
+
+                        <!-- Animal service -->
+                        <div class="input-group">
+                            <span class="input-group-addon">Тип</span>
+                            <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.service">
+                                <li nya-bs-option="animalService in animalServices">
+                                    <a>{{ animalService.service }}</a>
+                                </li>
                             </ol>
                         </div>
 
