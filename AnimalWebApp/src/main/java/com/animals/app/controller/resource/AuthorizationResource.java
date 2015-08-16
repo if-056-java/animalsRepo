@@ -398,11 +398,11 @@ public class AuthorizationResource {
 		//Check if user exist by googleId
 		User user=null;
 		
-		try {
+		//try {
 			user = userRep.getByGoogleId(googleId);
-		} catch (Exception e) {
-			return SERVER_ERROR;
-		}
+//		} catch (Exception e) {
+//			return SERVER_ERROR;
+//		}
 		
 		if (user != null) {
 			//Case 2
@@ -438,8 +438,8 @@ public class AuthorizationResource {
 		userToReg.setOrganizationName("N/A");
 		userToReg.setPassword("root");		
 		userToReg.setSocialPhoto(link);
-		userToReg.setUserRole(null);
-		userToReg.setUserType(null);
+//		userToReg.setUserRole(null);
+//		userToReg.setUserType(null);
 		//reg date
 		//userRole
 		
