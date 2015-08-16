@@ -18,6 +18,10 @@ import com.animals.app.domain.User;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 
+/**
+ * Created by 41X on 8/12/2015.
+ */
+
 @Path("users")
 public class UserResource {
 	

@@ -31,13 +31,9 @@ animalApp.controller('UserProfileController', function($scope, userData, hashPas
     		console.log("changing password");
     	} else {
     		console.log("not changing password")
-    	}
-    	   	
-    	console.log($scope.passwordNew);
-    	console.log($scope.fields.password);
+    	} 
     	
     	console.log($scope.fields);
-    	console.log("id - "+$scope.fields.id);
     	
 		userData.updateUser($scope.fields, $scope.fields.id);       
 	

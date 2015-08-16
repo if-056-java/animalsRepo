@@ -1,6 +1,8 @@
 package com.animals.app.controller.resource;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.StringTokenizer;
 
 
@@ -31,6 +33,10 @@ import org.scribe.oauth.OAuthService;
 
 import com.animals.app.domain.User;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
+
+/**
+ * Created by 41X on 8/16/2015.
+ */
 
 @Path("account")
 public class AuthorizationResource {
@@ -84,8 +90,7 @@ public class AuthorizationResource {
         System.out.println("password - " + password);
         System.out.println("socialLogin - " + username);    
                      
-        
-                
+                        
         //checking if user exist. If not - return username or password is not correct        
         User user;
 		try {
@@ -95,9 +100,7 @@ public class AuthorizationResource {
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
-        
-        System.out.println("ping");
-        
+                        
         if (user == null) return NOT_FOUND;
         
         System.out.println(user.getId());
@@ -110,6 +113,8 @@ public class AuthorizationResource {
 		
         //creating session
         HttpSession session = req.getSession(true);
+        
+       
 		
         System.out.println("ping2");
         
@@ -356,28 +361,101 @@ public class AuthorizationResource {
 		
 		HttpSession session = req.getSession(true);
 		
-		String userId = (String)session.getAttribute("userId");
 		
-		System.out.println(userId);
+		//CASE 1: Editing user profile from MyCabinet. Check if session has parameters
+		if(session.getAttribute("userId") != null){
 		
-		int userId2 = Integer.parseInt(userId);
+			String userId = (String)session.getAttribute("userId");
+			
+			System.out.println(userId);
+			
+			int userId2 = Integer.parseInt(userId);
+			
+			//insert in User value of googleId and picture by userId
+			try {
+				
+				User user = userRep.getById(userId2);	
+				
+				user.setGoogleId(googleId);
+				user.setSocialPhoto(link);
+				
+				userRep.update(user);
+				
+			} catch (Exception e) {
+				return SERVER_ERROR;
+			}
+			
+			System.out.println("Thats it man! Go and build something awesome with Scribe! :)");	
+			
+			
+			return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
+			
+		}
 		
-		//insert in User value of googleId and picture by userId
+		//CASE 2: Login to site. Session is not set. Find User by googleId
+		//CASE 3: Registration. Session is not set. Create User with GoogleId and SocialPhoto
+		
+		//Check if user exist by googleId
+		User user=null;
+		
 		try {
-			
-			User user = userRep.getById(userId2);	
-			
-			user.setGoogleId(googleId);
-			user.setSocialPhoto(link);
-			
-			userRep.update(user);
-			
+			user = userRep.getByGoogleId(googleId);
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
 		
-		System.out.println("Thats it man! Go and build something awesome with Scribe! :)");	
+		if (user != null) {
+			//Case 2
+			
+			//creating Session for founded user. Setting params
+			System.out.println("creating session");
+	        
+			session.setAttribute("userName",user.getName());
+			session.setAttribute("userId",user.getId().toString()); 
+			session.setAttribute("userSurname",user.getSurname());
+			session.setAttribute("socialLogin",user.getSocialLogin());
+			session.setAttribute("userRole",user.getUserRole().get(0).getId().toString());
+			
+			//Entering to site with Session
+			
+			return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
+			
+		}		
+		//else CASE 3
 		
+		//creating User to register
+		
+		User userToReg = new User();
+		
+		userToReg.setName(name);
+		userToReg.setSurname("N/A");
+		userToReg.setSocialLogin(name);
+		userToReg.setEmail(email);
+		userToReg.setActive(true);
+		userToReg.setAddress("N/A");
+		userToReg.setPhone("N/A");
+		userToReg.setOrganizationInfo("N/A");
+		userToReg.setOrganizationName("N/A");
+		userToReg.setPassword("root");		
+		userToReg.setSocialPhoto(link);
+		userToReg.setUserRole(null);
+		userToReg.setUserType(null);
+		//reg date
+		//userRole
+		
+		//inserting user to DB
+		userRep.insert(userToReg);
+		
+		//creating session
+		System.out.println("creating session for registered");
+        
+		session.setAttribute("userName",userToReg.getName());
+		session.setAttribute("userId",userToReg.getId().toString()); 
+		session.setAttribute("userSurname",userToReg.getSurname());
+		session.setAttribute("socialLogin",userToReg.getSocialLogin());
+		session.setAttribute("userRole",user.getUserRole().get(0).getId().toString());
+		
+		//Entering to site with Session
 		
 		return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
 		

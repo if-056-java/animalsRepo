@@ -150,5 +150,21 @@ public class UserRepositoryImpl {
         }
     }
     
+    /** created 41X
+     * Returns a User instance from the database.
+     * @param googleId value used for lookup.
+     * @return A User instance with a GoogleId value equals to pk. null if there is no matching row.
+     */
+    public User getByGoogleId(String googleId){
+        SqlSession sqlSession =  sqlSessionFactory.openSession();
+
+        try{
+            UserRepository mapper = sqlSession.getMapper(UserRepository.class);
+            return mapper.getByGoogleId(googleId);
+        } finally {
+            sqlSession.close();
+        }
+    }
+    
 
 }
