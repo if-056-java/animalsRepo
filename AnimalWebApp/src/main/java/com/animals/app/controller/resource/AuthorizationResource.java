@@ -2,6 +2,8 @@ package com.animals.app.controller.resource;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 
@@ -445,18 +447,15 @@ public class AuthorizationResource {
 		userToReg.setSocialPhoto(link);
 		userToReg.setGoogleId(googleId);
 		
-//		UserRole userRole = new UserRole();
-//		userRole.setId(1);
-//		//stub. Problem with userRole inizialization
-		User userStub = userRep.getById(25);
-		userToReg.setUserRole(userStub.getUserRole());
-		
+		UserRole userRole = new UserRole();
+		userRole.setId(3);										//id=3 for guest	
+		List<UserRole> list = new ArrayList<UserRole>();
+		list.add(userRole);		
+		userToReg.setUserRole(list);		
 		
 		UserType userType = new UserType();
 		userType.setId(1);
-		userToReg.setUserType(userType);	
-		
-		
+		userToReg.setUserType(userType);			
 		
 		Date currentDate = new Date(new java.util.Date().getTime());
 		System.out.println(currentDate);				

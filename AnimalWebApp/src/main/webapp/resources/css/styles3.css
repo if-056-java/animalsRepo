@@ -53,15 +53,16 @@ p {
 }
 
 #profileblock {
-	/*border-right: 2px solid grey;
-	border-left: 2px solid grey;*/	
+	border-right: 2px solid #ccc;
+	border-left: 2px solid #ccc;
+	border-bottom: 2px solid #ccc;
+	border-radius: 5px;
 	margin-top: 0px;
 	margin-right: auto;
-	margin-left: auto;
-	margin-bottom: -60px;
+	margin-left: auto;	
 	padding: 15px;
-	/*height:800px; */
-
+	padding-bottom:80px;
+	
 }
 
 #editUser{
