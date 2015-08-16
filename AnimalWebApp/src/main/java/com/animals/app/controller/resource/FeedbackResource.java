@@ -1,5 +1,6 @@
 package com.animals.app.controller.resource;
 
+import com.animals.app.service.MailSender;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -40,9 +41,19 @@ public class FeedbackResource {
         @Consumes(MediaType.APPLICATION_JSON)
         @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
         public Response sendFeedback (Feedback feedback) {
+            String from, text, sender;
 
-            if (feedback==null) return BAD_REQUEST;
+            from = feedback.getEmail();
+            text = feedback.getText();
+            sender = feedback.getSignup();
+
+            if (from == null || from.isEmpty() || text == null || text.isEmpty() || sender == null || sender.isEmpty() ) return BAD_REQUEST;
             JsonObject response = validateCaptcha(RECAPTCHA_SERVER_KEY_SECRET, feedback.getgRecaptchaResponse());
+
+
+            MailSender mail = new MailSender();
+            mail.feedbackSend(from, text, sender);
+
             return ok(response.toString());
 
         }
