@@ -26,7 +26,14 @@ animalApp.controller('UserProfileController', function($scope, userData, hashPas
 	
     $scope.submitUpdateForm=function(){    	
     	
-    	$scope.fields.password=hashPassword($scope.fields.passwordNew);
+    	if($scope.passwordNew){    		
+    		$scope.fields.password=hashPassword($scope.passwordNew); 
+    		console.log("changing password");
+    	} else {
+    		console.log("not changing password")
+    	}
+    	   	
+    	console.log($scope.passwordNew);
     	console.log($scope.fields.password);
     	
     	console.log($scope.fields);
