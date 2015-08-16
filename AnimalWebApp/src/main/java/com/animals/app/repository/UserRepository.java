@@ -14,12 +14,12 @@ public interface UserRepository {
     final String INSERT = "<script> " +
             "INSERT INTO users (Name, Surname, DateOfRegistration, " +
             "UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
-            "Password, OrganizationName, OrganizationInfo, IsActive) " +
+            "Password, OrganizationName, OrganizationInfo, IsActive, GoogleId, SocialPhoto) " +
             "VALUES " +
             "<foreach collection='userRole' item='element' index='index' open='(' separator='),(' close=')'> " +
             "#{name}, #{surname}, #{registrationDate}, #{userType.id}, " +
             "#{element.id}, #{phone}, #{address}, #{email}, #{socialLogin}, " +
-            "#{password}, #{organizationName}, #{organizationInfo}, #{isActive} " +
+            "#{password}, #{organizationName}, #{organizationInfo}, #{isActive}, #{googleId}, #{socialPhoto} " +
             "</foreach></script>";
 
     final String UPDATE = "UPDATE users SET Name=#{name}, Surname=#{surname}, " +
