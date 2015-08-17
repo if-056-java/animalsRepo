@@ -106,40 +106,18 @@ public class AuthorizationResource {
                         
         if (user == null) return NOT_FOUND;
         
-        System.out.println(user.getId());
-        System.out.println(user.getName());
-        System.out.println(user.getSurname());
-        System.out.println(user.getSocialLogin());
-        System.out.println(user.getUserRole().get(0));
-     	
-        // User exist. setting session params(username, userrole, userId) from User		
+             	
+        // User exist. setting session params(username, userrole, userId etc.) from User		
 		
         //creating session
         HttpSession session = req.getSession(true);
         
-       
-		
-        System.out.println("ping2");
+        //setSuccessAtribute(session);        
+        String sessionSuccess = setUpSuccessSession(user, session, "Successful login"); 
         
-		session.setAttribute("userName",user.getName());
-		session.setAttribute("userId",user.getId().toString()); 
-		session.setAttribute("userSurname",user.getSurname());
-		session.setAttribute("socialLogin",user.getSocialLogin());
-		session.setAttribute("userRole",user.getUserRole().get(0).getId().toString());
-		
-		//returning json with session params
+        System.out.println(sessionSuccess);
 
-        String str = "{\"sessionId\" : \"" + (String)session.getId() + 
-        			"\", \"userId\" : \"" + (String)session.getAttribute("userId") +
-        			"\", \"userName\" : \"" + (String)session.getAttribute("userName") +
-        			"\", \"userSurname\" : \"" + (String)session.getAttribute("userSurname") +
-        			"\", \"socialLogin\" : \"" + (String)session.getAttribute("socialLogin") +
-        			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
-        			"\"}";
-        
-        System.out.println(str);
-
-	    return Response.status(Response.Status.OK).entity(str).build();
+	    return Response.status(Response.Status.OK).entity(sessionSuccess).build();
 		
 	}
 	
@@ -154,20 +132,14 @@ public class AuthorizationResource {
 		//checking if session is stil going on by geting params from it. if not - returning json with empty user	
 		if(session.getAttribute("userId") == null){
 			
-			String str = "{\"userId\" : \"0\"}";
-					
-			return Response.status(Response.Status.OK).entity(str).build();
+			String destroyedSession = setUpDestroyedSession("Session Destroyed");  
+							
+			return Response.status(Response.Status.OK).entity(destroyedSession).build();
 		}
 		
 		//if session has params - returning json with session same params. REFRESH
 		
-		String str = "{\"sessionId\" : \"" + (String)session.getId() + 
-    			"\", \"userId\" : \"" + (String)session.getAttribute("userId") +
-    			"\", \"userName\" : \"" + (String)session.getAttribute("userName") +
-    			"\", \"userSurname\" : \"" + (String)session.getAttribute("userSurname") +
-    			"\", \"socialLogin\" : \"" + (String)session.getAttribute("socialLogin") +
-    			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
-    			"\"}";
+		String str = buildResponse(session);		
     
 		System.out.println(str);
 
@@ -180,16 +152,15 @@ public class AuthorizationResource {
 	@Path("logout")//http:localhost:8080/webapi/account/refresh
 	public Response destroySession(@Context HttpServletRequest req) {
 				
-		
 		HttpSession session = req.getSession(true);	
 		
 		//destroying session		
 		session.invalidate();	
 		
 		//returning json with empty user		
-		String str = "{\"userId\" : \"0\"}";
+		String destroyedSession = setUpDestroyedSession("Session Destroyed"); 
 					
-		return Response.status(Response.Status.OK).entity(str).build();		
+		return Response.status(Response.Status.OK).entity(destroyedSession).build();		
 		
 	}
 	
@@ -216,11 +187,10 @@ public class AuthorizationResource {
 		}
 		
 		if(socialLogin2 != null && !socialLogin2.isEmpty()){
-			System.out.println("zrada");
+						
+			String socialLoginIsAlreadyInUse = setUpDestroyedSession("SocialLogin is already in use by another User"); 
 			
-			String str = "{\"userId\" : \"0\"}";
-			
-			return Response.status(Response.Status.OK).entity(str).build();
+			return Response.status(Response.Status.OK).entity(socialLoginIsAlreadyInUse).build();
 		}				
 		
 		
@@ -233,27 +203,11 @@ public class AuthorizationResource {
 		//creating session
         HttpSession session = req.getSession(true);
 		
-        System.out.println("ping2");
+        String sessionSuccessReg = setUpSuccessSession(user, session, "Successful Registration"); 
         
-		session.setAttribute("userName",user.getName());
-		session.setAttribute("userId",user.getId().toString()); 
-		session.setAttribute("userSurname",user.getSurname());
-		session.setAttribute("socialLogin",user.getSocialLogin());
-		session.setAttribute("userRole",user.getUserRole().get(0).getId().toString());
-		
-		//returning json with session params
+        System.out.println(sessionSuccessReg);
 
-        String str = "{\"sessionId\" : \"" + (String)session.getId() + 
-        			"\", \"userId\" : \"" + (String)session.getAttribute("userId") +
-        			"\", \"userName\" : \"" + (String)session.getAttribute("userName") +
-        			"\", \"userSurname\" : \"" + (String)session.getAttribute("userSurname") +
-        			"\", \"socialLogin\" : \"" + (String)session.getAttribute("socialLogin") +
-        			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
-        			"\"}";
-        
-        System.out.println(str);
-
-	    return Response.status(Response.Status.OK).entity(str).build();		
+	    return Response.status(Response.Status.OK).entity(sessionSuccessReg).build();	 
 		
 	}
 	
@@ -318,16 +272,15 @@ public class AuthorizationResource {
 		accessToken = service2.getAccessToken(EMPTY_TOKEN, v);
 			
 
-		System.out.println("Now we're going to access a protected resource...");
+		//Request protected resource
 		OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
 		service2.signRequest(accessToken, request);
 		org.scribe.model.Response response = request.send();
-		System.out.println("Got it! Lets see what we found...");
-		System.out.println();
-		System.out.println(response.getCode());
-		System.out.println(response.getBody());
 		
-		//json string from Google response
+		System.out.println(response.getCode());		//200 - success
+		System.out.println(response.getBody());		//JSON response
+		
+		//JSON string from Google response
 		String json = response.getBody();
 		
 		//parse string 
@@ -380,19 +333,19 @@ public class AuthorizationResource {
 				// - user with this GoogleId can't be initialized. 
 				//maybe we should provide some additionall atribute to our session - seesion.message
 				//with some Error content to show on site.
+				session.setAttribute("errorMesage", "this GoogleID is already in use by another User");
+				
 				return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
-			}
-		
-			String userId = (String)session.getAttribute("userId");
+			}	
+					
 			
+			int userId = Integer.parseInt((String)session.getAttribute("userId"));
 			System.out.println(userId);
-			
-			int userId2 = Integer.parseInt(userId);
 			
 			//insert in User value of googleId and picture by userId
 			try {
 				
-				User user = userRep.getById(userId2);	
+				User user = userRep.getById(userId);	
 				
 				user.setGoogleId(googleId);
 				user.setSocialPhoto(link);
@@ -401,10 +354,9 @@ public class AuthorizationResource {
 				
 			} catch (Exception e) {
 				return SERVER_ERROR;
-			}
+			}		
 			
-			System.out.println("Thats it man! Go and build something awesome with Scribe! :)");	
-			
+			session.setAttribute("successMesage", "Successful joining Google account");
 			
 			return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
 			
@@ -429,24 +381,18 @@ public class AuthorizationResource {
 			
 			//creating Session for founded user. Setting params
 			System.out.println("creating session");
-	        
-			session.setAttribute("userName",user.getName());
-			session.setAttribute("userId",user.getId().toString()); 
-			session.setAttribute("userSurname",user.getSurname());
-			session.setAttribute("socialLogin",user.getSocialLogin());
-			session.setAttribute("userRole",user.getUserRole().get(0).getId().toString());
 			
-			//Entering to site with Session
-			
+			String ses = setUpSuccessSession(user, session, "success login with GoogleId");
+	        			
+			//Entering to site with Session			
 			return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
 			
 		}	
 		
 		//else CASE 3
 		
-		System.out.println("creating User with Google Id");
-		//creating User to register
 		
+		//creating User to register		
 		User userToReg = new User();
 		
 		userToReg.setName(name);
@@ -476,7 +422,6 @@ public class AuthorizationResource {
 		System.out.println(currentDate);				
 		userToReg.setRegistrationDate(currentDate);		
 		
-		
 		//inserting user to DB
 		try {
 			userRep.insert(userToReg);
@@ -484,19 +429,54 @@ public class AuthorizationResource {
 			return SERVER_ERROR;
 		}
 		
-		//creating session
-		System.out.println("creating session for registered");
-        
-		session.setAttribute("userName",userToReg.getName());
-		session.setAttribute("userId",userToReg.getId().toString()); 
-		session.setAttribute("userSurname",userToReg.getSurname());
-		session.setAttribute("socialLogin",userToReg.getSocialLogin());
-		session.setAttribute("userRole",userToReg.getUserRole().get(0).getId().toString());
+		//creating session		
+		String ses = setUpSuccessSession(user, session, "successful Registration with GoogleId");
 		
-		//Entering to site with Session
-		
+		//Entering to site with Session		
 		return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
 		
+	}
+	
+	private String setUpSuccessSession(User user, HttpSession session, String success){
+		
+		session.setAttribute("userName",user.getName());
+		session.setAttribute("userId",user.getId().toString()); 
+		session.setAttribute("userSurname",user.getSurname());
+		session.setAttribute("socialLogin",user.getSocialLogin());
+		session.setAttribute("userRole",user.getUserRole().get(0).getId().toString());
+		session.setAttribute("successMesage", success);
+		
+		//creating JSON string with session params
+        String str = "{\"sessionId\" : \"" + (String)session.getId() + 
+        			"\", \"userId\" : \"" + (String)session.getAttribute("userId") +
+        			"\", \"userName\" : \"" + (String)session.getAttribute("userName") +
+        			"\", \"userSurname\" : \"" + (String)session.getAttribute("userSurname") +
+        			"\", \"socialLogin\" : \"" + (String)session.getAttribute("socialLogin") +
+        			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
+        			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
+        			"\"}";
+		return str;
+	};
+	
+	private String buildResponse(HttpSession session){
+		
+		String str = "{\"sessionId\" : \"" + (String)session.getId() + 
+    			"\", \"userId\" : \"" + (String)session.getAttribute("userId") +
+    			"\", \"userName\" : \"" + (String)session.getAttribute("userName") +
+    			"\", \"userSurname\" : \"" + (String)session.getAttribute("userSurname") +
+    			"\", \"socialLogin\" : \"" + (String)session.getAttribute("socialLogin") +
+    			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
+    			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
+    			"\"}";		
+		
+		return str;
+	}
+	
+	private String setUpDestroyedSession(String errorMesage){
+		
+		String destroyedSession = "{\"userId\" : \"0\", \"errorMesage\" : \"" + errorMesage + "\"}";   	
+		
+		return destroyedSession;
 	}
 	
 

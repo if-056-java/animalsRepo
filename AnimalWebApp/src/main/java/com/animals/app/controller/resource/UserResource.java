@@ -25,10 +25,8 @@ import com.animals.app.repository.Impl.UserRepositoryImpl;
 @Path("users")
 public class UserResource {
 	
-	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
-	
-	private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
-	
+	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	
+	private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();	
 	private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 	
 	private UserRepositoryImpl userRep = new UserRepositoryImpl();
