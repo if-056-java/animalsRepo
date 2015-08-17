@@ -158,7 +158,14 @@ IMG.displayed {
 }
 
 .sprite-image{
+    border:none;
+    border-radius: 0;
     background: url('../img/animalColors/animal-color-sprite.png') no-repeat;
+}
+
+.sprite-image:hover{
+    border:1px solid black;
+    border-radius: 3px;
 }
 
 #color-sprites-0{
