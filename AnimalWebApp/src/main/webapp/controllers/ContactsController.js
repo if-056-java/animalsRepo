@@ -1,6 +1,6 @@
-var animalAppControllers = angular.module('ContactsController', []);
+var animalAppControllers = angular.module('ContactsController', ['vcRecaptcha']);
 
-animalApp.controller('ContactsController', function ($scope) {
+animalApp.controller('ContactsController', function ($http, $scope, vcRecaptchaService) {
 
     var myLatlng = new google.maps.LatLng(49.863400, 24.044500);
     var mapOptions = {
@@ -25,6 +25,70 @@ animalApp.controller('ContactsController', function ($scope) {
             marker.setAnimation(google.maps.Animation.BOUNCE);
         }
     }
+       /* $('form').validate({
+            rules: {
+                fname: {
+                    minlength: 3,
+                    maxlength: 15,
+                    required: true
+                },
+                lname: {
+                    minlength: 3,
+                    maxlength: 15,
+                    required: true
+                }
+            },
+            highlight: function(element) {
+                var id_attr = "#" + $( element ).attr("id") + "1";
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
+            },
+            unhighlight: function(element) {
+                var id_attr = "#" + $( element ).attr("id") + "1";
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
+            },
+            errorElement: 'span',
+            errorClass: 'help-block',
+            errorPlacement: function(error, element) {
+                if(element.length) {
+                    error.insertAfter(element);
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });*/
+
+        var opts = {
+            lines: 10 // The number of lines to draw
+            , length: 10 // The length of each line
+            , width: 8 // The line thickness
+            , radius: 18 // The radius of the inner circle
+            , scale: 1 // Scales overall size of the spinner
+            , corners: 1 // Corner roundness (0..1)
+            , color: 'green' // #rgb or #rrggbb or array of colors
+            , opacity: 0.35 // Opacity of the lines
+            , rotate: 0 // The rotation offset
+            , direction: 1 // 1: clockwise, -1: counterclockwise
+            , speed: 2 // Rounds per second
+            , trail: 53 // Afterglow percentage
+            , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+            , zIndex: 2e9 // The z-index (defaults to 2000000000)
+            , className: 'spinner' // The CSS class to assign to the spinner
+            , top: '50%' // Top position relative to parent
+            , left: '80%' // Left position relative to parent
+            , shadow: false // Whether to render a shadow
+            , hwaccel: false // Whether to use hardware acceleration
+            , position: 'absolute' // Element positioning
+        };
+
+        //initialize loading spinner
+        var target = document.getElementById('loading-block')
+        new Spinner(opts).spin(target);
+        $scope.spinnerloading = 0;
+        $scope.startupmessage = 1;
+        $scope.okmessage = 0;
+        $scope.errormessage = 0;
 
     $scope.response = null;
     $scope.widgetId = null;
@@ -41,31 +105,57 @@ animalApp.controller('ContactsController', function ($scope) {
         $scope.response = null;
     };
     $scope.submit = function () {
-        var valid = 1;
+       if (vcRecaptchaService.getResponse() === "") { //if answer from Google is empty
+           $scope.spinnerloading = 0;
+           $scope.startupmessage = 1;
+           $scope.okmessage = 0;
+           $scope.errormessage = 0;
 
-        if (vcRecaptchaService.getResponse() === "") { //if answer from Google is empty
-            alert("Пройдіть перевірку на захист від спаму - клацніть на картинці - 'Я не робот'");
         } else {
-            var feedback = { //prepare JSON for sending e-mail
-                'mail': {
-                    'signup': $scope.feedback.signature,
-                    'email': $scope.feedback.email,
-                    'text': $scope.feedback.text
-                },
-                'gRecaptchaResponse': $scope.response                 //g-captcah-reponse for server
-            };
-            console.log(feedback);
+            $scope.spinnerloading = 1;
+           $scope.startupmessage = 0;
+           $scope.okmessage = 0;
+           $scope.errormessage = 0;
 
-            $http.post('//localhost:8080/webapi/contacts/mail', feedback).success(function (response) {
-                console.log(response);
+           $scope.feedback.gRecaptchaResponse = $scope.response ;                //g-captcah-reponse for server
+            console.log($scope.feedback);
+            /* MAKE AJAX REQUEST to our server with g-captcha-string */
+
+            $http.post('//localhost:8080/webapi/contacts/mail', $scope.feedback).success(function (response) {
+				console.log(response);
                 if (response.success === true) {
-                    alert("Лист відправлено! Дякуємо за Ваш відгук!");
+                    $scope.spinnerloading = 0;
+                    $scope.startupmessage = 0;
+                    $scope.okmessage = 1;
+                    $scope.errormessage = 0;
+
+                    $scope.feedback.signup='';
+                    $scope.feedback.email='';
+                    $scope.feedback.text='';
                     vcRecaptchaService.reload($scope.widgetId);
+
                 } else {
-                    alert("Лист не відправлено - помилка в  ");
+                    $scope.spinnerloading = 0;
+                    $scope.startupmessage = 0;
+                    $scope.okmessage = 0;
+                    $scope.errormessage = 1;
+
                     vcRecaptchaService.reload($scope.widgetId);
                 }
-            });
+            })
+                        .error(function (error) {
+                    $scope.spinnerloading = 0;
+                    $scope.startupmessage = 0;
+                    $scope.okmessage = 0;
+                    $scope.errormessage = 1;
+
+                        // In case of a failed validation you need to reload the captcha
+                        // because each response can be checked just once
+                    vcRecaptchaService.reload($scope.widgetId);
+
+                }
+                    );
         }
     }
-});
+}
+)

@@ -1,8 +1,9 @@
 package com.animals.app.controller.resource;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 
@@ -32,6 +33,8 @@ import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
 import com.animals.app.domain.User;
+import com.animals.app.domain.UserRole;
+import com.animals.app.domain.UserType;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 
 /**
@@ -398,11 +401,13 @@ public class AuthorizationResource {
 		//Check if user exist by googleId
 		User user=null;
 		
-		//try {
+		try {
+			
 			user = userRep.getByGoogleId(googleId);
-//		} catch (Exception e) {
-//			return SERVER_ERROR;
-//		}
+			
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}
 		
 		if (user != null) {
 			//Case 2
@@ -420,9 +425,11 @@ public class AuthorizationResource {
 			
 			return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
 			
-		}		
+		}	
+		
 		//else CASE 3
 		
+		System.out.println("creating User with Google Id");
 		//creating User to register
 		
 		User userToReg = new User();
@@ -436,15 +443,31 @@ public class AuthorizationResource {
 		userToReg.setPhone("N/A");
 		userToReg.setOrganizationInfo("N/A");
 		userToReg.setOrganizationName("N/A");
-		userToReg.setPassword("root");		
+		userToReg.setPassword(googleId);		
 		userToReg.setSocialPhoto(link);
-//		userToReg.setUserRole(null);
-//		userToReg.setUserType(null);
-		//reg date
-		//userRole
+		userToReg.setGoogleId(googleId);
+		
+		UserRole userRole = new UserRole();
+		userRole.setId(3);										//id=3 for guest	
+		List<UserRole> list = new ArrayList<UserRole>();
+		list.add(userRole);		
+		userToReg.setUserRole(list);		
+		
+		UserType userType = new UserType();
+		userType.setId(1);
+		userToReg.setUserType(userType);			
+		
+		Date currentDate = new Date(new java.util.Date().getTime());
+		System.out.println(currentDate);				
+		userToReg.setRegistrationDate(currentDate);		
+		
 		
 		//inserting user to DB
-		userRep.insert(userToReg);
+		try {
+			userRep.insert(userToReg);
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}
 		
 		//creating session
 		System.out.println("creating session for registered");
@@ -453,14 +476,13 @@ public class AuthorizationResource {
 		session.setAttribute("userId",userToReg.getId().toString()); 
 		session.setAttribute("userSurname",userToReg.getSurname());
 		session.setAttribute("socialLogin",userToReg.getSocialLogin());
-		session.setAttribute("userRole",user.getUserRole().get(0).getId().toString());
+		session.setAttribute("userRole",userToReg.getUserRole().get(0).getId().toString());
 		
 		//Entering to site with Session
 		
 		return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
 		
 	}
-	
 	
 
 }

@@ -127,30 +127,68 @@
 			<!-- CONTACT FORM https://github.com/jonmbake/bootstrap3-contact-form -->
 			
 			<form role="form" id="feedbackForm" ng-submit="submit()">
-			      <div class="form-group">
-				<input type="text" class="form-control" id="name" ng-model="feedback.signature" name="name" placeholder="Ім'я">
-				<span class="help-block" style="display: none;">Будь-ласка, введіть ім'я.</span>
-			      </div>
-			      <div class="form-group">
-				<input type="email" class="form-control" id="email" ng-model="feedback.email" name="email" placeholder="e-mail">
-				<span class="help-block" style="display: none;">Будь-ласка, введіть вірну e-mail адресу.</span>
-			      </div>
-			      <div class="form-group">
-				<textarea rows="10" cols="100" class="form-control" id="message" ng-model="feedback.text" name="message" placeholder="Повідомлення"></textarea>
-				<span class="help-block" style="display: none;">Будь-ласка, введіть повідомлення.</span>
-			      </div>
 
-				<div
-                vc-recaptcha
-                theme="'light'"
-                key="model.key"
-                on-create="setWidgetId(widgetId)"
-                on-success="setResponse(response)"
-                on-expire="cbExpiration()">
-                </div>
-			      <button type="submit" id="feedbackSubmit1" class="btn btn-primary btn-lg" style="display: block; margin-top: 10px;">Надіслати</button>
-			    </form>
-			<!-- END CONTACT FORM -->
+
+			      <div class="form-group has-feedback">
+					  <label class="control-label" for="feedbackname">Ім'я</label>
+					  <input type="text" class="form-control" id="feedbackname" ng-model="feedback.signup"  placeholder="Введіть ім'я" required>
+					  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+					  <span id="feedbacknameStatus" class="sr-only">(success)</span>
+                  </div>
+
+                          <div class="form-group has-feedback">
+							  <label class="control-label" for="feedbackemail">E-mail</label>
+                              <input type="email" class="form-control" id="feedbackemail" ng-model="feedback.email"  placeholder="Введіть e-mail" required>
+							  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+							  <span id="feedbackemailStatus" class="sr-only">(success)</span>
+                          </div>
+
+                                  <div class="form-group has-feedback">
+									  <label class="control-label" for="feedbacktext">Повідомлення</label>
+                                      <textarea rows="10" cols="100" class="form-control" id="feedbacktext" ng-model="feedback.text" placeholder="Повідомлення" required></textarea>
+									  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+									  <span id="feedbacktextStatus" class="sr-only">(success)</span>
+                                  </div>
+
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="input-group">
+							<div
+									vc-recaptcha
+									theme="'light'"
+									key="model.key"
+									on-create="setWidgetId(widgetId)"
+									on-success="setResponse(response)"
+									on-expire="cbExpiration()">
+							</div>
+						</div><!-- /input-group -->
+					</div><!-- /.col-lg-6 -->
+					<div class="col-lg-6">
+						<div class="input-group">
+							<!-- Spinner -->
+							<div ng-show="spinnerloading" id="loading-block"> </div>
+
+							<div class="alert alert-warning" role="alert" ng-show="startupmessage">Заповніть усі поля та оберіть - "Я не робот"</div>
+							<div class="alert alert-success" role="alert" ng-show="okmessage">Лист відправлено! Дякуємо за відгук!</div>
+							<div class="alert alert-danger" role="alert" ng-show="errormessage">Лист не відправлено. Помилка сервера. Спробуйте пізніше</div>
+
+						</div><!-- /input-group -->
+					</div><!-- /.col-lg-6 -->
+				</div><!-- /.row -->
+
+
+
+
+                                  <button type="submit" id="feedbackSubmit1" class="btn btn-primary btn-lg" style="display: block; margin-top: 10px;">Надіслати</button>
+                                </form>
+                            <!-- END CONTACT FORM -->
+				<p class="blocktext2">Публікація в соцмержах:</p>
+				<div class="text-center">
+
+					<a class="btn btn-social-icon btn-facebook btn-md"><i class="fa fa-facebook"></i></a>
+					<a class="btn btn-social-icon btn-twitter btn-md"><i class="fa fa-twitter"></i></a>
+
+				</div>
 			</div>
 			</div>			
 		</div>
