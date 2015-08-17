@@ -110,7 +110,7 @@ public class AnimalResource {
     public Response uploadImage(@FormDataParam("file") InputStream uploadedInputStream,
                                 @FormDataParam("file") FormDataContentDisposition fileDetail) {
 
-        String fileName = ("images/") + (System.currentTimeMillis()) + ("_") + fileDetail.getFileName();
+        String fileName = (System.currentTimeMillis()) + ("_") + fileDetail.getFileName();
         String uploadedFileLocation = "D:/AGIT/animalsRepo/AnimalWebApp/src/main/webapp/images/" + fileName;
 
         //Load and save image
@@ -137,7 +137,7 @@ public class AnimalResource {
         }
 
         //return relative image path to client
-        String json = "{\"filePath\":\"" + fileName + "\"}";
+        String json = "{\"filePath\":\"" + ("images/") + fileName + "\"}";
 
         return ok(json);
     }
@@ -222,13 +222,6 @@ public class AnimalResource {
      */
     private Response ok(Object entity) {
         return Response.ok().entity(entity).build();
-    }
-
-    //Load image
-    // save uploaded file to new location
-    private void writeToFile(InputStream uploadedInputStream,
-                             String uploadedFileLocation) {
-
     }
 
 }

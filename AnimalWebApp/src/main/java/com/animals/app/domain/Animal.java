@@ -58,6 +58,7 @@ public class Animal implements Serializable{
     private Date dateOfBirth;
     private Date dateOfSterilization;
     private String color;
+    private String description;
     private User user;
     private String address;
     private Boolean active;
@@ -160,6 +161,14 @@ public class Animal implements Serializable{
         this.color = color;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public User getUser() {
         return user;
     }
@@ -222,6 +231,7 @@ public class Animal implements Serializable{
         if (dateOfSterilization != null ? !dateOfSterilization.equals(animal.dateOfSterilization) : animal.dateOfSterilization != null)
             return false;
         if (color != null ? !color.equals(animal.color) : animal.color != null) return false;
+        if (description != null ? !description.equals(animal.description) : animal.description != null) return false;
         if (user != null ? !user.equals(animal.user) : animal.user != null) return false;
         if (address != null ? !address.equals(animal.address) : animal.address != null) return false;
         if (active != null ? !active.equals(animal.active) : animal.active != null) return false;
@@ -244,6 +254,7 @@ public class Animal implements Serializable{
         result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
         result = 31 * result + (dateOfSterilization != null ? dateOfSterilization.hashCode() : 0);
         result = 31 * result + (color != null ? color.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (active != null ? active.hashCode() : 0);
@@ -267,6 +278,7 @@ public class Animal implements Serializable{
                 ", dateOfBirth=" + dateOfBirth +
                 ", dateOfSterilization=" + dateOfSterilization +
                 ", color='" + color + '\'' +
+                ", description='" + description + '\'' +
                 ", user=" + user +
                 ", address='" + address + '\'' +
                 ", active=" + active +

@@ -9,7 +9,7 @@ animalRegistrationModule
             var currentDate = function(){
                 var today = new Date();
                 var dd = today.getDate();
-                var mm = today.getMonth()+1; //January is 0!
+                var mm = today.getMonth(); //January is 0!
                 var yyyy = today.getFullYear();
 
                 return new Date(Date.UTC(yyyy, mm, dd));
@@ -50,9 +50,17 @@ animalRegistrationModule
                         console.log('Error.' + data)
                     }
                     ).finally(function() {
-                        console.log(animal);
                         console.log($scope.animal);
                     });
+            };
+
+
+            $scope.submitForm = function(isValid){
+                if(isValid){
+                    $scope.insertHomelessAnimal($scope.animal);
+                }
+                else
+                    alert('Невідома помилка.');
             };
 
             //Dependency injection
@@ -113,7 +121,7 @@ animalRegistrationModule
     );
 
 animalRegistrationModule.controller('AnimalImageController',
-    function AnimalImageController ($scope, FileUploader, RESOURCES){
+    function AnimalImageController ($scope, FileUploader, $q, RESOURCES){
 
         var uploader = $scope.uploader = new FileUploader();
 
@@ -127,7 +135,7 @@ animalRegistrationModule.controller('AnimalImageController',
             name: 'imageFilter',
             fn: function (item, options) {
                 var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1 ? true : alert('Error');
             }
         });
 
@@ -137,6 +145,7 @@ animalRegistrationModule.controller('AnimalImageController',
          */
         uploader.onBeforeUploadItem = function (item) {
             item.url = RESOURCES.ANIMAL_REGISTRATION_IMAGE;
+            console.log(item.url);
         };
 
         /**
@@ -153,5 +162,5 @@ animalRegistrationModule.controller('AnimalImageController',
         };
 
         //Dependency injection
-        AnimalImageController.$inject = ['$scope', 'FileUploader'];
+        AnimalImageController.$inject = ['$scope', '$q', 'FileUploader'];
     });

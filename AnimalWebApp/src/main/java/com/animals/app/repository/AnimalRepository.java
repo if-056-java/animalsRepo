@@ -12,10 +12,10 @@ public interface AnimalRepository {
 
     final String INSERT = "INSERT INTO animals (sex, typeId, size, citesType, breed, transpNumber, " +
             "tokenNumber, dateOfRegister, dateOfBirth, dateOfSterilization, color, userId, " +
-            "address, isActive, image, serviceId) " +
+            "address, isActive, image, serviceId, description) " +
             "VALUES (#{sex}, #{type.id}, #{size}, #{cites}, #{breed.id}, #{transpNumber}, #{tokenNumber}, " +
             "#{dateOfRegister}, #{dateOfBirth}, #{dateOfSterilization}, #{color}, #{user.id}, #{address}, " +
-            "#{active}, #{image}, #{service.id})";
+            "#{active}, #{image}, #{service.id}, #{description})";
 
     final String UPDATE = "UPDATE animals SET sex=#{sex}, typeId=#{type.id}, size=#{size}, " +
             "citesType=#{cites}, breed=#{breed.id}, transpNumber=#{transpNumber}, tokenNumber=#{tokenNumber}, " +
@@ -60,11 +60,11 @@ public interface AnimalRepository {
 
     final String SELECT_BY_ID = "SELECT id, sex, typeId, size, citesType, breed, transpNumber, tokenNumber, " +
             "dateOfRegister, dateOfBirth, dateOfSterilization, color, userId, address, " +
-            "isActive, image, serviceId " +
+            "isActive, image, serviceId, description " +
             "FROM animals WHERE id = #{id}";
 
     final String SELECT_LIST_FOR_ADOPTING = "<script> " +
-            "SELECT Id, TypeId, Breed, DateOfBirth, DateOfRegister, ServiceId, image " +
+            "SELECT Id, TypeId, Breed, DateOfBirth, DateOfRegister, image " +
             "FROM animals " +
             "WHERE (serviceId = 1) AND (isActive = 1) " +
             "<if test = \"animal != null\"> " +
