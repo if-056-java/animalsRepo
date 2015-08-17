@@ -11,18 +11,21 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService'])
 			if(service === "found"){
 			    $scope.detail=false;
 				$scope.textButton="";
-				$scope.linkButton="#"
+				$scope.linkButton="#";
+				$scope.linkBack="#/ua/animal/adoption"
 			}
 			if(service === "adoption"){
 			    $scope.detail=true;
 				$scope.textButton="Adopt";
 				$scope.linkButton="#"
+				$scope.linkBack="#/ua/animal/adoption"
 				
 			}
 			if(service === "lost") {
 			    $scope.detail=true;
 				$scope.textButton="";
-				$scope.linkButton="#"
+				$scope.linkButton="#";
+				$scope.linkBack="#/ua/animal/adoption"
 			}
 
             this.getAnimal = function(service, animalId) {

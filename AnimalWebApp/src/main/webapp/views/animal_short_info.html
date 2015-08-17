@@ -3,11 +3,11 @@
     <div class="col-md-6 col-md-offset-3 panel panel-success">
         <div class="row">
             <div class="panel-body">
-                <div class="col-md-5 detailed-left">
-                    <img ng-hide="animal.image" src="resources/img/noimg.png">
-                    <img ng-show="animal.image" src="{{ animal.image }}">
+                <div class="col-md-6 detailed-left">
+                    <img class="img-responsive img-thumbnail center-block" ng-hide="animal.image" src="resources/img/noimg.png">
+                    <img class="img-responsive img-thumbnail center-block" ng-show="animal.image" src="{{ animal.image }}">
                 </div>
-                <div class="col-md-7 detailed-right">
+                <div class="col-md-6 detailed-right">
                     <div class="row">
                         <div class="col-md-4">Тип:</div>
                         <div class="col-md-8">{{ animal.type.type }}</div>
@@ -29,14 +29,14 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-md-4">CITE:</div>
-                        <div class="col-md-8">{{ animal.cites }}</div>
+                        <div class="col-md-4">Розмір:</div>
+                        <div class="col-md-8">{{ animal.size }}</div>
                     </div>
                     <hr>
 				</div>
             </div>
         </div>
-        <div class="row detailed-bottom">
+        <div class="row detailed-bottom" ng-show="detail">
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-4">Дата народження:</div>
@@ -55,16 +55,17 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-4">Адреса:</div>
-                    <div class="col-md-8">{{ animal.address }}</div>
+                    <div class="col-md-4">CITES:</div>
+                    <div class="col-md-8">{{ animal.cites }}</div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-3 col-md-offset-6 detailed-buttons">
-        <div class="col-md-4"><a class="btn btn-primary col-md-12" href="#" role="button">Взяти на адопцію</a></div>
-        <div class="col-md-4"><a class="btn btn-success col-md-12" href="#/ua/animals/adoption" role="button">Повернутись</a></div>
+    <div class="col-md-3 col-md-offset-6 detailed-buttons" >
+        <div class="col-md-6"><a class="btn btn-primary col-md-12" href={{linkButton}} role="button" >{{ textButton }}</a></div>
+        <div class="col-md-6"><a class="btn btn-success col-md-12" href={{ linkBack}} role="button">Повернутись</a></div>
     </div>
 </div>
+
