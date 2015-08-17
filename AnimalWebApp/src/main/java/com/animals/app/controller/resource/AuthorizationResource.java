@@ -292,9 +292,6 @@ public class AuthorizationResource {
 	@Path("login/google_token")			//http://localhost:8080/webapi/account/login/google_token
 	public Response getGoogleAccessToken(@QueryParam("code") String token, @Context HttpServletRequest req) {
 
-		boolean refresh = true;
-		boolean startOver = true;
-
 		Verifier v = new Verifier(token);
 
 		System.out.println("token - " + token);
@@ -367,6 +364,24 @@ public class AuthorizationResource {
 		
 		//CASE 1: Editing user profile from MyCabinet. Check if session has parameters
 		if(session.getAttribute("userId") != null){
+			
+			//Check if user exist by googleId. If exist - we can't join accounts - will be error.
+			//ERROR - when login - two accounts with the same GoogleID
+			User existUserWithGoogleId=null;
+			try {				
+				existUserWithGoogleId = userRep.getByGoogleId(googleId);				
+			} catch (Exception e) {				
+				return SERVER_ERROR;
+			}
+			
+			
+			if (existUserWithGoogleId != null) {
+				//TEMPORARY Returning back without joining accounts. should provide some message - 
+				// - user with this GoogleId can't be initialized. 
+				//maybe we should provide some additionall atribute to our session - seesion.message
+				//with some Error content to show on site.
+				return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
+			}
 		
 			String userId = (String)session.getAttribute("userId");
 			
