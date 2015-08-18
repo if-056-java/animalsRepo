@@ -161,7 +161,7 @@ public class MailSender {
         private void fetchConfig() {
             //This file contains the javax.mail config properties mentioned above.
             ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File(classLoader.getResource("mail.properties").getFile());
+            File file = new File(classLoader.getResource("project.properties").getFile());
 
             try (InputStream input = new FileInputStream(file)) {
                 MailServerConfig.load(input);

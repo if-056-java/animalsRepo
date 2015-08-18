@@ -1,4 +1,4 @@
-package com.animals.app.controller.resource;
+package com.animals.app.service;
 
 import java.io.Serializable;
 /**
