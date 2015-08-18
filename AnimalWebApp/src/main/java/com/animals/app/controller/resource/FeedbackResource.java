@@ -1,5 +1,6 @@
 package com.animals.app.controller.resource;
 
+import com.animals.app.service.Feedback;
 import com.animals.app.service.MailSender;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
