@@ -1,0 +1,35 @@
+h2 {
+	text-align: center;
+}
+
+p {
+	display: inline-block;
+}
+
+.buttonSing {
+	padding: 3px;
+	
+}
+
+.result {
+	border: 2px solid black;
+	border-radius: 20px;
+	height: 800px;
+	margin-top: 40px;
+	margin-right: auto;
+	margin-left: auto;
+	/*display: none;*/
+
+}
+
+#GResult {
+	/*display:none;*/
+}
+
+#FBResult {
+	/*display:none;*/
+}
+
+#resGoogleTA{
+	padding-bottom: 0px;
+}
