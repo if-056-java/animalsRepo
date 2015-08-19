@@ -125,46 +125,49 @@
 			</div>
 			<div class="panel-body">
 			<!-- CONTACT FORM https://github.com/jonmbake/bootstrap3-contact-form -->
+
 			
 			<form role="form" name="feedbackForm" ng-submit="submit(feedbackForm.$valid)" novalidate>
+				<style>
 
-
+					.ng-invalid.ng-dirty {
+						border-color: red;
+						outline-color: red;
+					}
+					.ng-valid.ng-dirty {
+						border-color: green;
+						outline-color: green;
+					}
+				</style>
 			      <div class="form-group has-feedback"
 					  ng-class="{ 'has-error' : feedbackForm.feedbackname.$invalid && !feedbackForm.feedbackname.$pristine }">
 					  <label class="control-label" for="feedbackname">Ім'я</label>
-					  <input type="text" class="form-control" id="feedbackname" name="feedbackname" ng-model="feedback.signup"  placeholder="Введіть ім'я" required
+					  <input type="text" class="form-control" id="feedbackname" name="feedbackname" ng-model="feedback.signup"  placeholder="Введіть ім'я" required=""
 							 ng-minlength="3"/>
-					  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+					  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="false"></span>
 					  <span id="feedbacknameStatus" class="sr-only">(success)</span>
                   </div>
-				 <p ng-show="feedbackForm.feedbackname.$invalid && !feedbackForm.feedbackname.$pristine"
-				   class="help-block error">Введіть Ваше ім'я</p>
-				 <p ng-show="feedbackForm.feedbackname.$error.minlength && !feedbackForm.feedbackname.$pristine"
-				   class="help-block error">Ім'я не може бути менше 3 букв.</p>
+				 <span ng-show="feedbackForm.feedbackname.$invalid && feedbackForm.feedbackname.$error.minlength && !feedbackForm.feedbackname.$pristine"
+				   class="help-block error">Введіть Ваше ім'я (не менше 3-ох букв)</span>
 
 				  <div class="form-group has-feedback"
 					   ng-class="{ 'has-error' : feedbackForm.feedbackemail.$invalid && !feedbackForm.feedbackemail.$pristine }">
 							  <label class="control-label" for="feedbackemail">E-mail</label>
-                              <input type="email" class="form-control" id="feedbackemail" name="feedbackemail" ng-model="feedback.email"  placeholder="Введіть e-mail" required
+                              <input type="email" class="form-control" id="feedbackemail" name="feedbackemail" ng-model="feedback.email"  placeholder="Введіть e-mail" required=""
 									 ng-minlength="5"/>
 							  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
 							  <span id="feedbackemailStatus" class="sr-only">(success)</span>
                           </div>
-				  <p ng-show="feedbackForm.feedbackemail.$invalid && !feedbackForm.feedbackemail.$pristine"
-				   class="help-block error">Введіть Ваш e-mail</p>
-				<p ng-show="feedbackForm.feedbackemail.$error.minlength && !feedbackForm.feedbackemail.$pristine"
-				   class="help-block error">E-mail не може бути менше 5 букв.</p>
+				  <span ng-show="feedbackForm.feedbackemail.$invalid && feedbackForm.feedbackemail.$error.email && !feedbackForm.feedbackemail.$pristine"
+				   class="help-block error">Не вірний e-mail</span>
 
 				  <div class="form-group has-feedback"
 					   ng-class="{ 'has-error' : feedbackForm.feedbacktext.$invalid && !feedbackForm.feedbacktext.$pristine }">
 									  <label class="control-label" for="feedbacktext">Повідомлення</label>
-                                      <textarea rows="10" cols="100" class="form-control" id="feedbacktext" name="feedbacktext" ng-model="feedback.text" placeholder="Повідомлення" required></textarea>
+                                      <textarea rows="10" cols="100" class="form-control" id="feedbacktext" name="feedbacktext" ng-model="feedback.text" placeholder="Повідомлення" required/>
 									  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
 									  <span id="feedbacktextStatus" class="sr-only">(success)</span>
                                   </div>
-
-				<p ng-show="feedbackForm.feedbacktext.$invalid && !feedbackForm.feedbacktext.$pristine"
-				   class="help-block error">Введіть Ваш e-mail</p>
 
 				<div class="row">
 					<div class="col-lg-6">
@@ -192,19 +195,10 @@
 					</div><!-- /.col-lg-6 -->
 				</div><!-- /.row -->
 
-
-
-
                                   <button type="submit" id="feedbackSubmit1" class="btn btn-primary btn-lg" style="display: block; margin-top: 10px;" ng-disabled="feedbackForm.$invalid">Надіслати</button>
                                 </form>
                             <!-- END CONTACT FORM -->
-				<p class="blocktext2">Публікація в соцмержах:</p>
-				<div class="text-center">
 
-					<a class="btn btn-social-icon btn-facebook btn-md"><i class="fa fa-facebook"></i></a>
-					<a class="btn btn-social-icon btn-twitter btn-md"><i class="fa fa-twitter"></i></a>
-
-				</div>
 			</div>
 			</div>			
 		</div>
