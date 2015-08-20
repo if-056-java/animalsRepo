@@ -6,7 +6,7 @@
 <configuration>
 
     <!-- Connect properties file-->
-    <properties resource="database.properties"/>
+    <properties resource="project.properties"/>
 
     <!-- Configure MyBatis-specific settings -->
     <settings>

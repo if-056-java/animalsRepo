@@ -4,7 +4,6 @@
 
         <!-- Filters -->
         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 detailed-bottom" id="animals-admin-left" ng-controller="AdminAnimalsFilterController">
-            <a class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12" href ng-click="reset()" role="button" id="animals-admin-drop-filters">Скинути фільтри</a>
 
             <!-- Type filter -->
             <div class="input-group">
@@ -50,7 +49,11 @@
             </div>
 
             <hr>
-            <a class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12" href ng-click="doFilter()" role="button">Фільтрувати</a>
+
+            <a class="btn btn-success col-xs-5 col-sm-6 col-md-5 col-lg-5" href ng-click="doFilter()" role="button">Фільтрувати</a>
+            <div class="col-xs-2 col-sm-0 col-md-2 col-lg-2"></div>
+            <a class="btn btn-danger col-xs-5 col-sm-6 col-md-5 col-lg-5" href ng-click="reset()" role="button" id="animals-admin-drop-filters">Скинути</a>
+
         </div>
 
         <!-- Animals list -->
@@ -64,7 +67,9 @@
                     <td><strong>Окрас</strong></td>
                     <td><strong>Номер мікрочіпу</strong></td>
                     <td><strong>Дата народження</strong></td>
-                    <td />
+                    <td><image src="../resources/img/ArrowDownGreenGloss.gif"></image></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 </thead>
                 <tbody>
@@ -75,7 +80,9 @@
                     <td>{{ animal.color }}</td>
                     <td>{{ animal.transpNumber }}</td>
                     <td>{{ animal.dateOfBirth }}</td>
-                    <td><a href="#/ua/user/home/animals/{{ animal.id }}"><img src="resources/img/view_fullscreen.png"></a></td>
+                    <td><a class="btn btn-md btn-warning" href="#/ua/user/home/animals/{{ animal.id }}"><i class="fa fa-spinner fa-pulse"></i></i></a></td>
+                    <td><a class="btn btn-social-icon btn-facebook btn-md" ng-show="!animal.dateOfBirth"><i class="fa fa-facebook"></i></a></td>
+                    <td><a class="btn btn-social-icon btn-twitter btn-md" ng-show="!animal.dateOfBirth"><i class="fa fa-twitter"></i></a></td>
                 </tr>
                 </tbody>
             </table>
