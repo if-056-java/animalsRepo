@@ -28,12 +28,9 @@
             <!-- Date of registration filter -->
             <p class="input-group" ng-controller="DPController">
                 <span class="input-group-addon">Дата реєстрації</span>
-                <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="filter.animal.dateOfRegister"
+                <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd" ng-model="filter.animal.dateOfRegister"
                        is-open="opened" datepicker-options="dateOptions" current-text="Сьогодні" clear-text="Очистити"
-                       close-text="Закрити" ng-required="true" close-text="Close" />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                </span>
+                       close-text="Закрити" ng-required="true" close-text="Close" ng-click="open($event)" />
             </p>
 
             <hr>
