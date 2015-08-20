@@ -1,4 +1,4 @@
-angular.module('AdminAnimalsDetailed', ['AdminAnimalsModule', 'angularFileUpload', 'nya.bootstrap.select', 'ui.bootstrap'])
+angular.module('AdminAnimalsDetailed', ['AdminAnimalsModule', 'angularFileUpload', 'nya.bootstrap.select', 'DPController'])
     .controller('AdminAnimalsDetailedController', ['$scope', 'AdminAnimalsService', '$routeParams', '$window',
         function($scope, AdminAnimalsService, $routeParams, $window) {
 
@@ -22,7 +22,7 @@ angular.module('AdminAnimalsDetailed', ['AdminAnimalsModule', 'angularFileUpload
                 AdminAnimalsService.getAnimal(animalId)
                     .then(function(data) {
                         $scope.animal = data;
-                        if ($scope.animal.image != undefined) {
+                        if (($scope.animal.image != undefined) && ($scope.animal.image.length > 0)) {
                             $scope.animalImage = $scope.animal.image + "?timestamp=" + new Date().getTime();
                         }
                     },
@@ -54,7 +54,9 @@ angular.module('AdminAnimalsDetailed', ['AdminAnimalsModule', 'angularFileUpload
         function($scope, AdminAnimalsService, $filter) {
             $scope.hideEditor = function() {
                 $scope.$parent.editor = false;
-                $scope.$parent.animalImage = $scope.$parent.animalImage + "?timestamp=" + new Date().getTime();
+                if (($scope.animal.image != undefined) && ($scope.animal.image.length > 0)) {
+                    $scope.$parent.animalImage = $scope.$parent.animal.image + "?timestamp=" + new Date().getTime();
+                }
             }
 
             /**
@@ -134,55 +136,6 @@ angular.module('AdminAnimalsDetailed', ['AdminAnimalsModule', 'angularFileUpload
                     });
             }
         }])
-    .controller('DPController', ['$scope', function($scope) {
-
-        $scope.clear = function () {
-            $scope.dt = null;
-        };
-
-        // Disable weekend selection
-        $scope.disabled = function(date, mode) {
-            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-        };
-
-        $scope.open = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-
-            $scope.opened = true;
-        };
-
-        $scope.dateOptions = {
-            formatYear: 'yy',
-            startingDay: 1
-        };
-
-        var tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        var afterTomorrow = new Date();
-        afterTomorrow.setDate(tomorrow.getDate() + 2);
-        $scope.events = [
-            {date: tomorrow, status: 'full'},
-            {date: afterTomorrow, status: 'partially'}
-        ];
-
-        $scope.getDayClass = function(date, mode) {
-            if (mode === 'day') {
-                var dayToCheck = new Date(date).setHours(0,0,0,0);
-
-                for (var i=0;i<$scope.events.length;i++){
-                    var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
-
-                    if (dayToCheck === currentDay) {
-                        return $scope.events[i].status;
-                    }
-                }
-            }
-
-            return '';
-        };
-
-    }])
     .controller('AdminAnimalsEditorSetImageController', ['$scope', 'FileUploader', function($scope, FileUploader) {
         var uploader = $scope.uploader = new FileUploader();
 

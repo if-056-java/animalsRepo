@@ -2,6 +2,7 @@ package com.animals.app.controller.resource;
 
 import com.animals.app.domain.Animal;
 import com.animals.app.domain.AnimalsFilter;
+import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import org.apache.log4j.LogManager;
@@ -53,7 +54,7 @@ public class AdminResource {
         }
 
         //get list of animals from data base
-        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+        AnimalRepository animalRepository = new AnimalRepositoryImpl();
         List<Animal> animals = animalRepository.getAdminAnimals(animalsFilter);
 
         //cast list of animals to generic list
@@ -80,7 +81,7 @@ public class AdminResource {
         }
 
         //get count of row according to filter
-        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+        AnimalRepository animalRepository = new AnimalRepositoryImpl();
         long pages = animalRepository.getAdminAnimalsPaginator(animalsFilter);
 
         String json = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
@@ -101,7 +102,7 @@ public class AdminResource {
         }
 
         //get animal by id from data base
-        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+        AnimalRepository animalRepository = new AnimalRepositoryImpl();
         Animal animal = animalRepository.getById(animalId);
 
         return ok(animal);
@@ -120,7 +121,7 @@ public class AdminResource {
             return BAD_REQUEST;
         }
 
-        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+        AnimalRepository animalRepository = new AnimalRepositoryImpl();
         String restPath = httpServlet.getServletContext().getRealPath("/"); //path to rest root folder
         Animal animal = animalRepository.getById(animalId);
 
@@ -156,7 +157,7 @@ public class AdminResource {
             new AnimalBreedRepositoryImpl().insert_ua(animal.getBreed());
         }
         //Update animal
-        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+        AnimalRepository animalRepository = new AnimalRepositoryImpl();
         animalRepository.update(animal);
 
         return ok();
@@ -181,7 +182,7 @@ public class AdminResource {
         }
 
         //get animal by id from database
-        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+        AnimalRepository animalRepository = new AnimalRepositoryImpl();
         Animal animal = animalRepository.getById(animalId);
 
         if (animal == null) {

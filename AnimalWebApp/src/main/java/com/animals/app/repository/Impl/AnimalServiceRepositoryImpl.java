@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Rostyslav.Viner on 24.07.2015.
  */
-public class AnimalServiceRepositoryImpl {
+public class AnimalServiceRepositoryImpl implements AnimalServiceRepository {
     private SqlSessionFactory sqlSessionFactory;
 
     public AnimalServiceRepositoryImpl() {

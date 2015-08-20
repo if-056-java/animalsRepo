@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Rostyslav.Viner on 24.07.2015.
  */
-public class AnimalRepositoryImpl {
+public class AnimalRepositoryImpl implements AnimalRepository {
     private SqlSessionFactory sqlSessionFactory;
 
     public AnimalRepositoryImpl() {

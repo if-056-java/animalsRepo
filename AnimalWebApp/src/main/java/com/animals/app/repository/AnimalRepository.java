@@ -30,15 +30,18 @@ public interface AnimalRepository {
             "FROM animals " +
             "WHERE id>0 " +
             "<if test = \"animal != null\">" +
-            "<if test = \"animal.type != null\"> " +
-            "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
-            "</if>" +
-            "<if test = \"animal.breed != null\"> " +
-            "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
-            "</if>" +
-            "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
-            "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
-            "<if test = \"animal.cites != null\"> AND citesType=#{animal.cites} </if> " +
+                "<if test = \"animal.type != null\"> " +
+                    "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
+                "</if>" +
+                "<if test = \"animal.breed != null\"> " +
+                    "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
+                "</if>" +
+                "<if test = \"animal.transpNumber != null\"> AND transpNumber=#{animal.transpNumber} </if> " +
+                "<if test = \"animal.dateOfRegister != null\"> AND dateOfRegister=#{animal.dateOfRegister} </if> " +
+                "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+                "<if test = \"animal.service != null\"> " +
+                    "<if test = \"animal.service.id != null\"> AND serviceId=#{animal.service.id} </if> " +
+                "</if>" +
             "</if> " +
             "LIMIT #{offset},#{limit}</script>";
 
@@ -52,9 +55,12 @@ public interface AnimalRepository {
                 "<if test = \"animal.breed != null\"> " +
                     "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
                 "</if>" +
+                "<if test = \"animal.transpNumber != null\"> AND transpNumber=#{animal.transpNumber} </if> " +
+                "<if test = \"animal.dateOfRegister != null\"> AND dateOfRegister=#{animal.dateOfRegister} </if> " +
                 "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
-                "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
-                "<if test = \"animal.cites != null\"> AND citesType=#{animal.cites} </if> " +
+                "<if test = \"animal.service != null\"> " +
+                    "<if test = \"animal.service.id != null\"> AND serviceId=#{animal.service.id} </if> " +
+                "</if>" +
             "</if> " +
             "</script>";
 

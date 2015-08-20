@@ -5,6 +5,39 @@
         <!-- Filters -->
         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 detailed-bottom" id="animals-admin-left" ng-controller="AdminAnimalsFilterController">
 
+            <!-- Transpounder filter -->
+            <div class="input-group">
+                <span class="input-group-addon">Мікрочіп</span>
+                <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="filter.animal.transpNumber">
+            </div>
+
+            <hr>
+
+            <!-- Service filter -->
+            <div class="input-group">
+                <span class="input-group-addon">Сервіс</span>
+                <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.service" title="Не вибрано">
+                    <li nya-bs-option="animalService in animalServices">
+                        <a>{{ animalService.service }}</a>
+                    </li>
+                </ol>
+            </div>
+
+            <hr>
+
+            <!-- Date of registration filter -->
+            <p class="input-group" ng-controller="DPController">
+                <span class="input-group-addon">Дата реєстрації</span>
+                <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="filter.animal.dateOfRegister"
+                       is-open="opened" datepicker-options="dateOptions" current-text="Сьогодні" clear-text="Очистити"
+                       close-text="Закрити" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </p>
+
+            <hr>
+
             <!-- Type filter -->
             <div class="input-group">
                 <span class="input-group-addon">Тип</span>
@@ -33,18 +66,6 @@
                     <li class="nya-bs-option" value="не визначено"><a>не визначено</a></li>
                     <li class="nya-bs-option" value="самець"><a>самець</a></li>
                     <li class="nya-bs-option" value="самка"><a>самка</a></li>
-                </ol>
-            </div>
-            <hr>
-
-            <!-- Size filter -->
-            <div class="input-group">
-                <span class="input-group-addon">Розмір</span>
-                <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.size" title="Не вибрано">
-                    <li class="nya-bs-option" value="не визначено"><a>не визначено</a></li>
-                    <li class="nya-bs-option" value="малий"><a>малий</a></li>
-                    <li class="nya-bs-option" value="середній"><a>середній</a></li>
-                    <li class="nya-bs-option" value="великий"><a>великий</a></li>
                 </ol>
             </div>
 
@@ -107,7 +128,7 @@
                             {{ filter.limit }} <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
-                            <li role="menuitem"><a href ng-click="countChanged('10')">10</a></li>
+                            <li role="menuitem"><a href ng-click="countChanged('15')">15</a></li>
                             <li role="menuitem"><a href ng-click="countChanged('20')">20</a></li>
                             <li role="menuitem"><a href ng-click="countChanged('30')">30</a></li>
                         </ul>
