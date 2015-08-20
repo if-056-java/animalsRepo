@@ -94,16 +94,24 @@
                             <div class="row">
 
                                 <!-- Animal birth date -->
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2" ng-controller="DPController">
                                     <div class="form-group"
                                          ng-class="{ 'has-error' : animalForm.dateOfBirth.$invalid && !animalForm.dateOfBirth.$pristine }">
                                         <label for="birth-date" class="control-label">Дата народження:</label>
 
-                                        <input type="date" class="form-control" name="dateOfBirth"
-                                               id="birth-date" ng-model="animal.dateOfBirth"
+                                        <input id="birth-date" name="dateOfBirth"
                                                placeholder="Дата народження"
-                                               ng-minlength="8" ng-maxlength="10"/>
+                                               type="text" class="form-control"
+                                               datepicker-popup="yyyy-MM-dd"
+                                               ng-model="animal.dateOfBirth"
+                                               is-open="opened"
+                                               datepicker-options="dateOptions"
+                                               ng-click="open($event)"
+                                               close-text="Close"
+                                               required ng-minlength="8" ng-maxlength="10"/>
 
+                                        <p ng-show="animalForm.dateOfBirth.$error.required && !animalForm.dateOfBirth.$pristine"
+                                           class="help-block error">Поле не заповнено.</p>
                                         <p ng-show="animalForm.dateOfBirth.$error.minlength && !animalForm.dateOfBirth.$pristine"
                                            class="help-block error">Поле занадто коротке.</p>
                                         <p ng-show="animalForm.dateOfBirth.$error.maxlength && !animalForm.dateOfBirth.$pristine"
@@ -289,20 +297,25 @@
                                 </div>
                                 <div class="panel-body">
 
-                                    <!-- Photo -->
-                                    <div ng-controller="AnimalImageController"
-                                         ng-class="{ 'has-error' : animalForm.photo.$invalid && !animalForm.photo.$pristine }">
-                                        <a class="btn btn-info col-md-12" href role="button" ng-hide="uploader.isUploading"
-                                           onclick="document.getElementById('upload').click();" >Завантажити фото</a>
+                                    <!-- Image -->
+                                    <div ng-controller="AnimalImageController">
 
-                                        <progressbar class="progress-striped active " value="uploader.queue[0].progress" ng-show="uploader.isUploading"></progressbar>
+                                        <!-- Image button for load -->
+                                        <a class="btn btn-info col-md-12" href role="button" ng-hide="uploader.isUploading"
+                                           onclick="document.getElementById('upload').click();">Завантажити фото</a>
+
+                                        <!-- Image progress bar -->
+                                        <progressbar class="progress-striped active " value="uploader.queue[0].progress"
+                                                     ng-show="uploader.isUploading"></progressbar>
                                         <input type="file" id="upload" name="photo"
                                                nv-file-select uploader="uploader"
                                                style="visibility: hidden;"
                                                required/>
 
-                                        <p ng-show="animalForm.photo.$error.required && !animalForm.photo.$pristine"
-                                           class="help-block error">Зображення не вибрано.</p>
+
+                                        <!-- Show alert -->
+                                        <div class="alert alert-success" ng-show="imageFlag == 1">Зображення вибрано.</div>
+                                        <div class="alert alert-danger" ng-show="imageFlag == 0">Помилка, вибраний файл не є зображенням.</div>
                                     </div>
                                 </div>
                             </div>
@@ -314,18 +327,17 @@
                                     <h3 class="panel-title">Додаткова інформація</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <label for="description">Впишіть сюди додаткову інформацію:</label><br>
-                                    <textarea class="form-control" rows="4"
-                                              id="description" style="height: 104px; overflow: overlay; resize:none;"
+                                    <textarea class="form-control" rows="2"
+                                              id="description"
+                                              style="overflow: overlay; resize:none;"
                                               ng-model="animal.description"
                                               placeholder="Додаткова інформація"></textarea>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
-                    <button type="submit" class="btn btn-primary" ng-disabled="animalForm.$invalid">Зареєструвати</button><!--ng-click="insertHomelessAnimal(animal)"-->
+                    <button type="submit" id="submit-form" class="btn btn-primary" ng-disabled="animalForm.$invalid">Зареєструвати</button><!--ng-click="insertHomelessAnimal(animal)"-->
 
                 </form>
             </div>
@@ -334,15 +346,13 @@
 </section>
 
 <script type="text/javascript">
-    // When the document is ready
-
-/*
+    //Image preview
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                $('#preview').attr('src', e.target.result);
+                $('#preview').attr('image', e.target.result);
             };
 
             reader.readAsDataURL(input.files[0]);
@@ -352,5 +362,4 @@
     $("#upload").change(function(){
         readURL(this);
     });
-*/
 </script>

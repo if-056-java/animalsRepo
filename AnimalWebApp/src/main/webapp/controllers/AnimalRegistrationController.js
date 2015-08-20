@@ -115,18 +115,73 @@ animalRegistrationModule
                 $scope.$parent.animal.color = color;
             };
 
+            $scope.imageCropResult = null;
+            $scope.showImageCropper = false;
+
             //Dependency injection
             AnimalDetailController.$inject = ['$scope', 'AnimalDetailFactory'];
         }
-    );
+    )
+    .controller('DPController', ['$scope', function($scope) {
+
+        $scope.clear = function () {
+            $scope.dt = null;
+        };
+
+        // Disable weekend selection
+        $scope.disabled = function(date, mode) {
+            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+        };
+
+        $scope.open = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            $scope.opened = true;
+        };
+
+        $scope.dateOptions = {
+            formatYear: 'yy',
+            startingDay: 1
+        };
+
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        var afterTomorrow = new Date();
+        afterTomorrow.setDate(tomorrow.getDate() + 2);
+        $scope.events = [
+            {date: tomorrow, status: 'full'},
+            {date: afterTomorrow, status: 'partially'}
+        ];
+
+        $scope.getDayClass = function(date, mode) {
+            if (mode === 'day') {
+                var dayToCheck = new Date(date).setHours(0,0,0,0);
+
+                for (var i=0;i<$scope.events.length;i++){
+                    var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
+
+                    if (dayToCheck === currentDay) {
+                        return $scope.events[i].status;
+                    }
+                }
+            }
+
+            return '';
+        };
+
+    }]);
 
 animalRegistrationModule.controller('AnimalImageController',
-    function AnimalImageController ($scope, FileUploader, $q, RESOURCES){
+    function AnimalImageController ($scope, FileUploader, RESOURCES){
 
         var uploader = $scope.uploader = new FileUploader();
 
         uploader.autoUpload = true;         //Automatically upload files after adding them to the queue
-        uploader.removeAfterUpload = true;  //Remove files from the queue after uploading
+        uploader.removeAfterUpload = false;  //Remove files from the queue after uploading
+
+        //show alert while image loaded or failed
+        $scope.imageFlag = -1;
 
         /**
          * add filters.
@@ -135,7 +190,15 @@ animalRegistrationModule.controller('AnimalImageController',
             name: 'imageFilter',
             fn: function (item, options) {
                 var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1 ? true : alert('Error');
+                console.log('-->> ' + '|jpg|png|jpeg|bmp|gif|'.indexOf(type));
+                if('|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1) {
+                    $scope.imageFlag = 1;
+                    return true;
+                }
+                else {
+                    $scope.imageFlag = 0;
+                    return false;
+                }
             }
         });
 
@@ -162,5 +225,5 @@ animalRegistrationModule.controller('AnimalImageController',
         };
 
         //Dependency injection
-        AnimalImageController.$inject = ['$scope', '$q', 'FileUploader'];
+        AnimalImageController.$inject = ['$scope', 'FileUploader'];
     });
