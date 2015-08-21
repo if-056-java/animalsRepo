@@ -301,21 +301,24 @@
                                     <div ng-controller="AnimalImageController">
 
                                         <!-- Image button for load -->
-                                        <a class="btn btn-info col-md-12" href role="button" ng-hide="uploader.isUploading"
+                                        <a class="btn btn-info col-md-12" href role="button"
                                            onclick="document.getElementById('upload').click();">Завантажити фото</a>
 
                                         <!-- Image progress bar -->
                                         <progressbar class="progress-striped active " value="uploader.queue[0].progress"
                                                      ng-show="uploader.isUploading"></progressbar>
                                         <input type="file" id="upload" name="photo"
-                                               nv-file-select uploader="uploader"
+                                               ng-model='imageFile'
                                                style="visibility: hidden;"
-                                               required/>
+                                               maxsize="5000" accept="image/*"
+                                               required base-sixty-four-input/>
 
-
-                                        <!-- Show alert -->
-                                        <div class="alert alert-success" ng-show="imageFlag == 1">Зображення вибрано.</div>
-                                        <div class="alert alert-danger" ng-show="imageFlag == 0">Помилка, вибраний файл не є зображенням.</div>
+                                        <p ng-show="animalForm.imageFile.$error.required && !animalForm.userIndex.$pristine"
+                                           class="help-block error">Зображення не вибрано.</p>
+                                        <p ng-show="animalForm.imageFile.$error.maxsize && !animalForm.userIndex.$pristine"
+                                           class="help-block error">Допустимий розмір зображення не більше 5МБ.</p>
+                                        <p ng-show="animalForm.imageFile.$error.accept && !animalForm.userIndex.$pristine"
+                                           class="help-block error">Файл не є зображення.</p>
                                     </div>
                                 </div>
                             </div>
@@ -337,7 +340,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" id="submit-form" class="btn btn-primary" ng-disabled="animalForm.$invalid">Зареєструвати</button><!--ng-click="insertHomelessAnimal(animal)"-->
+                    <button type="submit" ng-disabled="animalForm.$invalid" id="submit-form" class="btn btn-primary" >Зареєструвати</button><!--ng-click="insertHomelessAnimal(animal)"-->
 
                 </form>
             </div>
@@ -362,4 +365,27 @@
     $("#upload").change(function(){
         readURL(this);
     });
+
+    function encodeImageFileAsURL(){
+
+        var filesSelected = document.getElementById("upload").files;
+        if (filesSelected.length > 0)
+        {
+            var fileToLoad = filesSelected[0];
+
+            var fileReader = new FileReader();
+
+            fileReader.onload = function(fileLoadedEvent) {
+                var srcData = fileLoadedEvent.target.result; // <--- data: base64
+
+                var newImage = document.createElement('img');
+                newImage.src = srcData;
+
+                document.getElementById("imgTest").value = newImage;
+                console.log("Converted Base64 version is "+document.getElementById("imgTest").innerHTML);
+            }
+            fileReader.readAsDataURL(fileToLoad);
+        }
+    }
+
 </script>

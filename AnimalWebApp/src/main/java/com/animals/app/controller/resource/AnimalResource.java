@@ -9,10 +9,12 @@ import javax.ws.rs.*;
 import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalServiceRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalTypeRepositoryImpl;
+import com.animals.app.service.CreateAnimalImage;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import sun.misc.BASE64Decoder;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
@@ -36,11 +38,8 @@ public class AnimalResource {
     //return response with 500 code
     private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 
-
+    CreateAnimalImage createAnimalImage = new CreateAnimalImage();
     AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
-
-    @Context
-    private HttpServletRequest httpServlet;
 
     @POST
     @Path("animal")//http:localhost:8080/AnimalWebApp/webapi/animals/animal
@@ -50,6 +49,10 @@ public class AnimalResource {
         if (animal == null)
             return BAD_REQUEST;
 
+        String fileName = createAnimalImage.createAnimalImage(animal.getImage(), animal.getImageType());
+
+        animal.setImage("images/" + fileName);
+        animal.setImageType(null);
         animalRepository.insert(animal);
 
         return ok(animal);
@@ -95,51 +98,6 @@ public class AnimalResource {
             return NOT_FOUND;
 
         return ok(genericAnimals);
-    }
-
-    /**
-     * Insert animal image
-     * @param uploadedInputStream new image file
-     * @param fileDetail          file info
-     * @return return relative path of new image
-     */
-    @POST //http:localhost:8080/webapi/animals/animal/image
-    @Path("animal/image")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response uploadImage(@FormDataParam("file") InputStream uploadedInputStream,
-                                @FormDataParam("file") FormDataContentDisposition fileDetail) {
-
-        String fileName = (System.currentTimeMillis()) + ("_") + fileDetail.getFileName();
-        String uploadedFileLocation = "D:/AGIT/animalsRepo/AnimalWebApp/src/main/webapp/images/" + fileName;
-
-        //Load and save image
-        OutputStream out = null;
-        try {
-            int read = 0;
-            byte[] bytes = new byte[1024];
-
-            out = new FileOutputStream(new File(uploadedFileLocation));
-            while ((read = uploadedInputStream.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
-            }
-            out.flush();
-            out.close();
-        } catch (IOException e) {
-            LOG.error(e);
-            return SERVER_ERROR;
-        } finally {
-            try {
-                out.close();
-            } catch (IOException ex) {
-                LOG.error(ex);
-            }
-        }
-
-        //return relative image path to client
-        String json = "{\"filePath\":\"" + ("images/") + fileName + "\"}";
-
-        return ok(json);
     }
 
     @GET //http:localhost:8080/webapi/animals/{adoption|found|lost}/id

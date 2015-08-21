@@ -65,6 +65,16 @@ public class Animal implements Serializable{
     private String image;
     private AnimalService service;
 
+    private transient String imageType;
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
+
     public Long getId() {
         return id;
     }
@@ -216,42 +226,43 @@ public class Animal implements Serializable{
 
         Animal animal = (Animal) o;
 
-        if (id != null ? !id.equals(animal.id) : animal.id != null) return false;
-        if (sex != animal.sex) return false;
-        if (type != null ? !type.equals(animal.type) : animal.type != null) return false;
-        if (size != animal.size) return false;
-        if (cites != animal.cites) return false;
+        if (active != null ? !active.equals(animal.active) : animal.active != null) return false;
+        if (address != null ? !address.equals(animal.address) : animal.address != null) return false;
         if (breed != null ? !breed.equals(animal.breed) : animal.breed != null) return false;
-        if (transpNumber != null ? !transpNumber.equals(animal.transpNumber) : animal.transpNumber != null)
-            return false;
-        if (tokenNumber != null ? !tokenNumber.equals(animal.tokenNumber) : animal.tokenNumber != null) return false;
-        if (dateOfRegister != null ? !dateOfRegister.equals(animal.dateOfRegister) : animal.dateOfRegister != null)
-            return false;
-        if (dateOfBirth != null ? !dateOfBirth.equals(animal.dateOfBirth) : animal.dateOfBirth != null) return false;
+        if (cites != animal.cites) return false;
+        if (color != null ? !color.equals(animal.color) : animal.color != null) return false;
+        if (!dateOfBirth.equals(animal.dateOfBirth)) return false;
+        if (!dateOfRegister.equals(animal.dateOfRegister)) return false;
         if (dateOfSterilization != null ? !dateOfSterilization.equals(animal.dateOfSterilization) : animal.dateOfSterilization != null)
             return false;
-        if (color != null ? !color.equals(animal.color) : animal.color != null) return false;
         if (description != null ? !description.equals(animal.description) : animal.description != null) return false;
-        if (user != null ? !user.equals(animal.user) : animal.user != null) return false;
-        if (address != null ? !address.equals(animal.address) : animal.address != null) return false;
-        if (active != null ? !active.equals(animal.active) : animal.active != null) return false;
+        if (!id.equals(animal.id)) return false;
         if (image != null ? !image.equals(animal.image) : animal.image != null) return false;
-        return !(service != null ? !service.equals(animal.service) : animal.service != null);
+        if (imageType != null ? !imageType.equals(animal.imageType) : animal.imageType != null) return false;
+        if (!service.equals(animal.service)) return false;
+        if (sex != animal.sex) return false;
+        if (size != animal.size) return false;
+        if (tokenNumber != null ? !tokenNumber.equals(animal.tokenNumber) : animal.tokenNumber != null) return false;
+        if (transpNumber != null ? !transpNumber.equals(animal.transpNumber) : animal.transpNumber != null)
+            return false;
+        if (!type.equals(animal.type)) return false;
+        if (user != null ? !user.equals(animal.user) : animal.user != null) return false;
 
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (sex != null ? sex.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (size != null ? size.hashCode() : 0);
-        result = 31 * result + (cites != null ? cites.hashCode() : 0);
+        int result = id.hashCode();
+        result = 31 * result + sex.hashCode();
+        result = 31 * result + type.hashCode();
+        result = 31 * result + size.hashCode();
+        result = 31 * result + cites.hashCode();
         result = 31 * result + (breed != null ? breed.hashCode() : 0);
         result = 31 * result + (transpNumber != null ? transpNumber.hashCode() : 0);
         result = 31 * result + (tokenNumber != null ? tokenNumber.hashCode() : 0);
-        result = 31 * result + (dateOfRegister != null ? dateOfRegister.hashCode() : 0);
-        result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
+        result = 31 * result + dateOfRegister.hashCode();
+        result = 31 * result + dateOfBirth.hashCode();
         result = 31 * result + (dateOfSterilization != null ? dateOfSterilization.hashCode() : 0);
         result = 31 * result + (color != null ? color.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
@@ -259,7 +270,8 @@ public class Animal implements Serializable{
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (image != null ? image.hashCode() : 0);
-        result = 31 * result + (service != null ? service.hashCode() : 0);
+        result = 31 * result + service.hashCode();
+        result = 31 * result + (imageType != null ? imageType.hashCode() : 0);
         return result;
     }
 
@@ -284,6 +296,7 @@ public class Animal implements Serializable{
                 ", active=" + active +
                 ", image='" + image + '\'' +
                 ", service=" + service +
+                ", imageType='" + imageType + '\'' +
                 '}';
     }
 }
