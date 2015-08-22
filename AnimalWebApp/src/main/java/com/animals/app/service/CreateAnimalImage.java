@@ -15,7 +15,7 @@ public class CreateAnimalImage {
 
     private static final String pathToImageStorage = "D:/AGIT/animalsRepo/AnimalWebApp/src/main/webapp/images/";
 
-    public static String createAnimalImage(String imageBytes, String imageType) {
+    public static String createAnimalImage(String imageBytes) {
         byte[] decodedBytes = null;
         BASE64Decoder decoder = new BASE64Decoder();
         try {
@@ -27,7 +27,7 @@ public class CreateAnimalImage {
         InputStream is = new ByteArrayInputStream(decodedBytes);
 
         //назва файлу, яка буде зберігатись в базі
-        String fileName = System.currentTimeMillis() + "_" + imageType;
+        String fileName = System.currentTimeMillis() + ".png";
 
         //куда буде грузитись
         String uploadedFileLocation = pathToImageStorage + fileName;

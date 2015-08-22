@@ -163,7 +163,7 @@ IMG.displayed {
     background: url('../img/animalColors/animal-color-sprite.png') no-repeat;
 }
 
-.sprite-image:hover{
+.onhover:hover{
     border:1px solid black;
     border-radius: 3px;
 }

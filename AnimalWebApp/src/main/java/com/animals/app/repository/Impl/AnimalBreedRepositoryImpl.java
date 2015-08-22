@@ -79,7 +79,6 @@ public class AnimalBreedRepositoryImpl implements AnimalBreedRepository {
         try {
             AnimalBreedRepository mapper = session.getMapper(AnimalBreedRepository.class);
             mapper.insert_ua(animalBreed);
-
             session.commit();
         } finally {
             session.close();

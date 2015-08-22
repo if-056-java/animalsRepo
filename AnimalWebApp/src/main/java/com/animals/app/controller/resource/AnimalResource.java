@@ -42,19 +42,24 @@ public class AnimalResource {
     AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
 
     @POST
-    @Path("animal")//http:localhost:8080/AnimalWebApp/webapi/animals/animal
+    @Path("animal")//http:localhost:8080/AnimalWebApp/webapi/animals
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response insertAnimal(Animal animal) {
         if (animal == null)
             return BAD_REQUEST;
 
-        String fileName = createAnimalImage.createAnimalImage(animal.getImage(), animal.getImageType());
+        String fileName = createAnimalImage.createAnimalImage(animal.getImage());
 
         animal.setImage("images/" + fileName);
-        animal.setImageType(null);
-        animalRepository.insert(animal);
 
+        //check breed, if it new insert it into database
+        if ((animal.getBreed() != null) && (animal.getBreed().getId() == null) && (animal.getBreed().getBreedUa() != null)) {
+            animal.getBreed().setType(animal.getType());
+            new AnimalBreedRepositoryImpl().insert_ua(animal.getBreed());
+        }
+
+        animalRepository.insert(animal);
         return ok(animal);
     }
 

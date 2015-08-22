@@ -42,6 +42,12 @@ animalRegistrationModule
                                         $scope.address.street + ' ' +
                                         $scope.address.index;
 
+                if (typeof $scope.animal.breed != "undefined") {
+                    if (typeof $scope.animal.breed.id == "undefined") {
+                        $scope.animal.breed = {breedUa: $scope.animal.breed};
+                    }
+                }
+
                 return AnimalRegistrationFactory
                     .insertHomelessAnimal(animal)
                     .then(
@@ -174,17 +180,46 @@ animalRegistrationModule
     )
     .controller('AnimalImageController', function AnimalImageController ($scope){
 
-        $scope.$watch('imageFile', function (newVal) {
-            if(newVal){
-                console.log('new');
-                $scope.$parent.animal.imageType = newVal['filename'];
-                $scope.$parent.animal.image = newVal['base64'];
-            }
-            else{
-                console.log('old');
-            }
+        //Loaded image
+        $scope.myImage='';
+
+        //Zoomed image
+        $scope.myCroppedImage='';
+
+        /**
+         * Convert image to base64 format
+         * @param image
+         */
+        var getBase64FromImage = function(image){
+            var first = image.indexOf(',') + 1;
+            var size = image.length;
+            $scope.$parent.animal.image = image.substr(first, size);
+        };
+
+        /**
+         * Handle file select
+         * @param evt
+         */
+        var handleFileSelect = function(evt) {
+            var file = evt.currentTarget.files[0];
+            var reader = new FileReader();
+            reader.onload = function (evt) {
+                $scope.$apply(function($scope){
+                    $scope.myImage=evt.target.result;
+                });
+            };
+            reader.readAsDataURL(file);
+        };
+        angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+
+        /**
+         * Watch on image zoom.
+         */
+        $scope.$watch('myCroppedImage', function(newVal) {
+           if(newVal)
+               getBase64FromImage($scope.myCroppedImage);
         });
 
         //Dependency injection
-        AnimalImageController.$inject = ['$scope', 'FileUploader'];
+        AnimalImageController.$inject = ['$scope'];
     });

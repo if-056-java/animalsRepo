@@ -23,7 +23,9 @@
 
     <!-- Підібрані стилі для навігаційної панелі -->
     <link href="resources/css/navbar_green.css" rel="stylesheet">
-    
+
+    <!-- Підібрані стилі для редагування зображення -->
+    <link href="resources/css/ng-img-crop.css" rel="stylesheet">
 
     <!-- Підібрані стилі для сторінки -->
     <link href="resources/css/styles.css" rel="stylesheet">
@@ -73,7 +75,8 @@
 	
 			<li><a ng-show="!session()" href="#ua/user/profile">Мій Кабінет</a></li>
 
-            <li class="dropdown" ng-show="!session()">
+            <!-- ng-show="!session()" -->
+            <li class="dropdown" >
                 <a href="" class="dropdown-toggle" data-toggle="dropdown">Реєстація тварини <b class="caret"></b> </a>
                 <ul class="dropdown-menu">
                     <li><a href="#ua/animal/registration_homeless">Зареєструвати безпритульну</a> </li>
@@ -154,8 +157,8 @@
 <!-- jQuery MD5 Lib-->
 <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
 
-<!-- File upload -->
-<script src="resources/js/angular-base64-upload.min.js"></script>
+<!-- Image Crop -->
+<script src="resources/js/ng-img-crop.js"></script>
 
 <!-- Site Scripts-->
  <script src="modules/animalApp.js"></script>

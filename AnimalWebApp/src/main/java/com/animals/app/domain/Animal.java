@@ -65,16 +65,6 @@ public class Animal implements Serializable{
     private String image;
     private AnimalService service;
 
-    private transient String imageType;
-
-    public String getImageType() {
-        return imageType;
-    }
-
-    public void setImageType(String imageType) {
-        this.imageType = imageType;
-    }
-
     public Long getId() {
         return id;
     }
@@ -238,7 +228,6 @@ public class Animal implements Serializable{
         if (description != null ? !description.equals(animal.description) : animal.description != null) return false;
         if (!id.equals(animal.id)) return false;
         if (image != null ? !image.equals(animal.image) : animal.image != null) return false;
-        if (imageType != null ? !imageType.equals(animal.imageType) : animal.imageType != null) return false;
         if (!service.equals(animal.service)) return false;
         if (sex != animal.sex) return false;
         if (size != animal.size) return false;
@@ -271,7 +260,6 @@ public class Animal implements Serializable{
         result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (image != null ? image.hashCode() : 0);
         result = 31 * result + service.hashCode();
-        result = 31 * result + (imageType != null ? imageType.hashCode() : 0);
         return result;
     }
 
@@ -296,7 +284,6 @@ public class Animal implements Serializable{
                 ", active=" + active +
                 ", image='" + image + '\'' +
                 ", service=" + service +
-                ", imageType='" + imageType + '\'' +
                 '}';
     }
 }

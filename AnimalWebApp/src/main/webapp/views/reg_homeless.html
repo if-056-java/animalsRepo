@@ -172,7 +172,7 @@
 
                                     <!-- Animal colors (on image) -->
                                     <label>Виберіть основний окрас:</label><br>
-                                    <div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin"
+                                    <div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin onhover"
                                          ng-repeat="color in colorTypes" style="margin:5px; cursor: pointer;">
 
                                         <a ng-href class="sprite-image" id="color-sprites-{{$index}}"
@@ -293,6 +293,21 @@
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-4">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
+                                    <h3 class="panel-title">Додаткова інформація</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <textarea class="form-control" rows="6"
+                                              id="description"
+                                              style="overflow: overlay; resize:none;"
+                                              ng-model="animal.description"
+                                              placeholder="Додаткова інформація"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
                                     <h3 class="panel-title">Фотографія тварини</h3>
                                 </div>
                                 <div class="panel-body">
@@ -302,39 +317,32 @@
 
                                         <!-- Image button for load -->
                                         <a class="btn btn-info col-md-12" href role="button"
-                                           onclick="document.getElementById('upload').click();">Завантажити фото</a>
+                                           onclick="document.getElementById('fileInput').click();">Завантажити фото</a>
 
                                         <!-- Image progress bar -->
                                         <progressbar class="progress-striped active " value="uploader.queue[0].progress"
                                                      ng-show="uploader.isUploading"></progressbar>
-                                        <input type="file" id="upload" name="photo"
-                                               ng-model='imageFile'
-                                               style="visibility: hidden;"
-                                               maxsize="5000" accept="image/*"
-                                               required base-sixty-four-input/>
 
-                                        <p ng-show="animalForm.imageFile.$error.required && !animalForm.userIndex.$pristine"
+                                        <input type="file" id="fileInput" name="photo"
+                                                                          accept="image/*"
+                                                                          style="visibility: hidden;"
+                                                                          required />
+
+                                        <div class="cropArea" style="display:inline-block; ">
+                                            <img-crop image="myImage" alt="Зображення" result-image="myCroppedImage"></img-crop>
+                                        </div>
+
+                                        <div style="display:inline-block; margin-left:110px;">
+                                            <img style="vertical-align: initial;" ng-src="{{myCroppedImage}}" alt="Вихідне зображення"/>
+                                        </div>
+
+                                        <p ng-show="animalForm.imageFile.$error.required && !animalForm.imageFile.$pristine"
                                            class="help-block error">Зображення не вибрано.</p>
-                                        <p ng-show="animalForm.imageFile.$error.maxsize && !animalForm.userIndex.$pristine"
+                                        <p ng-show="animalForm.imageFile.$error.maxsize && !animalForm.imageFile.$pristine"
                                            class="help-block error">Допустимий розмір зображення не більше 5МБ.</p>
-                                        <p ng-show="animalForm.imageFile.$error.accept && !animalForm.userIndex.$pristine"
+                                        <p ng-show="animalForm.imageFile.$error.accept && !animalForm.imageFile.$pristine"
                                            class="help-block error">Файл не є зображення.</p>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-4">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Додаткова інформація</h3>
-                                </div>
-                                <div class="panel-body">
-                                    <textarea class="form-control" rows="2"
-                                              id="description"
-                                              style="overflow: overlay; resize:none;"
-                                              ng-model="animal.description"
-                                              placeholder="Додаткова інформація"></textarea>
                                 </div>
                             </div>
                         </div>
