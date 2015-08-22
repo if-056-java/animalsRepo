@@ -1,0 +1,172 @@
+<div class="row" id="top"></div>
+<div class="container">
+    <!-- Spinner -->
+    <div class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top: 320px;" ng-show="contentLoading"
+         id="loading-block">
+    </div>
+    <div ng-show="!contentLoading">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success">
+                <div class="row">
+
+                    <!-- Animal photo -->
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
+                        <img class="img-responsive img-thumbnail center-block" ng-hide="animalImage" src="resources/img/noimg.png">
+                        <img class="img-responsive img-thumbnail center-block" ng-show="animalImage" src="{{ animalImage }}">
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
+
+                        <!-- Animal type -->
+                        <div class="input-group">
+                            <span class="input-group-addon">Тип</span>
+                            <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.type" ng-change="getAnimalBreeds()" title="Не вибрано">
+                                <li nya-bs-option="animalType in animalTypes.values">
+                                    <a>{{ animalType.type }}</a>
+                                </li>
+                            </ol>
+                        </div>
+
+                        <hr>
+
+                        <!-- Animal breed -->
+                        <div class="input-group">
+                            <span class="input-group-addon">Порода</span>
+                            <input type="text" ng-model="animal.breed" typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8"
+                                   class="form-control border-right-radius" ng-disabled="filterAnimalBreedFlag">
+                        </div>
+
+                        <hr>
+
+                        <!-- Animal size -->
+                        <div class="input-group">
+                            <span class="input-group-addon">Розмір</span>
+                            <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.size">
+                                <li class="nya-bs-option" value="не визначено"><a>не визначено</a></li>
+                                <li class="nya-bs-option" value="малий"><a>малий</a></li>
+                                <li class="nya-bs-option" value="середній"><a>середній</a></li>
+                                <li class="nya-bs-option" value="великий"><a>великий</a></li>
+                            </ol>
+                        </div>
+
+                        <hr>
+
+                        <!-- Animal sex -->
+                        <div class="input-group">
+                            <span class="input-group-addon">Стать</span>
+                            <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.sex">
+                                <li class="nya-bs-option" value="не визначено"><a>не визначено</a></li>
+                                <li class="nya-bs-option" value="самець"><a>самець</a></li>
+                                <li class="nya-bs-option" value="самка"><a>самка</a></li>
+                            </ol>
+                        </div>
+
+                        <hr>
+
+                        <!-- Animal color -->
+                        <div class="input-group">
+                            <span class="input-group-addon">Окрас</span>
+                            <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.color">
+                        </div>
+
+                        <hr>
+
+                        <!-- Animal cites -->
+                        <div class="input-group">
+                            <span class="input-group-addon">CITES</span>
+                            <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.cites">
+                                <li class="nya-bs-option" value="не визначено"><a>не визначено</a></li>
+                                <li class="nya-bs-option" value="CITES I"><a>CITES I</a></li>
+                                <li class="nya-bs-option" value="CITES II"><a>CITES II</a></li>
+                                <li class="nya-bs-option" value="CITES III"><a>CITES III</a></li>
+                            </ol>
+                        </div>
+
+                        <hr>
+
+                        <!-- Animal service -->
+                        <div class="input-group">
+                            <span class="input-group-addon">Тип</span>
+                            <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.service">
+                                <li nya-bs-option="animalService in animalServices.values">
+                                    <a>{{ animalService.service }}</a>
+                                </li>
+                            </ol>
+                        </div>
+
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
+
+                        <!-- Animal transpounder number -->
+                        <div class="input-group">
+                            <span class="input-group-addon">Номер мікрочіпу</span>
+                            <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.transpNumber">
+                        </div>
+
+                        <hr>
+
+                        <!-- Animal date of birth -->
+                        <p class="input-group" ng-controller="DPController">
+                            <span class="input-group-addon">Дата народження</span>
+                            <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd" ng-model="animal.dateOfBirth"
+                                   is-open="opened" datepicker-options="dateOptions" current-text="Сьогодні" clear-text="Очистити"
+                                   close-text="Закрити" ng-required="true" close-text="Close" ng-click="open($event)" />
+                        </p>
+
+                        <hr>
+
+                        <!-- Animal date of sterilization -->
+                        <p class="input-group" ng-controller="DPController">
+                            <span class="input-group-addon">Дата стерелізації</span>
+                            <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd" ng-model="animal.dateOfSterilization"
+                                   is-open="opened" datepicker-options="dateOptions"  current-text="Сьогодні" clear-text="Очистити"
+                                   close-text="Закрити" ng-required="true" close-text="Close" ng-click="open($event)" />
+                        </p>
+
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
+
+                        <!-- Animal token number -->
+                        <div class="input-group">
+                            <span class="input-group-addon">Номер жетону</span>
+                            <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.tokenNumber">
+                        </div>
+
+                        <hr>
+
+                        <!-- Animal date of registration -->
+                        <p class="input-group" ng-controller="DPController">
+                            <span class="input-group-addon">Дата реєстрації</span>
+                            <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd" ng-model="animal.dateOfRegister"
+                                   is-open="opened" datepicker-options="dateOptions"  current-text="Сьогодні" clear-text="Очистити"
+                                   close-text="Закрити" ng-required="true" close-text="Close" ng-click="open($event)" />
+                        </p>
+
+                        <hr>
+
+                        <!-- Animal address -->
+                        <div class="input-group">
+                            <span class="input-group-addon">Адреса</span>
+                            <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="animal.address">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-7 col-sm-offset-5 col-md-5 col-md-offset-7 col-lg-4 col-lg-offset-8 detailed-buttons">
+                <div class="col-sm-4 col-md-4 col-lg-4"><a class="btn btn-warning col-xs-12 col-sm-12 col-md-12 col-lg-12" href ng-click="setAnimal()" role="button">Зберегти</a></div>
+                <div class="col-sm-4 col-md-4 col-lg-4" ng-controller="AdminAnimalsEditorSetImageController">
+                    <a class="btn btn-info col-xs-12 col-sm-12 col-md-12 col-lg-12" href role="button" ng-hide="uploader.isUploading" onclick="document.getElementById('upload').click();">Змінити фото</a>
+                    <progressbar class="progress-striped active col-xs-12 col-sm-12 col-md-12 col-lg-12" value="uploader.queue[0].progress" ng-show="uploader.isUploading"></progressbar>
+                    <input type="file" id="upload" nv-file-select uploader="uploader" style="visibility: hidden;" />
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4"><a class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12" href="#/ua/user/home/animals/{{ animal.id }}" role="button">Повернутись</a></div>
+            </div>
+        </div>
+    </div>
+</div>

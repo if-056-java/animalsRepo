@@ -1,15 +1,16 @@
-angular.module('AdminAnimalsModule', [])
-    .service('AdminAnimalsService', ['$http', '$q', function($http, $q) {
+angular.module('AdminAnimalsModule', ['AdminAnimalsValues'])
+    .service('AdminAnimalsService', ['$http', '$q', 'AdminAnimalsValues', function($http, $q, AdminAnimalsValues) {
 
         /**
-         * @param filter instance used for lookup.
+         * filter instance used for lookup.
          * @return list of animals.
          */
         this.getAnimals = function(filter) {
             var def = $q.defer();
 
-            $http.post("/webapi/admin/animals", filter)
+            $http.post("/webapi/admin/animals", AdminAnimalsValues.filter)
                 .success(function(data) {
+                    AdminAnimalsValues.animals.values = data;
                     def.resolve(data);
                 })
                 .error(function() {
@@ -20,14 +21,15 @@ angular.module('AdminAnimalsModule', [])
         }
 
         /**
-         * @param filter instance used for lookup.
+         * filter instance used for lookup.
          * @return count of rows for pagination.
          */
-        this.getPagesCount = function(filter) {
+        this.getPagesCount = function() {
             var def = $q.defer();
 
-            $http.post("/webapi/admin/animals/paginator", filter)
+            $http.post("/webapi/admin/animals/paginator", AdminAnimalsValues.filter)
                 .success(function(data) {
+                    AdminAnimalsValues.totalItems.count = data.rowsCount;
                     def.resolve(data);
                 })
                 .error(function() {
@@ -44,8 +46,18 @@ angular.module('AdminAnimalsModule', [])
         this.getAnimal = function(animalId) {
             var def = $q.defer();
 
+            if (AdminAnimalsValues.animal != undefined) {
+                if (AdminAnimalsValues.animal.id != undefined) {
+                    if (AdminAnimalsValues.animal.id == animalId) {
+                        def.resolve(AdminAnimalsValues.animal);
+                        return def.promise;
+                    }
+                }
+            }
+
             $http.get("/webapi/admin/animals/" + animalId)
                 .success(function(data) {
+                    angular.copy(data, AdminAnimalsValues.animal);
                     def.resolve(data);
                 })
                 .error(function() {
@@ -95,8 +107,14 @@ angular.module('AdminAnimalsModule', [])
         this.getAnimalTypes = function() {
             var def = $q.defer();
 
+            if (AdminAnimalsValues.animalTypes.values.length !== 0) {
+                def.resolve(AdminAnimalsValues.animalTypes.values);
+                return def.promise;
+            }
+
             $http.get("/webapi/animals/animal_types")
                 .success(function(data) {
+                    AdminAnimalsValues.animalTypes.values = data;
                     def.resolve(data);
                 })
                 .error(function() {
@@ -112,8 +130,14 @@ angular.module('AdminAnimalsModule', [])
         this.getAnimalServices = function() {
             var def = $q.defer();
 
+            if (AdminAnimalsValues.animalServices.values.length !== 0) {
+                def.resolve(AdminAnimalsValues.animalServices.values);
+                return def.promise;
+            }
+
             $http.get("/webapi/animals/animal_services")
                 .success(function(data) {
+                    AdminAnimalsValues.animalServices.values = data;
                     def.resolve(data);
                 })
                 .error(function() {

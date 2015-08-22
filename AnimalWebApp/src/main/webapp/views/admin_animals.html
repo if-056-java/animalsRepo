@@ -1,6 +1,10 @@
 <div class="row" id="top"></div>
 <div class="container">
-    <div class="row">
+    <!-- Spinner -->
+    <div class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top: 320px;" ng-show="contentLoading"
+         id="loading-block">
+    </div>
+    <div class="row" ng-show="!contentLoading">
 
         <!-- Filters -->
         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 detailed-bottom" id="animals-admin-left" ng-controller="AdminAnimalsFilterController">
@@ -17,7 +21,7 @@
             <div class="input-group">
                 <span class="input-group-addon">Сервіс</span>
                 <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.service" title="Не вибрано">
-                    <li nya-bs-option="animalService in animalServices">
+                    <li nya-bs-option="animalService in animalServices.values">
                         <a>{{ animalService.service }}</a>
                     </li>
                 </ol>
@@ -39,7 +43,7 @@
             <div class="input-group">
                 <span class="input-group-addon">Тип</span>
                 <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.type" ng-change="getAnimalBreeds()" title="Не вибрано">
-                    <li nya-bs-option="animalType in animalTypes">
+                    <li nya-bs-option="animalType in animalTypes.values">
                         <a>{{ animalType.type }}</a>
                     </li>
                 </ol>
@@ -91,7 +95,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="animal in animals">
+                <tr ng-repeat="animal in animals.values">
                     <td>{{ animal.type.type }}</td>
                     <td>{{ animal.breed.breedUa }}</td>
                     <td>{{ animal.sex }}</td>
@@ -111,13 +115,13 @@
             Немає записів.</h3>
 
     </div>
-    <div class="row">
+    <div class="row" ng-show="!contentLoading">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success text-center">
             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
 
             <!-- Pagination -->
             <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                <pagination boundary-links="true" total-items="totalItems" ng-model="filter.page" ng-change="pageChanged()" class="paginator" items-per-page="filter.limit"
+                <pagination boundary-links="true" total-items="totalItems.count" ng-model="filter.page" ng-change="pageChanged()" class="paginator" items-per-page="filter.limit"
                             previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
             </div>
 
