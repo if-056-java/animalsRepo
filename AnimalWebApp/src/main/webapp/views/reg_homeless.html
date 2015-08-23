@@ -285,25 +285,16 @@
 
                                     <!-- Index -->
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="form-group"
-                                         ng-class="{ 'has-error' : animalForm.userIndex.$invalid && !animalForm.userIndex.$pristine }">
+                                        <div class="form-group">
                                         <label for="animal-post-index" class="control-label">Поштовий індекс місця перебування
                                             тварини:</label>
                                         <input type="text" class="form-control"
                                                name="userIndex"
+                                               onkeypress='return event.charCode >= 48 && event.charCode <= 57'
                                                id="animal-post-index" placeholder="Поштовий індекс"
-                                               ng-model="address.index"
-                                               required  ng-minlength="5" ng-maxlength="7"/>
-
-                                        <p ng-show="animalForm.userIndex.$error.required && !animalForm.userIndex.$pristine"
-                                           class="help-block error">Поле не заповнено.</p>
-                                        <p ng-show="animalForm.userIndex.$error.minlength && !animalForm.userIndex.$pristine"
-                                           class="help-block error">Поле занадто коротке.</p>
-                                        <p ng-show="animalForm.userIndex.$error.maxlength && !animalForm.userIndex.$pristine"
-                                           class="help-block error">Поле занадто довге.</p>
+                                               ng-model="address.index"/>
                                         </div>
                                     </div>
-
                                     </div>
 
                                 </div>
