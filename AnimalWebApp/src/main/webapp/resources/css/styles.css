@@ -259,7 +259,7 @@ IMG.displayed {
     vertical-align: middle;
 }
 
-label.control-label:after {
+.required:after{
     content:"*";
     color:red;
 }
