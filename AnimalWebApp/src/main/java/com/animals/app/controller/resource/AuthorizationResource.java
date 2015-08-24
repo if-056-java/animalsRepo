@@ -160,9 +160,37 @@ public class AuthorizationResource {
 	    return Response.status(Response.Status.OK).entity(sessionSuccessReg).build();	 
 		
 	}
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("refresh")//http:localhost:8080/webapi/account/refresh
+	public Response refreshSession(@Context HttpServletRequest req) {
+		
+		//creating session				
+		HttpSession session = req.getSession(true);	
+		
+		//checking if session is stil going on by geting params from it. if not - returning json with empty user	
+		if(session.getAttribute("userId") == null){
+			
+			String destroyedSession = setUpDestroyedSession("Session Destroyed");  
+							
+			return Response.status(Response.Status.OK).entity(destroyedSession).build();
+			
+		}
+		
+		//if session has params - returning json with session same params. REFRESH
+		
+		String str = buildResponse(session);		
+    
+		System.out.println(str);
+
+		return Response.status(Response.Status.OK).entity(str).build();
+		
+	}
 		
 	
-	private static String setUpSuccessSession(User user, HttpSession session, String success){
+private String setUpSuccessSession(User user, HttpSession session, String success){
 		
 		session.setAttribute("userName",user.getName());
 		session.setAttribute("userId",user.getId().toString()); 
@@ -199,12 +227,30 @@ public class AuthorizationResource {
         			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
         			"\", \"userRoleId\" : \"" + (String)session.getAttribute("userRoleId") +
         			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
-        			"\", \"accessToken\" : \"" + accessTokenEncoded +
+        			"\", \"accessToken\" : \"" + (String)session.getAttribute("accessToken") +
         			"\"}";
 		return str;
 	};
 	
-	private String setUpDestroyedSession(String errorMesage){
+	private static String buildResponse(HttpSession session){
+		
+		String str = "{\"sessionId\" : \"" + (String)session.getId() + 
+    			"\", \"userId\" : \"" + (String)session.getAttribute("userId") +
+    			"\", \"userName\" : \"" + (String)session.getAttribute("userName") +
+    			"\", \"userSurname\" : \"" + (String)session.getAttribute("userSurname") +
+    			"\", \"socialLogin\" : \"" + (String)session.getAttribute("socialLogin") +
+    			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
+    			"\", \"userRoleId\" : \"" + (String)session.getAttribute("userRoleId") +
+    			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
+    			"\", \"accessToken\" : \"" + (String)session.getAttribute("accessToken") +
+    			"\"}";		
+		
+		return str;
+	}
+	
+	
+	
+	private static String setUpDestroyedSession(String errorMesage){
 		
 		String destroyedSession = "{\"userId\" : \"0\", \"errorMesage\" : \"" + errorMesage + "\"}";   	
 		

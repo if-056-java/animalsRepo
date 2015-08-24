@@ -3,6 +3,7 @@ package com.animals.app.controller.resource;
 import com.animals.app.domain.*;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 
@@ -24,6 +25,7 @@ import java.io.*;
 import java.util.List;
 
 @Path("animals")
+@PermitAll
 public class AnimalResource {
 
     //logger

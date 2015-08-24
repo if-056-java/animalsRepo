@@ -68,13 +68,14 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 	        		if (localStorageService.get("memoryMe")=="ON"){
 		        		localStorageService.cookie.set("accessToken",data.accessToken,30);	        		
 		        	} else {
-		        		localStorageService.cookie.set("accessToken",data.accessToken,1);
+		        		localStorageService.cookie.set("accessToken",data.accessToken,0.065);
 		        	}
 		        	
 		        	localStorageService.set("accessToken", data.accessToken);
 		        	localStorageService.set("userId", data.userId);
 		        	localStorageService.set("userName", data.socialLogin);
 		        	localStorageService.set("userRole", data.userRole);
+		        	localStorageService.set("userRoleId", data.userRoleId);
 		        	
 			        $location.path("/ua/user/profile");	
 			        $route.reload();
@@ -83,6 +84,31 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			.error(function(data){				
 				console.log("registration error");
 			});
+		},
+		
+		refreshSession:function(){
+									
+			$http.get("/webapi/account/refresh")
+	        .success(function(data){
+	        	
+	        	localStorageService.cookie.set("accessToken",data.accessToken,30);	        	
+	        	localStorageService.set("accessToken", data.accessToken);
+	        	localStorageService.set("userId", data.userId);
+	        	localStorageService.set("userName", data.socialLogin);
+	        	localStorageService.set("userRole", data.userRole);
+	        	localStorageService.set("userRoleId", data.userRoleId);	
+	        	
+	        	$location.path("/ua/user/profile");	
+		        $route.reload();
+	        	
+	        }) 
+			.error(function(data){
+				localStorageService.set("userId", null);
+				console.log("refresh session error");
+				$location.path("/ua");	
+		        $route.reload();
+			});			
+			       	
 		}
 		
 	};	

@@ -41,7 +41,8 @@ import com.animals.app.repository.Impl.UserRepositoryImpl;
 /**
  * Created by 41X on 8/16/2015.
  */
-
+@Path("account")
+@PermitAll
 public class OAuthAuthorizationResource {
 	
 	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	
@@ -331,30 +332,10 @@ public class OAuthAuthorizationResource {
         			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
         			"\", \"userRoleId\" : \"" + (String)session.getAttribute("userRoleId") +
         			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
-        			"\", \"accessToken\" : \"" + accessTokenEncoded +
+        			"\", \"accessToken\" : \"" + (String)session.getAttribute("accessToken") +
         			"\"}";
 		return str;
-	};
+	};		
 	
-	private String buildResponse(HttpSession session){
-		
-		String str = "{\"sessionId\" : \"" + (String)session.getId() + 
-    			"\", \"userId\" : \"" + (String)session.getAttribute("userId") +
-    			"\", \"userName\" : \"" + (String)session.getAttribute("userName") +
-    			"\", \"userSurname\" : \"" + (String)session.getAttribute("userSurname") +
-    			"\", \"socialLogin\" : \"" + (String)session.getAttribute("socialLogin") +
-    			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
-    			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
-    			"\"}";		
-		
-		return str;
-	}
-	
-	private String setUpDestroyedSession(String errorMesage){
-		
-		String destroyedSession = "{\"userId\" : \"0\", \"errorMesage\" : \"" + errorMesage + "\"}";   	
-		
-		return destroyedSession;
-	}
 
 }

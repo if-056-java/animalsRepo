@@ -108,6 +108,8 @@ animalApp.config(function(localStorageServiceProvider){
 
 animalApp.controller('MainController', function($scope, $rootScope, localStorageService, userAccount) {
 	
+	//userAccount.refreshSession();  //need for getting OAuth session attributes
+	
 	if (!localStorageService.cookie.get("accessToken")) {
 		localStorageService.clearAll();
 	}

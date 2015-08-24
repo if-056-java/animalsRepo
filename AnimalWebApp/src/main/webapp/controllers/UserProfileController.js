@@ -1,7 +1,7 @@
 //created by 41X
 var animalAppControllers = angular.module('UserProfileController', []);
 
-animalApp.controller('UserProfileController', function($scope, userData, hashPassword, localStorageService) {
+animalApp.controller('UserProfileController', function($scope, userData, userAccount, hashPassword, localStorageService) {
 		
 		
 	$scope.IsHidden = true;
@@ -10,19 +10,27 @@ animalApp.controller('UserProfileController', function($scope, userData, hashPas
 	
 	$scope.userInfo = null;
 	$scope.fields = null;
+	
+	if(!localStorageService.get("userId")){
+		userAccount.refreshSession();  		
+	} else {
 		
-	var id = localStorageService.get("userId");
+		var id = localStorageService.get("userId");
+		
+		console.log("id from localstorage - "+id);
+		
+		userData.getUser(id).success(function(data){				//webapi/users/user/{id}
+			$scope.userInfo=data;
+			$scope.fields = $scope.userInfo;
+		}) 	
+		
+		userData.getUserAnimals(id).success(function(data){			//webapi/users/user/{id}/animals
+			$scope.userAnimalInfo=data;
+		});
+		
+	}
+		
 	
-	console.log("id from localstorage - "+id);
-	
-	userData.getUser(id).success(function(data){				//webapi/users/user/{id}
-		$scope.userInfo=data;
-		$scope.fields = $scope.userInfo;
-	}) 	
-	
-	userData.getUserAnimals(id).success(function(data){			//webapi/users/user/{id}/animals
-		$scope.userAnimalInfo=data;
-	});
 	
 	
     $scope.submitUpdateForm=function(){    	
