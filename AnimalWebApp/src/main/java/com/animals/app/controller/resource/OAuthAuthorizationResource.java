@@ -164,7 +164,7 @@ public class OAuthAuthorizationResource {
 		
 		//getting userId from current session
 		
-		HttpSession session = req.getSession(false);
+		HttpSession session = req.getSession(true);
 		
 		
 		//CASE 1: Editing user profile from MyCabinet. Check if session has parameters
@@ -286,7 +286,8 @@ public class OAuthAuthorizationResource {
 		}
 		
 		//creating session		
-		String ses = setUpSuccessSession(user, sessionNew, "successful Registration with GoogleId");
+		String ses = setUpSuccessSession(userToReg, sessionNew, "successful Registration with GoogleId");
+		System.out.println(ses);
 		
 		//Entering to site with Session		
 		return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
