@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -42,6 +43,7 @@ import com.animals.app.repository.Impl.UserRepositoryImpl;
  */
 
 @Path("account")
+@PermitAll 
 public class AuthorizationResource {
 	
 	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	
@@ -59,15 +61,15 @@ public class AuthorizationResource {
 	private static final String callbackUrlG = "http://localhost:8080/webapi/account/login/google_token";
 	
 	// url to redirect after OAuth end
-	//private String url = "http://localhost:8080/#/ua/user/profile";  //temporary Bug with session
-	private String url = "http://localhost:8080/#/ua";
+	private String url = "http://localhost:8080/#/ua/user/profile";  //No Bug, No Cry
 	
 	
 	
 	@POST
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	@Path("login")//http:localhost:8080/webapi/account/login
-	public Response createSession (@Context HttpServletRequest req) {
+	@Path("login/{rememberMe}")//http:localhost:8080/webapi/account/login
+	public Response createSession (@Context HttpServletRequest req, 
+									@PathParam ("rememberMe") String rememberMe) {
 				
 		//reading header from request
 		String header = req.getHeader("Authorization");
@@ -88,29 +90,31 @@ public class AuthorizationResource {
 
         String username = tokenizer.nextToken();
         String password = tokenizer.nextToken();      
-       
-        
-        System.out.println("password - " + password);
-        System.out.println("socialLogin - " + username);    
-                     
+               
                         
         //checking if user exist. If not - return username or password is not correct        
         User user;
 		try {
-			user = userRep.checkIfUserExistInDB(username, password);
-			System.out.println(user.getName());
-			System.out.println(user.getSocialLogin());			
+			user = userRep.checkIfUserExistInDB(username, password);					
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
                         
         if (user == null) return NOT_FOUND;
-        
-             	
+                     	
         // User exist. setting session params(username, userrole, userId etc.) from User		
 		
         //creating session
         HttpSession session = req.getSession(true);
+        
+        System.out.println(rememberMe);
+        if(rememberMe.equals("ON")){
+        	System.out.println("remember me ON");
+        	session.setMaxInactiveInterval(60*60*24*30);			//session duration - 30 days    	   	
+        } else {
+        	System.out.println("remember me OFF");
+        	session.setMaxInactiveInterval(60*30*3);					//session duration - 90 min
+        }
         
         //setSuccessAtribute(session);        
         String sessionSuccess = setUpSuccessSession(user, session, "Successful login"); 
@@ -121,31 +125,6 @@ public class AuthorizationResource {
 		
 	}
 	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("refresh")//http:localhost:8080/webapi/account/refresh
-	public Response refreshSession(@Context HttpServletRequest req) {
-		
-		//creating session				
-		HttpSession session = req.getSession(true);	
-		
-		//checking if session is stil going on by geting params from it. if not - returning json with empty user	
-		if(session.getAttribute("userId") == null){
-			
-			String destroyedSession = setUpDestroyedSession("Session Destroyed");  
-							
-			return Response.status(Response.Status.OK).entity(destroyedSession).build();
-		}
-		
-		//if session has params - returning json with session same params. REFRESH
-		
-		String str = buildResponse(session);		
-    
-		System.out.println(str);
-
-		return Response.status(Response.Status.OK).entity(str).build();
-		
-	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -153,7 +132,7 @@ public class AuthorizationResource {
 	public Response destroySession(@Context HttpServletRequest req) {
 				
 		HttpSession session = req.getSession(true);	
-		
+	
 		//destroying session		
 		session.invalidate();	
 		
@@ -312,11 +291,12 @@ public class AuthorizationResource {
 		
 		//getting userId from current session
 		
-		HttpSession session = req.getSession(true);
+		HttpSession session = req.getSession(false);
 		
 		
 		//CASE 1: Editing user profile from MyCabinet. Check if session has parameters
-		if(session.getAttribute("userId") != null){
+		if(session.getAttribute("userId") != null){			
+			
 			
 			//Check if user exist by googleId. If exist - we can't join accounts - will be error.
 			//ERROR - when login - two accounts with the same GoogleID
@@ -365,6 +345,8 @@ public class AuthorizationResource {
 		//CASE 2: Login to site. Session is not set. Find User by googleId
 		//CASE 3: Registration. Session is not set. Create User with GoogleId and SocialPhoto
 		
+		HttpSession sessionNew = req.getSession(true);
+		
 		//Check if user exist by googleId
 		User user=null;
 		
@@ -380,9 +362,10 @@ public class AuthorizationResource {
 			//Case 2
 			
 			//creating Session for founded user. Setting params
-			System.out.println("creating session");
+			System.out.println("creating session");	
 			
-			String ses = setUpSuccessSession(user, session, "success login with GoogleId");
+			
+			String ses = setUpSuccessSession(user, sessionNew, "success login with GoogleId");
 	        			
 			//Entering to site with Session			
 			return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
@@ -430,12 +413,14 @@ public class AuthorizationResource {
 		}
 		
 		//creating session		
-		String ses = setUpSuccessSession(user, session, "successful Registration with GoogleId");
+		String ses = setUpSuccessSession(user, sessionNew, "successful Registration with GoogleId");
 		
 		//Entering to site with Session		
 		return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
 		
 	}
+	
+	
 	
 	private String setUpSuccessSession(User user, HttpSession session, String success){
 		
@@ -443,8 +428,27 @@ public class AuthorizationResource {
 		session.setAttribute("userId",user.getId().toString()); 
 		session.setAttribute("userSurname",user.getSurname());
 		session.setAttribute("socialLogin",user.getSocialLogin());
-		session.setAttribute("userRole",user.getUserRole().get(0).getId().toString());
+		session.setAttribute("userRoleId",user.getUserRole().get(0).getId().toString());
+		session.setAttribute("userRole",user.getUserRole().get(0).getRole());
 		session.setAttribute("successMesage", success);
+		
+		//creating string for accessToken
+		String accessToken = (String)session.getId() + ":" + (String)session.getAttribute("userId");
+		
+		System.out.println("decoded accesToken - " + accessToken);
+
+		String accessTokenEncoded=null;
+		
+		try {
+			byte[] encoded = Base64.encodeBase64(accessToken.getBytes());
+			accessTokenEncoded = new String(encoded, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		System.out.println("encoded accessToken -" + accessTokenEncoded);
+		session.setAttribute("accessToken", accessTokenEncoded);
+
 		
 		//creating JSON string with session params
         String str = "{\"sessionId\" : \"" + (String)session.getId() + 
@@ -453,7 +457,9 @@ public class AuthorizationResource {
         			"\", \"userSurname\" : \"" + (String)session.getAttribute("userSurname") +
         			"\", \"socialLogin\" : \"" + (String)session.getAttribute("socialLogin") +
         			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
+        			"\", \"userRoleId\" : \"" + (String)session.getAttribute("userRoleId") +
         			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
+        			"\", \"accessToken\" : \"" + accessTokenEncoded +
         			"\"}";
 		return str;
 	};

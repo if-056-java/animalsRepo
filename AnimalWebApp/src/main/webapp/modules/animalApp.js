@@ -1,10 +1,8 @@
 var animalApp = angular.module('animalApp', [
     'ngRoute',
     'ngResource',
-
     'AdoptionModule',
     'AnimalRegistrationModule',
-
     'FindController',
     'LostController',
     'LoginController',
@@ -16,7 +14,8 @@ var animalApp = angular.module('animalApp', [
     'AdminAnimalsDetailed',
     'RegistrationController',
     'UserProfileController',
-    'AnimalShortInfoController'
+    'AnimalShortInfoController',
+    'LocalStorageModule'
 ]);
 
 animalApp .config(['$routeProvider',
@@ -98,22 +97,36 @@ animalApp.constant('RESOURCES', {
         ANIMAL_REGISTRATION_IMAGE: 'webapi/animals/animal/image'
 });
 
+animalApp.config(function(localStorageServiceProvider){
+	  localStorageServiceProvider
+	  .setPrefix('AnimalWebApp')
+	  //.setStorageCookie(45, '/')
+	  // localStorageServiceProvider.setStorageCookieDomain('example.com');
+	  // localStorageServiceProvider.setStorageType('sessionStorage');
+	});
 
-animalApp.controller('MainController', function($scope, $rootScope, userAccount) {
-	userAccount.refreshSession();
-	$scope.logout = function() {
-        console.log("logout");
+
+animalApp.controller('MainController', function($scope, $rootScope, localStorageService, userAccount) {
+	
+	if (!localStorageService.cookie.get("accessToken")) {
+		localStorageService.clearAll();
+	}
+	
+	
+	$scope.logout = function() {       
         userAccount.logout();
     };
     
     $scope.session = function(value) {
         
-        if ($rootScope.userId == 0)
-          return true;
-        else 
-          return false;
+        if (!localStorageService.get("userName")){
+        	return false;
+        } else {
+        	$rootScope.userName=localStorageService.get("userName");
+        	return true;
+        } 
         
-      };
+    };
       
 });
 

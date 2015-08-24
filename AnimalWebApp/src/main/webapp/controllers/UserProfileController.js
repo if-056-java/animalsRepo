@@ -1,10 +1,9 @@
 //created by 41X
 var animalAppControllers = angular.module('UserProfileController', []);
 
-animalApp.controller('UserProfileController', function($scope, userData, hashPassword, $rootScope) {
+animalApp.controller('UserProfileController', function($scope, userData, hashPassword, localStorageService) {
 		
-	console.log("before" + $rootScope.userId);
-	
+		
 	$scope.IsHidden = true;
 	$scope.showPopup = function () {$scope.IsHidden =  false;}    
 	$scope.closePopup = function () {$scope.IsHidden =  true;}
@@ -12,7 +11,9 @@ animalApp.controller('UserProfileController', function($scope, userData, hashPas
 	$scope.userInfo = null;
 	$scope.fields = null;
 		
-	var id = $rootScope.userId;
+	var id = localStorageService.get("userId");
+	
+	console.log("id from localstorage - "+id);
 	
 	userData.getUser(id).success(function(data){				//webapi/users/user/{id}
 		$scope.userInfo=data;
@@ -37,21 +38,6 @@ animalApp.controller('UserProfileController', function($scope, userData, hashPas
     	
 		userData.updateUser($scope.fields, $scope.fields.id);       
 	
-	};
-	
-	$scope.setId=function(){
-		
-		var id = $scope.set.id;
-		console.log("inside"+id);
-		
-		userData.getUser(id).success(function(data){				//webapi/users/user/{id}/
-			$scope.userInfo=data;		
-		})
-		
-		userData.getUserAnimals(id).success(function(data){			//webapi/users/user/{id}/animals
-			$scope.userAnimalInfo=data;
-		});	    
-	    
-	};         
+	};	    
 	
 });

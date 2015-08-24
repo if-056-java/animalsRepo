@@ -73,7 +73,7 @@
 			 
 		    <li><a href="#ua/contacts">Контакти</a></li>
 	
-			<li><a ng-show="!session()" href="#ua/user/profile">Мій Кабінет</a></li>
+			<li><a ng-show="session()" href="#ua/user/profile">Мій Кабінет</a></li>
 
             <!-- ng-show="!session()" -->
             <li class="dropdown" >
@@ -88,7 +88,7 @@
             </li>
 
 		  <li class="dropdown">
-				<a ng-show="!session()" href="" class="dropdown-toggle" data-toggle="dropdown">Модерація <b class="caret"></b></a>
+				<a ng-show="session()" href="" class="dropdown-toggle" data-toggle="dropdown">Модерація <b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<li><a href="#ua/user/home/animals">Реєстр тварин</a></li>
 					<li role="presentation" class="divider"></li>
@@ -99,9 +99,9 @@
 		<!-- Форма входу -->
 				
 				<form class="navbar-form navbar-right" role="form">
-				    <a ng-show="session()" href="#ua/user/login" class="btn btn-success" role="button">Вхід  <span class="glyphicon glyphicon-log-in"></span></a>
-				    <label ng-show="!session()">Вітаємо: {{userName}}</label>
-				    <a ng-show="!session()" ng-click="logout()" class="btn btn-success" role="button">Вихід  <span class="glyphicon glyphicon-log-out"></span></a>
+				    <a ng-show="!session()" href="#ua/user/login" class="btn btn-success" role="button">Вхід  <span class="glyphicon glyphicon-log-in"></span></a>
+				    <label ng-show="session()">Вітаємо: {{userName}}</label>
+				    <a ng-show="session()" ng-click="logout()" class="btn btn-success" role="button">Вихід  <span class="glyphicon glyphicon-log-out"></span></a>
 				</form>				
 		</div><!-- /.nav-collapse -->
 	</div>	
@@ -139,6 +139,7 @@
 
 <!-- Angular Script -->
 <script src="resources/js/angular.js"></script>
+<script src="resources/js/angular-local-storage.min.js"></script>
 <script src="resources/js/angular-route.js"></script>
 <script src="resources/js/angular-resource.min.js"></script>
 <script src="resources/js/angular-file-upload.min.js"></script>
