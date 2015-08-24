@@ -26,7 +26,7 @@ public interface AnimalRepository {
 
     final String DELETE = "DELETE FROM animals WHERE id = #{id}";
 
-    final String ADMIN_ANIMALS = "<script>SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
+    final String ADMIN_ANIMALS = "<script>SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, dateOfFacebook, dateOfTwitter, color " +
             "FROM animals " +
             "WHERE id>0 " +
             "<if test = \"animal != null\">" +
@@ -153,7 +153,9 @@ public interface AnimalRepository {
             @Result(property="tokenNumber", column="tokenNumber"),
             @Result(property="dateOfRegister", column="dateOfRegister"),
             @Result(property="dateOfBirth", column="dateOfBirth"),
-            @Result(property="dateOfSterilization", column="dateOfSterilization"),
+            @Result(property="dateOfBirth", column="dateOfBirth"),
+            @Result(property="dateOFacebook", column="dateOfFacebook"),
+            @Result(property="dateOfTwitter", column="dateOfTwitter"),
             @Result(property="color", column="color"),
             @Result(property="user", column="userId", javaType = User.class,
                     one = @One(select = "com.animals.app.repository.UserRepository.getByIdForAdminAnimalList")),
@@ -179,6 +181,8 @@ public interface AnimalRepository {
                     one = @One(select = "com.animals.app.repository.AnimalBreedRepository.getById")),
             @Result(property="transpNumber", column="transpNumber"),
             @Result(property="dateOfBirth", column="dateOfBirth"),
+            @Result(property="dateOfFacebook", column="dateOfFacebook"),
+            @Result(property="dateOfTwitter", column="dateOfTwitter"),
             @Result(property="color", column="color")
     })
     List<Animal> getAdminAnimals(AnimalsFilter animalsFilter);

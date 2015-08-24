@@ -37,11 +37,11 @@ public class TwitterResource {
     private final Response OK = Response.status(Response.Status.OK).build();
 
     @POST
-    @Path("twitter")//http:localhost:8080/webapi/contacts/twitter
+    @Path("twitter")//http:localhost:8080/webapi/animals/twitt
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response sendTwitt (Twitt twitt) {
-        String consumerKey, consumerSecret, accessToken, accessTokenSecret ;
+        String consumerKey, consumerSecret, accessToken, accessTokenSecret, messageBody ;
         
         if (twitt.getMessage().isEmpty()) return BAD_REQUEST;
 
@@ -49,8 +49,10 @@ public class TwitterResource {
         consumerSecret = twitterConfig.getProperty("twitter.consumerSecret");
         accessToken = twitterConfig.getProperty("twitter.accessToken");
         accessTokenSecret = twitterConfig.getProperty("twitter.accessTokenSecret");
+        messageBody = twitterConfig.getProperty("twitter.messageBody");
 
         try {
+            twitt.setMessage(twitt.getMessage()+messageBody);
             twitt.sendTwitt(consumerKey, consumerSecret, accessToken, accessTokenSecret);
         } catch (TwitterException e) {
             return BAD_REQUEST;
