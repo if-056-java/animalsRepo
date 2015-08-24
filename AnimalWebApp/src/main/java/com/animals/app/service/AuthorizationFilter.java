@@ -33,19 +33,16 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws WebApplicationException {
-		
-		System.out.println("filter Start");
-		
+						
 		HttpSession session = req.getSession(true);		
 		
 
 		//AUTHENTICATION Read request header and define USER from accessToken
 		//get session ID from accessToken		
-		if(requestContext.getHeaderString(ACCESS_TOKEN_HEADER) != null){
+		if(requestContext.getHeaderString(ACCESS_TOKEN_HEADER) != null && 
+				(requestContext.getUriInfo().getPath().contains("admin/") || 
+				requestContext.getUriInfo().getPath().contains("users/"))){	
 			
-			System.out.println(requestContext.getUriInfo().getPath()); 
-			
-			System.out.println("filter ping");			
 			
 			String accessTokenEncoded = requestContext.getHeaderString(ACCESS_TOKEN_HEADER);
 			

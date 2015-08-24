@@ -34,10 +34,9 @@ public class UserSecurityContext implements SecurityContext {
 	}
 
 	@Override
-	public boolean isUserInRole(String role) {	
-		System.out.println("roles equal role");
+	public boolean isUserInRole(String role) {			
 		String roleUser = user.getUserRole().get(0).getRole();
-		System.out.println(roleUser);
+		System.out.println(roleUser);		
 		return (role.equals(roleUser));		
 	}
 
