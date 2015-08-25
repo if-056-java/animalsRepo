@@ -1,17 +1,18 @@
-angular.module('AnimalMedicalHistoryController', ['DoctorAnimalsModule', 'DoctorAnimalsValues'])
-    .controller('AnimalMedicalHistoryController', ['$scope', '$routeParams', 'DoctorAnimalsService', 'DoctorAnimalsValues',
-        function($scope, $routeParams, DoctorAnimalsService, DoctorAnimalsValues) {
+angular.module('AnimalMedicalHistoryController', ['DoctorAnimalsModule', 'DoctorAnimalsValues', 'AnimalMedicalHistoryValues'])
+    .controller('AnimalMedicalHistoryController', ['$scope', '$routeParams', 'DoctorAnimalsService', 'DoctorAnimalsValues', 'AnimalMedicalHistoryValues',
+        function($scope, $routeParams, DoctorAnimalsService, DoctorAnimalsValues, AnimalMedicalHistoryValues) {
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
             //This variable decides when spinner loading for contentis closed.
-            $scope.contentLoading = 1;
+            $scope.contentLoading = 3;
 
             var animalId = $routeParams.animalId;       //animal id
             $scope.animal = DoctorAnimalsValues.animal;  //animal
             $scope.animalImage = undefined;
-            $scope.filter = DoctorAnimalsValues.medicalHistory.filter;            //filter
-            $scope.totalItems = DoctorAnimalsValues.medicalHistory.totalItems;    //table rows count
+            $scope.filter = AnimalMedicalHistoryValues.filter;            //filter
+            $scope.totalItems = AnimalMedicalHistoryValues.totalItems;    //table rows count
+            $scope.items = AnimalMedicalHistoryValues.items;
 
             /**
              * @param animalId id of animal used for lookup.

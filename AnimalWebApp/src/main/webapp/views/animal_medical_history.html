@@ -7,7 +7,7 @@
 
     <div class="row" ng-show="!contentLoading">
         <!-- Animal photo -->
-        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 panel-body">
+        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 detailed-bottom" id="animals-admin-left">
             <img class="img-responsive img-thumbnail center-block" src="{{ animalImage }}">
         </div>
 
@@ -23,11 +23,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="animal in animals.values">
-                    <td>{{ animal.type.type }}</td>
-                    <td>{{ animal.breed.breedUa }}</td>
-                    <td>{{ animal.sex }}</td>
-                    <td><a class="btn btn-md btn-warning" href="#/ua/user/home/animals/{{ animal.id }}"><i class="fa fa-spinner fa-pulse"></i></i></a></td>
+                <tr ng-repeat="item in items.values">
+                    <td>{{ item.status.status }}</td>
+                    <td>{{ item.user.name + " " + item.user.surname }}</td>
+                    <td>{{ item.date }}</td>
+                    <td>
+                        <a class="btn btn-md btn-warning" href="#/ua/user/doctor/animals/medical_history/{{ animal.id }}/detailed/{{ item.id }}">
+                            <i class="fa fa-spinner fa-pulse"></i>
+                        </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -67,4 +71,10 @@
         </div>
     </div>
 
+    <div class="row" ng-show="!contentLoading">
+        <div class="col-xs-12 col-sm-5 col-sm-offset-7 col-md-4 col-md-offset-8 col-lg-3 col-lg-offset-9 detailed-buttons">
+            <div class="col-sm-6 col-md-6 col-lg-6"><a class="btn btn-warning col-xs-12 col-sm-12 col-md-12 col-lg-12" href="#/ua/user/doctor/animals/medical_history/detailed/{{ animal.id }}" role="button">Додати</a></div>
+            <div class="col-sm-6 col-md-6 col-lg-6"><a class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12" href="#/ua/user/doctor/animals/{{ animal.id }}" role="button">Повернутись</a></div>
+        </div>
+    </div>
 </div>
