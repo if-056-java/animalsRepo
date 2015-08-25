@@ -15,8 +15,6 @@ animalRegistrationModule
                 return new Date(Date.UTC(yyyy, mm, dd));
             };
 
-            var imageFile = null;
-
             $scope.animal = {
                 dateOfRegister: currentDate(),
                 service: {

@@ -82,6 +82,10 @@ animalApp .config(['$routeProvider',
         templateUrl: 'views/reg_homeless.html',
         controller: 'AnimalRegistrationController'
       }).
+      when('/ua/animal/registration_owned', {
+        templateUrl: 'views/reg_owned.html',
+        controller: 'AnimalOwnedRegController'
+      }).
       otherwise({
         redirectTo: '/ua'
       });
