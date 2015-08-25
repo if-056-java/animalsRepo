@@ -33,7 +33,7 @@ p {
 }
 
 .socialButtons {
-	border: 1px solid grey;	
+	border: 1px solid green;
 	border-radius: 5px;
 	margin-top: 10px;
 	margin-right: auto;
@@ -44,7 +44,7 @@ p {
 
 
 #loginblock {
-	border: 2px solid grey;
+	border: 1px solid green;
 	border-radius: 5px;
 	margin-top: 30px;
 	margin-right: auto;
@@ -53,9 +53,9 @@ p {
 }
 
 #profileblock {
-	border-right: 2px solid #ccc;
-	border-left: 2px solid #ccc;
-	border-bottom: 2px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
 	border-radius: 5px;
 	margin-top: 0px;
 	margin-right: auto;
@@ -70,8 +70,8 @@ p {
 }
 
 #regblock {
-	border-right: 2px solid grey;
-	border-left: 2px solid grey;
+	border-right: 1px solid green;
+	border-left: 1px solid green;
 	/*border-radius: 5px;	*/
 	margin-top:-10px;
 	margin-right: auto;
