@@ -92,6 +92,7 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues'])
 
             $http.post("/webapi/admin/animals/editor", animal)
                 .success(function(data) {
+                    AdminAnimalsValues.animal.image = data.filePath;
                     def.resolve(data);
                 })
                 .error(function() {

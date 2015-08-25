@@ -1,4 +1,4 @@
-angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues', 'angularFileUpload', 'nya.bootstrap.select', 'DPController'])
+angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues', 'nya.bootstrap.select', 'DPController'])
     .controller('AdminAnimalsEditorController', ['$scope', '$window', '$filter', '$routeParams', 'AdminAnimalsService', 'AdminAnimalsValues',
         function($scope, $window, $filter, $routeParams, AdminAnimalsService, AdminAnimalsValues) {
 
@@ -6,10 +6,9 @@ angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues'
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
             //This variable decides when spinner loading for contentis closed.
-            $scope.contentLoading = 3;
+            $scope.contentLoading = 4;
 
             var animalId = $routeParams.animalId;                       //animal id
-            $scope.animalImage = undefined;
 
             /**
              * @return list of animal types.
@@ -37,13 +36,21 @@ angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues'
                 });
 
             $scope.$watch('contentLoading', function(newValue) {
-                if (newValue != 0) {
+                if (newValue != 1) {
                     return;
                 }
 
                 $scope.animalTypes = AdminAnimalsValues.animalTypes;        //list of animal types
                 $scope.animalServices = AdminAnimalsValues.animalServices;  //list of animal services
                 $scope.animal = AdminAnimalsValues.animal;                  //animal
+                $scope.animalImage = "resources/img/noimg.png";
+                if (AdminAnimalsValues.animal.image != undefined) {
+                    if (AdminAnimalsValues.animal.image.length > 0) {
+                        $scope.animalImage = AdminAnimalsValues.animal.image;
+                    }
+                }
+
+                $scope.contentLoading--;
             });
 
             /**
@@ -73,6 +80,10 @@ angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues'
                     }
                 }
 
+                if ($scope.imageFile != undefined) {
+                    $scope.animal.image = $scope.imageFile['filename'] + '\n' + $scope.imageFile['base64'];
+                }
+                console.log($scope.animal.image);
                 AdminAnimalsService.updateAnimal($scope.animal)
                     .then(function(data) {
                         $window.location.href = "#/ua/user/home/animals/" + $scope.animal.id;
@@ -82,44 +93,4 @@ angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues'
                     });
             }
         }
-    ])
-    .controller('AdminAnimalsEditorSetImageController', ['$scope', 'FileUploader', function($scope, FileUploader) {
-        var uploader = $scope.uploader = new FileUploader();
-
-        uploader.autoUpload = true;         //Automatically upload files after adding them to the queue
-        uploader.removeAfterUpload = true;  //Remove files from the queue after uploading
-
-        /**
-         * add filters.
-         */
-        uploader.filters.push({
-            name: 'imageFilter',
-            fn: function(item /*{File|FileLikeObject}*/, options) {
-                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-            }
-        });
-
-        /**
-         * Fires before uploading an item.
-         * @param item to be uploaded to the server
-         */
-        uploader.onBeforeUploadItem = function(item) {
-            item.url = "/webapi/admin/animals/editor/upload/" + $scope.animal.id;
-            item.formData = {animalId: $scope.animal.id};
-        }
-
-        /**
-         * On file upload complete.
-         * @param fileItem uploaded to the server
-         * @param response of server
-         * @param status response status
-         * @param headers response headers
-         */
-        uploader.onCompleteItem = function(fileItem, response, status, headers) {
-            if (status == 200) {
-                $scope.animal.image = response.filePath;
-                $scope.animalImage = response.filePath + "?timestamp=" + new Date().getTime();
-            }
-        };
-    }]);
+    ]);
