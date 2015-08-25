@@ -1,17 +1,15 @@
 package com.animals.app.domain;
 
 import java.io.Serializable;
+import java.security.Principal;
 import java.sql.Date;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by oleg on 22.07.2015.
  */
 
-public class User implements Serializable{
+public class User implements Serializable, Principal {
 
     private Integer id;
     private String name;

@@ -57,6 +57,8 @@ public class Animal implements Serializable{
     private Date dateOfRegister;
     private Date dateOfBirth;
     private Date dateOfSterilization;
+    private Date dateOfFacebook;
+    private Date dateOfTwitter;
     private String color;
     private String description;
     private User user;
@@ -209,6 +211,22 @@ public class Animal implements Serializable{
         this.service = service;
     }
 
+    public Date getDateOfFacebook() {
+        return dateOfFacebook;
+    }
+
+    public void setDateOfFacebook(Date dateOfFacebook) {
+        this.dateOfFacebook = dateOfFacebook;
+    }
+
+    public Date getDateOfTwitter() {
+        return dateOfTwitter;
+    }
+
+    public void setDateOfTwitter(Date dateOfTwitter) {
+        this.dateOfTwitter = dateOfTwitter;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -224,6 +242,10 @@ public class Animal implements Serializable{
         if (!dateOfBirth.equals(animal.dateOfBirth)) return false;
         if (!dateOfRegister.equals(animal.dateOfRegister)) return false;
         if (dateOfSterilization != null ? !dateOfSterilization.equals(animal.dateOfSterilization) : animal.dateOfSterilization != null)
+            return false;
+        if (dateOfFacebook != null ? !dateOfFacebook.equals(animal.dateOfFacebook) : animal.dateOfFacebook != null)
+            return false;
+        if (dateOfTwitter != null ? !dateOfTwitter.equals(animal.dateOfTwitter) : animal.dateOfTwitter != null)
             return false;
         if (description != null ? !description.equals(animal.description) : animal.description != null) return false;
         if (!id.equals(animal.id)) return false;
@@ -253,6 +275,8 @@ public class Animal implements Serializable{
         result = 31 * result + dateOfRegister.hashCode();
         result = 31 * result + dateOfBirth.hashCode();
         result = 31 * result + (dateOfSterilization != null ? dateOfSterilization.hashCode() : 0);
+        result = 31 * result + (dateOfFacebook != null ? dateOfFacebook.hashCode() : 0);
+        result = 31 * result + (dateOfTwitter != null ? dateOfTwitter.hashCode() : 0);
         result = 31 * result + (color != null ? color.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
@@ -277,6 +301,8 @@ public class Animal implements Serializable{
                 ", dateOfRegister=" + dateOfRegister +
                 ", dateOfBirth=" + dateOfBirth +
                 ", dateOfSterilization=" + dateOfSterilization +
+                ", dateOfFacebook=" + dateOfFacebook +
+                ", dateOfTwitter=" + dateOfTwitter +
                 ", color='" + color + '\'' +
                 ", description='" + description + '\'' +
                 ", user=" + user +

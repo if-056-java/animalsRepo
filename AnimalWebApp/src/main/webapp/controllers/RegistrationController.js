@@ -7,14 +7,13 @@ animalApp.controller('RegistrationController', function($scope, currentDate, use
 			
 			        		
 			$scope.fields.active = true; 
-			$scope.fields.userRole = {"id": 3};
-			$scope.fields.userType = {"id": 1};			
+			$scope.fields.userRole = {"id": 3}; //userRole=гість
+			$scope.fields.userType = {"id": 1};	//userType=власник		
 			
 			$scope.fields.registrationDate = currentDate;
 			
-			$scope.fields.password=hashPassword($scope.fields.password); 
-				        
-	        //userData.createUser($scope.fields); 
+			$scope.fields.password=hashPassword($scope.fields.password); 				        
+	       
 	        userAccount.registerUser($scope.fields);
 	        
 		};               
