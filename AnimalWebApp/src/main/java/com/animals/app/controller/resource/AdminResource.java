@@ -167,8 +167,6 @@ public class AdminResource {
             String fileStr = animal.getImage();
             String fileName = fileStr.substring(0, fileStr.indexOf('\n'));
             fileStr = fileStr.substring(fileStr.indexOf('\n') + 1);
-            System.out.println("fn " + fileName);
-            System.out.println("ff " + fileStr);
             fileName = new SimpleDateFormat("yyyyMMddHHmmssS").format(new Date()) + fileName.substring(fileName.lastIndexOf('.'));
             String restPath = httpServlet.getServletContext().getRealPath("/");         //path to rest root folder
             String httpPath = imageFolder + fileName;                                   //relative path to uploaded file
@@ -227,73 +225,6 @@ public class AdminResource {
         String json = "{\"filePath\":\"" + animal.getImage() + "\"}";
 
         return ok(json);
-    }
-
-    /**
-     * Update animal image
-     * @param animalId id of animal
-     * @param uploadedInputStream new image file
-     * @param fileDetail file info
-     * @return return relative path of new image
-     */
-    @POST //http:localhost:8080/webapi/animals/editor/upload/animalId
-    @Path("animals/editor/upload/{animalId}")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response uploadImage(@PathParam("animalId") long animalId,
-                                @FormDataParam("file") InputStream uploadedInputStream,
-                                @FormDataParam("file") FormDataContentDisposition fileDetail) {
-        if (animalId == 0) {
-            return BAD_REQUEST;
-        }
-
-        //get animal by id from database
-        AnimalRepository animalRepository = new AnimalRepositoryImpl();
-        Animal animal = animalRepository.getById(animalId);
-
-        if (animal == null) {
-            return NOT_FOUND;
-        }
-
-        String fileName = fileDetail.getFileName();                                             //file name
-        String restPath = httpServlet.getServletContext().getRealPath("/");                     //path to rest root folder
-        String httpPath = "images/" + animalId + fileName.substring(fileName.lastIndexOf('.')); //relative path to uploaded file
-
-        //delete old image
-        File file = new File(restPath + httpPath);
-        if (file.exists()) {
-            file.delete();
-        }
-
-        // save file to "/images/{animal id}.file extension"
-        OutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(file);
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = uploadedInputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, read);
-            }
-        } catch (IOException ex) {
-            LOG.error(ex);
-            return SERVER_ERROR;
-        } finally {
-            try {
-                outputStream.close();
-            } catch (IOException ex) {
-                LOG.error(ex);
-            }
-        }
-
-        //save image path in data base
-        animal.setImage(httpPath);
-        animalRepository.update(animal);
-
-        //return relative image path to client
-        String json = "{\"filePath\":\"" + httpPath + "\"}";
-
-        return ok(json);
-
     }
 
     /**
