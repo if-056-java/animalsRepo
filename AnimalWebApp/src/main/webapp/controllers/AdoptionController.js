@@ -60,7 +60,6 @@ adoptionModule
                     .then(
                     function (data) {
                         $scope.animals = data;
-                        console.log($scope.animals);
                     },
                     function (data) {
                         $scope.errorMessage = "Немає записів.";

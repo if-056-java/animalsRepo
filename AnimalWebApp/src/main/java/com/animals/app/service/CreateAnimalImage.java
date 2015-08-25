@@ -4,6 +4,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import sun.misc.BASE64Decoder;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
 import java.io.*;
 
 /**
@@ -13,9 +15,7 @@ public class CreateAnimalImage {
 
     private static final Logger LOG = LogManager.getLogger(CreateAnimalImage.class);
 
-    private static final String pathToImageStorage = "D:/AGIT/animalsRepo/AnimalWebApp/src/main/webapp/images/";
-
-    public static String createAnimalImage(String imageBytes) {
+    public static String createAnimalImage(String imageBytes, String pathToImageStorage) {
         byte[] decodedBytes = null;
         BASE64Decoder decoder = new BASE64Decoder();
         try {

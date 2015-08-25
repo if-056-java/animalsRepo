@@ -2,9 +2,9 @@
  * Created by oleg on 23.08.2015.
  */
 animalRegistrationModule
-    .controller('AnimalOwnedRegController',
-    function AnimalOwnedRegController($scope, AnimalRegistrationFactory, localStorageService,
-                                      AnimalRegistrationValues, AnimalRegistrationConstants) {
+    .controller('AnimalGuardianRegController',
+    function AnimalGuardianRegController($scope, AnimalRegistrationFactory, localStorageService,
+                                         AnimalRegistrationValues, AnimalRegistrationConstants) {
 
         //initialize loading spinner
         var targetContent = document.getElementById('loading-block');
@@ -14,7 +14,7 @@ animalRegistrationModule
         $scope.contentLoading = 0;
 
         $scope.animal = {
-            service: { id: AnimalRegistrationConstants.ANIMAL_REGISTRATION_OWNED_ID },
+            service: { id: AnimalRegistrationConstants.ANIMAL_REGISTRATION_GUARDIAN_ID },
             user: { id: localStorageService.get('userId') },
             dateOfRegister: AnimalRegistrationValues.dateOfRegister.now,
             active: AnimalRegistrationConstants.ANIMAL_IS_ACTIVE
@@ -59,6 +59,6 @@ animalRegistrationModule
         };
 
         //Dependency injection
-        AnimalOwnedRegController.$inject = ['$scope', 'AnimalRegistrationFactory', 'localStorageService',
-                                            'AnimalRegistrationValues', 'AnimalRegistrationConstants'];
+        AnimalGuardianRegController.$inject = ['$scope', 'AnimalRegistrationFactory', 'localStorageService',
+                                               'AnimalRegistrationValues', 'AnimalRegistrationConstants'];
     });

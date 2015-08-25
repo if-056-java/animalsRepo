@@ -7,7 +7,6 @@ var animalApp = angular.module('animalApp', [
     'LostController',
     'LoginController',
     'HomelessController',
-    'AnimalsDetailController',
     'ContactsController',
     'StarterPageController',
     'AdminAnimals',
@@ -91,12 +90,16 @@ animalApp .config(['$routeProvider',
             })
             .when('/ua/animal/registration_homeless', {
                 templateUrl: 'views/reg_homeless.html',
-                controller: 'AnimalRegistrationController'
+                controller: 'AnimalHomelessRegController'
             })
-	    .when('/ua/animal/registration_owned', {
-        	templateUrl: 'views/reg_owned.html',
-        	controller: 'AnimalOwnedRegController'
+	        .when('/ua/animal/registration_owned', {
+        	    templateUrl: 'views/reg_owned.html',
+        	    controller: 'AnimalOwnedRegController'
       	    })
+            .when('/ua/animal/registration_guardian', {
+                templateUrl: 'views/reg_guardian.html',
+                controller: 'AnimalGuardianRegController'
+            })
             .otherwise({
                 redirectTo: '/ua'
             });

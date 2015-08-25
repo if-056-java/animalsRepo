@@ -28,6 +28,9 @@ import java.util.List;
 @PermitAll
 public class AnimalResource {
 
+    @Context
+    private HttpServletRequest httpServlet;
+
     //logger
     private static Logger LOG = LogManager.getLogger(AnimalResource.class);
 
@@ -51,8 +54,7 @@ public class AnimalResource {
         if (animal == null)
             return BAD_REQUEST;
 
-        String fileName = createAnimalImage.createAnimalImage(animal.getImage());
-
+        String fileName = createAnimalImage.createAnimalImage(animal.getImage(), httpServlet.getServletContext().getRealPath("/") + "images/");
         animal.setImage("images/" + fileName);
 
         //check breed, if it new insert it into database

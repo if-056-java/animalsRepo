@@ -14,9 +14,14 @@
         </div>
     </div>
 
-    <div class="container">
+    <!-- Spinner -->
+    <div class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top:100px;" ng-show="contentLoading"
+         id="loading-block">
+    </div>
+
+    <div class="container" ng-show="!contentLoading">
         <div class="row">
-            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-4" ng-controller="AnimalDetailController">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-4" ng-controller="AnimalsDetailController">
                 <form name="animalForm" ng-submit="submitForm(animalForm.$valid)" novalidate>
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -52,8 +57,7 @@
 
                                         <input type="text" class="form-control" name="tokenNumber"
                                                id="tokenNumber" placeholder="Номер жетону"
-                                               ng-model="animal.tokenNumber"
-                                               onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>
+                                               ng-model="animal.tokenNumber"/>
                                     </div>
                                 </div>
 
@@ -85,6 +89,8 @@
                                 </div>
 
                             </div>
+
+                            <hr>
 
                             <div class="row">
                                 <!-- Animal type -->
