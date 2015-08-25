@@ -1,5 +1,5 @@
-angular.module('AdminAnimalsModule', ['AdminAnimalsValues'])
-    .service('AdminAnimalsService', ['$http', '$q', 'AdminAnimalsValues', function($http, $q, AdminAnimalsValues) {
+angular.module('DoctorAnimalsModule', ['DoctorAnimalsValues'])
+    .service('DoctorAnimalsService', ['$http', '$q', 'DoctorAnimalsValues', function($http, $q, DoctorAnimalsValues) {
 
         /**
          * filter instance used for lookup.
@@ -8,9 +8,9 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues'])
         this.getAnimals = function(filter) {
             var def = $q.defer();
 
-            $http.post("/webapi/admin/animals", AdminAnimalsValues.filter)
+            $http.post("/webapi/admin/animals", DoctorAnimalsValues.filter)
                 .success(function(data) {
-                    AdminAnimalsValues.animals.values = data;
+                    DoctorAnimalsValues.animals.values = data;
                     def.resolve(data);
                 })
                 .error(function() {
@@ -27,9 +27,9 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues'])
         this.getPagesCount = function() {
             var def = $q.defer();
 
-            $http.post("/webapi/admin/animals/paginator", AdminAnimalsValues.filter)
+            $http.post("/webapi/admin/animals/paginator", DoctorAnimalsValues.filter)
                 .success(function(data) {
-                    AdminAnimalsValues.totalItems.count = data.rowsCount;
+                    DoctorAnimalsValues.totalItems.count = data.rowsCount;
                     def.resolve(data);
                 })
                 .error(function() {
@@ -46,10 +46,10 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues'])
         this.getAnimal = function(animalId) {
             var def = $q.defer();
 
-            if (AdminAnimalsValues.animal != undefined) {
-                if (AdminAnimalsValues.animal.id != undefined) {
-                    if (AdminAnimalsValues.animal.id == animalId) {
-                        def.resolve(AdminAnimalsValues.animal);
+            if (DoctorAnimalsValues.animal != undefined) {
+                if (DoctorAnimalsValues.animal.id != undefined) {
+                    if (DoctorAnimalsValues.animal.id == animalId) {
+                        def.resolve(DoctorAnimalsValues.animal);
                         return def.promise;
                     }
                 }
@@ -57,28 +57,11 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues'])
 
             $http.get("/webapi/admin/animals/" + animalId)
                 .success(function(data) {
-                    angular.copy(data, AdminAnimalsValues.animal);
+                    angular.copy(data, DoctorAnimalsValues.animal);
                     def.resolve(data);
                 })
                 .error(function() {
                     def.reject("Failed to get animal");
-                });
-
-            return def.promise;
-        }
-
-        /**
-         * delete animal.
-         */
-        this.deleteAnimal = function(animalId) {
-            var def = $q.defer();
-
-            $http.delete("/webapi/admin/animals/" + animalId)
-                .success(function(data) {
-                    def.resolve(data);
-                })
-                .error(function() {
-                    def.reject("Failed to delete animal");
                 });
 
             return def.promise;
@@ -92,7 +75,7 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues'])
 
             $http.post("/webapi/admin/animals/editor", animal)
                 .success(function(data) {
-                    AdminAnimalsValues.animal.image = data.filePath;
+                    DoctorAnimalsValues.animal.image = data.filePath;
                     def.resolve(data);
                 })
                 .error(function() {
@@ -108,14 +91,14 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues'])
         this.getAnimalTypes = function() {
             var def = $q.defer();
 
-            if (AdminAnimalsValues.animalTypes.values.length !== 0) {
-                def.resolve(AdminAnimalsValues.animalTypes.values);
+            if (DoctorAnimalsValues.animalTypes.values.length !== 0) {
+                def.resolve(DoctorAnimalsValues.animalTypes.values);
                 return def.promise;
             }
 
             $http.get("/webapi/animals/animal_types")
                 .success(function(data) {
-                    AdminAnimalsValues.animalTypes.values = data;
+                    DoctorAnimalsValues.animalTypes.values = data;
                     def.resolve(data);
                 })
                 .error(function() {
@@ -131,14 +114,14 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues'])
         this.getAnimalServices = function() {
             var def = $q.defer();
 
-            if (AdminAnimalsValues.animalServices.values.length !== 0) {
-                def.resolve(AdminAnimalsValues.animalServices.values);
+            if (DoctorAnimalsValues.animalServices.values.length !== 0) {
+                def.resolve(DoctorAnimalsValues.animalServices.values);
                 return def.promise;
             }
 
             $http.get("/webapi/animals/animal_services")
                 .success(function(data) {
-                    AdminAnimalsValues.animalServices.values = data;
+                    DoctorAnimalsValues.animalServices.values = data;
                     def.resolve(data);
                 })
                 .error(function() {
