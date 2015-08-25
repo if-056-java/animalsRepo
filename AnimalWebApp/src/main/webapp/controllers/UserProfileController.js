@@ -17,8 +17,6 @@ animalApp.controller('UserProfileController', function($scope, userData, userAcc
 		
 		var id = localStorageService.get("userId");
 		
-		console.log("id from localstorage - "+id);
-		
 		userData.getUser(id).success(function(data){				//webapi/users/user/{id}
 			$scope.userInfo=data;
 			$scope.fields = $scope.userInfo;
@@ -36,13 +34,8 @@ animalApp.controller('UserProfileController', function($scope, userData, userAcc
     $scope.submitUpdateForm=function(){    	
     	
     	if($scope.passwordNew){    		
-    		$scope.fields.password=hashPassword($scope.passwordNew); 
-    		console.log("changing password");
-    	} else {
-    		console.log("not changing password")
-    	} 
-    	
-    	console.log($scope.fields);
+    		$scope.fields.password=hashPassword($scope.passwordNew);     		
+    	}     	
     	
 		userData.updateUser($scope.fields, $scope.fields.id);       
 	
