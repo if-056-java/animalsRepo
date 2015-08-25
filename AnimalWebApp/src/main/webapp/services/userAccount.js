@@ -42,8 +42,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 	        	
 	        	localStorageService.clearAll();	
 		        $location.path("/ua");	
-		        $route.reload();
-		       // $window.location.reload();
+		        $route.reload();		      
 		        
 	        }) 
 			.error(function(data){				

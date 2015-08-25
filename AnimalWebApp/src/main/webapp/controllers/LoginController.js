@@ -9,8 +9,8 @@ animalApp.controller('LoginController', function($scope, userAccount, hashPasswo
 		var password = hashPassword($scope.login.password);
 		
 		var memoryMe ="OFF"
-		if($scope.login.memoryMe) memoryMe ="ON";		
-		console.log("memory Me - " + memoryMe);
+		if($scope.login.memoryMe) memoryMe ="ON";
+		
 		localStorageService.set("memoryMe", memoryMe);
 		
 		console.log($scope.login.password);
