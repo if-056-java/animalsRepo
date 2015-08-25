@@ -1,0 +1,70 @@
+<div class="row" id="top"></div>
+<div class="container">
+    <!-- Spinner -->
+    <div class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top: 320px;" ng-show="contentLoading"
+         id="loading-block">
+    </div>
+
+    <div class="row" ng-show="!contentLoading">
+        <!-- Animal photo -->
+        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 panel-body">
+            <img class="img-responsive img-thumbnail center-block" src="{{ animalImage }}">
+        </div>
+
+        <!-- Animals list -->
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7 panel panel-success table-responsive" ng-show="totalItems">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <td><strong>Тип</strong></td>
+                    <td><strong>Лікар</strong></td>
+                    <td><strong>Дата</strong></td>
+                    <td><image src="../resources/img/ArrowDownGreenGloss.gif"></image></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="animal in animals.values">
+                    <td>{{ animal.type.type }}</td>
+                    <td>{{ animal.breed.breedUa }}</td>
+                    <td>{{ animal.sex }}</td>
+                    <td><a class="btn btn-md btn-warning" href="#/ua/user/home/animals/{{ animal.id }}"><i class="fa fa-spinner fa-pulse"></i></i></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Error message -->
+        <h3 class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="top: 160px;" ng-hide="totalItems">
+            Немає записів.</h3>
+
+    </div>
+
+    <div class="row" ng-show="!contentLoading">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success text-center">
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
+
+            <!-- Pagination -->
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <pagination boundary-links="true" total-items="totalItems.count" ng-model="filter.page" ng-change="pageChanged()" class="paginator" items-per-page="filter.limit"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+            </div>
+
+            <!-- Row count selector -->
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 rows-count">
+                <div class="btn-group" dropdown keyboard-nav>
+                    <div class="btn-group" dropdown is-open="status.isopen">
+                        <button id="single-button" type="button" class="btn btn-success" dropdown-toggle ng-disabled="disabled">
+                            {{ filter.limit }} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
+                            <li role="menuitem"><a href ng-click="countChanged('15')">15</a></li>
+                            <li role="menuitem"><a href ng-click="countChanged('20')">20</a></li>
+                            <li role="menuitem"><a href ng-click="countChanged('30')">30</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
