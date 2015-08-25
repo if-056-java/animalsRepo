@@ -190,7 +190,7 @@ public class AuthorizationResource {
 	}
 		
 	
-private String setUpSuccessSession(User user, HttpSession session, String success){
+private static String setUpSuccessSession(User user, HttpSession session, String success){
 		
 		session.setAttribute("userName",user.getName());
 		session.setAttribute("userId",user.getId().toString()); 
@@ -243,6 +243,7 @@ private String setUpSuccessSession(User user, HttpSession session, String succes
     			"\", \"userRoleId\" : \"" + (String)session.getAttribute("userRoleId") +
     			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
     			"\", \"accessToken\" : \"" + (String)session.getAttribute("accessToken") +
+    			"\", \"refreshToken\" : \"" + (String)session.getAttribute("refreshToken") +
     			"\"}";		
 		
 		return str;

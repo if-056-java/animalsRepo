@@ -210,6 +210,7 @@ public class OAuthAuthorizationResource {
 			}		
 			
 			session.setAttribute("successMesage", "Successful joining Google account");
+			session.setAttribute("refreshToken", token);
 			
 			return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
 			
@@ -218,7 +219,7 @@ public class OAuthAuthorizationResource {
 		//CASE 2: Login to site. Session is not set. Find User by googleId
 		//CASE 3: Registration. Session is not set. Create User with GoogleId and SocialPhoto
 		
-		HttpSession sessionNew = req.getSession(true);
+		//HttpSession sessionNew = req.getSession(true);   hide
 		
 		//Check if user exist by googleId
 		User user=null;
@@ -238,7 +239,7 @@ public class OAuthAuthorizationResource {
 			System.out.println("creating session");	
 			
 			
-			String ses = setUpSuccessSession(user, sessionNew, "success login with GoogleId");
+			setUpSuccessSession(user, session, "success login with GoogleId", token);
 	        			
 			//Entering to site with Session			
 			return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
@@ -286,8 +287,7 @@ public class OAuthAuthorizationResource {
 		}
 		
 		//creating session		
-		String ses = setUpSuccessSession(userToReg, sessionNew, "successful Registration with GoogleId");
-		System.out.println(ses);
+		setUpSuccessSession(userToReg, session, "successful Registration with GoogleId", token);		
 		
 		//Entering to site with Session		
 		return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
@@ -296,7 +296,7 @@ public class OAuthAuthorizationResource {
 	
 	
 	
-	private String setUpSuccessSession(User user, HttpSession session, String success){
+	private static void setUpSuccessSession(User user, HttpSession session, String success, String token){
 		
 		session.setAttribute("userName",user.getName());
 		session.setAttribute("userId",user.getId().toString()); 
@@ -304,6 +304,7 @@ public class OAuthAuthorizationResource {
 		session.setAttribute("socialLogin",user.getSocialLogin());
 		session.setAttribute("userRoleId",user.getUserRole().get(0).getId().toString());
 		session.setAttribute("userRole",user.getUserRole().get(0).getRole());
+		session.setAttribute("refreshToken", token);
 		session.setAttribute("successMesage", success);
 		
 		//creating string for accessToken
@@ -333,10 +334,107 @@ public class OAuthAuthorizationResource {
         			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
         			"\", \"userRoleId\" : \"" + (String)session.getAttribute("userRoleId") +
         			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
+        			"\", \"refreshToken\" : \"" + (String)session.getAttribute("refreshToken") +
         			"\", \"accessToken\" : \"" + (String)session.getAttribute("accessToken") +
         			"\"}";
-		return str;
-	};		
+        
+        System.out.println(str);
+
+	}
+	
+	@GET
+	@Path("login/google_login_direct")			//http://localhost:8080/webapi/account/login/google_login_direct
+	public Response directGoogleLoginWithOldAccessToken(@Context HttpServletRequest req, 														
+														@QueryParam("code") String refreshToken) {
+
+		
+		OAuthService service2 =null;
+
+		try {
+			service2 = new ServiceBuilder()
+					.provider(Google2Api.class)
+					.apiKey(apiKeyG)
+					.apiSecret(apiSecretG)
+					//.callback(callbackUrlG)
+					.scope(SCOPE)
+					.offline(true)
+					.build();
+			
+		} catch (Exception e1) {			
+			e1.printStackTrace();
+		}
+		
+		Verifier v = new Verifier(refreshToken);	
+		System.out.println("old verifier"+v);
+
+		//Token accessToken = new Token("ACCESS_TOKEN", "REFRESH_TOKEN");
+		
+		Token accessToken = service2.getAccessToken(EMPTY_TOKEN, v);
+		System.out.println("old accessToken"+accessToken.toString());
+		
+		Token newAccessToken = service2.getAccessToken(accessToken, v);
+		System.out.println("new accessToken"+newAccessToken.toString());
+		
+		accessToken = newAccessToken;					
+
+		//Request protected resource
+		OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+		service2.signRequest(accessToken, request);
+		org.scribe.model.Response response = request.send();
+		
+		System.out.println(response.getCode());		//200 - success
+		System.out.println(response.getBody());		//JSON response
+		
+		//JSON string from Google response
+		String json = response.getBody();
+		
+		//parse string 
+		String googleId=null;
+		
+		try {
+			JSONParser jsonParser = new JSONParser();
+			JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
+								
+			googleId = (String) jsonObject.get("id");
+			System.out.println("id is: " + googleId);			
+			
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (NullPointerException ex) {
+			ex.printStackTrace();
+		}		
+	
+		
+		//CASE 2: Login to site. Session is not set. Find User by googleId
+		
+		
+		HttpSession sessionNew = req.getSession(true);
+		
+		//Check if user exist by googleId
+		User user=null;
+		
+		try {
+			
+			user = userRep.getByGoogleId(googleId);
+			
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}
+		
+		if (user == null) {}
+			
+		//creating Session for founded user. Setting params
+		System.out.println("creating session");	
+			
+			
+		setUpSuccessSession(user, sessionNew, "success login with GoogleId", refreshToken);
+	        			
+		//Entering to site with Session			
+		return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();	
+		
+		
+	}
 	
 
 }
