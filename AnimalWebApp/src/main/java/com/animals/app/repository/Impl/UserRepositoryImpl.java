@@ -165,6 +165,20 @@ public class UserRepositoryImpl {
             sqlSession.close();
         }
     }
-    
 
+    /**
+     * Returns a User instance from the database for admin animals list.
+     * @param id primary key value used for lookup.
+     * @return A User instance with a primary key value equals to pk. null if there is no matching row.
+     */
+    public User getByIdMedicalHistory(long id) {
+        SqlSession sqlSession =  sqlSessionFactory.openSession();
+
+        try{
+            UserRepository mapper = sqlSession.getMapper(UserRepository.class);
+            return mapper.getByIdMedicalHistory(id);
+        } finally {
+            sqlSession.close();
+        }
+    }
 }

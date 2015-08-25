@@ -17,6 +17,7 @@ var animalApp = angular.module('animalApp', [
     'AdminAnimalsEditor',
     'DoctorAnimals',
     'DoctorAnimalsDetailed',
+    'AnimalMedicalHistoryController',
     'RegistrationController',
     'UserProfileController',
     'AnimalShortInfoController'
@@ -76,6 +77,10 @@ animalApp .config(['$routeProvider',
             .when('/ua/user/home/doctor_animals/:animalId', {
                 templateUrl: 'views/doctor_animals_detailed.html',
                 controller: 'DoctorAnimalsDetailedController'
+            })
+            .when('/ua/user/home/doctor_animals/animal_medical_history/:animalId', {
+                templateUrl: 'views/animal_medical_history.html',
+                controller: 'AnimalMedicalHistoryController'
             })
             .when('/ua/user/registration', {
                 templateUrl: 'views/registration.html',

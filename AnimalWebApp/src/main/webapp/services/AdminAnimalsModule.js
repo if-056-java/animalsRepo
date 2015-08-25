@@ -5,7 +5,7 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues'])
          * filter instance used for lookup.
          * @return list of animals.
          */
-        this.getAnimals = function(filter) {
+        this.getAnimals = function() {
             var def = $q.defer();
 
             $http.post("/webapi/admin/animals", AdminAnimalsValues.filter)

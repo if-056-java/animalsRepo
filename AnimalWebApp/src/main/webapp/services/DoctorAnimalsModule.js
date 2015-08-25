@@ -5,7 +5,7 @@ angular.module('DoctorAnimalsModule', ['DoctorAnimalsValues'])
          * filter instance used for lookup.
          * @return list of animals.
          */
-        this.getAnimals = function(filter) {
+        this.getAnimals = function() {
             var def = $q.defer();
 
             $http.post("/webapi/admin/animals", DoctorAnimalsValues.filter)
@@ -143,6 +143,44 @@ angular.module('DoctorAnimalsModule', ['DoctorAnimalsValues'])
                 })
                 .error(function() {
                     def.reject("Failed to get breeds");
+                });
+
+            return def.promise;
+        }
+
+        /**
+         * filter instance used for lookup.
+         * @return list of animals.
+         */
+        this.getMedicalHistoryItems = function(animalId) {
+            var def = $q.defer();
+
+            $http.post("/webapi/doctor/medical_history/" + animalId, DoctorAnimalsValues.medicalHistory.filter)
+                .success(function(data) {
+                    DoctorAnimalsValues.medicalHistory.items.values = data;
+                    def.resolve(data);
+                })
+                .error(function() {
+                    def.reject("Failed to get animals");
+                });
+
+            return def.promise;
+        }
+
+        /**
+         * filter instance used for lookup.
+         * @return count of rows for pagination.
+         */
+        this.getMedicalHistoryPagesCount = function(animalId) {
+            var def = $q.defer();
+
+            $http.get("/webapi/doctor/medical_history/paginator/" + animalId)
+                .success(function(data) {
+                    DoctorAnimalsValues.medicalHistory.totalItems.count = data.rowsCount;
+                    def.resolve(data);
+                })
+                .error(function() {
+                    def.reject("Failed to get page count");
                 });
 
             return def.promise;
