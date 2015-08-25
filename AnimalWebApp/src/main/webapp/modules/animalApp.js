@@ -15,6 +15,7 @@ var animalApp = angular.module('animalApp', [
     'RegistrationController',
     'UserProfileController',
     'AnimalShortInfoController',
+    'MainController',
     'LocalStorageModule'
 ]);
 
@@ -98,37 +99,9 @@ animalApp.constant('RESOURCES', {
 });
 
 animalApp.config(function(localStorageServiceProvider){
-	  localStorageServiceProvider
-	  .setPrefix('AnimalWebApp')
-	  //.setStorageCookie(45, '/')
-	  // localStorageServiceProvider.setStorageCookieDomain('example.com');
-	  // localStorageServiceProvider.setStorageType('sessionStorage');
+	  localStorageServiceProvider.setPrefix('AnimalWebApp');	  
 	});
 
 
-animalApp.controller('MainController', function($scope, $rootScope, localStorageService, userAccount) {
-	
-	//userAccount.refreshSession();  //need for getting OAuth session attributes
-	
-	if (!localStorageService.cookie.get("accessToken")) {
-		localStorageService.clearAll();
-	}
-	
-	
-	$scope.logout = function() {       
-        userAccount.logout();
-    };
-    
-    $scope.session = function(value) {
-        
-        if (!localStorageService.get("userName")){
-        	return false;
-        } else {
-        	$rootScope.userName=localStorageService.get("userName");
-        	return true;
-        } 
-        
-    };
-      
-});
+
 
