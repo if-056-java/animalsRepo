@@ -12,6 +12,9 @@ var animalApp = angular.module('animalApp', [
     'StarterPageController',
     'AdminAnimals',
     'AdminAnimalsDetailed',
+    'AdminAnimalsEditor',
+    'DoctorAnimals',
+    'DoctorAnimalsDetailed',
     'RegistrationController',
     'UserProfileController',
     'AnimalShortInfoController',
@@ -19,82 +22,90 @@ var animalApp = angular.module('animalApp', [
 ]);
 
 animalApp .config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-      when('/ua', {
-        templateUrl: 'views/main_view.html',
-        controller: 'StarterPageController'
-      }).
-	  when('/ua/animal/adoption', {
-        templateUrl: 'views/adoption.html',
-        controller: 'AdoptionController'
-      }).
-	  when('/ua/animal/find', {
-        templateUrl: 'views/find_lost.html',
-        controller: 'FindController'
-      }).
-	  when('/ua/animal/lost', {
-        templateUrl: 'views/find_lost.html',
-        controller: 'LostController'
-      }).
-	  when('/ua/animal/homeless', {
-        templateUrl: 'views/reg_homeless.html',
-        controller: 'HomelessController'
-      }).
-	  when('/ua/animal/detail', {
-        templateUrl: 'views/admin_animals_detailed.html',
-        controller: 'AnimalsDetailController'
-      }).
-	  when('/ua/contacts', {
-        templateUrl: 'views/contacts.html',
-        controller: 'ContactsController'
-      }).
-      when('/ua/user/login', {
-        templateUrl: 'views/login.html',
-        controller: 'LoginController'
-      }).
-        when('/ua/user/home/animals', {
-          templateUrl: 'views/admin_animals.html',
-          controller: 'AdminAnimalsController'
-        }).
-        when('/ua/user/home/animals/:animalId', {
-          templateUrl: 'views/admin_animals_detailed.html',
-          controller: 'AdminAnimalsDetailedController'
-        }).
-        when('/ua/user/home/animals/editor/:animalId', {
-            templateUrl: 'views/admin_animals_editor.html',
-            controller: 'AdminAnimalsEditorController'
-        }).
-      when('/ua/user/registration', {
-        templateUrl: 'views/registration.html',
-        controller: 'RegistrationController'
-      }).
-      when('/ua/user/profile', {
-        templateUrl: 'views/user_profile.html',
-        controller: 'UserProfileController'
-      }).
-	  when('/ua/animal/:service/:animalId', {
-        templateUrl: 'views/animal_short_info.html',
-        controller: 'AnimalShortInfoController'
-      }).
-      when('/ua/animal/registration_homeless', {
-        templateUrl: 'views/reg_homeless.html',
-        controller: 'AnimalRegistrationController'
-      }).
-      otherwise({
-        redirectTo: '/ua'
-      });
-  }]);
+    function($routeProvider) {
+        $routeProvider
+            .when('/ua', {
+                templateUrl: 'views/main_view.html',
+                controller: 'StarterPageController'
+            })
+            .when('/ua/animal/adoption', {
+                templateUrl: 'views/adoption.html',
+                controller: 'AdoptionController'
+            })
+            .when('/ua/animal/find', {
+                templateUrl: 'views/find_lost.html',
+                controller: 'FindController'
+            })
+            .when('/ua/animal/lost', {
+                templateUrl: 'views/find_lost.html',
+                controller: 'LostController'
+            })
+            .when('/ua/animal/homeless', {
+                templateUrl: 'views/reg_homeless.html',
+                controller: 'HomelessController'
+            })
+            .when('/ua/animal/detail', {
+                templateUrl: 'views/admin_animals_detailed.html',
+                controller: 'AnimalsDetailController'
+            })
+            .when('/ua/contacts', {
+                templateUrl: 'views/contacts.html',
+                controller: 'ContactsController'
+            })
+            .when('/ua/user/login', {
+                templateUrl: 'views/login.html',
+                controller: 'LoginController'
+            })
+            .when('/ua/user/home/animals', {
+                templateUrl: 'views/admin_animals.html',
+                controller: 'AdminAnimalsController'
+            })
+            .when('/ua/user/home/animals/:animalId', {
+                templateUrl: 'views/admin_animals_detailed.html',
+                controller: 'AdminAnimalsDetailedController'
+            })
+            .when('/ua/user/home/animals/editor/:animalId', {
+                templateUrl: 'views/admin_animals_editor.html',
+                controller: 'AdminAnimalsEditorController'
+            })
+            .when('/ua/user/home/doctor_animals', {
+                templateUrl: 'views/doctor_animals.html',
+                controller: 'DoctorAnimalsController'
+            })
+            .when('/ua/user/home/doctor_animals/:animalId', {
+                templateUrl: 'views/doctor_animals_detailed.html',
+                controller: 'DoctorAnimalsDetailedController'
+            })
+            .when('/ua/user/registration', {
+                templateUrl: 'views/registration.html',
+                controller: 'RegistrationController'
+            })
+            .when('/ua/user/profile', {
+                templateUrl: 'views/user_profile.html',
+                controller: 'UserProfileController'
+            })
+            .when('/ua/animal/:service/:animalId', {
+                templateUrl: 'views/animal_short_info.html',
+                controller: 'AnimalShortInfoController'
+            })
+            .when('/ua/animal/registration_homeless', {
+                templateUrl: 'views/reg_homeless.html',
+                controller: 'AnimalRegistrationController'
+            })
+            .otherwise({
+                redirectTo: '/ua'
+            });
+    }]);
 
 //Constants
 animalApp.constant('RESOURCES', {
     RESOURCE: 'http://127.0.0.1:8080/',
-        ANIMALS_FOR_ADOPTING_PAGINATOR: 'webapi/animals/adoption/pagenator',
-        ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption',
-        ANIMAL_TYPES: 'webapi/animals/animal_types',
-        ANIMAL_BREEDS: 'webapi/animals/animal_breeds/',
-        ANIMAL_REGISTRATION: 'webapi/animals/animal',
-        ANIMAL_REGISTRATION_IMAGE: 'webapi/animals/animal/image'
+    ANIMALS_FOR_ADOPTING_PAGINATOR: 'webapi/animals/adoption/pagenator',
+    ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption',
+    ANIMAL_TYPES: 'webapi/animals/animal_types',
+    ANIMAL_BREEDS: 'webapi/animals/animal_breeds/',
+    ANIMAL_REGISTRATION: 'webapi/animals/animal',
+    ANIMAL_REGISTRATION_IMAGE: 'webapi/animals/animal/image'
 });
 
 animalApp.config(function(localStorageServiceProvider){
@@ -105,7 +116,6 @@ animalApp.config(function(localStorageServiceProvider){
 	  // localStorageServiceProvider.setStorageType('sessionStorage');
 	});
 
-
 animalApp.controller('MainController', function($scope, $rootScope, localStorageService, userAccount) {
 	
 	//userAccount.refreshSession();  //need for getting OAuth session attributes
@@ -113,12 +123,11 @@ animalApp.controller('MainController', function($scope, $rootScope, localStorage
 	if (!localStorageService.cookie.get("accessToken")) {
 		localStorageService.clearAll();
 	}
-	
-	
-	$scope.logout = function() {       
+
+	$scope.logout = function() {
         userAccount.logout();
     };
-    
+
     $scope.session = function(value) {
         
         if (!localStorageService.get("userName")){
@@ -129,6 +138,5 @@ animalApp.controller('MainController', function($scope, $rootScope, localStorage
         } 
         
     };
-      
 });
 
