@@ -59,16 +59,27 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 	        String sessionId = tokenizer.nextToken();
 	        String userId = tokenizer.nextToken();
+	        System.out.println(userId);
 	        
+	        int userId2 = Integer.parseInt(userId);
+
+	        System.out.println("userId - "+session.getAttribute("userId"));
 			
-			int userId2 = Integer.parseInt(userId);
+			if(session.getAttribute("userId")==null){
+				System.out.println("ping new session");
+				User user = userRep.getById(userId2);
+				if (user == null) {	        	
+		            throw new WebApplicationException(Response.Status.UNAUTHORIZED);
+		        } 
+				session.setAttribute("userId", user.getId().toString());			
+				session.setAttribute("user", user);				
+			}
 			
-			//check if userId is valid
-	        User user = userRep.getById(userId2);
+			if (!session.getAttribute("userId").equals(userId)){				
+				throw new WebApplicationException(Response.Status.UNAUTHORIZED);
+			}		
 			
-	        if (user == null) {	        	
-	            throw new WebApplicationException(Response.Status.UNAUTHORIZED);
-	        } 
+			User user = (User)session.getAttribute("user");
 			
 			//AUTHORIZATION Check if User role matches with @RolesAllowed annotation, 
 	        //(if not - 406 - not acceptable)	        
