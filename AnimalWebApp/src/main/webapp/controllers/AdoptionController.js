@@ -3,7 +3,7 @@
  */
 adoptionModule
     .controller('AdoptionController',
-        function AdoptionController($scope, AdoptionFactory) {
+        function AdoptionController($scope, AdoptionFactory, AnimalAdoptionValues) {
 
             $scope.header_a_f_l = "Тварини на адопцію :";
 
@@ -11,158 +11,103 @@ adoptionModule
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
 
-            //Pages
-            $scope.filter = {};
-            $scope.filter.page = 1;
-            $scope.filter.limit = '15';
-
-            var ACL = this;
-
-            $scope.animals = {};
-
-            //This variable decides when spinner loading for contentis closed.
             $scope.contentLoading = 0;
 
-            //Amount animals for adoption
-            this.amountRecords = function (filter) {
+            //Pages
+            $scope.filter = AnimalAdoptionValues.filter;            //filter
+            $scope.totalItems = AnimalAdoptionValues.totalItems;    //table rows count
+            $scope.animals = AnimalAdoptionValues.animals;          //animal instance
 
-                //Show spinner loading
-                $scope.contentLoading++;
-                return AdoptionFactory.
-                    getAmountRecords(filter)
-                    .then(
-                    function (data) {
-                        $scope.totalItems = data.rowsCount;
-                    },
-                    function (data) {
-                        $scope.totalItems = 0;
-
-                        $scope.$parent.errorMessage = "Немає записів.";
-
-                        console.log('Error.' + data)
-                    }
-                ).finally(function() {
-
-                    //hide spinner loading
+            console.log($scope.totalItems.count);
+            /**
+             * @return count of rows for pagination.
+             */
+            $scope.contentLoading++;
+            AdoptionFactory.getAmountRecords()
+                .finally(function() {
                     $scope.contentLoading--;
                 });
-            };
 
-            this.amountRecords($scope.filter);
-
-            //Animals for adoption
-            this.animalsForAdoption = function (filter) {
-
-                //Show spinner loading
-                $scope.contentLoading++;
-                return AdoptionFactory.
-                    getListOfAdoptionAnimals(filter)
-                    .then(
-                    function (data) {
-                        $scope.animals = data;
-                    },
-                    function (data) {
-                        $scope.errorMessage = "Немає записів.";
-
-                        console.log('Error.' + data)
-                    }
-                ).finally(function() {
-
-                        //hide spinner loading
-                        $scope.contentLoading--;
+            $scope.contentLoading++;
+            AdoptionFactory.getListOfAdoptionAnimals()
+                .finally(function() {
+                    $scope.contentLoading--;
                 });
-            };
 
-            this.animalsForAdoption($scope.filter);
-
-            $scope.pageChanged = function () {
-                ACL.animalsForAdoption($scope.filter);
-
-                //scrolling on top of page
+            /**
+             * @return next page.
+             */
+            $scope.pageChanged = function() {
+                AdoptionFactory.getListOfAdoptionAnimals();
                 jQuery('html, body').animate({ scrollTop: 0 }, 500);
             };
 
-            $scope.countChanged = function (count) {
+            /**
+             * @return list of animals with given count of rows.
+             */
+            $scope.countChanged = function(count) {
                 $scope.filter.limit = count;
-                ACL.animalsForAdoption($scope.filter);
+                AdoptionFactory.getListOfAdoptionAnimals();
             };
 
             //Dependency injection
-            AdoptionController.$inject = ['$scope', 'AdoptionFactory'];
+            AdoptionController.$inject = ['$scope', 'AdoptionFactory', 'AnimalAdoptionValues'];
 
         }).controller('AdoptionFilterController',
-            function AdoptionFilterController($scope, AdoptionFactory) {
+            function AdoptionFilterController($scope, AdoptionFactory, AnimalAdoptionValues) {
 
-        this.getAnimalTypes = function() {
-            AdoptionFactory.getAnimalTypes()
-                .then(function(data) {
-                    $scope.animalTypes = data;
-                },
-                function(data) {
-                    console.log('Animal retrieval failed.')
-                });
-        };
+                $scope.filter = AnimalAdoptionValues.filter;                  //filter
+                $scope.animalTypes = AnimalAdoptionValues.animalTypes;        //list of animal types
 
-        this.getAnimalTypes();
+                /**
+                 * @return list of animal types.
+                 */
+                AdoptionFactory.getAnimalTypes()
+                    .finally(function() {
+                    });
 
-        $scope.getAnimalBreeds = function() {
+                /**
+                 * @return list of animal breeds according to animal type.
+                 */
+                $scope.getAnimalBreeds = function() {
+                    AdoptionFactory.getAnimalBreeds($scope.filter.animal.type.id)
+                        .then(function(data) {
+                            $scope.animalBreeds = data;
+                        })
+                        .finally(function() {
+                        });
+                };
 
-            AdoptionFactory.getAnimalBreeds($scope.$parent.filter.animal.type.id)
-                .then(function(data) {
-                    $scope.animalBreeds = data;
-                },
-                function(data) {
-                    console.log('Animal breeds retrieval failed.')
-                }).finally(function() {
-                });
-        };
+                /**
+                 * reset filter values.
+                 */
+                $scope.reset = function() {
+                    $scope.filter.animal.type = undefined;
+                    $scope.filter.animal.breed = undefined;
+                    $scope.filter.animal.sex = undefined;
+                    $scope.filter.animal.dateOfRegister = undefined;
 
-        $scope.doFilter = function() {
-            $scope.$parent.contentLoading++;
-            AdoptionFactory.getAmountRecords($scope.filter)
-                .then(function(data) {
-                    $scope.$parent.totalItems = data.rowsCount;
-                },
-                function(data) {
-                    $scope.$parent.totalItems = 0;
+                    console.log($scope.totalItems.count);
+                    $scope.doFilter();
+                    jQuery('html, body').animate({ scrollTop: 0 }, 500);
+                };
 
-                    $scope.$parent.errorMessage = "Немає записів.";
+                /**
+                 * @return list of animals according to filter values.
+                 */
+                $scope.doFilter = function() {
+                    $scope.$parent.contentLoading++;
 
-                    console.log('Pages count retrieval failed.')
-                });
+                    AdoptionFactory.getAmountRecords();
+                    AdoptionFactory.getListOfAdoptionAnimals().finally(
+                        function(){
+                            $scope.$parent.contentLoading--;
+                        }
+                    );
 
-            AdoptionFactory.getListOfAdoptionAnimals($scope.filter)
-                .then(function(data) {
-                    $scope.$parent.animals = data;
-                },
-                function(data) {
-
-                    $scope.$parent.errorMessage = "Немає записів.";
-
-                    console.log('Animals retrieval failed.')
-                }).finally(function() {
-                    // called no matter success or failure
-                    $scope.$parent.contentLoading--;
-                });
-        };
-
-        $scope.reset = function() {
-                $scope.filter.animal.type = undefined;
-                $scope.filter.animal.breed = undefined;
-                $scope.filter.animal.size = undefined;
-                $scope.filter.animal.sex = undefined;
-                $scope.filter.animal.dateOfSterilization = undefined;
-                $scope.filter.animal.image = undefined;
-
-            $scope.doFilter();
-        };
+                    jQuery('html, body').animate({ scrollTop: 0 }, 500);
+                };
 
         //Dependency injection
-        AdoptionFilterController.$inject = ['$scope', 'AdoptionFactory'];
+        AdoptionFilterController.$inject = ['$scope', 'AdoptionFactory', 'AnimalAdoptionValues'];
     });
-
-//$controller('AdminAnimalsEditorSetImageController',{$scope:$scope});
-/*
- $scope.$parent.animalImage = response.filePath + "?timestamp=" + new Date().getTime();
- console.log($scope.animalImage);
- */

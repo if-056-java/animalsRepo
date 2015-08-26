@@ -77,8 +77,7 @@
 	
 			<li><a ng-show="session()" href="#ua/user/profile">Мій Кабінет</a></li>
 
-            <!-- ng-show="!session()" -->
-            <li class="dropdown" >
+            <li class="dropdown" ng-show="session()">
                 <a href="" class="dropdown-toggle" data-toggle="dropdown">Реєстація тварини <b class="caret"></b> </a>
                 <ul class="dropdown-menu">
                     <li><a href="#ua/animal/registration_homeless">Зареєструвати безпритульну</a> </li>
@@ -170,16 +169,16 @@
 
  <script src="modules/AdoptionModule.js"></script>
  <script src="services/AdoptionFactory.js"></script>
+ <script src="services/Values/AnimalAdoptionValues.js"></script>
  <script src="controllers/AdoptionController.js"></script>
 
  <script src="modules/AnimalRegistrationModule.js"></script>
  <script src="services/AnimalRegistrationFactory.js"></script>
+ <script src="services/Values/AnimalRegistrationValues.js"></script>
+ <script src="services/Constants/AnimalRegistrationConstants.js"></script>
  <script src="controllers/AnimalHomelessRegController.js"></script>
  <script src="controllers/AnimalOwnedRegController.js"></script>
  <script src="controllers/AnimalGuardianRegController.js"></script>
- <script src="services/Values/AnimalRegistrationValues.js"></script>
- <script src="services/Constants/AnimalRegistrationConstants.js"></script>
-
 
  <script src="services/AdminAnimalsModule.js"></script>
  <script src="services/AdminAnimalsValues.js"></script>
