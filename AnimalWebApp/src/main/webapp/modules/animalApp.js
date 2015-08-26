@@ -14,6 +14,9 @@ var animalApp = angular.module('animalApp', [
     'AdminAnimalsEditor',
     'DoctorAnimals',
     'DoctorAnimalsDetailed',
+    'AnimalMedicalHistoryController',
+    'AnimalMedicalHistoryEditorController',
+    'AnimalMedicalHistoryDetailedController',
     'RegistrationController',
     'UserProfileController',
     'AnimalShortInfoController',
@@ -68,13 +71,25 @@ animalApp .config(['$routeProvider',
                 templateUrl: 'views/admin_animals_editor.html',
                 controller: 'AdminAnimalsEditorController'
             })
-            .when('/ua/user/home/doctor_animals', {
+            .when('/ua/user/doctor/animals', {
                 templateUrl: 'views/doctor_animals.html',
                 controller: 'DoctorAnimalsController'
             })
-            .when('/ua/user/home/doctor_animals/:animalId', {
+            .when('/ua/user/doctor/animals/:animalId', {
                 templateUrl: 'views/doctor_animals_detailed.html',
                 controller: 'DoctorAnimalsDetailedController'
+            })
+            .when('/ua/user/doctor/animals/medical_history/:animalId', {
+                templateUrl: 'views/animal_medical_history.html',
+                controller: 'AnimalMedicalHistoryController'
+            })
+            .when('/ua/user/doctor/animals/medical_history/:animalId/editor', {
+                templateUrl: 'views/animal_medical_history_editor.html',
+                controller: 'AnimalMedicalHistoryEditorController'
+            })
+            .when('/ua/user/doctor/animals/medical_history/:animalId/detailed/:itemId', {
+                templateUrl: 'views/animal_medical_history_detailed.html',
+                controller: 'AnimalMedicalHistoryDetailedController'
             })
             .when('/ua/user/registration', {
                 templateUrl: 'views/registration.html',

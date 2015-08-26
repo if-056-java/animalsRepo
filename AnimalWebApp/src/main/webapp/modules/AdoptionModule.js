@@ -1,4 +1,4 @@
 /**
  * Created by oleg on 11.08.2015.
  */
-var adoptionModule = angular.module('AdoptionModule',[]);
+var adoptionModule = angular.module('AdoptionModule',['AnimalAdoptionValues']);

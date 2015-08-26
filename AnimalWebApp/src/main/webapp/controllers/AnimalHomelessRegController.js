@@ -46,7 +46,12 @@ animalRegistrationModule
                         $scope.contentLoading--;
 
                         //clear fields
-                        AnimalRegistrationValues.address = undefined;
+                        AnimalRegistrationValues.address = {
+                            country:'',
+                                town:'',
+                                street:'',
+                                index:''
+                        };
                     });
             };
 

@@ -3,7 +3,7 @@
  */
 adoptionModule
     .factory('AdoptionFactory',
-        function AdoptionFactory($http, $q, RESOURCES){
+        function AdoptionFactory($http, $q, RESOURCES, AnimalAdoptionValues){
 
         //Create instance of current factory
         var factory = {};
@@ -12,11 +12,13 @@ adoptionModule
         factory.getAmountRecords = function(filter) {
             var def = $q.defer();
 
-            $http.post(RESOURCES.ANIMALS_FOR_ADOPTING_PAGINATOR, filter)
+            $http.post(RESOURCES.ANIMALS_FOR_ADOPTING_PAGINATOR, AnimalAdoptionValues.filter)
                 .success(function (data) {
+                    AnimalAdoptionValues.totalItems.count = data.rowsCount;
                     def.resolve(data);
                 })
                 .error(function () {
+                    AnimalAdoptionValues.totalItems.count = 0;
                     def.reject("Failed to get animals");
                 });
 
@@ -27,8 +29,9 @@ adoptionModule
         factory.getListOfAdoptionAnimals = function(filter){
             var def = $q.defer();
 
-            $http.post(RESOURCES.ANIMALS_FOR_ADOPTING, filter)
+            $http.post(RESOURCES.ANIMALS_FOR_ADOPTING, AnimalAdoptionValues.filter)
                 .success(function (data) {
+                    AnimalAdoptionValues.animals.values = data;
                     def.resolve(data);
                 })
                 .error(function () {
@@ -41,8 +44,14 @@ adoptionModule
             factory.getAnimalTypes = function() {
                 var def = $q.defer();
 
+                if (AnimalAdoptionValues.animalTypes.values.length !== 0) {
+                    def.resolve(AnimalAdoptionValues.animalTypes.values);
+                    return def.promise;
+                }
+
                 $http.get(RESOURCES.ANIMAL_TYPES)
                     .success(function(data) {
+                        AnimalAdoptionValues.animalTypes.values = data;
                         def.resolve(data);
                     })
                     .error(function() {
@@ -68,7 +77,7 @@ adoptionModule
 
 
         //Inject dependencies
-        AdoptionFactory.$inject = ['$q', 'RESOURCES'];
+        AdoptionFactory.$inject = ['$q', 'RESOURCES', 'AnimalAdoptionValues'];
 
         return factory;
         }
