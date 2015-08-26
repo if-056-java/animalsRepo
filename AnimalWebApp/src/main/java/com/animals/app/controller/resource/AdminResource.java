@@ -165,7 +165,7 @@ public class AdminResource {
             new AnimalBreedRepositoryImpl().insert_ua(animal.getBreed());
         }
 
-        if (animal.getImage().length() > (imageFolder.length() + 19)) {
+        if (animal.getImage().length() > (imageFolder.length() + 21)) {
             String fileStr = animal.getImage();
             String fileName = fileStr.substring(0, fileStr.indexOf('\n'));
             fileStr = fileStr.substring(fileStr.indexOf('\n') + 1);

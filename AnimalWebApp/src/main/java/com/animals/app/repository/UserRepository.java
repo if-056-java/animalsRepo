@@ -57,8 +57,9 @@ public interface UserRepository {
             " UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive, GoogleId, SocialPhoto" +
             " FROM users WHERE GoogleId = #{googleId}";
-    
-    
+
+    final String SELECT_BY_ID_MEDICAL_HISTORY = "SELECT Id, Name, Surname" +
+            " FROM users WHERE Id = #{id}";
 
     /**
      * Insert an instance of User into the database.
@@ -192,4 +193,17 @@ public interface UserRepository {
             @Result(property="socialPhoto", column="SocialPhoto")
     })
     User getByGoogleId(String googleId);
+
+    /**
+     * Returns a User instance from the database for admin animals list.
+     * @param id primary key value used for lookup.
+     * @return A User instance with a primary key value equals to pk. null if there is no matching row.
+     */
+    @Select(SELECT_BY_ID_MEDICAL_HISTORY)
+    @Results(value = {
+            @Result(property="id", column="id"),
+            @Result(property="name", column="name"),
+            @Result(property="surname", column="surname")
+    })
+    User getByIdMedicalHistory(long id);
 }
