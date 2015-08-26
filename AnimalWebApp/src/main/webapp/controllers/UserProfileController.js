@@ -31,13 +31,15 @@ animalApp.controller('UserProfileController', function($scope, userData, userAcc
 	
 	
 	
-    $scope.submitUpdateForm=function(){    	
+    $scope.submitUpdatedForm=function(){    	
     	
     	if($scope.passwordNew){    		
     		$scope.fields.password=hashPassword($scope.passwordNew);     		
     	}     	
     	
-		userData.updateUser($scope.fields, $scope.fields.id);       
+		userData.updateUser($scope.fields, $scope.fields.id); 
+		
+		$scope.IsHidden =  true;
 	
 	};	    
 	
