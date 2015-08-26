@@ -4,5 +4,6 @@ angular.module('AdminAnimalsValues', [])
         totalItems: {count: 0},
         animals: {values: []},
         animalTypes: {values: []},
-        animalServices: {values: []}
+        animalServices: {values: []},
+        animal: {}
     });
