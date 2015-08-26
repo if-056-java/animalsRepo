@@ -1,6 +1,8 @@
-angular.module('DoctorAnimalsModule', ['DoctorAnimalsValues', 'AnimalMedicalHistoryValues'])
-    .service('DoctorAnimalsService', ['$http', '$q', 'DoctorAnimalsValues', 'AnimalMedicalHistoryValues',
-        function($http, $q, DoctorAnimalsValues, AnimalMedicalHistoryValues) {
+angular.module('DoctorAnimalsModule', ['DoctorAnimalsValues', 'AnimalMedicalHistoryValues', 'LocalStorageModule'])
+    .service('DoctorAnimalsService', ['$http', '$q', 'localStorageService', 'DoctorAnimalsValues', 'AnimalMedicalHistoryValues',
+        function($http, $q, localStorageService, DoctorAnimalsValues, AnimalMedicalHistoryValues) {
+
+            $http.defaults.headers.common['AccessToken'] = localStorageService.get('accessToken');
 
             /**
              * filter instance used for lookup.

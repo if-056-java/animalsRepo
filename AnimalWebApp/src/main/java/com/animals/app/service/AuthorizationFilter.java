@@ -34,8 +34,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws WebApplicationException {
 						
-		HttpSession session = req.getSession(true);		
-		
+		HttpSession session = req.getSession(true);
 
 		//AUTHENTICATION Read request header and define USER from accessToken
 		//get session ID from accessToken		

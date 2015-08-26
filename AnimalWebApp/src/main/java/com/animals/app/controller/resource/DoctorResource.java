@@ -130,13 +130,13 @@ public class DoctorResource {
 
         User user = new User();
         try {
-            user.setId((Integer) session.getAttribute("userId"));
+            user.setId(Integer.parseInt((String) session.getAttribute("userId")));
         } catch (ClassCastException e) {
             return BAD_REQUEST;
         }
 
         animalMedicalHistory.setUser(user);
-        System.out.println(animalMedicalHistory);
+
         AnimalMedicalHistoryRepository animalMedicalHistoryRepository = new AnimalMedicalHistoryRepositoryImpl();
         animalMedicalHistoryRepository.insert(animalMedicalHistory);
 

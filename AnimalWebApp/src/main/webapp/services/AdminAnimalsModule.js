@@ -1,5 +1,8 @@
-angular.module('AdminAnimalsModule', ['AdminAnimalsValues'])
-    .service('AdminAnimalsService', ['$http', '$q', 'AdminAnimalsValues', function($http, $q, AdminAnimalsValues) {
+angular.module('AdminAnimalsModule', ['AdminAnimalsValues', 'LocalStorageModule'])
+    .service('AdminAnimalsService', ['$http', '$q', 'localStorageService', 'AdminAnimalsValues',
+        function($http, $q, localStorageService, AdminAnimalsValues) {
+
+        $http.defaults.headers.common['AccessToken'] = localStorageService.get('accessToken');
 
         /**
          * filter instance used for lookup.
