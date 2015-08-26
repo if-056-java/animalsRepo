@@ -2,9 +2,10 @@ angular.module('AnimalMedicalHistoryValues', [])
     .value('AnimalMedicalHistoryValues', {
         filter: {
             page: 1,
-            limit: '15'
+            limit: '10'
         },
         totalItems: {count: 0},
         items: {values: []},
-        item: {}
+        item: {},
+        itemTypes: {values: []}
     });

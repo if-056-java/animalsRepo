@@ -1,6 +1,6 @@
 angular.module('AnimalMedicalHistoryController', ['DoctorAnimalsModule', 'DoctorAnimalsValues', 'AnimalMedicalHistoryValues'])
-    .controller('AnimalMedicalHistoryController', ['$scope', '$routeParams', 'DoctorAnimalsService', 'DoctorAnimalsValues', 'AnimalMedicalHistoryValues',
-        function($scope, $routeParams, DoctorAnimalsService, DoctorAnimalsValues, AnimalMedicalHistoryValues) {
+    .controller('AnimalMedicalHistoryController', ['$scope', '$routeParams', '$window', 'DoctorAnimalsService', 'DoctorAnimalsValues', 'AnimalMedicalHistoryValues',
+        function($scope, $routeParams, $window, DoctorAnimalsService, DoctorAnimalsValues, AnimalMedicalHistoryValues) {
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
@@ -60,4 +60,12 @@ angular.module('AnimalMedicalHistoryController', ['DoctorAnimalsModule', 'Doctor
                 $scope.filter.limit = count;
                 DoctorAnimalsService.getMedicalHistoryItems(animalId);
             };
+
+            $scope.delete = function(itemId) {
+                DoctorAnimalsService.getMedicalHistoryItemDelete(itemId)
+                    .then(function() {}
+                    , function() {
+                        $window.alert("Не вдалося видалити елемент.");
+                    });
+            }
         }]);

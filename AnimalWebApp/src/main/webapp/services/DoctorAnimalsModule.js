@@ -223,4 +223,62 @@ angular.module('DoctorAnimalsModule', ['DoctorAnimalsValues', 'AnimalMedicalHist
                 return def.promise;
             }
 
+            this.getMedicalHistoryItemDelete = function(itemId) {
+                var def = $q.defer();
+
+                $http.delete("/webapi/doctor/medical_history/item/" + itemId)
+                    .success(function(data) {
+                        for (var temp in AnimalMedicalHistoryValues.items.values) {
+                            if (AnimalMedicalHistoryValues.items.values[temp].id == itemId) {
+                                AnimalMedicalHistoryValues.items.values.splice(temp, 1);
+                                break;
+                            }
+                        }
+                        def.resolve(data);
+                    })
+                    .error(function() {
+                        def.reject("Failed to delete medical history item");
+                    });
+
+                return def.promise;
+            }
+
+            /**
+             * @return list of animal medical history types.
+             */
+            this.getAnimalMedicalHistoryTypes = function() {
+                var def = $q.defer();
+
+                if (AnimalMedicalHistoryValues.itemTypes.values.length !== 0) {
+                    def.resolve(AnimalMedicalHistoryValues.itemTypes.values);
+                    return def.promise;
+                }
+
+                $http.get("/webapi/animals/medical_history/types")
+                    .success(function(data) {
+                        AnimalMedicalHistoryValues.itemTypes.values = data;
+                        def.resolve(data);
+                    })
+                    .error(function() {
+                        def.reject("Failed to get animal medical history types");
+                    });
+
+                return def.promise;
+            }
+
+            this.setAnimalMedicalHistoryItem = function(item) {
+                var def = $q.defer();
+
+                $http.post("/webapi/doctor/medical_history/item", item)
+                    .success(function(data) {
+                        AnimalMedicalHistoryValues.itemTypes.values = data;
+                        def.resolve(data);
+                    })
+                    .error(function() {
+                        def.reject("Failed to get animal medical history types");
+                    });
+
+                return def.promise;
+            }
+
         }]);

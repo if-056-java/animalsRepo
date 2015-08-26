@@ -11,6 +11,7 @@ public class AnimalMedicalHistory {
     private Long animalId;
     private User user;
     private Date date;
+    private String description;
 
     public Long getId() {
         return id;
@@ -52,6 +53,14 @@ public class AnimalMedicalHistory {
         this.date = date;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,7 +72,8 @@ public class AnimalMedicalHistory {
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
         if (animalId != null ? !animalId.equals(that.animalId) : that.animalId != null) return false;
         if (user != null ? !user.equals(that.user) : that.user != null) return false;
-        return !(date != null ? !date.equals(that.date) : that.date != null);
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        return !(description != null ? !description.equals(that.description) : that.description != null);
 
     }
 
@@ -74,6 +84,7 @@ public class AnimalMedicalHistory {
         result = 31 * result + (animalId != null ? animalId.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
 
@@ -85,6 +96,7 @@ public class AnimalMedicalHistory {
                 ", animalId=" + animalId +
                 ", user=" + user +
                 ", date=" + date +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

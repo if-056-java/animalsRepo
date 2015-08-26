@@ -13,8 +13,14 @@ public interface AnimalMedicalHistoryRepository {
     final String SELECT_BY_ANIMAL_ID_PAGINATOR = "SELECT count(*) AS count " +
             "FROM animalstatusesloger WHERE animalId = #{id}";
 
-    final String SELECT_BY_ANIMAL_ID = "SELECT id, statusId, animalId, userId, date " +
+    final String SELECT_BY_ANIMAL_ID = "SELECT id, statusId, animalId, userId, date, description " +
             "FROM animalstatusesloger WHERE animalId = #{id} LIMIT #{offset},#{limit}";
+
+    final String DELETE_BY_ID = "DELETE " +
+            "FROM animalstatusesloger WHERE id = #{id}";
+
+    final String INSERT = "INSERT INTO animalstatusesloger (statusId, animalId, userId, date, description) " +
+            "VALUES (#{status.id}, #{animalId}, #{user.id}, #{date}, #{description})";
 
     /**
      * Returns count of rows selected from DB by method getAllForAdopting
@@ -36,7 +42,23 @@ public interface AnimalMedicalHistoryRepository {
             @Result(property="animalId", column="animalId"),
             @Result(property="user", column="userId", javaType = User.class,
                     one = @One(select = "com.animals.app.repository.UserRepository.getByIdMedicalHistory")),
-            @Result(property="date", column="date")
+            @Result(property="date", column="date"),
+            @Result(property="description", column="description")
     })
     List<AnimalMedicalHistory> getByAnimalId(@Param("id") long id, @Param("offset") long offset, @Param("limit") int limit);
+
+    /**
+     * Delete an instance of Animal medical history from the database.
+     * @param id primary key value of the instance to be deleted.
+     */
+    @Delete(DELETE_BY_ID)
+    void deleteById(long id);
+
+    /**
+     * Insert an instance of Animal medical history into the database.
+     * @param animalMedicalHistory the instance to be persisted.
+     */
+    @Insert(INSERT)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insert(AnimalMedicalHistory animalMedicalHistory);
 }

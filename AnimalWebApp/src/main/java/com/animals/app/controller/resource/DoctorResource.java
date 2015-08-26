@@ -2,12 +2,16 @@ package com.animals.app.controller.resource;
 
 import com.animals.app.domain.AnimalMedicalHistory;
 import com.animals.app.domain.AnimalsFilter;
+import com.animals.app.domain.User;
 import com.animals.app.repository.AnimalMedicalHistoryRepository;
 import com.animals.app.repository.Impl.AnimalMedicalHistoryRepositoryImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -68,9 +72,7 @@ public class DoctorResource {
         if ((animalsFilter.getPage() == 0) || (animalsFilter.getLimit() == 0)) {
             return BAD_REQUEST;
         }
-        System.out.println(animalId);
-        System.out.println(animalsFilter.getPage());
-        System.out.println(animalsFilter.getLimit());
+
         //get list of animals medical history from data base
         AnimalMedicalHistoryRepository animalMedicalHistory = new AnimalMedicalHistoryRepositoryImpl();
         List<AnimalMedicalHistory> medicalHistory = animalMedicalHistory.getByAnimalId(animalId, animalsFilter.getOffset(), animalsFilter.getLimit());
@@ -84,6 +86,61 @@ public class DoctorResource {
         }
 
         return ok(genericAnimals);
+    }
+
+    /**
+     * @param itemId instance used for lookup.
+     * @return list of medical history.
+     */
+    @DELETE //http:localhost:8080/webapi/doctor/medical_history/item/{itemId}
+    @Path("medical_history/item/{itemId}")
+    public Response deleteMedicalHistoryItemById(@PathParam("itemId") long itemId) {
+        if(itemId == 0) {
+            return BAD_REQUEST;
+        }
+
+        AnimalMedicalHistoryRepository animalMedicalHistory = new AnimalMedicalHistoryRepositoryImpl();
+        animalMedicalHistory.deleteById(itemId);
+
+        return ok();
+    }
+
+    @POST //http:localhost:8080/webapi/doctor/medical_history/item
+    @Path("medical_history/item")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteMedicalHistoryItemById(@Context HttpServletRequest req, AnimalMedicalHistory animalMedicalHistory) {
+        if(animalMedicalHistory == null) {
+            return BAD_REQUEST;
+        }
+
+        if((animalMedicalHistory.getAnimalId() == null) || (animalMedicalHistory.getDate() == null)
+                || (animalMedicalHistory.getStatus() == null)) {
+            return BAD_REQUEST;
+        }
+
+        if (animalMedicalHistory.getStatus().getId() == null) {
+            return BAD_REQUEST;
+        }
+
+        HttpSession session = req.getSession(true);
+
+        if (session.getAttribute("userId") == null) {
+            return BAD_REQUEST;
+        }
+
+        User user = new User();
+        try {
+            user.setId((Integer) session.getAttribute("userId"));
+        } catch (ClassCastException e) {
+            return BAD_REQUEST;
+        }
+
+        animalMedicalHistory.setUser(user);
+        System.out.println(animalMedicalHistory);
+        AnimalMedicalHistoryRepository animalMedicalHistoryRepository = new AnimalMedicalHistoryRepositoryImpl();
+        animalMedicalHistoryRepository.insert(animalMedicalHistory);
+
+        return ok();
     }
 
     /**
