@@ -30,7 +30,7 @@
                     <span class="input-group-addon">Тварина:</span>
                     <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.type"
                         ng-change="getAnimalBreeds()" style="cursor: pointer" title="Не вибрано">
-                        <li nya-bs-option="animalType in animalTypes">
+                        <li nya-bs-option="animalType in animalTypes.values">
                             <a>{{ animalType.type }}</a>
                         </li>
                     </ol>
@@ -114,14 +114,14 @@
             </div>
 
             <!-- Error message -->
-            <h3 class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top: 320px;" ng-show="totalItems == 0">
+            <h3 class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top: 320px;" ng-show="totalItems.count == 0">
                 {{errorMessage}}</h3>
 
             <!-- List of animals for adoption -->
             <div class="col-xs-7 col-sm-9 col-md-8 col-lg-9 simple-border" ng-show="!contentLoading">
                 <div class="row">
                     <div class="col-xs-12 col-lg-4 col-sm-6 simple-side-padding"
-                         style="height:400px; margin-bottom: 10px;" ng-repeat="animal in animals">
+                         style="height:400px; margin-bottom: 10px;" ng-repeat="animal in animals.values">
                         <h4 class="blocktext blocktext-h4">Оголошення № {{animal.id}}</h4>
 
                         <p class="center-block" id="animal-image-id">
@@ -142,11 +142,11 @@
                 </div>
 
                 <!-- Pagination -->
-                <div class="row" ng-show="totalItems">
+                <div class="row" ng-show="totalItems.count">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-success text-center">
                         <div class="col-md-2"></div>
                         <div class="col-md-8">
-                            <pagination boundary-links="true" total-items="totalItems" ng-model="filter.page"
+                            <pagination boundary-links="true" total-items="totalItems.count" ng-model="filter.page"
                                         ng-change="pageChanged()" class="paginator" items-per-page="filter.limit"
                                         previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
                                         last-text="&raquo;"></pagination>
