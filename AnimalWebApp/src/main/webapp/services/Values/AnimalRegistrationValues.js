@@ -13,9 +13,9 @@ animalRegistrationModule
             }()
         },
         address: {
-                country:undefined,
-                town:undefined,
-                street:undefined,
+                country:'',
+                town:'',
+                street:'',
                 index:''
         }
     });
