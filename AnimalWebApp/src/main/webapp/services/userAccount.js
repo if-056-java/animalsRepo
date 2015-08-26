@@ -1,50 +1,33 @@
 //created by 41X
-angular.module('animalApp').factory('userAccount',function (Base64, $http, $rootScope, $location, $route){
+angular.module('animalApp').factory('userAccount',function (Base64, $http, localStorageService, $location, $route){
 	
 	return {
 		
 		login:function (username, password){
 			
-			var authdata = Base64.encode(username + ':' + password);
-			console.log(username);
-			console.log(password);
-			console.log(authdata);
-
-            $rootScope.globals = {
-                currentUser: {
-                    username: username,                    		
-                    authdata: authdata
-                }
-            };
+			var authdata = Base64.encode(username + ':' + password);            
             
-            console.log($rootScope.globals.currentUser.username+ " - rootscope username");
-            console.log($rootScope.globals.currentUser.authdata + " - rootscope authdata");
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; 
+                       
+			var memoryMe = localStorageService.get("memoryMe");
             
-            
-            
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
-            //$cookieStore.put('globals', $rootScope.globals); 
-            
-			
-			$http.post("/webapi/account/login", {})
+			$http.post("/webapi/account/login/" + memoryMe, {})
 	        .success(function(data){
 	        	
-	        	$rootScope.sessionId=data.sessionId;
-	        	$rootScope.userName=data.userName;
-	        	$rootScope.userSurname=data.userSurname;
-	        	$rootScope.userId=data.userId;
-	        	$rootScope.socialLogin=data.socialLogin;
-	        	$rootScope.userRole=data.userRole;
-	        	//$rootScope.userType=data.userId;
+	        	if (localStorageService.get("memoryMe")=="ON"){
+	        		localStorageService.cookie.set("accessToken",data.accessToken,30);	        		
+	        	} else {
+	        		localStorageService.cookie.set("accessToken",data.accessToken,0.065);	//90 min
+	        	}
 	        	
+	        	localStorageService.set("accessToken", data.accessToken);
+	        	localStorageService.set("userId", data.userId);
+	        	localStorageService.set("userName", data.socialLogin);
+	        	localStorageService.set("userRole", data.userRole);
+	        	localStorageService.set("userRoleId", data.userRoleId);
 	        	
-		        console.log("inside auth. success. Session Id - " + $rootScope.sessionId);
-		        console.log(" UserName - " + $rootScope.userName);
-		        console.log(" userId - " + $rootScope.userId);
-		        
 		        $location.path("/ua/user/profile");	
-		        $route.reload();
-		        //$window.location.reload();
+		        $route.reload();		       
 	        }) 
 			.error(function(data, status){
 				console.log("zrada");
@@ -52,70 +35,79 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, $root
 			});
 		},
 		
-		logout:function(){
-			
-			console.log("logout");
-			
-			$rootScope.globals = {};
-            //$cookieStore.remove('globals');
-            //$http.defaults.headers.common.Authorization = 'Basic ';
+		logout:function(){			
 			
             $http.get("/webapi/account/logout")
-	        .success(function(data){	        	
-	        	$rootScope.userId=data.userId;
-	        	$rootScope.userName=null;
-		        console.log("Logout. success. Session Id - " + $rootScope.userId);	
-		        $location.path("/ua");
-		        $route.reload();
-	        }) 
-			.error(function(data){
-				$rootScope.sessionId=null;
-				console.log("logout session error");
-			});  
-		},
-		
-		refreshSession:function(){
-			
-			console.log("restart Session");
-			
-			$http.get("/webapi/account/refresh")
 	        .success(function(data){
-	        	$rootScope.sessionId=data.sessionId;
-	        	$rootScope.userName=data.userName;
-	        	$rootScope.userId=data.userId;
-		        console.log("Restart. success. Session Id - " + $rootScope.sessionId);		                
+	        	
+	        	localStorageService.clearAll();	
+		        $location.path("/ua");	
+		        $route.reload();		      
+		        
 	        }) 
-			.error(function(data){
-				$rootScope.sessionId=null;
-				console.log("restart session error");
+			.error(function(data){				
+				console.log("logout session error");
+				localStorageService.clearAll();	
+		        $location.path("/ua");	
+		        $route.reload();
 			});
+            
 		},
 		
-		registerUser:function(user){
-			
-			console.log("registration");
+		
+		registerUser:function(user){			
+		
 			
 			$http.post("/webapi/account/registration", user)
 	        .success(function(data){
 	        	if(data.userId==0){
 	        		console.log("Registration error. SocialLogin is already exist");	        		
 	        	} else {
-		        	$rootScope.sessionId=data.sessionId;
-		        	$rootScope.userName=data.userName;
-		        	$rootScope.userSurname=data.userSurname;
-		        	$rootScope.userId=data.userId;
-		        	$rootScope.socialLogin=data.socialLogin;
-		        	$rootScope.userRole=data.userRole;
+	        		
+	        		if (localStorageService.get("memoryMe")=="ON"){
+		        		localStorageService.cookie.set("accessToken",data.accessToken,30);	        		
+		        	} else {
+		        		localStorageService.cookie.set("accessToken",data.accessToken,0.065);
+		        	}
 		        	
-			        console.log("Registration success. Session Id - " + $rootScope.userId);	
+		        	localStorageService.set("accessToken", data.accessToken);
+		        	localStorageService.set("userId", data.userId);
+		        	localStorageService.set("userName", data.socialLogin);
+		        	localStorageService.set("userRole", data.userRole);
+		        	localStorageService.set("userRoleId", data.userRoleId);
+		        	
 			        $location.path("/ua/user/profile");	
 			        $route.reload();
 	        	}		        
 	        }) 
-			.error(function(data){
-				$rootScope.sessionId=null;
+			.error(function(data){				
 				console.log("registration error");
 			});
+		},
+		
+		refreshSession:function(){
+									
+			$http.get("/webapi/account/refresh")
+	        .success(function(data){
+	        	
+	        	localStorageService.cookie.set("accessToken",data.accessToken,30);	        	
+	        	localStorageService.set("accessToken", data.accessToken);
+	        	localStorageService.set("userId", data.userId);
+	        	localStorageService.set("userName", data.socialLogin);
+	        	localStorageService.set("userRole", data.userRole);
+	        	localStorageService.set("userRoleId", data.userRoleId);	
+	        	
+	        	$location.path("/ua/user/profile");	
+		        $route.reload();
+	        	
+	        }) 
+			.error(function(data){
+				localStorageService.set("userId", null);
+				console.log("refresh session error");
+				$location.path("/ua");	
+		        $route.reload();
+			});			
+			       	
 		}
 		
 	};	

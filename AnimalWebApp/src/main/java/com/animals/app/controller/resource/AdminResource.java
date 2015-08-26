@@ -12,6 +12,7 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import sun.misc.BASE64Decoder;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -25,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 @Path("admin")
+@RolesAllowed("модератор")
 public class AdminResource {
     private static Logger LOG = LogManager.getLogger(AdminResource.class);
 

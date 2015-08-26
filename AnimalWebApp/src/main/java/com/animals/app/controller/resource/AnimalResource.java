@@ -3,6 +3,7 @@ package com.animals.app.controller.resource;
 import com.animals.app.domain.*;
 import com.animals.app.repository.Impl.*;
 
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 
@@ -21,7 +22,11 @@ import java.io.*;
 import java.util.List;
 
 @Path("animals")
+@PermitAll
 public class AnimalResource {
+
+    @Context
+    private HttpServletRequest httpServlet;
 
     //logger
     private static Logger LOG = LogManager.getLogger(AnimalResource.class);
@@ -39,19 +44,23 @@ public class AnimalResource {
     AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
 
     @POST
-    @Path("animal")//http:localhost:8080/AnimalWebApp/webapi/animals/animal
+    @Path("animal")//http:localhost:8080/AnimalWebApp/webapi/animals
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response insertAnimal(Animal animal) {
         if (animal == null)
             return BAD_REQUEST;
 
-        String fileName = createAnimalImage.createAnimalImage(animal.getImage(), animal.getImageType());
-
+        String fileName = createAnimalImage.createAnimalImage(animal.getImage(), httpServlet.getServletContext().getRealPath("/") + "images/");
         animal.setImage("images/" + fileName);
-        animal.setImageType(null);
-        animalRepository.insert(animal);
 
+        //check breed, if it new insert it into database
+        if ((animal.getBreed() != null) && (animal.getBreed().getId() == null) && (animal.getBreed().getBreedUa() != null)) {
+            animal.getBreed().setType(animal.getType());
+            new AnimalBreedRepositoryImpl().insert_ua(animal.getBreed());
+        }
+
+        animalRepository.insert(animal);
         return ok(animal);
     }
 

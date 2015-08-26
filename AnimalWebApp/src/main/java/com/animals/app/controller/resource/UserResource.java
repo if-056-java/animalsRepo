@@ -2,6 +2,8 @@ package com.animals.app.controller.resource;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -23,6 +25,7 @@ import com.animals.app.repository.Impl.UserRepositoryImpl;
  */
 
 @Path("users")
+@RolesAllowed({"гість", "модератор"})
 public class UserResource {
 	
 	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	
@@ -32,9 +35,10 @@ public class UserResource {
 	private UserRepositoryImpl userRep = new UserRepositoryImpl();
 	AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
 	
+	
 	@GET //http:localhost:8080/webapi/users/user/{userId}
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("user/{userId}") 
+	@Path("user/{userId}") 	
 	public Response getUserById(@PathParam ("userId") String id) {
 				
 		int parseId = 0;

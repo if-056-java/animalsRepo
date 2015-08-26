@@ -1,5 +1,8 @@
 package com.animals.app.controller.resource;
 
+import com.animals.app.domain.Animal;
+import com.animals.app.repository.AnimalRepository;
+import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.service.Twitt;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -8,10 +11,7 @@ import twitter4j.TwitterException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
@@ -36,20 +36,36 @@ public class TwitterResource {
 
     private final Response OK = Response.status(Response.Status.OK).build();
 
-    @POST
-    @Path("twitter")//http:localhost:8080/webapi/contacts/twitter
+    @POST //http:localhost:8080/webapi/animals/twitt/animalId
+    @Path("animals/twitt/{animalId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response sendTwitt (Twitt twitt) {
-        String consumerKey, consumerSecret, accessToken, accessTokenSecret ;
-        
-        if (twitt.getMessage().isEmpty()) return BAD_REQUEST;
+    public Response sendTwitt (@PathParam("animalId") long animalId) {
+
+        Twitt twitt;
+
+        String consumerKey, consumerSecret, accessToken, accessTokenSecret, messageBody ;
+
+        if (animalId == 0) {
+            return BAD_REQUEST;
+        }
 
         consumerKey = twitterConfig.getProperty("twitter.consumerKey");
         consumerSecret = twitterConfig.getProperty("twitter.consumerSecret");
         accessToken = twitterConfig.getProperty("twitter.accessToken");
         accessTokenSecret = twitterConfig.getProperty("twitter.accessTokenSecret");
+        messageBody = twitterConfig.getProperty("twitter.messageBody");
 
+        //get animal by id from database
+        AnimalRepository animalRepository = new AnimalRepositoryImpl();
+        Animal animal = animalRepository.getById(animalId);
+
+        if (animal == null) {
+            return NOT_FOUND;
+        }
+
+        twitt = new Twitt();
+        twitt.setMessage("Нова тварина! " + animal.getType().toString());
         try {
             twitt.sendTwitt(consumerKey, consumerSecret, accessToken, accessTokenSecret);
         } catch (TwitterException e) {

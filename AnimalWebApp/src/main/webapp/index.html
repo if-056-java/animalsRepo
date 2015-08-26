@@ -15,7 +15,9 @@
     <!-- CSS-ядро Bootstrap -->
     <link href="resources/css/bootstrap.css" rel="stylesheet">
     <link href="resources/css/bootstrap-select.min.css" rel="stylesheet">
-
+    
+    <!-- Social Buttons -->
+    <link href="resources/css/bootstrap-social.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <!-- Підібрані стилі для Google Maps -->
@@ -23,7 +25,9 @@
 
     <!-- Підібрані стилі для навігаційної панелі -->
     <link href="resources/css/navbar_green.css" rel="stylesheet">
-    
+
+    <!-- Підібрані стилі для редагування зображення -->
+    <link href="resources/css/ng-img-crop.css" rel="stylesheet">
 
     <!-- Підібрані стилі для сторінки -->
     <link href="resources/css/styles.css" rel="stylesheet">
@@ -71,21 +75,22 @@
 			 
 		    <li><a href="#ua/contacts">Контакти</a></li>
 	
-			<li><a ng-show="!session()" href="#ua/user/profile">Мій Кабінет</a></li>
+			<li><a ng-show="session()" href="#ua/user/profile">Мій Кабінет</a></li>
 
-            <li class="dropdown" ng-show="!session()">
+            <!-- ng-show="!session()" -->
+            <li class="dropdown" >
                 <a href="" class="dropdown-toggle" data-toggle="dropdown">Реєстація тварини <b class="caret"></b> </a>
                 <ul class="dropdown-menu">
                     <li><a href="#ua/animal/registration_homeless">Зареєструвати безпритульну</a> </li>
                     <li role="presentation" class="divider"></li>
                     <li><a href="#ua/animal/registration_owned">Зареєструвати власну</a> </li>
                     <li role="presentation" class="divider"></li>
-                    <li><a href="#ua/animal/registration_curator">Зареєструвати на опікунство</a> </li>
+                    <li><a href="#ua/animal/registration_guardian">Зареєструвати на опікунство</a> </li>
                 </ul>
             </li>
 
 		  <li class="dropdown">
-				<a ng-show="!session()" href="" class="dropdown-toggle" data-toggle="dropdown">Модерація <b class="caret"></b></a>
+				<a ng-show="session()" href="" class="dropdown-toggle" data-toggle="dropdown">Модерація <b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<li><a href="#ua/user/home/animals">Реєстр тварин</a></li>
 					<li role="presentation" class="divider"></li>
@@ -98,9 +103,9 @@
 		<!-- Форма входу -->
 				
 				<form class="navbar-form navbar-right" role="form">
-				    <a ng-show="session()" href="#ua/user/login" class="btn btn-success" role="button">Вхід  <span class="glyphicon glyphicon-log-in"></span></a>
-				    <label ng-show="!session()">Вітаємо: {{userName}}</label>
-				    <a ng-show="!session()" ng-click="logout()" class="btn btn-success" role="button">Вихід  <span class="glyphicon glyphicon-log-out"></span></a>
+				    <a ng-show="!session()" href="#ua/user/login" class="btn btn-success" role="button">Вхід  <span class="glyphicon glyphicon-log-in"></span></a>
+				    <label ng-show="session()">Вітаємо: {{userName}}</label>
+				    <a ng-show="session()" ng-click="logout()" class="btn btn-success" role="button">Вихід  <span class="glyphicon glyphicon-log-out"></span></a>
 				</form>				
 		</div><!-- /.nav-collapse -->
 	</div>	
@@ -138,6 +143,7 @@
 
 <!-- Angular Script -->
 <script src="resources/js/angular.js"></script>
+<script src="resources/js/angular-local-storage.min.js"></script>
 <script src="resources/js/angular-route.js"></script>
 <script src="resources/js/angular-resource.min.js"></script>
 <script src="resources/js/angular-file-upload.min.js"></script>
@@ -157,8 +163,8 @@
 <!-- jQuery MD5 Lib-->
 <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
 
-<!-- File upload -->
-<script src="resources/js/angular-base64-upload.min.js"></script>
+<!-- Image Crop -->
+<script src="resources/js/ng-img-crop.js"></script>
 
 <!-- Site Scripts-->
  <script src="modules/animalApp.js"></script>
@@ -169,7 +175,12 @@
 
  <script src="modules/AnimalRegistrationModule.js"></script>
  <script src="services/AnimalRegistrationFactory.js"></script>
- <script src="controllers/AnimalRegistrationController.js"></script>
+ <script src="controllers/AnimalHomelessRegController.js"></script>
+ <script src="controllers/AnimalOwnedRegController.js"></script>
+ <script src="controllers/AnimalGuardianRegController.js"></script>
+ <script src="services/Values/AnimalRegistrationValues.js"></script>
+ <script src="services/Constants/AnimalRegistrationConstants.js"></script>
+
 
  <script src="services/AdminAnimalsModule.js"></script>
  <script src="services/AdminAnimalsValues.js"></script>
@@ -180,6 +191,7 @@
  <script src="controllers/AnimalsDetailController.js"></script>
  <script src="controllers/DPController.js"></script>
  <script src="controllers/ContactsController.js"></script>
+ <script src="services/ContactsValues.js"></script>
  <script src="controllers/FindController.js"></script>
  <script src="controllers/LostController.js"></script>
  <script src="controllers/HomelessController.js"></script>
@@ -196,6 +208,7 @@
  <script src="controllers/RegistrationController.js"></script>
  <script src="controllers/UserProfileController.js"></script>
  <script src="controllers/AnimalShortInfoController.js"></script>
+ <script src="controllers/MainController.js"></script>
  <script src="services/currentDate.js"></script>
  <script src="services/hashPassword.js"></script>
  <script src="services/userData.js"></script>

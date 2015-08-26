@@ -1,15 +1,12 @@
 var animalApp = angular.module('animalApp', [
     'ngRoute',
     'ngResource',
-
     'AdoptionModule',
     'AnimalRegistrationModule',
-
     'FindController',
     'LostController',
     'LoginController',
     'HomelessController',
-    'AnimalsDetailController',
     'ContactsController',
     'StarterPageController',
     'AdminAnimals',
@@ -22,7 +19,9 @@ var animalApp = angular.module('animalApp', [
     'AnimalMedicalHistoryDetailedController',
     'RegistrationController',
     'UserProfileController',
-    'AnimalShortInfoController'
+    'AnimalShortInfoController',
+    'MainController',
+    'LocalStorageModule'
 ]);
 
 animalApp .config(['$routeProvider',
@@ -106,13 +105,20 @@ animalApp .config(['$routeProvider',
             })
             .when('/ua/animal/registration_homeless', {
                 templateUrl: 'views/reg_homeless.html',
-                controller: 'AnimalRegistrationController'
+                controller: 'AnimalHomelessRegController'
+            })
+	        .when('/ua/animal/registration_owned', {
+        	    templateUrl: 'views/reg_owned.html',
+        	    controller: 'AnimalOwnedRegController'
+      	    })
+            .when('/ua/animal/registration_guardian', {
+                templateUrl: 'views/reg_guardian.html',
+                controller: 'AnimalGuardianRegController'
             })
             .otherwise({
                 redirectTo: '/ua'
             });
     }]);
-
 //Constants
 animalApp.constant('RESOURCES', {
     RESOURCE: 'http://127.0.0.1:8080/',
@@ -124,22 +130,9 @@ animalApp.constant('RESOURCES', {
     ANIMAL_REGISTRATION_IMAGE: 'webapi/animals/animal/image'
 });
 
+animalApp.config(function(localStorageServiceProvider){
+	  localStorageServiceProvider.setPrefix('AnimalWebApp');	  
+	});
 
-animalApp.controller('MainController', function($scope, $rootScope, userAccount) {
-    userAccount.refreshSession();
-    $scope.logout = function() {
-        console.log("logout");
-        userAccount.logout();
-    };
 
-    $scope.session = function(value) {
-
-        if ($rootScope.userId == 0)
-            return true;
-        else
-            return false;
-
-    };
-
-});
 

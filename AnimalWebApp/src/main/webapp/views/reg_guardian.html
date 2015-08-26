@@ -1,4 +1,4 @@
-<section id="reg_homeless">
+<section id="reg_owned">
     <div class="jumbotron">
         <div class="container">
             <div class="row">
@@ -7,7 +7,7 @@
                         <p><img src="../resources/img/main_dog.jpg" width="70"></p>
                     </div>
                     <div class="col-sm-11 col-lg-11">
-                        <h2>Реєстрація безпритульної тварини</h2>
+                        <h2>Реєстрація тварини на опікунство</h2>
                     </div>
                 </div>
             </div>
@@ -28,8 +28,71 @@
                             <h3 class="panel-title">Загальні відомості</h3>
                         </div>
                         <div class="panel-body">
+
                             <div class="row">
 
+                                <!-- Animal transponder number -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+                                    <div class="form-group"
+                                         ng-class="{ 'has-error' : animalForm.transponder.$invalid && !animalForm.transponder.$pristine }">
+                                        <label for="transpNumber" class="control-label">Номер транспондера:</label>
+
+                                        <input type="text" class="form-control" name="transponder"
+                                               id="transpNumber" placeholder="Номер транспондера"
+                                               ng-model="animal.transpNumber"
+                                               onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                                               ng-minlength="15" ng-maxlength="15"/>
+
+                                        <p ng-show="animalForm.transponder.$error.minlength && !animalForm.transponder.$pristine"
+                                           class="help-block error">Поле занадто коротке.</p>
+                                        <p ng-show="animalForm.transponder.$error.maxlength && !animalForm.transponder.$pristine"
+                                           class="help-block error">Поле занадто довге.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Animal token number -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+                                    <div class="form-group">
+                                        <label for="tokenNumber" class="control-label">Номер жетону:</label>
+
+                                        <input type="text" class="form-control" name="tokenNumber"
+                                               id="tokenNumber" placeholder="Номер жетону"
+                                               ng-model="animal.tokenNumber"/>
+                                    </div>
+                                </div>
+
+                                <!-- Animal birth date -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2" ng-controller="DPController">
+                                    <div class="form-group"
+                                         ng-class="{ 'has-error' : animalForm.dateOfBirth.$invalid && !animalForm.dateOfBirth.$pristine }">
+                                        <label for="birth-date" class="control-label required">Дата народження:</label>
+
+                                        <input id="birth-date" name="dateOfBirth"
+                                               placeholder="Дата народження"
+                                               type="text" class="form-control"
+                                               datepicker-popup="yyyy-MM-dd"
+                                               ng-model="animal.dateOfBirth"
+                                               is-open="opened"
+                                               datepicker-options="dateOptions"
+                                               ng-click="open($event)"
+                                               close-text="Close"
+                                               required ng-minlength="8" ng-maxlength="10"/>
+
+                                        <p ng-show="animalForm.dateOfBirth.$error.required && !animalForm.dateOfBirth.$pristine"
+                                           class="help-block error">Поле не заповнено.</p>
+                                        <p ng-show="animalForm.dateOfBirth.$error.minlength && !animalForm.dateOfBirth.$pristine"
+                                           class="help-block error">Поле занадто коротке.</p>
+                                        <p ng-show="animalForm.dateOfBirth.$error.maxlength && !animalForm.dateOfBirth.$pristine"
+                                           class="help-block error">Поле занадто довге.</p>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <hr>
+
+                            <div class="row">
                                 <!-- Animal type -->
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
                                     <label for="animal-kind" class="control-label required">Тип(вид) тварини:</label><br>
@@ -101,33 +164,6 @@
 
                             <div class="row">
 
-                                <!-- Animal birth date -->
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2" ng-controller="DPController">
-                                    <div class="form-group"
-                                         ng-class="{ 'has-error' : animalForm.dateOfBirth.$invalid && !animalForm.dateOfBirth.$pristine }">
-                                        <label for="birth-date" class="control-label required">Дата народження:</label>
-
-                                        <input id="birth-date" name="dateOfBirth"
-                                               placeholder="Дата народження"
-                                               type="text" class="form-control"
-                                               datepicker-popup="yyyy-MM-dd"
-                                               ng-model="animal.dateOfBirth"
-                                               is-open="opened"
-                                               datepicker-options="dateOptions"
-                                               ng-click="open($event)"
-                                               close-text="Close"
-                                               required ng-minlength="8" ng-maxlength="10"/>
-
-                                        <p ng-show="animalForm.dateOfBirth.$error.required && !animalForm.dateOfBirth.$pristine"
-                                           class="help-block error">Поле не заповнено.</p>
-                                        <p ng-show="animalForm.dateOfBirth.$error.minlength && !animalForm.dateOfBirth.$pristine"
-                                           class="help-block error">Поле занадто коротке.</p>
-                                        <p ng-show="animalForm.dateOfBirth.$error.maxlength && !animalForm.dateOfBirth.$pristine"
-                                           class="help-block error">Поле занадто довге.</p>
-
-                                    </div>
-                                </div>
-
                                 <!-- Animal sex -->
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                     <label class="control-label input-group required">Стать:</label>
@@ -162,9 +198,30 @@
                                         <input type="text" ng-model="animal.breed" id="animal-breed"
                                                typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8"
                                                class="form-control border-right-radius"
-                                               placeholder="Порода тварини">
+                                               placeholder="Порода тварини" />
                                     </div>
                                 </div>
+
+                                <!-- Animal sterilization date -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2" ng-controller="DPController">
+                                    <div class="form-group">
+                                        <label for="dateOfSterilization" class="control-label"
+                                               data-toggle="tooltip"
+                                               title="Якщо поле порожнє - стерилізації не було">Дата стерилізації:</label>
+                                        <sup><span class="glyphicon glyphicon-question-sign"></sup></span>
+
+                                        <input id="dateOfSterilization" name="sterilization_date"
+                                               placeholder="Дата стерилізації"
+                                               type="text" class="form-control"
+                                               datepicker-popup="yyyy-MM-dd"
+                                               ng-model="animal.dateOfSterilization"
+                                               is-open="opened"
+                                               datepicker-options="dateOptions"
+                                               ng-click="open($event)"
+                                               close-text="Close"/>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -214,92 +271,92 @@
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Інформація про місцезнаходження</h3>
+                                    <h3 class="panel-title">Контактна інформація</h3>
                                 </div>
                                 <div class="panel-body">
 
                                     <div class="row">
 
-                                    <!-- Country -->
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="form-group"
-                                         ng-class="{ 'has-error' : animalForm.userCountry.$invalid && !animalForm.userCountry.$pristine }">
-                                        <label for="country" class="control-label required">Країна:</label>
-                                        <input type="text" class="form-control"
-                                               name="userCountry"
-                                               id="country" placeholder="Країна"
-                                               ng-model="address.country"
-                                               required ng-minlength="3" ng-maxlength="30"/>
+                                        <!-- Country -->
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="form-group"
+                                                 ng-class="{ 'has-error' : animalForm.userCountry.$invalid && !animalForm.userCountry.$pristine }">
+                                                <label for="country" class="control-label required">Країна:</label>
+                                                <input type="text" class="form-control"
+                                                       name="userCountry"
+                                                       id="country" placeholder="Країна"
+                                                       ng-model="address.country"
+                                                       required ng-minlength="3" ng-maxlength="30"/>
 
-                                        <p ng-show="animalForm.userCountry.$error.required && !animalForm.userCountry.$pristine"
-                                           class="help-block error">Поле не заповнено.</p>
-                                        <p ng-show="animalForm.userCountry.$error.minlength && !animalForm.userCountry.$pristine"
-                                           class="help-block error">Поле занадто коротке.</p>
-                                        <p ng-show="animalForm.userCountry.$error.maxlength && !animalForm.userCountry.$pristine"
-                                           class="help-block error">Поле занадто довге.</p>
+                                                <p ng-show="animalForm.userCountry.$error.required && !animalForm.userCountry.$pristine"
+                                                   class="help-block error">Поле не заповнено.</p>
+                                                <p ng-show="animalForm.userCountry.$error.minlength && !animalForm.userCountry.$pristine"
+                                                   class="help-block error">Поле занадто коротке.</p>
+                                                <p ng-show="animalForm.userCountry.$error.maxlength && !animalForm.userCountry.$pristine"
+                                                   class="help-block error">Поле занадто довге.</p>
 
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Town -->
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <!-- Town -->
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-                                        <div class="form-group"
-                                         ng-class="{ 'has-error' : animalForm.userTown.$invalid && !animalForm.userTown.$pristine }">
-                                        <label for="town" class="control-label required">Місто:</label>
-                                        <input type="text" class="form-control"
-                                               name="userTown"
-                                               id="town" placeholder="Місто"
-                                               ng-model="address.town"
-                                               required ng-minlength="3" ng-maxlength="40" />
+                                            <div class="form-group"
+                                                 ng-class="{ 'has-error' : animalForm.userTown.$invalid && !animalForm.userTown.$pristine }">
+                                                <label for="town" class="control-label required">Місто:</label>
+                                                <input type="text" class="form-control"
+                                                       name="userTown"
+                                                       id="town" placeholder="Місто"
+                                                       ng-model="address.town"
+                                                       required ng-minlength="3" ng-maxlength="40" />
 
-                                        <p ng-show="animalForm.userTown.$error.required && !animalForm.userTown.$pristine"
-                                           class="help-block error">Поле не заповнено.</p>
-                                        <p ng-show="animalForm.userTown.$error.minlength && !animalForm.userTown.$pristine"
-                                           class="help-block error">Поле занадто коротке.</p>
-                                        <p ng-show="animalForm.userTown.$error.maxlength && !animalForm.userTown.$pristine"
-                                           class="help-block error">Поле занадто довге.</p>
+                                                <p ng-show="animalForm.userTown.$error.required && !animalForm.userTown.$pristine"
+                                                   class="help-block error">Поле не заповнено.</p>
+                                                <p ng-show="animalForm.userTown.$error.minlength && !animalForm.userTown.$pristine"
+                                                   class="help-block error">Поле занадто коротке.</p>
+                                                <p ng-show="animalForm.userTown.$error.maxlength && !animalForm.userTown.$pristine"
+                                                   class="help-block error">Поле занадто довге.</p>
 
+                                            </div>
                                         </div>
-                                    </div>
 
                                     </div>
 
                                     <div class="row">
 
-                                    <!-- Street -->
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="form-group"
-                                         ng-class="{ 'has-error' : animalForm.userStreet.$invalid && !animalForm.userStreet.$pristine }">
-                                        <label for="animal-address" class="control-label required">Адреса місця перебування тварини:</label>
-                                        <input type="text" class="form-control"
-                                               name="userStreet"
-                                               id="animal-address" placeholder="Поштова адреса"
-                                               ng-model="address.street"
-                                               required ng-minlength="3" ng-maxlength="40" />
+                                        <!-- Street -->
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="form-group"
+                                                 ng-class="{ 'has-error' : animalForm.userStreet.$invalid && !animalForm.userStreet.$pristine }">
+                                                <label for="animal-address" class="control-label required">Адреса місця перебування тварини:</label>
+                                                <input type="text" class="form-control"
+                                                       name="userStreet"
+                                                       id="animal-address" placeholder="Поштова адреса"
+                                                       ng-model="address.street"
+                                                       required ng-minlength="3" ng-maxlength="40" />
 
-                                        <p ng-show="animalForm.userStreet.$error.required && !animalForm.userStreet.$pristine"
-                                           class="help-block error">Поле не заповнено.</p>
-                                        <p ng-show="animalForm.userStreet.$error.minlength && !animalForm.userStreet.$pristine"
-                                           class="help-block error">Поле занадто коротке.</p>
-                                        <p ng-show="animalForm.userStreet.$error.maxlength && !animalForm.userStreet.$pristine"
-                                           class="help-block error">Поле занадто довге.</p>
+                                                <p ng-show="animalForm.userStreet.$error.required && !animalForm.userStreet.$pristine"
+                                                   class="help-block error">Поле не заповнено.</p>
+                                                <p ng-show="animalForm.userStreet.$error.minlength && !animalForm.userStreet.$pristine"
+                                                   class="help-block error">Поле занадто коротке.</p>
+                                                <p ng-show="animalForm.userStreet.$error.maxlength && !animalForm.userStreet.$pristine"
+                                                   class="help-block error">Поле занадто довге.</p>
 
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Index -->
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="form-group">
-                                        <label for="animal-post-index" class="control-label">Поштовий індекс місця перебування
-                                            тварини:</label>
-                                        <input type="text" class="form-control"
-                                               name="userIndex"
-                                               onkeypress='return event.charCode >= 48 && event.charCode <= 57'
-                                               id="animal-post-index" placeholder="Поштовий індекс"
-                                               ng-model="address.index"/>
+                                        <!-- Index -->
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="form-group">
+                                                <label for="animal-post-index" class="control-label">Поштовий індекс місця перебування
+                                                    тварини:</label>
+                                                <input type="text" class="form-control"
+                                                       name="userIndex"
+                                                       onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                                                       id="animal-post-index" placeholder="Поштовий індекс"
+                                                       ng-model="address.index"/>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
 
                                 </div>
@@ -325,12 +382,12 @@
 
                         <!-- Image -->
                         <div ng-controller="AnimalImageController">
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title required">Фотографія тварини</h3>
-                                </div>
-                                <div class="panel-body">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title required">Фотографія тварини</h3>
+                                    </div>
+                                    <div class="panel-body">
                                         <!-- Image button for load -->
                                         <a class="btn btn-info col-md-12" href role="button"
                                            onclick="document.getElementById('fileInput').click();">Завантажити фото</a>
@@ -340,9 +397,9 @@
                                                      ng-show="uploader.isUploading"></progressbar>
 
                                         <input type="file" id="fileInput" name="photo"
-                                                                          accept="image/*"
-                                                                          style="visibility: hidden;"
-                                                                          required />
+                                               accept="image/*"
+                                               style="visibility: hidden;"
+                                               required />
 
                                         <div style="display:inline-block;">
                                             <label>Вихідне зображення:</label>

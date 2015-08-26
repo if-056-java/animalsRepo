@@ -57,6 +57,8 @@ public class Animal implements Serializable{
     private Date dateOfRegister;
     private Date dateOfBirth;
     private Date dateOfSterilization;
+    private Date dateOfFacebook;
+    private Date dateOfTwitter;
     private String color;
     private String description;
     private User user;
@@ -64,16 +66,6 @@ public class Animal implements Serializable{
     private Boolean active;
     private String image;
     private AnimalService service;
-
-    private transient String imageType;
-
-    public String getImageType() {
-        return imageType;
-    }
-
-    public void setImageType(String imageType) {
-        this.imageType = imageType;
-    }
 
     public Long getId() {
         return id;
@@ -219,6 +211,22 @@ public class Animal implements Serializable{
         this.service = service;
     }
 
+    public Date getDateOfFacebook() {
+        return dateOfFacebook;
+    }
+
+    public void setDateOfFacebook(Date dateOfFacebook) {
+        this.dateOfFacebook = dateOfFacebook;
+    }
+
+    public Date getDateOfTwitter() {
+        return dateOfTwitter;
+    }
+
+    public void setDateOfTwitter(Date dateOfTwitter) {
+        this.dateOfTwitter = dateOfTwitter;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -235,10 +243,13 @@ public class Animal implements Serializable{
         if (!dateOfRegister.equals(animal.dateOfRegister)) return false;
         if (dateOfSterilization != null ? !dateOfSterilization.equals(animal.dateOfSterilization) : animal.dateOfSterilization != null)
             return false;
+        if (dateOfFacebook != null ? !dateOfFacebook.equals(animal.dateOfFacebook) : animal.dateOfFacebook != null)
+            return false;
+        if (dateOfTwitter != null ? !dateOfTwitter.equals(animal.dateOfTwitter) : animal.dateOfTwitter != null)
+            return false;
         if (description != null ? !description.equals(animal.description) : animal.description != null) return false;
         if (!id.equals(animal.id)) return false;
         if (image != null ? !image.equals(animal.image) : animal.image != null) return false;
-        if (imageType != null ? !imageType.equals(animal.imageType) : animal.imageType != null) return false;
         if (!service.equals(animal.service)) return false;
         if (sex != animal.sex) return false;
         if (size != animal.size) return false;
@@ -264,6 +275,8 @@ public class Animal implements Serializable{
         result = 31 * result + dateOfRegister.hashCode();
         result = 31 * result + dateOfBirth.hashCode();
         result = 31 * result + (dateOfSterilization != null ? dateOfSterilization.hashCode() : 0);
+        result = 31 * result + (dateOfFacebook != null ? dateOfFacebook.hashCode() : 0);
+        result = 31 * result + (dateOfTwitter != null ? dateOfTwitter.hashCode() : 0);
         result = 31 * result + (color != null ? color.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
@@ -271,7 +284,6 @@ public class Animal implements Serializable{
         result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (image != null ? image.hashCode() : 0);
         result = 31 * result + service.hashCode();
-        result = 31 * result + (imageType != null ? imageType.hashCode() : 0);
         return result;
     }
 
@@ -289,6 +301,8 @@ public class Animal implements Serializable{
                 ", dateOfRegister=" + dateOfRegister +
                 ", dateOfBirth=" + dateOfBirth +
                 ", dateOfSterilization=" + dateOfSterilization +
+                ", dateOfFacebook=" + dateOfFacebook +
+                ", dateOfTwitter=" + dateOfTwitter +
                 ", color='" + color + '\'' +
                 ", description='" + description + '\'' +
                 ", user=" + user +
@@ -296,7 +310,6 @@ public class Animal implements Serializable{
                 ", active=" + active +
                 ", image='" + image + '\'' +
                 ", service=" + service +
-                ", imageType='" + imageType + '\'' +
                 '}';
     }
 }

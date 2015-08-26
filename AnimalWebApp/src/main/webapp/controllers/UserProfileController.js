@@ -1,57 +1,44 @@
 //created by 41X
 var animalAppControllers = angular.module('UserProfileController', []);
 
-animalApp.controller('UserProfileController', function($scope, userData, hashPassword, $rootScope) {
+animalApp.controller('UserProfileController', function($scope, userData, userAccount, hashPassword, localStorageService) {
 		
-	console.log("before" + $rootScope.userId);
-	
+		
 	$scope.IsHidden = true;
 	$scope.showPopup = function () {$scope.IsHidden =  false;}    
 	$scope.closePopup = function () {$scope.IsHidden =  true;}
 	
 	$scope.userInfo = null;
 	$scope.fields = null;
+	
+	if(!localStorageService.get("userId")){
+		userAccount.refreshSession();  		
+	} else {
 		
-	var id = $rootScope.userId;
+		var id = localStorageService.get("userId");
+		
+		userData.getUser(id).success(function(data){				//webapi/users/user/{id}
+			$scope.userInfo=data;
+			$scope.fields = $scope.userInfo;
+		}) 	
+		
+		userData.getUserAnimals(id).success(function(data){			//webapi/users/user/{id}/animals
+			$scope.userAnimalInfo=data;
+		});
+		
+	}
+		
 	
-	userData.getUser(id).success(function(data){				//webapi/users/user/{id}
-		$scope.userInfo=data;
-		$scope.fields = $scope.userInfo;
-	}) 	
-	
-	userData.getUserAnimals(id).success(function(data){			//webapi/users/user/{id}/animals
-		$scope.userAnimalInfo=data;
-	});
 	
 	
     $scope.submitUpdateForm=function(){    	
     	
     	if($scope.passwordNew){    		
-    		$scope.fields.password=hashPassword($scope.passwordNew); 
-    		console.log("changing password");
-    	} else {
-    		console.log("not changing password")
-    	} 
-    	
-    	console.log($scope.fields);
+    		$scope.fields.password=hashPassword($scope.passwordNew);     		
+    	}     	
     	
 		userData.updateUser($scope.fields, $scope.fields.id);       
 	
-	};
-	
-	$scope.setId=function(){
-		
-		var id = $scope.set.id;
-		console.log("inside"+id);
-		
-		userData.getUser(id).success(function(data){				//webapi/users/user/{id}/
-			$scope.userInfo=data;		
-		})
-		
-		userData.getUserAnimals(id).success(function(data){			//webapi/users/user/{id}/animals
-			$scope.userAnimalInfo=data;
-		});	    
-	    
-	};         
+	};	    
 	
 });
