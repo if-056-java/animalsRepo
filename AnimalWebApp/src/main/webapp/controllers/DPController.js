@@ -23,7 +23,8 @@ angular.module('DPController', ['ui.bootstrap'])
         $scope.dateOptions = {
             formatYear: 'yy',
             startingDay: 1,
-            showWeeks: false
+            showWeeks: false,
+            language: 'ru'
         };
 
         var tomorrow = new Date();
