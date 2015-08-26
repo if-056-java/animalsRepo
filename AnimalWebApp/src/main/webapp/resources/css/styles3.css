@@ -53,9 +53,9 @@ p {
 }
 
 #profileblock {
-	border-right: 1px solid #ccc;
-	border-left: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
+	border-right: 1px solid green;
+	border-left: 1px solid green;
+	border-bottom: 1px solid green;
 	border-radius: 5px;
 	margin-top: 0px;
 	margin-right: auto;
@@ -82,7 +82,7 @@ p {
 }
 
 .usualReg {
-	border: 1px solid #ccc;	
+	border: 1px solid green;
 	border-radius: 5px;
 	margin-top: 10px;
 	margin-right: auto;
