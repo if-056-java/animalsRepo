@@ -1,15 +1,12 @@
 package com.animals.app.controller.resource;
 
 import com.animals.app.domain.*;
-import com.animals.app.repository.Impl.AnimalRepositoryImpl;
+import com.animals.app.repository.Impl.*;
 
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 
-import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
-import com.animals.app.repository.Impl.AnimalServiceRepositoryImpl;
-import com.animals.app.repository.Impl.AnimalTypeRepositoryImpl;
 import com.animals.app.service.CreateAnimalImage;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -179,6 +176,22 @@ public class AnimalResource {
         }
 
         return ok(genericAnimalBreeds);
+    }
+
+    @GET //http:localhost:8080/webapi/animals/mdedical_history/types
+    @Path("medical_history/types")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAnimalMedicalHistoryTypes() {
+        List<AnimalStatus> animalStatuses = new AnimalStatusRepositoryImpl().getAll();
+
+        GenericEntity<List<AnimalStatus>> genericAnimalStatuses =
+                new GenericEntity<List<AnimalStatus>>(animalStatuses) {};
+
+        if (genericAnimalStatuses == null) {
+            return NOT_FOUND;
+        }
+
+        return ok(genericAnimalStatuses);
     }
 
     /**

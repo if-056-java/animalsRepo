@@ -1,4 +1,4 @@
-angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues', 'nya.bootstrap.select', 'DPController'])
+angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues', 'nya.bootstrap.select', 'DPController', 'naif.base64'])
     .controller('AdminAnimalsEditorController', ['$scope', '$window', '$filter', '$routeParams', 'AdminAnimalsService', 'AdminAnimalsValues',
         function($scope, $window, $filter, $routeParams, AdminAnimalsService, AdminAnimalsValues) {
 
@@ -83,7 +83,7 @@ angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues'
                 if ($scope.imageFile != undefined) {
                     $scope.animal.image = $scope.imageFile['filename'] + '\n' + $scope.imageFile['base64'];
                 }
-                console.log($scope.animal.image);
+                
                 AdminAnimalsService.updateAnimal($scope.animal)
                     .then(function(data) {
                         $window.location.href = "#/ua/user/home/animals/" + $scope.animal.id;
