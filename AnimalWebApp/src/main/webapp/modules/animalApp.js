@@ -120,10 +120,16 @@ animalApp.constant('RESOURCES', {
     RESOURCE: 'http://127.0.0.1:8080/',
     ANIMALS_FOR_ADOPTING_PAGINATOR: 'webapi/animals/adoption/pagenator',
     ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption',
-    ANIMAL_TYPES: 'webapi/animals/animal_types',
-    ANIMAL_BREEDS: 'webapi/animals/animal_breeds/',
+    ANIMAL_TYPES: '/webapi/animals/animal_types',
+    ANIMAL_BREEDS: '/webapi/animals/animal_breeds/',
+    ANIMAL_SERVICES: '/webapi/animals/animal_services',
     ANIMAL_REGISTRATION: 'webapi/animals/animal',
-    ANIMAL_REGISTRATION_IMAGE: 'webapi/animals/animal/image'
+    ANIMAL_REGISTRATION_IMAGE: 'webapi/animals/animal/image',
+    ANIMALS_FOR_ADMIN: '/webapi/admin/animals',
+    ANIMALS_FOR_ADMIN_PGINATOR: '/webapi/admin/animals/paginator',
+    ANIMAL_FOR_ADMIN: '/webapi/admin/animals/',
+    ANIMAL_FOR_ADMIN_DELETE: '/webapi/admin/animals/',
+    ANIMAL_FOR_ADMIN_UPDATE: '/webapi/admin/animals/editor',
 });
 
 animalApp.config(function(localStorageServiceProvider){
