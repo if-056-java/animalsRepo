@@ -24,7 +24,6 @@ angular.module('DPController', ['ui.bootstrap'])
             formatYear: 'yy',
             startingDay: 1,
             showWeeks: false,
-            language: 'ru'
         };
 
         var tomorrow = new Date();
