@@ -83,7 +83,7 @@ angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues'
                 if ($scope.imageFile != undefined) {
                     $scope.animal.image = $scope.imageFile['filename'] + '\n' + $scope.imageFile['base64'];
                 }
-                
+
                 AdminAnimalsService.updateAnimal($scope.animal)
                     .then(function(data) {
                         $window.location.href = "#/ua/user/home/animals/" + $scope.animal.id;

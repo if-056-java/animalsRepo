@@ -1,6 +1,6 @@
 angular.module('AdminAnimalsModule', ['AdminAnimalsValues', 'LocalStorageModule'])
-    .service('AdminAnimalsService', ['$http', '$q', 'localStorageService', 'AdminAnimalsValues',
-        function($http, $q, localStorageService, AdminAnimalsValues) {
+    .service('AdminAnimalsService', ['$http', '$q', 'localStorageService', 'AdminAnimalsValues', 'RESOURCES',
+        function($http, $q, localStorageService, AdminAnimalsValues, RESOURCES) {
 
         $http.defaults.headers.common['AccessToken'] = localStorageService.get('accessToken');
 
@@ -11,7 +11,7 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues', 'LocalStorageModule'
         this.getAnimals = function() {
             var def = $q.defer();
 
-            $http.post("/webapi/admin/animals", AdminAnimalsValues.filter)
+            $http.post(RESOURCES.ANIMALS_FOR_ADMIN, AdminAnimalsValues.filter)
                 .success(function(data) {
                     AdminAnimalsValues.animals.values = data;
                     def.resolve(data);
@@ -30,7 +30,7 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues', 'LocalStorageModule'
         this.getPagesCount = function() {
             var def = $q.defer();
 
-            $http.post("/webapi/admin/animals/paginator", AdminAnimalsValues.filter)
+            $http.post(RESOURCES.ANIMALS_FOR_ADMIN_PGINATOR, AdminAnimalsValues.filter)
                 .success(function(data) {
                     AdminAnimalsValues.totalItems.count = data.rowsCount;
                     def.resolve(data);
@@ -58,7 +58,7 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues', 'LocalStorageModule'
                 }
             }
 
-            $http.get("/webapi/admin/animals/" + animalId)
+            $http.get(RESOURCES.ANIMAL_FOR_ADMIN + animalId)
                 .success(function(data) {
                     angular.copy(data, AdminAnimalsValues.animal);
                     def.resolve(data);
@@ -76,7 +76,7 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues', 'LocalStorageModule'
         this.deleteAnimal = function(animalId) {
             var def = $q.defer();
 
-            $http.delete("/webapi/admin/animals/" + animalId)
+            $http.delete(RESOURCES.ANIMAL_FOR_ADMIN_DELETE + animalId)
                 .success(function(data) {
                     def.resolve(data);
                 })
@@ -93,7 +93,7 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues', 'LocalStorageModule'
         this.updateAnimal = function(animal) {
             var def = $q.defer();
 
-            $http.post("/webapi/admin/animals/editor", animal)
+            $http.post(RESOURCES.ANIMAL_FOR_ADMIN_UPDATE, animal)
                 .success(function(data) {
                     AdminAnimalsValues.animal.image = data.filePath;
                     def.resolve(data);
@@ -116,7 +116,7 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues', 'LocalStorageModule'
                 return def.promise;
             }
 
-            $http.get("/webapi/animals/animal_types")
+            $http.get(RESOURCES.ANIMAL_TYPES)
                 .success(function(data) {
                     AdminAnimalsValues.animalTypes.values = data;
                     def.resolve(data);
@@ -139,7 +139,7 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues', 'LocalStorageModule'
                 return def.promise;
             }
 
-            $http.get("/webapi/animals/animal_services")
+            $http.get(RESOURCES.ANIMAL_SERVICES)
                 .success(function(data) {
                     AdminAnimalsValues.animalServices.values = data;
                     def.resolve(data);
@@ -157,7 +157,7 @@ angular.module('AdminAnimalsModule', ['AdminAnimalsValues', 'LocalStorageModule'
         this.getAnimalBreeds = function(animalTypeId) {
             var def = $q.defer();
 
-            $http.get("/webapi/animals/animal_breeds/" + animalTypeId)
+            $http.get(RESOURCES.ANIMAL_BREEDS + animalTypeId)
                 .success(function(data) {
                     def.resolve(data);
                 })
