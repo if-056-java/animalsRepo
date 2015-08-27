@@ -89,6 +89,7 @@ public class AuthorizationResource {
         
         //setSuccessAtribute(session);        
         String sessionSuccess = setUpSuccessSession(user, session, "Successful login"); 
+        session.setAttribute("user", user);
         
         System.out.println(sessionSuccess);
 
@@ -154,6 +155,7 @@ public class AuthorizationResource {
         HttpSession session = req.getSession(true);
 		
         String sessionSuccessReg = setUpSuccessSession(user, session, "Successful Registration"); 
+        session.setAttribute("user", user);
         
         System.out.println(sessionSuccessReg);
 
