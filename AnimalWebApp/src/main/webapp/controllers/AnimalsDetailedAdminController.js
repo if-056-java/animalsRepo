@@ -1,6 +1,6 @@
-angular.module('AdminAnimalsDetailed', ['AdminAnimalsModule', 'AdminAnimalsValues'])
-    .controller('AdminAnimalsDetailedController', ['$scope', '$routeParams', 'AdminAnimalsService', 'AdminAnimalsValues',
-        function($scope, $routeParams, AdminAnimalsService, AdminAnimalsValues) {
+angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'AnimalsAdminValues'])
+    .controller('AnimalsDetailedAdminController', ['$scope', '$routeParams', '$window', 'AnimalsAdminService', 'AnimalsAdminValues',
+        function($scope, $routeParams, $window, AnimalsAdminService, AnimalsAdminValues) {
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
@@ -9,19 +9,19 @@ angular.module('AdminAnimalsDetailed', ['AdminAnimalsModule', 'AdminAnimalsValue
             $scope.contentLoading = 1;
 
             var animalId = $routeParams.animalId;       //animal id
-            $scope.animal = AdminAnimalsValues.animal;  //animal
+            $scope.animal = AnimalsAdminValues.animal;  //animal
             $scope.animalImage = undefined;
 
             /**
              * @param animalId id of animal used for lookup.
              * @return animal instance.
              */
-            AdminAnimalsService.getAnimal(animalId)
+            AnimalsAdminService.getAnimal(animalId)
                 .finally(function() {
                     $scope.animalImage = "resources/img/noimg.png";
-                    if (AdminAnimalsValues.animal.image != undefined) {
-                        if (AdminAnimalsValues.animal.image.length > 0) {
-                            $scope.animalImage = AdminAnimalsValues.animal.image;
+                    if (AnimalsAdminValues.animal.image != undefined) {
+                        if (AnimalsAdminValues.animal.image.length > 0) {
+                            $scope.animalImage = AnimalsAdminValues.animal.image;
                         }
                     }
 
@@ -32,7 +32,7 @@ angular.module('AdminAnimalsDetailed', ['AdminAnimalsModule', 'AdminAnimalsValue
              * delete animal.
              */
             $scope.deleteAnimal = function() {
-                AdminAnimalsService.deleteAnimal($scope.animal.id)
+                AnimalsAdminService.deleteAnimal($scope.animal.id)
                     .then(function(data) {
                         $window.location.href = "#/ua/user/home/animals";
                     },

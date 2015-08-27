@@ -1,5 +1,5 @@
-angular.module('DoctorAnimalsValues', [])
-    .value('DoctorAnimalsValues', {
+angular.module('AnimalsDoctorValues', [])
+    .value('AnimalsDoctorValues', {
         filter: {
             page: 1,
             limit: '15'

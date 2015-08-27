@@ -1,6 +1,6 @@
-angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues', 'nya.bootstrap.select', 'DPController', 'naif.base64'])
-    .controller('AdminAnimalsEditorController', ['$scope', '$window', '$filter', '$routeParams', 'AdminAnimalsService', 'AdminAnimalsValues',
-        function($scope, $window, $filter, $routeParams, AdminAnimalsService, AdminAnimalsValues) {
+angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPController', 'naif.base64', 'AnimalsAdminModule', 'AnimalsAdminValues'])
+    .controller('AnimalsEditorAdminController', ['$scope', '$window', '$filter', '$routeParams', 'AnimalsAdminService', 'AnimalsAdminValues',
+        function($scope, $window, $filter, $routeParams, AnimalsAdminService, AnimalsAdminValues) {
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
@@ -13,7 +13,7 @@ angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues'
             /**
              * @return list of animal types.
              */
-            AdminAnimalsService.getAnimalTypes()
+            AnimalsAdminService.getAnimalTypes()
                 .finally(function() {
                     $scope.contentLoading--;
                 });
@@ -21,7 +21,7 @@ angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues'
             /**
              * @return list of animal services.
              */
-            AdminAnimalsService.getAnimalServices()
+            AnimalsAdminService.getAnimalServices()
                 .finally(function() {
                     $scope.contentLoading--;
                 });
@@ -30,7 +30,7 @@ angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues'
              * @param animalId id of animal used for lookup.
              * @return animal instance.
              */
-            AdminAnimalsService.getAnimal(animalId)
+            AnimalsAdminService.getAnimal(animalId)
                 .finally(function() {
                     $scope.contentLoading--
                 });
@@ -40,13 +40,13 @@ angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues'
                     return;
                 }
 
-                $scope.animalTypes = AdminAnimalsValues.animalTypes;        //list of animal types
-                $scope.animalServices = AdminAnimalsValues.animalServices;  //list of animal services
-                $scope.animal = AdminAnimalsValues.animal;                  //animal
+                $scope.animalTypes = AnimalsAdminValues.animalTypes;        //list of animal types
+                $scope.animalServices = AnimalsAdminValues.animalServices;  //list of animal services
+                $scope.animal = AnimalsAdminValues.animal;                  //animal
                 $scope.animalImage = "resources/img/noimg.png";
-                if (AdminAnimalsValues.animal.image != undefined) {
-                    if (AdminAnimalsValues.animal.image.length > 0) {
-                        $scope.animalImage = AdminAnimalsValues.animal.image;
+                if (AnimalsAdminValues.animal.image != undefined) {
+                    if (AnimalsAdminValues.animal.image.length > 0) {
+                        $scope.animalImage = AnimalsAdminValues.animal.image;
                     }
                 }
 
@@ -58,7 +58,7 @@ angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues'
              */
             $scope.getAnimalBreeds = function() {
                 $scope.filterAnimalBreedFlag = true;
-                AdminAnimalsService.getAnimalBreeds($scope.animal.type.id)
+                AnimalsAdminService.getAnimalBreeds($scope.animal.type.id)
                     .then(function(data) {
                         $scope.animalBreeds = data;
                     })
@@ -84,7 +84,7 @@ angular.module('AdminAnimalsEditor', ['AdminAnimalsModule', 'AdminAnimalsValues'
                     $scope.animal.image = $scope.imageFile['filename'] + '\n' + $scope.imageFile['base64'];
                 }
 
-                AdminAnimalsService.updateAnimal($scope.animal)
+                AnimalsAdminService.updateAnimal($scope.animal)
                     .then(function(data) {
                         $window.location.href = "#/ua/user/home/animals/" + $scope.animal.id;
                     },

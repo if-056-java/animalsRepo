@@ -1,18 +1,16 @@
-angular.module('AnimalMedicalHistoryDetailedController', ['AnimalsDoctorModule', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues'])
-    .controller('AnimalMedicalHistoryDetailedController', ['$scope', '$routeParams', 'AnimalsDoctorService', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues',
-        function($scope, $routeParams, AnimalsDoctorService, AnimalsDoctorValues, AnimalMedicalHistoryValues) {
+angular.module('AnimalsDetailedDoctorController', ['AnimalsDoctorModule', 'AnimalsDoctorValues'])
+    .controller('AnimalsDetailedDoctorController', ['$scope', '$routeParams', 'AnimalsDoctorService', 'AnimalsDoctorValues',
+        function($scope, $routeParams, AnimalsDoctorService, AnimalsDoctorValues) {
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
             //This variable decides when spinner loading for contentis closed.
-            $scope.contentLoading = 2;
+            $scope.contentLoading = 1;
 
-            var animalId = $routeParams.animalId;        //animal id
-            var itemId = $routeParams.itemId;            //item id
+            var animalId = $routeParams.animalId;       //animal id
             $scope.animal = AnimalsDoctorValues.animal;  //animal
             $scope.animalImage = undefined;
-            $scope.item = AnimalMedicalHistoryValues.item;
 
             /**
              * @param animalId id of animal used for lookup.
@@ -29,14 +27,4 @@ angular.module('AnimalMedicalHistoryDetailedController', ['AnimalsDoctorModule',
 
                     $scope.contentLoading--;
                 });
-
-            /**
-             * @param itemId id of medical history item used for lookup.
-             * @return medical history item instance.
-             */
-            AnimalsDoctorService.getMedicalHistoryItem(itemId)
-                .finally(function() {
-                    $scope.contentLoading--;
-                });
-
         }]);
