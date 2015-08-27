@@ -13,6 +13,6 @@ angular.module('AnimalShortInfoService', [])
                 });
 
             return def.promise;
-        }
+        };
 		
     }]);
