@@ -239,6 +239,7 @@ public class OAuthAuthorizationResource {
 			
 			
 			String ses = setUpSuccessSession(user, sessionNew, "success login with GoogleId");
+			sessionNew.setAttribute("user", user);
 	        			
 			//Entering to site with Session			
 			return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
@@ -287,6 +288,7 @@ public class OAuthAuthorizationResource {
 		
 		//creating session		
 		String ses = setUpSuccessSession(userToReg, sessionNew, "successful Registration with GoogleId");
+		sessionNew.setAttribute("user", user);
 		System.out.println(ses);
 		
 		//Entering to site with Session		
