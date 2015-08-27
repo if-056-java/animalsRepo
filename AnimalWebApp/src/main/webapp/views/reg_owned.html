@@ -21,9 +21,9 @@
 
     <div class="container" ng-show="!contentLoading">
         <div class="row">
-            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-4" ng-controller="AnimalsDetailController">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-8" ng-controller="AnimalsDetailController">
                 <form name="animalForm" ng-submit="submitForm(animalForm.$valid)" novalidate>
-                    <div class="panel panel-default">
+                    <div class="panel panel-success">
                         <div class="panel-heading">
                             <h3 class="panel-title">Загальні відомості</h3>
                         </div>
@@ -144,7 +144,7 @@
                                          ng-class="{ 'has-error' : animalForm.cites.$invalid && !animalForm.cites.$pristine }">
                                         <span class="input-group-addon" data-toggle="tooltip"
                                               title="Приналежність тварини до вимираючого виду!">CITES:
-                                            <sup><span class="glyphicon glyphicon-question-sign"></sup></span>
+                                            <sup><span class="glyphicon glyphicon-question-sign"></span></sup>
                                         </span>
                                         <ol class="nya-bs-select nya-bs-select-mod" id="animal-cites"
                                             name='cites' style="cursor: pointer"
@@ -208,7 +208,7 @@
                                         <label for="dateOfSterilization" class="control-label"
                                                data-toggle="tooltip"
                                                title="Якщо поле порожнє - стерилізації не було">Дата стерилізації:</label>
-                                            <sup><span class="glyphicon glyphicon-question-sign"></sup></span>
+                                            <sup><span class="glyphicon glyphicon-question-sign"></span></sup>
 
                                         <input id="dateOfSterilization" name="sterilization_date"
                                                placeholder="Дата стерилізації"
@@ -229,7 +229,7 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6">
                             <!-- Окрас -->
-                            <div class="panel panel-default">
+                            <div class="panel panel-success">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Окрас</h3>
                                 </div>
@@ -269,7 +269,7 @@
 
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <div class="panel panel-default">
+                            <div class="panel panel-success">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Інформація про місцезнаходження</h3>
                                 </div>
@@ -365,7 +365,7 @@
 
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <div class="panel panel-default">
+                            <div class="panel panel-success">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Додаткова інформація</h3>
                                 </div>
@@ -383,13 +383,13 @@
                         <!-- Image -->
                         <div ng-controller="AnimalImageController">
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <div class="panel panel-default">
+                                <div class="panel panel-success">
                                     <div class="panel-heading">
                                         <h3 class="panel-title required">Фотографія тварини</h3>
                                     </div>
                                     <div class="panel-body">
                                         <!-- Image button for load -->
-                                        <a class="btn btn-info col-md-12" href role="button"
+                                        <a class="btn btn-success col-md-12" href role="button"
                                            onclick="document.getElementById('fileInput').click();">Завантажити фото</a>
 
                                         <!-- Image progress bar -->
@@ -420,7 +420,7 @@
                             </div>
 
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                <div class="panel panel-default">
+                                <div class="panel panel-success">
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Редагування фотографії</h3>
                                     </div>
@@ -437,7 +437,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" ng-disabled="animalForm.$invalid" id="submit-form" class="btn btn-primary" >Зареєструвати</button><!--ng-click="insertHomelessAnimal(animal)"-->
+                    <button type="submit" ng-disabled="animalForm.$invalid" id="submit-form" class="btn btn-success" >Зареєструвати</button><!--ng-click="insertHomelessAnimal(animal)"-->
 
                 </form>
             </div>

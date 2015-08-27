@@ -2,7 +2,7 @@ animalRegistrationModule
 .controller('AnimalsDetailController', function AnimalsDetailController($scope, AnimalDetailFactory) {
         this.getAnimalTypes = function() {
             //Show spinner loading
-            $scope.contentLoading++;
+            $scope.$parent.contentLoading++;
             AnimalDetailFactory.getAnimalTypes()
                 .then(function(data) {
                     $scope.animalTypes = data;
@@ -11,7 +11,7 @@ animalRegistrationModule
                     console.log('Animal retrieval failed.')
                 }).finally(function() {
                     //hide spinner loading
-                    $scope.contentLoading--;
+                    $scope.$parent.contentLoading--;
                 });
 
         };

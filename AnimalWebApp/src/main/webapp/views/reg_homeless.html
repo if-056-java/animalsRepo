@@ -21,7 +21,7 @@
 
     <div class="container" ng-show="!contentLoading">
         <div class="row">
-            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-4" ng-controller="AnimalsDetailController">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-8" ng-controller="AnimalsDetailController">
                 <form name="animalForm" ng-submit="submitForm(animalForm.$valid)" novalidate>
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -81,7 +81,7 @@
                                          ng-class="{ 'has-error' : animalForm.cites.$invalid && !animalForm.cites.$pristine }">
                                         <span class="input-group-addon" data-toggle="tooltip"
                                               title="Приналежність тварини до вимираючого виду!">CITES:
-                                            <sup><span class="glyphicon glyphicon-question-sign"></sup></span>
+                                            <sup><span class="glyphicon glyphicon-question-sign"></span></sup>
                                         </span>
                                         <ol class="nya-bs-select nya-bs-select-mod" id="animal-cites"
                                             name='cites' style="cursor: pointer"
@@ -380,7 +380,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" ng-disabled="animalForm.$invalid" id="submit-form" class="btn btn-suc" >Зареєструвати</button><!--ng-click="insertHomelessAnimal(animal)"-->
+                    <button type="submit" ng-disabled="animalForm.$invalid" id="submit-form" class="btn btn-success" >Зареєструвати</button><!--ng-click="insertHomelessAnimal(animal)"-->
 
                 </form>
             </div>
