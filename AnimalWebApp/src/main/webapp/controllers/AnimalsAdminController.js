@@ -1,6 +1,24 @@
 angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.select', 'DPController', 'AnimalsAdminValues'])
-    .controller('AnimalsAdminController', ['$scope', 'AnimalsAdminService', 'AnimalsAdminValues',
-        function($scope, AnimalsAdminService, AnimalsAdminValues) {
+    .controller('AnimalsAdminController', ['$scope', '$http', 'AnimalsAdminService', 'AnimalsAdminValues',
+        function($scope, $http, AnimalsAdminService, AnimalsAdminValues) {
+
+            $scope.sendTwitter = function (id) {
+                console.log("twitt sended");
+                console.log(id);
+                $http.post("//localhost:8080/webapi/socials/twitter/" + id)
+                    .success(function (data) {
+                        console.log("twitt sended");
+                        console.log(data);
+                    });
+            };
+
+            $scope.sendFacebook = function (id) {
+                $http.post("//localhost:8080/webapi/socials/facebook/" + id)
+                    .success(function (data) {
+                        console.log("facebook post sended");
+                        console.log(data);
+                    });
+            };
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');

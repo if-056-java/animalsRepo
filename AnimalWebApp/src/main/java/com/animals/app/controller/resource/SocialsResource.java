@@ -8,9 +8,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import twitter4j.TwitterException;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -18,17 +15,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.Properties;
 
 /**
  * Created by aquaneo on 8/19/2015.
  */
-@Path("contacts")
-public class TwitterResource {
-    private static Logger LOG = LogManager.getLogger(TwitterResource.class);
+@Path("socials")
+public class SocialsResource {
+    private static Logger LOG = LogManager.getLogger(SocialsResource.class);
 
     private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
 
@@ -36,20 +30,19 @@ public class TwitterResource {
 
     private final Response OK = Response.status(Response.Status.OK).build();
 
-    @POST //http:localhost:8080/webapi/animals/twitt/animalId
-    @Path("animals/twitt/{animalId}")
+    @POST //http:localhost:8080/webapi/socials/twitter/animalId
+    @Path("twitter/{animalId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response sendTwitt (@PathParam("animalId") long animalId) {
 
         Twitt twitt;
-
         String consumerKey, consumerSecret, accessToken, accessTokenSecret, messageBody ;
 
+        System.out.println("animalId -" + animalId);
         if (animalId == 0) {
             return BAD_REQUEST;
         }
-
         consumerKey = twitterConfig.getProperty("twitter.consumerKey");
         consumerSecret = twitterConfig.getProperty("twitter.consumerSecret");
         accessToken = twitterConfig.getProperty("twitter.accessToken");
@@ -65,18 +58,27 @@ public class TwitterResource {
         }
 
         twitt = new Twitt();
-        twitt.setMessage("Нова тварина! " + animal.getType().toString());
+        twitt.setMessage("Нова тварина! Деталі: - http://tym.dp.ua/#/ua/animal/adoption/" + animalId);
+
+        //attach any media, if you want to
+        if (!animal.getImage().equals(null)) twitt.setMedia(animal.getImage().toString());
+
         try {
             twitt.sendTwitt(consumerKey, consumerSecret, accessToken, accessTokenSecret);
         } catch (TwitterException e) {
+            System.out.println(e.toString());
             return BAD_REQUEST;
         } catch (IOException e) {
+            System.out.println(e.toString());
             return BAD_REQUEST;
         }
 
         return OK;
 
     }
+
+
+
 
     /**
      * Return response with code 200(OK) and build returned entity
