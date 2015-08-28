@@ -1,6 +1,9 @@
 angular.module('AnimalMedicalHistoryController', ['AnimalsDoctorModule', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues'])
     .controller('AnimalMedicalHistoryController', ['$scope', '$routeParams', '$window', 'AnimalsDoctorService', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues',
         function($scope, $routeParams, $window, AnimalsDoctorService, AnimalsDoctorValues, AnimalMedicalHistoryValues) {
+
+            AnimalsDoctorService.rolesAllowed('лікар');
+
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);

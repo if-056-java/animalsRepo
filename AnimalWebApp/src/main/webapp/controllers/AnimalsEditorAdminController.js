@@ -2,6 +2,8 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
     .controller('AnimalsEditorAdminController', ['$scope', '$window', '$filter', '$routeParams', 'AnimalsAdminService', 'AnimalsAdminValues',
         function($scope, $window, $filter, $routeParams, AnimalsAdminService, AnimalsAdminValues) {
 
+            AnimalsAdminService.rolesAllowed("модератор");
+
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);

@@ -8,6 +8,7 @@ import com.animals.app.repository.Impl.AnimalMedicalHistoryRepositoryImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
@@ -39,6 +40,7 @@ public class DoctorResource {
      * @return count of rows for pagination.
      */
     @GET //http:localhost:8080/webapi/animals/paginator
+    @RolesAllowed("лікар")
     @Path("medical_history/paginator/{animalId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -61,6 +63,7 @@ public class DoctorResource {
      * @return list of medical history.
      */
     @POST //http:localhost:8080/webapi/doctor/medical_history/{animalId}
+    @RolesAllowed("лікар")
     @Path("medical_history/{animalId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -93,6 +96,7 @@ public class DoctorResource {
      * @return list of medical history.
      */
     @DELETE //http:localhost:8080/webapi/doctor/medical_history/item/{itemId}
+    @RolesAllowed("лікар")
     @Path("medical_history/item/{itemId}")
     public Response deleteMedicalHistoryItemById(@PathParam("itemId") long itemId) {
         if(itemId == 0) {
@@ -106,6 +110,7 @@ public class DoctorResource {
     }
 
     @POST //http:localhost:8080/webapi/doctor/medical_history/item
+    @RolesAllowed("лікар")
     @Path("medical_history/item")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateMedicalHistoryItemById(@Context HttpServletRequest req, AnimalMedicalHistory animalMedicalHistory) {

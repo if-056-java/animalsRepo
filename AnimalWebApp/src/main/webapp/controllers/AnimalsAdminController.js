@@ -25,6 +25,8 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
                         console.log(data);
                     });
             };
+			
+            AnimalsAdminService.rolesAllowed("модератор");
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
@@ -65,6 +67,22 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
             $scope.countChanged = function(count) {
                 $scope.filter.limit = count;
                 AnimalsAdminService.getAnimals();
+            };
+
+            /**
+             * @param id
+             * sending message to Twitter.
+             */
+            $scope.sendTwitter = function (id) {
+                AnimalsAdminService.sendTwitter(id);
+            };
+
+            /**
+             * @param id
+             * sending message to Facebook.
+             */
+            $scope.sendFacebook = function (id) {
+                AnimalsAdminService.sendFacebook(id);
             };
     }])
     .controller('AnimalsFilterAdminController', ['$scope', '$filter', 'AnimalsAdminService', 'AnimalsAdminValues',

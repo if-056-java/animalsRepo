@@ -4,6 +4,10 @@ angular.module('AnimalsModule', ['LocalStorageModule'])
 
             $http.defaults.headers.common['AccessToken'] = localStorageService.get('accessToken');
 
+            this.rolesAllowed = function(role) {
+                return role == localStorageService.get('userRole');
+            }
+
             /**
              * filter instance used for lookup.
              * @return list of animals.
@@ -251,5 +255,41 @@ angular.module('AnimalsModule', ['LocalStorageModule'])
 
                 return def.promise;
             }
+
+            /**
+             * @param id
+             * sending message to Twitter.
+             */
+            this.sendTwitter = function (id) {
+                var def = $q.defer();
+
+                $http.post("/webapi/socials/twitter/" + id)
+                    .success(function(data) {
+                        def.resolve(data);
+                    })
+                    .error(function() {
+                        def.reject("Failed sending message to twitter.");
+                    });
+
+                return def.promise;
+            };
+
+            /**
+             * @param id
+             * sending message to Facebook.
+             */
+            this.sendFacebook = function (id) {
+                var def = $q.defer();
+
+                $http.post("/webapi/socials/facebook/" + id)
+                    .success(function(data) {
+                        def.resolve(data);
+                    })
+                    .error(function() {
+                        def.reject("Failed sending message to facebook.");
+                    });
+
+                return def.promise;
+            };
 
         }]);

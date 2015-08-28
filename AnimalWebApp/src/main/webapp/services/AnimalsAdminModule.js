@@ -1,6 +1,12 @@
 angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
-    .service('AnimalsAdminService', ['$http', '$q', 'AnimalsAdminValues', 'AnimalsService',
-        function($http, $q, AnimalsAdminValues, AnimalsService) {
+    .service('AnimalsAdminService', ['$http', '$q', '$window', 'AnimalsAdminValues', 'AnimalsService',
+        function($http, $q, $window, AnimalsAdminValues, AnimalsService) {
+
+            this.rolesAllowed = function(role) {
+                if ( !AnimalsService.rolesAllowed(role) ) {
+                    $window.location.href = "#ua";
+                }
+            }
 
             /**
              * filter instance used for lookup.
@@ -110,4 +116,32 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
 
                 return AnimalsService.getAnimalBreeds(animalTypeId);
             }
+
+            /**
+             * @param id
+             * sending message to Twitter.
+             */
+            this.sendTwitter = function (id) {
+
+                console.log("twitt sended");
+                console.log(id);
+
+                return AnimalsService.sendTwitter(id)
+                    .then(function(data) {
+                        console.log(data);
+                    });
+            };
+
+            /**
+             * @param id
+             * sending message to Facebook.
+             */
+            this.sendFacebook = function (id) {
+
+                return AnimalsService.sendFacebook(id)
+                    .then(function(data) {
+                        console.log("facebook post sended");
+                        console.log(data);
+                    });
+            };
     }]);

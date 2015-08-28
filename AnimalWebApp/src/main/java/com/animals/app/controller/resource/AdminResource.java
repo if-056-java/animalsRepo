@@ -7,13 +7,9 @@ import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataParam;
 import sun.misc.BASE64Decoder;
 
 import javax.annotation.security.RolesAllowed;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -26,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 @Path("admin")
-@RolesAllowed("модератор")
 public class AdminResource {
     private static Logger LOG = LogManager.getLogger(AdminResource.class);
 
@@ -47,6 +42,7 @@ public class AdminResource {
      * @return list of animals.
      */
     @POST //http:localhost:8080/webapi/admin/animals
+    @RolesAllowed({"модератор", "лікар"})
     @Path("animals")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -77,6 +73,7 @@ public class AdminResource {
      * @return count of rows for pagination.
      */
     @POST //http:localhost:8080/webapi/animals/paginator
+    @RolesAllowed({"модератор", "лікар"})
     @Path("animals/paginator")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -99,6 +96,7 @@ public class AdminResource {
      * @return return an animal instance from data base
      */
     @GET //http:localhost:8080/webapi/animals/{animalId}
+    @RolesAllowed({"модератор", "лікар"})
     @Path("animals/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimal(@PathParam("animalId") long animalId) {
@@ -119,6 +117,7 @@ public class AdminResource {
      * @return return response with status 200
      */
     @DELETE //http:localhost:8080/webapi/animals/{animalId}
+    @RolesAllowed("модератор")
     @Path("animals/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response deleteAnimal(@PathParam("animalId") long animalId) {
@@ -150,6 +149,7 @@ public class AdminResource {
      * @return return response with status 200
      */
     @POST //http:localhost:8080/webapi/animals/editor
+    @RolesAllowed("модератор")
     @Path("animals/editor")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAnimal(Animal animal) {
