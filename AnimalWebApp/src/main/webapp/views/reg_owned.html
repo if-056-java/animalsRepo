@@ -15,13 +15,13 @@
     </div>
 
     <!-- Spinner -->
-    <div class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top:100px;" ng-show="contentLoading"
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="top:250px;" ng-show="contentLoading"
          id="loading-block">
     </div>
 
     <div class="container" ng-show="!contentLoading">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-8" ng-controller="AnimalsDetailController">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="AnimalsDetailController">
                 <form name="animalForm" ng-submit="submitForm(animalForm.$valid)" novalidate>
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -32,7 +32,7 @@
                             <div class="row">
 
                                 <!-- Animal transponder number -->
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group"
                                          ng-class="{ 'has-error' : animalForm.transponder.$invalid && !animalForm.transponder.$pristine }">
                                         <label for="transpNumber" class="control-label">Номер транспондера:</label>
@@ -51,7 +51,7 @@
                                 </div>
 
                                 <!-- Animal token number -->
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label for="tokenNumber" class="control-label">Номер жетону:</label>
 
@@ -62,7 +62,7 @@
                                 </div>
 
                                 <!-- Animal birth date -->
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2" ng-controller="DPController">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" ng-controller="DPController">
                                     <div class="form-group"
                                          ng-class="{ 'has-error' : animalForm.dateOfBirth.$invalid && !animalForm.dateOfBirth.$pristine }">
                                         <label for="birth-date" class="control-label required">Дата народження:</label>
@@ -97,7 +97,7 @@
 
                             <div class="row">
                                 <!-- Animal type -->
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <label for="animal-kind" class="control-label required">Тип(вид) тварини:</label><br>
 
                                     <div class="input-group"
@@ -120,7 +120,7 @@
                                 </div>
 
                                 <!-- Animal size -->
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <label for="animal-size" class="control-label required">Розмір тварини:</label>
 
                                     <div class="input-group"
@@ -140,7 +140,7 @@
                                 </div>
 
                                 <!-- Animal CITES -->
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <label for="animal-cites" class="control-label required">Приналежність до CITES:</label>
 
                                     <div class="input-group"
@@ -168,7 +168,7 @@
                             <div class="row">
 
                                 <!-- Animal sex -->
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <label class="control-label input-group required">Стать:</label>
 
                                     <div class="form-group"
@@ -194,7 +194,7 @@
                                 </div>
 
                                 <!-- Animal breed -->
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-3">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <label for="animal-breed">Введіть породу тварини:</label>
 
                                     <div class="form-group" name="breed">
@@ -206,7 +206,7 @@
                                 </div>
 
                                 <!-- Animal sterilization date -->
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2" ng-controller="DPController">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" ng-controller="DPController">
                                     <div class="form-group">
                                         <label for="dateOfSterilization" class="control-label"
                                                data-toggle="tooltip"
@@ -233,7 +233,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <!-- Окрас -->
                             <div class="panel panel-success">
                                 <div class="panel-heading">
@@ -243,16 +243,15 @@
 
                                     <!-- Animal colors (on image) -->
                                     <label>Виберіть основний окрас:</label><br>
-                                    <div class="thumbnail col-lg-2 col-md-2 col-sm-2 col-xs-4 left-margin onhover"
-                                         ng-repeat="color in colorTypes" style="margin:5px; cursor: pointer;">
+                                    <div class="thumbnail-special col-lg-2 col-md-2 col-sm-5 col-xs-12 left-margin onhover"
+                                         ng-repeat="color in colorTypes" ng-click="addColor(color)" style="margin:5px; cursor: pointer;">
 
-                                        <a ng-href class="sprite-image" id="color-sprites-{{$index}}"
-                                           ng-click="addColor(color)"></a>
+                                        <a ng-href class="sprite-image" id="color-sprites-{{$index}}"></a>
                                         <label for="color-sprites-{{$index}}">{{color}}</label>
                                     </div>
 
                                     <!-- Animal colors (text field) -->
-                                    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-6"
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"
                                          ng-class="{ 'has-error' : animalForm.color.$invalid && !animalForm.color.$pristine }">
                                         <label for="animal-color" class="control-label required">Або введіть вручну:</label>
                                         <input type="text" class="form-control" name="color"
@@ -284,7 +283,7 @@
                                     <div class="row">
 
                                         <!-- Country -->
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                             <div class="form-group"
                                                  ng-class="{ 'has-error' : animalForm.userCountry.$invalid && !animalForm.userCountry.$pristine }">
                                                 <label for="country" class="control-label required">Країна:</label>
@@ -305,7 +304,7 @@
                                         </div>
 
                                         <!-- Town -->
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
                                             <div class="form-group"
                                                  ng-class="{ 'has-error' : animalForm.userTown.$invalid && !animalForm.userTown.$pristine }">
@@ -331,10 +330,10 @@
                                     <div class="row">
 
                                         <!-- Street -->
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                             <div class="form-group"
                                                  ng-class="{ 'has-error' : animalForm.userStreet.$invalid && !animalForm.userStreet.$pristine }">
-                                                <label for="animal-address" class="control-label required">Адреса місця перебування тварини:</label>
+                                                <label for="animal-address" class="control-label required">Фактична адреса місця перебування тварини:</label>
                                                 <input type="text" class="form-control"
                                                        name="userStreet"
                                                        id="animal-address" placeholder="Поштова адреса"
@@ -352,7 +351,7 @@
                                         </div>
 
                                         <!-- Index -->
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                             <div class="form-group">
                                                 <label for="animal-post-index" class="control-label">Поштовий індекс місця перебування
                                                     тварини:</label>
@@ -388,14 +387,14 @@
 
                         <!-- Image -->
                         <div ng-controller="AnimalImageController">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
                                 <div class="panel panel-success">
                                     <div class="panel-heading">
                                         <h3 class="panel-title required">Фотографія тварини</h3>
                                     </div>
-                                    <div class="panel-body">
+                                    <div class="panel-body" id="image-preview-block">
                                         <!-- Image button for load -->
-                                        <a class="btn btn-success col-md-12" href role="button"
+                                        <a class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12" href role="button" id = "imgButton"
                                            onclick="document.getElementById('fileInput').click();">Завантажити фото</a>
 
                                         <!-- Image progress bar -->
@@ -407,9 +406,9 @@
                                                style="visibility: hidden;"
                                                required />
 
-                                        <div style="display:inline-block;">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display:inline-block;">
                                             <label>Вихідне зображення:</label>
-                                            <img class="center-block"
+                                            <img class="img-responsive img-thumbnail center-block"
                                                  style="vertical-align: initial;"
                                                  ng-src="{{myCroppedImage}}"
                                                  alt="Вихідне зображення"/>
@@ -425,17 +424,16 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12" id = "image-edit-block">
                                 <div class="panel panel-success">
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Редагування фотографії</h3>
                                     </div>
-                                    <div class="panel-body">
+                                    <div class="panel-body" id="image-edit-block-1">
 
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cropArea" style="display:inline-block; ">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cropArea" id='imgCropEl' style="display:inline-block;">
                                             <img-crop image="myImage" alt="Зображення" result-image="myCroppedImage"></img-crop>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -451,7 +449,64 @@
     </div>
 </section>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();
+
+        //width of image
+        var imgPrevW = 0;
+
+        //height of image
+        var imgPrevH = 0;
+
+        //check if image was choosen
+        var flag = false;
+
+        $("#imgButton").on('click', function () {
+
+            //get actual width of container
+            var width = $('#image-edit-block').width();
+
+            //get actual height of container
+            var height = $('#image-preview-block').height();
+
+            //set width of image
+            $('#imgCropEl').css('width', width - 30);
+
+            //set height of image
+            $('#imgCropEl').css('height', height);
+
+            //save width
+            imgPrevW = width;
+
+            //save height
+            imgPrevH = height;
+
+            //image was choosen
+            flag = true;
+        });
+
+        //resize image in container when window is resized
+        $(window).resize(function(){
+
+            //if image was choosen
+            if(flag) {
+
+                //monitor actual width of image container
+                var actualWidth = $('#image-edit-block-1').width();
+                var actualHeight = $('#image-edit-block-1').height();
+
+                //if values isn't sames
+                if ((actualHeight != imgPrevH) || (actualWidth != imgPrevW)) {
+
+                    //reset image size
+                    $('#imgCropEl').css('width', actualWidth);
+                    $('#imgCropEl').css('height', actualHeight);
+
+                    //save actual size
+                    imgPrevH = actualHeight;
+                    imgPrevW = actualWidth;
+                }
+            }
+        });
     });
 </script>

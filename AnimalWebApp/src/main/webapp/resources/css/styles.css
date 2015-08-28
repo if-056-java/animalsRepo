@@ -148,14 +148,6 @@ IMG.displayed {
 .blocktext-h4{
     text-align: center;
 }
-.simple-side-padding{
-/*
-    padding-left: 5px;
-    margin-left:3px;
-    padding-right: 5px;
-    margin-right: 3px;
-*/
-}
 
 .sprite-image{
     border:none;
@@ -262,4 +254,15 @@ IMG.displayed {
 .required:after{
     content:"*";
     color:red;
+}
+.thumbnail-special {
+    display: block;
+    margin-bottom: 20px;
+    line-height: 1.42857143;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    -webkit-transition: border 0.2s ease-in-out;
+    -o-transition: border 0.2s ease-in-out;
+    transition: border 0.2s ease-in-out;
 }

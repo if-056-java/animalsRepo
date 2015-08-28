@@ -9,7 +9,7 @@ adoptionModule
         var factory = {};
 
         //Get amount animals for adoption
-        factory.getAmountRecords = function(filter) {
+        factory.getAmountRecords = function() {
             var def = $q.defer();
 
             $http.post(RESOURCES.ANIMALS_FOR_ADOPTING_PAGINATOR, AnimalAdoptionValues.filter)
@@ -17,7 +17,7 @@ adoptionModule
                     AnimalAdoptionValues.totalItems.count = data.rowsCount;
                     def.resolve(data);
                 })
-                .error(function () {
+                .error(function (error) {
                     AnimalAdoptionValues.totalItems.count = 0;
                     def.reject("Failed to get animals");
                 });
@@ -26,7 +26,7 @@ adoptionModule
         };
 
         //Get list of animals for adoption
-        factory.getListOfAdoptionAnimals = function(filter){
+        factory.getListOfAdoptionAnimals = function(){
             var def = $q.defer();
 
             $http.post(RESOURCES.ANIMALS_FOR_ADOPTING, AnimalAdoptionValues.filter)

@@ -12,24 +12,41 @@ adoptionModule
             new Spinner(opts).spin(targetContent);
 
             $scope.contentLoading = 0;
+            $scope.errorMessage = '';
 
             //Pages
             $scope.filter = AnimalAdoptionValues.filter;            //filter
             $scope.totalItems = AnimalAdoptionValues.totalItems;    //table rows count
             $scope.animals = AnimalAdoptionValues.animals;          //animal instance
 
-            console.log($scope.totalItems.count);
             /**
              * @return count of rows for pagination.
              */
             $scope.contentLoading++;
             AdoptionFactory.getAmountRecords()
+                .then(
+                    function(result){},
+
+                    //fail
+                    function(error){
+                        $scope.totalItems.count = 0;
+                        $scope.errorMessage = error;
+                    }
+                )
                 .finally(function() {
                     $scope.contentLoading--;
                 });
 
             $scope.contentLoading++;
             AdoptionFactory.getListOfAdoptionAnimals()
+                .then(
+                    function(result){},
+
+                    //fail
+                    function(error){
+                        $scope.errorMessage = error;
+                    }
+                )
                 .finally(function() {
                     $scope.contentLoading--;
                 });
@@ -38,8 +55,14 @@ adoptionModule
              * @return next page.
              */
             $scope.pageChanged = function() {
-                AdoptionFactory.getListOfAdoptionAnimals();
+                $scope.contentLoading++;
+
+                //scroll to top of the page
                 jQuery('html, body').animate({ scrollTop: 0 }, 500);
+
+                AdoptionFactory.getListOfAdoptionAnimals().finally(function() {
+                    $scope.contentLoading--;
+                });
             };
 
             /**
@@ -87,7 +110,6 @@ adoptionModule
                     $scope.filter.animal.sex = undefined;
                     $scope.filter.animal.dateOfRegister = undefined;
 
-                    console.log($scope.totalItems.count);
                     $scope.doFilter();
                     jQuery('html, body').animate({ scrollTop: 0 }, 500);
                 };
@@ -98,12 +120,22 @@ adoptionModule
                 $scope.doFilter = function() {
                     $scope.$parent.contentLoading++;
 
-                    AdoptionFactory.getAmountRecords();
+                    AdoptionFactory.getAmountRecords()
+                        .then(
+                        function(result){},
+
+                        //fail
+                        function(error){
+                             $scope.totalItems.count = 0;
+                             $scope.$parent.errorMessage = error.toString();
+                        });
+
                     AdoptionFactory.getListOfAdoptionAnimals().finally(
                         function(){
                             $scope.$parent.contentLoading--;
                         }
                     );
+                    console.log($scope.totalItems.count);
 
                     jQuery('html, body').animate({ scrollTop: 0 }, 500);
                 };
