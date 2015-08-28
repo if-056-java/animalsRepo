@@ -18,7 +18,7 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
 
             // Sending message to Facebook (remove from here into Service?????????)
             $scope.sendFacebook = function (id) {
-                $http.defaults.headers.common['AccessToken'] = localStorageService.get("accessToken");
+            //    $http.defaults.headers.common['AccessToken'] = localStorageService.get("accessToken");
                 $http.post("/webapi/socials/facebook/" + id)
                     .success(function (data) {
                         console.log("facebook post sended");

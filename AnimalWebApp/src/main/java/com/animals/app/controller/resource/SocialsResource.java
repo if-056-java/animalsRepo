@@ -3,6 +3,7 @@ package com.animals.app.controller.resource;
 import com.animals.app.domain.Animal;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
+import com.animals.app.service.Facebook;
 import com.animals.app.service.Twitt;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -50,11 +51,11 @@ public class SocialsResource {
         if (animalId == 0) {
             return BAD_REQUEST;
         }
-        consumerKey = twitterConfig.getProperty("twitter.consumerKey");
-        consumerSecret = twitterConfig.getProperty("twitter.consumerSecret");
-        accessToken = twitterConfig.getProperty("twitter.accessToken");
-        accessTokenSecret = twitterConfig.getProperty("twitter.accessTokenSecret");
-        messageBody = twitterConfig.getProperty("twitter.messageBody");
+        consumerKey = socialsConfig.getProperty("twitter.consumerKey");
+        consumerSecret = socialsConfig.getProperty("twitter.consumerSecret");
+        accessToken = socialsConfig.getProperty("twitter.accessToken");
+        accessTokenSecret = socialsConfig.getProperty("twitter.accessTokenSecret");
+        messageBody = socialsConfig.getProperty("twitter.messageBody");
 
         //get animal by id from database
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
@@ -88,6 +89,53 @@ public class SocialsResource {
 
     }
 
+    @POST //http:localhost:8080/webapi/socials/facebook/animalId
+    @Path("/facebook/{animalId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response sendFacebook (@PathParam("animalId") long animalId) {
+        Facebook facebook;
+        String accessToken, wallId ;
+
+        System.out.println("animalId -" + animalId);
+        if (animalId == 0) {
+            return BAD_REQUEST;
+        }
+
+        //get animal by id from database
+        AnimalRepository animalRepository = new AnimalRepositoryImpl();
+        Animal animal = animalRepository.getById(animalId);
+
+        if (animal == null) {
+            return NOT_FOUND;
+        }
+
+        if (animal.getDateOfFacebook() == null) {
+
+            accessToken = socialsConfig.getProperty("facebook.accessToken");
+            wallId = socialsConfig.getProperty("facebook.wallId");
+
+            //attach any media, if you want to
+//            if (!animal.getImage().equals(null)) {
+  //              String restPath = httpServlet.getServletContext().getRealPath("/"); //path to rest root folder
+    //            twitt.setMedia(restPath + animal.getImage());
+      //      }
+
+                facebook = new Facebook();
+
+            if (facebook.sendFacebook(accessToken, wallId)) {
+                animal.setDateOfFacebook(getCurrentDate());
+                System.out.println("Date: - " + animal.getDateOfFacebook().toString());
+                animalRepository.facebookUpdate(animal);
+                return OK;
+            } else
+                return BAD_REQUEST;
+        }
+        else
+            return BAD_REQUEST;
+
+    }
+
     private static java.sql.Date getCurrentDate() {
         java.util.Date today = new java.util.Date();
         return new java.sql.Date(today.getTime());
@@ -103,7 +151,7 @@ public class SocialsResource {
         return Response.ok().entity(entity).build();
     }
 
-    private static Properties twitterConfig = new Properties();
+    private static Properties socialsConfig = new Properties();
     {
         fetchConfig();
     }
@@ -118,7 +166,7 @@ public class SocialsResource {
         File file = new File(classLoader.getResource("project.properties").getFile());
 
         try (InputStream input = new FileInputStream(file)) {
-            twitterConfig.load(input);
+            socialsConfig.load(input);
         }
         catch (IOException ex){
             System.err.println("Cannot open and load mail server properties file. Put it on...");
