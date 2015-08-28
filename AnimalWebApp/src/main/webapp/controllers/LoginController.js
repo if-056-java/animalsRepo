@@ -20,4 +20,15 @@ animalApp.controller('LoginController', function($scope, userAccount, hashPasswo
 		
 	}	
 	
+	$scope.loginGoogle=function(){
+		
+		//href="http://localhost:8080/webapi/account/login/google"
+		if (localStorageService.cookie.get("refreshGoogleToken")) {
+			userAccount.loginDirectGoogle();			
+		} else {
+			userAccount.loginGoogle();
+		}
+		
+	}
+	
 });

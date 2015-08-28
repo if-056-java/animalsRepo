@@ -1,5 +1,5 @@
 //created by 41X
-angular.module('animalApp').factory('userAccount',function (Base64, $http, localStorageService, $location, $route){
+angular.module('animalApp').factory('userAccount',function (Base64, $http, localStorageService, $location, $route, $window){
 	
 	return {
 		
@@ -25,6 +25,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 	        	localStorageService.set("userName", data.socialLogin);
 	        	localStorageService.set("userRole", data.userRole);
 	        	localStorageService.set("userRoleId", data.userRoleId);
+	        	
 	        	
 		        $location.path("/ua/user/profile");	
 		        $route.reload();		       
@@ -97,6 +98,12 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 	        	localStorageService.set("userRole", data.userRole);
 	        	localStorageService.set("userRoleId", data.userRoleId);	
 	        	
+	        	console.log(data.refreshToken);
+	        	localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);
+	        	localStorageService.set("accessGoogleToken", data.refreshGoogleToken);
+	        	localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);
+	        	localStorageService.cookie.set("accessGoogleToken",data.accessGoogleToken,30);
+	        	
 	        	$location.path("/ua/user/profile");	
 		        $route.reload();
 	        	
@@ -108,7 +115,44 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		        $route.reload();
 			});			
 			       	
+		},
+		
+		loginGoogle:function(){
+			
+			console.log("loginGoogle");
+			
+			$http.get("/webapi/account/login/google")
+			.success(function(data){
+				console.log("success not direct");
+				$window.location.href = (data);				
+			})
+			.error(function(data){
+				console.log("error direct");
+			})
+			
+		},
+		
+		loginDirectGoogle:function(){
+			
+			console.log("loginDirectGoogle");
+			
+			var refreshToken = localStorageService.cookie.get("refreshGoogleToken");
+			var accessToken = localStorageService.cookie.get("accessGoogleToken");
+			console.log(refreshToken);
+			console.log(accessToken);
+			
+			
+			$http.get("/webapi/account/login/google_login_direct", {params:{code:refreshToken, code2:accessToken}})
+			.success(function(data){
+				console.log("success direct");
+				$window.location.href = (data);
+			})
+			.error(function(data){
+				console.log("error direct");
+			})
 		}
+		
+		
 		
 	};	
 	
