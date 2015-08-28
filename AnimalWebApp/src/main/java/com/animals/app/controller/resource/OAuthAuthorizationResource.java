@@ -45,7 +45,9 @@ import com.animals.app.repository.Impl.UserRepositoryImpl;
 @PermitAll
 public class OAuthAuthorizationResource {
 	
+	private static final String callbackUrlG = "http://localhost:8080/webapi/account/login/google_token";
 	//private String url = "http://env-4521389.unicloud.pl/#/ua/user/profile";  
+	private String url = "http://localhost:8080/#/ua/user/profile";  
 	//private static final String callbackUrlG = "http://env-4521389.unicloud.pl/webapi/account/login/google_token";
 	
 
@@ -60,11 +62,9 @@ public class OAuthAuthorizationResource {
 	private static final String SCOPE = "https://mail.google.com/ https://www.googleapis.com/auth/userinfo.email";
 	private static final Token EMPTY_TOKEN = null;
 	private static final String apiKeyG = "1061082540782-02vuauouhb8v5caiavepvgkuuiv4t178.apps.googleusercontent.com";
-	private static final String callbackUrlG = "http://localhost:8080/webapi/account/login/google_token";
 	private static final String apiSecretG = "rYsnWUSHf4S2z-LHM1oMocJT";
 	
 	// url to redirect after OAuth end
-	private String url = "http://localhost:8080/#/ua/user/profile";  
 	
 	
 	@GET
@@ -214,8 +214,7 @@ public class OAuthAuthorizationResource {
 			}		
 			
 			session.setAttribute("successMesage", "Successful joining Google account");
-			session.setAttribute("user", user);
-			session.setAttribute("accessGoogleToken", accessGoogleToken);
+			session.setAttribute("user", user);			
 			session.setAttribute("refreshGoogleToken", refreshGoogleToken);	 	
 			
 			return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
@@ -244,8 +243,7 @@ public class OAuthAuthorizationResource {
 			System.out.println("creating session");	
 			
 			
-			setUpSuccessSession(user, session, "success login with GoogleId");
-			session.setAttribute("accessGoogleToken", accessGoogleToken);
+			setUpSuccessSession(user, session, "success login with GoogleId");			
 			session.setAttribute("refreshGoogleToken", refreshGoogleToken);
 	        			
 			//Entering to site with Session			
@@ -294,8 +292,7 @@ public class OAuthAuthorizationResource {
 		}
 		
 		//creating session		
-		setUpSuccessSession(userToReg, session, "successful Registration with GoogleId");		
-		session.setAttribute("accessGoogleToken", accessGoogleToken);
+		setUpSuccessSession(userToReg, session, "successful Registration with GoogleId");
 		session.setAttribute("refreshGoogleToken", refreshGoogleToken);
 		
 		//Entering to site with Session		
@@ -307,12 +304,9 @@ public class OAuthAuthorizationResource {
 	@GET
 	@Path("login/google_login_direct")			//http://localhost:8080/webapi/account/login/google_login_direct
 	public Response directGoogleLoginWithOldAccessToken(@Context HttpServletRequest req, 														
-														@QueryParam("code") String refreshGoogleToken,
-														@QueryParam("code2") String accessGoogleToken) {
+														@QueryParam("code") String refreshGoogleToken) {
 
-		System.out.println("Google refresh token - "+ refreshGoogleToken);
-		System.out.println("Google access token - "+ accessGoogleToken);    //don't need it Should be deleted
-		
+		System.out.println("Google refresh token - "+ refreshGoogleToken);		
 		
 		//getting new access token with old refreshToken
 		OAuthRequest request = new OAuthRequest(Verb.POST, "https://www.googleapis.com/oauth2/v3/token");

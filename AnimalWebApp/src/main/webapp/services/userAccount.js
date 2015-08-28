@@ -99,10 +99,8 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 	        	localStorageService.set("userRoleId", data.userRoleId);	
 	        	
 	        	
-	        	localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);
-	        	localStorageService.set("accessGoogleToken", data.refreshGoogleToken);
-	        	localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);
-	        	localStorageService.cookie.set("accessGoogleToken",data.accessGoogleToken,30);
+	        	localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);	        	
+	        	localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);	        	
 	        	
 	        	$location.path("/ua/user/profile");	
 		        $route.reload();
@@ -136,13 +134,11 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			
 			console.log("loginDirectGoogle");
 			
-			var refreshToken = localStorageService.cookie.get("refreshGoogleToken");
-			var accessToken = localStorageService.cookie.get("accessGoogleToken");
-			console.log(refreshToken);
-			console.log(accessToken);
+			var refreshToken = localStorageService.cookie.get("refreshGoogleToken");			
+			console.log(refreshToken);			
 			
 			
-			$http.get("/webapi/account/login/google_login_direct", {params:{code:refreshToken, code2:accessToken}})
+			$http.get("/webapi/account/login/google_login_direct", {params:{code:refreshToken}})
 			.success(function(data){
 				console.log("success direct");
 				$window.location.href = (data);
