@@ -116,4 +116,32 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
 
                 return AnimalsService.getAnimalBreeds(animalTypeId);
             }
+
+            /**
+             * @param id
+             * sending message to Twitter.
+             */
+            this.sendTwitter = function (id) {
+
+                console.log("twitt sended");
+                console.log(id);
+
+                return AnimalsService.sendTwitter(id)
+                    .then(function(data) {
+                        console.log(data);
+                    });
+            };
+
+            /**
+             * @param id
+             * sending message to Facebook.
+             */
+            this.sendFacebook = function (id) {
+
+                return AnimalsService.sendFacebook(id)
+                    .then(function(data) {
+                        console.log("facebook post sended");
+                        console.log(data);
+                    });
+            };
     }]);

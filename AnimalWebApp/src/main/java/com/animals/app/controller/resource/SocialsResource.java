@@ -6,9 +6,12 @@ import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.service.Twitt;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import twitter4j.TwitterException;
 
+import javax.annotation.security.RolesAllowed;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
@@ -21,6 +24,7 @@ import java.util.Properties;
  * Created by aquaneo on 8/19/2015.
  */
 @Path("socials")
+//@RolesAllowed("модератор")
 public class SocialsResource {
     private static Logger LOG = LogManager.getLogger(SocialsResource.class);
 
@@ -30,8 +34,11 @@ public class SocialsResource {
 
     private final Response OK = Response.status(Response.Status.OK).build();
 
+    @Context
+    private HttpServletRequest httpServlet;
+
     @POST //http:localhost:8080/webapi/socials/twitter/animalId
-    @Path("twitter/{animalId}")
+    @Path("/twitter/{animalId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response sendTwitt (@PathParam("animalId") long animalId) {
@@ -57,27 +64,34 @@ public class SocialsResource {
             return NOT_FOUND;
         }
 
-        twitt = new Twitt();
-        twitt.setMessage("Нова тварина! Деталі: - http://tym.dp.ua/#/ua/animal/adoption/" + animalId);
+        if (animal.getDateOfTwitter() == null) {
+            twitt = new Twitt();
+            twitt.setMessage("Нова тварина! Деталі: - http://tym.dp.ua/#/ua/animal/adoption/" + animalId);
 
-        //attach any media, if you want to
-        if (!animal.getImage().equals(null)) twitt.setMedia(animal.getImage().toString());
+            //attach any media, if you want to
+            if (!animal.getImage().equals(null)) {
+                String restPath = httpServlet.getServletContext().getRealPath("/"); //path to rest root folder
+                twitt.setMedia(restPath + animal.getImage());
+            }
 
-        try {
-            twitt.sendTwitt(consumerKey, consumerSecret, accessToken, accessTokenSecret);
-        } catch (TwitterException e) {
-            System.out.println(e.toString());
-            return BAD_REQUEST;
-        } catch (IOException e) {
-            System.out.println(e.toString());
-            return BAD_REQUEST;
+
+            if (twitt.sendTwitt(consumerKey, consumerSecret, accessToken, accessTokenSecret)) {
+                animal.setDateOfTwitter(getCurrentDate());
+                System.out.println("Date: - " + animal.getDateOfTwitter().toString());
+                animalRepository.twitterUpdate(animal);
+                return OK;
+            } else
+                return BAD_REQUEST;
         }
-
-        return OK;
+        else
+            return BAD_REQUEST;
 
     }
 
-
+    private static java.sql.Date getCurrentDate() {
+        java.util.Date today = new java.util.Date();
+        return new java.sql.Date(today.getTime());
+    }
 
 
     /**

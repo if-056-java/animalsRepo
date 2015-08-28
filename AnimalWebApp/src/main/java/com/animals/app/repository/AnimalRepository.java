@@ -24,6 +24,12 @@ public interface AnimalRepository {
             "address=#{address}, isActive=#{active}, image=#{image}, serviceId=#{service.id} " +
             "WHERE id=#{id}";
 
+    final String TWITTER_UPDATE = "UPDATE animals SET dateOfTwitter=#{dateOfTwitter} " +
+            "WHERE id=#{id}";
+
+    final String FACEBOOK_UPDATE = "UPDATE animals SET dateOfFacebook=#{dateOfFacebook} " +
+            "WHERE id=#{id}";
+
     final String DELETE = "DELETE FROM animals WHERE id = #{id}";
 
     final String ADMIN_ANIMALS = "<script>SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, dateOfFacebook, dateOfTwitter, color " +
@@ -65,7 +71,7 @@ public interface AnimalRepository {
             "</script>";
 
     final String SELECT_BY_ID = "SELECT id, sex, typeId, size, citesType, breed, transpNumber, tokenNumber, " +
-            "dateOfRegister, dateOfBirth, dateOfSterilization, color, userId, address, " +
+            "dateOfRegister, dateOfBirth, dateOfSterilization, dateOfTwitter, dateOfFacebook, color, userId, address, " +
             "isActive, image, serviceId, description " +
             "FROM animals WHERE id = #{id}";
 
@@ -126,6 +132,21 @@ public interface AnimalRepository {
      */
     @Update(UPDATE)
     void update(Animal animal);
+
+    /**
+     * Update date of Twitter publication instance's of Animal in the database.
+     * @param animal the instance to be updated.
+     */
+
+    @Update(TWITTER_UPDATE)
+    void twitterUpdate(Animal animal);
+
+    /**
+     * Update date of Facebook publication instance's of Animal in the database.
+     * @param animal the instance to be updated.
+     */
+    @Update(FACEBOOK_UPDATE)
+    void facebookUpdate(Animal animal);
 
     /**
      * Delete an instance of Animal from the database.

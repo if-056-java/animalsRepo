@@ -1,26 +1,8 @@
-angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.select', 'DPController', 'AnimalsAdminValues'])
-    .controller('AnimalsAdminController', ['$scope', '$http', 'AnimalsAdminService', 'AnimalsAdminValues',
-        function($scope, $http, AnimalsAdminService, AnimalsAdminValues) {
+angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.select', 'DPController', 'AnimalsAdminValues', 'LocalStorageModule'])
+    .controller('AnimalsAdminController', ['$scope', '$http', 'AnimalsAdminService', 'AnimalsAdminValues', 'localStorageService',
+        function($scope, $http, AnimalsAdminService, AnimalsAdminValues, localStorageService) {
 
             AnimalsAdminService.rolesAllowed("модератор");
-
-            $scope.sendTwitter = function (id) {
-                console.log("twitt sended");
-                console.log(id);
-                $http.post("//localhost:8080/webapi/socials/twitter/" + id)
-                    .success(function (data) {
-                        console.log("twitt sended");
-                        console.log(data);
-                    });
-            };
-
-            $scope.sendFacebook = function (id) {
-                $http.post("//localhost:8080/webapi/socials/facebook/" + id)
-                    .success(function (data) {
-                        console.log("facebook post sended");
-                        console.log(data);
-                    });
-            };
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
@@ -61,6 +43,22 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
             $scope.countChanged = function(count) {
                 $scope.filter.limit = count;
                 AnimalsAdminService.getAnimals();
+            };
+
+            /**
+             * @param id
+             * sending message to Twitter.
+             */
+            $scope.sendTwitter = function (id) {
+                AnimalsAdminService.sendTwitter(id);
+            };
+
+            /**
+             * @param id
+             * sending message to Facebook.
+             */
+            $scope.sendFacebook = function (id) {
+                AnimalsAdminService.sendFacebook(id);
             };
     }])
     .controller('AnimalsFilterAdminController', ['$scope', '$filter', 'AnimalsAdminService', 'AnimalsAdminValues',

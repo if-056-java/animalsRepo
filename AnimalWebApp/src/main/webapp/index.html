@@ -20,9 +20,6 @@
     <link href="resources/css/bootstrap-social.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
-    <!-- Підібрані стилі для Google Maps -->
-    <link href="resources/css/gmap.css" rel="stylesheet">
-
     <!-- Підібрані стилі для навігаційної панелі -->
     <link href="resources/css/navbar_green.css" rel="stylesheet">
 
@@ -102,7 +99,7 @@
 				<form class="navbar-form navbar-right" role="form">
 				    <a ng-show="!session()" href="#ua/user/login" class="btn btn-success" role="button">Вхід  <span class="glyphicon glyphicon-log-in"></span></a>
 				    <label ng-show="session()">Вітаємо: {{userName}}</label>
-				    <a ng-show="session()" ng-click="logout()" class="btn btn-success" role="button">Вихід  <span class="glyphicon glyphicon-log-out"></span></a>
+				    <a ng-show="session()" ng-click="logout()" class="btn btn-warning" role="button">Вихід  <span class="glyphicon glyphicon-log-out"></span></a>
 				</form>				
 		</div><!-- /.nav-collapse -->
 	</div>	
@@ -189,7 +186,7 @@
  <script src="controllers/AnimalsDetailController.js"></script>
  <script src="controllers/DPController.js"></script>
  <script src="controllers/ContactsController.js"></script>
- <script src="services/ContactsValues.js"></script>
+ <script src="services/Values/ContactsValues.js"></script>
  <script src="controllers/FindController.js"></script>
  <script src="controllers/LostController.js"></script>
  <script src="controllers/HomelessController.js"></script>
