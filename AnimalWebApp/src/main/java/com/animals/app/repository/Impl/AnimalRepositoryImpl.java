@@ -58,6 +58,45 @@ public class AnimalRepositoryImpl implements AnimalRepository {
 
     }
 
+
+    /**
+     * Update date of Twitter publication instance's of Animal in the database.
+     * @param animal the instance to be updated.
+     */
+    public void twitterUpdate(Animal animal) {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            mapper.twitterUpdate(animal);
+
+            session.commit();
+        } finally {
+            session.close();
+        }
+
+    }
+
+    /**
+     * Update date of Facebook publication instance's of Animal in the database.
+     * @param animal the instance to be updated.
+     */
+    public void facebookUpdate(Animal animal) {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalRepository mapper = session.getMapper(AnimalRepository.class);
+            mapper.facebookUpdate(animal);
+
+            session.commit();
+        } finally {
+            session.close();
+        }
+
+    }
+
     /**
      * Delete an instance of Animal from the database.
      * @param id primary key value of the instance to be deleted.

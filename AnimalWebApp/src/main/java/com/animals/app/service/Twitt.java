@@ -64,7 +64,7 @@ public class Twitt implements Serializable {
                 '}';
     }
 
-    public boolean sendTwitt(String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret) throws TwitterException, IOException {
+    public boolean sendTwitt(String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret){
 
         //Instantiate a re-usable and thread-safe factory
         TwitterFactory twitterFactory = new TwitterFactory();
@@ -85,15 +85,17 @@ public class Twitt implements Serializable {
         if (!media.equals(null)) statusUpdate.setMedia(new File(media));
 
         //tweet or update status
-        Status status = twitter.updateStatus(statusUpdate);
+        Status status = null;
+        try {
+            status = twitter.updateStatus(statusUpdate);
+            //response from twitter server
+            System.out.println("status.toString() = " + status.toString());
 
-        //response from twitter server
-        System.out.println("status.toString() = " + status.toString());
-
-        long id = status.getId();
-        if (id != 0)
-            return true;
-        else
+            long id = status.getId();
+            if (id != 0) return true;
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
             return false;
     }
 }
