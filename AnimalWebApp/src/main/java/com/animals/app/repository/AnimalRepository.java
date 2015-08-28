@@ -160,6 +160,7 @@ public interface AnimalRepository {
      * @param id primary key value used for lookup.
      * @return An Animal instance with a primary key value equals to pk. null if there is no matching row.
      */
+
     @Select(SELECT_BY_ID)
     @Results(value = {
             @Result(property="id", column="id"),
@@ -174,8 +175,9 @@ public interface AnimalRepository {
             @Result(property="tokenNumber", column="tokenNumber"),
             @Result(property="dateOfRegister", column="dateOfRegister"),
             @Result(property="dateOfBirth", column="dateOfBirth"),
-            @Result(property="dateOFacebook", column="dateOfFacebook"),
+            @Result(property="dateOfSterilization", column="dateOfSterilization"),
             @Result(property="dateOfTwitter", column="dateOfTwitter"),
+            @Result(property="dateOfFacebook", column="dateOfFacebook"),
             @Result(property="color", column="color"),
             @Result(property="user", column="userId", javaType = User.class,
                     one = @One(select = "com.animals.app.repository.UserRepository.getByIdForAdminAnimalList")),
@@ -183,7 +185,8 @@ public interface AnimalRepository {
             @Result(property="active", column="isActive"),
             @Result(property="image", column="image"),
             @Result(property="service", column="serviceId", javaType = AnimalService.class,
-                    one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById"))
+                    one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById")),
+            @Result(property="description", column="description"),
     })
     Animal getById(long id);
 

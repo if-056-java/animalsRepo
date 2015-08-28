@@ -82,7 +82,7 @@ public class Twitt implements Serializable {
         StatusUpdate statusUpdate = new StatusUpdate(message);   //your tweet or status message
 
         //attach any media, if you want to
-        if (!media.equals(null)) statusUpdate.setMedia(new File(media));
+        if (!(media == null)) statusUpdate.setMedia(new File(media));
 
         //tweet or update status
         Status status = null;
