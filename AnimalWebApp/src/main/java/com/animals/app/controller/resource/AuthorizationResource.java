@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Base64;
+import org.scribe.model.Token;
 
 import com.animals.app.domain.User;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
@@ -243,7 +244,8 @@ private static String setUpSuccessSession(User user, HttpSession session, String
     			"\", \"userRoleId\" : \"" + (String)session.getAttribute("userRoleId") +
     			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
     			"\", \"accessToken\" : \"" + (String)session.getAttribute("accessToken") +
-    			"\", \"refreshToken\" : \"" + (String)session.getAttribute("refreshToken") +
+    			"\", \"refreshGoogleToken\" : \"" + (String)session.getAttribute("refreshGoogleToken") +
+    			"\", \"accessGoogleToken\" : \"" + (String)session.getAttribute("accessGoogleToken") +
     			"\"}";		
 		
 		return str;
