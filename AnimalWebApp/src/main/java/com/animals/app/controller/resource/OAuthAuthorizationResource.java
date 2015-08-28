@@ -45,9 +45,7 @@ import com.animals.app.repository.Impl.UserRepositoryImpl;
 @PermitAll
 public class OAuthAuthorizationResource {
 	
-	private String url = "http://localhost:8080/#/ua/user/profile";  
 	//private String url = "http://env-4521389.unicloud.pl/#/ua/user/profile";  
-	private static final String callbackUrlG = "http://localhost:8080/webapi/account/login/google_token";
 	//private static final String callbackUrlG = "http://env-4521389.unicloud.pl/webapi/account/login/google_token";
 	
 
@@ -62,9 +60,11 @@ public class OAuthAuthorizationResource {
 	private static final String SCOPE = "https://mail.google.com/ https://www.googleapis.com/auth/userinfo.email";
 	private static final Token EMPTY_TOKEN = null;
 	private static final String apiKeyG = "1061082540782-02vuauouhb8v5caiavepvgkuuiv4t178.apps.googleusercontent.com";
+	private static final String callbackUrlG = "http://localhost:8080/webapi/account/login/google_token";
 	private static final String apiSecretG = "rYsnWUSHf4S2z-LHM1oMocJT";
 	
 	// url to redirect after OAuth end
+	private String url = "http://localhost:8080/#/ua/user/profile";  
 	
 	
 	@GET
@@ -413,7 +413,8 @@ public class OAuthAuthorizationResource {
 		}
 			
 		//creating Session for founded user. Setting params
-		setUpSuccessSession(user, sessionNew, "success direct login with GoogleId");	        			
+		setUpSuccessSession(user, sessionNew, "success direct login with GoogleId");	
+		sessionNew.setAttribute("refreshGoogleToken", refreshGoogleToken);
 			
 		return Response.status(Response.Status.OK).entity(url).build();
 		
@@ -446,6 +447,7 @@ public class OAuthAuthorizationResource {
 		
 		System.out.println("encoded accessToken -" + accessTokenEncoded);
 		session.setAttribute("accessToken", accessTokenEncoded);
+		
 	}
 	
 }

@@ -98,7 +98,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 	        	localStorageService.set("userRole", data.userRole);
 	        	localStorageService.set("userRoleId", data.userRoleId);	
 	        	
-	        	console.log(data.refreshToken);
+	        	
 	        	localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);
 	        	localStorageService.set("accessGoogleToken", data.refreshGoogleToken);
 	        	localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);
@@ -127,7 +127,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 				$window.location.href = (data);				
 			})
 			.error(function(data){
-				console.log("error direct");
+				console.log("error not direct");
 			})
 			
 		},
@@ -148,7 +148,8 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 				$window.location.href = (data);
 			})
 			.error(function(data){
-				console.log("error direct");
+				console.log("error direct. Maybe RefreshToken expired");
+				localStorageService.cookie.remove("refreshGoogleToken");
 			})
 		}
 		
