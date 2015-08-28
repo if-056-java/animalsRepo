@@ -1,6 +1,6 @@
-angular.module('AnimalMedicalHistoryEditorController', ['DPController', 'DoctorAnimalsModule', 'DoctorAnimalsValues', 'AnimalMedicalHistoryValues'])
-    .controller('AnimalMedicalHistoryEditorController', ['$scope', '$routeParams', '$window', '$filter', 'DoctorAnimalsService', 'DoctorAnimalsValues', 'AnimalMedicalHistoryValues',
-        function($scope, $routeParams, $window, $filter, DoctorAnimalsService, DoctorAnimalsValues, AnimalMedicalHistoryValues) {
+angular.module('AnimalMedicalHistoryEditorController', ['DPController', 'AnimalsDoctorModule', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues'])
+    .controller('AnimalMedicalHistoryEditorController', ['$scope', '$routeParams', '$window', '$filter', 'AnimalsDoctorService', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues',
+        function($scope, $routeParams, $window, $filter, AnimalsDoctorService, AnimalsDoctorValues, AnimalMedicalHistoryValues) {
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
@@ -8,7 +8,7 @@ angular.module('AnimalMedicalHistoryEditorController', ['DPController', 'DoctorA
             $scope.contentLoading = 2;
 
             var animalId = $routeParams.animalId;       //animal id
-            $scope.animal = DoctorAnimalsValues.animal;  //animal
+            $scope.animal = AnimalsDoctorValues.animal;  //animal
             $scope.animalImage = undefined;
             $scope.itemTypes = AnimalMedicalHistoryValues.itemTypes;
             $scope.item = {};
@@ -18,19 +18,19 @@ angular.module('AnimalMedicalHistoryEditorController', ['DPController', 'DoctorA
              * @param animalId id of animal used for lookup.
              * @return animal instance.
              */
-            DoctorAnimalsService.getAnimal(animalId)
+            AnimalsDoctorService.getAnimal(animalId)
                 .finally(function() {
                     $scope.animalImage = "resources/img/noimg.png";
-                    if (DoctorAnimalsValues.animal.image != undefined) {
-                        if (DoctorAnimalsValues.animal.image.length > 0) {
-                            $scope.animalImage = DoctorAnimalsValues.animal.image;
+                    if (AnimalsDoctorValues.animal.image != undefined) {
+                        if (AnimalsDoctorValues.animal.image.length > 0) {
+                            $scope.animalImage = AnimalsDoctorValues.animal.image;
                         }
                     }
 
                     $scope.contentLoading--;
                 });
 
-            DoctorAnimalsService.getAnimalMedicalHistoryTypes()
+            AnimalsDoctorService.getAnimalMedicalHistoryTypes()
                 .finally(function() {
                     $scope.contentLoading--;
                 });
@@ -38,7 +38,7 @@ angular.module('AnimalMedicalHistoryEditorController', ['DPController', 'DoctorA
             $scope.save = function() {
                 $scope.item.date = $filter('date')($scope.item.date, 'yyyy-MM-dd');
 
-                DoctorAnimalsService.setAnimalMedicalHistoryItem($scope.item)
+                AnimalsDoctorService.updateAnimalMedicalHistoryItem($scope.item)
                     .then(function(){
                         $window.location.href = "#/ua/user/doctor/animals/medical_history/" + animalId;
                     }

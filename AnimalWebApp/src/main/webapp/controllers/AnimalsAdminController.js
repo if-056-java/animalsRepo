@@ -1,6 +1,24 @@
-angular.module('DoctorAnimals', ['DoctorAnimalsModule', 'nya.bootstrap.select', 'DPController', 'DoctorAnimalsValues'])
-    .controller('DoctorAnimalsController', ['$scope', 'DoctorAnimalsService', 'DoctorAnimalsValues',
-        function($scope, DoctorAnimalsService, DoctorAnimalsValues) {
+angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.select', 'DPController', 'AnimalsAdminValues'])
+    .controller('AnimalsAdminController', ['$scope', '$http', 'AnimalsAdminService', 'AnimalsAdminValues',
+        function($scope, $http, AnimalsAdminService, AnimalsAdminValues) {
+
+            $scope.sendTwitter = function (id) {
+                console.log("twitt sended");
+                console.log(id);
+                $http.post("//localhost:8080/webapi/socials/twitter/" + id)
+                    .success(function (data) {
+                        console.log("twitt sended");
+                        console.log(data);
+                    });
+            };
+
+            $scope.sendFacebook = function (id) {
+                $http.post("//localhost:8080/webapi/socials/facebook/" + id)
+                    .success(function (data) {
+                        console.log("facebook post sended");
+                        console.log(data);
+                    });
+            };
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
@@ -8,14 +26,14 @@ angular.module('DoctorAnimals', ['DoctorAnimalsModule', 'nya.bootstrap.select', 
             //This variable decides when spinner loading for contentis closed.
             $scope.contentLoading = 4;
 
-            $scope.filter = DoctorAnimalsValues.filter;            //filter
-            $scope.totalItems = DoctorAnimalsValues.totalItems;    //table rows count
-            $scope.animals = DoctorAnimalsValues.animals;          //animal instance
+            $scope.filter = AnimalsAdminValues.filter;            //filter
+            $scope.totalItems = AnimalsAdminValues.totalItems;    //table rows count
+            $scope.animals = AnimalsAdminValues.animals;          //animal instance
 
             /**
              * @return count of rows for pagination.
              */
-            DoctorAnimalsService.getPagesCount()
+            AnimalsAdminService.getPagesCount()
                 .finally(function() {
                     $scope.contentLoading--;
                 });
@@ -23,7 +41,7 @@ angular.module('DoctorAnimals', ['DoctorAnimalsModule', 'nya.bootstrap.select', 
             /**
              * @return list of animals.
              */
-            DoctorAnimalsService.getAnimals()
+            AnimalsAdminService.getAnimals()
                 .finally(function() {
                     $scope.contentLoading--;
                 });
@@ -32,7 +50,7 @@ angular.module('DoctorAnimals', ['DoctorAnimalsModule', 'nya.bootstrap.select', 
              * @return next page.
              */
             $scope.pageChanged = function() {
-                DoctorAnimalsService.getAnimals();
+                AnimalsAdminService.getAnimals();
             };
 
             /**
@@ -40,20 +58,20 @@ angular.module('DoctorAnimals', ['DoctorAnimalsModule', 'nya.bootstrap.select', 
              */
             $scope.countChanged = function(count) {
                 $scope.filter.limit = count;
-                DoctorAnimalsService.getAnimals();
+                AnimalsAdminService.getAnimals();
             };
     }])
-    .controller('DoctorAnimalsFilterController', ['$scope', '$filter', 'DoctorAnimalsService', 'DoctorAnimalsValues',
-        function($scope, $filter, DoctorAnimalsService, DoctorAnimalsValues) {
+    .controller('AnimalsFilterAdminController', ['$scope', '$filter', 'AnimalsAdminService', 'AnimalsAdminValues',
+        function($scope, $filter, AnimalsAdminService, AnimalsAdminValues) {
 
-            $scope.filter = DoctorAnimalsValues.filter;                  //filter
-            $scope.animalTypes = DoctorAnimalsValues.animalTypes;        //list of animal types
-            $scope.animalServices = DoctorAnimalsValues.animalServices;  //list of animal services
+            $scope.filter = AnimalsAdminValues.filter;                  //filter
+            $scope.animalTypes = AnimalsAdminValues.animalTypes;        //list of animal types
+            $scope.animalServices = AnimalsAdminValues.animalServices;  //list of animal services
 
             /**
              * @return list of animal types.
              */
-            DoctorAnimalsService.getAnimalTypes()
+            AnimalsAdminService.getAnimalTypes()
                 .finally(function() {
                     $scope.$parent.contentLoading--;
                 });
@@ -61,7 +79,7 @@ angular.module('DoctorAnimals', ['DoctorAnimalsModule', 'nya.bootstrap.select', 
             /**
              * @return list of animal types.
              */
-            DoctorAnimalsService.getAnimalServices()
+            AnimalsAdminService.getAnimalServices()
                 .finally(function() {
                     $scope.$parent.contentLoading--;
                 });
@@ -71,7 +89,7 @@ angular.module('DoctorAnimals', ['DoctorAnimalsModule', 'nya.bootstrap.select', 
              */
             $scope.getAnimalBreeds = function() {
                 $scope.filterAnimalBreedFlag = true;
-                DoctorAnimalsService.getAnimalBreeds($scope.filter.animal.type.id)
+                AnimalsAdminService.getAnimalBreeds($scope.filter.animal.type.id)
                     .then(function(data) {
                         $scope.animalBreeds = data;
                     })
@@ -98,7 +116,7 @@ angular.module('DoctorAnimals', ['DoctorAnimalsModule', 'nya.bootstrap.select', 
             $scope.doFilter = function() {
                 $scope.filter.animal.dateOfRegister = $filter('date')($scope.filter.animal.dateOfRegister, 'yyyy-MM-dd');
 
-                DoctorAnimalsService.getPagesCount();
-                DoctorAnimalsService.getAnimals();
+                AnimalsAdminService.getPagesCount();
+                AnimalsAdminService.getAnimals();
             };
     }]);

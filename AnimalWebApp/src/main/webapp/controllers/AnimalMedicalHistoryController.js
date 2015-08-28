@@ -1,6 +1,6 @@
-angular.module('AnimalMedicalHistoryController', ['DoctorAnimalsModule', 'DoctorAnimalsValues', 'AnimalMedicalHistoryValues'])
-    .controller('AnimalMedicalHistoryController', ['$scope', '$routeParams', '$window', 'DoctorAnimalsService', 'DoctorAnimalsValues', 'AnimalMedicalHistoryValues',
-        function($scope, $routeParams, $window, DoctorAnimalsService, DoctorAnimalsValues, AnimalMedicalHistoryValues) {
+angular.module('AnimalMedicalHistoryController', ['AnimalsDoctorModule', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues'])
+    .controller('AnimalMedicalHistoryController', ['$scope', '$routeParams', '$window', 'AnimalsDoctorService', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues',
+        function($scope, $routeParams, $window, AnimalsDoctorService, AnimalsDoctorValues, AnimalMedicalHistoryValues) {
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
@@ -8,7 +8,7 @@ angular.module('AnimalMedicalHistoryController', ['DoctorAnimalsModule', 'Doctor
             $scope.contentLoading = 3;
 
             var animalId = $routeParams.animalId;       //animal id
-            $scope.animal = DoctorAnimalsValues.animal;  //animal
+            $scope.animal = AnimalsDoctorValues.animal;  //animal
             $scope.animalImage = undefined;
             $scope.filter = AnimalMedicalHistoryValues.filter;            //filter
             $scope.totalItems = AnimalMedicalHistoryValues.totalItems;    //table rows count
@@ -18,12 +18,12 @@ angular.module('AnimalMedicalHistoryController', ['DoctorAnimalsModule', 'Doctor
              * @param animalId id of animal used for lookup.
              * @return animal instance.
              */
-            DoctorAnimalsService.getAnimal(animalId)
+            AnimalsDoctorService.getAnimal(animalId)
                 .finally(function() {
                     $scope.animalImage = "resources/img/noimg.png";
-                    if (DoctorAnimalsValues.animal.image != undefined) {
-                        if (DoctorAnimalsValues.animal.image.length > 0) {
-                            $scope.animalImage = DoctorAnimalsValues.animal.image;
+                    if (AnimalsDoctorValues.animal.image != undefined) {
+                        if (AnimalsDoctorValues.animal.image.length > 0) {
+                            $scope.animalImage = AnimalsDoctorValues.animal.image;
                         }
                     }
 
@@ -33,7 +33,7 @@ angular.module('AnimalMedicalHistoryController', ['DoctorAnimalsModule', 'Doctor
             /**
              * @return count of rows for pagination.
              */
-            DoctorAnimalsService.getMedicalHistoryPagesCount(animalId)
+            AnimalsDoctorService.getMedicalHistoryPagesCount(animalId)
                 .finally(function() {
                     $scope.contentLoading--;
                 });
@@ -41,7 +41,7 @@ angular.module('AnimalMedicalHistoryController', ['DoctorAnimalsModule', 'Doctor
             /**
              * @return list of medical history items.
              */
-            DoctorAnimalsService.getMedicalHistoryItems(animalId)
+            AnimalsDoctorService.getMedicalHistoryItems(animalId)
                 .finally(function() {
                     $scope.contentLoading--;
                 });
@@ -50,7 +50,7 @@ angular.module('AnimalMedicalHistoryController', ['DoctorAnimalsModule', 'Doctor
              * @return next page.
              */
             $scope.pageChanged = function() {
-                DoctorAnimalsService.getMedicalHistoryItems(animalId);
+                AnimalsDoctorService.getMedicalHistoryItems(animalId);
             };
 
             /**
@@ -58,11 +58,11 @@ angular.module('AnimalMedicalHistoryController', ['DoctorAnimalsModule', 'Doctor
              */
             $scope.countChanged = function(count) {
                 $scope.filter.limit = count;
-                DoctorAnimalsService.getMedicalHistoryItems(animalId);
+                AnimalsDoctorService.getMedicalHistoryItems(animalId);
             };
 
             $scope.delete = function(itemId) {
-                DoctorAnimalsService.getMedicalHistoryItemDelete(itemId)
+                AnimalsDoctorService.getMedicalHistoryItemDelete(itemId)
                     .then(function() {}
                     , function() {
                         $window.alert("Не вдалося видалити елемент.");

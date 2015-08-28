@@ -1,6 +1,6 @@
-angular.module('AdminAnimals', ['AdminAnimalsModule', 'nya.bootstrap.select', 'DPController', 'AdminAnimalsValues'])
-    .controller('AdminAnimalsController', ['$scope', 'AdminAnimalsService', 'AdminAnimalsValues',
-        function($scope, AdminAnimalsService, AdminAnimalsValues) {
+angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController', 'AnimalsDoctorValues', 'AnimalsDoctorModule'])
+    .controller('AnimalsDoctorController', ['$scope', 'AnimalsDoctorService', 'AnimalsDoctorValues',
+        function($scope, AnimalsDoctorService, AnimalsDoctorValues) {
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
@@ -8,14 +8,14 @@ angular.module('AdminAnimals', ['AdminAnimalsModule', 'nya.bootstrap.select', 'D
             //This variable decides when spinner loading for contentis closed.
             $scope.contentLoading = 4;
 
-            $scope.filter = AdminAnimalsValues.filter;            //filter
-            $scope.totalItems = AdminAnimalsValues.totalItems;    //table rows count
-            $scope.animals = AdminAnimalsValues.animals;          //animal instance
+            $scope.filter = AnimalsDoctorValues.filter;            //filter
+            $scope.totalItems = AnimalsDoctorValues.totalItems;    //table rows count
+            $scope.animals = AnimalsDoctorValues.animals;          //animal instance
 
             /**
              * @return count of rows for pagination.
              */
-            AdminAnimalsService.getPagesCount()
+            AnimalsDoctorService.getPagesCount()
                 .finally(function() {
                     $scope.contentLoading--;
                 });
@@ -23,7 +23,7 @@ angular.module('AdminAnimals', ['AdminAnimalsModule', 'nya.bootstrap.select', 'D
             /**
              * @return list of animals.
              */
-            AdminAnimalsService.getAnimals()
+            AnimalsDoctorService.getAnimals()
                 .finally(function() {
                     $scope.contentLoading--;
                 });
@@ -32,7 +32,7 @@ angular.module('AdminAnimals', ['AdminAnimalsModule', 'nya.bootstrap.select', 'D
              * @return next page.
              */
             $scope.pageChanged = function() {
-                AdminAnimalsService.getAnimals();
+                AnimalsDoctorService.getAnimals();
             };
 
             /**
@@ -40,20 +40,20 @@ angular.module('AdminAnimals', ['AdminAnimalsModule', 'nya.bootstrap.select', 'D
              */
             $scope.countChanged = function(count) {
                 $scope.filter.limit = count;
-                AdminAnimalsService.getAnimals();
+                AnimalsDoctorService.getAnimals();
             };
     }])
-    .controller('AdminAnimalsFilterController', ['$scope', '$filter', 'AdminAnimalsService', 'AdminAnimalsValues',
-        function($scope, $filter, AdminAnimalsService, AdminAnimalsValues) {
+    .controller('AnimalsFilterDoctorController', ['$scope', '$filter', 'AnimalsDoctorService', 'AnimalsDoctorValues',
+        function($scope, $filter, AnimalsDoctorService, AnimalsDoctorValues) {
 
-            $scope.filter = AdminAnimalsValues.filter;                  //filter
-            $scope.animalTypes = AdminAnimalsValues.animalTypes;        //list of animal types
-            $scope.animalServices = AdminAnimalsValues.animalServices;  //list of animal services
+            $scope.filter = AnimalsDoctorValues.filter;                  //filter
+            $scope.animalTypes = AnimalsDoctorValues.animalTypes;        //list of animal types
+            $scope.animalServices = AnimalsDoctorValues.animalServices;  //list of animal services
 
             /**
              * @return list of animal types.
              */
-            AdminAnimalsService.getAnimalTypes()
+            AnimalsDoctorService.getAnimalTypes()
                 .finally(function() {
                     $scope.$parent.contentLoading--;
                 });
@@ -61,7 +61,7 @@ angular.module('AdminAnimals', ['AdminAnimalsModule', 'nya.bootstrap.select', 'D
             /**
              * @return list of animal types.
              */
-            AdminAnimalsService.getAnimalServices()
+            AnimalsDoctorService.getAnimalServices()
                 .finally(function() {
                     $scope.$parent.contentLoading--;
                 });
@@ -71,7 +71,7 @@ angular.module('AdminAnimals', ['AdminAnimalsModule', 'nya.bootstrap.select', 'D
              */
             $scope.getAnimalBreeds = function() {
                 $scope.filterAnimalBreedFlag = true;
-                AdminAnimalsService.getAnimalBreeds($scope.filter.animal.type.id)
+                AnimalsDoctorService.getAnimalBreeds($scope.filter.animal.type.id)
                     .then(function(data) {
                         $scope.animalBreeds = data;
                     })
@@ -98,7 +98,7 @@ angular.module('AdminAnimals', ['AdminAnimalsModule', 'nya.bootstrap.select', 'D
             $scope.doFilter = function() {
                 $scope.filter.animal.dateOfRegister = $filter('date')($scope.filter.animal.dateOfRegister, 'yyyy-MM-dd');
 
-                AdminAnimalsService.getPagesCount();
-                AdminAnimalsService.getAnimals();
+                AnimalsDoctorService.getPagesCount();
+                AnimalsDoctorService.getAnimals();
             };
     }]);

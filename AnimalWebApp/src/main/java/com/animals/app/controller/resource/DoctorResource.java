@@ -108,7 +108,7 @@ public class DoctorResource {
     @POST //http:localhost:8080/webapi/doctor/medical_history/item
     @Path("medical_history/item")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteMedicalHistoryItemById(@Context HttpServletRequest req, AnimalMedicalHistory animalMedicalHistory) {
+    public Response updateMedicalHistoryItemById(@Context HttpServletRequest req, AnimalMedicalHistory animalMedicalHistory) {
         if(animalMedicalHistory == null) {
             return BAD_REQUEST;
         }

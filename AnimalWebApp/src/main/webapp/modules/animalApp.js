@@ -9,11 +9,11 @@ var animalApp = angular.module('animalApp', [
     'HomelessController',
     'ContactsController',
     'StarterPageController',
-    'AdminAnimals',
-    'AdminAnimalsDetailed',
-    'AdminAnimalsEditor',
-    'DoctorAnimals',
-    'DoctorAnimalsDetailed',
+    'AnimalsAdminController',
+    'AnimalsDetailedAdminController',
+    'AnimalsEditorAdminController',
+    'AnimalsDoctorController',
+    'AnimalsDetailedDoctorController',
     'AnimalMedicalHistoryController',
     'AnimalMedicalHistoryEditorController',
     'AnimalMedicalHistoryDetailedController',
@@ -61,23 +61,23 @@ animalApp .config(['$routeProvider',
             })
             .when('/ua/user/home/animals', {
                 templateUrl: 'views/admin_animals.html',
-                controller: 'AdminAnimalsController'
+                controller: 'AnimalsAdminController'
             })
             .when('/ua/user/home/animals/:animalId', {
                 templateUrl: 'views/admin_animals_detailed.html',
-                controller: 'AdminAnimalsDetailedController'
+                controller: 'AnimalsDetailedAdminController'
             })
             .when('/ua/user/home/animals/editor/:animalId', {
                 templateUrl: 'views/admin_animals_editor.html',
-                controller: 'AdminAnimalsEditorController'
+                controller: 'AnimalsEditorAdminController'
             })
             .when('/ua/user/doctor/animals', {
                 templateUrl: 'views/doctor_animals.html',
-                controller: 'DoctorAnimalsController'
+                controller: 'AnimalsDoctorController'
             })
             .when('/ua/user/doctor/animals/:animalId', {
                 templateUrl: 'views/doctor_animals_detailed.html',
-                controller: 'DoctorAnimalsDetailedController'
+                controller: 'AnimalsDetailedDoctorController'
             })
             .when('/ua/user/doctor/animals/medical_history/:animalId', {
                 templateUrl: 'views/animal_medical_history.html',
@@ -126,10 +126,15 @@ animalApp.constant('RESOURCES', {
     ANIMAL_REGISTRATION: 'webapi/animals/animal',
     ANIMAL_REGISTRATION_IMAGE: 'webapi/animals/animal/image',
     ANIMALS_FOR_ADMIN: '/webapi/admin/animals',
-    ANIMALS_FOR_ADMIN_PGINATOR: '/webapi/admin/animals/paginator',
+    ANIMALS_FOR_ADMIN_PAGINATOR: '/webapi/admin/animals/paginator',
     ANIMAL_FOR_ADMIN: '/webapi/admin/animals/',
     ANIMAL_FOR_ADMIN_DELETE: '/webapi/admin/animals/',
     ANIMAL_FOR_ADMIN_UPDATE: '/webapi/admin/animals/editor',
+    MEDICAL_HISTORY_ITEMS_FOR_DOCTOR: '/webapi/doctor/medical_history/',
+    MEDICAL_HISTORY_ITEMS_PAGINATOR_FOR_DOCTOR: '/webapi/doctor/medical_history/paginator/',
+    MEDICAL_HISTORY_ITEM_FOR_DOCTOR_DELETE: '/webapi/doctor/medical_history/item/',
+    MEDICAL_HISTORY_ITEM_FOR_DOCTOR_UPDATE: '/webapi/doctor/medical_history/item',
+    MEDICAL_HISTORY_TYPES: '/webapi/animals/medical_history/types'
 });
 
 animalApp.config(function(localStorageServiceProvider){
