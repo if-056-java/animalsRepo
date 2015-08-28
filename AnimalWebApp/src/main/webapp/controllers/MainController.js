@@ -22,6 +22,7 @@ animalApp.controller('MainController', function($scope, $rootScope, localStorage
         if (!localStorageService.get("userName")){
         	return false;
         } else {
+			$scope.userRole = localStorageService.get("userRole");
         	$rootScope.userName=localStorageService.get("userName");
         	return true;
         } 

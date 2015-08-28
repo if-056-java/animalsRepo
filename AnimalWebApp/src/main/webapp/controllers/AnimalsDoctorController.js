@@ -2,6 +2,8 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
     .controller('AnimalsDoctorController', ['$scope', 'AnimalsDoctorService', 'AnimalsDoctorValues',
         function($scope, AnimalsDoctorService, AnimalsDoctorValues) {
 
+            AnimalsDoctorService.rolesAllowed('лікар');
+
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);

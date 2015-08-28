@@ -40,7 +40,8 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 		//get session ID from accessToken		
 		if(requestContext.getHeaderString(ACCESS_TOKEN_HEADER) != null && 
 				(requestContext.getUriInfo().getPath().contains("admin/") || 
-				requestContext.getUriInfo().getPath().contains("users/"))){	
+				requestContext.getUriInfo().getPath().contains("doctor/") ||
+				requestContext.getUriInfo().getPath().contains("users/"))){
 			
 			
 			String accessTokenEncoded = requestContext.getHeaderString(ACCESS_TOKEN_HEADER);

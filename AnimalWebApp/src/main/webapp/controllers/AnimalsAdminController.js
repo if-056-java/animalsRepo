@@ -2,6 +2,8 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
     .controller('AnimalsAdminController', ['$scope', '$http', 'AnimalsAdminService', 'AnimalsAdminValues',
         function($scope, $http, AnimalsAdminService, AnimalsAdminValues) {
 
+            AnimalsAdminService.rolesAllowed("модератор");
+
             $scope.sendTwitter = function (id) {
                 console.log("twitt sended");
                 console.log(id);

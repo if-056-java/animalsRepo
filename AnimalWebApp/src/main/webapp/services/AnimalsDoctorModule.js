@@ -1,6 +1,12 @@
 angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHistoryValues', 'AnimalsModule'])
-    .service('AnimalsDoctorService', ['$http', '$q', 'AnimalsService', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues',
-        function($http, $q, AnimalsService, AnimalsDoctorValues, AnimalMedicalHistoryValues) {
+    .service('AnimalsDoctorService', ['$http', '$q', '$window', 'AnimalsService', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues',
+        function($http, $q, $window, AnimalsService, AnimalsDoctorValues, AnimalMedicalHistoryValues) {
+
+            this.rolesAllowed = function(role) {
+                if ( !AnimalsService.rolesAllowed(role) ) {
+                    $window.location.href = "#ua";
+                }
+            }
 
             /**
              * filter instance used for lookup.

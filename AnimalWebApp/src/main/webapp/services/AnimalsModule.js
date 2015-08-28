@@ -4,6 +4,10 @@ angular.module('AnimalsModule', ['LocalStorageModule'])
 
             $http.defaults.headers.common['AccessToken'] = localStorageService.get('accessToken');
 
+            this.rolesAllowed = function(role) {
+                return role == localStorageService.get('userRole');
+            }
+
             /**
              * filter instance used for lookup.
              * @return list of animals.

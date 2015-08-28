@@ -89,11 +89,11 @@
 		  <li class="dropdown">
 				<a ng-show="session()" href="" class="dropdown-toggle" data-toggle="dropdown">Модерація <b class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li><a href="#ua/user/home/animals">Реєстр тварин</a></li>
-					<li role="presentation" class="divider"></li>
-                    <li><a href="#ua">Реєстр користувачів</a></li>
-                    <li role="presentation" class="divider"></li>
-                    <li><a href="#ua/user/doctor/animals">Реєстр тварин(Лікар)</a></li>
+					<li><a href="#ua/user/home/animals" ng-show="userRole == 'модератор'">Реєстр тварин</a></li>
+					<li role="presentation" class="divider" ng-show="userRole == 'модератор'"></li>
+                    <li><a href="#ua" ng-show="userRole == 'модератор'">Реєстр користувачів</a></li>
+                    <!--li role="presentation" class="divider" ng-show="userRole == 'лікар'"></li-->
+                    <li><a href="#ua/user/doctor/animals" ng-show="userRole == 'лікар'">Реєстр тварин</a></li>
 				</ul>
 		  
 		</ul>
