@@ -262,7 +262,7 @@ angular.module('AnimalsModule', ['LocalStorageModule'])
              */
             this.sendTwitter = function (id) {
                 var def = $q.defer();
-
+                console.log ("I am here");
                 $http.post("/webapi/socials/twitter/" + id)
                     .success(function(data) {
                         def.resolve(data);
