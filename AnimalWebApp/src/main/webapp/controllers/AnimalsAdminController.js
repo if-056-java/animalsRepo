@@ -2,30 +2,6 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
     .controller('AnimalsAdminController', ['$scope', '$http', 'AnimalsAdminService', 'AnimalsAdminValues', 'localStorageService',
         function($scope, $http, AnimalsAdminService, AnimalsAdminValues, localStorageService) {
 
-            // Sending message to Twitter (remove from here into Service?????????)
-            $scope.sendTwitter = function (id) {
-                console.log("twitt sended");
-                console.log(id);
-        //           $http.defaults.headers.common['AccessToken'] = localStorageService.get("accessToken");
-       //         console.log($http.defaults.headers.common['AccessToken']);
-
-                $http.post("/webapi/socials/twitter/" + id)
-                    .success(function (data) {
-                        console.log("twitt sended");
-                        console.log(data);
-                    });
-            };
-
-            // Sending message to Facebook (remove from here into Service?????????)
-            $scope.sendFacebook = function (id) {
-            //    $http.defaults.headers.common['AccessToken'] = localStorageService.get("accessToken");
-                $http.post("/webapi/socials/facebook/" + id)
-                    .success(function (data) {
-                        console.log("facebook post sended");
-                        console.log(data);
-                    });
-            };
-			
             AnimalsAdminService.rolesAllowed("модератор");
 
             //initialize loading spinner

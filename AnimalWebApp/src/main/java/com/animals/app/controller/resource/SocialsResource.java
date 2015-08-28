@@ -66,6 +66,7 @@ public class SocialsResource {
         }
 
         if (animal.getDateOfTwitter() == null) {
+            System.out.println("Date twitter+ " + animal.getDateOfTwitter());
             twitt = new Twitt();
             twitt.setMessage("Нова тварина! Деталі: - http://tym.dp.ua/#/ua/animal/adoption/" + animalId);
 
