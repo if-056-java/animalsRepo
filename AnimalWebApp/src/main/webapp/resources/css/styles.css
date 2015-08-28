@@ -163,6 +163,32 @@ IMG.displayed {
     border-radius: 3px;
 }
 
+#language-en{
+    border:none;
+    border-radius: 0;
+    background: url('../img/flags/en-icon.png') no-repeat;
+    background-size: 25px;
+    margin:3px;
+    display: inline-block;
+    width: 25px;
+}
+#language-en:hover{
+    cursor: pointer;
+}
+
+#language-uk{
+    border:none;
+    border-radius: 0;
+    background: url('../img/flags/uk-icon.png') no-repeat;
+    background-size: 25px;
+    margin:3px;
+    display: inline-block;
+    width: 25px;
+}
+#language-uk:hover{
+    cursor: pointer;
+}
+
 #color-sprites-0{
     width: 113px; /* Icon width */
     height: 90px; /* Icon height */

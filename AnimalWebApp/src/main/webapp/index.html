@@ -92,7 +92,13 @@
                     <!--li role="presentation" class="divider" ng-show="userRole == 'лікар'"></li-->
                     <li><a href="#ua/user/doctor/animals" ng-show="userRole == 'лікар'">Реєстр тварин</a></li>
 				</ul>
-		  
+            </li>
+            <li>
+                <div style="padding:10px;"><!-- translate="LANG_EN" translate="LANG_UK"-->
+                    <a id="language-en" ng-href ng-click="changeLanguage('en')"><b class="caret"></b></a>
+                    <a id="language-uk" ng-href ng-click="changeLanguage('uk')"><b class="caret"></b></a>
+                </div>
+            </li>
 		</ul>
 		<!-- Форма входу -->
 				
@@ -100,8 +106,8 @@
 				    <a ng-show="!session()" href="#ua/user/login" class="btn btn-success" role="button">Вхід  <span class="glyphicon glyphicon-log-in"></span></a>
 				    <label ng-show="session()">Вітаємо: {{userName}}</label>
 				    <a ng-show="session()" ng-click="logout()" class="btn btn-warning" role="button">Вихід  <span class="glyphicon glyphicon-log-out"></span></a>
-				</form>				
-		</div><!-- /.nav-collapse -->
+				</form>
+      </div><!-- /.nav-collapse -->
 	</div>	
 </nav>
 
@@ -160,6 +166,13 @@
 
 <!-- Image Crop -->
 <script src="resources/js/ng-img-crop.js"></script>
+
+<!-- Angular translate -->
+<script src="resources/js/angular-translate.min.js"></script>
+<script src="resources/js/angular-translate-loader-static-files.min.js"></script>
+
+<!--<script src="resources/js/angular-translate-storage-local.min.js"></script>-->
+<!--<script src="resources/js/angular-translate-storage-cookie.min.js"></script>-->
 
 <!-- Site Scripts-->
  <script src="modules/animalApp.js"></script>

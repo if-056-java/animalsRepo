@@ -3,9 +3,13 @@
  */
 adoptionModule
     .controller('AdoptionController',
-        function AdoptionController($scope, AdoptionFactory, AnimalAdoptionValues) {
+        function AdoptionController($scope, AdoptionFactory, AnimalAdoptionValues, $translate) {
 
             $scope.header_a_f_l = "Тварини на адопцію :";
+
+            $scope.changeLanguage = function (langKey) {
+                $translate.use(langKey);
+            };
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
@@ -74,7 +78,7 @@ adoptionModule
             };
 
             //Dependency injection
-            AdoptionController.$inject = ['$scope', 'AdoptionFactory', 'AnimalAdoptionValues'];
+            AdoptionController.$inject = ['$scope', 'AdoptionFactory', 'AnimalAdoptionValues', '$translate'];
 
         }).controller('AdoptionFilterController',
             function AdoptionFilterController($scope, AdoptionFactory, AnimalAdoptionValues) {
