@@ -19,12 +19,12 @@
 
 <div class="container">
 
-<div class="col-xs-1 col-sm-1 col-md-1 col-lg-2"></div>
+<div class="col-xs-1 col-sm-1 col-md-2 col-lg-2"></div>
 
 
 	<div class="row">
-		<div class="col-xs-1 col-sm-2 col-md-2 col-lg-2"></div>
-		<div class="col-xs-10 col-sm-6 col-md-4 col-lg-4" id="loginblock">
+		<div class="col-xs-1 col-sm-1 col-md-2 col-lg-2"></div>
+		<div class="col-xs-12 col-sm-8 col-md-4 col-lg-4" id="loginblock">
 		<form>
 			<br>
 			<div class="form-group">
@@ -77,6 +77,13 @@
 		</form>				
 		</div>		
 		</div>
+		<br>
+		<div class="col-xs-0 col-sm-2 col-md-4 col-lg-4"></div>
+		<div ng-show="errorMessage" class="col-xs-12 col-sm-8 col-md-4 col-lg-4 alert alert-danger" role="alert">
+  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  			<span class="sr-only">Error:</span> {{errorMessage}}
+		</div>
+		
 	</div>
 	
 </div> <!-- /container -->

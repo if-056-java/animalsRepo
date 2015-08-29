@@ -1,8 +1,8 @@
 //created by 41X
 var animalAppControllers = angular.module('UserProfileController', []);
 
-animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccount', 'hashPassword', 'localStorageService', '$route',
-                                               function($scope, userData, userAccount, hashPassword, localStorageService, $route) {
+animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccount', 'hashPassword', 'localStorageService', '$route', '$location', '$rootScope',
+                                               function($scope, userData, userAccount, hashPassword, localStorageService, $route, $location, $rootScope) {
 		
 		
 	$scope.IsHidden = true;
@@ -18,15 +18,34 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 		
 		var id = localStorageService.get("userId");
 		
-		userData.getUser(id).success(function(data){				//webapi/users/user/{id}
-			$scope.userInfo=data;
-			$scope.fields = $scope.userInfo;
-		}) 	
+//		userData.getUser(id).success(function(data){				//old school
+//			$scope.userInfo=data;
+//			$scope.fields = $scope.userInfo;
+//		}) 	
 		
-		userData.getUserAnimals(id).success(function(data){			//webapi/users/user/{id}/animals
-			$scope.userAnimalInfo=data;
-		});
+		userData.getUser(id).then(
+				function(result){
+					$scope.userInfo=result;
+					$scope.fields = $scope.userInfo;					
+				},
+				function(error){
+					//$scope.errorMessage = error;
+					console.log(error)
+				}
+			);
 		
+//		userData.getUserAnimals(id).success(function(data){			//old school
+//			$scope.userAnimalInfo=data;
+//		});
+		
+		userData.getUserAnimals(id).then(
+				function(result){
+					$scope.userAnimalInfo=result;				
+				},
+				function(error){
+					console.log(error)
+				}
+		);		
 	}
 		
 	
@@ -38,10 +57,29 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
     		$scope.fields.password=hashPassword($scope.passwordNew);     		
     	}     	
     	
-		userData.updateUser($scope.fields, $scope.fields.id); 
+		//userData.updateUser($scope.fields, $scope.fields.id); 		//old school
+		
+		userData.updateUser($scope.fields, $scope.fields.id).then(
+				function(result){
+					console.log("user updated");				
+				},
+				function(error){
+					console.log(error)
+				}
+		); 	
 		
 		$scope.IsHidden =  true;
 	
-	};	    
+	};	  
+	
+	$scope.AddOwnAnimal=function(){    	
+    	
+    	if($scope.userInfo.name=="unknown" || $scope.userInfo.surname=="N/A" || $scope.userInfo.address=="N/A" ||
+    			$scope.userInfo.email =="N/A" || $scope.userInfo.phone =="N/A"){    		
+    		$rootScope.errorAddAnimalMessage="Помилка. Відсутні контактні дані користувача! Відредагуййте профіль користувача";   		
+    	} else {
+    		$location.path("/ua/animal/registration_owned");	    		
+    	}  	
+	};	
 	
 }]);

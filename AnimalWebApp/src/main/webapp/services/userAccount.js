@@ -1,5 +1,5 @@
 //created by 41X
-angular.module('animalApp').factory('userAccount',function (Base64, $http, localStorageService, $location, $route, $window){
+angular.module('animalApp').factory('userAccount',function (Base64, $http, localStorageService, $location, $route, $window, $rootScope){
 	
 	return {
 		
@@ -33,6 +33,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			.error(function(data, status){
 				console.log("zrada");
 				console.log(status);
+				$rootScope.errorMessage="Помилка входу. Перевірте свої дані!";
 			});
 		},
 		
@@ -62,7 +63,8 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			$http.post("/webapi/account/registration", user)
 	        .success(function(data){
 	        	if(data.userId==0){
-	        		console.log("Registration error. SocialLogin is already exist");	        		
+	        		$rootScope.errorRegistrationMessage="Помилка реєстрації. Даний логін вже використовується!";
+	        		console.log("Registration error. SocialLogin is already exist");
 	        	} else {
 	        		
 	        		if (localStorageService.get("memoryMe")=="ON"){
@@ -83,6 +85,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 	        }) 
 			.error(function(data){				
 				console.log("registration error");
+				$rootScope.errorRegistrationMessage="Помилка реєстрації! Спробуйте ще раз";
 			});
 		},
 		
