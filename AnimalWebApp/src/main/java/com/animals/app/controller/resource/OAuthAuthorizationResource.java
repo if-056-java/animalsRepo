@@ -188,13 +188,10 @@ public class OAuthAuthorizationResource {
 			
 			
 			if (existUserWithGoogleId != null) {
-				//TEMPORARY Returning back without joining accounts. should provide some message - 
-				// - user with this GoogleId can't be initialized. 
-				//maybe we should provide some additionall atribute to our session - seesion.message
-				//with some Error content to show on site.
-				session.setAttribute("errorMesage", "this GoogleID is already in use by another User");
-				
-				return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
+				//add params to redirect URL to inform frontend that account is already in use
+				//by another user				
+				String errorUrl=url + "?join=error";				
+				return Response.temporaryRedirect(UriBuilder.fromUri(errorUrl).build()).build();
 			}	
 					
 			

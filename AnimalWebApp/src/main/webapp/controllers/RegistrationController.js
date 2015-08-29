@@ -17,6 +17,12 @@ animalApp.controller('RegistrationController', ['$scope', 'currentDate', 'userDa
 	       
 	        userAccount.registerUser($scope.fields);
 	        
-		};               
+		}; 
+		
+		$scope.RegisterGoogle=function(){		
+						
+			userAccount.loginGoogle();		
+			
+		}
         
 }]);

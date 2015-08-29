@@ -82,4 +82,18 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
     	}  	
 	};	
 	
+	$scope.JoinGoogle=function(){	
+		
+		userAccount.loginGoogle();
+		
+		
+	};
+	
+	if($location.search().join){
+		$rootScope.errorJoinMessage="Помилка об'єднання акаунтів. Даний соціальний акаунт вже використовується!"; 
+	} else {
+		$rootScope.errorJoinMessage=null;
+	}
+	
+	
 }]);
