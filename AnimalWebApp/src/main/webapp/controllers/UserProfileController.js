@@ -1,12 +1,13 @@
 //created by 41X
 var animalAppControllers = angular.module('UserProfileController', []);
 
-animalApp.controller('UserProfileController', function($scope, userData, userAccount, hashPassword, localStorageService) {
+animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccount', 'hashPassword', 'localStorageService', '$route',
+                                               function($scope, userData, userAccount, hashPassword, localStorageService, $route) {
 		
 		
 	$scope.IsHidden = true;
 	$scope.showPopup = function () {$scope.IsHidden =  false;}    
-	$scope.closePopup = function () {$scope.IsHidden =  true;}
+	$scope.closePopup = function () {$scope.IsHidden =  true; $route.reload();}
 	
 	$scope.userInfo = null;
 	$scope.fields = null;
@@ -43,4 +44,4 @@ animalApp.controller('UserProfileController', function($scope, userData, userAcc
 	
 	};	    
 	
-});
+}]);

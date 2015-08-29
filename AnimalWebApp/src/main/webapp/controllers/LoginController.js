@@ -1,7 +1,8 @@
 //created by 41X
 var animalAppControllers = angular.module('LoginController', []);
 
-animalApp.controller('LoginController', function($scope, userAccount, hashPassword, localStorageService) {
+animalApp.controller('LoginController', ['$scope', 'userAccount', 'hashPassword', 'localStorageService',
+                                         function($scope, userAccount, hashPassword, localStorageService) {
 	
 	$scope.login=function(){			
 		
@@ -30,4 +31,4 @@ animalApp.controller('LoginController', function($scope, userAccount, hashPasswo
 		
 	}
 	
-});
+}]);

@@ -257,9 +257,17 @@ public class OAuthAuthorizationResource {
 		//creating User to register		
 		User userToReg = new User();
 		
-		userToReg.setName(name);
+		String userLogin;
+		if (name!=null && !name.isEmpty()) {
+			userLogin = name;
+		} else {
+			userLogin = "unknown";
+		}
+		
+		userToReg.setName(userLogin);
+		userToReg.setSocialLogin(userLogin);
+		
 		userToReg.setSurname("N/A");
-		userToReg.setSocialLogin(name);
 		userToReg.setEmail(email);
 		userToReg.setActive(true);
 		userToReg.setAddress("N/A");
@@ -284,16 +292,20 @@ public class OAuthAuthorizationResource {
 		System.out.println(currentDate);				
 		userToReg.setRegistrationDate(currentDate);		
 		
+		User userN;
 		//inserting user to DB
 		try {
 			userRep.insert(userToReg);
+			userN = userRep.getByGoogleId(googleId);
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
 		
 		//creating session		
-		setUpSuccessSession(userToReg, session, "successful Registration with GoogleId");
+		setUpSuccessSession(userN, session, "successful Registration with GoogleId");
 		session.setAttribute("refreshGoogleToken", refreshGoogleToken);
+		//session.setAttribute("user", userToReg);
+			
 		
 		//Entering to site with Session		
 		return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();

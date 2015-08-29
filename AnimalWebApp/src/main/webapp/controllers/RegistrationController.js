@@ -1,7 +1,8 @@
 //created by 41X
 var animalAppControllers = angular.module('RegistrationController', []);
 
-animalApp.controller('RegistrationController', function($scope, currentDate, userData, userAccount, hashPassword) {
+animalApp.controller('RegistrationController', ['$scope', 'currentDate', 'userData', 'userAccount', 'hashPassword',
+                                               function($scope, currentDate, userData, userAccount, hashPassword) {
 	
 		$scope.submitRegForm=function(){
 			
@@ -18,4 +19,4 @@ animalApp.controller('RegistrationController', function($scope, currentDate, use
 	        
 		};               
         
-});
+}]);
