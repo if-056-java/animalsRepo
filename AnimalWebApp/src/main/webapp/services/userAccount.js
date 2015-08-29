@@ -94,24 +94,33 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			$http.get("/webapi/account/refresh")
 	        .success(function(data){
 	        	
-	        	localStorageService.cookie.set("accessToken",data.accessToken,30);	        	
-	        	localStorageService.set("accessToken", data.accessToken);
-	        	localStorageService.set("userId", data.userId);
-	        	localStorageService.set("userName", data.socialLogin);
-	        	localStorageService.set("userRole", data.userRole);
-	        	localStorageService.set("userRoleId", data.userRoleId);	
-	        	
-	        	
-	        	localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);	        	
-	        	localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);	        	
-	        	
-	        	$location.path("/ua/user/profile");	
-		        $route.reload();
+	        	if(data.userId==0){
+	        		console.log("Refresh Session eror");
+	        		localStorageService.clearAll();
+	        		$location.path("/ua/user/login");	
+			        $route.reload();
+			        $rootScope.errorMessage="Помилка входу. Параметри сесії на сервері задано невірно!";
+	        	} else {        	
+		        	localStorageService.cookie.set("accessToken",data.accessToken,30);	        	
+		        	localStorageService.set("accessToken", data.accessToken);
+		        	localStorageService.set("userId", data.userId);
+		        	localStorageService.set("userName", data.socialLogin);
+		        	localStorageService.set("userRole", data.userRole);
+		        	localStorageService.set("userRoleId", data.userRoleId);	
+		        	
+		        	
+		        	localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);	        	
+		        	localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);	        	
+		        	
+		        	$location.path("/ua/user/profile");	
+			        $route.reload();
+	        	}
 	        	
 	        }) 
 			.error(function(data){
 				localStorageService.set("userId", null);
 				console.log("refresh session error");
+				localStorageService.clearAll();
 				$location.path("/ua");	
 		        $route.reload();
 			});			
@@ -148,6 +157,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			})
 			.error(function(data){
 				console.log("error direct. Maybe RefreshToken expired");
+				$rootScope.errorMessage="Помилка входу. Термін дії GoogleRefreshToken закінчився! Спробуйте ще раз!";
 				localStorageService.cookie.remove("refreshGoogleToken");
 			})
 		}

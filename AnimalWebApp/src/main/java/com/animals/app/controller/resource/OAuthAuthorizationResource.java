@@ -46,9 +46,9 @@ import com.animals.app.repository.Impl.UserRepositoryImpl;
 public class OAuthAuthorizationResource {
 	
 	private static final String callbackUrlG = "http://localhost:8080/webapi/account/login/google_token";
-	//private String url = "http://env-4521389.unicloud.pl/#/ua/user/profile";  
 	private String url = "http://localhost:8080/#/ua/user/profile";  
 	//private static final String callbackUrlG = "http://env-4521389.unicloud.pl/webapi/account/login/google_token";
+	//private String url = "http://env-4521389.unicloud.pl/#/ua/user/profile";  
 	
 
 	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	
@@ -179,7 +179,9 @@ public class OAuthAuthorizationResource {
 			//ERROR - when login - two accounts with the same GoogleID
 			User existUserWithGoogleId=null;
 			try {				
-				existUserWithGoogleId = userRep.getByGoogleId(googleId);				
+				
+				existUserWithGoogleId = userRep.getByGoogleId(googleId);	
+				
 			} catch (Exception e) {				
 				return SERVER_ERROR;
 			}
@@ -279,7 +281,8 @@ public class OAuthAuthorizationResource {
 		userToReg.setGoogleId(googleId);
 		
 		UserRole userRole = new UserRole();
-		userRole.setId(3);										//id=3 for guest	
+		userRole.setRole("гість");	
+		userRole.setId(3);
 		List<UserRole> list = new ArrayList<UserRole>();
 		list.add(userRole);		
 		userToReg.setUserRole(list);		
@@ -292,17 +295,18 @@ public class OAuthAuthorizationResource {
 		System.out.println(currentDate);				
 		userToReg.setRegistrationDate(currentDate);		
 		
-		User userN;
+		
 		//inserting user to DB
 		try {
+			
 			userRep.insert(userToReg);
-			userN = userRep.getByGoogleId(googleId);
+						
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
 		
 		//creating session		
-		setUpSuccessSession(userN, session, "successful Registration with GoogleId");
+		setUpSuccessSession(userToReg, session, "successful Registration with GoogleId");
 		session.setAttribute("refreshGoogleToken", refreshGoogleToken);
 		//session.setAttribute("user", userToReg);
 			
