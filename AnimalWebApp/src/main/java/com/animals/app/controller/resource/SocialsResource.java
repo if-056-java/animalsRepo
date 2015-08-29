@@ -64,14 +64,13 @@ public class SocialsResource {
         if (animal == null) {
             return NOT_FOUND;
         }
-
         if (animal.getDateOfTwitter() == null) {
-            System.out.println("Date twitter+ " + animal.getDateOfTwitter());
             twitt = new Twitt();
             twitt.setMessage("Нова тварина! Деталі: - http://tym.dp.ua/#/ua/animal/adoption/" + animalId);
 
             //attach any media, if you want to
-            if (!animal.getImage().equals(null)) {
+            if (!(animal.getImage() == null)) {
+
                 String restPath = httpServlet.getServletContext().getRealPath("/"); //path to rest root folder
                 twitt.setMedia(restPath + animal.getImage());
             }
@@ -124,7 +123,8 @@ public class SocialsResource {
 
                 facebook = new Facebook();
 
-            if (facebook.sendFacebook(accessToken, wallId)) {
+
+            if (facebook.sendFacebook(accessToken, wallId, getCurrentDate().toString()+animalId)) {
                 animal.setDateOfFacebook(getCurrentDate());
                 System.out.println("Date: - " + animal.getDateOfFacebook().toString());
                 animalRepository.facebookUpdate(animal);
