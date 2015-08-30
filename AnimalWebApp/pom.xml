@@ -161,5 +161,11 @@
             <version>4.0.4</version>
         </dependency>
 
+        <!--Facebook-->
+        <dependency>
+            <groupId>com.restfb</groupId>
+            <artifactId>restfb</artifactId>
+            <version>1.14.0</version>
+        </dependency>
     </dependencies>
 </project>

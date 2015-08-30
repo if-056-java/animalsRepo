@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Base64;
+import org.scribe.model.Token;
 
 import com.animals.app.domain.User;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
@@ -192,7 +193,7 @@ public class AuthorizationResource {
 	}
 		
 	
-private String setUpSuccessSession(User user, HttpSession session, String success){
+private static String setUpSuccessSession(User user, HttpSession session, String success){
 		
 		session.setAttribute("userName",user.getName());
 		session.setAttribute("userId",user.getId().toString()); 
@@ -245,6 +246,8 @@ private String setUpSuccessSession(User user, HttpSession session, String succes
     			"\", \"userRoleId\" : \"" + (String)session.getAttribute("userRoleId") +
     			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
     			"\", \"accessToken\" : \"" + (String)session.getAttribute("accessToken") +
+    			"\", \"refreshGoogleToken\" : \"" + (String)session.getAttribute("refreshGoogleToken") +
+    			"\", \"accessGoogleToken\" : \"" + (String)session.getAttribute("accessGoogleToken") +
     			"\"}";		
 		
 		return str;

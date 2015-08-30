@@ -25,7 +25,7 @@
 
 		<div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
 		<div class="col-xs-12 col-sm-6 col-md-5 col-lg-5" id="userPhoto">
-			<div class="col-xs-10 col-lg-10 text-center" style="height:420px;">
+			<div class="col-xs-10 col-lg-10 text-center" >
                     <h3 class="blocktext">Фото з соціальної мережі</h3>
                     <div class="smallIMG">
                         <p><image ng-hide="userInfo.socialPhoto" class="displayed" src="resources/img/no-image.jpg" height="280"></p>
@@ -35,8 +35,15 @@
                     <p class="blocktext2">З'єднати профіль з акаунтом в соціальній мережі</p>
                     <div class="text-center">
                     	<a class="btn btn-social-icon btn-facebook btn-md"><i class="fa fa-facebook"></i></a>
-                    	<a ng-disabled="userInfo.socialPhoto"href="http://localhost:8080/webapi/account/login/google" class="btn btn-social-icon btn-google btn-md"><i class="fa fa-google"></i></a>
-                    	<a class="btn btn-social-icon btn-twitter btn-md"><i class="fa fa-twitter"></i></a>                    	
+                    	<a ng-disabled="userInfo.socialPhoto" ng-click = "JoinGoogle()" class="btn btn-social-icon btn-google btn-md"><i class="fa fa-google"></i></a>
+                    	<a class="btn btn-social-icon btn-twitter btn-md"><i class="fa fa-twitter"></i></a>        	                	                   	
+					</div>
+					<div ng-show="errorJoinMessage">
+						<br>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">
+	  						<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	  						<span class="sr-only">Error:</span> {{errorJoinMessage}}
+						</div>
 					</div>
             </div>
 		</div>
@@ -218,18 +225,25 @@
 		</div>	
 		</form>				
 		</div>
-		<hr>
 		<br>
-		</div>
+		<hr>
+	
+		</div>		
 	
 	<hr>
 	
 		
 		<div class="col-xs-0 col-sm-0 col-md-2 col-lg-3"></div>		
 		<div class="form-group col-xs-12 col-sm-12 col-md-8 col-lg-8">
-			<br>			
-			<button class="btn btn-success btn-md col-xs-10 col-sm-10 col-md-4 col-lg-4" id = "addOwnAnimal" onclick="document.location.href='/#/ua/animal/registration_owned'">Додати власну тварину</button>
+		<br>
+					
+			<button ng-click="AddOwnAnimal()" class="btn btn-success btn-md col-xs-10 col-sm-10 col-md-4 col-lg-4" id = "addOwnAnimal" >Додати власну тварину</button>
 		</div>
+			<div ng-show="errorAddAnimalMessage" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">
+	  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	  			<span class="sr-only">Error:</span> {{errorAddAnimalMessage}}
+			</div>
+		
 		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-1"></div>
 		
 		

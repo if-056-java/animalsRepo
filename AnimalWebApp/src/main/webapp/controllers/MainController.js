@@ -1,7 +1,8 @@
 //created by 41X
 var animalAppControllers = angular.module('MainController', []);
 
-animalApp.controller('MainController', function($scope, $rootScope, localStorageService, userAccount) {
+animalApp.controller('MainController', ['$scope', '$rootScope', 'localStorageService', 'userAccount',
+                                        function($scope, $rootScope, localStorageService, userAccount) {
 		
 	if (!localStorageService.cookie.get("accessToken")) {
 		localStorageService.clearAll();
@@ -29,4 +30,4 @@ animalApp.controller('MainController', function($scope, $rootScope, localStorage
         
     };
       
-});
+}]);
