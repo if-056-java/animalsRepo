@@ -175,7 +175,7 @@ public interface AnimalRepository {
             @Result(property="dateOfRegister", column="dateOfRegister"),
             @Result(property="dateOfBirth", column="dateOfBirth"),
             @Result(property="dateOfBirth", column="dateOfBirth"),
-            @Result(property="dateOFacebook", column="dateOfFacebook"),
+            @Result(property="dateOfFacebook", column="dateOfFacebook"),
             @Result(property="dateOfTwitter", column="dateOfTwitter"),
             @Result(property="color", column="color"),
             @Result(property="user", column="userId", javaType = User.class,
