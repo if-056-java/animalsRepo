@@ -45,10 +45,10 @@ import com.animals.app.repository.Impl.UserRepositoryImpl;
 @PermitAll
 public class OAuthAuthorizationResource {
 	
-	private static final String callbackUrlG = "http://localhost:8080/webapi/account/login/google_token";
-	private String url = "http://localhost:8080/#/ua/user/profile";  
-	//private static final String callbackUrlG = "http://env-4521389.unicloud.pl/webapi/account/login/google_token";
-	//private String url = "http://env-4521389.unicloud.pl/#/ua/user/profile";  
+//	private static final String callbackUrlG = "http://localhost:8080/webapi/account/login/google_token";
+//	private String url = "http://localhost:8080/#/ua/user/profile";  
+	private static final String callbackUrlG = "http://env-4521389.unicloud.pl/webapi/account/login/google_token";
+	private String url = "http://env-4521389.unicloud.pl/#/ua/user/profile";  
 	
 
 	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	
