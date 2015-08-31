@@ -18,7 +18,7 @@
 
                     <!-- Animal type -->
                     <div class="row">
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Тип:</div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'TYPE' | translate }}:</div>
                         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.type.type }}</div>
                     </div>
 
@@ -26,7 +26,7 @@
 
                     <!-- Animal breed -->
                     <div class="row">
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Порода:</div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'BREED' | translate }}:</div>
                         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.breed.breedUa }}</div>
                     </div>
 
@@ -34,7 +34,7 @@
 
                     <!-- Animal color -->
                     <div class="row">
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Окрас:</div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'COLOR' | translate }}:</div>
                         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.color }}</div>
                     </div>
 
@@ -42,7 +42,7 @@
 
                     <!-- Animal transpounder number -->
                     <div class="row">
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Номер мікрочіпу:</div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'TRANSPONDER' | translate }}:</div>
                         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.transpNumber }}</div>
                     </div>
 
@@ -50,7 +50,7 @@
 
                     <!-- Animal token number -->
                     <div class="row">
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Номер жетону:</div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'TOKEN_NUMBER' | translate }}:</div>
                         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.tokenNumber }}</div>
                     </div>
 
@@ -58,7 +58,7 @@
 
                     <!-- Animal date of birth -->
                     <div class="row">
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Дата народження:</div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'BIRTH_DATE' | translate }}:</div>
                         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.dateOfBirth }}</div>
                     </div>
 
@@ -66,7 +66,7 @@
 
                     <!-- Animal date of registration -->
                     <div class="row">
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Дата реєстрації:</div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'REGISTRATION_DATE' | translate }}:</div>
                         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.dateOfRegister }}</div>
                     </div>
 
@@ -81,8 +81,8 @@
 
                 <!-- Type -->
                 <div class="input-group">
-                    <span class="input-group-addon">Тип</span>
-                    <ol class="nya-bs-select nya-bs-select-mod" ng-model="item.status" title="Не вибрано">
+                    <span class="input-group-addon">{{ 'TYPE' | translate }}</span>
+                    <ol class="nya-bs-select nya-bs-select-mod" ng-model="item.status" title="{{ 'NOT_SELECTED' | translate }}">
                         <li nya-bs-option="itemType in itemTypes.values">
                             <a>{{ itemType.status }}</a>
                         </li>
@@ -93,17 +93,17 @@
 
                 <!-- Date -->
                 <p class="input-group" ng-controller="DPController">
-                    <span class="input-group-addon">Дата</span>
+                    <span class="input-group-addon">{{ 'DATE' | translate }}</span>
                     <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd" ng-model="item.date"
-                           is-open="opened" datepicker-options="dateOptions" current-text="Сьогодні" clear-text="Очистити"
-                           close-text="Закрити" ng-required="true" close-text="Close" ng-click="open($event)" />
+                           is-open="opened" datepicker-options="dateOptions" current-text="{{ 'TODAY' | translate }}" clear-text="{{ 'CLEAR' | translate }}"
+                           close-text="{{ 'CLOSE' | translate }}" ng-required="true" close-text="Close" ng-click="open($event)" />
                 </p>
 
             </div>
 
             <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 panel-body">
                 <div class="form-group">
-                    <label for="comment">Опис:</label>
+                    <label for="comment">{{ 'DESCRIPTION' | translate }}:</label>
                     <textarea class="form-control" rows="3" id="comment" ng-model="item.description"></textarea>
                 </div>
             </div>
@@ -112,8 +112,8 @@
 
     <div class="row" ng-show="!contentLoading">
         <div class="col-xs-12 col-sm-5 col-sm-offset-7 col-md-4 col-md-offset-8 col-lg-3 col-lg-offset-9 detailed-buttons">
-            <div class="col-sm-6 col-md-6 col-lg-6"><a class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12" href ng-click="save()" role="button">Зберегти</a></div>
-            <div class="col-sm-6 col-md-6 col-lg-6"><a class="btn btn-warning col-xs-12 col-sm-12 col-md-12 col-lg-12" href="#/ua/user/doctor/animals/medical_history/{{ animal.id }}" role="button">Повернутись</a></div>
+            <div class="col-sm-6 col-md-6 col-lg-6"><a class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12" href ng-click="save()" role="button">{{ 'SAVE' | translate }}</a></div>
+            <div class="col-sm-6 col-md-6 col-lg-6"><a class="btn btn-warning col-xs-12 col-sm-12 col-md-12 col-lg-12" href="#/ua/user/doctor/animals/medical_history/{{ animal.id }}" role="button">{{ 'BACK' | translate }}</a></div>
         </div>
     </div>
 </div>

@@ -9,27 +9,27 @@
                 </div>
                 <div class="col-md-6 detailed-right">
                     <div class="row">
-                        <div class="col-md-4">Тип:</div>
+                        <div class="col-md-4">{{ 'TYPE' | translate }}:</div>
                         <div class="col-md-8">{{ animal.type.type }}</div>
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-md-4">Порода:</div>
+                        <div class="col-md-4">{{ 'BREED' | translate }}:</div>
                         <div class="col-md-8">{{ animal.sort }}</div>
                     </div>
                     <hr>
                     <div class="row" id="">
-                        <div class="col-md-4">Стать:</div>
+                        <div class="col-md-4">{{ 'SEX' | translate }}:</div>
                         <div class="col-md-8">{{ animal.sex }}</div>
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-md-4">Окрас:</div>
+                        <div class="col-md-4">{{ 'COLOR' | translate }}:</div>
                         <div class="col-md-8">{{ animal.color }}</div>
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-md-4">Розмір:</div>
+                        <div class="col-md-4">{{ 'SIZE' | translate }}:</div>
                         <div class="col-md-8">{{ animal.size }}</div>
                     </div>
                     <hr>
@@ -39,18 +39,18 @@
         <div class="row detailed-bottom" ng-show="detail">
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-4">Дата народження:</div>
+                    <div class="col-md-4">{{ 'BIRTH_DATE' | translate }}:</div>
                     <div class="col-md-8">{{ animal.dateOfBirth }}</div>
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-4">Дата стерелізації:</div>
+                    <div class="col-md-4">{{ 'STERILIZATION_DATE' | translate }}:</div>
                     <div class="col-md-8">{{ animal.dateOfSterilization }}</div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-4">Дата реєстрації:</div>
+                    <div class="col-md-4">{{ 'REGISTRATION_DATE' | translate }}:</div>
                     <div class="col-md-8">{{ animal.dateOfRegister }}</div>
                 </div>
                 <hr>
@@ -65,7 +65,7 @@
 <div class="row">
     <div class="col-md-3 col-md-offset-6 detailed-buttons" >
         <div class="col-md-6"><a class="btn btn-primary col-md-12" href={{linkButton}} role="button" >{{textButton}}</a></div>
-        <div class="col-md-6"><a class="btn btn-success col-md-12" href={{linkBack}} role="button">Повернутись</a></div>
+        <div class="col-md-6"><a class="btn btn-success col-md-12" href={{linkBack}} role="button">{{ 'BACK' | translate }}</a></div>
     </div>
 </div>
 

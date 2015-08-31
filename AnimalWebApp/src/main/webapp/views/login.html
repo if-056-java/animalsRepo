@@ -1,15 +1,13 @@
-<div class="login">
-
 <section id="loginpage">
 <div class="jumbotron">     
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12 col-lg-12">
 					<div class="col-sm-1 col-lg-1">
-						<p><image src="../resources/img/main_dog.jpg" width="70"></p>
+						<p><image src="../resources/img/main_dog.jpg" width="70"/></p>
 					</div>
 					<div class="col-sm-11 col-lg-11">	
-						<h2>Вхід</h2>
+						<h2>{{ 'ENTER' | translate }}</h2>
 					</div>
 				</div>
 			</div>
@@ -18,9 +16,7 @@
 <br>
 
 <div class="container">
-
 <div class="col-xs-1 col-sm-1 col-md-1 col-lg-2"></div>
-
 
 	<div class="row">
 		<div class="col-xs-1 col-sm-2 col-md-2 col-lg-2"></div>
@@ -28,43 +24,43 @@
 		<form>
 			<br>
 			<div class="form-group">
-	    		<label class="col-xs-5 col-sm-5 col-lg-5 control-label" >Логін:</label>
+	    		<label class="col-xs-5 col-sm-5 col-lg-5 control-label" >{{ 'LOGIN' | translate }}:</label>
 	    		<div class="col-xs-12 col-sm-12 col-lg-12">
 	      		<input class="form-control" id="login" ng-model="login.userLogin">
 	    		</div>
 	    	</div>
 	    	<div class="form-group">		    			  		
-	    		<label class="col-xs-5 col-sm-5 col-lg-5 control-label" >Пароль:</label>
+	    		<label class="col-xs-5 col-sm-5 col-lg-5 control-label" >{{ 'PASSWORD' | translate }}:</label>
 	    		<div class="col-xs-12 col-sm-12 col-lg-12">
 	      		<input class="form-control" type="password" id="password" ng-model="login.password">
 	    		</div>
 	    	</div>
 	    	<div class="form-group checkbox">
 	  			<label class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></label>	  			
-				<label class="col-xs-10 col-sm-10 col-md-8 col-lg-8"><input class="form-group" type="checkbox" ng-model="login.memoryMe">Запам'ятати мене</label>	
+				<label class="col-xs-10 col-sm-10 col-md-8 col-lg-8"><input class="form-group" type="checkbox" ng-model="login.memoryMe">{{ 'REMEMBER_ME' | translate }}</label>
 			</div>
 	    	
 	  		<div class="form-group">
 		  		<label class="col-xs-12 col-sm-12 col-lg-12 control-label"></label>
 		  		<div class="col-xs-12 col-sm-12 col-lg-12">	  			
-				<button name="submit" type="submit" ng-click = "login()" class="btn btn-success btn-lg col-xs-12 col-sm-12 col-lg-12">ВХІД</button>
+				<button name="submit" type="submit" ng-click = "login()" class="btn btn-success btn-lg col-xs-12 col-sm-12 col-lg-12">{{ 'ENTER' | translate }}</button>
 				</div>	  			 			
 			</div>
 			
 	  		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 socialButtons">	  		
 				<div class = "buttonSing">
 					<a class="btn btn-sm btn-block btn-social btn-twitter">
-					    <i class="fa fa-twitter"></i> Вхід з Twitter
+					    <i class="fa fa-twitter"></i> {{ 'ENTER_TWITTER' | translate }}
 					</a>
 				</div>
 				<div class = "buttonSing">
 					<a class="btn btn-sm btn-block btn-social btn-facebook">
-					    <i class="fa fa-facebook"></i> Вхід з Facebook
+					    <i class="fa fa-facebook"></i> {{ 'ENTER_FACEBOOK' | translate }}
 					</a>
 				</div>
 				<div class = "buttonSing">
 					<a ng-click = "loginGoogle()" class="btn btn-sm btn-block btn-social btn-google" id="googleButton">
-					    <i class="fa fa-google"></i> Вхід з Google
+					    <i class="fa fa-google"></i> {{ 'ENTER_GOOGLE' | translate }}
 					</a>
 				</div>
 				
@@ -72,7 +68,7 @@
 			</div>
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">				
 				<p>&nbsp;&nbsp;</p>
-				<p><a href="#ua/user/registration">Реєстрація</a></p>
+				<p><a href="#ua/user/registration">{{ 'REGISTRATION' | translate }}</a></p>
 			</div>
 		</form>				
 		</div>		
@@ -80,3 +76,4 @@
 	</div>
 	
 </div> <!-- /container -->
+</section>

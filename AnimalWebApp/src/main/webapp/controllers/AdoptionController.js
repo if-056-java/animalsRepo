@@ -3,13 +3,9 @@
  */
 adoptionModule
     .controller('AdoptionController',
-        function AdoptionController($scope, AdoptionFactory, AnimalAdoptionValues, $translate) {
+        function AdoptionController($scope, AdoptionFactory, AnimalAdoptionValues) {
 
             $scope.header_a_f_l = "Тварини на адопцію :";
-
-            $scope.changeLanguage = function (langKey) {
-                $translate.use(langKey);
-            };
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');

@@ -286,6 +286,7 @@ IMG.displayed {
 }
 .thumbnail-special {
     display: block;
+    max-width: 175px;
     margin-bottom: 20px;
     line-height: 1.42857143;
     background-color: #ffffff;

@@ -2,8 +2,8 @@
 var animalAppControllers = angular.module('MainController', []);
 
 animalApp.controller('MainController', function($scope, $rootScope, localStorageService, userAccount) {
-		
-	if (!localStorageService.cookie.get("accessToken")) {
+
+    if (!localStorageService.cookie.get("accessToken")) {
 		localStorageService.clearAll();
 	} else {
 		if (localStorageService.get("memoryMe")=="ON")
@@ -28,5 +28,25 @@ animalApp.controller('MainController', function($scope, $rootScope, localStorage
         } 
         
     };
-      
+
+    //initialize loading spinner
+    var targetContent = document.getElementById('loading-block');
+    new Spinner(opts).spin(targetContent);
+
+/*
+    $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        if (toState.resolve) {
+            console.log('b ' + $scope.contentLoading);
+            $scope.contentLoading = 1;
+            console.log('b ' + $scope.contentLoading);
+        }
+    });
+    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+        if (toState.resolve) {
+            console.log('a ' + $scope.contentLoading);
+            $scope.contentLoading = 0;
+            console.log('a ' + $scope.contentLoading);
+        }
+    });
+*/
 });

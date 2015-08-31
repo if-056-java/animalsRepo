@@ -19,7 +19,7 @@
 						<p><image src="../resources/img/main_dog.jpg" width="70"/></p>
 					</div>
 					<div class="col-sm-11 col-lg-11">	
-						<h2>Контакти</h2>
+						<h2>{{ 'CONTACTS' | translate }}</h2>
 					</div>
 				</div>
 			</div>
@@ -28,22 +28,19 @@
 </section>
 
     <div class="container">
-      <!-- Example row of columns -->
       <div class="row">
 			<div class="col-sm-12 col-lg-12">
 				<div class="panel">
 					<div class="panel-heading">
-						<h3><i class="icon-map-marker main-color"></i> Місцезнаходження</h3>
+						<h3><i class="icon-map-marker main-color"></i> {{ 'LOCATION' | translate }}</h3>
 					</div>
 					<div class="panel-body">
 						<div class="row">
-						<div class="col-sm-12 col-lg-12">
-					  <!-- gMap script container !Do not remove!! -->
-							  <div id="map"></div>	 
-					  <!-- gMap script container !Do not remove!! -->
+						    <div class="col-sm-12 col-lg-12">
+                                <!-- gMap script container -->
+							    <div id="map"></div>
+						    </div>
 						</div>
-							</div>
-
 					</div>
 				  </div>
 			</div>
@@ -53,15 +50,15 @@
 			<div class="col-sm-4 col-lg-4">
 				<div class="panel">
 					<div class="panel-heading">
-						<h3><i class="icon-pushpin main-color"></i> Наш офіс</h3>
+						<h3><i class="icon-pushpin main-color"></i> {{ 'OFFICE' | translate }}</h3>
 					</div>
 					<div class="panel-body">
 						<address>
-						<strong>ЛКП "Лев"</strong><br>
-						вул. Промислова, 56<br>
-						Львів, 79024<br>
-						Україна<br>
-						<i class="icon-phone-sign"></i> +38 (032) 252-30-41<br>
+						<strong>{{ 'LKP_LEV' | translate }}</strong><br>
+						{{ 'OFFICE_ADDRESS_COUNTRY' | translate }}<br>
+                        {{ 'OFFICE_ADDRESS_TOWN' | translate }}<br>
+                        {{ 'OFFICE_ADDRESS_STREET' | translate }}<br>
+                        <i class="icon-phone-sign"></i> +38 (032) 252-30-41<br>
 						<i class="icon-phone-sign"></i> +38 (063) 941-25-18
 						</address>
 					</div>
@@ -69,50 +66,49 @@
 			
 			<div class="panel">
 				<div class="panel-heading">
-				  <h3><i class="icon-time main-color"></i> Розклад роботи</h3>
+				  <h3><i class="icon-time main-color"></i>{{ 'TIMETABLE' | translate }}</h3>
 				</div>
 				<div class="panel-body">
 					<table class="table table-hover">
 					  <thead>
 						<tr>
-						  
-						  <th>День</th>
-						  <th>Час</th>
+						  <th>{{ 'DAY' | translate }}</th>
+						  <th>{{ 'TIME' | translate }}</th>
 						</tr>
 					  </thead>
 					  <tbody>
 						<tr class="success">
-						  <td>Понеділок</td>
+						  <td>{{ 'MONDAY' | translate }}</td>
 						  <td>9:00 to 18:00</td>
 						</tr>
 						<tr class="success">
-						  <td>Вівторок</td>
+						  <td>{{ 'TUESDAY' | translate }}</td>
 						  <td>9:00 to 18:00</td>
 						</tr>
 						<tr class="success">
-						 
-						  <td>Середа</td>
-						  <td>9:00 to 18:00</td>
-						</tr>
-						<tr class="success">
-						 
-						  <td>Четвер</td>
+
+						  <td>{{ 'WEDNESDAY' | translate }}</td>
 						  <td>9:00 to 18:00</td>
 						</tr>
 						<tr class="success">
 						 
-						  <td>П'ятниця</td>
+						  <td>{{ 'THURSDAY' | translate }}</td>
+						  <td>9:00 to 18:00</td>
+						</tr>
+						<tr class="success">
+						 
+						  <td>{{ 'FRIDAY' | translate }}</td>
 						  <td>9:00 to 18:00</td>
 						</tr>
 						<tr class="danger">
 						
-						  <td>Субота</td>
-						  <td>вихідний</td>
+						  <td>{{ 'SATURDAY' | translate }}</td>
+						  <td>{{ 'DAY_OFF' | translate }}</td>
 						</tr>
 						<tr class="danger">
 						
-						  <td>Неділя</td>
-						  <td>вихідний</td>
+						  <td>{{ 'SUNDAY' | translate }}</td>
+						  <td>{{ 'DAY_OFF' | translate }}</td>
 						</tr>
 					  </tbody>
 					</table>
@@ -125,51 +121,39 @@
 					<div class="panel-heading">	
 			<h3 class="">
 				<i class="icon-envelope main-color"></i>
-				Заповніть форму для контактів
+            {{ 'CONTACTS_FILL_FORM' | translate }}
 			</h3>
 			</div>
 			<div class="panel-body">
 			<!-- CONTACT FORM https://github.com/jonmbake/bootstrap3-contact-form -->
 
-			
 			<form role="form" name="feedbackForm" ng-submit="submit(feedbackForm.$valid)" novalidate>
-				<style>
-
-					.ng-invalid.ng-dirty {
-						border-color: red;
-						outline-color: red;
-					}
-					.ng-valid.ng-dirty {
-						border-color: green;
-						outline-color: green;
-					}
-				</style>
 			      <div class="form-group has-feedback"
 					  ng-class="{ 'has-error' : feedbackForm.feedbackname.$invalid && !feedbackForm.feedbackname.$pristine }">
-					  <label class="control-label" for="feedbackname">Ім'я</label>
-					  <input type="text" class="form-control" id="feedbackname" name="feedbackname" ng-model="feedback.signup"  placeholder="Введіть ім'я" required=""
+					  <label class="control-label" for="feedbackname">{{ 'NAME' | translate }}</label>
+					  <input type="text" class="form-control" id="feedbackname" name="feedbackname" ng-model="feedback.signup"  placeholder="{{ 'CONTACTS_INPUT_NAME' | translate }}" required=""
 							 ng-minlength="3"/>
 					  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="false"></span>
 					  <span id="feedbacknameStatus" class="sr-only">(success)</span>
                   </div>
 				 <span ng-show="feedbackForm.feedbackname.$invalid && feedbackForm.feedbackname.$error.minlength && !feedbackForm.feedbackname.$pristine"
-				   class="help-block error">Введіть Ваше ім'я (не менше 3-ох букв)</span>
+				   class="help-block error">{{ 'CONTACTS_INPUT_NAME_FAILED' | translate }}</span>
 
 				  <div class="form-group has-feedback"
 					   ng-class="{ 'has-error' : feedbackForm.feedbackemail.$invalid && !feedbackForm.feedbackemail.$pristine }">
-							  <label class="control-label" for="feedbackemail">E-mail</label>
-                              <input type="email" class="form-control" id="feedbackemail" name="feedbackemail" ng-model="feedback.email"  placeholder="Введіть e-mail" required=""
+							  <label class="control-label" for="feedbackemail">{{ 'EMAIL' | translate }}</label>
+                              <input type="email" class="form-control" id="feedbackemail" name="feedbackemail" ng-model="feedback.email"  placeholder="{{ 'CONTACTS_INPUT_EMAIL' | translate }}" required=""
 									 ng-minlength="5"/>
 							  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
 							  <span id="feedbackemailStatus" class="sr-only">(success)</span>
                           </div>
 				  <span ng-show="feedbackForm.feedbackemail.$invalid && feedbackForm.feedbackemail.$error.email && !feedbackForm.feedbackemail.$pristine"
-				   class="help-block error">Не вірний e-mail</span>
+				   class="help-block error">{{ 'CONTACTS_INPUT_EMAIL_FAILED' | translate }}</span>
 
 				  <div class="form-group has-feedback"
 					   ng-class="{ 'has-error' : feedbackForm.feedbacktext.$invalid && !feedbackForm.feedbacktext.$pristine }">
-									  <label class="control-label" for="feedbacktext">Повідомлення</label>
-                                      <textarea rows="10" cols="100" class="form-control" id="feedbacktext" name="feedbacktext" ng-model="feedback.text" placeholder="Повідомлення" required/>
+									  <label class="control-label" for="feedbacktext">{{ 'CONTACTS_MESSAGE' | translate }}</label>
+                                      <textarea rows="10" cols="100" class="form-control" id="feedbacktext" name="feedbacktext" ng-model="feedback.text" placeholder="{{ 'CONTACTS_MESSAGE' | translate }}" required/>
 									  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
 									  <span id="feedbacktextStatus" class="sr-only">(success)</span>
                                   </div>
@@ -192,15 +176,15 @@
 							<!-- Spinner -->
 							<div ng-show="spinnerloading" id="loading-block"> </div>
 
-							<div class="alert alert-warning" role="alert" ng-show="startupmessage">Заповніть усі поля та оберіть - "Я не робот"</div>
-							<div class="alert alert-success" role="alert" ng-show="okmessage">Лист відправлено! Дякуємо за відгук!</div>
-							<div class="alert alert-danger" role="alert" ng-show="errormessage">Лист не відправлено. Помилка сервера. Спробуйте пізніше</div>
+							<div class="alert alert-warning" role="alert" ng-show="startupmessage">{{ 'CONTACTS_STARTUP_MESSAGE' | translate }}</div>
+							<div class="alert alert-success" role="alert" ng-show="okmessage">{{ 'CONTACTS_OK_MESSAGE' | translate }}</div>
+							<div class="alert alert-danger" role="alert" ng-show="errormessage">{{ 'CONTACTS_ERROR_MESSAGE' | translate }}</div>
 
 						</div><!-- /input-group -->
 					</div><!-- /.col-lg-6 -->
 				</div><!-- /.row -->
 
-                                  <button type="submit" id="feedbackSubmit1" class="btn btn-primary btn-lg" style="display: block; margin-top: 10px;" ng-disabled="feedbackForm.$invalid">Надіслати</button>
+                                  <button type="submit" id="feedbackSubmit1" class="btn btn-primary btn-lg" style="display: block; margin-top: 10px;" ng-disabled="feedbackForm.$invalid">{{ 'SEND' | translate }}</button>
                                 </form>
                             <!-- END CONTACT FORM -->
 

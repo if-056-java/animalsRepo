@@ -1,6 +1,6 @@
 ﻿
 <!DOCTYPE html>
-<html lang="ua" >
+<html lang="ua" ng-app="animalApp">
 
 <head>
     <meta charset="utf-8">
@@ -15,7 +15,7 @@
     <!-- CSS-ядро Bootstrap -->
     <link href="resources/css/bootstrap.css" rel="stylesheet">
     <link href="resources/css/bootstrap-select.min.css" rel="stylesheet">
-    
+
     <!-- Social Buttons -->
     <link href="resources/css/bootstrap-social.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -36,65 +36,74 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- For hide scope variables -->
+    <style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+        .translate-cloak{
+            visibility: hidden !important;
+        }
+    </style>
 </head>
 
-<body ng-app="animalApp" ng-controller="MainController">
+<body ng-controller="MainController">
 
-<header>
+<header class="ng-cloak">
    <nav class="navbar navbar-fixed-top navbar-default" role="navigation">
 		<div class="container">
 
 	  <!-- Бренд і переключення згруповано для покращення показу на мобільних екранах -->
-	  <div class="navbar-header">
+	  <div class="navbar-header translate-cloak" translate-cloak>
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
 		  <span class="sr-only">Toggle navigation</span>
 		  <span class="icon-bar"></span>
 		  <span class="icon-bar"></span>
 		  <span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="#ua">ЛКП "Лев"</a>
+		<a class="navbar-brand" href="#ua">{{ 'LKP_LEV' | translate }}</a>
 	  </div>
 
 	  <!-- Колекція навігаційних меню та форма для переключення -->
 	  <div class="collapse navbar-collapse navbar-ex1-collapse">
 		<ul class="nav navbar-nav">
 
-			<li class="dropdown">
-				<a href="" class="dropdown-toggle" data-toggle="dropdown">Пропонуємо <b class="caret"></b></a>
+			<li class="dropdown" translate-cloak>
+				<a href="" class="dropdown-toggle" data-toggle="dropdown">{{ 'NAV_OFFER' | translate }}<b class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li><a href="#ua/animal/adoption">Адопція</a></li>
+					<li><a href="#ua/animal/adoption">{{ 'NAV_ADOPTION' | translate }}</a></li>
 					<li role="presentation" class="divider"></li>
-					<li><a href="#ua/animal/find">Знайдено</a></li>
+					<li><a href="#ua/animal/find">{{ 'NAV_FOUND' | translate }}</a></li>
 					<li role="presentation" class="divider"></li>
-					<li><a href="#ua/animal/lost">Загублено</a></li>
+					<li><a href="#ua/animal/lost">{{ 'NAV_LOST' | translate }}</a></li>
 				</ul>
 		 	 </li>
 			 
-		    <li><a href="#ua/contacts">Контакти</a></li>
+		    <li><a href="#ua/contacts" translate-cloak>{{ 'NAV_CONTACTS' | translate }}</a></li>
 	
-			<li><a ng-show="session()" href="#ua/user/profile">Мій Кабінет</a></li>
+			<li><a ng-show="session()" href="#ua/user/profile" translate-cloak>{{ 'NAV_PROFILE' | translate }}</a></li>
 
-            <li class="dropdown" ng-show="session()">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown">Реєстація тварини <b class="caret"></b> </a>
+            <li class="dropdown" ng-show="session()" translate-cloak>
+                <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ 'NAV_ANIMAL_REGISTRATION' | translate }}<b class="caret"></b> </a>
                 <ul class="dropdown-menu">
-                    <li><a href="#ua/animal/registration_homeless">Зареєструвати безпритульну</a> </li>
+                    <li><a href="#ua/animal/registration_homeless">{{ 'NAV_HOMELESS_REGISTRATION' | translate }}</a></li>
                     <li role="presentation" class="divider"></li>
-                    <li><a href="#ua/animal/registration_owned">Зареєструвати власну</a> </li>
+                    <li><a href="#ua/animal/registration_owned">{{ 'NAV_OWNED_REGISTRATION' | translate }}</a> </li>
                 </ul>
             </li>
 
-		  <li class="dropdown">
-				<a ng-show="session()" href="" class="dropdown-toggle" data-toggle="dropdown">Модерація <b class="caret"></b></a>
+		  <li class="dropdown" translate-cloak>
+				<a ng-show="session()" href="" class="dropdown-toggle" data-toggle="dropdown">{{ 'NAV_MODERATION' | translate }}<b class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li><a href="#ua/user/home/animals" ng-show="userRole == 'модератор'">Реєстр тварин</a></li>
+					<li><a href="#ua/user/home/animals" ng-show="userRole == 'модератор'">{{ 'NAV_ANIMAL_LIST' | translate }}</a></li>
 					<li role="presentation" class="divider" ng-show="userRole == 'модератор'"></li>
-                    <li><a href="#ua" ng-show="userRole == 'модератор'">Реєстр користувачів</a></li>
+                    <li><a href="#ua" ng-show="userRole == 'модератор'">{{ 'NAV_USER_LIST' | translate }}</a></li>
                     <!--li role="presentation" class="divider" ng-show="userRole == 'лікар'"></li-->
-                    <li><a href="#ua/user/doctor/animals" ng-show="userRole == 'лікар'">Реєстр тварин</a></li>
+                    <li><a href="#ua/user/doctor/animals" ng-show="userRole == 'лікар'">{{ 'NAV_ANIMAL_LIST_FOR_DOCTOR' | translate }}</a></li>
 				</ul>
             </li>
             <li>
-                <div style="padding:10px;"><!-- translate="LANG_EN" translate="LANG_UK"-->
+                <div style="padding:10px;" ng-controller="TranslateController" translate-cloak><!-- translate="LANG_EN" translate="LANG_UK"-->
                     <a id="language-en" ng-href ng-click="changeLanguage('en')"><b class="caret"></b></a>
                     <a id="language-uk" ng-href ng-click="changeLanguage('uk')"><b class="caret"></b></a>
                 </div>
@@ -102,10 +111,10 @@
 		</ul>
 		<!-- Форма входу -->
 				
-				<form class="navbar-form navbar-right" role="form">
-				    <a ng-show="!session()" href="#ua/user/login" class="btn btn-success" role="button">Вхід  <span class="glyphicon glyphicon-log-in"></span></a>
-				    <label ng-show="session()">Вітаємо: {{userName}}</label>
-				    <a ng-show="session()" ng-click="logout()" class="btn btn-warning" role="button">Вихід  <span class="glyphicon glyphicon-log-out"></span></a>
+				<form class="navbar-form navbar-right" role="form" translate-cloak>
+				    <a ng-show="!session()" href="#ua/user/login" class="btn btn-success" role="button">{{ 'LOGIN' | translate }}  <span class="glyphicon glyphicon-log-in"></span></a>
+				    <label ng-show="session()">{{ 'NAV_WELCOME_MESSAGE' | translate }}: {{userName}}</label>
+				    <a ng-show="session()" ng-click="logout()" class="btn btn-warning" role="button">{{ 'LOGOUT' | translate }}  <span class="glyphicon glyphicon-log-out"></span></a>
 				</form>
       </div><!-- /.nav-collapse -->
 	</div>	
@@ -116,12 +125,11 @@
 <!-- Всі вьюхи вставляємо сюди -->
 <div class="ng-view"></div>
 
-
 <footer >
-    <div class="container">
+    <div class="container" >
         <div class="row">
             <div class="col-sm-2 col-lg-2" >
-                <span class="copyright">&copy; ЛКП "Лев" 2015</span>
+                <span class="copyright translate-cloak" translate-cloak>&copy; {{ 'LKP_LEV' | translate }} 2015</span>
             </div>
 
         </div>
@@ -143,6 +151,7 @@
 
 <!-- Angular Script -->
 <script src="resources/js/angular.js"></script>
+<script src="resources/js/angular-animate.min.js"></script>
 <script src="resources/js/angular-local-storage.min.js"></script>
 <script src="resources/js/angular-route.js"></script>
 <script src="resources/js/angular-resource.min.js"></script>
@@ -171,11 +180,15 @@
 <script src="resources/js/angular-translate.min.js"></script>
 <script src="resources/js/angular-translate-loader-static-files.min.js"></script>
 
-<!--<script src="resources/js/angular-translate-storage-local.min.js"></script>-->
-<!--<script src="resources/js/angular-translate-storage-cookie.min.js"></script>-->
+<!-- Angular local storage and cookies -->
+<script src="resources/js/angular-cookies.min.js"></script>
+<script src="resources/js/angular-translate-storage-local.min.js"></script>
+<script src="resources/js/angular-translate-storage-cookie.min.js"></script>
 
 <!-- Site Scripts-->
  <script src="modules/animalApp.js"></script>
+
+ <script src="controllers/TranslateController.js"></script>
 
  <script src="modules/AdoptionModule.js"></script>
  <script src="services/AdoptionFactory.js"></script>

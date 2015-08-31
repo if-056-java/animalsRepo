@@ -1,5 +1,5 @@
 animalRegistrationModule
-.controller('AnimalsDetailController', function AnimalsDetailController($scope, AnimalDetailFactory) {
+.controller('AnimalsDetailController', function AnimalsDetailController($scope, AnimalDetailFactory, $translate) {
         this.getAnimalTypes = function() {
             //Show spinner loading
             $scope.$parent.contentLoading++;
@@ -33,22 +33,46 @@ animalRegistrationModule
                 });
         };
 
-        $scope.colorTypes = [
-            'Білий',
-            'Сірий',
-            'Чорний',
-            'Рудий',
-            'Коричневий',
-            'Палевий',
-            'Підпалий',
-            'Вовчий',
-            'Плямистий',
-            'Мармуровий',
-            'Черпачний',
-            'Триколірний',
-            'Рябий',
-            'Тигровий'
-        ];
+        (function(){
+            if($translate.use() === 'uk') {
+                //jQuery('div.thumbnail-special').css('max-width', '185px');
+                $scope.colorTypes = [
+                    'Білий',
+                    'Сірий',
+                    'Чорний',
+                    'Рудий',
+                    'Коричневий',
+                    'Палевий',
+                    'Підпалий',
+                    'Вовчий',
+                    'Плямистий',
+                    'Мармуровий',
+                    'Черпачний',
+                    'Триколірний',
+                    'Рябий',
+                    'Тигровий'
+                ];
+            }
+            else {
+                //jQuery('div.thumbnail-special').css('max-width', '175px');
+                $scope.colorTypes = [
+                    'White',
+                    'Grey',
+                    'Black',
+                    'Red',
+                    'Brown',
+                    'Fawn',
+                    'Arson',
+                    'Wolf',
+                    'Spotted',
+                    'Marble',
+                    'Cherpachnyy',
+                    'Tri-color',
+                    'Spotted',
+                    'Tiger'
+                ];
+            }
+        }());
 
         $scope.addColor = function (color) {
             $scope.$parent.animal.color = color;
@@ -58,7 +82,7 @@ animalRegistrationModule
         $scope.showImageCropper = false;
 
         //Dependency injection
-        AnimalsDetailController.$inject = ['$scope', 'AnimalDetailFactory'];
+        AnimalsDetailController.$inject = ['$scope', 'AnimalDetailFactory', '$translate'];
     }
 )
     .controller('DPController', ['$scope', function($scope) {
