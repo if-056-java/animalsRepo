@@ -87,15 +87,99 @@ public class AnimalResource {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAllAnimalsForAdopting(AnimalsFilter animalsFilter) {
         if (animalsFilter == null) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return BAD_REQUEST;
         }
         if ((animalsFilter.getPage() == 0) || (animalsFilter.getLimit() == 0)) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return BAD_REQUEST;
         }
 
         AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
         //cast list of animals to generic list
         List<Animal> animals = animalRepository.getAllForAdopting(animalsFilter);
+        GenericEntity<List<Animal>> genericAnimals =
+                new GenericEntity<List<Animal>>(animals) {
+                };
+
+        if (genericAnimals == null)
+            return NOT_FOUND;
+
+        return ok(genericAnimals);
+    }
+
+    @POST //http:localhost:8080/webapi/found/pagenator
+    @Path("found/pagenator")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAmountListFoundAnimals(AnimalsFilter animalsFilter) {
+
+        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+        long pages = animalRepository.getAmountListFoundAnimals(animalsFilter);
+
+        if (pages == 0)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        String str = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
+
+        return Response.status(Response.Status.OK).entity(str).build();
+    }
+
+    @POST //http:localhost:8080/webapi/animals/found
+    @Path("found")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAllFoundAnimals(AnimalsFilter animalsFilter) {
+        if (animalsFilter == null) {
+            return BAD_REQUEST;
+        }
+        if ((animalsFilter.getPage() == 0) || (animalsFilter.getLimit() == 0)) {
+            return BAD_REQUEST;
+        }
+
+        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+        //cast list of animals to generic list
+        List<Animal> animals = animalRepository.getAllFoundAnimals(animalsFilter);
+        GenericEntity<List<Animal>> genericAnimals =
+                new GenericEntity<List<Animal>>(animals) {
+                };
+
+        if (genericAnimals == null)
+            return NOT_FOUND;
+
+        return ok(genericAnimals);
+    }
+
+    @POST //http:localhost:8080/webapi/lost/pagenator
+    @Path("lost/pagenator")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAmountLostAnimals(AnimalsFilter animalsFilter) {
+
+        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+        long pages = animalRepository.getAmountListLostAnimals(animalsFilter);
+
+        if (pages == 0)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        String str = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
+
+        return Response.status(Response.Status.OK).entity(str).build();
+    }
+
+    @POST //http:localhost:8080/webapi/animals/lost
+    @Path("lost")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAllLostAnimals(AnimalsFilter animalsFilter) {
+        if (animalsFilter == null) {
+            return BAD_REQUEST;
+        }
+        if ((animalsFilter.getPage() == 0) || (animalsFilter.getLimit() == 0)) {
+            return BAD_REQUEST;
+        }
+
+        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+        //cast list of animals to generic list
+        List<Animal> animals = animalRepository.getAllLostAnimals(animalsFilter);
         GenericEntity<List<Animal>> genericAnimals =
                 new GenericEntity<List<Animal>>(animals) {
                 };

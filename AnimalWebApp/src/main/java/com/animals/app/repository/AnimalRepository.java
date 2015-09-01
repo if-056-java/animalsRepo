@@ -94,6 +94,44 @@ public interface AnimalRepository {
             "ORDER BY DateOfRegister DESC " +
             "LIMIT #{offset}, #{limit} </script>";
 
+    final String SELECT_LIST_FOUND_ANIMALS = "<script> " +
+            "SELECT Id, TypeId, Breed, DateOfBirth, DateOfRegister, image " +
+            "FROM animals " +
+            "WHERE (serviceId = 2) AND (isActive = 1) " +
+            "<if test = \"animal != null\"> " +
+            "<if test = \"animal.type != null\"> " +
+            "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
+            "</if> " +
+            "<if test = \"animal.breed != null\"> " +
+            "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
+            "</if>" +
+            "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+            "<if test = \"animal.dateOfSterilization != null\"> AND dateOfSterilization IS NOT NULL </if> " +
+            "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
+            "<if test = \"animal.image != null\"> AND image IS NOT NULL </if> " +
+            "</if> " +
+            "ORDER BY DateOfRegister DESC " +
+            "LIMIT #{offset}, #{limit} </script>";
+
+    final String SELECT_LIST_LOST_ANIMALS = "<script> " +
+            "SELECT Id, TypeId, Breed, DateOfBirth, DateOfRegister, image " +
+            "FROM animals " +
+            "WHERE (serviceId = 3) AND (isActive = 1) " +
+            "<if test = \"animal != null\"> " +
+            "<if test = \"animal.type != null\"> " +
+            "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
+            "</if> " +
+            "<if test = \"animal.breed != null\"> " +
+            "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
+            "</if>" +
+            "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+            "<if test = \"animal.dateOfSterilization != null\"> AND dateOfSterilization IS NOT NULL </if> " +
+            "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
+            "<if test = \"animal.image != null\"> AND image IS NOT NULL </if> " +
+            "</if> " +
+            "ORDER BY DateOfRegister DESC " +
+            "LIMIT #{offset}, #{limit} </script>";
+
     final String SELECT_LIST_FOR_ADOPTING_COUNT = "<script> SELECT count(*) AS count " +
             "FROM animals " +
             "WHERE (isActive = 1) AND (serviceId = 1) " +
@@ -109,6 +147,39 @@ public interface AnimalRepository {
             "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
             "<if test = \"animal.image != null\"> AND image IS NOT NULL </if> " +
             "</if> </script>";
+
+    final String SELECT_LIST_FOUND_ANIMALS_COUNT = "<script> SELECT count(*) AS count " +
+            "FROM animals " +
+            "WHERE (isActive = 1) AND (serviceId = 2) " +
+            "<if test = \"animal != null\"> " +
+            "<if test = \"animal.type != null\"> " +
+            "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
+            "</if> " +
+            "<if test = \"animal.breed != null\"> " +
+            "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
+            "</if>" +
+            "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+            "<if test = \"animal.dateOfSterilization != null\"> AND dateOfSterilization IS NOT NULL </if> " +
+            "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
+            "<if test = \"animal.image != null\"> AND image IS NOT NULL </if> " +
+            "</if> </script>";
+
+    final String SELECT_LIST_LOST_ANIMALS_COUNT = "<script> SELECT count(*) AS count " +
+            "FROM animals " +
+            "WHERE (isActive = 1) AND (serviceId = 3) " +
+            "<if test = \"animal != null\"> " +
+            "<if test = \"animal.type != null\"> " +
+            "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
+            "</if> " +
+            "<if test = \"animal.breed != null\"> " +
+            "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
+            "</if>" +
+            "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+            "<if test = \"animal.dateOfSterilization != null\"> AND dateOfSterilization IS NOT NULL </if> " +
+            "<if test = \"animal.size != null\"> AND size=#{animal.size} </if> " +
+            "<if test = \"animal.image != null\"> AND image IS NOT NULL </if> " +
+            "</if> </script>";
+
 
     final String USERPROFILE_SELECT_BY_USER_ID = "SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
             "FROM animals " +
@@ -238,11 +309,65 @@ public interface AnimalRepository {
     List<Animal> getAllForAdopting(AnimalsFilter animalsFilter);
 
     /**
+     * This method return short information about animals for showing on found page.
+     * @param animalsFilter Separating records for a parts.
+     * @return the list of all Animal instances from the database.
+     */
+    @Select(SELECT_LIST_FOUND_ANIMALS)
+    @Results(value = {
+            @Result(property="id", column="id"),
+            @Result(property="type", column="typeId", javaType = AnimalType.class,
+                    one = @One(select = "com.animals.app.repository.AnimalTypeRepository.getById")),
+            @Result(property="dateOfBirth", column="dateOfBirth"),
+            @Result(property="dateOfRegister", column = "dateOfRegister"),
+            @Result(property="breed", column="breed", javaType = AnimalBreed.class,
+                    one = @One(select = "com.animals.app.repository.AnimalBreedRepository.getById")),
+            @Result(property="service", column="serviceId", javaType = AnimalService.class,
+                    one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById")),
+            @Result(property="image", column="image"),
+    })
+    List<Animal> getAllFoundAnimals(AnimalsFilter animalsFilter);
+
+    /**
+     * This method return short information about animals for showing on lost page.
+     * @param animalsFilter Separating records for a parts.
+     * @return the list of all Animal instances from the database.
+     */
+    @Select(SELECT_LIST_LOST_ANIMALS)
+    @Results(value = {
+            @Result(property="id", column="id"),
+            @Result(property="type", column="typeId", javaType = AnimalType.class,
+                    one = @One(select = "com.animals.app.repository.AnimalTypeRepository.getById")),
+            @Result(property="dateOfBirth", column="dateOfBirth"),
+            @Result(property="dateOfRegister", column = "dateOfRegister"),
+            @Result(property="breed", column="breed", javaType = AnimalBreed.class,
+                    one = @One(select = "com.animals.app.repository.AnimalBreedRepository.getById")),
+            @Result(property="service", column="serviceId", javaType = AnimalService.class,
+                    one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById")),
+            @Result(property="image", column="image"),
+    })
+    List<Animal> getAllLostAnimals(AnimalsFilter animalsFilter);
+
+    /**
      * Returns count of rows selected from DB by method getAllForAdopting
      * @return count of rows selected by getAllForAdopting
      */
     @Select(SELECT_LIST_FOR_ADOPTING_COUNT)
     long getAmountListForAdopting(AnimalsFilter animalsFilter);
+
+    /**
+     * Returns count of rows selected from DB by method getAllFoundAnimals
+     * @return count of rows selected by getAllFoundAnimals
+     */
+    @Select(SELECT_LIST_FOUND_ANIMALS_COUNT)
+    long getAmountListFoundAnimals(AnimalsFilter animalsFilter);
+
+    /**
+     * Returns count of rows selected from DB by method getAllLostAnimals
+     * @return count of rows selected by getAllLostAnimals
+     */
+    @Select(SELECT_LIST_LOST_ANIMALS_COUNT)
+    long getAmountListLostAnimals(AnimalsFilter animalsFilter);
 
     @Select(USERPROFILE_SELECT_BY_USER_ID)
     @Results(value = {

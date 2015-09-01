@@ -2,6 +2,8 @@ var animalApp = angular.module('animalApp', [
     'ngRoute',
     'ngResource',
     'AdoptionModule',
+    'AnimalFoundModule',
+    'AnimalLostModule',
     'AnimalRegistrationModule',
     'FindController',
     'LostController',
@@ -37,13 +39,13 @@ animalApp .config(['$routeProvider', '$translateProvider',
                 templateUrl: 'views/adoption.html',
                 controller: 'AdoptionController'
             })
-            .when('/ua/animal/find', {
-                templateUrl: 'views/find_lost.html',
-                controller: 'FindController'
+            .when('/ua/animal/found', {
+                templateUrl: 'views/found.html',
+                controller: 'AnimalFoundController'
             })
             .when('/ua/animal/lost', {
-                templateUrl: 'views/find_lost.html',
-                controller: 'LostController'
+                templateUrl: 'views/lost.html',
+                controller: 'AnimalLostController'
             })
             .when('/ua/animal/homeless', {
                 templateUrl: 'views/reg_homeless.html',
@@ -160,6 +162,10 @@ animalApp.constant('RESOURCES', {
     RESOURCE: 'http://127.0.0.1:8080/',
     ANIMALS_FOR_ADOPTING_PAGINATOR: 'webapi/animals/adoption/pagenator',
     ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption',
+    ANIMALS_FOUND_PAGINATOR: 'webapi/animals/found/pagenator',
+    ANIMALS_FOUND: 'webapi/animals/found',
+    ANIMALS_LOST_PAGINATOR: 'webapi/animals/lost/pagenator',
+    ANIMALS_LOST: 'webapi/animals/lost',
     ANIMAL_TYPES: '/webapi/animals/animal_types',
     ANIMAL_BREEDS: '/webapi/animals/animal_breeds/',
     ANIMAL_SERVICES: '/webapi/animals/animal_services',
