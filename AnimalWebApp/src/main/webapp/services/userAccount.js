@@ -62,24 +62,24 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			
 			$http.post("/webapi/account/registration", user)
 	        .success(function(data){
-	        	if(data.userId==0){
+	        	if(data.userId==1){
 	        		$rootScope.errorRegistrationMessage="Помилка реєстрації. Даний логін вже використовується!";
 	        		console.log("Registration error. SocialLogin is already exist");
 	        	} else {
 	        		
-	        		if (localStorageService.get("memoryMe")=="ON"){
-		        		localStorageService.cookie.set("accessToken",data.accessToken,30);	        		
-		        	} else {
-		        		localStorageService.cookie.set("accessToken",data.accessToken,0.065);
-		        	}
+//	        		if (localStorageService.get("memoryMe")=="ON"){
+//		        		localStorageService.cookie.set("accessToken",data.accessToken,30);	        		
+//		        	} else {
+//		        		localStorageService.cookie.set("accessToken",data.accessToken,0.065);
+//		        	}
+//		        	
+//		        	localStorageService.set("accessToken", data.accessToken);
+//		        	localStorageService.set("userId", data.userId);
+//		        	localStorageService.set("userName", data.socialLogin);
+//		        	localStorageService.set("userRole", data.userRole);
+//		        	localStorageService.set("userRoleId", data.userRoleId);
 		        	
-		        	localStorageService.set("accessToken", data.accessToken);
-		        	localStorageService.set("userId", data.userId);
-		        	localStorageService.set("userName", data.socialLogin);
-		        	localStorageService.set("userRole", data.userRole);
-		        	localStorageService.set("userRoleId", data.userRoleId);
-		        	
-			        $location.path("/ua/user/profile");	
+			        $location.path("/ua/user/confirmRegistration");	
 			        $route.reload();
 	        	}		        
 	        }) 

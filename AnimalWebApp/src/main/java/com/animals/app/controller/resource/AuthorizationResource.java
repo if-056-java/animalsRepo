@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 import javax.annotation.security.PermitAll;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
@@ -21,6 +22,7 @@ import org.scribe.model.Token;
 
 import com.animals.app.domain.User;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
+import com.animals.app.service.MailSender;
 
 /**
  * Created by 41X on 8/16/2015.
@@ -40,7 +42,7 @@ public class AuthorizationResource {
 	@POST
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("login/{rememberMe}")//http:localhost:8080/webapi/account/login
-	public Response createSession (@Context HttpServletRequest req, 
+	public Response loginToSite (@Context HttpServletRequest req, 
 									@PathParam ("rememberMe") String rememberMe) {
 				
 		//reading header from request
@@ -133,7 +135,7 @@ public class AuthorizationResource {
 		String socialLogin2="logintoChange";
 		try {
 			 socialLogin2 = userRep.checkIfUsernameUnique(socialLogin);
-			 System.out.println("socialLogin2"+socialLogin2);
+			 System.out.println("socialLogin2 - "+socialLogin2);
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
@@ -144,24 +146,62 @@ public class AuthorizationResource {
 			
 			return Response.status(Response.Status.OK).entity(socialLoginIsAlreadyInUse).build();
 		}				
-		
-		
+				
 		try {
 			userRep.insert(user);			
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
 		
+		//sending mail
+		String recipientEmail = user.getEmail();
+		System.out.println("email - " + recipientEmail);
+		
+		String username = user.getSocialLogin();
+		String code = user.getPassword();
+		
+		String title = "Confirmation Registration on AnimalWebApp";
+		String message = "Folow link http://localhost:8080/#/ua/user/confirmRegistration?username="+username+"&code="+ code;
+		System.out.println("message - " + message);
+		
+		try {
+			System.out.println("sending mail");			
+			MailSender ms = new MailSender();
+			ms.newsSend(recipientEmail, message);
+			System.out.println("mail send. Check!");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+        
+		String regWithoutConfirm = setUpDestroyedSession("Registration Success. Waiting for confirmation"); 
+        //response with UserRole = null, UserType = null, UserSocialLogin=null
+	    return Response.status(Response.Status.OK).entity(regWithoutConfirm).build();	 
+		
+	}
+	
+	@POST
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Path("confirmRegistration")//http:localhost:8080/webapi/account/confirmRegistration
+	public Response loginToSite (@Context HttpServletRequest req) {
+		
+		//checking if user exist in DB
+		
+		//updating user with userRole="гість" 
+		
 		//creating session
         HttpSession session = req.getSession(true);
+//		
+//        String sessionSuccessReg = setUpSuccessSession(user, session, "Successful Registration"); 
+//        session.setAttribute("user", user);
+//        
+//        System.out.println(sessionSuccessReg);     
+//       
 		
-        String sessionSuccessReg = setUpSuccessSession(user, session, "Successful Registration"); 
-        session.setAttribute("user", user);
-        
-        System.out.println(sessionSuccessReg);
-
-	    return Response.status(Response.Status.OK).entity(sessionSuccessReg).build();	 
+		//response with UserRole = null, UserType = null, UserSocialLogin=null
+	    return Response.status(Response.Status.OK).entity("sessionSuccessReg").build();	 
 		
+	
 	}
 	
 	
