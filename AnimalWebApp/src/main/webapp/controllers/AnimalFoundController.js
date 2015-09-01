@@ -75,7 +75,10 @@ animalFoundModule
             AnimalFoundController.$inject = ['$scope', 'AnimalFoundFactory', 'AnimalFoundValues'];
 
         }).controller('AnimalFoundFilterController',
-            function AnimalFoundFilterController($scope, AnimalFoundFactory, AnimalFoundValues) {
+            function AnimalFoundFilterController($scope, AnimalFoundFactory, AnimalFoundValues, $window) {
+
+                //locale
+                $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
                 $scope.filter = AnimalFoundValues.filter;                  //filter
                 $scope.animalTypes = AnimalFoundValues.animalTypes;        //list of animal types
@@ -139,5 +142,5 @@ animalFoundModule
                 };
 
         //Dependency injection
-        AnimalFoundFilterController.$inject = ['$scope', 'AnimalFoundFactory', 'AnimalFoundValues'];
+        AnimalFoundFilterController.$inject = ['$scope', 'AnimalFoundFactory', 'AnimalFoundValues', '$window'];
     });

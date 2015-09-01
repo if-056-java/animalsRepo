@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface AnimalTypeRepository {
 
-    final String SELECT_ALL = "SELECT id, type FROM animaltypes";
-    final String SELECT_BY_ID = "SELECT id, type FROM animaltypes WHERE id = #{id}";
+    final String SELECT_ALL = "SELECT id, type, typeEn FROM animaltypes";
+    final String SELECT_BY_ID = "SELECT id, type, typeEn FROM animaltypes WHERE id = #{id}";
 
     /**
      * Returns the list of all Animal type instances from the database.
@@ -22,8 +22,9 @@ public interface AnimalTypeRepository {
     @Select(SELECT_ALL)
     @Results(value = {
             @Result(property="id", column="id"),
-            @Result(property="type", column="type")
-    })
+            @Result(property="type", column="type"),
+            @Result(property="typeEn", column="typeEn")
+})
     List<AnimalType> getAll();
 
     /**
@@ -34,7 +35,8 @@ public interface AnimalTypeRepository {
     @Select(SELECT_BY_ID)
     @Results(value = {
             @Result(property="id", column="id"),
-            @Result(property="type", column="type")
+            @Result(property="type", column="type"),
+            @Result(property="typeEn", column="typeEn")
     })
     AnimalType getById(long id);
 }

@@ -31,7 +31,8 @@
                     <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.type"
                         ng-change="getAnimalBreeds()" style="cursor: pointer" title="{{ 'NOT_SELECTED' | translate }}">
                         <li nya-bs-option="animalType in animalTypes.values">
-                            <a>{{ animalType.type }}</a>
+                            <a ng-if="currentLanguage === 'uk'">{{ animalType.type }}</a>
+                            <!--<a ng-if="currentLanguage !== 'uk'">{{ animalType.typeEn }}</a>-->
                         </li>
                     </ol>
                 </div>

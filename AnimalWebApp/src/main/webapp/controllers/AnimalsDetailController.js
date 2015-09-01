@@ -1,8 +1,12 @@
 animalRegistrationModule
-.controller('AnimalsDetailController', function AnimalsDetailController($scope, AnimalDetailFactory, $translate) {
+.controller('AnimalsDetailController', function AnimalsDetailController($scope, AnimalDetailFactory, $translate, $window) {
         this.getAnimalTypes = function() {
             //Show spinner loading
             $scope.$parent.contentLoading++;
+
+            //locale
+            $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+
             AnimalDetailFactory.getAnimalTypes()
                 .then(function(data) {
                     $scope.animalTypes = data;
@@ -66,7 +70,7 @@ animalRegistrationModule
                     'Wolf',
                     'Spotted',
                     'Marble',
-                    'Cherpachnyy',
+                    'Indicus',
                     'Tri-color',
                     'Spotted',
                     'Tiger'
@@ -82,7 +86,7 @@ animalRegistrationModule
         $scope.showImageCropper = false;
 
         //Dependency injection
-        AnimalsDetailController.$inject = ['$scope', 'AnimalDetailFactory', '$translate'];
+        AnimalsDetailController.$inject = ['$scope', 'AnimalDetailFactory', '$translate', '$window'];
     }
 )
     .controller('DPController', ['$scope', function($scope) {

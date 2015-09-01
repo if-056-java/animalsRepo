@@ -5,10 +5,7 @@ var animalApp = angular.module('animalApp', [
     'AnimalFoundModule',
     'AnimalLostModule',
     'AnimalRegistrationModule',
-    'FindController',
-    'LostController',
     'LoginController',
-    'HomelessController',
     'ContactsController',
     'StarterPageController',
     'AnimalsAdminController',
@@ -37,15 +34,15 @@ animalApp .config(['$routeProvider', '$translateProvider',
                 controller: 'StarterPageController'
             })
             .when('/ua/animal/adoption', {
-                templateUrl: 'views/adoption.html',
+                templateUrl: 'views/animal_adoption.html',
                 controller: 'AdoptionController'
             })
             .when('/ua/animal/found', {
-                templateUrl: 'views/found.html',
+                templateUrl: 'views/animal_found.html',
                 controller: 'AnimalFoundController'
             })
             .when('/ua/animal/lost', {
-                templateUrl: 'views/lost.html',
+                templateUrl: 'views/animal_lost.html',
                 controller: 'AnimalLostController'
             })
             .when('/ua/animal/homeless', {
@@ -152,6 +149,7 @@ animalApp .config(['$routeProvider', '$translateProvider',
             if(PREFERRED_LANGUAGE !== 'en' && PREFERRED_LANGUAGE !== 'uk')
                 return DEFAULT_VALUE;
 
+            console.log(PREFERRED_LANGUAGE);
             return PREFERRED_LANGUAGE;
         });
 

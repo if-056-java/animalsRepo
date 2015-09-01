@@ -9,6 +9,7 @@ public class AnimalType implements Serializable{
 
     private Long id;
     private String type;
+    private String typeEn;
 
     public Long getId() {
         return id;
@@ -26,6 +27,14 @@ public class AnimalType implements Serializable{
         this.type = type;
     }
 
+    public String getTypeEn() {
+        return typeEn;
+    }
+
+    public void setTypeEn(String typeEn) {
+        this.typeEn = typeEn;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -33,15 +42,18 @@ public class AnimalType implements Serializable{
 
         AnimalType that = (AnimalType) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        return !(type != null ? !type.equals(that.type) : that.type != null);
+        if (!id.equals(that.id)) return false;
+        if (!type.equals(that.type)) return false;
+        if (!typeEn.equals(that.typeEn)) return false;
 
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (type != null ? type.hashCode() : 0);
+        int result = id.hashCode();
+        result = 31 * result + type.hashCode();
+        result = 31 * result + typeEn.hashCode();
         return result;
     }
 
@@ -49,7 +61,8 @@ public class AnimalType implements Serializable{
     public String toString() {
         return "AnimalType{" +
                 "id=" + id +
-                ", type='" + type + "'" +
+                ", type='" + type + '\'' +
+                ", typeEn='" + typeEn + '\'' +
                 '}';
     }
 }

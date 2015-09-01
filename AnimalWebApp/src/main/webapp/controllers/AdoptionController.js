@@ -77,7 +77,10 @@ adoptionModule
             AdoptionController.$inject = ['$scope', 'AdoptionFactory', 'AnimalAdoptionValues', '$translate'];
 
         }).controller('AdoptionFilterController',
-            function AdoptionFilterController($scope, AdoptionFactory, AnimalAdoptionValues) {
+            function AdoptionFilterController($scope, AdoptionFactory, AnimalAdoptionValues, $window) {
+
+                //locale
+                $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
                 $scope.filter = AnimalAdoptionValues.filter;                  //filter
                 $scope.animalTypes = AnimalAdoptionValues.animalTypes;        //list of animal types
@@ -141,5 +144,5 @@ adoptionModule
                 };
 
         //Dependency injection
-        AdoptionFilterController.$inject = ['$scope', 'AdoptionFactory', 'AnimalAdoptionValues'];
+        AdoptionFilterController.$inject = ['$scope', 'AdoptionFactory', 'AnimalAdoptionValues', '$window'];
     });
