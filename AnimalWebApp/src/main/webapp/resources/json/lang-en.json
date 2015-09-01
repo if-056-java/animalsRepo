@@ -179,6 +179,10 @@
   "USER_LIST_OWN_ANIMALS": "List of own animals",
 
   "MEDICAL_CARD": "Medical card",
-  "DOCTOR": "Лікар"
+  "DOCTOR": "Лікар",
+
+  "ANIMAL_REGISTER": "Animal register",
+  "ANIMAL_DETAILED_INFO": "Detail information about animal"
+
 
 }

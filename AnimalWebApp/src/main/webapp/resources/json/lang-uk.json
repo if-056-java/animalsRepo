@@ -179,6 +179,10 @@
   "USER_LIST_OWN_ANIMALS": "Список власних тварин",
 
   "MEDICAL_CARD": "Мед. карта",
-  "DOCTOR": "Лікар"
+  "DOCTOR": "Лікар",
+
+  "ANIMAL_REGISTER": "Реєстр тварин",
+  "ANIMAL_DETAILED_INFO": "Детальна інформація про тварину"
+
 
 }
