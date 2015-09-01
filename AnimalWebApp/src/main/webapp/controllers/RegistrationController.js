@@ -7,7 +7,7 @@ animalApp.controller('RegistrationController', ['$scope', 'currentDate', 'userDa
 		$scope.submitRegForm=function(){
 			
 			        		
-			$scope.fields.active = true; 
+			$scope.fields.active = false; 
 			$scope.fields.userRole = {"id": 3}; //userRole=гість
 			$scope.fields.userType = {"id": 1};	//userType=власник		
 			

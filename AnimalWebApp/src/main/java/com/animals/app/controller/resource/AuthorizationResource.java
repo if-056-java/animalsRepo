@@ -17,10 +17,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Base64;
-import org.scribe.model.Token;
 
 import com.animals.app.domain.User;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
+import com.animals.app.service.MailSender;
 
 /**
  * Created by 41X on 8/16/2015.
@@ -40,8 +40,8 @@ public class AuthorizationResource {
 	@POST
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("login/{rememberMe}")//http:localhost:8080/webapi/account/login
-	public Response createSession (@Context HttpServletRequest req, 
-									@PathParam ("rememberMe") String rememberMe) {
+	public Response loginToSite (@Context HttpServletRequest req, 
+								 @PathParam ("rememberMe") String rememberMe) {
 				
 		//reading header from request
 		String header = req.getHeader("Authorization");
@@ -74,7 +74,13 @@ public class AuthorizationResource {
                         
         if (user == null) return NOT_FOUND;
                      	
-        // User exist. setting session params(username, userrole, userId etc.) from User		
+        // User exist. setting session params(username, userrole, userId etc.) from User
+        
+        if (!user.isActive()){
+        	
+        	String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + "now confirmation should be done" + "\"}"; 
+        	return Response.status(Response.Status.OK).entity(regWithoutConfirm).build();
+        }
 		
         //creating session
         HttpSession session = req.getSession(true);
@@ -125,7 +131,9 @@ public class AuthorizationResource {
 		
 		if (user==null) return BAD_REQUEST;
 		
-		String socialLogin = user.getSocialLogin();
+		System.out.println("user acive - " + user.isActive());
+
+		String socialLogin = user.getSocialLogin();		
 		
 		System.out.println(socialLogin);
 		
@@ -133,7 +141,7 @@ public class AuthorizationResource {
 		String socialLogin2="logintoChange";
 		try {
 			 socialLogin2 = userRep.checkIfUsernameUnique(socialLogin);
-			 System.out.println("socialLogin2"+socialLogin2);
+			 System.out.println("socialLogin2 - "+socialLogin2);
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
@@ -144,24 +152,81 @@ public class AuthorizationResource {
 			
 			return Response.status(Response.Status.OK).entity(socialLoginIsAlreadyInUse).build();
 		}				
-		
-		
+				
 		try {
 			userRep.insert(user);			
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
 		
+		//sending mail
+		String recipientEmail = user.getEmail();
+		System.out.println("email - " + recipientEmail);
+		
+		String username = user.getSocialLogin();
+		String code = user.getPassword();		
+		
+		String message = "Folow link http://localhost:8080/#/ua/user/confirmRegistration?username="+username+"&code="+ code;
+		System.out.println("message - " + message);
+		
+		try {
+			System.out.println("sending mail");			
+			MailSender ms = new MailSender();
+			ms.newsSend(recipientEmail, message);
+			System.out.println("mail send. Check!");
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}
+				
+        
+		String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + "now confirmation should be done" + "\"}"; 
+		System.out.println(regWithoutConfirm);
+        
+	    return Response.status(Response.Status.OK).entity(regWithoutConfirm).build();	 
+		
+	}
+	
+	@POST
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Path("confirmRegistration/{socialLogin}/{code}")//http:localhost:8080/webapi/account/confirmRegistration/socialLogin/code
+	public Response loginToSite (@Context HttpServletRequest req,
+								 @PathParam ("socialLogin") String socialLogin,
+								 @PathParam ("code") String code) {
+		
+		System.out.println("socialLogin - " + socialLogin);
+		System.out.println("code - "+code);	
+		
+		
+		//checking if user exist. If not - return username or password is not correct        
+        User user;
+		try {
+			user = userRep.checkIfUserExistInDB(socialLogin, code);					
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}
+		
+                        
+        if (user == null) return NOT_FOUND;
+        
+        //update user active
+        user.setActive(true);      
+        
+        try {        	
+	        userRep.update(user);        	
+        } catch (Exception e) {
+			return SERVER_ERROR;
+		}
+                		
 		//creating session
         HttpSession session = req.getSession(true);
 		
         String sessionSuccessReg = setUpSuccessSession(user, session, "Successful Registration"); 
         session.setAttribute("user", user);
         
-        System.out.println(sessionSuccessReg);
-
+		//response with UserRole = null, UserType = null, UserSocialLogin=null
 	    return Response.status(Response.Status.OK).entity(sessionSuccessReg).build();	 
 		
+	
 	}
 	
 	
