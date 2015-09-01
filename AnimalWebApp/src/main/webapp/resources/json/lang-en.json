@@ -108,6 +108,7 @@
   "CONTACTS_OK_MESSAGE": "Letter sent! Thank you for your feedback!",
   "CONTACTS_ERROR_MESSAGE": "Letter not sent. Server error. Please, try again later",
   "SEND": "Send",
+  "ADD": "Add",
   "EDIT": "Edit",
   "SAVE": "Save",
 
