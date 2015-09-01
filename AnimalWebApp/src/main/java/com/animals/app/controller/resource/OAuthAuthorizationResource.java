@@ -46,8 +46,6 @@ import com.animals.app.repository.Impl.UserRepositoryImpl;
 public class OAuthAuthorizationResource {
 	
 
-	
-
 	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	
 	private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();	
 	private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -67,11 +65,10 @@ public class OAuthAuthorizationResource {
 	@Path("login/google")		//http:localhost:8080/webapi/account/login/google
 	public Response googleLogin(@Context HttpServletRequest req) {
 		
+		//Define URLs and callback
 		String pathAll = req.getRequestURL().toString(); 
-		String pathMain =pathAll.replace("webapi/account/login/google", "");
-		System.out.println("pathMain - " + pathMain);
-		String callbackUrlG = pathMain + callbackUrlGPath;
-		System.out.println(callbackUrlG);
+		String pathMain =pathAll.replace("webapi/account/login/google", "");		
+		String callbackUrlG = pathMain + callbackUrlGPath;		
 		
 
 		OAuthService service = null;
@@ -108,14 +105,12 @@ public class OAuthAuthorizationResource {
 										@QueryParam("error") String error,			
 										@Context HttpServletRequest req) {
 		
-		
+		//Define URLs and callback
 		String pathAll = req.getRequestURL().toString(); 
-		String pathMain =pathAll.replace("webapi/account/login/google_token", "");
-		System.out.println("pathMain - " + pathMain);
-		String successURL = pathMain + "#/ua/user/profile";
-		System.out.println(successURL);
+		String pathMain =pathAll.replace("webapi/account/login/google_token", "");	
+		String successURL = pathMain + "#/ua/user/profile";		
 		String callbackUrlG = pathMain + callbackUrlGPath;
-		System.out.println(callbackUrlG);
+		
 		
 		if(error!=null){
 			String entryUrl= pathMain + "/#/ua/user/login";				
@@ -339,14 +334,11 @@ public class OAuthAuthorizationResource {
 	public Response directGoogleLoginWithOldAccessToken(@Context HttpServletRequest req, 														
 														@QueryParam("code") String refreshGoogleToken) {
 		
-		
+		//Define URLs and callback
 		String pathAll = req.getRequestURL().toString(); 
-		String pathMain =pathAll.replace("webapi/account/login/google_login_direct", "");
-		System.out.println("pathMain - " + pathMain);
-		String successURL = pathMain + "#/ua/user/profile";
-		System.out.println(successURL);
-		String callbackUrlG = pathMain + callbackUrlGPath;
-		System.out.println(callbackUrlG);
+		String pathMain =pathAll.replace("webapi/account/login/google_login_direct", "");		
+		String successURL = pathMain + "#/ua/user/profile";		
+		String callbackUrlG = pathMain + callbackUrlGPath;		
 		
 
 		System.out.println("Google refresh token - "+ refreshGoogleToken);		
