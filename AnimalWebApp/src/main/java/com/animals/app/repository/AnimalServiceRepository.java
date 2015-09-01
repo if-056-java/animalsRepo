@@ -36,5 +36,5 @@ public interface AnimalServiceRepository {
             @Result(property="id", column="id"),
             @Result(property="service", column="service")
     })
-    AnimalService getById(int id);
+    AnimalService getById(long id);
 }

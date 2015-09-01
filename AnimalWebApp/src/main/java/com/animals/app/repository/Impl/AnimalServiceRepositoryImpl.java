@@ -39,7 +39,7 @@ public class AnimalServiceRepositoryImpl implements AnimalServiceRepository {
      * @param id primary key value used for lookup.
      * @return An Animal service instance with a primary key value equals to pk. null if there is no matching row.
      */
-    public AnimalService getById(int id){
+    public AnimalService getById(long id){
 
         SqlSession session = sqlSessionFactory.openSession();
 
