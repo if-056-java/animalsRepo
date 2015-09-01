@@ -20,6 +20,8 @@ public interface AnimalBreedRepository {
 
     final String INSERT_UA = "INSERT INTO animalbreeds (breedUa, animalTypeId) VALUES (#{breedUa}, #{type.id})";
 
+    final String DELETE_BY_ID = "DELETE FROM animalbreeds WHERE id = #{id}";
+
     /**
      * Returns an AnimalBreed instance from the database.
      * @param id primary key value used for lookup.
@@ -66,4 +68,11 @@ public interface AnimalBreedRepository {
     @Insert(INSERT_UA)
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert_ua(AnimalBreed animalBreed);
+
+    /**
+     * Delete an instance of AnimalBreed from the database.
+     * @param id primary key value of the instance to be deleted.
+     */
+    @Delete(DELETE_BY_ID)
+    void deleteById(long id);
 }

@@ -85,4 +85,23 @@ public class AnimalBreedRepositoryImpl implements AnimalBreedRepository {
         }
 
     }
+
+    /**
+     * Delete an instance of AnimalBreed from the database.
+     * @param id primary key value of the instance to be deleted.
+     */
+    public void deleteById(long id) {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalBreedRepository mapper = session.getMapper(AnimalBreedRepository.class);
+            mapper.deleteById(id);
+
+            session.commit();
+        } finally {
+            session.close();
+        }
+
+    }
 }

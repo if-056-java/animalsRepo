@@ -52,6 +52,22 @@ public class AnimalMedicalHistoryRepositoryImpl implements AnimalMedicalHistoryR
     }
 
     /**
+     * Returns an Animal medical history instance from the database.
+     * @param id primary key value used for lookup.
+     * @return An Animal medical history instance with a primary key value equals to pk. null if there is no matching row.
+     */
+    public AnimalMedicalHistory getById(long id) {
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            AnimalMedicalHistoryRepository mapper = session.getMapper(AnimalMedicalHistoryRepository.class);
+            return mapper.getById(id);
+        } finally {
+            session.close();
+        }
+    }
+
+    /**
      * Delete an instance of Animal medical history from the database.
      * @param id primary key value of the instance to be deleted.
      */

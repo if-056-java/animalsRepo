@@ -5,6 +5,7 @@ import com.animals.app.domain.AnimalType;
 import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.repository.Impl.*;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.*;
@@ -54,9 +55,31 @@ public class TestAnimalRepositoryImpl {
         animalRepositoryImpl = null;
     }
 
-    @Test
-    public void test01Insert() {
+    @Test(expected = PersistenceException.class)
+     public void test01Insert() {
+        Animal test = new Animal();
+
+        assertNull(test.getId());
+
+        animalRepositoryImpl.insert(test);
+    }
+
+    @Test(expected = PersistenceException.class)
+    public void test02Insert() {
+        assertNotNull(actual);
         assertNull(actual.getId());
+
+        actual.setTranspNumber(RandomStringUtils.random(20, true, true)); //max length of transpNumber is 15
+
+        animalRepositoryImpl.insert(actual);
+    }
+
+    @Test
+    public void test03Insert() {
+        assertNotNull(actual);
+        assertNull(actual.getId());
+
+        actual.setTranspNumber(RandomStringUtils.random(10, true, true));
 
         animalRepositoryImpl.insert(actual);
 
@@ -64,7 +87,7 @@ public class TestAnimalRepositoryImpl {
     }
 
     @Test
-    public void test02GetAdminAnimals() {
+    public void test04GetAdminAnimals() {
         List<Animal> expected = animalRepositoryImpl.getAdminAnimals(new AnimalsFilter(1,10));
 
         assertNotNull(expected);
@@ -72,7 +95,7 @@ public class TestAnimalRepositoryImpl {
 
 
     @Test
-    public void test03GetAdminAnimalsPaginator() {
+    public void test05GetAdminAnimalsPaginator() {
         AnimalsFilter animalsFilter = new AnimalsFilter(1, 10);
         Animal animal = new Animal();
         animal.setSex(Animal.SexType.FEMALE);
@@ -80,29 +103,40 @@ public class TestAnimalRepositoryImpl {
         animalsFilter.setAnimal(animal);
         long count = animalRepositoryImpl.getAdminAnimalsPaginator(animalsFilter);
 
-        assertNotEquals(0, count);
+        assertNotEquals(count, 0);
     }
 
     @Test
-    public void test04GetAllForAdopting() {
-        List<Animal> expected = animalRepositoryImpl.getAllForAdopting(new AnimalsFilter(1,10));
+    public void test06GetAllForAdopting() {
+        List<Animal> expected = animalRepositoryImpl.getAllForAdopting(new AnimalsFilter(1, 10));
 
         assertNotNull(expected);
     }
 
     @Test
-    public void test05GetById() {
-        actual = animalRepositoryImpl.getById(actual.getId());
+    public void test07GetById() {
+        assertNotNull(actual.getId());
 
-        assertNotNull(actual);
-    }
-
-    @Test
-    public void test06Update() {
         Animal expected = animalRepositoryImpl.getById(actual.getId());
 
         assertNotNull(expected);
-        //assertEquals(expected, actual);
+    }
+
+    @Test
+    public void test08GetById() {
+        Animal expected = animalRepositoryImpl.getById(-1);
+
+        assertNull(expected);
+    }
+
+    @Test
+    public void test09Update() {
+        actual = animalRepositoryImpl.getById(actual.getId());
+        Animal expected = animalRepositoryImpl.getById(actual.getId());
+
+        assertNotNull(actual);
+        assertNotNull(expected);
+        assertEquals(expected, actual);
 
         expected.setTranspNumber(RandomStringUtils.random(10, true, true));
         expected.setTokenNumber(RandomStringUtils.random(10, true, true));
@@ -118,8 +152,21 @@ public class TestAnimalRepositoryImpl {
         assertNotEquals(expected, actual);
     }
 
+    @Test(expected = PersistenceException.class)
+    public void test10Update() {
+        assertNotNull(actual);
+        assertNotNull(actual.getId());
+
+        actual.setTranspNumber(RandomStringUtils.random(20, true, true));//max length of transpNumber is 15
+
+        animalRepositoryImpl.update(actual);
+    }
+
     @Test
-    public void test07Delete() {
+    public void test11Delete() {
+        assertNotNull(actual);
+        assertNotNull(actual.getId());
+
         animalRepositoryImpl.delete(actual.getId());
 
         Animal expected = animalRepositoryImpl.getById(actual.getId());
