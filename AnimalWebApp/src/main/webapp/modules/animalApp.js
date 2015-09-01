@@ -21,6 +21,7 @@ var animalApp = angular.module('animalApp', [
     'UserProfileController',
     'MainController',
     'AnimalShortInfoController',
+    'UserConfirmRegistrationController',
     'LocalStorageModule',
     'pascalprecht.translate',
     'ngCookies'
@@ -96,6 +97,10 @@ animalApp .config(['$routeProvider', '$translateProvider',
             .when('/ua/user/registration', {
                 templateUrl: 'views/registration.html',
                 controller: 'RegistrationController'
+            })
+            .when('/ua/user/confirmRegistration', {
+                templateUrl: 'views/confirmRegistration.html',
+                controller: 'UserConfirmRegistrationController'
             })
             .when('/ua/user/profile', {
                 templateUrl: 'views/user_profile.html',
