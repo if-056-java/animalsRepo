@@ -62,32 +62,46 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			
 			$http.post("/webapi/account/registration", user)
 	        .success(function(data){
-	        	if(data.userId==1){
+	        	if(data.userId==0){
 	        		$rootScope.errorRegistrationMessage="Помилка реєстрації. Даний логін вже використовується!";
 	        		console.log("Registration error. SocialLogin is already exist");
-	        	} else {
-	        		
-//	        		if (localStorageService.get("memoryMe")=="ON"){
-//		        		localStorageService.cookie.set("accessToken",data.accessToken,30);	        		
-//		        	} else {
-//		        		localStorageService.cookie.set("accessToken",data.accessToken,0.065);
-//		        	}
-//		        	
-//		        	localStorageService.set("accessToken", data.accessToken);
-//		        	localStorageService.set("userId", data.userId);
-//		        	localStorageService.set("userName", data.socialLogin);
-//		        	localStorageService.set("userRole", data.userRole);
-//		        	localStorageService.set("userRoleId", data.userRoleId);
-		        	
+	        	} else if (data.userId==1) {	        		
 			        $location.path("/ua/user/confirmRegistration");	
 			        $route.reload();
-	        	}		        
+	        	} else {
+	        		console.log("error");
+	        	}
+	        	
 	        }) 
 			.error(function(data){				
 				console.log("registration error");
 				$rootScope.errorRegistrationMessage="Помилка реєстрації! Спробуйте ще раз";
 			});
 		},
+		
+		confirmRegistration:function(userLogin,code){
+			
+			$http.post("/webapi/account/confirmRegistration/" + userLogin + "/" + code)
+	        .success(function(data){
+	        		        	
+	        	localStorageService.cookie.set("accessToken",data.accessToken,0.065);  	
+	        	
+	        	localStorageService.set("accessToken", data.accessToken);
+	        	localStorageService.set("userId", data.userId);
+	        	localStorageService.set("userName", data.socialLogin);
+	        	localStorageService.set("userRole", data.userRole);
+	        	localStorageService.set("userRoleId", data.userRoleId);
+	        	
+		        $location.path("/ua/user/profile");	
+		        $route.reload();
+	        })
+	        .error(function(data){				
+				console.log("registration error");
+				$rootScope.errorRegistrationMessage="Помилка реєстрації! Спробуйте ще раз";
+			});
+		
+		},
+			
 		
 		refreshSession:function(){
 									
