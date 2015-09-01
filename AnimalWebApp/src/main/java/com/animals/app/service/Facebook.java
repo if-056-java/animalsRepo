@@ -58,11 +58,11 @@ public class Facebook implements Serializable {
                     '}';
         }
 
-        public boolean sendFacebook(String accessToken, String wallId){
+        public boolean sendFacebook(String accessToken, String wallId, String message){
             FacebookClient facebookClient;
             facebookClient = new DefaultFacebookClient(accessToken, Version.VERSION_2_4);
             FacebookType publishMessageResponse =
-                    facebookClient.publish(wallId + "/feed", FacebookType.class, Parameter.with("message", "Проба "));
+                    facebookClient.publish(wallId + "/feed", FacebookType.class, Parameter.with("message", message));
 
             System.out.println("Published message ID: " + publishMessageResponse.getId());
 

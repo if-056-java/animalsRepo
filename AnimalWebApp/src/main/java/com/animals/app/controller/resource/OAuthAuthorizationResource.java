@@ -45,10 +45,10 @@ import com.animals.app.repository.Impl.UserRepositoryImpl;
 @PermitAll
 public class OAuthAuthorizationResource {
 	
-	private static final String callbackUrlG = "http://localhost:8080/webapi/account/login/google_token";
-	//private String url = "http://env-4521389.unicloud.pl/#/ua/user/profile";  
-	private String url = "http://localhost:8080/#/ua/user/profile";  
-	//private static final String callbackUrlG = "http://env-4521389.unicloud.pl/webapi/account/login/google_token";
+//	private static final String callbackUrlG = "http://localhost:8080/webapi/account/login/google_token";
+//	private String url = "http://localhost:8080/#/ua/user/profile";  
+	private static final String callbackUrlG = "http://env-4521389.unicloud.pl/webapi/account/login/google_token";
+	private String url = "http://env-4521389.unicloud.pl/#/ua/user/profile";  
 	
 
 	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	
@@ -179,20 +179,19 @@ public class OAuthAuthorizationResource {
 			//ERROR - when login - two accounts with the same GoogleID
 			User existUserWithGoogleId=null;
 			try {				
-				existUserWithGoogleId = userRep.getByGoogleId(googleId);				
+				
+				existUserWithGoogleId = userRep.getByGoogleId(googleId);	
+				
 			} catch (Exception e) {				
 				return SERVER_ERROR;
 			}
 			
 			
 			if (existUserWithGoogleId != null) {
-				//TEMPORARY Returning back without joining accounts. should provide some message - 
-				// - user with this GoogleId can't be initialized. 
-				//maybe we should provide some additionall atribute to our session - seesion.message
-				//with some Error content to show on site.
-				session.setAttribute("errorMesage", "this GoogleID is already in use by another User");
-				
-				return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();
+				//add params to redirect URL to inform frontend that account is already in use
+				//by another user				
+				String errorUrl=url + "?join=error";				
+				return Response.temporaryRedirect(UriBuilder.fromUri(errorUrl).build()).build();
 			}	
 					
 			
@@ -257,9 +256,17 @@ public class OAuthAuthorizationResource {
 		//creating User to register		
 		User userToReg = new User();
 		
-		userToReg.setName(name);
+		String userLogin;
+		if (name!=null && !name.isEmpty()) {
+			userLogin = name;
+		} else {
+			userLogin = "unknown";
+		}
+		
+		userToReg.setName(userLogin);
+		userToReg.setSocialLogin(userLogin);
+		
 		userToReg.setSurname("N/A");
-		userToReg.setSocialLogin(name);
 		userToReg.setEmail(email);
 		userToReg.setActive(true);
 		userToReg.setAddress("N/A");
@@ -271,7 +278,8 @@ public class OAuthAuthorizationResource {
 		userToReg.setGoogleId(googleId);
 		
 		UserRole userRole = new UserRole();
-		userRole.setId(3);										//id=3 for guest	
+		userRole.setRole("гість");	
+		userRole.setId(3);
 		List<UserRole> list = new ArrayList<UserRole>();
 		list.add(userRole);		
 		userToReg.setUserRole(list);		
@@ -284,9 +292,12 @@ public class OAuthAuthorizationResource {
 		System.out.println(currentDate);				
 		userToReg.setRegistrationDate(currentDate);		
 		
+		
 		//inserting user to DB
 		try {
+			
 			userRep.insert(userToReg);
+						
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
@@ -294,6 +305,8 @@ public class OAuthAuthorizationResource {
 		//creating session		
 		setUpSuccessSession(userToReg, session, "successful Registration with GoogleId");
 		session.setAttribute("refreshGoogleToken", refreshGoogleToken);
+		//session.setAttribute("user", userToReg);
+			
 		
 		//Entering to site with Session		
 		return Response.temporaryRedirect(UriBuilder.fromUri(url).build()).build();

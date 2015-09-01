@@ -19,8 +19,8 @@ var animalApp = angular.module('animalApp', [
     'AnimalMedicalHistoryDetailedController',
     'RegistrationController',
     'UserProfileController',
-    'AnimalShortInfoController',
     'MainController',
+    'AnimalShortInfoController',
     'LocalStorageModule',
     'pascalprecht.translate',
     'ngCookies'
@@ -117,9 +117,10 @@ animalApp .config(['$routeProvider', '$translateProvider',
                 redirectTo: '/ua'
             });
 
-
+        //secure lang
         $translateProvider.useSanitizeValueStrategy('escapeParameters');
 
+        //load json files with lang
         $translateProvider.useStaticFilesLoader({
             prefix: 'resources/json/lang-',
             suffix: '.json'
@@ -147,8 +148,10 @@ animalApp .config(['$routeProvider', '$translateProvider',
             return PREFERRED_LANGUAGE;
         });
 
+        //work in async
         $translateProvider.forceAsyncReload(true);
 
+        //save lang in storage
         $translateProvider.useLocalStorage();
     }]);
 

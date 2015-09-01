@@ -1,37 +1,40 @@
 //created by 41X
 var animalAppControllers = angular.module('MainController', []);
 
-animalApp.controller('MainController', function($scope, $rootScope, localStorageService, userAccount) {
+animalApp.controller('MainController', ['$scope', '$rootScope', 'localStorageService', 'userAccount',
+    function($scope, $rootScope, localStorageService, userAccount) {
 
-    if (!localStorageService.cookie.get("accessToken")) {
-		localStorageService.clearAll();
-	} else {
-		if (localStorageService.get("memoryMe")=="ON")
-				localStorageService.cookie.set("accessToken", localStorageService.get("accessToken"), 30);
-		if (localStorageService.get("memoryMe")=="OFF")
-	    		localStorageService.cookie.set("accessToken", localStorageService.get("accessToken"), 0.065);		
-	}
-	
-	
-	$scope.logout = function() {       
-        userAccount.logout();
-    };
-    
-    $scope.session = function(value) {
-        
-        if (!localStorageService.get("userName")){
-        	return false;
+        if (!localStorageService.cookie.get("accessToken")) {
+            localStorageService.clearAll();
         } else {
-			$scope.userRole = localStorageService.get("userRole");
-        	$rootScope.userName=localStorageService.get("userName");
-        	return true;
-        } 
-        
-    };
+            if (localStorageService.get("memoryMe")=="ON")
+                localStorageService.cookie.set("accessToken", localStorageService.get("accessToken"), 30);
+            if (localStorageService.get("memoryMe")=="OFF")
+                localStorageService.cookie.set("accessToken", localStorageService.get("accessToken"), 0.065);
+        }
 
-    //initialize loading spinner
-    var targetContent = document.getElementById('loading-block');
-    new Spinner(opts).spin(targetContent);
+
+        $scope.logout = function() {
+            userAccount.logout();
+        };
+
+        $scope.session = function(value) {
+
+            if (!localStorageService.get("userName")){
+                return false;
+            } else {
+                $scope.userRole = localStorageService.get("userRole");
+                $rootScope.userName=localStorageService.get("userName");
+                return true;
+            }
+
+        };
+
+    }]);
+
+//initialize loading spinner
+    //var targetContent = document.getElementById('loading-block');
+    //new Spinner(opts).spin(targetContent);
 
 /*
     $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
@@ -49,4 +52,3 @@ animalApp.controller('MainController', function($scope, $rootScope, localStorage
         }
     });
 */
-});
