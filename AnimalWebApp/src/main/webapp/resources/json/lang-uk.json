@@ -179,10 +179,13 @@
   "USER_LIST_OWN_ANIMALS": "Список власних тварин",
 
   "MEDICAL_CARD": "Мед. карта",
+  "MEDICAL_CARD_DETAILED": "Медична карта, детальна інформація",
+  "MEDICAL_CARD_ADD_RECORD": "Додати запис в медичну карту",
   "DOCTOR": "Лікар",
 
   "ANIMAL_REGISTER": "Реєстр тварин",
-  "ANIMAL_DETAILED_INFO": "Детальна інформація про тварину"
+  "ANIMAL_DETAILED_INFO": "Детальна інформація про тварину",
+  "ANIMAL_DETAILED_EDIT": "Редагування детальної інформації про тварину"
 
 
 }

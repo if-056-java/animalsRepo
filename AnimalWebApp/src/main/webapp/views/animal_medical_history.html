@@ -9,7 +9,7 @@
                         </p>
                     </div>
                     <div class="col-xs-6 col-sm-11 col-md-11 col-lg-11">
-                        <h2>Медична карта</h2>
+                        <h2>{{ 'MEDICAL_CARD' | translate }}</h2>
                     </div>
                 </div>
             </div>
@@ -25,17 +25,19 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success">
                 <div class="row">
 
-                    <!-- Animal type -->
-                    <div class="row">
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'TYPE' | translate }}:</div>
-                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.type.type }}</div>
-
                     <!-- Animal photo -->
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
                         <img class="img-responsive img-thumbnail center-block" src="{{ animalImage }}">
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
+
+                    <!-- Animal type -->
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'TYPE' | translate }}:</div>
+                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.type.type }}</div>
+                    </div>
+                        <hr>
 
                     <!-- Animal breed -->
                     <div class="row">
@@ -77,12 +79,12 @@
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'REGISTRATION_DATE' | translate }}:</div>
                         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.dateOfRegister }}</div>
                     </div>
+
                     </div>
                 </div>
             </div>
         </div>
 
-<<<<<<< HEAD
     <div class="row" ng-show="!contentLoading">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success table-responsive" ng-show="totalItems">
             <table class="table table-hover">
