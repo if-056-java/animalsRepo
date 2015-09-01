@@ -32,7 +32,7 @@
                         ng-change="getAnimalBreeds()" style="cursor: pointer" title="{{ 'NOT_SELECTED' | translate }}">
                         <li nya-bs-option="animalType in animalTypes.values">
                             <a ng-if="currentLanguage === 'uk'">{{ animalType.type }}</a>
-                            <!--<a ng-if="currentLanguage !== 'uk'">{{ animalType.typeEn }}</a>-->
+                            <a ng-if="currentLanguage !== 'uk'">{{ animalType.typeEn }}</a>
                         </li>
                     </ol>
                 </div>

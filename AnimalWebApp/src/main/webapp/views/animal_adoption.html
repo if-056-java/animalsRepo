@@ -32,7 +32,7 @@
                         ng-change="getAnimalBreeds()" style="cursor: pointer" title="{{ 'NOT_SELECTED' | translate }}">
                         <li nya-bs-option="animalType in animalTypes.values">
                             <a ng-if="currentLanguage === 'uk'">{{ animalType.type }}</a>
-                            <!--<a ng-if="currentLanguage !== 'uk'">{{ animalType.typeEn }}</a>-->
+                            <a ng-if="currentLanguage !== 'uk'">{{ animalType.typeEn }}</a>
                         </li>
                     </ol>
                 </div>
@@ -135,7 +135,12 @@
                         </p>
 
                             <p class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.type}}</p>
-                            <p class="blocktext2 center-block">{{ 'BREED' | translate }}: {{animal.breed.breedUa}}</p>
+                            <p class="blocktext2 center-block">{{ 'BREED' | translate }}: {{animal.breed.breedUa}}
+<!--
+                                <span ng-if="currentLanguage === 'uk'">{{animal.breed.breedUa}}</span>
+                                <span ng-if="currentLanguage !== 'uk'">{{animal.breed.breedUa}}</span>
+-->
+                            </p>
                             <p class="blocktext2 center-block">{{ 'REGISTRATION_DATE' | translate }}: {{animal.dateOfRegister}}</p>
                             <p class="blocktext2 center-block" style="text-aling: center;">
                                 <a class="btn btn-default" role="button" href="#ua/animal/detail">{{ 'LEARN_MORE' | translate }} »</a>
