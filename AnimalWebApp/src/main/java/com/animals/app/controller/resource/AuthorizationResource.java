@@ -74,7 +74,13 @@ public class AuthorizationResource {
                         
         if (user == null) return NOT_FOUND;
                      	
-        // User exist. setting session params(username, userrole, userId etc.) from User		
+        // User exist. setting session params(username, userrole, userId etc.) from User
+        
+        if (!user.isActive()){
+        	
+        	String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + "now confirmation should be done" + "\"}"; 
+        	return Response.status(Response.Status.OK).entity(regWithoutConfirm).build();
+        }
 		
         //creating session
         HttpSession session = req.getSession(true);
@@ -125,7 +131,9 @@ public class AuthorizationResource {
 		
 		if (user==null) return BAD_REQUEST;
 		
-		String socialLogin = user.getSocialLogin();
+		System.out.println("user acive - " + user.isActive());
+
+		String socialLogin = user.getSocialLogin();		
 		
 		System.out.println(socialLogin);
 		
@@ -166,13 +174,14 @@ public class AuthorizationResource {
 			MailSender ms = new MailSender();
 			ms.newsSend(recipientEmail, message);
 			System.out.println("mail send. Check!");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {			
 			e.printStackTrace();
-		}		
+		}
+				
         
-		String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + "now confirmation should be done" + "\"}";   
-        //response with UserRole = null, UserType = null, UserSocialLogin=null
+		String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + "now confirmation should be done" + "\"}"; 
+		System.out.println(regWithoutConfirm);
+        
 	    return Response.status(Response.Status.OK).entity(regWithoutConfirm).build();	 
 		
 	}
@@ -196,10 +205,18 @@ public class AuthorizationResource {
 			return SERVER_ERROR;
 		}
 		
-		System.out.println(user);
                         
         if (user == null) return NOT_FOUND;
-        		
+        
+        //update user active
+        user.setActive(true);      
+        
+        try {        	
+	        userRep.update(user);        	
+        } catch (Exception e) {
+			return SERVER_ERROR;
+		}
+                		
 		//creating session
         HttpSession session = req.getSession(true);
 		

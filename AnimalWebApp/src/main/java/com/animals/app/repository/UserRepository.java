@@ -48,9 +48,9 @@ public interface UserRepository {
     final String SELECT_UNIQUE_USERNAME = "SELECT SocialLogin " +		//for registration
             "FROM users WHERE SocialLogin = #{socialLogin}";
     
-    final String SELECT_USER_AUTHENTICATION =  "SELECT Id, Name, Surname, " +
-            " UserTypeId, UserRoleId, Email, SocialLogin, " +
-            " Password, IsActive " +
+    final String SELECT_USER_AUTHENTICATION =  "SELECT Id, Name, Surname, DateOfRegistration, " +
+            " UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
+            " Password, OrganizationName, OrganizationInfo, IsActive, GoogleId, SocialPhoto" +
             " FROM users WHERE (SocialLogin = #{socialLogin} AND Password = #{password})" ;
     
     final String SELECT_BY_GOOGLE_ID = "SELECT Id, Name, Surname, DateOfRegistration, " +
@@ -158,17 +158,23 @@ public interface UserRepository {
     
     @Select(SELECT_USER_AUTHENTICATION)
     @Results(value = {
-    		@Result(property="id", column="id"),
-    		@Result(property="name", column="Name"),
-    		@Result(property="surname", column="Surname"),
-    		@Result(property="userType", column="userTypeId", javaType = UserType.class,
-            one = @One(select = "com.animals.app.repository.UserTypeRepository.getById")), 
-    		@Result(property="userRole", column="userRoleId", javaType = List.class,
+    		@Result(property="id", column="Id"),
+            @Result(property="name", column="Name"),
+            @Result(property="surname", column="Surname"),
+            @Result(property="registrationDate", column="DateOfRegistration"),
+            @Result(property="userType", column="userTypeId", javaType = UserType.class,
+            one = @One(select = "com.animals.app.repository.UserTypeRepository.getById")),
+            @Result(property="userRole", column="userRoleId", javaType = List.class,
             many = @Many(select = "com.animals.app.repository.UserRoleRepository.getById")),
-    		@Result(property="email", column="Email"),
-    		@Result(property="socialLogin", column="SocialLogin"),
-    		@Result(property="password", column="Password"),
-    		@Result(property="isActive", column="IsActive")    		
+            @Result(property="phone", column="Phone"),
+            @Result(property="address", column="address"),
+            @Result(property="email", column="Email"),
+            @Result(property="socialLogin", column="SocialLogin"),
+            @Result(property="organizationName", column="OrganizationName"),
+            @Result(property="organizationInfo", column="OrganizationInfo"),
+            @Result(property="isActive", column="IsActive"),
+            @Result(property="googleId", column="GoogleId"),
+            @Result(property="socialPhoto", column="SocialPhoto")    		
     })
     User checkIfUserExistInDB(@Param("socialLogin") String socialLogin, @Param("password") String password);
     
