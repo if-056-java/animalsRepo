@@ -130,6 +130,7 @@ public class AuthorizationResource {
 	@Produces(MediaType.APPLICATION_JSON)	
 	public Response registerUser (@Context HttpServletRequest req, User user) {	
 		
+			
 		if (user==null) return BAD_REQUEST;
 		
 		System.out.println("user acive - " + user.isActive());
@@ -169,9 +170,15 @@ public class AuthorizationResource {
 		String recipientEmail = user.getEmail();
 		System.out.println("email - " + recipientEmail);
 		
-		String username = user.getSocialLogin();		
+		String username = user.getSocialLogin();
 		
-		String message = "Folow link http://localhost:8080/#/ua/user/confirmRegistration?username="+username+"&code="+ emailVerificator;
+		//Define URLs and callback
+		String pathAll = req.getRequestURL().toString(); 
+		String pathMain =pathAll.replace("webapi/account/registration", "");	
+				
+		
+		String message = "Для підтвердження реєстрації на сайті - "+ pathMain + " пройдіть за вказаною ссилкою - "
+							+ pathMain + "#/ua/user/confirmRegistration?username="+username+"&code="+ emailVerificator;
 		System.out.println("message - " + message);
 		
 		try {
