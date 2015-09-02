@@ -8,20 +8,21 @@
                             <image src="../resources/img/main_dog.jpg" width="70"/>
                         </p>
                     </div>
-                        <div class="col-xs-6 col-sm-11 col-md-11 col-lg-11">
-                            <h2>{{ 'ANIMAL_DETAILED_EDIT' | translate }}</h2>
-                        </div>
+                    <div class="col-xs-6 col-sm-11 col-md-11 col-lg-11">
+                        <h2>{{ 'ANIMAL_DETAILED_EDIT' | translate }}</h2>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="container">
-            <!-- Spinner -->
-            <div class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top: 320px;" ng-show="contentLoading"
-                 id="loading-block">
-            </div>
-            <div ng-show="!contentLoading">
+    <div class="container">
+        <!-- Spinner -->
+        <div class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top: 320px;" ng-show="contentLoading"
+             id="loading-block">
+        </div>
+        <div ng-show="!contentLoading">
+            <form name="animalEditor" ng-submit="submit(animalEditor.$valid)" novalidate>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success">
                         <div class="row">
@@ -50,12 +51,15 @@
                                 <hr>
 
                                 <!-- Animal breed -->
+                                <div class="form-group" ng-class="{ 'has-error' : animalEditor.breed.$invalid }">
                                 <div class="input-group">
                                     <span class="input-group-addon">{{ 'BREED' | translate }}</span>
-                                    <input type="text" ng-model="animal.breed"
+                                    <input type="text" ng-model="animal.breed" name="breed"
                                            typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8"
-                                           class="form-control border-right-radius" ng-disabled="filterAnimalBreedFlag">
+                                           class="form-control border-right-radius" ng-disabled="filterAnimalBreedFlag"
+                                           ng-minlength="3" ng-maxlength="45" required>
                                 </div>
+                                    </div>
 
                                 <hr>
 
@@ -92,11 +96,13 @@
                                 <hr>
 
                                 <!-- Animal color -->
+                                <div class="form-group" ng-class="{ 'has-error' : animalEditor.color.$invalid }">
                                 <div class="input-group">
                                     <span class="input-group-addon">{{ 'COLOR' | translate }}</span>
-                                    <input type="text" class="form-control" aria-describedby="basic-addon1"
-                                           ng-model="animal.color">
+                                    <input type="text" class="form-control" aria-describedby="basic-addon1" name="color"
+                                           ng-model="animal.color" ng-minlength="3" ng-maxlength="20" required>
                                 </div>
+                                    </div>
 
                                 <hr>
 
@@ -127,90 +133,101 @@
 
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
+
+                                <!-- Animal transpounder number -->
+                                <div class="form-group" ng-class="{ 'has-error' : animalEditor.transpNumber.$invalid }">
+                                <div class="input-group">
+                                    <span class="input-group-addon">{{ 'TRANSPONDER' | translate }}</span>
+                                    <input type="text" class="form-control" aria-describedby="basic-addon1"
+                                           name="transpNumber" ng-model="animal.transpNumber"
+                                           ng-minlength="3" ng-maxlength="15" required>
+                                </div>
+                                    </div>
+
+                                <hr>
+
+                                <!-- Animal date of birth -->
+                                <p class="input-group" ng-controller="DPController">
+                                    <span class="input-group-addon">{{ 'BIRTH_DATE' | translate }}</span>
+                                    <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd"
+                                           ng-model="animal.dateOfBirth"
+                                           is-open="opened" datepicker-options="dateOptions"
+                                           current-text="{{ 'TODAY' | translate }}" clear-text="{{ 'CLEAR' | translate }}"
+                                           close-text="{{ 'CLOSE' | translate }}" ng-required="true" close-text="Close"
+                                           ng-click="open($event)"/>
+                                </p>
+                                <hr>
+                                <!-- Animal date of sterilization -->
+                                <p class="input-group" ng-controller="DPController">
+                                    <span class="input-group-addon">{{ 'STERILIZATION_DATE' | translate }}</span>
+                                    <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd"
+                                           ng-model="animal.dateOfSterilization"
+                                           is-open="opened" datepicker-options="dateOptions"
+                                           current-text="{{ 'TODAY' | translate }}" clear-text="{{ 'CLEAR' | translate }}"
+                                           close-text="{{ 'CLOSE' | translate }}" ng-required="true" close-text="Close"
+                                           ng-click="open($event)"/>
+                                </p>
+
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
+
+                                <!-- Animal token number -->
+                                <div class="form-group" ng-class="{ 'has-error' : animalEditor.tokenNumber.$invalid }">
+                                <div class="input-group">
+                                    <span class="input-group-addon">{{ 'TOKEN_NUMBER' | translate }}</span>
+                                    <input type="text" class="form-control" aria-describedby="basic-addon1"
+                                           name="tokenNumber" ng-model="animal.tokenNumber"
+                                           ng-minlength="3" ng-maxlength="12" required>
+                                </div>
+                                    </div>
+
+                                <hr>
+
+                                <!-- Animal date of registration -->
+                                <p class="input-group" ng-controller="DPController">
+                                    <span class="input-group-addon">{{ 'REGISTRATION_DATE' | translate }}</span>
+                                    <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd"
+                                           ng-model="animal.dateOfRegister"
+                                           is-open="opened" datepicker-options="dateOptions"
+                                           current-text="{{ 'TODAY' | translate }}" clear-text="{{ 'CLEAR' | translate }}"
+                                           close-text="{{ 'CLOSE' | translate }}" ng-required="true" close-text="Close"
+                                           ng-click="open($event)"/>
+                                </p>
+
+                                <hr>
+
+                                <!-- Animal address -->
+                                <div class="form-group" ng-class="{ 'has-error' : animalEditor.address.$invalid }">
+                                <div class="input-group">
+                                    <span class="input-group-addon">{{ 'ADDRESS' | translate }}</span>
+                                    <input type="text" class="form-control" aria-describedby="basic-addon1"
+                                           name="address" ng-model="animal.address"
+                                           ng-minlength="3" ng-maxlength="120" required>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
-
-                        <!-- Animal transpounder number -->
-                        <div class="input-group">
-                            <span class="input-group-addon">{{ 'TRANSPONDER' | translate }}</span>
-                            <input type="text" class="form-control" aria-describedby="basic-addon1"
-                                   ng-model="animal.transpNumber">
+                    <div class="col-xs-12 col-sm-7 col-sm-offset-5 col-md-5 col-md-offset-7 col-lg-4 col-lg-offset-8 detailed-buttons">
+                        <button type="submit" ng-disabled="animalEditor.$invalid" id="submit-form"
+                                class="btn btn-warning col-sm-4 col-md-4 col-lg-4" >{{ 'SAVE' | translate }}</button>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <a class="btn btn-info col-xs-12 col-sm-12 col-md-12 col-lg-12" href role="button"
+                               onclick="document.getElementById('upload').click();">{{ 'CHANGE_PHOTO' | translate }}</a>
+                            <input type="file" id="upload" name="photo" ng-model="imageFile" style="visibility: hidden;"
+                                   maxsize="5000" accept="image/*" required base-sixty-four-input/>
                         </div>
-                        <hr>
-
-                        <!-- Animal date of birth -->
-                        <p class="input-group" ng-controller="DPController">
-                            <span class="input-group-addon">{{ 'BIRTH_DATE' | translate }}</span>
-                            <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd"
-                                   ng-model="animal.dateOfBirth"
-                                   is-open="opened" datepicker-options="dateOptions"
-                                   current-text="{{ 'TODAY' | translate }}" clear-text="{{ 'CLEAR' | translate }}"
-                                   close-text="{{ 'CLOSE' | translate }}" ng-required="true" close-text="Close"
-                                   ng-click="open($event)"/>
-                        </p>
-                        <hr>
-                        <!-- Animal date of sterilization -->
-                        <p class="input-group" ng-controller="DPController">
-                            <span class="input-group-addon">{{ 'STERILIZATION_DATE' | translate }}</span>
-                            <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd"
-                                   ng-model="animal.dateOfSterilization"
-                                   is-open="opened" datepicker-options="dateOptions"
-                                   current-text="{{ 'TODAY' | translate }}" clear-text="{{ 'CLEAR' | translate }}"
-                                   close-text="{{ 'CLOSE' | translate }}" ng-required="true" close-text="Close"
-                                   ng-click="open($event)"/>
-                        </p>
-
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
-
-                        <!-- Animal token number -->
-                        <div class="input-group">
-                            <span class="input-group-addon">{{ 'TOKEN_NUMBER' | translate }}</span>
-                            <input type="text" class="form-control" aria-describedby="basic-addon1"
-                                   ng-model="animal.tokenNumber">
-                        </div>
-
-                        <hr>
-
-                        <!-- Animal date of registration -->
-                        <p class="input-group" ng-controller="DPController">
-                            <span class="input-group-addon">{{ 'REGISTRATION_DATE' | translate }}</span>
-                            <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd"
-                                   ng-model="animal.dateOfRegister"
-                                   is-open="opened" datepicker-options="dateOptions"
-                                   current-text="{{ 'TODAY' | translate }}" clear-text="{{ 'CLEAR' | translate }}"
-                                   close-text="{{ 'CLOSE' | translate }}" ng-required="true" close-text="Close"
-                                   ng-click="open($event)"/>
-                        </p>
-
-                        <hr>
-
-                        <!-- Animal address -->
-                        <div class="input-group">
-                            <span class="input-group-addon">{{ 'ADDRESS' | translate }}</span>
-                            <input type="text" class="form-control" aria-describedby="basic-addon1"
-                                   ng-model="animal.address">
+                        <div class="col-sm-4 col-md-4 col-lg-4"><a
+                                class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                href="#/ua/user/home/animals/{{ animal.id }}" role="button">{{ 'BACK' | translate }}</a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-7 col-sm-offset-5 col-md-5 col-md-offset-7 col-lg-4 col-lg-offset-8 detailed-buttons">
-                    <div class="col-sm-4 col-md-4 col-lg-4"><a
-                            class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12" href ng-click="setAnimal()"
-                            role="button">{{ 'SAVE' | translate }}</a></div>
-                    <div class="col-sm-4 col-md-4 col-lg-4">
-                        <a class="btn btn-info col-xs-12 col-sm-12 col-md-12 col-lg-12" href role="button"
-                           onclick="document.getElementById('upload').click();">{{ 'CHANGE_PHOTO' | translate }}</a>
-                        <input type="file" id="upload" name="photo" ng-model="imageFile" style="visibility: hidden;"
-                               maxsize="5000" accept="image/*" required base-sixty-four-input/>
-                    </div>
-                    <div class="col-sm-4 col-md-4 col-lg-4"><a
-                            class="btn btn-warning col-xs-12 col-sm-12 col-md-12 col-lg-12"
-                            href="#/ua/user/home/animals/{{ animal.id }}" role="button">{{ 'BACK' | translate }}</a>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </section>

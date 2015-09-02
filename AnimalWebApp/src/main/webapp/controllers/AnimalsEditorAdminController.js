@@ -72,7 +72,11 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
             /**
              * update animal.
              */
-            $scope.setAnimal = function() {
+            $scope.submit = function(isValid) {
+                if(!isValid){
+                    return;
+                }
+
                 $scope.animal.dateOfBirth = $filter('date')($scope.animal.dateOfBirth, 'yyyy-MM-dd');
                 $scope.animal.dateOfSterilization = $filter('date')($scope.animal.dateOfSterilization, 'yyyy-MM-dd');
                 $scope.animal.dateOfRegister = $filter('date')($scope.animal.dateOfRegister, 'yyyy-MM-dd');
