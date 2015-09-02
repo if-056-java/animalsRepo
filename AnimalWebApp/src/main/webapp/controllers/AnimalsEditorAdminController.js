@@ -44,7 +44,6 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
 
                 $scope.animalTypes = AnimalsAdminValues.animalTypes;        //list of animal types
                 $scope.animalServices = AnimalsAdminValues.animalServices;  //list of animal services
-                console.log(AnimalsAdminValues.animal)
                 $scope.animal = angular.copy(AnimalsAdminValues.animal);     //animal
                 $scope.animalImage = "resources/img/noimg.png";
                 if (AnimalsAdminValues.animal.image != undefined) {
