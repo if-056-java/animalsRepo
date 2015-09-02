@@ -12,9 +12,9 @@ import java.util.List;
 public interface AnimalBreedRepository {
     final String SELECT_BY_ID = "SELECT id, breedUa, breedEn FROM animalbreeds WHERE id=#{id}";
 
-    final String SELECT_ALL = "SELECT id, breedUa, breedRu, breedEn, animalTypeId FROM animalbreeds";
+    final String SELECT_ALL = "SELECT id, breedUa, breedEn, animalTypeId FROM animalbreeds";
 
-    final String SELECT_BY_TYPE_ID = "SELECT id, breedUa " +
+    final String SELECT_BY_TYPE_ID = "SELECT id, breedUa, breedEn " +
             "FROM animalbreeds " +
             "WHERE animalTypeId=#{animalTypeId}";
 

@@ -107,9 +107,12 @@ animalFoundModule
                  */
                 $scope.reset = function() {
                     $scope.filter.animal.type = undefined;
+                    $scope.filter.animal.size = undefined;
                     $scope.filter.animal.breed = undefined;
                     $scope.filter.animal.sex = undefined;
                     $scope.filter.animal.dateOfRegister = undefined;
+                    $scope.filter.animal.dateOfSterilization = undefined;
+                    $scope.filter.animal.image = undefined;
 
                     $scope.doFilter();
                     jQuery('html, body').animate({ scrollTop: 0 }, 500);

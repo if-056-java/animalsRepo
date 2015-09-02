@@ -31,7 +31,6 @@ public class TestAnimalBreedRepositoryImpl {
 
         actual = new AnimalBreed();
         actual.setBreedUa(RandomStringUtils.random(10, true, true));
-        actual.setBreedRu(RandomStringUtils.random(10, true, true));
         actual.setBreedEn(RandomStringUtils.random(10, true, true));
         actual.setType(new AnimalTypeRepositoryImpl().getAll().get(0));
     }

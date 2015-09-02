@@ -16,10 +16,10 @@
         </div>
     </div>
     <div class="container">
-        <div class="row">
+        <div class="row" ng-controller="AnimalLostFilterController">
             <br>
 
-            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3" ng-controller="AnimalLostFilterController">
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
 
                 <div>
                     <h4>{{ 'SEARCH_FILTER' | translate }}</h4>
@@ -42,8 +42,13 @@
                 <label>{{ 'INPUT_BREED' | translate }}:</label>
 
                 <div class="input-group  col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <input type="text" ng-model="filter.animal.breed"
+                    <input ng-if="currentLanguage === 'uk'"
+                           type="text" ng-model="filter.animal.breed"
                            typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8"
+                           class="form-control border-right-radius">
+                    <input ng-if="currentLanguage !== 'uk'"
+                           type="text" ng-model="filter.animal.breed"
+                           typeahead="breed as breed.breedEn for breed in animalBreeds | filter:{breedEn:$viewValue} | limitTo:8"
                            class="form-control border-right-radius">
                 </div>
                 <hr>
@@ -123,8 +128,12 @@
                                  height="200" width="200"/>
                         </p>
 
-                        <p class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.type}}</p>
-                        <p class="blocktext2 center-block">{{ 'BREED' | translate }}: {{animal.breed.breedUa}}</p>
+                        <p ng-if="currentLanguage === 'uk'" class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.type}}</p>
+                        <p ng-if="currentLanguage !== 'uk'" class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.typeEn}}</p>
+
+                        <p ng-if="currentLanguage === 'uk'" class="blocktext2 center-block">{{ 'BREED' | translate }}: {{animal.breed.breedUa}}</p>
+                        <p ng-if="currentLanguage !== 'uk'" class="blocktext2 center-block">{{ 'BREED' | translate }}: {{animal.breed.breedEn}}</p>
+
                         <p class="blocktext2 center-block">{{ 'REGISTRATION_DATE' | translate }}: {{animal.dateOfRegister}}</p>
                         <p class="blocktext2 center-block" style="text-aling: center;">
                             <a class="btn btn-default" role="button" href="#ua/animal/detail">{{ 'LEARN_MORE' | translate }} »</a>

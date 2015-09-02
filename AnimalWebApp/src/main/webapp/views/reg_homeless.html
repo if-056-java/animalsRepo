@@ -162,11 +162,27 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <label for="animal-breed">{{ 'INPUT_BREED' | translate }}:</label>
 
-                                    <div class="form-group" name="breed">
-                                        <input type="text" ng-model="animal.breed" id="animal-breed"
+                                    <div class="form-group" name="breed"
+                                         ng-class="{ 'has-error' : animalForm.breed.$invalid && !animalForm.breed.$pristine }">
+                                        <input ng-if="currentLanguage === 'uk'" type="text" ng-model="animal.breed" id="animal-breed" name="breed"
                                                typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8"
                                                class="form-control border-right-radius"
-                                               placeholder="{{ 'ANIMAL_BREED' | translate }}">
+                                               placeholder="{{ 'ANIMAL_BREED' | translate }}"
+                                               required ng-minlength="2" ng-maxlength="45">
+
+                                        <input ng-if="currentLanguage !== 'uk'" type="text" ng-model="animal.breed" id="animal-breed" name="breed"
+                                               typeahead="breed as breed.breedEn for breed in animalBreeds | filter:{breedEn:$viewValue} | limitTo:8"
+                                               class="form-control border-right-radius"
+                                               placeholder="{{ 'ANIMAL_BREED' | translate }}"
+                                               required ng-minlength="2" ng-maxlength="45">
+
+                                        <p ng-show="animalForm.breed.$error.required && !animalForm.breed.$pristine"
+                                           class="help-block error">{{ 'REG_FIELD_EMPTY' | translate }}.</p>
+                                        <p ng-show="animalForm.breed.$error.minlength && !animalForm.breed.$pristine"
+                                           class="help-block error">{{ 'REG_FIELD_SHORT' | translate }}.</p>
+                                        <p ng-show="animalForm.breed.$error.maxlength && !animalForm.breed.$pristine"
+                                           class="help-block error">{{ 'REG_FIELD_LONG' | translate }}.</p>
+
                                     </div>
                                 </div>
                             </div>
