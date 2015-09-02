@@ -98,7 +98,7 @@ animalApp .config(['$routeProvider', '$translateProvider',
                 controller: 'RegistrationController'
             })
             .when('/ua/user/confirmRegistration', {
-                templateUrl: 'views/confirmRegistration.html',
+                templateUrl: 'views/confirm_registration.html',
                 controller: 'UserConfirmRegistrationController'
             })
             .when('/ua/user/profile', {

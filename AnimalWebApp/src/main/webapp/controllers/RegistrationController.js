@@ -6,16 +6,19 @@ animalApp.controller('RegistrationController', ['$scope', 'currentDate', 'userDa
 	
 		$scope.submitRegForm=function(){
 			
-			        		
+			$scope.errorConfirmMessage=false;        		
 			$scope.fields.active = false; 
 			$scope.fields.userRole = {"id": 3}; //userRole=гість
 			$scope.fields.userType = {"id": 1};	//userType=власник		
 			
 			$scope.fields.registrationDate = currentDate;
 			
-			$scope.fields.password=hashPassword($scope.fields.password); 				        
-	       
-	        userAccount.registerUser($scope.fields);
+			if ($scope.fields.password!=$scope.fields.password_confirm){
+				$scope.errorConfirmMessage=true;				
+			} else {				
+				$scope.fields.password=hashPassword($scope.fields.password); 
+				userAccount.registerUser($scope.fields);
+			}     
 	        
 		}; 
 		
@@ -26,3 +29,4 @@ animalApp.controller('RegistrationController', ['$scope', 'currentDate', 'userDa
 		}
         
 }]);
+

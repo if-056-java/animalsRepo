@@ -2,6 +2,7 @@ package com.animals.app.controller.resource;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
+import java.util.UUID;
 
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
@@ -129,6 +130,7 @@ public class AuthorizationResource {
 	@Produces(MediaType.APPLICATION_JSON)	
 	public Response registerUser (@Context HttpServletRequest req, User user) {	
 		
+			
 		if (user==null) return BAD_REQUEST;
 		
 		System.out.println("user acive - " + user.isActive());
@@ -151,7 +153,12 @@ public class AuthorizationResource {
 			String socialLoginIsAlreadyInUse = setUpDestroyedSession("SocialLogin is already in use by another User"); 
 			
 			return Response.status(Response.Status.OK).entity(socialLoginIsAlreadyInUse).build();
-		}				
+		}
+		
+		String emailVerificator = UUID.randomUUID().toString();
+		System.out.println("verivicator -" + emailVerificator);
+		
+		user.setEmailVerificator(emailVerificator);
 				
 		try {
 			userRep.insert(user);			
@@ -164,9 +171,14 @@ public class AuthorizationResource {
 		System.out.println("email - " + recipientEmail);
 		
 		String username = user.getSocialLogin();
-		String code = user.getPassword();		
 		
-		String message = "Folow link http://localhost:8080/#/ua/user/confirmRegistration?username="+username+"&code="+ code;
+		//Define URLs and callback
+		String pathAll = req.getRequestURL().toString(); 
+		String pathMain =pathAll.replace("webapi/account/registration", "");	
+				
+		
+		String message = "Для підтвердження реєстрації на сайті - "+ pathMain + " пройдіть за вказаною ссилкою - "
+							+ pathMain + "#/ua/user/confirmRegistration?username="+username+"&code="+ emailVerificator;
 		System.out.println("message - " + message);
 		
 		try {
@@ -194,13 +206,13 @@ public class AuthorizationResource {
 								 @PathParam ("code") String code) {
 		
 		System.out.println("socialLogin - " + socialLogin);
-		System.out.println("code - "+code);	
+		System.out.println("verificator - " + code);	
 		
 		
-		//checking if user exist. If not - return username or password is not correct        
+		//user Verification. checking if user with verification code exist.    
         User user;
-		try {
-			user = userRep.checkIfUserExistInDB(socialLogin, code);					
+		try {			
+			user = userRep.userVerification(socialLogin, code);				
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
@@ -221,9 +233,8 @@ public class AuthorizationResource {
         HttpSession session = req.getSession(true);
 		
         String sessionSuccessReg = setUpSuccessSession(user, session, "Successful Registration"); 
-        session.setAttribute("user", user);
-        
-		//response with UserRole = null, UserType = null, UserSocialLogin=null
+        session.setAttribute("user", user);        
+		
 	    return Response.status(Response.Status.OK).entity(sessionSuccessReg).build();	 
 		
 	

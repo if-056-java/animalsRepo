@@ -51,14 +51,16 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 	
 	
 	
-    $scope.submitUpdatedForm=function(){    	
+    $scope.submitUpdatedForm=function(){  
     	
+    	
+    	if ($scope.passwordNew!=$scope.password_new_confirm){
+			$scope.errorConfirmMessage=true;				
+		} else {				
+		   	
     	if($scope.passwordNew){    		
     		$scope.fields.password=hashPassword($scope.passwordNew);     		
     	}     	
-    	
-		//userData.updateUser($scope.fields, $scope.fields.id); 		//old school
-		
 		userData.updateUser($scope.fields, $scope.fields.id).then(
 				function(result){
 					console.log("user updated");				
@@ -66,9 +68,9 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 				function(error){
 					console.log(error)
 				}
-		); 	
-		
+		);		
 		$scope.IsHidden =  true;
+		} 
 	
 	};	  
 	

@@ -125,8 +125,7 @@ public class UserRepositoryImpl {
     public User checkIfUserExistInDB(String socialLogin, String password){
         SqlSession sqlSession =  sqlSessionFactory.openSession();
 
-        try{
-        	System.out.println("inside usRep");
+        try{        	
             UserRepository mapper = sqlSession.getMapper(UserRepository.class);
             return mapper.checkIfUserExistInDB(socialLogin, password);
         } finally {
@@ -181,4 +180,20 @@ public class UserRepositoryImpl {
             sqlSession.close();
         }
     }
+    
+    /** created 41X
+     * Returns a User instance from the database.
+     * @param socialLogin and emailVerificator primary key value used for lookup.
+     * @return A User instance with a primary key value equals to pk. null if there is no matching row.
+     */
+    public User userVerification(String socialLogin, String emailVerificationString){
+        SqlSession sqlSession =  sqlSessionFactory.openSession();
+
+        try{        	
+            UserRepository mapper = sqlSession.getMapper(UserRepository.class);
+            return mapper.userVerification(socialLogin, emailVerificationString);
+        } finally {
+            sqlSession.close();
+        }
+    } 
 }
