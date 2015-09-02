@@ -1,8 +1,23 @@
 /**
  * Created by Rostyslav.Viner on 20.08.2015.
  */
-angular.module('DPController', ['ui.bootstrap'])
-    .controller('DPController', ['$scope', function($scope) {
+angular.module('DPController', ['ui.bootstrap', 'ngLocale', 'DPValues'])
+    .controller('DPController', ['$scope', '$locale', 'DPValues', '$translate', function($scope, $locale, DPValues, $translate) {
+
+        //Translate
+        var setLanguage = function () {
+            var language;
+
+            if ($translate.proposedLanguage() != undefined) {
+                language = $translate.proposedLanguage();
+            } else {
+                language = $translate.use();
+            }
+
+            angular.copy(DPValues.locales[language], $locale);
+        }
+
+        setLanguage();
 
         $scope.clear = function () {
             $scope.dt = null;
