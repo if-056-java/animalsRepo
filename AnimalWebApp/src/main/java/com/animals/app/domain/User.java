@@ -32,6 +32,7 @@ public class User implements Serializable, Principal {
 
     private List<UserRole> userRole;
     private UserType userType;
+    private String emailVerificator;
 
     public User() {
     }
@@ -180,6 +181,14 @@ public class User implements Serializable, Principal {
 
 	public void setSocialPhoto(String socialPhoto) {
 		this.socialPhoto = socialPhoto;
+	}	
+
+	public String getEmailVerificator() {
+		return emailVerificator;
+	}
+
+	public void setEmailVerificator(String emailVerificator) {
+		this.emailVerificator = emailVerificator;
 	}
 
 	@Override

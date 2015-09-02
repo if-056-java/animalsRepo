@@ -103,7 +103,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 	        })
 	        .error(function(data){				
 				console.log("registration error");
-				$rootScope.errorRegistrationMessage="Помилка реєстрації! Спробуйте ще раз";
+				$rootScope.errorRegistrationConfirmMessage="Помилка реєстрації! Спробуйте ще раз";
 			});
 		
 		},
