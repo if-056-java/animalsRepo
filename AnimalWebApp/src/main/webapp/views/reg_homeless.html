@@ -198,7 +198,7 @@
                                         <input type="text" class="form-control" name="color"
                                                id="animal-color" placeholder="{{ 'REG_MANUAL_COLOR' | translate }}"
                                                ng-model="animal.color" value="{{animal.color}}"
-                                               required ng-minlength="5" ng-maxlength="20"/>
+                                               required ng-minlength="3" ng-maxlength="20"/>
 
                                         <p ng-show="animalForm.color.$error.required && !animalForm.color.$pristine"
                                            class="help-block error">{{ 'REG_FIELD_EMPTY' | translate }}.</p>

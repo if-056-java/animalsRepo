@@ -64,7 +64,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon">{{ 'SIZE' | translate }}</span>
                                     <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.size">
-                                        <li class="nya-bs-option" value="не визначено"><a>{{ 'SIZE_NOT_IDENTIFIED' |
+                                        <li class="nya-bs-option" value="не визначено"><a>{{ 'NOT_IDENTIFIED' |
                                             translate }}</a></li>
                                         <li class="nya-bs-option" value="малий"><a>{{ 'SIZE_SMALL' | translate }}</a>
                                         </li>
@@ -81,7 +81,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon">{{ 'SEX' | translate }}</span>
                                     <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.sex">
-                                        <li class="nya-bs-option" value="не визначено"><a>{{ 'SEX_NOT_IDENTIFIED' |
+                                        <li class="nya-bs-option" value="не визначено"><a>{{ 'NOT_IDENTIFIED' |
                                             translate }}</a></li>
                                         <li class="nya-bs-option" value="самець"><a>{{ 'SEX_MALE' | translate }}</a>
                                         </li>
@@ -207,7 +207,7 @@
                             <a class="btn btn-info col-xs-12 col-sm-12 col-md-12 col-lg-12" href role="button"
                                onclick="document.getElementById('upload').click();">{{ 'CHANGE_PHOTO' | translate }}</a>
                             <input type="file" id="upload" name="photo" ng-model="imageFile" style="visibility: hidden;"
-                                   maxsize="5000" accept="image/*" required base-sixty-four-input/>
+                                   maxsize="5000" accept="image/*" base-sixty-four-input/>
                         </div>
                         <div class="col-sm-4 col-md-4 col-lg-4"><a
                                 class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12"
