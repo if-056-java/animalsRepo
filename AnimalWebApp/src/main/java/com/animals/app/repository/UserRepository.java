@@ -14,12 +14,12 @@ public interface UserRepository {
     final String INSERT = "<script> " +
             "INSERT INTO users (Name, Surname, DateOfRegistration, " +
             "UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
-            "Password, OrganizationName, OrganizationInfo, IsActive, GoogleId, SocialPhoto) " +
+            "Password, OrganizationName, OrganizationInfo, IsActive, GoogleId, SocialPhoto, EmailVerificationString) " +
             "VALUES " +
             "<foreach collection='userRole' item='element' index='index' open='(' separator='),(' close=')'> " +
             "#{name}, #{surname}, #{registrationDate}, #{userType.id}, " +
             "#{element.id}, #{phone}, #{address}, #{email}, #{socialLogin}, " +
-            "#{password}, #{organizationName}, #{organizationInfo}, #{isActive}, #{googleId}, #{socialPhoto} " +
+            "#{password}, #{organizationName}, #{organizationInfo}, #{isActive}, #{googleId}, #{socialPhoto}, #{emailVerificator} " +
             "</foreach></script>";
 
     final String UPDATE = "UPDATE users SET Name=#{name}, Surname=#{surname}, " +
@@ -60,6 +60,12 @@ public interface UserRepository {
 
     final String SELECT_BY_ID_MEDICAL_HISTORY = "SELECT Id, Name, Surname" +
             " FROM users WHERE Id = #{id}";
+    
+    final String SELECT_USER_VERIFICATION =  "SELECT Id, Name, Surname, DateOfRegistration, " +
+            " UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
+            " Password, OrganizationName, OrganizationInfo, IsActive, GoogleId, SocialPhoto" +
+            " FROM users WHERE (SocialLogin = #{socialLogin} AND EmailVerificationString = #{emailVerificationString})" ;
+    
 
     /**
      * Insert an instance of User into the database.
@@ -212,4 +218,27 @@ public interface UserRepository {
             @Result(property="surname", column="surname")
     })
     User getByIdMedicalHistory(long id);
+    
+    @Select(SELECT_USER_VERIFICATION)
+    @Results(value = {
+    		@Result(property="id", column="Id"),
+            @Result(property="name", column="Name"),
+            @Result(property="surname", column="Surname"),
+            @Result(property="registrationDate", column="DateOfRegistration"),
+            @Result(property="userType", column="userTypeId", javaType = UserType.class,
+            one = @One(select = "com.animals.app.repository.UserTypeRepository.getById")),
+            @Result(property="userRole", column="userRoleId", javaType = List.class,
+            many = @Many(select = "com.animals.app.repository.UserRoleRepository.getById")),
+            @Result(property="phone", column="Phone"),
+            @Result(property="address", column="address"),
+            @Result(property="email", column="Email"),
+            @Result(property="socialLogin", column="SocialLogin"),
+            @Result(property="organizationName", column="OrganizationName"),
+            @Result(property="organizationInfo", column="OrganizationInfo"),
+            @Result(property="isActive", column="IsActive"),
+            @Result(property="googleId", column="GoogleId"),
+            @Result(property="socialPhoto", column="SocialPhoto")
+    })
+    User userVerification(@Param("socialLogin") String socialLogin, 
+    						  @Param("emailVerificationString") String emailVerificationString);
 }
