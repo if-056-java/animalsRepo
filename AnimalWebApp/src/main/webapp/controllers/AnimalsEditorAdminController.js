@@ -44,7 +44,8 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
 
                 $scope.animalTypes = AnimalsAdminValues.animalTypes;        //list of animal types
                 $scope.animalServices = AnimalsAdminValues.animalServices;  //list of animal services
-                $scope.animal = AnimalsAdminValues.animal;                  //animal
+                console.log(AnimalsAdminValues.animal)
+                $scope.animal = angular.copy(AnimalsAdminValues.animal);     //animal
                 $scope.animalImage = "resources/img/noimg.png";
                 if (AnimalsAdminValues.animal.image != undefined) {
                     if (AnimalsAdminValues.animal.image.length > 0) {
@@ -92,6 +93,7 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
 
                 AnimalsAdminService.updateAnimal($scope.animal)
                     .then(function(data) {
+                        angular.copy($scope.animal, AnimalsAdminValues.animal);
                         $window.location.href = "#/ua/user/home/animals/" + $scope.animal.id;
                     },
                     function(data) {
