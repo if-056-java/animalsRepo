@@ -134,7 +134,7 @@
 
 			<div class="col-xs-0 col-sm-0 col-md-2 col-lg-2"></div>
 			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 usualReg">
-			<form class="form-horizontal">
+			<form class="form-horizontal" name="form">
 			<div class="col-xs-0 col-sm-1 col-md-1 col-lg-1"></div><h3>{{ 'USER_INFORMATION_EDIT' | translate }}</h3>
 			<div class="col-xs-0 col-sm-0 col-md-2 col-lg-2"></div>
 			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
@@ -166,13 +166,15 @@
 		    	<div class="form-group">		    			  		
 		    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label" >{{ 'USER_NEW_PASSWORD' | translate }}:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-		      		<input class="form-control" type="password" id="password" ng-model="passwordNew">
+		      		<input class="form-control" type="password" name='password' ng-model="passwordNew">
 		    		</div>
 		    	</div>
 		    	<div class="form-group">		    			  		
 		    		<label class="col-xs-10 col-sm-5 col-md-3 col-lg-3 control-label" >{{ 'REG_REPEAT_PASSWORD' | translate }}:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-		      		<input class="form-control" type="password" id="password_confirm" oninput="check(this)">
+		      		<input class="form-control" type="password" name="confirm_password" ng-model="password_new_confirm" required data-password-verify="passwordNew">
+		      		<div ng-show="form.confirm_password.$error.passwordVerify">Fields are not equal!</div>
+	    			<div ng-show="errorConfirmMessage">You can't submit form with not equal fields!</div>
 		    		</div>
 		    	</div>
 		    	<div class="form-group">		    			  		
@@ -270,17 +272,6 @@
 
 	</div>
 </div>
-
-<script type='text/javascript'>
-	function check(input) {
-		if (input.value != document.getElementById('password').value) {
-		input.setCustomValidity('Password Must be Matching.');
-		} else {
-		// input is valid -- reset the error message
-		input.setCustomValidity('');
-		}
-	}
-</script>
 
 <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
 
