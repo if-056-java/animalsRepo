@@ -8,16 +8,42 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
             //This variable decides when spinner loading for contentis closed.
-            $scope.contentLoading = 4;
+            $scope.contentLoading = 1;
 
             var animalId = $routeParams.animalId;                       //animal id
+
+            var initialize = function() {
+                if (AnimalsAdminValues.animalTypes.values.length === 0  ||
+                    AnimalsAdminValues.animalServices.values.length === 0 ||
+                    AnimalsAdminValues.animal.id == undefined ||
+                    $scope.contentLoading === 0) {
+                    return;
+                }
+
+                $scope.animalTypes = AnimalsAdminValues.animalTypes;        //list of animal types
+                $scope.animalServices = AnimalsAdminValues.animalServices;  //list of animal services
+                $scope.animal = angular.copy(AnimalsAdminValues.animal);     //animal
+                $scope.animalImage = "resources/img/noimg.png";
+
+                if (AnimalsAdminValues.animal.image != undefined) {
+                    if (AnimalsAdminValues.animal.image.length > 0) {
+                        $scope.animalImage = AnimalsAdminValues.animal.image;
+                    }
+                }
+
+                if ($scope.animal.type != undefined) {
+                    $scope.getAnimalBreeds();
+                }
+
+                $scope.contentLoading--;
+            }
 
             /**
              * @return list of animal types.
              */
             AnimalsAdminService.getAnimalTypes()
                 .finally(function() {
-                    $scope.contentLoading--;
+                    initialize();
                 });
 
             /**
@@ -25,7 +51,7 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
              */
             AnimalsAdminService.getAnimalServices()
                 .finally(function() {
-                    $scope.contentLoading--;
+                    initialize();
                 });
 
             /**
@@ -34,26 +60,8 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
              */
             AnimalsAdminService.getAnimal(animalId)
                 .finally(function() {
-                    $scope.contentLoading--
+                    initialize();
                 });
-
-            $scope.$watch('contentLoading', function(newValue) {
-                if (newValue != 1) {
-                    return;
-                }
-
-                $scope.animalTypes = AnimalsAdminValues.animalTypes;        //list of animal types
-                $scope.animalServices = AnimalsAdminValues.animalServices;  //list of animal services
-                $scope.animal = angular.copy(AnimalsAdminValues.animal);     //animal
-                $scope.animalImage = "resources/img/noimg.png";
-                if (AnimalsAdminValues.animal.image != undefined) {
-                    if (AnimalsAdminValues.animal.image.length > 0) {
-                        $scope.animalImage = AnimalsAdminValues.animal.image;
-                    }
-                }
-
-                $scope.contentLoading--;
-            });
 
             /**
              * @return list of animal breeds according to animal type.

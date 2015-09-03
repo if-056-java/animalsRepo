@@ -97,7 +97,11 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
             /**
              * @return list of animals according to filter values.
              */
-            $scope.doFilter = function() {
+            $scope.submit = function(isValid) {
+                if(!isValid){
+                    return;
+                }
+
                 $scope.filter.animal.dateOfRegister = $filter('date')($scope.filter.animal.dateOfRegister, 'yyyy-MM-dd');
 
                 AnimalsDoctorService.getPagesCount();

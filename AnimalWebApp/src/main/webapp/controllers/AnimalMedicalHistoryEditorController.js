@@ -38,7 +38,11 @@ angular.module('AnimalMedicalHistoryEditorController', ['DPController', 'Animals
                     $scope.contentLoading--;
                 });
 
-            $scope.save = function() {
+            $scope.submit = function(isValid) {
+                if(!isValid){
+                    return;
+                }
+
                 $scope.item.date = $filter('date')($scope.item.date, 'yyyy-MM-dd');
 
                 AnimalsDoctorService.updateAnimalMedicalHistoryItem($scope.item)
