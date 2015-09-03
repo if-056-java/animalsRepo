@@ -37,4 +37,27 @@ angular.module('ContactsValues', [])
             ,
             markerhint : 'Наше розташування!'
         },
+		workshedule : [
+		{ day :	"MONDAY",
+		  time : "9:00 to 18:00"
+		},
+		{ day :	"TUESDAY",
+		  time : "9:00 to 18:00"
+		},
+		{ day :	"WEDNESDAY",
+		  time : "9:00 to 18:00"
+		},
+		{ day :	"THURSDAY",
+		  time : "9:00 to 18:00"
+		},
+		{ day :	"FRIDAY",
+		  time : "9:00 to 18:00"
+		},
+		{ day :	"SATURDAY",
+		  time : "9:00 to 18:00"
+		},
+		{ day :	"SUNDAY",
+		  time : "9:00 to 18:00"
+		},
+		]
     });

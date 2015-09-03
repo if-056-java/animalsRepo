@@ -102,17 +102,15 @@
                     <li><a href="#ua/user/doctor/animals" ng-show="userRole == 'лікар'">{{ 'NAV_ANIMAL_LIST_FOR_DOCTOR' | translate }}</a></li>
 				</ul>
             </li>
-            <li>
-                <div style="padding:10px;" ng-controller="TranslateController" translate-cloak><!-- translate="LANG_EN" translate="LANG_UK"-->
-                    <a id="language-en" ng-href ng-click="changeLanguage('en')"><b class="caret"></b></a>
-                    <a id="language-uk" ng-href ng-click="changeLanguage('uk')"><b class="caret"></b></a>
-                </div>
-            </li>
 		</ul>
 		<!-- Форма входу -->
 				
 				<form class="navbar-form navbar-right" role="form" translate-cloak>
-				    <a ng-show="!session()" href="#ua/user/login" class="btn btn-success" role="button">{{ 'LOGIN' | translate }}  <span class="glyphicon glyphicon-log-in"></span></a>
+
+                    <a ng-controller="TranslateController" translate-cloak id="language-en" ng-href ng-click="changeLanguage('en')"><b class="caret"></b></a>
+                    <a ng-controller="TranslateController" translate-cloak id="language-uk" ng-href ng-click="changeLanguage('uk')"><b class="caret"></b></a>
+
+                    <a ng-show="!session()" href="#ua/user/login" class="btn btn-success" role="button">{{ 'LOGIN' | translate }}  <span class="glyphicon glyphicon-log-in"></span></a>
 				    <label ng-show="session()">{{ 'NAV_WELCOME_MESSAGE' | translate }}: {{userName}}</label>
 				    <a ng-show="session()" ng-click="logout()" class="btn btn-warning" role="button">{{ 'LOGOUT' | translate }}  <span class="glyphicon glyphicon-log-out"></span></a>
 				</form>
