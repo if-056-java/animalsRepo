@@ -190,8 +190,8 @@ public class AnimalResource {
         return ok(genericAnimals);
     }
 
-    @GET //http:localhost:8080/webapi/animals/{adoption|found|lost}/id
-    @Path("{parameter: adoption|found|lost}")
+    @GET //http:localhost:8080/webapi/animals/service/id
+    @Path("service/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getShortInfo(@PathParam("animalId") String id) {
 

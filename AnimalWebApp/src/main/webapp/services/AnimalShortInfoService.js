@@ -1,10 +1,10 @@
 angular.module('AnimalShortInfoService', [])
     .service('AnimalShortInfoService', ['$http', '$q',  function($http, $q) {
 
-        this.getAnimal = function(service ,animalId) {
+        this.getAnimal = function(animalId) {
             var def = $q.defer();
-			
-            $http.get("/webapi/animals/" + service + "/" + animalId)
+
+            $http.get("/webapi/animals/service/" + animalId)
                 .success(function(data) {
                     def.resolve(data);
                 })
@@ -14,5 +14,5 @@ angular.module('AnimalShortInfoService', [])
 
             return def.promise;
         };
-		
+
     }]);
