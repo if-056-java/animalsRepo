@@ -26,85 +26,93 @@
             <!-- Filters -->
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 detailed-bottom" id="animals-admin-left"
                  ng-controller="AnimalsFilterDoctorController">
+                <form name="animalFilter" ng-submit="submit(animalFilter.$valid)" novalidate>
 
-                <!-- Transpounder filter -->
-                <div class="input-group">
-                    <span class="input-group-addon">{{ 'TRANSPONDER' | translate }}</span>
-                    <input type="text" class="form-control" aria-describedby="basic-addon1"
-                           ng-model="filter.animal.transpNumber">
-                </div>
-                <hr>
+                    <!-- Transpounder filter -->
+                    <div class="input-group" ng-class="{ 'has-error' : animalFilter.transpNumber.$invalid && !animalFilter.transpNumber.$pristine }">
+                        <span class="input-group-addon">{{ 'TRANSPONDER' | translate }}</span>
+                        <input type="text" class="form-control" aria-describedby="basic-addon1"
+                               ng-model="filter.animal.transpNumber"
+                               name="transpNumber" ng-maxlength="15">
+                    </div>
 
-                <!-- Service filter -->
-                <div class="input-group">
-                    <span class="input-group-addon">{{ 'SERVICE' | translate }}</span>
-                    <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.service"
-                        title="{{ 'NOT_SELECTED' | translate }}">
-                        <li nya-bs-option="animalService in animalServices.values">
-                            <a>{{ animalService.service }}</a>
-                        </li>
-                    </ol>
-                </div>
+                    <hr>
 
-                <hr>
+                    <!-- Service filter -->
+                    <div class="input-group">
+                        <span class="input-group-addon">{{ 'SERVICE' | translate }}</span>
+                        <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.service"
+                            title="{{ 'NOT_SELECTED' | translate }}">
+                            <li nya-bs-option="animalService in animalServices.values">
+                                <a>{{ animalService.service }}</a>
+                            </li>
+                        </ol>
+                    </div>
 
-                <!-- Date of registration filter -->
-                <p class="input-group" ng-controller="DPController">
-                    <span class="input-group-addon">{{ 'REGISTRATION_DATE' | translate }}</span>
-                    <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd"
-                           ng-model="filter.animal.dateOfRegister"
-                           is-open="opened" datepicker-options="dateOptions" current-text="{{ 'TODAY' | translate }}"
-                           clear-text="{{ 'CLEAR' | translate }}"
-                           close-text="{{ 'CLOSE' | translate }}" ng-required="true" close-text="Close"
-                           ng-click="open($event)"/>
-                </p>
+                    <hr>
 
-                <hr>
+                    <!-- Date of registration filter -->
+                    <p class="input-group" ng-controller="DPController">
+                        <span class="input-group-addon">{{ 'REGISTRATION_DATE' | translate }}</span>
+                        <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd"
+                               ng-model="filter.animal.dateOfRegister"
+                               is-open="opened" datepicker-options="dateOptions" current-text="{{ 'TODAY' | translate }}"
+                               clear-text="{{ 'CLEAR' | translate }}"
+                               close-text="{{ 'CLOSE' | translate }}" close-text="Close"
+                               ng-click="open($event)"/>
+                    </p>
 
-                <!-- Type filter -->
-                <div class="input-group">
-                    <span class="input-group-addon">{{ 'TYPE' | translate }}</span>
-                    <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.type"
-                        ng-change="getAnimalBreeds()" title="{{ 'NOT_SELECTED' | translate }}">
-                        <li nya-bs-option="animalType in animalTypes.values">
-                            <a>{{ animalType.type }}</a>
-                        </li>
-                    </ol>
-                </div>
-                <hr>
+                    <hr>
 
-                <!-- Breed filter -->
-                <div class="input-group">
-                    <span class="input-group-addon">{{ 'BREED' | translate }}</span>
-                    <input type="text" ng-model="filter.animal.breed"
-                           typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8"
-                           class="form-control border-right-radius" ng-disabled="filterAnimalBreedFlag">
-                </div>
-                <hr>
+                    <!-- Type filter -->
+                    <div class="input-group">
+                        <span class="input-group-addon">{{ 'TYPE' | translate }}</span>
+                        <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.type"
+                            ng-change="getAnimalBreeds()" title="{{ 'NOT_SELECTED' | translate }}">
+                            <li nya-bs-option="animalType in animalTypes.values">
+                                <a>{{ animalType.type }}</a>
+                            </li>
+                        </ol>
+                    </div>
 
-                <!-- Sex filter -->
-                <div class="input-group">
-                    <span class="input-group-addon">{{ 'SEX' | translate }}</span>
-                    <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.sex"
-                        title="{{ 'NOT_SELECTED' | translate }}">
-                        <li class="nya-bs-option" value="не визначено"><a>{{ 'NOT_IDENTIFIED' | translate }}</a></li>
-                        <li class="nya-bs-option" value="самець"><a>{{ 'SEX_MALE' | translate }}</a></li>
-                        <li class="nya-bs-option" value="самка"><a>{{ 'SEX_FEMALE' | translate }}</a></li>
-                    </ol>
-                </div>
-                <hr>
+                    <hr>
 
-                <a class="btn btn-success col-xs-5 col-sm-6 col-md-5 col-lg-5" href ng-click="doFilter()" role="button">{{
-                    'FILTER' | translate }}</a>
+                    <!-- Breed filter -->
+                    <div class="input-group" ng-class="{ 'has-error' : animalFilter.breed.$invalid && !animalFilter.breed.$pristine }">
+                        <span class="input-group-addon">{{ 'BREED' | translate }}</span>
+                        <input type="text" ng-model="filter.animal.breed"
+                               typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8"
+                               class="form-control border-right-radius" ng-disabled="filterAnimalBreedFlag"
+                               name="breed" ng-maxlength="45">
+                    </div>
 
-                <div class="col-xs-2 col-sm-0 col-md-2 col-lg-2"></div>
-                <a class="btn btn-danger col-xs-5 col-sm-6 col-md-5 col-lg-5" href ng-click="reset()" role="button"
-                   id="animals-admin-drop-filters">{{ 'CANCEL' | translate }}</a>
+                    <hr>
+
+                    <!-- Sex filter -->
+                    <div class="input-group">
+                        <span class="input-group-addon">{{ 'SEX' | translate }}</span>
+                        <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.sex"
+                            title="{{ 'NOT_SELECTED' | translate }}">
+                            <li class="nya-bs-option" value="не визначено"><a>{{ 'NOT_IDENTIFIED' | translate }}</a></li>
+                            <li class="nya-bs-option" value="самець"><a>{{ 'SEX_MALE' | translate }}</a></li>
+                            <li class="nya-bs-option" value="самка"><a>{{ 'SEX_FEMALE' | translate }}</a></li>
+                        </ol>
+                    </div>
+
+                    <hr>
+
+                    <button type="submit" ng-disabled="animalFilter.$invalid" id="submit-form"
+                            class="btn btn-success col-xs-5 col-sm-6 col-md-5 col-lg-5" >{{ 'FILTER' | translate }}</button>
+
+                    <div class="col-xs-2 col-sm-0 col-md-2 col-lg-2"></div>
+                    <a class="btn btn-danger col-xs-5 col-sm-6 col-md-5 col-lg-5" href ng-click="reset()" role="button"
+                       id="animals-admin-drop-filters">{{ 'CANCEL' | translate }}</a>
+                </form>
             </div>
 
             <!-- Animals list -->
             <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 panel panel-success table-responsive" ng-show="totalItems">
-                <table class="table table-hover">
+                <table class="table table-hover table-vcenter">
                     <thead>
                     <tr>
                         <td><strong>{{ 'TYPE' | translate }}</strong></td>
@@ -159,7 +167,7 @@
                                 {{ filter.limit }} <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
-                                <li role="menuitem"><a href ng-click="countChanged('15')">15</a></li>
+                                <li role="menuitem"><a href ng-click="countChanged('10')">10</a></li>
                                 <li role="menuitem"><a href ng-click="countChanged('20')">20</a></li>
                                 <li role="menuitem"><a href ng-click="countChanged('30')">30</a></li>
                             </ul>

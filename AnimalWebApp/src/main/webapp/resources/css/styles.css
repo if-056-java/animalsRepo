@@ -46,6 +46,10 @@ IMG.displayed {
 }
 
 /* ua/user/home/animals */
+.table-vcenter td {
+    vertical-align: middle !important;
+}
+
 #animals-admin-main {
     padding-left: 0px;
     padding-right: 0px;
