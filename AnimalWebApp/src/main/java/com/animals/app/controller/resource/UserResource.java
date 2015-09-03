@@ -25,7 +25,7 @@ import com.animals.app.repository.Impl.UserRepositoryImpl;
  */
 
 @Path("users")
-@RolesAllowed({"гість", "модератор"})
+@RolesAllowed({"гість", "модератор" , "лікар"})
 public class UserResource {
 	
 	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	

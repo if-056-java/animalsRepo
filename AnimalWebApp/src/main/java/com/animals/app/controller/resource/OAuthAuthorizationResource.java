@@ -4,20 +4,14 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
@@ -25,8 +19,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.Google2Api;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
@@ -37,6 +29,8 @@ import com.animals.app.domain.User;
 import com.animals.app.domain.UserRole;
 import com.animals.app.domain.UserType;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
+import com.animals.app.service.googleoauth.Google2Api;
+import com.animals.app.service.googleoauth.ServiceBuilder;
 
 /**
  * Created by 41X on 8/16/2015.
