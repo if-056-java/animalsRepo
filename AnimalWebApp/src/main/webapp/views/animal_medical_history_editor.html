@@ -96,12 +96,13 @@
                         <div class="input-group">
                             <span class="input-group-addon">{{ 'TYPE' | translate }}</span>
                             <ol class="nya-bs-select nya-bs-select-mod" ng-model="item.status"
-                                title="{{ 'NOT_SELECTED' | translate }}">
+                                title="{{ 'NOT_SELECTED' | translate }}" ng-required="true">
                                 <li nya-bs-option="itemType in itemTypes.values">
                                     <a>{{ itemType.status }}</a>
                                 </li>
                             </ol>
                         </div>
+
                         <hr>
 
                         <!-- Date -->
@@ -114,14 +115,15 @@
                                    close-text="{{ 'CLOSE' | translate }}" ng-required="true" close-text="Close"
                                    ng-click="open($event)"/>
                         </p>
+
                     </div>
 
                     <!-- Description -->
                     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 panel-body">
-                        <div class="form-group" ng-class="{ 'has-error' : animalMedicalHistoryEditor.address.$invalid && !animalMedicalHistoryEditor.address.$pristine }">
+                        <div class="form-group" ng-class="{ 'has-error' : animalMedicalHistoryEditor.description.$invalid && !animalMedicalHistoryEditor.description.$pristine }">
                             <label for="comment">{{ 'DESCRIPTION' | translate }}:</label>
-                        <textarea class="form-control" rows="3" id="comment" ng-model="item.description"
-                                  name="description" ng-maxlength="255" required></textarea>
+                            <textarea class="form-control" rows="3" id="comment" ng-model="item.description"
+                                  name="description" ng-maxlength="255"></textarea>
                         </div>
                     </div>
 
