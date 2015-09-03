@@ -1,31 +1,29 @@
 angular.module('AnimalShortInfoController', ['AnimalShortInfoService'])
-    .controller('AnimalShortInfoController', ['$scope', 'AnimalShortInfoService',  '$routeParams', 
-        function($scope, AnimalShortInfoService,  $routeParams) {
+    .controller('AnimalShortInfoController', ['$scope', 'AnimalShortInfoService',  '$routeParams', '$filter', 
+        function($scope, AnimalShortInfoService,  $routeParams, $filter) {
 			
 			var service = $routeParams.service;
 			
 			var animalId = $routeParams.animalId;
 			
-			$scope.service = service;
-			
 			if(service === "found"){
 			    $scope.detail=false;
-				$scope.textButton="Contact";
+				$scope.textButton= $filter('translate')('CONTACT_AUTHOR');
 				$scope.linkButton="#";
 				$scope.linkBack="#/ua/animal/found"
 			};
 			if(service === "adoption"){
 			    $scope.detail=true;
-				$scope.textButton="Adopt";
+				$scope.textButton= $filter('translate')('ADOPT');
 				$scope.linkButton="#";
 				$scope.linkBack="#/ua/animal/adoption";
 			};
 			if(service === "lost") {
 			    $scope.detail=true;
-				$scope.textButton="Contact";
+				$scope.textButton= $filter('translate')('CONTACT_OWNER');
 				$scope.linkButton="#";
 				$scope.linkBack="#/ua/animal/lost";
-			}
+			};
 
             this.getAnimal = function(service, animalId) {
                 AnimalShortInfoService.getAnimal(service, animalId)
