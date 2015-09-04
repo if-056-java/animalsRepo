@@ -92,8 +92,9 @@ public class DoctorResource {
     }
 
     /**
+     * Delete animal medical history item.
      * @param itemId instance used for lookup.
-     * @return list of medical history.
+     * @return status 200 if delete is done.
      */
     @DELETE //http:localhost:8080/webapi/doctor/medical_history/item/{itemId}
     @RolesAllowed("лікар")
@@ -109,6 +110,12 @@ public class DoctorResource {
         return ok();
     }
 
+    /**
+     * Insert animal medical history item into data base.
+     * @param req instance of HttpServletRequest fo get access to session
+     * @param animalMedicalHistory instance of item to be inserted.
+     * @return status 200 if delete is done.
+     */
     @POST //http:localhost:8080/webapi/doctor/medical_history/item
     @RolesAllowed("лікар")
     @Path("medical_history/item")
