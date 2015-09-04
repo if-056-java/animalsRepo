@@ -7,6 +7,7 @@ public class AnimalsFilter {
     private int page;
     private int limit;
     private Animal animal;
+    private int status;
 
     public AnimalsFilter() {
     }
@@ -44,12 +45,21 @@ public class AnimalsFilter {
         this.animal = animal;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "AnimalsFilter{" +
                 "page=" + page +
                 ", limit=" + limit +
                 ", animal=" + animal +
+                ", status=" + status +
                 '}';
     }
 }

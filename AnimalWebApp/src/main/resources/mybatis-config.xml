@@ -27,6 +27,7 @@
         <typeAlias alias="AnimalService" type="com.animals.app.domain.AnimalService"/>
         <typeAlias alias="AnimalType" type="com.animals.app.domain.AnimalType"/>
         <typeAlias alias="AnimalStatus" type="com.animals.app.domain.AnimalStatus"/>
+        <typeAlias alias="AnimalStatusLoger" type="com.animals.app.domain.AnimalStatusLoger"/>
         <typeAlias alias="AnimalMedicalHistory" type="com.animals.app.domain.AnimalMedicalHistory"/>
 
         <typeAlias alias="User" type="com.animals.app.domain.User"/>
@@ -61,6 +62,7 @@
         <mapper class="com.animals.app.repository.AnimalServiceRepository" />
         <mapper class="com.animals.app.repository.AnimalTypeRepository" />
         <mapper class="com.animals.app.repository.AnimalStatusRepository" />
+        <mapper class="com.animals.app.repository.AnimalStatusLogerRepository" />
         <mapper class="com.animals.app.repository.AnimalMedicalHistoryRepository" />
 
         <mapper class="com.animals.app.repository.UserRepository" />
