@@ -111,3 +111,11 @@ p {
 #resGoogleTA{
 	padding-bottom: 0px;
 }
+
+/* .dropdown-menu {
+    background-color:#2ecc71;   
+}*/
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color:#2ecc71;
+}
