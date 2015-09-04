@@ -44,8 +44,15 @@
 					</div>
             </div>
 		</div>
-
-		<div class="col-xs-12 col-sm-6 col-md-5 col-lg-5" id="userData">
+		
+		<div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+        <h3 class = "text-center">Personal Data</h3>
+        </div>
+        
+		<!-- Spinner -->
+        <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5" ng-show="contentLoading" id="loading-block" style="height:400px;"></div>
+        
+		<div class="col-xs-12 col-sm-6 col-md-5 col-lg-5" id="userData" ng-show="!contentLoading">
 			<br><br>
 			<div class="row">
 				<div class="col-lg-6">
@@ -241,9 +248,12 @@
 			
 			<div class = "text-center">
 				<h3> {{ 'USER_LIST_OWN_ANIMALS' | translate }}</h3>
-			</div>			
+			</div>
+			
+			<!-- Spinner -->
+       		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-show="contentLoading" id="loading-block2" style="height:200px;"></div>			
 
-			<table class="table table-hover">
+			<table class="table table-hover" ng-show="!contentLoading">
             <thead>
             <tr>
                 <td><strong>{{ 'TYPE' | translate }}</strong></td>

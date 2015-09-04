@@ -4,7 +4,14 @@ var animalAppControllers = angular.module('UserProfileController', []);
 animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccount', 'hashPassword', 'localStorageService', '$route', '$location', '$rootScope',
                                                function($scope, userData, userAccount, hashPassword, localStorageService, $route, $location, $rootScope) {
 		
-		
+	//initialize loading spinner
+    var targetContent = document.getElementById('loading-block');
+    var targetContent2 = document.getElementById('loading-block2');
+    new Spinner(opts).spin(targetContent);
+    new Spinner(opts).spin(targetContent2);
+    $scope.contentLoading = 0;
+	
+	
 	$scope.IsHidden = true;
 	$scope.showPopup = function () {$scope.IsHidden =  false;}    
 	$scope.closePopup = function () {$scope.IsHidden =  true; $route.reload();}
@@ -22,15 +29,17 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 //			$scope.userInfo=data;
 //			$scope.fields = $scope.userInfo;
 //		}) 	
-		
+		$scope.contentLoading++;
 		userData.getUser(id).then(
 				function(result){
 					$scope.userInfo=result;
-					$scope.fields = $scope.userInfo;					
+					$scope.fields = $scope.userInfo;
+					$scope.contentLoading--;
 				},
 				function(error){
 					//$scope.errorMessage = error;
 					console.log(error)
+					$scope.contentLoading--;
 				}
 			);
 		
