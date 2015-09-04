@@ -15,10 +15,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
+import com.animals.app.service.googleoauth.Google2Api;
 import org.apache.commons.codec.binary.Base64;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
@@ -29,8 +31,6 @@ import com.animals.app.domain.User;
 import com.animals.app.domain.UserRole;
 import com.animals.app.domain.UserType;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
-import com.animals.app.service.googleoauth.Google2Api;
-import com.animals.app.service.googleoauth.ServiceBuilder;
 
 /**
  * Created by 41X on 8/16/2015.
@@ -74,7 +74,6 @@ public class OAuthAuthorizationResource {
 					.apiSecret(apiSecretG)
 					.callback(callbackUrlG)
 					.scope(SCOPE)
-					.offline(true)
 					.build();
 
 		} catch (Exception e) {
@@ -119,12 +118,11 @@ public class OAuthAuthorizationResource {
 
 		try {
 			service2 = new ServiceBuilder()
-					.provider(Google2Api.class)
+                    .provider(Google2Api.class)
 					.apiKey(apiKeyG)
 					.apiSecret(apiSecretG)
 					.callback(callbackUrlG)
 					.scope(SCOPE)
-					.offline(true)
 					.build();
 			
 		} catch (Exception e1) {			
@@ -379,7 +377,6 @@ public class OAuthAuthorizationResource {
 					.apiSecret(apiSecretG)
 					.callback(callbackUrlG)
 					.scope(SCOPE)
-					.offline(true)
 					.build();
 			
 		} catch (Exception e1) {			
