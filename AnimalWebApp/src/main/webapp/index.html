@@ -103,16 +103,29 @@
 				</ul>
             </li>
 		</ul>
-		<!-- Форма входу -->
-				
-				<form class="navbar-form navbar-right" role="form" translate-cloak>
-
+		<!-- Форма входу -->	
+				<form class="navbar-form navbar-right" role="form" translate-cloak>			
+					 
+					
+                    <!--  
                     <a ng-controller="TranslateController" translate-cloak id="language-en" ng-href ng-click="changeLanguage('en')"><b class="caret"></b></a>
                     <a ng-controller="TranslateController" translate-cloak id="language-uk" ng-href ng-click="changeLanguage('uk')"><b class="caret"></b></a>
-
+					-->
                     <a ng-show="!session()" href="#ua/user/login" class="btn btn-success" role="button">{{ 'LOGIN' | translate }}  <span class="glyphicon glyphicon-log-in"></span></a>
 				    <label ng-show="session()">{{ 'NAV_WELCOME_MESSAGE' | translate }}: {{userName}}</label>
 				    <a ng-show="session()" ng-click="logout()" class="btn btn-warning" role="button">{{ 'LOGOUT' | translate }}  <span class="glyphicon glyphicon-log-out"></span></a>
+					
+					
+					<div class="btn-group">
+					  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					  {{ 'LANGUAGE' | translate }} <i class="glyphicon glyphicon-cog"></i>
+					  </button>
+					  <ul class="dropdown-menu">
+					    <li><a ng-controller="TranslateController" translate-cloak ng-href ng-click="changeLanguage('en')">English</a></li>
+					   	<li><a ng-controller="TranslateController" translate-cloak ng-href ng-click="changeLanguage('uk')">Українська</a></li>
+					  </ul>
+					</div>
+					
 				</form>
       </div><!-- /.nav-collapse -->
 	</div>	

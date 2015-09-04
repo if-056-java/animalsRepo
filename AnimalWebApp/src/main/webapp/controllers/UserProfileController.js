@@ -1,8 +1,8 @@
 //created by 41X
 var animalAppControllers = angular.module('UserProfileController', []);
 
-animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccount', 'hashPassword', 'localStorageService', '$route', '$location', '$rootScope',
-                                               function($scope, userData, userAccount, hashPassword, localStorageService, $route, $location, $rootScope) {
+animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccount', 'hashPassword', 'localStorageService', '$route', '$location',
+                                               function($scope, userData, userAccount, hashPassword, localStorageService, $route, $location) {
 		
 	//initialize loading spinner
     var targetContent = document.getElementById('loading-block');
@@ -87,7 +87,7 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
     	
     	if($scope.userInfo.name=="unknown" || $scope.userInfo.surname=="N/A" || $scope.userInfo.address=="N/A" ||
     			$scope.userInfo.email =="N/A" || $scope.userInfo.phone =="N/A"){    		
-    		$rootScope.errorAddAnimalMessage="Помилка. Відсутні контактні дані користувача! Відредагуййте профіль користувача";   		
+    		$scope.errorAddAnimalMessage="Помилка. Відсутні контактні дані користувача! Відредагуййте профіль користувача";   		
     	} else {
     		$location.path("/ua/animal/registration_owned");	    		
     	}  	
@@ -101,9 +101,9 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 	};
 	
 	if($location.search().join){
-		$rootScope.errorJoinMessage="Помилка об'єднання акаунтів. Даний соціальний акаунт вже використовується!"; 
+		$scope.errorJoinMessage="Помилка об'єднання акаунтів. Даний соціальний акаунт вже використовується!"; 
 	} else {
-		$rootScope.errorJoinMessage=null;
+		$scope.errorJoinMessage=null;
 	}
 	
 	
