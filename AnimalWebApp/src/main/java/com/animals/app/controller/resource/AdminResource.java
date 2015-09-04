@@ -47,9 +47,11 @@ public class AdminResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimals(AnimalsFilter animalsFilter) {
+        System.out.println(1);
         if(animalsFilter == null) {
             return BAD_REQUEST;
         }
+        System.out.println(animalsFilter);
         if ((animalsFilter.getPage() == 0) || (animalsFilter.getLimit() == 0)) {
             return BAD_REQUEST;
         }
@@ -100,7 +102,7 @@ public class AdminResource {
     @Path("animals/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimal(@PathParam("animalId") long animalId) {
-        if (animalId == 0) {
+        if (animalId == 0 || animalId<0) {
             return BAD_REQUEST;
         }
 
@@ -121,7 +123,7 @@ public class AdminResource {
     @Path("animals/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response deleteAnimal(@PathParam("animalId") long animalId) {
-        if (animalId == 0) {
+        if (animalId == 0 || animalId<0) {
             return BAD_REQUEST;
         }
 
