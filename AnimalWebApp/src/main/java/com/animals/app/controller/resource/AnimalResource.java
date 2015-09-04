@@ -52,7 +52,7 @@ public class AnimalResource {
             return BAD_REQUEST;
 
         String fileName = createAnimalImage.createAnimalImage(animal.getImage(), httpServlet.getServletContext().getRealPath("/") + "images/");
-        animal.setImage("images/" + fileName);
+        animal.setImage("/images/" + fileName);
 
         //check breed, if it new insert it into database
         if ((animal.getBreed() != null) && (animal.getBreed().getId() == null) && (animal.getBreed().getBreedUa() != null)) {
