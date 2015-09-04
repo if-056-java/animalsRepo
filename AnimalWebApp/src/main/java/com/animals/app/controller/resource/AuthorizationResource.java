@@ -58,7 +58,7 @@ public class AuthorizationResource {
         } catch (IOException e) {
             e.printStackTrace();
         }
-		
+
         final StringTokenizer tokenizer = new StringTokenizer(usernameAndPassword, ":");
 
         String username = tokenizer.nextToken();
@@ -74,7 +74,7 @@ public class AuthorizationResource {
 		}
                         
         if (user == null) return NOT_FOUND;
-                     	
+
         // User exist. setting session params(username, userrole, userId etc.) from User
         
         if (!user.isActive()){

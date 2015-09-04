@@ -69,10 +69,7 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
              */
             this.updateAnimal = function(animal) {
 
-                return AnimalsService.updateAnimalForAdmin(animal)
-                    .then(function(data) {
-                        AnimalsAdminValues.animal.image = data.filePath;
-                    });
+                return AnimalsService.updateAnimalForAdmin(animal);
             }
 
             /**

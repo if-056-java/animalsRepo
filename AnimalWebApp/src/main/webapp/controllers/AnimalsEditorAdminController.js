@@ -101,6 +101,7 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
                 AnimalsAdminService.updateAnimal($scope.animal)
                     .then(function(data) {
                         angular.copy($scope.animal, AnimalsAdminValues.animal);
+                        AnimalsAdminValues.animal.image = data.filePath;
                         $window.location.href = "#/ua/user/home/animals/" + $scope.animal.id;
                     },
                     function(data) {
