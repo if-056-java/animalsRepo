@@ -33,6 +33,12 @@ animalApp.controller('RegistrationController', ['$scope', 'currentDate', 'userDa
 			userAccount.loginFacebook();		
 			
 		}
+		
+		$scope.RegisterTwitter=function(){		
+			
+			userAccount.loginTwitter();		
+			
+		}
         
 }]);
 

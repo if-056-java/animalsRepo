@@ -63,6 +63,11 @@ public interface UserRepository {
             " UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive, FacebookId, SocialPhoto" +
             " FROM users WHERE FacebookId = #{facebookId}";
+    
+    final String SELECT_BY_TWITTER_ID = "SELECT Id, Name, Surname, DateOfRegistration, " +
+            " UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
+            " Password, OrganizationName, OrganizationInfo, IsActive, TwitterId, SocialPhoto" +
+            " FROM users WHERE TwitterId = #{twitterId}";
 
     final String SELECT_BY_ID_MEDICAL_HISTORY = "SELECT Id, Name, Surname" +
             " FROM users WHERE Id = #{id}";
@@ -231,10 +236,32 @@ public interface UserRepository {
             @Result(property="organizationName", column="OrganizationName"),
             @Result(property="organizationInfo", column="OrganizationInfo"),
             @Result(property="isActive", column="IsActive"),
-            @Result(property="facebookId", column="facebookId"),
+            @Result(property="facebookId", column="FacebookId"),
             @Result(property="socialPhoto", column="SocialPhoto")
     })
     User getByFacebookId(String facebookId);
+    
+    @Select(SELECT_BY_TWITTER_ID)
+    @Results(value = {
+            @Result(property="id", column="Id"),
+            @Result(property="name", column="Name"),
+            @Result(property="surname", column="Surname"),
+            @Result(property="registrationDate", column="DateOfRegistration"),
+            @Result(property="userType", column="userTypeId", javaType = UserType.class,
+            one = @One(select = "com.animals.app.repository.UserTypeRepository.getById")),
+            @Result(property="userRole", column="userRoleId", javaType = List.class,
+            many = @Many(select = "com.animals.app.repository.UserRoleRepository.getById")),
+            @Result(property="phone", column="Phone"),
+            @Result(property="address", column="address"),
+            @Result(property="email", column="Email"),
+            @Result(property="socialLogin", column="SocialLogin"),
+            @Result(property="organizationName", column="OrganizationName"),
+            @Result(property="organizationInfo", column="OrganizationInfo"),
+            @Result(property="isActive", column="IsActive"),
+            @Result(property="twitterId", column="TwitterId"),
+            @Result(property="socialPhoto", column="SocialPhoto")
+    })
+    User getByTwitterId(String twitterId);
 
     /**
      * Returns a User instance from the database for admin animals list.

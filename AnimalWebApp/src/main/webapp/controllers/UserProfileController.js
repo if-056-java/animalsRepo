@@ -107,6 +107,13 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 		
 	};
 	
+	$scope.JoinTwitter=function(){	
+		
+		userAccount.loginTwitter();
+		
+		
+	};
+	
 	if($location.search().join){
 		$scope.errorJoinMessage="Помилка об'єднання акаунтів. Даний соціальний акаунт вже використовується!"; 
 	} else {

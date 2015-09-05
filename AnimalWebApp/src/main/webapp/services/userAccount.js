@@ -198,6 +198,22 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			
 		},
 		
+
+		loginTwitter:function(){
+			
+			console.log("loginTwitter");
+			
+			$http.get("/webapi/account/login/twitter")
+			.success(function(data){
+				console.log("success not direct");
+				$window.location.href = (data);				
+			})
+			.error(function(data){
+				console.log("error not direct");
+			})
+			
+		},
+		
 		
 		
 	};	
