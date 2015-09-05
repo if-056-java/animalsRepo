@@ -100,6 +100,13 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 		
 	};
 	
+	$scope.JoinFacebook=function(){	
+		
+		userAccount.loginFacebook();
+		
+		
+	};
+	
 	if($location.search().join){
 		$scope.errorJoinMessage="Помилка об'єднання акаунтів. Даний соціальний акаунт вже використовується!"; 
 	} else {

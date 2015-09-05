@@ -180,7 +180,23 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 				$rootScope.errorMessage="Помилка входу. Термін дії GoogleRefreshToken закінчився! Спробуйте ще раз!";
 				localStorageService.cookie.remove("refreshGoogleToken");
 			})
-		}
+		},
+		
+		
+		loginFacebook:function(){
+			
+			console.log("loginFacebook");
+			
+			$http.get("/webapi/account/login/facebook")
+			.success(function(data){
+				console.log("success not direct");
+				$window.location.href = (data);				
+			})
+			.error(function(data){
+				console.log("error not direct");
+			})
+			
+		},
 		
 		
 		

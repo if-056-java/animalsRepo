@@ -16,11 +16,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import com.animals.app.service.googleoauth.Google2Api;
+import com.animals.app.service.googleoauth.ServiceBuilder;
 import org.apache.commons.codec.binary.Base64;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.scribe.builder.ServiceBuilder;
+import org.scribe.builder.api.FacebookApi;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
@@ -54,6 +56,12 @@ public class OAuthAuthorizationResource {
 	private static final String apiSecretG = "rYsnWUSHf4S2z-LHM1oMocJT";	
 	private static final String callbackUrlGPath = "webapi/account/login/google_token";	
 	
+	// Facebook OAuth preferences
+	private static final String PROTECTED_RESOURCE_URL_FB = "https://graph.facebook.com/me";
+	private static final String PROTECTED_RESOURCE_URL_FB2 = "https://graph.facebook.com/me?fields=picture.type(large)";
+	private static final String apiKeyF = "926304537416382";
+	private static final String apiSecretF = "d4a862fa422e06f2e06614628a619683";	
+	private static final String callbackUrlGPathFacebook = "webapi/account/login/facebook_token";
 	
 	@GET
 	@Path("login/google")		//http:localhost:8080/webapi/account/login/google
@@ -74,6 +82,7 @@ public class OAuthAuthorizationResource {
 					.apiSecret(apiSecretG)
 					.callback(callbackUrlG)
 					.scope(SCOPE)
+					.offline(true)
 					.build();
 
 		} catch (Exception e) {
@@ -123,6 +132,7 @@ public class OAuthAuthorizationResource {
 					.apiSecret(apiSecretG)
 					.callback(callbackUrlG)
 					.scope(SCOPE)
+					.offline(true)
 					.build();
 			
 		} catch (Exception e1) {			
@@ -133,6 +143,8 @@ public class OAuthAuthorizationResource {
 
 				
 		accessToken = service2.getAccessToken(EMPTY_TOKEN, v);
+		
+		System.out.println(accessToken);
 		
 		String refreshGoogleToken = accessToken.getSecret();
 		String accessGoogleToken = accessToken.getToken();
@@ -439,6 +451,287 @@ public class OAuthAuthorizationResource {
 		return Response.status(Response.Status.OK).entity(successURL).build();
 		
 	}	
+	
+	@GET
+	@Path("login/facebook")		//http:localhost:8080/webapi/account/login/facebook
+	public Response facebookLogin(@Context HttpServletRequest req) {
+		
+		//Define URLs and callback
+		String pathAll = req.getRequestURL().toString(); 
+		String pathMain =pathAll.replace("webapi/account/login/facebook", "");	
+		System.out.println(pathMain);
+		String callbackUrlF = pathMain + callbackUrlGPathFacebook;		
+		System.out.println(callbackUrlF);
+
+		OAuthService service = null;
+
+		try {
+			service = new ServiceBuilder()
+					.provider(FacebookApi.class)
+					.apiKey(apiKeyF)
+					.apiSecret(apiSecretF)
+					.callback(callbackUrlF)
+					.build();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if (service == null) {
+			return Response.status(404).build();
+		}
+
+		String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+
+		System.out.println("url - " + authorizationUrl);
+		
+		return Response.status(Response.Status.OK).entity(authorizationUrl).build();
+		
+	}
+	
+	@GET
+	@Path("login/facebook_token")			//http://localhost:8080/webapi/account/login/facebook_token
+	public Response getFacebookAccessToken(@QueryParam("code") String token,
+										@QueryParam("error") String error,			
+										@Context HttpServletRequest req) {
+		
+		//Define URLs and callback
+		String pathAll = req.getRequestURL().toString(); 
+		String pathMain =pathAll.replace("webapi/account/login/facebook_token", "");	
+		String successURL = pathMain + "#/ua/user/profile";		
+		String callbackUrlF = pathMain + callbackUrlGPathFacebook;
+		
+		
+		if(error!=null){
+			String entryUrl= pathMain + "/#/ua/user/login";				
+			return Response.temporaryRedirect(UriBuilder.fromUri(entryUrl).build()).build();
+		}
+
+		Verifier v = new Verifier(token);
+
+		System.out.println("token - " + token);
+		
+		OAuthService service =null;
+
+		try {
+			service = new ServiceBuilder()
+					.provider(FacebookApi.class)
+					.apiKey(apiKeyF)
+					.apiSecret(apiSecretF)
+					.callback(callbackUrlF)
+					.build();
+			
+		} catch (Exception e1) {			
+			e1.printStackTrace();
+		}
+
+
+		Token accessToken = service.getAccessToken(EMPTY_TOKEN, v);
+
+		System.out.println("accesstoken - " + accessToken);
+		
+		OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL_FB);
+		OAuthRequest request2 = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL_FB2);
+
+		service.signRequest(accessToken, request);
+		service.signRequest(accessToken, request2);
+
+		request.addHeader("GData-Version", "3.0");
+		request2.addHeader("GData-Version", "3.0");
+
+		org.scribe.model.Response response = request.send();
+		org.scribe.model.Response response2 = request2.send();
+		
+		System.out.println(response.getCode());
+		System.out.println(response.getBody());
+		System.out.println(response2.getBody());
+
+		
+		
+		//JSON string from Facebook response
+		String json = response.getBody();
+		String json2 = response2.getBody();
+		
+		//parse string 
+		String facebookId=null;
+		String name=null;
+		String link=null;
+		
+		
+		
+		try {
+			JSONParser jsonParser = new JSONParser();
+			JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
+			
+			name = (String) jsonObject.get("name");
+			System.out.println("The first name is: " + name);
+			
+			facebookId = (String) jsonObject.get("id");
+			System.out.println("id is: " + facebookId);
+			
+			JSONParser jsonParser2 = new JSONParser();			
+			JSONObject jsonObject2 = (JSONObject) jsonParser2.parse(json2);
+			
+			JSONObject picture = (JSONObject) jsonObject2.get("picture");
+			JSONObject data = (JSONObject) picture.get("data");
+			
+			link = (String) data.get("url");
+			System.out.println("link to FB photo - " + link);
+			
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (NullPointerException ex) {
+			ex.printStackTrace();
+		}
+		
+		//getting userId from current session		
+		HttpSession session = req.getSession(true);	
+		
+		
+		//CASE 1: Editing user profile from MyCabinet. Check if session has parameters
+		if(session.getAttribute("userId") != null){			
+						
+			//Check if user exist by googleId. If exist - we can't join accounts - will be error.
+			//ERROR - when login - two accounts with the same GoogleID
+			User existUserWithFBId=null;
+			try {				
+				
+				existUserWithFBId = userRep.getByFacebookId(facebookId);	
+				
+			} catch (Exception e) {				
+				return SERVER_ERROR;
+			}
+			
+			
+			if (existUserWithFBId != null) {
+				//add params to redirect URL to inform frontend that account is already in use
+				//by another user				
+				String errorUrl= successURL  + "?join=error";				
+				return Response.temporaryRedirect(UriBuilder.fromUri(errorUrl).build()).build();
+			}	
+					
+			
+			int userId = Integer.parseInt((String)session.getAttribute("userId"));
+			System.out.println(userId);
+			
+			//insert in User value of googleId and picture by userId
+			User user=null;
+			try {
+				
+				user = userRep.getById(userId);					
+				user.setFacebookId(facebookId);
+				//user.setSocialPhoto(link);
+				user.setSocialPhoto("link");
+				
+				userRep.update(user);
+				
+			} catch (Exception e) {
+				return SERVER_ERROR;
+			}		
+			
+			session.setAttribute("successMesage", "Successful joining Facebook account");
+			session.setAttribute("user", user);		
+					
+			
+			return Response.temporaryRedirect(UriBuilder.fromUri(successURL).build()).build();
+			
+		}
+		
+		
+		
+		//CASE 2: Login to site. Session is not set. Find User by FacebookId
+		//CASE 3: Registration. Session is not set. Create User with FacebookId and SocialPhoto
+		
+				
+		//Check if user exist by googleId
+		User user=null;
+		
+		try {
+			
+			user = userRep.getByFacebookId(facebookId);
+			
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}
+		
+		if (user != null) {
+			//Case 2
+			
+			//creating Session for founded user. Setting params
+			System.out.println("creating session");	
+			
+			
+			setUpSuccessSession(user, session, "success login with FacebookId");			
+	        			
+			//Entering to site with Session			
+			return Response.temporaryRedirect(UriBuilder.fromUri(successURL).build()).build();
+			
+		}			
+		
+		//else CASE 3		
+		
+		//creating User to register		
+		User userToReg = new User();
+		
+		String userLogin;
+		if (name!=null && !name.isEmpty()) {
+			userLogin = name;
+		} else {
+			userLogin = "unknown";
+		}
+		
+		userToReg.setName(userLogin);
+		userToReg.setSocialLogin(userLogin);
+		
+		userToReg.setSurname("N/A");
+		userToReg.setEmail("N/A");
+		userToReg.setActive(true);
+		userToReg.setAddress("N/A");
+		userToReg.setPhone("N/A");
+		userToReg.setOrganizationInfo("N/A");
+		userToReg.setOrganizationName("N/A");
+		userToReg.setPassword(facebookId);		
+		//userToReg.setSocialPhoto(link);
+		userToReg.setSocialPhoto("link");
+		userToReg.setFacebookId(facebookId);
+		
+		UserRole userRole = new UserRole();
+		userRole.setRole("гість");	
+		userRole.setId(3);
+		List<UserRole> list = new ArrayList<UserRole>();
+		list.add(userRole);		
+		userToReg.setUserRole(list);		
+		
+		UserType userType = new UserType();
+		userType.setId(1);
+		userToReg.setUserType(userType);			
+		
+		Date currentDate = new Date(new java.util.Date().getTime());
+		System.out.println(currentDate);				
+		userToReg.setRegistrationDate(currentDate);		
+		
+		
+		//inserting user to DB
+		try {
+			
+			userRep.insert(userToReg);
+						
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}
+		
+		//creating session		
+		setUpSuccessSession(userToReg, session, "successful Registration with GoogleId");		
+		//session.setAttribute("user", userToReg);
+			
+		
+		//Entering to site with Session		
+		return Response.temporaryRedirect(UriBuilder.fromUri(successURL).build()).build();
+		
+	}	
+	
+	
 
 	private static void setUpSuccessSession(User user, HttpSession session, String success){
 		

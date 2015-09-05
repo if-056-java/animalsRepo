@@ -164,6 +164,22 @@ public class UserRepositoryImpl {
             sqlSession.close();
         }
     }
+    
+    /** created 41X
+     * Returns a User instance from the database.
+     * @param facebookId value used for lookup.
+     * @return A User instance with a FacebookId value equals to pk. null if there is no matching row.
+     */
+    public User getByFacebookId(String facebookId){
+        SqlSession sqlSession =  sqlSessionFactory.openSession();
+
+        try{
+            UserRepository mapper = sqlSession.getMapper(UserRepository.class);
+            return mapper.getByFacebookId(facebookId);
+        } finally {
+            sqlSession.close();
+        }
+    }
 
     /**
      * Returns a User instance from the database for admin animals list.
