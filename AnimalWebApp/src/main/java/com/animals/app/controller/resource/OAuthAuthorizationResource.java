@@ -81,8 +81,14 @@ public class OAuthAuthorizationResource {
 		OAuthService service = null;
 
 		try {
-			service = new ServiceBuilder().provider(Google2Api.class).apiKey(apiKeyG).apiSecret(apiSecretG)
-					.callback(callbackUrlG).scope(SCOPE).offline(true).build();
+			service = new ServiceBuilder()
+					.provider(Google2Api.class)
+					.apiKey(apiKeyG)
+					.apiSecret(apiSecretG)
+					.callback(callbackUrlG)
+					.scope(SCOPE)
+					.offline(true)
+					.build();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,8 +128,14 @@ public class OAuthAuthorizationResource {
 		OAuthService service2 = null;
 
 		try {
-			service2 = new ServiceBuilder().provider(Google2Api.class).apiKey(apiKeyG).apiSecret(apiSecretG)
-					.callback(callbackUrlG).scope(SCOPE).offline(true).build();
+			service2 = new ServiceBuilder()
+					.provider(Google2Api.class)
+					.apiKey(apiKeyG)
+					.apiSecret(apiSecretG)
+					.callback(callbackUrlG)
+					.scope(SCOPE)
+					.offline(true)
+					.build();
 
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -333,16 +345,7 @@ public class OAuthAuthorizationResource {
 		// getting new access token with old refreshToken
 		OAuthRequest request = new OAuthRequest(Verb.POST, "https://www.googleapis.com/oauth2/v3/token");
 		request.addBodyParameter("grant_type", "refresh_token");
-		request.addBodyParameter("refresh_token", refreshGoogleToken); // were
-																		// accessToken
-																		// is
-																		// the
-																		// Token
-																		// object
-																		// you
-																		// want
-																		// to
-																		// refresh.
+		request.addBodyParameter("refresh_token", refreshGoogleToken); 
 		request.addBodyParameter("client_id", apiKeyG);
 		request.addBodyParameter("client_secret", apiSecretG);
 
@@ -376,8 +379,13 @@ public class OAuthAuthorizationResource {
 		OAuthService service2 = null;
 
 		try {
-			service2 = new ServiceBuilder().provider(Google2Api.class).apiKey(apiKeyG).apiSecret(apiSecretG)
-					.callback(callbackUrlG).scope(SCOPE).build();
+			service2 = new ServiceBuilder()
+					.provider(Google2Api.class)
+					.apiKey(apiKeyG)
+					.apiSecret(apiSecretG)
+					.callback(callbackUrlG)
+					.scope(SCOPE)
+					.build();
 
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -453,8 +461,12 @@ public class OAuthAuthorizationResource {
 		OAuthService service = null;
 
 		try {
-			service = new ServiceBuilder().provider(FacebookApi.class).apiKey(apiKeyF).apiSecret(apiSecretF)
-					.callback(callbackUrlF).build();
+			service = new ServiceBuilder()
+					.provider(FacebookApi.class)
+					.apiKey(apiKeyF)
+					.apiSecret(apiSecretF)
+					.callback(callbackUrlF)
+					.build();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -495,7 +507,10 @@ public class OAuthAuthorizationResource {
 		OAuthService service = null;
 
 		try {
-			service = new ServiceBuilder().provider(FacebookApi.class).apiKey(apiKeyF).apiSecret(apiSecretF)
+			service = new ServiceBuilder()
+					.provider(FacebookApi.class)
+					.apiKey(apiKeyF)
+					.apiSecret(apiSecretF)
 					.callback(callbackUrlF).build();
 
 		} catch (Exception e1) {
@@ -736,8 +751,9 @@ public class OAuthAuthorizationResource {
 	@GET
 	@Path("login/twitter_token") // http://localhost:8080/webapi/account/login/twitter_token
 	public Response getTwitterAccessToken(@QueryParam("oauth_token") String oauth_token,
-			@QueryParam("oauth_verifier") String oauth_verifier, @QueryParam("error") String error,
-			@Context HttpServletRequest req) {
+										  @QueryParam("oauth_verifier") String oauth_verifier, 
+										  @QueryParam("denied") String error,
+										  @Context HttpServletRequest req) {
 
 		// Define URLs and callback
 		String pathAll = req.getRequestURL().toString();
@@ -834,8 +850,7 @@ public class OAuthAuthorizationResource {
 
 			if (existUserWithTWId != null) {
 				// add params to redirect URL to inform frontend that account is
-				// already in use
-				// by another user
+				// already in use by another user
 				String errorUrl = successURL + "?join=error";
 				return Response.temporaryRedirect(UriBuilder.fromUri(errorUrl).build()).build();
 			}
