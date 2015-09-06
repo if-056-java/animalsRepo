@@ -55,75 +55,75 @@
 		<div class="col-xs-12 col-sm-6 col-md-5 col-lg-5" id="userData" ng-show="!contentLoading">
 			<br><br>
 			<div class="row">
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{ 'LOGIN' | translate }}:</label>
 				</div>
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{userInfo.socialLogin}}</label>
 				</div>
 				
 			</div>
 			<div class="row">
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{ 'USER_NAME' | translate }}:</label>
 				</div>
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{userInfo.name}}</label>
 				</div>				
 			</div>
 			<div class="row">
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{ 'USER_SURNAME' | translate }}:</label>
 				</div>
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{userInfo.surname}}</label>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{ 'REGISTRATION_DATE' | translate }}:</label>
 				</div>
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{userInfo.registrationDate}}</label>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{ 'USER_EMAIL' | translate }}:</label>
 				</div>
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{userInfo.email}}</label>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{ 'USER_PHONE' | translate }}:</label>
 				</div>
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{userInfo.phone}}</label>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{ 'USER_ADDRESS' | translate }}:</label>
 				</div>
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{userInfo.address}}</label>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{ 'REG_ORGANIZATION_NAME' | translate }}:</label>
 				</div>
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{userInfo.organizationName}}</label>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{ 'REG_ORGANIZATION_INFO' | translate }}:</label>
 				</div>
-				<div class="col-lg-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<label >{{userInfo.organizationInfo}}</label>
 				</div>
 			</div>
@@ -141,7 +141,7 @@
 
 			<div class="col-xs-0 col-sm-0 col-md-2 col-lg-2"></div>
 			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 usualReg">
-			<form class="form-horizontal" name="form">
+			<form class="form-horizontal" name="form" novalidate>
 			<div class="col-xs-0 col-sm-1 col-md-1 col-lg-1"></div><h3>{{ 'USER_INFORMATION_EDIT' | translate }}</h3>
 			<div class="col-xs-0 col-sm-0 col-md-2 col-lg-2"></div>
 			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
@@ -215,7 +215,8 @@
 		  		<div class="form-group">		  		
 			  		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">	  			
 			  		<div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
-					<button ng-click="submitUpdatedForm()" class="btn btn-success btn-md col-xs-12 col-sm-12 col-md-5 col-lg-5" id = "usualReg" >{{ 'SAVE' | translate }}</button>
+					<button ng-click="submitUpdatedForm()" class="btn btn-success btn-md col-xs-12 col-sm-12 col-md-5 col-lg-5"
+							 id = "usualReg" ng-disabled="form.$invalid">{{ 'SAVE' | translate }}</button>
 					<div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
 					<button ng-click="closePopup()" class="btn btn-danger btn-md col-xs-12 col-sm-12 col-md-5 col-lg-5" >{{ 'CANCEL' | translate }}</button>
 					</div>	  			 			
