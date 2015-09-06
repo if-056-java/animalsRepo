@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by oleg on 24.07.2015.
  */
-public class UserRepositoryImpl {
+public class UserRepositoryImpl implements UserRepository {
 
     private SqlSessionFactory sqlSessionFactory;
 

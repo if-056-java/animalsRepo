@@ -45,7 +45,23 @@ angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, 
                 def.reject("Failed to update user");
             });
 			return def.promise;			
-		}	
+		},
+		
+		getAnimal: function (animalId) {
+			
+			var def = $q.defer();
+			var id = localStorageService.get("userId");
+			
+			$http.defaults.headers.common['AccessToken'] = localStorageService.get("accessToken");
+			$http.get("/webapi/users/user/"+id+"/animals/"+ animalId)
+			.success(function (data) {
+                def.resolve(data);
+            })
+            .error(function (error) {
+                def.reject("Failed to get animal");
+            });
+			return def.promise;
+		},
 		
 	};	
 	

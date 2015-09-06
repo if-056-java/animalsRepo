@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,12 +13,15 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.animals.app.domain.Animal;
 import com.animals.app.domain.User;
+import com.animals.app.repository.AnimalRepository;
+import com.animals.app.repository.UserRepository;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 
@@ -31,9 +36,10 @@ public class UserResource {
 	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	
 	private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();	
 	private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+	private final Response FORBIDEN = Response.status(Response.Status.FORBIDDEN).build();
 	
-	private UserRepositoryImpl userRep = new UserRepositoryImpl();
-	AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+	private UserRepository userRep = new UserRepositoryImpl();
+	private AnimalRepository animalRep = new AnimalRepositoryImpl();
 	
 	
 	@GET //http:localhost:8080/webapi/users/user/{userId}
@@ -80,7 +86,7 @@ public class UserResource {
         }
 		
 		try {
-			List<Animal> animals = animalRepository.getAnimalByUserId(parseId);
+			List<Animal> animals = animalRep.getAnimalByUserId(parseId);
 			
 			GenericEntity<List<Animal>> genericAnimals =
 			        new GenericEntity<List<Animal>>(animals) {};
@@ -143,5 +149,29 @@ public class UserResource {
 			return SERVER_ERROR;
 		}		
 	}
+	
+	@GET //http:localhost:8080/webapi/users/user/{userId}/animals/{animalId}   
+    @Path("user/{userId}/animals/{animalId}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAnimal(@PathParam ("userId") String id,
+    						  @PathParam("animalId") long animalId,
+    						  @Context HttpServletRequest req) {
+        
+		if (animalId == 0 || animalId<0) {
+            return BAD_REQUEST;
+        }
+		
+		HttpSession session = req.getSession(true);
+		System.out.println("userId - " + session.getAttribute("userId"));
+		
+		if (!session.getAttribute("userId").equals(id)){
+			return FORBIDEN;
+		}
+
+        //get animal by id from data base        
+        Animal animal = animalRep.getById(animalId);
+
+        return Response.ok().entity(animal).build();
+    }
 
 }
