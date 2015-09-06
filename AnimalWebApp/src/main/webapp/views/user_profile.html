@@ -32,7 +32,7 @@
                     <p class="blocktext2">{{ 'USER_SOCIAL_ASSIGN' | translate }}</p>
                     <div class="text-center">
                     	<a ng-click = "JoinFacebook()" class="btn btn-social-icon btn-facebook btn-md"><i class="fa fa-facebook"></i></a>
-                    	<a ng-disabled="userInfo.socialPhoto" ng-click = "JoinGoogle()" class="btn btn-social-icon btn-google btn-md"><i class="fa fa-google"></i></a>
+                    	<!--ng-disabled="userInfo.socialPhoto"--> <a ng-click = "JoinGoogle()" class="btn btn-social-icon btn-google btn-md"><i class="fa fa-google"></i></a>
                     	<a ng-click = "JoinTwitter()" class="btn btn-social-icon btn-twitter btn-md"><i class="fa fa-twitter"></i></a>        	                	                   	
 					</div>
 					<div ng-show="errorJoinMessage">
@@ -170,18 +170,19 @@
 		      		<input class="form-control" id="userEmail" type="email" ng-model="fields.email" placeholder="{{userInfo.email}}">
 		    		</div>
 		    	</div>
-		    	<div class="form-group">		    			  		
+		    	<div class="form-group" data-ng-class="{'has-error':form.password.$error.minlength}">		    			  		
 		    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label" >{{ 'USER_NEW_PASSWORD' | translate }}:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-		      		<input class="form-control" type="password" name='password' ng-model="passwordNew">
+		      		<input class="form-control" type="password" name='password' ng-minlength='5' ng-model="passwordNew">
+		      		<div ng-show="form.password.$error.minlength" class="help-inline">Password should be minimum 5 character</div>
 		    		</div>
 		    	</div>
 		    	<div class="form-group" data-ng-class="{'has-error':form.confirm_password.$error.passwordVerify}">		    			  		
 		    		<label class="col-xs-10 col-sm-5 col-md-3 col-lg-3 control-label" >{{ 'REG_REPEAT_PASSWORD' | translate }}:</label>
 		    		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-		      		<input class="form-control" type="password" name="confirm_password" ng-model="password_new_confirm" required data-password-verify="passwordNew">
+		      		<input class="form-control" type="password" name="confirm_password" ng-minlength='5' ng-model="password_new_confirm" required data-password-verify="passwordNew">
 		      		<div ng-show="form.confirm_password.$error.passwordVerify">Fields are not equal!</div>
-	    			<div ng-show="errorConfirmMessage">You can't submit form with not equal fields!</div>
+	    			<div ng-show="errorConfirmMessage">You can't submit form with not equal fields!</div>	    			
 		    		</div>
 		    	</div>
 		    	<div class="form-group">		    			  		
@@ -268,7 +269,7 @@
             <tbody>
             <tr ng-repeat="animal in userAnimalInfo">
                 <td>{{ animal.type.type }}</td>
-                <td>{{ animal.sort }}</td>
+                <td>{{ animal.breed.breedUa }}</td>
                 <td>{{ animal.sex }}</td>
                 <td>{{ animal.color }}</td>
                 <td>{{ animal.transpNumber }}</td>
