@@ -1,12 +1,15 @@
 package com.animals.app.controller.resource;
 
+import java.io.File;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -36,10 +39,11 @@ public class UserResource {
 	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	
 	private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();	
 	private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-	private final Response FORBIDEN = Response.status(Response.Status.FORBIDDEN).build();
+	private final Response UNAUTHORIZED = Response.status(Response.Status.UNAUTHORIZED).build();
 	
 	private UserRepository userRep = new UserRepositoryImpl();
-	private AnimalRepository animalRep = new AnimalRepositoryImpl();
+	private AnimalRepository animalRep = new AnimalRepositoryImpl();	
+	
 	
 	
 	@GET //http:localhost:8080/webapi/users/user/{userId}
@@ -162,16 +166,50 @@ public class UserResource {
         }
 		
 		HttpSession session = req.getSession(true);
-		System.out.println("userId - " + session.getAttribute("userId"));
 		
 		if (!session.getAttribute("userId").equals(id)){
-			return FORBIDEN;
+			return UNAUTHORIZED;
 		}
 
         //get animal by id from data base        
         Animal animal = animalRep.getById(animalId);
 
         return Response.ok().entity(animal).build();
+    }
+	
+	@DELETE //http:localhost:8080/webapi/animals/{animalId}    
+    @Path("user/{userId}/animals/{animalId}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response deleteAnimal(@PathParam ("userId") String id,
+    							 @PathParam("animalId") long animalId,
+    							 @Context HttpServletRequest req) {
+
+		if (animalId == 0 || animalId<0) {
+			return BAD_REQUEST;
+		}
+		
+		HttpSession session = req.getSession(true);
+		
+		if (!session.getAttribute("userId").equals(id)){
+			return UNAUTHORIZED;
+		}        
+   
+        String restPath = req.getServletContext().getRealPath("/");				//path to rest root folder   
+        
+        Animal animal = animalRep.getById(animalId);
+
+        //delete image
+        if (animal.getImage() != null) {
+            File file = new File(restPath + animal.getImage());
+            if (file.exists()) {
+                file.delete();
+            }
+        }
+
+        //delete animal in data base by id
+        animalRep.delete(animalId);
+
+        return Response.ok().build();
     }
 
 }
