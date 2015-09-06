@@ -9,16 +9,14 @@ animalApp.controller('AnimalsEditorUserController', ['$scope', 'userData', '$rou
     new Spinner(opts).spin(targetContent);   
     $scope.contentLoading = 0;
 	
-    var animalId = $routeParams.animalId;       //animal id
-    console.log(animalId);    
+    var animalId = $routeParams.animalId;       //animal id   
     $scope.animalImage = undefined;
 
 	$scope.contentLoading++;
 	userData.getAnimal(animalId).then(
 			function(result){
 				$scope.animal=result;
-				$scope.animalImage = "resources/img/noimg.png";
-				console.log(result.image);
+				$scope.animalImage = "resources/img/noimg.png";				
                 if (result.image != undefined) {
                     if (result.image.length > 0) {
                         $scope.animalImage = result.image;

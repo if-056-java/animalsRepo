@@ -17,8 +17,7 @@ animalApp.controller('AnimalsDetailedUserController', ['$scope', 'userData', '$r
 			function(result){
 				$scope.animal=result;
 				$scope.animalImage = "resources/img/noimg.png";
-				console.log(result.image);
-                if (result.image != undefined) {
+				if (result.image != undefined) {
                     if (result.image.length > 0) {
                         $scope.animalImage = result.image;
                     }
