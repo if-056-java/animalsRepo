@@ -9,9 +9,7 @@ animalApp.controller('AnimalsDetailedUserController', ['$scope', 'userData', '$r
     new Spinner(opts).spin(targetContent);   
     $scope.contentLoading = 0;
 	
-    var animalId = $routeParams.animalId;       //animal id
-    console.log(animalId);
-    //$scope.animal = AnimalsAdminValues.animal;  //animal
+    var animalId = $routeParams.animalId;       //animal id    
     $scope.animalImage = undefined;
 
 	$scope.contentLoading++;

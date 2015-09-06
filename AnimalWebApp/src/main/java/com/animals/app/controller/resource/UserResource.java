@@ -1,6 +1,13 @@
 package com.animals.app.controller.resource;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
@@ -21,12 +28,18 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import com.animals.app.domain.Animal;
 import com.animals.app.domain.User;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.UserRepository;
+import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
+
+import sun.misc.BASE64Decoder;
 
 /**
  * Created by 41X on 8/12/2015.
@@ -44,7 +57,7 @@ public class UserResource {
 	private UserRepository userRep = new UserRepositoryImpl();
 	private AnimalRepository animalRep = new AnimalRepositoryImpl();	
 	
-	
+	private static Logger LOG = LogManager.getLogger(AdminResource.class);
 	
 	@GET //http:localhost:8080/webapi/users/user/{userId}
 	@Produces(MediaType.APPLICATION_JSON)
@@ -177,7 +190,7 @@ public class UserResource {
         return Response.ok().entity(animal).build();
     }
 	
-	@DELETE //http:localhost:8080/webapi/animals/{animalId}    
+	@DELETE //http:localhost:8080/webapi/users/user/{userId}/animals/{animalId} 
     @Path("user/{userId}/animals/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response deleteAnimal(@PathParam ("userId") String id,
@@ -210,6 +223,95 @@ public class UserResource {
         animalRep.delete(animalId);
 
         return Response.ok().build();
+    }
+	
+    @POST //http:localhost:8080/webapi/users/user/{userId}/animals/animal
+    @Path("user/{userId}/animals/animal")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateAnimal(Animal animal,
+    							 @PathParam ("userId") String id,
+    							 @Context HttpServletRequest req) {
+    	
+    	HttpSession session = req.getSession(true);
+		
+		if (!session.getAttribute("userId").equals(id)){
+			return UNAUTHORIZED;
+		}  
+    	
+    	String imageFolder = "images/";
+
+        if(animal == null) {
+            return BAD_REQUEST;
+        }
+
+        //check breed, if it new insert it into database
+        if ((animal.getBreed() != null) && (animal.getBreed().getId() == null) && (animal.getBreed().getBreedUa() != null)) {
+            animal.getBreed().setType(animal.getType());
+            new AnimalBreedRepositoryImpl().insert_ua(animal.getBreed());
+        }
+
+        if ((animal.getImage() != null) && (animal.getImage().length() > (imageFolder.length() + 21))) {
+            String fileStr = animal.getImage();
+            String fileName = fileStr.substring(0, fileStr.indexOf('\n'));
+            fileStr = fileStr.substring(fileStr.indexOf('\n') + 1);
+            fileName = new SimpleDateFormat("yyyyMMddHHmmssS").format(new Date()) + fileName.substring(fileName.lastIndexOf('.'));
+            String restPath = req.getServletContext().getRealPath("/");         //path to rest root folder
+            String httpPath = imageFolder + fileName;                                   //relative path to uploaded file
+
+            //get animal by id from database
+            AnimalRepository animalRepository = new AnimalRepositoryImpl();
+            Animal oldAnimal = animalRepository.getById(animal.getId());
+
+            //delete old image
+            File file = new File(restPath + oldAnimal.getImage());
+            if (file.exists()) {
+                file.delete();
+            }
+
+            byte[] decodedBytes = null;
+            BASE64Decoder decoder = new BASE64Decoder();
+            try {
+                decodedBytes = decoder.decodeBuffer(fileStr);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            InputStream is = new ByteArrayInputStream(decodedBytes);
+
+            //Load and save image
+            OutputStream out = null;
+            try {
+                int read = 0;
+                byte[] bytes = new byte[1024];
+
+                out = new FileOutputStream(new File(restPath + httpPath));
+                while ((read = is.read(bytes)) != -1) {
+                    out.write(bytes, 0, read);
+                }
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                LOG.error(e);
+                return SERVER_ERROR;
+            } finally {
+                try {
+                    out.close();
+                } catch (IOException ex) {
+                    LOG.error(ex);
+                }
+            }
+
+            animal.setImage(httpPath);
+        }
+
+        //Update animal
+        AnimalRepository animalRepository = new AnimalRepositoryImpl();
+        animalRepository.update(animal);
+
+        //return relative image path to client
+        String json = "{\"filePath\":\"" + animal.getImage() + "\"}";
+       
+        return Response.ok().entity(json).build();
     }
 
 }

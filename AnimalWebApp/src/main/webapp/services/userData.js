@@ -76,7 +76,23 @@ angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, 
                 def.reject("Failed to delete animal");
             });
 			return def.promise;
-		}
+		},
+		
+		updateAnimal: function(animal) {
+            var def = $q.defer();
+            var id = localStorageService.get("userId");
+            
+            $http.defaults.headers.common['AccessToken'] = localStorageService.get("accessToken");
+            $http.post("/webapi/users/user/"+id+"/animals/animal", animal)
+                .success(function(data) {
+                    def.resolve(data);
+                })
+                .error(function() {
+                    def.reject("Failed to update animal.");
+                });
+
+            return def.promise;
+        }
 		
 	};	
 	
