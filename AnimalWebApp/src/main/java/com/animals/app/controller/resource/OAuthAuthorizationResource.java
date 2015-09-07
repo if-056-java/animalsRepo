@@ -18,7 +18,6 @@ import javax.ws.rs.core.UriBuilder;
 import com.animals.app.service.googleoauth.Google2Api;
 import com.animals.app.service.googleoauth.ServiceBuilder;
 import org.apache.commons.codec.binary.Base64;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -557,9 +556,8 @@ public class OAuthAuthorizationResource {
 
 			facebookId = (String) jsonObject.get("id");
 			System.out.println("id is: " + facebookId);
-
-			JSONParser jsonParser2 = new JSONParser();
-			JSONObject jsonObject2 = (JSONObject) jsonParser2.parse(json2);
+			
+			JSONObject jsonObject2 = (JSONObject) jsonParser.parse(json2);
 
 			JSONObject picture = (JSONObject) jsonObject2.get("picture");
 			JSONObject data = (JSONObject) picture.get("data");
@@ -1061,7 +1059,8 @@ public class OAuthAuthorizationResource {
 
 		// creating Session for founded user. Setting params
 		setUpSuccessSession(user, sessionNew, "success direct login with Twitter");
-		//sessionNew.setAttribute("twitterAccessToken", twitterAccessToken);
+		sessionNew.setAttribute("twitterToken", twitterToken);
+		sessionNew.setAttribute("twitterSecret", twitterSecret);
 
 		return Response.status(Response.Status.OK).entity(successURL).build();		
 		

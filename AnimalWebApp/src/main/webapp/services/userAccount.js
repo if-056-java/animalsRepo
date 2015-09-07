@@ -128,12 +128,14 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		        	localStorageService.set("userRole", data.userRole);
 		        	localStorageService.set("userRoleId", data.userRoleId);	
 		        	
-		        	
-		        	localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);	        	
-		        	localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);
-		        	
-		        	localStorageService.cookie.set("twitterToken",data.twitterToken,30);
-		        	localStorageService.cookie.set("twitterSecret",data.twitterSecret,30);		        	
+		        	if(data.refreshGoogleToken !== "null"){
+		        		localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);	        	
+		        		localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);		        		
+		        	}
+		        	if(data.twitterToken !== "null"){
+		        		localStorageService.cookie.set("twitterToken",data.twitterToken,30);
+		        		localStorageService.cookie.set("twitterSecret",data.twitterSecret,30);
+		        	}
 		        	
 		        	$location.path("/ua/user/profile");	
 			        $route.reload();
