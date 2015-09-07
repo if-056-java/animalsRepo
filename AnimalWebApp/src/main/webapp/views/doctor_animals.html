@@ -114,8 +114,12 @@
                 </form>
             </div>
 
+            <!-- Error message -->
+            <h3 class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="top: 160px;" ng-show="error">
+                {{ error }}</h3>
+
             <!-- Animals list -->
-            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 panel panel-success table-responsive" ng-show="totalItems">
+            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 panel panel-success table-responsive" ng-hide="error">
                 <table class="table table-hover table-vcenter">
                     <thead>
                     <tr>
@@ -144,10 +148,6 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Error message -->
-            <h3 class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="top: 160px;" ng-hide="totalItems">
-                Немає записів.</h3>
 
         </div>
         <div class="row">

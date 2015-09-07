@@ -105,13 +105,13 @@
                 </form>
             </div>
 
-            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 panel panel-success table-responsive" style="height: 100%">
-                <!-- Error message -->
-                <h3 style="vertical-align: middle;" ng-show="error">
-                    {{ error }}</h3>
+            <!-- Error message -->
+            <h3 class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="top: 160px;" ng-show="error">
+                {{ error }}</h3>
 
-                <!-- Animals list -->
-                <table class="table table-hover table-vcenter" ng-hide="error">
+            <!-- Animals list -->
+            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 panel panel-success table-responsive" ng-hide="error">
+                <table class="table table-hover table-vcenter">
                     <thead>
                     <tr>
                         <td><strong>{{ 'TYPE' | translate }}</strong></td>

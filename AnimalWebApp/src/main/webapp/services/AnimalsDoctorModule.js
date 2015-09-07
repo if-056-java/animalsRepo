@@ -15,8 +15,9 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
             this.getAnimals = function() {
 
                 return AnimalsService.getAnimalsForAdmin(AnimalsDoctorValues.filter)
-                    .then(function(data) {
-                        AnimalsDoctorValues.animals.values = data;
+                    .then(function(response) {
+                        AnimalsDoctorValues.animals.values = response.data;
+                        return response;
                     });
             }
 
@@ -27,8 +28,9 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
             this.getPagesCount = function() {
 
                 return AnimalsService.getAnimalsPaginatorForAdmin(AnimalsDoctorValues.filter)
-                    .then(function(data) {
-                        AnimalsDoctorValues.totalItems.count = data.rowsCount;
+                    .then(function(response) {
+                        AnimalsDoctorValues.totalItems.count = response.data.rowsCount;
+                        return response;
                     });
             }
 
@@ -49,8 +51,9 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
                 }
 
                 return AnimalsService.getAnimalForAdmin(animalId)
-                    .then(function(data) {
-                        angular.copy(data, AnimalsDoctorValues.animal);
+                    .then(function(response) {
+                        angular.copy(response.data, AnimalsDoctorValues.animal);
+                        return response;
                     });
             }
 
@@ -66,8 +69,9 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
                 }
 
                 return AnimalsService.getAnimalTypes()
-                    .then(function(data) {
-                        AnimalsDoctorValues.animalTypes.values = data;
+                    .then(function(response) {
+                        AnimalsDoctorValues.animalTypes.values = response.data;
+                        return response;
                     });
             }
 
@@ -83,8 +87,9 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
                 }
 
                 return AnimalsService.getAnimalServices()
-                    .then(function(data) {
-                        AnimalsDoctorValues.animalServices.values = data;
+                    .then(function(response) {
+                        AnimalsDoctorValues.animalServices.values = response.data;
+                        return response;
                     });
             }
 
@@ -103,8 +108,9 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
             this.getMedicalHistoryItems = function(animalId) {
 
                 return AnimalsService.getMedicalHistoryItemsForDoctor(animalId, AnimalMedicalHistoryValues.filter)
-                    .then(function(data) {
-                        AnimalMedicalHistoryValues.items.values = data;
+                    .then(function(response) {
+                        AnimalMedicalHistoryValues.items.values = response.data;
+                        return response;
                     });
             }
 
@@ -115,8 +121,9 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
             this.getMedicalHistoryPagesCount = function(animalId) {
 
                 return AnimalsService.getMedicalHistoryPagesCountForDoctor(animalId)
-                    .then(function(data) {
-                        AnimalMedicalHistoryValues.totalItems.count = data.rowsCount;
+                    .then(function(response) {
+                        AnimalMedicalHistoryValues.totalItems.count = response.data.rowsCount;
+                        return response;
                     });
             }
 
@@ -150,8 +157,9 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
                 }
 
                 return AnimalsService.getMedicalHistoryItemForDoctor(itemId)
-                    .then(function(data) {
-                        AnimalMedicalHistoryValues.item = data;
+                    .then(function(response) {
+                        AnimalMedicalHistoryValues.item = response.data;
+                        return response;
                     });
             }
 
@@ -162,7 +170,7 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
             this.getMedicalHistoryItemDelete = function(itemId) {
 
                 return AnimalsService.getMedicalHistoryItemDeleteForDoctor(itemId)
-                    .then(function(data) {
+                    .then(function(response) {
                         for (var temp in AnimalMedicalHistoryValues.items.values) {
                             if (AnimalMedicalHistoryValues.items.values[temp].id == itemId) {
                                 AnimalMedicalHistoryValues.items.values.splice(temp, 1);
@@ -184,8 +192,9 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
                 }
 
                 return AnimalsService.getAnimalMedicalHistoryTypesForDoctor()
-                    .then(function(data) {
-                        AnimalMedicalHistoryValues.itemTypes.values = data;
+                    .then(function(response) {
+                        AnimalMedicalHistoryValues.itemTypes.values = response.data;
+                        return response;
                     });
             }
 

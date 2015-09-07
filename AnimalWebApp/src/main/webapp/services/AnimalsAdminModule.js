@@ -53,8 +53,9 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
                 }
 
                 return AnimalsService.getAnimalForAdmin(animalId)
-                    .then(function(data) {
-                        angular.copy(data, AnimalsAdminValues.animal);
+                    .then(function(response) {
+                        angular.copy(response.data, AnimalsAdminValues.animal);
+                        return response;
                     });
             }
 
@@ -88,8 +89,9 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
                 }
 
                 return AnimalsService.getAnimalTypes()
-                    .then(function(data) {
-                        AnimalsAdminValues.animalTypes.values = data;
+                    .then(function(response) {
+                        AnimalsAdminValues.animalTypes.values = response.data;
+                        return response;
                     });
             }
 
@@ -105,8 +107,9 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
                 }
 
                 return AnimalsService.getAnimalServices()
-                    .then(function(data) {
-                        AnimalsAdminValues.animalServices.values = data;
+                    .then(function(response) {
+                        AnimalsAdminValues.animalServices.values = response.data;
+                        return response;
                     });
             }
 
@@ -153,8 +156,9 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
             this.deleteAnimalImage = function(animalId) {
 
                 return AnimalsService.deleteAnimalImageForAdmin(animalId)
-                    .then(function(data) {
+                    .then(function(response) {
                         AnimalsAdminValues.animal.image = undefined;
+                        return response;
                     });
             }
     }]);

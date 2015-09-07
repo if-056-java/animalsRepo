@@ -30,8 +30,8 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
                 $scope.error = undefined;
 
                 AnimalsAdminService.getAnimals()
-                    .catch(function (response) {
-                        if (response.status == 404) {
+                    .then(function (response) {
+                        if ($scope.animals.values.length == 0) {
                             $scope.error = $filter('translate')("ERROR_NO_ANIMALS");
                         }
                     })
@@ -103,8 +103,8 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
             $scope.getAnimalBreeds = function() {
                 $scope.filterAnimalBreedFlag = true;
                 AnimalsAdminService.getAnimalBreeds($scope.filter.animal.type.id)
-                    .then(function(data) {
-                        $scope.animalBreeds = data;
+                    .then(function(response) {
+                        $scope.animalBreeds = response.data;
                     })
                     .finally(function() {
                         $scope.filterAnimalBreedFlag = false;
