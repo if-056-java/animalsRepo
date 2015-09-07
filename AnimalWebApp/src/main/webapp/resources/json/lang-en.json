@@ -199,6 +199,8 @@
   "DELETE_IMAGE": "Delete image",
   "DELETE_IMAGE_CONFIRM": "Are you sure you want to delete image?",
   "DELETE_IMAGE_FAILED": "Image delete failed.",
-  "DELETE_IMAGE_NO_IMAGE": "No image to delete."
+  "DELETE_IMAGE_NO_IMAGE": "No image to delete.",
+
+  "ERROR_NO_ANIMALS": "No animals."
 
 }

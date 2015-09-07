@@ -1,40 +1,58 @@
-angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.select', 'DPController', 'AnimalsAdminValues', 'LocalStorageModule'])
-    .controller('AnimalsAdminController', ['$scope', '$http', 'AnimalsAdminService', 'AnimalsAdminValues', 'localStorageService',
-        function($scope, $http, AnimalsAdminService, AnimalsAdminValues, localStorageService) {
+angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.select', 'DPController', 'AnimalsAdminValues'])
+    .controller('AnimalsAdminController', ['$scope', 'AnimalsAdminService', 'AnimalsAdminValues', '$filter',
+        function($scope, AnimalsAdminService, AnimalsAdminValues, $filter) {
 
             AnimalsAdminService.rolesAllowed("модератор");
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
-            //This variable decides when spinner loading for contentis closed.
-            $scope.contentLoading = 4;
 
             $scope.filter = AnimalsAdminValues.filter;            //filter
-            $scope.totalItems = 0 // AnimalsAdminValues.totalItems;    //table rows count
+            $scope.totalItems = AnimalsAdminValues.totalItems;    //table rows count
             $scope.animals = AnimalsAdminValues.animals;          //animal instance
+
 
             /**
              * @return count of rows for pagination.
              */
-            AnimalsAdminService.getPagesCount()
-                .finally(function() {
-                    $scope.contentLoading--;
-                });
+            var getPagesCount = function() {
+                AnimalsAdminService.getPagesCount()
+                    .finally(function () {
+                        $scope.contentLoading--;
+                    });
+            }
 
             /**
              * @return list of animals.
              */
-            AnimalsAdminService.getAnimals()
-                .finally(function() {
-                    $scope.contentLoading--;
-                });
+            var getAnimals = function() {
+                $scope.error = undefined;
+
+                AnimalsAdminService.getAnimals()
+                    .catch(function (response) {
+                        if (response.status == 404) {
+                            $scope.error = $filter('translate')("ERROR_NO_ANIMALS");
+                        }
+                    })
+                    .finally(function () {
+                        $scope.contentLoading--;
+                    });
+            }
+
+            $scope.getData = function() {
+                $scope.contentLoading = 2;
+                getPagesCount();
+                getAnimals();
+            }
+
+            $scope.getData();
 
             /**
              * @return next page.
              */
             $scope.pageChanged = function() {
-                AnimalsAdminService.getAnimals();
+                getAnimals();
             };
 
             /**
@@ -42,7 +60,7 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
              */
             $scope.countChanged = function(count) {
                 $scope.filter.limit = count;
-                AnimalsAdminService.getAnimals();
+                getAnimals();
             };
 
             /**
@@ -72,18 +90,12 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
             /**
              * @return list of animal types.
              */
-            AnimalsAdminService.getAnimalTypes()
-                .finally(function() {
-                    $scope.$parent.contentLoading--;
-                });
+            AnimalsAdminService.getAnimalTypes();
 
             /**
              * @return list of animal types.
              */
-            AnimalsAdminService.getAnimalServices()
-                .finally(function() {
-                    $scope.$parent.contentLoading--;
-                });
+            AnimalsAdminService.getAnimalServices();
 
             /**
              * @return list of animal breeds according to animal type.
@@ -123,7 +135,6 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
 
                 $scope.filter.animal.dateOfRegister = $filter('date')($scope.filter.animal.dateOfRegister, 'yyyy-MM-dd');
 
-                AnimalsAdminService.getPagesCount();
-                AnimalsAdminService.getAnimals();
+                $scope.$parent.getData();
             };
     }]);

@@ -13,17 +13,8 @@ angular.module('AnimalsModule', ['LocalStorageModule'])
              * @return list of animals.
              */
             this.getAnimalsForAdmin = function(filter) {
-                var def = $q.defer();
 
-                $http.post(RESOURCES.ANIMALS_FOR_ADMIN, filter)
-                    .success(function(data) {
-                        def.resolve(data);
-                    })
-                    .error(function() {
-                        def.reject("Failed to get animals.");
-                    });
-
-                return def.promise;
+                return $http.post(RESOURCES.ANIMALS_FOR_ADMIN, filter);
             }
 
             /**
@@ -31,17 +22,8 @@ angular.module('AnimalsModule', ['LocalStorageModule'])
              * @return count of rows for pagination.
              */
             this.getAnimalsPaginatorForAdmin = function(filter) {
-                var def = $q.defer();
 
-                $http.post(RESOURCES.ANIMALS_FOR_ADMIN_PAGINATOR, filter)
-                    .success(function(data) {
-                        def.resolve(data);
-                    })
-                    .error(function() {
-                        def.reject("Failed to get page count.");
-                    });
-
-                return def.promise;
+                return $http.post(RESOURCES.ANIMALS_FOR_ADMIN_PAGINATOR, filter);
             }
 
             /**

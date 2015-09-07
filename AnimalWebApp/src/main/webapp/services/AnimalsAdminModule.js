@@ -13,10 +13,12 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
              * @return list of animals.
              */
             this.getAnimals = function() {
+                AnimalsAdminValues.animals.values = [];
 
                 return AnimalsService.getAnimalsForAdmin(AnimalsAdminValues.filter)
-                    .then(function(data) {
-                        AnimalsAdminValues.animals.values = data;
+                    .then(function(response) {
+                        AnimalsAdminValues.animals.values = response.data;
+                        return response;
                     });
             }
 
@@ -25,10 +27,12 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
              * @return count of rows for pagination.
              */
             this.getPagesCount = function() {
+                AnimalsAdminValues.totalItems.count = 0;
 
                 return AnimalsService.getAnimalsPaginatorForAdmin(AnimalsAdminValues.filter)
-                    .then(function(data) {
-                        AnimalsAdminValues.totalItems.count = data.rowsCount;
+                    .then(function(response) {
+                        AnimalsAdminValues.totalItems.count = response.data.rowsCount;
+                        return response;
                     });
             }
 

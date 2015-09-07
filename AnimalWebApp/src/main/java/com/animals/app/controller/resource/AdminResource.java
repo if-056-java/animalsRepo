@@ -58,7 +58,7 @@ public class AdminResource {
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
         List<Animal> animals = animalRepository.getAdminAnimals(animalsFilter);
 
-        if(animals == null) {
+        if(animals == null || animals.size() == 0) {
             return NOT_FOUND;
         }
 
@@ -85,6 +85,10 @@ public class AdminResource {
         //get count of row according to filter
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
         long pages = animalRepository.getAdminAnimalsPaginator(animalsFilter);
+
+        if (pages ==0) {
+            return NOT_FOUND;
+        }
 
         String json = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
 

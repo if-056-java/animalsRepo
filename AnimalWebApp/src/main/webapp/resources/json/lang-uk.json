@@ -199,7 +199,8 @@
   "DELETE_IMAGE": "Видалити фото",
   "DELETE_IMAGE_CONFIRM": "Ви дійсно хочете видалити зображення ?",
   "DELETE_IMAGE_FAILED": "Не вдалось видалити зображення.",
-  "DELETE_IMAGE_NO_IMAGE": "Зображення відсутнє."
+  "DELETE_IMAGE_NO_IMAGE": "Зображення відсутнє.",
 
+  "ERROR_NO_ANIMALS": "Тварини відсутні."
 
 }
