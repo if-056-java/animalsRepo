@@ -39,8 +39,11 @@ animalApp.controller('LoginController', ['$scope', 'userAccount', 'hashPassword'
 	
 	$scope.loginTwitter=function(){		
 		
-		userAccount.loginTwitter();		
-		
+		if (localStorageService.cookie.get("twitterToken") && localStorageService.cookie.get("twitterSecret")) {
+			userAccount.loginDirectTwitter();			
+		} else {
+			userAccount.loginTwitter();		
+		}
 	}
 	
 	

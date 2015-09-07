@@ -130,7 +130,10 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		        	
 		        	
 		        	localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);	        	
-		        	localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);	        	
+		        	localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);
+		        	
+		        	localStorageService.cookie.set("twitterToken",data.twitterToken,30);
+		        	localStorageService.cookie.set("twitterSecret",data.twitterSecret,30);		        	
 		        	
 		        	$location.path("/ua/user/profile");	
 			        $route.reload();
@@ -212,6 +215,27 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 				console.log("error not direct");
 			})
 			
+		},
+		
+		loginDirectTwitter:function(){
+			
+			console.log("loginDirectTwitter");
+			
+			var twitterToken = localStorageService.cookie.get("twitterToken");
+			var twitterSecret = localStorageService.cookie.get("twitterSecret");				
+			
+			
+			$http.get("/webapi/account/login/twitter_login_direct", {params:{token:twitterToken, secret:twitterSecret}})
+			.success(function(data){
+				console.log("success direct");
+				$window.location.href = (data);
+			})
+			.error(function(data){
+				console.log("error direct. Maybe aToken expired");
+				$rootScope.errorMessage="Помилка входу. Спробуйте ще раз!";
+				localStorageService.cookie.remove("twitterToken");
+				localStorageService.cookie.remove("twitterSecret");				
+			})
 		},
 		
 		

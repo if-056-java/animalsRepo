@@ -323,7 +323,8 @@ private static String setUpSuccessSession(User user, HttpSession session, String
     			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
     			"\", \"accessToken\" : \"" + (String)session.getAttribute("accessToken") +
     			"\", \"refreshGoogleToken\" : \"" + (String)session.getAttribute("refreshGoogleToken") +
-    			"\", \"accessGoogleToken\" : \"" + (String)session.getAttribute("accessGoogleToken") +
+    			"\", \"twitterToken\" : \"" + (String)session.getAttribute("twitterToken") +
+    			"\", \"twitterSecret\" : \"" + (String)session.getAttribute("twitterSecret") +
     			"\"}";		
 		
 		return str;

@@ -33,6 +33,7 @@ import org.scribe.oauth.OAuthService;
 import com.animals.app.domain.User;
 import com.animals.app.domain.UserRole;
 import com.animals.app.domain.UserType;
+import com.animals.app.repository.UserRepository;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 
 /**
@@ -46,7 +47,7 @@ public class OAuthAuthorizationResource {
 	private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
 	private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 
-	private UserRepositoryImpl userRep = new UserRepositoryImpl();
+	private UserRepository userRep = new UserRepositoryImpl();
 
 	// Google OAuth preferences
 	private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json";
@@ -54,7 +55,7 @@ public class OAuthAuthorizationResource {
 	private static final Token EMPTY_TOKEN = null;
 	private static final String apiKeyG = "1061082540782-02vuauouhb8v5caiavepvgkuuiv4t178.apps.googleusercontent.com";
 	private static final String apiSecretG = "rYsnWUSHf4S2z-LHM1oMocJT";
-	private static final String callbackUrlGPath = "webapi/account/login/google_token";
+	private static final String callbackUrlPathG = "webapi/account/login/google_token";
 
 	// Facebook OAuth preferences
 	private static final String PROTECTED_RESOURCE_URL_FB = "https://graph.facebook.com/me";
@@ -76,7 +77,7 @@ public class OAuthAuthorizationResource {
 		// Define URLs and callback
 		String pathAll = req.getRequestURL().toString();
 		String pathMain = pathAll.replace("webapi/account/login/google", "");
-		String callbackUrlG = pathMain + callbackUrlGPath;
+		String callbackUrlG = pathMain + callbackUrlPathG;
 
 		OAuthService service = null;
 
@@ -115,7 +116,7 @@ public class OAuthAuthorizationResource {
 		String pathAll = req.getRequestURL().toString();
 		String pathMain = pathAll.replace("webapi/account/login/google_token", "");
 		String successURL = pathMain + "#/ua/user/profile";
-		String callbackUrlG = pathMain + callbackUrlGPath;
+		String callbackUrlG = pathMain + callbackUrlPathG;
 
 		if (error != null) {
 			String entryUrl = pathMain + "/#/ua/user/login";
@@ -333,13 +334,13 @@ public class OAuthAuthorizationResource {
 	@GET
 	@Path("login/google_login_direct") // http://localhost:8080/webapi/account/login/google_login_direct
 	public Response directGoogleLoginWithOldAccessToken(@Context HttpServletRequest req,
-			@QueryParam("code") String refreshGoogleToken) {
+													    @QueryParam("code") String refreshGoogleToken) {
 
 		// Define URLs and callback
 		String pathAll = req.getRequestURL().toString();
 		String pathMain = pathAll.replace("webapi/account/login/google_login_direct", "");
 		String successURL = pathMain + "#/ua/user/profile";
-		String callbackUrlG = pathMain + callbackUrlGPath;
+		String callbackUrlG = pathMain + callbackUrlPathG;
 
 		System.out.println("Google refresh token - " + refreshGoogleToken);
 
@@ -565,6 +566,7 @@ public class OAuthAuthorizationResource {
 
 			link = (String) data.get("url");
 			System.out.println("link to FB photo - " + link);
+			System.out.println(link.length());
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -792,6 +794,10 @@ public class OAuthAuthorizationResource {
 		}
 
 		Token accessToken = service.getAccessToken(requestToken, v);
+		System.out.println("Twitter access Token - " + accessToken);
+		String tokenTw = accessToken.getToken();
+		String secretTw = accessToken.getSecret();
+		System.out.println(tokenTw + " "+secretTw);
 
 		OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL_TW);
 
@@ -875,6 +881,8 @@ public class OAuthAuthorizationResource {
 
 			session.setAttribute("successMesage", "Successful joining Twitter account");
 			session.setAttribute("user", user);
+			session.setAttribute("twitterToken", tokenTw);
+			session.setAttribute("twitterSecret", secretTw);
 
 			return Response.temporaryRedirect(UriBuilder.fromUri(successURL).build()).build();
 
@@ -901,7 +909,9 @@ public class OAuthAuthorizationResource {
 			// creating Session for founded user. Setting params
 			System.out.println("creating session");
 
-			setUpSuccessSession(user, session, "success login with FacebookId");
+			setUpSuccessSession(user, session, "success login with Twitter");
+			session.setAttribute("twitterToken", tokenTw);
+			session.setAttribute("twitterSecret", secretTw);			
 
 			// Entering to site with Session
 			return Response.temporaryRedirect(UriBuilder.fromUri(successURL).build()).build();
@@ -961,11 +971,102 @@ public class OAuthAuthorizationResource {
 		// creating session
 		setUpSuccessSession(userToReg, session, "successful Registration with Twitter");
 		session.setAttribute("user", userToReg);
+		session.setAttribute("twitterToken", tokenTw);
+		session.setAttribute("twitterSecret", secretTw);
 
 		// Entering to site with Session
 		return Response.temporaryRedirect(UriBuilder.fromUri(successURL).build()).build();
 
 	}
+	
+	@GET
+	@Path("login/twitter_login_direct") // http://localhost:8080/webapi/account/login/twitter_login_direct
+	public Response directTwitterLoginWithOldAccessToken(@Context HttpServletRequest req,
+													    @QueryParam("token") String twitterToken,
+														@QueryParam("secret") String twitterSecret) {
+		
+		// Define URLs and callback
+		String pathAll = req.getRequestURL().toString();
+		String pathMain = pathAll.replace("webapi/account/login/twitter_login_direct", "");
+		String successURL = pathMain + "#/ua/user/profile";
+		String callbackUrlTW = pathMain + callbackUrlGPathTW;
+
+		System.out.println("Twitter token - " + twitterToken);
+		System.out.println("Twitter secret - " + twitterSecret);
+		
+		Token twitterAccessToken = new Token(twitterToken,twitterSecret);
+		
+		OAuthService service = null;
+
+		try {
+			service = new ServiceBuilder()
+					.provider(TwitterApi.class)
+					.apiKey(apiKeyTW)
+					.apiSecret(apiSecretTW)
+					.callback(callbackUrlTW)
+					.build();
+
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		// Request protected resource
+		OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL_TW);
+
+		service.signRequest(twitterAccessToken, request);
+
+		org.scribe.model.Response response = request.send();
+
+		System.out.println(response.getCode());
+		System.out.println(response.getBody());
+
+		// JSON string from Google response
+		String json = response.getBody();
+
+		// parse string
+		String twitterId = null;
+		
+
+		try {
+			JSONParser jsonParser = new JSONParser();
+			JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
+		
+			twitterId = (String) jsonObject.get("id_str");
+			System.out.println("id is: " + twitterId);			
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (NullPointerException ex) {
+			ex.printStackTrace();
+		}		
+
+		// Login to site. Session is not set. Find User by googleId
+		HttpSession sessionNew = req.getSession(true);
+
+		// Check if user exist by googleId
+		User user = null;
+
+		try {
+
+			user = userRep.getByTwitterId(twitterId);
+			System.out.println(user);
+
+		} catch (Exception e) {
+			return SERVER_ERROR;
+		}
+
+		if (user == null) {
+			return NOT_FOUND;
+		}
+
+		// creating Session for founded user. Setting params
+		setUpSuccessSession(user, sessionNew, "success direct login with Twitter");
+		//sessionNew.setAttribute("twitterAccessToken", twitterAccessToken);
+
+		return Response.status(Response.Status.OK).entity(successURL).build();		
+		
+	}
+	
 
 	private static void setUpSuccessSession(User user, HttpSession session, String success) {
 
