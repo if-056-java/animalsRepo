@@ -108,5 +108,27 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
                         console.log('Animal update failed.')
                     });
             }
+
+            /*
+             * delete image
+             */
+            $scope.deleteImage = function() {
+                if ($scope.animalImage === "resources/img/noimg.png") {
+                    $window.alert($filter('translate')("DELETE_IMAGE_NO_IMAGE"));
+                    return;
+                }
+
+                if (!confirm($filter('translate')("DELETE_IMAGE_CONFIRM"))) {
+                    return;
+                }
+
+                AnimalsAdminService.deleteAnimalImage($scope.animal.id)
+                    .then(function(data) {
+                        $scope.animal.image = undefined;
+                        $scope.animalImage = "resources/img/noimg.png";
+                    }, function(data) {
+                        $window.alert($filter('translate')("DELETE_IMAGE_FAILED"));
+                    });
+            }
         }
     ]);

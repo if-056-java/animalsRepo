@@ -141,4 +141,16 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
                         console.log(data);
                     });
             };
+
+            /**
+             * @param animalId id of animal used for lookup.
+             * delete animal image.
+             */
+            this.deleteAnimalImage = function(animalId) {
+
+                return AnimalsService.deleteAnimalImageForAdmin(animalId)
+                    .then(function(data) {
+                        AnimalsAdminValues.animal.image = undefined;
+                    });
+            }
     }]);

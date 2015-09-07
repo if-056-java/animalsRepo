@@ -34,8 +34,7 @@ public class AdminResource {
     //return response with 500 code
     private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 
-    @Context
-    private HttpServletRequest httpServlet;
+    private final String imageFolder = "images/"; //folder for animals images
 
     /**
      * @param animalsFilter instance used for lookup.
@@ -47,11 +46,10 @@ public class AdminResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimals(AnimalsFilter animalsFilter) {
-        System.out.println(1);
         if(animalsFilter == null) {
             return BAD_REQUEST;
         }
-        System.out.println(animalsFilter);
+
         if ((animalsFilter.getPage() == 0) || (animalsFilter.getLimit() == 0)) {
             return BAD_REQUEST;
         }
@@ -60,12 +58,12 @@ public class AdminResource {
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
         List<Animal> animals = animalRepository.getAdminAnimals(animalsFilter);
 
-        //cast list of animals to generic list
-        GenericEntity<List<Animal>> genericAnimals = new GenericEntity<List<Animal>>(animals) {};
-
-        if(genericAnimals == null) {
+        if(animals == null) {
             return NOT_FOUND;
         }
+
+        //cast list of animals to generic list
+        GenericEntity<List<Animal>> genericAnimals = new GenericEntity<List<Animal>>(animals) {};
 
         return ok(genericAnimals);
     }
@@ -122,7 +120,7 @@ public class AdminResource {
     @RolesAllowed("модератор")
     @Path("animals/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response deleteAnimal(@PathParam("animalId") long animalId) {
+    public Response deleteAnimal(@Context HttpServletRequest httpServlet, @PathParam("animalId") long animalId) {
         if (animalId == 0 || animalId<0) {
             return BAD_REQUEST;
         }
@@ -154,9 +152,7 @@ public class AdminResource {
     @RolesAllowed("модератор")
     @Path("animals/editor")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAnimal(Animal animal) {
-        String imageFolder = "images/";
-
+    public Response updateAnimal(@Context HttpServletRequest httpServlet, Animal animal) {
         if(animal == null) {
             return BAD_REQUEST;
         }
@@ -229,6 +225,44 @@ public class AdminResource {
         String json = "{\"filePath\":\"" + animal.getImage() + "\"}";
 
         return ok(json);
+    }
+
+    /**
+     * Delete animal in data base
+     * @param animalId id of animal
+     * @return return response with status 200 if ok
+     */
+    @DELETE //http:localhost:8080/webapi/animals/image/{animalId}
+    @RolesAllowed("модератор")
+    @Path("animals/image/{animalId}")
+    public Response deleteAnimalImage(@Context HttpServletRequest httpServlet, @PathParam("animalId") long animalId) {
+        if (animalId == 0 || animalId<0) {
+            return BAD_REQUEST;
+        }
+
+        AnimalRepository animalRepository = new AnimalRepositoryImpl();
+        Animal animal = animalRepository.getById(animalId);
+
+        if (animal == null) {
+            return NOT_FOUND;
+        }
+
+        if (animal.getImage() == null) {
+            return ok();
+        }
+
+        String restPath = httpServlet.getServletContext().getRealPath("/");         //path to rest root folder
+        //delete image
+        File file = new File(restPath + imageFolder + animal.getImage());
+        if (file.exists()) {
+            file.delete();
+        }
+
+        animal.setImage("");
+
+        animalRepository.update(animal);
+
+        return ok();
     }
 
     /**

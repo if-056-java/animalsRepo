@@ -1,6 +1,6 @@
 angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'AnimalsAdminValues'])
-    .controller('AnimalsDetailedAdminController', ['$scope', '$routeParams', '$window', 'AnimalsAdminService', 'AnimalsAdminValues',
-        function($scope, $routeParams, $window, AnimalsAdminService, AnimalsAdminValues) {
+    .controller('AnimalsDetailedAdminController', ['$scope', '$routeParams', '$window', 'AnimalsAdminService', 'AnimalsAdminValues', '$filter',
+        function($scope, $routeParams, $window, AnimalsAdminService, AnimalsAdminValues, $filter) {
 
             AnimalsAdminService.rolesAllowed("модератор");
 
@@ -34,12 +34,17 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
              * delete animal.
              */
             $scope.deleteAnimal = function() {
+                if (!confirm($filter('translate')("ANIMAL_DETAILED_CONFIRM_DELETE"))) {
+                    return;
+                }
+
+                $filter('date')($scope.animal.dateOfRegister, 'yyyy-MM-dd')
                 AnimalsAdminService.deleteAnimal($scope.animal.id)
                     .then(function(data) {
                         $window.location.href = "#/ua/user/home/animals";
                     },
                     function(data) {
-                        $window.alert("Animal delete failed.");
+                        $window.alert($filter('translate')("ANIMAL_DETAILED_DELETE_FAILED"));
                     });
             }
 

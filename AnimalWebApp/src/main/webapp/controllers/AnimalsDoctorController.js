@@ -45,12 +45,13 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
                 AnimalsDoctorService.getAnimals();
             };
     }])
-    .controller('AnimalsFilterDoctorController', ['$scope', '$filter', 'AnimalsDoctorService', 'AnimalsDoctorValues',
-        function($scope, $filter, AnimalsDoctorService, AnimalsDoctorValues) {
+    .controller('AnimalsFilterDoctorController', ['$scope', '$filter', 'AnimalsDoctorService', 'AnimalsDoctorValues', '$window',
+        function($scope, $filter, AnimalsDoctorService, AnimalsDoctorValues, $window) {
 
             $scope.filter = AnimalsDoctorValues.filter;                  //filter
             $scope.animalTypes = AnimalsDoctorValues.animalTypes;        //list of animal types
             $scope.animalServices = AnimalsDoctorValues.animalServices;  //list of animal services
+            $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
             /**
              * @return list of animal types.
@@ -92,6 +93,8 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
                 $scope.filter.animal.breed = undefined;
                 $scope.filter.animal.sex = undefined;
                 $scope.filter.animal.dateOfRegister = undefined;
+
+                $scope.submit(true);
             }
 
             /**

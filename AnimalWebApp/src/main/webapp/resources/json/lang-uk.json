@@ -192,7 +192,14 @@
 
   "ANIMAL_REGISTER": "Реєстр тварин",
   "ANIMAL_DETAILED_INFO": "Детальна інформація про тварину",
-  "ANIMAL_DETAILED_EDIT": "Редагування детальної інформації про тварину"
+  "ANIMAL_DETAILED_EDIT": "Редагування детальної інформації про тварину",
+  "ANIMAL_DETAILED_CONFIRM_DELETE": "Ви дійсно хочете видалити цю тварину ?",
+  "ANIMAL_DETAILED_DELETE_FAILED": "Не вдалось видалити тварину.",
+
+  "DELETE_IMAGE": "Видалити фото",
+  "DELETE_IMAGE_CONFIRM": "Ви дійсно хочете видалити зображення ?",
+  "DELETE_IMAGE_FAILED": "Не вдалось видалити зображення.",
+  "DELETE_IMAGE_NO_IMAGE": "Зображення відсутнє."
 
 
 }

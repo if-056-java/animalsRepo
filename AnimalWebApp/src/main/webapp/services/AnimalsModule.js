@@ -292,4 +292,22 @@ angular.module('AnimalsModule', ['LocalStorageModule'])
                 return def.promise;
             };
 
+            /**
+             * @param animalId id of animal used for lookup.
+             * delete animal image.
+             */
+            this.deleteAnimalImageForAdmin = function(animalId) {
+                var def = $q.defer();
+
+                $http.delete(RESOURCES.ANIMAL_IMAGE_DELETE_FOR_ADMIN + animalId)
+                    .success(function(data) {
+                        def.resolve(data);
+                    })
+                    .error(function() {
+                        def.reject("Failed to delete animal image.");
+                    });
+
+                return def.promise;
+            }
+
         }]);

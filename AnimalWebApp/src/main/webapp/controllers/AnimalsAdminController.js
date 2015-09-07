@@ -11,7 +11,7 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
             $scope.contentLoading = 4;
 
             $scope.filter = AnimalsAdminValues.filter;            //filter
-            $scope.totalItems = AnimalsAdminValues.totalItems;    //table rows count
+            $scope.totalItems = 0 // AnimalsAdminValues.totalItems;    //table rows count
             $scope.animals = AnimalsAdminValues.animals;          //animal instance
 
             /**
@@ -61,12 +61,13 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
                 AnimalsAdminService.sendFacebook(id);
             };
     }])
-    .controller('AnimalsFilterAdminController', ['$scope', '$filter', 'AnimalsAdminService', 'AnimalsAdminValues',
-        function($scope, $filter, AnimalsAdminService, AnimalsAdminValues) {
+    .controller('AnimalsFilterAdminController', ['$scope', '$filter', 'AnimalsAdminService', 'AnimalsAdminValues', '$window',
+        function($scope, $filter, AnimalsAdminService, AnimalsAdminValues, $window) {
 
             $scope.filter = AnimalsAdminValues.filter;                  //filter
             $scope.animalTypes = AnimalsAdminValues.animalTypes;        //list of animal types
             $scope.animalServices = AnimalsAdminValues.animalServices;  //list of animal services
+            $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
             /**
              * @return list of animal types.
@@ -108,6 +109,8 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
                 $scope.filter.animal.breed = undefined;
                 $scope.filter.animal.sex = undefined;
                 $scope.filter.animal.dateOfRegister = undefined;
+
+                $scope.submit(true);
             }
 
             /**
