@@ -619,6 +619,7 @@ public class OAuthAuthorizationResource {
 
 			session.setAttribute("successMesage", "Successful joining Facebook account");
 			session.setAttribute("user", user);
+			session.setAttribute("facebookToken", accessToken.toString());
 
 			return Response.temporaryRedirect(UriBuilder.fromUri(successURL).build()).build();
 
@@ -643,9 +644,8 @@ public class OAuthAuthorizationResource {
 			// Case 2
 
 			// creating Session for founded user. Setting params
-			System.out.println("creating session");
-
 			setUpSuccessSession(user, session, "success login with FacebookId");
+			session.setAttribute("facebookToken", accessToken.toString());
 
 			// Entering to site with Session
 			return Response.temporaryRedirect(UriBuilder.fromUri(successURL).build()).build();
@@ -706,6 +706,7 @@ public class OAuthAuthorizationResource {
 		// creating session
 		setUpSuccessSession(userToReg, session, "successful Registration with GoogleId");
 		session.setAttribute("user", userToReg);
+		session.setAttribute("facebookToken", accessToken.toString());
 
 		// Entering to site with Session
 		return Response.temporaryRedirect(UriBuilder.fromUri(successURL).build()).build();

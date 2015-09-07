@@ -131,10 +131,15 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		        	if(data.refreshGoogleToken !== "null"){
 		        		localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);	        	
 		        		localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);		        		
+		        		localStorageService.set("disableGoogleButton", true);			        				        		
 		        	}
 		        	if(data.twitterToken !== "null"){
 		        		localStorageService.cookie.set("twitterToken",data.twitterToken,30);
-		        		localStorageService.cookie.set("twitterSecret",data.twitterSecret,30);
+		        		localStorageService.cookie.set("twitterSecret",data.twitterSecret,30);		        		
+		        		localStorageService.set("disableTwitterButton", true);		        		
+		        	}
+		        	if(data.facebookToken !== "null"){		        		
+		        		localStorageService.set("disableFacebookButton", true);		        		
 		        	}
 		        	
 		        	$location.path("/ua/user/profile");	
@@ -152,13 +157,10 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			       	
 		},
 		
-		loginGoogle:function(){
-			
-			console.log("loginGoogle");
-			
+		loginGoogle:function(){		
+		
 			$http.get("/webapi/account/login/google")
-			.success(function(data){
-				console.log("success not direct");
+			.success(function(data){			
 				$window.location.href = (data);				
 			})
 			.error(function(data){
@@ -169,15 +171,11 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		
 		loginDirectGoogle:function(){
 			
-			console.log("loginDirectGoogle");
 			
 			var refreshToken = localStorageService.cookie.get("refreshGoogleToken");			
-			console.log(refreshToken);			
-			
-			
+						
 			$http.get("/webapi/account/login/google_login_direct", {params:{code:refreshToken}})
-			.success(function(data){
-				console.log("success direct");
+			.success(function(data){			
 				$window.location.href = (data);
 			})
 			.error(function(data){
@@ -190,11 +188,8 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		
 		loginFacebook:function(){
 			
-			console.log("loginFacebook");
-			
 			$http.get("/webapi/account/login/facebook")
-			.success(function(data){
-				console.log("success not direct");
+			.success(function(data){				
 				$window.location.href = (data);				
 			})
 			.error(function(data){
@@ -205,12 +200,9 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		
 
 		loginTwitter:function(){
-			
-			console.log("loginTwitter");
-			
+						
 			$http.get("/webapi/account/login/twitter")
-			.success(function(data){
-				console.log("success not direct");
+			.success(function(data){				
 				$window.location.href = (data);				
 			})
 			.error(function(data){
@@ -219,17 +211,13 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			
 		},
 		
-		loginDirectTwitter:function(){
-			
-			console.log("loginDirectTwitter");
+		loginDirectTwitter:function(){			
 			
 			var twitterToken = localStorageService.cookie.get("twitterToken");
-			var twitterSecret = localStorageService.cookie.get("twitterSecret");				
-			
+			var twitterSecret = localStorageService.cookie.get("twitterSecret");
 			
 			$http.get("/webapi/account/login/twitter_login_direct", {params:{token:twitterToken, secret:twitterSecret}})
-			.success(function(data){
-				console.log("success direct");
+			.success(function(data){				
 				$window.location.href = (data);
 			})
 			.error(function(data){
@@ -238,9 +226,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 				localStorageService.cookie.remove("twitterToken");
 				localStorageService.cookie.remove("twitterSecret");				
 			})
-		},
-		
-		
+		}	
 		
 	};	
 	

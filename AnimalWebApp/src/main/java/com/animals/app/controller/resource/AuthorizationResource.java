@@ -325,6 +325,7 @@ private static String setUpSuccessSession(User user, HttpSession session, String
     			"\", \"refreshGoogleToken\" : \"" + (String)session.getAttribute("refreshGoogleToken") +
     			"\", \"twitterToken\" : \"" + (String)session.getAttribute("twitterToken") +
     			"\", \"twitterSecret\" : \"" + (String)session.getAttribute("twitterSecret") +
+    			"\", \"facebookToken\" : \"" + (String)session.getAttribute("facebookToken") +
     			"\"}";		
 		
 		return str;

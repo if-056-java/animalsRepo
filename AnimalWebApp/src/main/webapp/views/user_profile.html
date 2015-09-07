@@ -31,9 +31,12 @@
 
                     <p class="blocktext2">{{ 'USER_SOCIAL_ASSIGN' | translate }}</p>
                     <div class="text-center">
-                    	<a ng-click = "JoinFacebook()" class="btn btn-social-icon btn-facebook btn-md"><i class="fa fa-facebook"></i></a>
-                    	<!--ng-disabled="userInfo.socialPhoto"--> <a ng-click = "JoinGoogle()" class="btn btn-social-icon btn-google btn-md"><i class="fa fa-google"></i></a>
-                    	<a ng-click = "JoinTwitter()" class="btn btn-social-icon btn-twitter btn-md"><i class="fa fa-twitter"></i></a>        	                	                   	
+                    	<a ng-disabled="disableFacebook" ng-click = "JoinFacebook()" class="btn btn-social-icon btn-facebook btn-md">
+                    	<i class="fa fa-facebook"></i></a>
+                    	<a ng-disabled="disableGoogle" ng-click = "JoinGoogle()" class="btn btn-social-icon btn-google btn-md">
+                    	<i class="fa fa-google"></i></a>
+                    	<a ng-disabled="disableTwitter" ng-click = "JoinTwitter()" class="btn btn-social-icon btn-twitter btn-md">
+                    	<i class="fa fa-twitter"></i></a>        	                	                   	
 					</div>
 					<div ng-show="errorJoinMessage">
 						<br>
