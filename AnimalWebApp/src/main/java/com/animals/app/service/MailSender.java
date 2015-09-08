@@ -57,7 +57,44 @@ public class MailSender {
             return null;
         }
 
-        // Send flat e-mail
+    //Send service message
+    public MailSender serviceMessageSend(String fromEmail, String text, String sender, String animalId, String service){
+        Session session = Session.getInstance(MailServerConfig, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(MailServerConfig.getProperty("mail.user"), MailServerConfig.getProperty("mail.userpassword"));
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            // From
+            message.setFrom(new InternetAddress(fromEmail));
+            // To
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(MailServerConfig.getProperty("mail.from")));
+            // Subject
+            message.setSubject("Запит щодо тварини №" + animalId + " сервісу " + service + " від - " + sender );
+
+            // Mail forming
+            // Body
+            MimeBodyPart p1 = new MimeBodyPart();
+            p1.setText(text + "Відповідь прошу надіслати за адресою - " + fromEmail);
+
+            Multipart mp = new MimeMultipart();
+            mp.addBodyPart(p1);
+
+            // Mail creating
+            message.setContent(mp);
+
+            // Mail sending
+            Transport.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+
+    // Send flat e-mail
         public MailSender newsSend(String toEmail, String text){
 
             Session session = Session.getInstance(MailServerConfig, new Authenticator() {

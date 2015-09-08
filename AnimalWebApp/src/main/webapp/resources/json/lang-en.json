@@ -116,6 +116,7 @@
   "ADD": "Add",
   "EDIT": "Edit",
   "SAVE": "Save",
+  "SERVICE_DIALOG_OK_MESSAGE": "Letter sent! ",
 
   "ENTER": "Log In",
   "LOGIN": "Login",

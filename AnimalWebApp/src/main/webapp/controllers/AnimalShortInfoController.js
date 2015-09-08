@@ -1,12 +1,14 @@
-angular.module('AnimalShortInfoController', ['AnimalShortInfoService'])
-	.controller('AnimalShortInfoController', ['$scope', 'AnimalShortInfoService',  '$routeParams', '$filter',
-		function($scope, AnimalShortInfoService,  $routeParams, $filter) {
+angular.module('AnimalShortInfoController', ['AnimalShortInfoService', 'vcRecaptcha','ContactsValues'])
+	.controller('AnimalShortInfoController', ['$scope', 'AnimalShortInfoService',  '$routeParams', '$filter', 'vcRecaptchaService', 'ContactsValues',
+		function($scope, AnimalShortInfoService,  $routeParams, $filter,  vcRecaptchaService, ContactsValues) {
 
 			var service = $routeParams.service;
 
 			var animalId = $routeParams.animalId;
 
-			$scope.animalImage = "resources/img/no_img.png";
+			$scope.service = service;
+			$scope.animalId = animalId;
+			$scope.animalImage = "resources/img/noimg.png";
 
 			if(service === "found"){
 				$scope.detail=false;
@@ -43,6 +45,93 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService'])
 					});
 			};
 			this.getAnimal(animalId);
+
+
+//initialize loading spinner
+			var target = document.getElementById('loading-block')
+			new Spinner(ContactsValues.spinneropts).spin(target);
+
+			$scope.spinnerloading = 0;
+			$scope.startupmessage = 1;
+			$scope.okmessage = 0;
+			$scope.errormessage = 0;
+
+			$scope.response = null;
+			$scope.widgetId = null;
+
+			$scope.setResponse = function (response) {
+				$scope.response = response;
+			};
+			$scope.setWidgetId = function (widgetId) {
+				$scope.widgetId = widgetId;
+			};
+			$scope.cbExpiration = function () {
+				$scope.response = null;
+			};
+
+			this.sendMessage = function (message) {
+				AnimalShortInfoService.sendMessage(message)
+					.then(function(response){
+						console.log(response);
+						if (response.success === true) {
+							$scope.spinnerloading = 0;
+							$scope.startupmessage = 0;
+							$scope.okmessage = 1;
+							$scope.errormessage = 0;
+
+							$scope.message.signup='';
+							$scope.message.email='';
+							$scope.message.text='';
+							vcRecaptchaService.reload($scope.widgetId);
+
+						} else {
+							$scope.spinnerloading = 0;
+							$scope.startupmessage = 0;
+							$scope.okmessage = 0;
+							$scope.errormessage = 1;
+
+							vcRecaptchaService.reload($scope.widgetId);
+						}
+					},
+
+					function(error){
+						$scope.spinnerloading = 0;
+						$scope.startupmessage = 0;
+						$scope.okmessage = 0;
+						$scope.errormessage = 1;
+
+						// In case of a failed validation you need to reload the captcha
+						// because each response can be checked just once
+						vcRecaptchaService.reload($scope.widgetId);
+					});
+
+
+				$scope.submit = function () {
+					if (vcRecaptchaService.getResponse === "") { //if answer from Google is empty
+						$scope.spinnerloading = 0;
+						$scope.startupmessage = 1;
+						$scope.okmessage = 0;
+						$scope.errormessage = 0;
+
+					} else {
+						$scope.spinnerloading = 1;
+						$scope.startupmessage = 0;
+						$scope.okmessage = 0;
+						$scope.errormessage = 0;
+
+						$scope.feedback.gRecaptchaResponse = $scope.response ;                //g-captcah-reponse for server
+						console.log($scope.message);
+
+						$scope.closeDialog();
+
+						/* MAKE AJAX REQUEST to our server with g-captcha-string */
+						this.sendMessage($scope.message);
+
+
+
+					}
+				}
+			}
 		}])
 	.directive('popUpDialog', function(){
 		return{

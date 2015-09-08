@@ -310,11 +310,11 @@ IMG.displayed {
 }
 #popUpDialog{
     position: fixed;
-    width: 250px;
+    width: 600px;
     left: 40%;
     margin-left: -75px;
-    margin-top: 5%;
-    padding: 15%;
+    margin-top: 2%;
+    padding: 3%;
     border-radius: 5px;
     background: white;
 }

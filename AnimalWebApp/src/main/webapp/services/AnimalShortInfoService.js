@@ -15,4 +15,18 @@ angular.module('AnimalShortInfoService', [])
             return def.promise;
         };
 
+        this.sendMessage = function (message) {
+            var def = $q.defer();
+
+            $http.post("/webapi/service/message", message)
+                .success(function (data) {
+                    def.resolve(data);
+                })
+                .error(function (data) {
+                    def.reject("Failed to send message");
+                });
+
+            return def.promise;
+        }
+
     }]);
