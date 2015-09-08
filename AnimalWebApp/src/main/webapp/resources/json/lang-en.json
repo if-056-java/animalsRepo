@@ -37,7 +37,7 @@
   "SEX_MALE": "male",
   "SEX_FEMALE": "female",
   "FILTER": "Filter",
-  "CANCEL": "Cancel",
+  "CANCEL": "Clear",
   "COLOR": "Color",
   "SIZE": "Size",
   "SIZE_SMALL": "small",
@@ -158,7 +158,7 @@
   "REG_IMAGE_OVERSIZE": "Acceptable image size no more than 5Mb",
   "REG_IMAGE_FORMAT": "File isn't image",
   "REG_EDIT_IMAGE": "Edit image",
-  "REG_COMPLETE_REGISTRATION": "Register!",
+  "REG_COMPLETE_REGISTRATION": "Register",
 
   "REG_NEW_USER": "Registration of new user",
   "REG_NEW_USER_WITH_SOCIALS": "Registration with socials",
