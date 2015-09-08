@@ -1,25 +1,28 @@
 //created by 41X
-var animalAppControllers = angular.module('AnimalsDetailedUserController', []);
+var animalAppControllers = angular.module('AnimalsDetailedUserController', [ ]);
 
-animalApp.controller('AnimalsDetailedUserController', ['$scope', 'userData', '$routeParams', '$window',
-                                               function($scope, userData, $routeParams, $window) {
-		
-	//initialize loading spinner
-    var targetContent = document.getElementById('loading-block');    
-    new Spinner(opts).spin(targetContent);   
-    $scope.contentLoading = 0;
+animalApp.controller('AnimalsDetailedUserController', ['$scope', 'userData', '$routeParams', '$window', 'AnimalsAdminValues',
+                                               function($scope, userData, $routeParams, $window, AnimalsAdminValues) {
 	
-    var animalId = $routeParams.animalId;       //animal id    
-    $scope.animalImage = undefined;
+	 //initialize loading spinner
+     var targetContent = document.getElementById('loading-block');
+     new Spinner(opts).spin(targetContent);
+     //This variable decides when spinner loading for contentis closed.
+     $scope.contentLoading = 1;
 
-	$scope.contentLoading++;
-	userData.getAnimal(animalId).then(
-			function(result){
-				$scope.animal=result;
+     $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+
+     var animalId = $routeParams.animalId;       //animal id
+     $scope.animal = AnimalsAdminValues.animal;  //animal
+     $scope.animalImage = undefined;	
+	
+     userData.getAnimal(animalId).then(
+			function(result){				
+				angular.copy(result, AnimalsAdminValues.animal);
 				$scope.animalImage = "resources/img/noimg.png";
-				if (result.image != undefined) {
-                    if (result.image.length > 0) {
-                        $scope.animalImage = result.image;
+				if (AnimalsAdminValues.animal.image != undefined) {
+                    if (AnimalsAdminValues.animal.image.length > 0) {
+                        $scope.animalImage = AnimalsAdminValues.animal.image;
                     }
                 }
 				$scope.contentLoading--;
@@ -30,7 +33,7 @@ animalApp.controller('AnimalsDetailedUserController', ['$scope', 'userData', '$r
 			}
 		);
 	
-	$scope.deleteAnimal = function() {
+     $scope.deleteAnimal = function() {
         userData.deleteAnimal($scope.animal.id)
             .then(function(data) {
                 $window.location.href = "#/ua/user/profile";
