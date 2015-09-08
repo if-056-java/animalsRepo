@@ -43,7 +43,8 @@
                         <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.service"
                             title="{{ 'NOT_SELECTED' | translate }}">
                             <li nya-bs-option="animalService in animalServices.values">
-                                <a>{{ animalService.service }}</a>
+                                <a ng-if="currentLanguage === 'uk'">{{ animalService.service }}</a>
+                                <a ng-if="currentLanguage !== 'uk'">{{ animalService.serviceEn }}</a>
                             </li>
                         </ol>
                     </div>

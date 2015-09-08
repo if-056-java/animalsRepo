@@ -31,6 +31,8 @@
                                  ng-src="{{ animalImage }}">
                             <img class="img-responsive img-thumbnail center-block" ng-show="imageFile"
                                  ng-src="data:{{imageFile.filetype}};base64,{{imageFile.base64}}">
+                            <p ng-show="animalEditor.photo.$invalid"
+                               class="help-block error" style="color: #a94442;">{{ 'ERROR_FILE_SIZE_TO_LARGE' | translate }}</p>
                         </div>
 
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">

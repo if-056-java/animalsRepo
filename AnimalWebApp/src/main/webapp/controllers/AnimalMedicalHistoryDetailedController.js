@@ -22,7 +22,7 @@ angular.module('AnimalMedicalHistoryDetailedController', ['AnimalsDoctorModule',
              */
             AnimalsDoctorService.getAnimal(animalId)
                 .finally(function() {
-                    $scope.animalImage = "resources/img/noimg.png";
+                    $scope.animalImage = "resources/img/no_img.png";
                     if (AnimalsDoctorValues.animal.image != undefined) {
                         if (AnimalsDoctorValues.animal.image.length > 0) {
                             $scope.animalImage = AnimalsDoctorValues.animal.image;

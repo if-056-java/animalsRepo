@@ -10,6 +10,8 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
             //This variable decides when spinner loading for contentis closed.
             $scope.contentLoading = 1;
 
+            $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+
             var animalId = $routeParams.animalId;                       //animal id
 
             var initialize = function() {
@@ -23,7 +25,7 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
                 $scope.animalTypes = AnimalsAdminValues.animalTypes;        //list of animal types
                 $scope.animalServices = AnimalsAdminValues.animalServices;  //list of animal services
                 $scope.animal = angular.copy(AnimalsAdminValues.animal);     //animal
-                $scope.animalImage = "resources/img/noimg.png";
+                $scope.animalImage = "resources/img/no_img.png";
 
                 if (AnimalsAdminValues.animal.image != undefined) {
                     if (AnimalsAdminValues.animal.image.length > 0) {
@@ -90,7 +92,12 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
                 $scope.animal.dateOfRegister = $filter('date')($scope.animal.dateOfRegister, 'yyyy-MM-dd');
                 if (typeof $scope.animal.breed != "undefined") {
                     if (typeof $scope.animal.breed.id == "undefined") {
-                        $scope.animal.breed = {breedUa: $scope.animal.breed};
+                        if ($scope.currentLanguage == "en") {
+                            $scope.animal.breed = {breedEn: $scope.animal.breed};
+                        } else {
+                            $scope.animal.breed = {breedUa: $scope.animal.breed};
+                        }
+
                     }
                 }
 
@@ -113,7 +120,7 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
              * delete image
              */
             $scope.deleteImage = function() {
-                if ($scope.animalImage === "resources/img/noimg.png") {
+                if ($scope.animalImage === "resources/img/no_img.png") {
                     $window.alert($filter('translate')("DELETE_IMAGE_NO_IMAGE"));
                     return;
                 }
@@ -125,7 +132,7 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
                 AnimalsAdminService.deleteAnimalImage($scope.animal.id)
                     .then(function(data) {
                         $scope.animal.image = undefined;
-                        $scope.animalImage = "resources/img/noimg.png";
+                        $scope.animalImage = "resources/img/no_img.png";
                     }, function(data) {
                         $window.alert($filter('translate')("DELETE_IMAGE_FAILED"));
                     });

@@ -15,7 +15,7 @@
   "NAV_MODERATION": "Модерація",
   "NAV_ANIMAL_LIST": "Реєстр тварин",
   "NAV_USER_LIST": "Реєстр користувачів",
-  "NAV_ANIMAL_LIST_FOR_DOCTOR": "Реєстр тварин(для лікаря)",
+  "NAV_ANIMAL_LIST_FOR_DOCTOR": "Реєстр тварин",
   "NAV_WELCOME_MESSAGE": "Вітаємо",
 
   "QUOTE": "Ми відповідаємо за тих, кого приручили",
@@ -201,6 +201,7 @@
   "DELETE_IMAGE_FAILED": "Не вдалось видалити зображення.",
   "DELETE_IMAGE_NO_IMAGE": "Зображення відсутнє.",
 
-  "ERROR_NO_ANIMALS": "Тварини відсутні."
+  "ERROR_NO_ANIMALS": "Тварини відсутні.",
+  "ERROR_FILE_SIZE_TO_LARGE": "Розмір файлу завеликий. Максимальний розмір 5Мб."
 
 }

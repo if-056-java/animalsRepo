@@ -154,7 +154,9 @@ public class AdminResource {
         }
 
         //check breed, if it new insert it into database
-        if ((animal.getBreed() != null) && (animal.getBreed().getId() == null) && (animal.getBreed().getBreedUa() != null)) {
+        if ((animal.getBreed() != null) &&
+                (animal.getBreed().getId() == null) &&
+                ((animal.getBreed().getBreedUa() != null) || (animal.getBreed().getBreedEn() != null))) {
             animal.getBreed().setType(animal.getType());
             new AnimalBreedRepositoryImpl().insert_ua(animal.getBreed());
         }

@@ -15,7 +15,7 @@
   "NAV_MODERATION": "Moderation",
   "NAV_ANIMAL_LIST": "List of animals",
   "NAV_USER_LIST": "List of users",
-  "NAV_ANIMAL_LIST_FOR_DOCTOR": "List of animals(for doctor)",
+  "NAV_ANIMAL_LIST_FOR_DOCTOR": "List of animals",
   "NAV_WELCOME_MESSAGE": "Welcome",
 
   "QUOTE": "We are responsible for those who tamed",
@@ -201,6 +201,7 @@
   "DELETE_IMAGE_FAILED": "Image delete failed.",
   "DELETE_IMAGE_NO_IMAGE": "No image to delete.",
 
-  "ERROR_NO_ANIMALS": "No animals."
+  "ERROR_NO_ANIMALS": "No animals.",
+  "ERROR_FILE_SIZE_TO_LARGE": "File size to large. Max size is 5Mb."
 
 }

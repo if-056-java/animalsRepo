@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface AnimalServiceRepository {
 
-    final String SELECT_ALL = "SELECT id, service FROM animalservices";
-    final String SELECT_BY_ID = "SELECT id, service FROM animalservices WHERE id = #{id}";
+    final String SELECT_ALL = "SELECT id, service, serviceEn FROM animalservices";
+    final String SELECT_BY_ID = "SELECT id, service, serviceEn FROM animalservices WHERE id = #{id}";
 
     /**
      * Returns the list of all Animal service instances from the database.
@@ -22,7 +22,8 @@ public interface AnimalServiceRepository {
     @Select(SELECT_ALL)
     @Results(value = {
             @Result(property="id", column="id"),
-            @Result(property="service", column="service")
+            @Result(property="service", column="service"),
+            @Result(property="serviceEn", column="serviceEn")
     })
     List<AnimalService> getAll();
 
@@ -34,7 +35,8 @@ public interface AnimalServiceRepository {
     @Select(SELECT_BY_ID)
     @Results(value = {
             @Result(property="id", column="id"),
-            @Result(property="service", column="service")
+            @Result(property="service", column="service"),
+            @Result(property="serviceEn", column="serviceEn")
     })
     AnimalService getById(long id);
 }

@@ -20,7 +20,7 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
              */
             AnimalsAdminService.getAnimal(animalId)
                 .finally(function() {
-                    $scope.animalImage = "resources/img/noimg.png";
+                    $scope.animalImage = "resources/img/no_img.png";
                     if (AnimalsAdminValues.animal.image != undefined) {
                         if (AnimalsAdminValues.animal.image.length > 0) {
                             $scope.animalImage = AnimalsAdminValues.animal.image;
