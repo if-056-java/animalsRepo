@@ -74,12 +74,9 @@ public class OAuthAuthorizationResource {
 	public Response googleLogin(@Context HttpServletRequest req) {
 
 		// Define URLs and callback
-		String pathAll = req.getRequestURL().toString();
-		String pathMain = pathAll.replace("webapi/account/login/google", "");
-		String callbackUrlG = pathMain + callbackUrlPathG;
+		String callbackUrlG = defineURL(req, "webapi/account/login/google", callbackUrlPathG);
 
 		OAuthService service = null;
-
 		try {
 			service = new ServiceBuilder()
 					.provider(Google2Api.class)
@@ -99,11 +96,10 @@ public class OAuthAuthorizationResource {
 		}
 
 		String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
-
-		System.out.println("url - " + authorizationUrl);
-
+		
 		return Response.status(Response.Status.OK).entity(authorizationUrl).build();
 	}
+	
 
 	@GET
 	@Path("login/google_token") // http://localhost:8080/webapi/account/login/google_token
@@ -112,10 +108,10 @@ public class OAuthAuthorizationResource {
 										 @Context HttpServletRequest req) {
 
 		// Define URLs and callback
-		String pathAll = req.getRequestURL().toString();
-		String pathMain = pathAll.replace("webapi/account/login/google_token", "");
-		String successURL = pathMain + "#/ua/user/profile";
-		String callbackUrlG = pathMain + callbackUrlPathG;
+		String callbackUrlG = defineURL(req, "webapi/account/login/google_token", callbackUrlPathG);	
+		String pathMain = definePathMain(req, "webapi/account/login/google_token");
+		String successURL = defineSuccessUrl(req, "webapi/account/login/google_token"); 
+		
 
 		if (error != null) {
 			String entryUrl = pathMain + "/#/ua/user/login";
@@ -123,11 +119,8 @@ public class OAuthAuthorizationResource {
 		}
 
 		Verifier v = new Verifier(token);
-
-		System.out.println("token - " + token);
-
+		
 		OAuthService service2 = null;
-
 		try {
 			service2 = new ServiceBuilder()
 					.provider(Google2Api.class)
@@ -146,18 +139,12 @@ public class OAuthAuthorizationResource {
 
 		accessToken = service2.getAccessToken(EMPTY_TOKEN, v);
 
-		System.out.println(accessToken);
-
 		String refreshGoogleToken = accessToken.getSecret();
-		String accessGoogleToken = accessToken.getToken();
-
+		
 		// Request protected resource
 		OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
 		service2.signRequest(accessToken, request);
 		org.scribe.model.Response response = request.send();
-
-		System.out.println(response.getCode());
-		System.out.println(response.getBody());
 
 		// JSON string from Google response
 		String json = response.getBody();
@@ -172,16 +159,9 @@ public class OAuthAuthorizationResource {
 			JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
 
 			name = (String) jsonObject.get("name");
-			System.out.println("The first name is: " + name);
-
 			googleId = (String) jsonObject.get("id");
-			System.out.println("id is: " + googleId);
-
 			link = (String) jsonObject.get("picture");
-			System.out.println("Link to photo: " + link);
-
-			email = (String) jsonObject.get("email");
-			System.out.println("Email: " + email);
+			email = (String) jsonObject.get("email");			
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -192,41 +172,34 @@ public class OAuthAuthorizationResource {
 		// getting userId from current session
 		HttpSession session = req.getSession(true);
 
-		// CASE 1: Editing user profile from MyCabinet. Check if session has
-		// parameters
+		// CASE 1: Editing user profile from MyCabinet. Check if session has parameters
 		if (session.getAttribute("userId") != null) {
 
-			// Check if user exist by googleId. If exist - we can't join
-			// accounts - will be error.
+			// Check if user exist by googleId. If exist - we can't join accounts - will be error.
 			// ERROR - when login - two accounts with the same GoogleID
 			User existUserWithGoogleId = null;
 			try {
-
 				existUserWithGoogleId = userRep.getByGoogleId(googleId);
-
 			} catch (Exception e) {
 				return SERVER_ERROR;
 			}
 
 			if (existUserWithGoogleId != null) {
-				// add params to redirect URL to inform frontend that account is
-				// already in use
+				// add params to redirect URL to inform frontend that account is already in use
 				// by another user
 				String errorUrl = successURL + "?join=error";
 				return Response.temporaryRedirect(UriBuilder.fromUri(errorUrl).build()).build();
 			}
 
 			int userId = Integer.parseInt((String) session.getAttribute("userId"));
-			System.out.println(userId);
-
+			
 			// insert in User value of googleId and picture by userId
 			User user = null;
 			try {
-
 				user = userRep.getById(userId);
 				user.setGoogleId(googleId);
 				user.setSocialPhoto(link);
-
+				user.setEmail(email);
 				userRep.update(user);
 
 			} catch (Exception e) {
@@ -243,92 +216,48 @@ public class OAuthAuthorizationResource {
 
 		// CASE 2: Login to site. Session is not set. Find User by googleId
 		// CASE 3: Registration. Session is not set. Create User with GoogleId
-		// and SocialPhoto
-
+		
 		// Check if user exist by googleId
 		User user = null;
-
 		try {
-
 			user = userRep.getByGoogleId(googleId);
-
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
 
 		if (user != null) {
 			// Case 2
-
-			// creating Session for founded user. Setting params
-			System.out.println("creating session");
-
+			// creating Session for founded user. Setting params			
 			setUpSuccessSession(user, session, "success login with GoogleId");
 			session.setAttribute("refreshGoogleToken", refreshGoogleToken);
 
 			// Entering to site with Session
 			return Response.temporaryRedirect(UriBuilder.fromUri(successURL).build()).build();
-
 		}
 
-		// else CASE 3
+		// else CASE 3 - creating User to register
+		User userToReg = createEmptyUser(name);
 
-		// creating User to register
-		User userToReg = new User();
-
-		String userLogin;
-		if (name != null && !name.isEmpty()) {
-			userLogin = name;
-		} else {
-			userLogin = "unknown";
-		}
-
-		userToReg.setName(userLogin);
-		userToReg.setSocialLogin(userLogin);
-
-		userToReg.setSurname("N/A");
 		userToReg.setEmail(email);
-		userToReg.setActive(true);
-		userToReg.setAddress("N/A");
-		userToReg.setPhone("N/A");
-		userToReg.setOrganizationInfo("N/A");
-		userToReg.setOrganizationName("N/A");
-		userToReg.setPassword(googleId);
 		userToReg.setSocialPhoto(link);
-		userToReg.setGoogleId(googleId);
-
-		UserRole userRole = new UserRole();
-		userRole.setRole("гість");
-		userRole.setId(3);
-		List<UserRole> list = new ArrayList<UserRole>();
-		list.add(userRole);
-		userToReg.setUserRole(list);
-
-		UserType userType = new UserType();
-		userType.setId(1);
-		userToReg.setUserType(userType);
-
-		Date currentDate = new Date(new java.util.Date().getTime());
-		System.out.println(currentDate);
-		userToReg.setRegistrationDate(currentDate);
+		userToReg.setGoogleId(googleId);		
 
 		// inserting user to DB
 		try {
-
 			userRep.insert(userToReg);
-
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
 
 		// creating session
 		setUpSuccessSession(userToReg, session, "successful Registration with GoogleId");
-		session.setAttribute("refreshGoogleToken", refreshGoogleToken);
-		// session.setAttribute("user", userToReg);
+		session.setAttribute("refreshGoogleToken", refreshGoogleToken);		
 
 		// Entering to site with Session
 		return Response.temporaryRedirect(UriBuilder.fromUri(successURL).build()).build();
 
-	}
+	}	
+
 
 	@GET
 	@Path("login/google_login_direct") // http://localhost:8080/webapi/account/login/google_login_direct
@@ -336,14 +265,11 @@ public class OAuthAuthorizationResource {
 													    @QueryParam("code") String refreshGoogleToken) {
 
 		// Define URLs and callback
-		String pathAll = req.getRequestURL().toString();
-		String pathMain = pathAll.replace("webapi/account/login/google_login_direct", "");
-		String successURL = pathMain + "#/ua/user/profile";
-		String callbackUrlG = pathMain + callbackUrlPathG;
+		String callbackUrlG = defineURL(req, "webapi/account/login/google_login_direct", callbackUrlPathG);
+		String successURL = defineSuccessUrl(req, "webapi/account/login/google_login_direct"); 
+		
 
-		System.out.println("Google refresh token - " + refreshGoogleToken);
-
-		// getting new access token with old refreshToken
+		// Getting new access token with old refreshToken
 		OAuthRequest request = new OAuthRequest(Verb.POST, "https://www.googleapis.com/oauth2/v3/token");
 		request.addBodyParameter("grant_type", "refresh_token");
 		request.addBodyParameter("refresh_token", refreshGoogleToken); 
@@ -351,10 +277,7 @@ public class OAuthAuthorizationResource {
 		request.addBodyParameter("client_secret", apiSecretG);
 
 		org.scribe.model.Response response = request.send();
-
-		System.out.println(response.getCode()); // 200 - success
-		System.out.println(response.getBody()); // JSON response
-
+		
 		// JSON string from Google response
 		String json = response.getBody();
 
@@ -374,11 +297,8 @@ public class OAuthAuthorizationResource {
 			ex.printStackTrace();
 		}
 
-		// New request to protected resource with new accessToken and old
-		// refreshToken
-
+		// New request to protected resource with new accessToken and old refreshToken
 		OAuthService service2 = null;
-
 		try {
 			service2 = new ServiceBuilder()
 					.provider(Google2Api.class)
@@ -399,21 +319,16 @@ public class OAuthAuthorizationResource {
 		service2.signRequest(accessToken, request2);
 		org.scribe.model.Response response2 = request2.send();
 
-		System.out.println(response2.getCode()); // 200 - success
-		System.out.println(response2.getBody()); // JSON response
-
 		// JSON string from Google response
 		String json2 = response2.getBody();
 
 		// parse string
 		String googleId = null;
-
 		try {
 			JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) jsonParser.parse(json2);
 
-			googleId = (String) jsonObject.get("id");
-			System.out.println("id is: " + googleId);
+			googleId = (String) jsonObject.get("id");			
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -422,16 +337,12 @@ public class OAuthAuthorizationResource {
 		}
 
 		// Login to site. Session is not set. Find User by googleId
-		HttpSession sessionNew = req.getSession(true);
+		HttpSession session = req.getSession(true);
 
 		// Check if user exist by googleId
 		User user = null;
-
 		try {
-
-			user = userRep.getByGoogleId(googleId);
-			System.out.println(user);
-
+			user = userRep.getByGoogleId(googleId);			
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
@@ -441,8 +352,8 @@ public class OAuthAuthorizationResource {
 		}
 
 		// creating Session for founded user. Setting params
-		setUpSuccessSession(user, sessionNew, "success direct login with GoogleId");
-		sessionNew.setAttribute("refreshGoogleToken", refreshGoogleToken);
+		setUpSuccessSession(user, session, "success direct login with GoogleId");
+		session.setAttribute("refreshGoogleToken", refreshGoogleToken);
 
 		return Response.status(Response.Status.OK).entity(successURL).build();
 
@@ -453,14 +364,9 @@ public class OAuthAuthorizationResource {
 	public Response facebookLogin(@Context HttpServletRequest req) {
 
 		// Define URLs and callback
-		String pathAll = req.getRequestURL().toString();
-		String pathMain = pathAll.replace("webapi/account/login/facebook", "");
-		System.out.println(pathMain);
-		String callbackUrlF = pathMain + callbackUrlGPathFacebook;
-		System.out.println(callbackUrlF);
-
+		String callbackUrlF = defineURL(req, "webapi/account/login/facebook", callbackUrlGPathFacebook);
+		
 		OAuthService service = null;
-
 		try {
 			service = new ServiceBuilder()
 					.provider(FacebookApi.class)
@@ -478,9 +384,7 @@ public class OAuthAuthorizationResource {
 		}
 
 		String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
-
-		System.out.println("url - " + authorizationUrl);
-
+		
 		return Response.status(Response.Status.OK).entity(authorizationUrl).build();
 
 	}
@@ -492,11 +396,10 @@ public class OAuthAuthorizationResource {
 										   @Context HttpServletRequest req) {
 
 		// Define URLs and callback
-		String pathAll = req.getRequestURL().toString();
-		String pathMain = pathAll.replace("webapi/account/login/facebook_token", "");
-		String successURL = pathMain + "#/ua/user/profile";
-		String callbackUrlF = pathMain + callbackUrlGPathFacebook;
-
+		String callbackUrlF = defineURL(req, "webapi/account/login/facebook_token", callbackUrlGPathFacebook);	
+		String pathMain = definePathMain(req, "webapi/account/login/facebook_token");
+		String successURL = defineSuccessUrl(req, "webapi/account/login/facebook_token"); 
+		
 		if (error != null) {
 			String entryUrl = pathMain + "/#/ua/user/login";
 			return Response.temporaryRedirect(UriBuilder.fromUri(entryUrl).build()).build();
@@ -504,10 +407,7 @@ public class OAuthAuthorizationResource {
 
 		Verifier v = new Verifier(token);
 
-		System.out.println("token - " + token);
-
 		OAuthService service = null;
-
 		try {
 			service = new ServiceBuilder()
 					.provider(FacebookApi.class)
@@ -521,8 +421,6 @@ public class OAuthAuthorizationResource {
 
 		Token accessToken = service.getAccessToken(EMPTY_TOKEN, v);
 
-		System.out.println("accesstoken - " + accessToken);
-
 		OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL_FB);
 		OAuthRequest request2 = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL_FB2);
 
@@ -534,10 +432,6 @@ public class OAuthAuthorizationResource {
 
 		org.scribe.model.Response response = request.send();
 		org.scribe.model.Response response2 = request2.send();
-
-		System.out.println(response.getCode());
-		System.out.println(response.getBody());
-		System.out.println(response2.getBody());
 
 		// JSON string from Facebook response
 		String json = response.getBody();
@@ -553,19 +447,14 @@ public class OAuthAuthorizationResource {
 			JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
 
 			name = (String) jsonObject.get("name");
-			System.out.println("The first name is: " + name);
-
 			facebookId = (String) jsonObject.get("id");
-			System.out.println("id is: " + facebookId);
+			
 			
 			JSONObject jsonObject2 = (JSONObject) jsonParser.parse(json2);
 
 			JSONObject picture = (JSONObject) jsonObject2.get("picture");
 			JSONObject data = (JSONObject) picture.get("data");
-
-			link = (String) data.get("url");
-			System.out.println("link to FB photo - " + link);
-			System.out.println(link.length());
+			link = (String) data.get("url");			
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -576,44 +465,34 @@ public class OAuthAuthorizationResource {
 		// getting userId from current session
 		HttpSession session = req.getSession(true);
 
-		// CASE 1: Editing user profile from MyCabinet. Check if session has
-		// parameters
+		// CASE 1: Editing user profile from MyCabinet. Check if session has parameters
 		if (session.getAttribute("userId") != null) {
 
-			// Check if user exist by googleId. If exist - we can't join
-			// accounts - will be error.
+			// Check if user exist by googleId. If exist - we can't join accounts - will be error.
 			// ERROR - when login - two accounts with the same GoogleID
 			User existUserWithFBId = null;
 			try {
-
 				existUserWithFBId = userRep.getByFacebookId(facebookId);
-
 			} catch (Exception e) {
 				return SERVER_ERROR;
 			}
 
 			if (existUserWithFBId != null) {
-				// add params to redirect URL to inform frontend that account is
-				// already in use
-				// by another user
+				// add params to redirect URL to inform frontend that account is already in use by another user
 				String errorUrl = successURL + "?join=error";
 				return Response.temporaryRedirect(UriBuilder.fromUri(errorUrl).build()).build();
 			}
 
 			int userId = Integer.parseInt((String) session.getAttribute("userId"));
-			System.out.println(userId);
-
-			// insert in User value of googleId and picture by userId
+			
+			// insert in User value of facebookId and picture by userId
 			User user = null;
 			try {
-
 				user = userRep.getById(userId);
 				user.setFacebookId(facebookId);
-				// user.setSocialPhoto(link);
-				user.setSocialPhoto("link");
-
+				user.setSocialPhoto(link);
 				userRep.update(user);
-
+				
 			} catch (Exception e) {
 				return SERVER_ERROR;
 			}
@@ -627,23 +506,18 @@ public class OAuthAuthorizationResource {
 		}
 
 		// CASE 2: Login to site. Session is not set. Find User by FacebookId
-		// CASE 3: Registration. Session is not set. Create User with FacebookId
-		// and SocialPhoto
+		// CASE 3: Registration. Session is not set. Create User with FacebookId		
 
-		// Check if user exist by googleId
+		// Check if user exist by facebookId
 		User user = null;
-
 		try {
-
 			user = userRep.getByFacebookId(facebookId);
-
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
 
 		if (user != null) {
 			// Case 2
-
 			// creating Session for founded user. Setting params
 			setUpSuccessSession(user, session, "success login with FacebookId");
 			session.setAttribute("facebookToken", accessToken.toString());
@@ -654,51 +528,15 @@ public class OAuthAuthorizationResource {
 		}
 
 		// else CASE 3
-
 		// creating User to register
-		User userToReg = new User();
-
-		String userLogin;
-		if (name != null && !name.isEmpty()) {
-			userLogin = name;
-		} else {
-			userLogin = "unknown";
-		}
-
-		userToReg.setName(userLogin);
-		userToReg.setSocialLogin(userLogin);
-
-		userToReg.setSurname("N/A");
-		userToReg.setEmail("N/A");
-		userToReg.setActive(true);
-		userToReg.setAddress("N/A");
-		userToReg.setPhone("N/A");
-		userToReg.setOrganizationInfo("N/A");
-		userToReg.setOrganizationName("N/A");
-		userToReg.setPassword(facebookId);
-		userToReg.setSocialPhoto(link);		
+		User userToReg = createEmptyUser(name);		
+			
 		userToReg.setFacebookId(facebookId);
-
-		UserRole userRole = new UserRole();
-		userRole.setRole("гість");
-		userRole.setId(3);
-		List<UserRole> list = new ArrayList<UserRole>();
-		list.add(userRole);
-		userToReg.setUserRole(list);
-
-		UserType userType = new UserType();
-		userType.setId(1);
-		userToReg.setUserType(userType);
-
-		Date currentDate = new Date(new java.util.Date().getTime());
-		System.out.println(currentDate);
-		userToReg.setRegistrationDate(currentDate);
+		userToReg.setSocialPhoto(link);			
 
 		// inserting user to DB
 		try {
-
 			userRep.insert(userToReg);
-
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
@@ -716,12 +554,10 @@ public class OAuthAuthorizationResource {
 	@GET
 	@Path("login/twitter") // http:localhost:8080/webapi/account/login/twitter
 	public Response twitterLogin(@Context HttpServletRequest req) {
-
+		
 		// Define URLs and callback
-		String pathAll = req.getRequestURL().toString();
-		String pathMain = pathAll.replace("webapi/account/login/twitter", "");
-		String callbackUrlTW = pathMain + callbackUrlGPathTW;
-
+		String callbackUrlTW = defineURL(req, "webapi/account/login/twitter", callbackUrlGPathTW);	
+		
 		OAuthService service = null;
 
 		try {
@@ -740,11 +576,7 @@ public class OAuthAuthorizationResource {
 		}
 
 		Token requestToken = service.getRequestToken();
-		System.out.println("request Token - " + requestToken);
-
 		String authorizationUrl = service.getAuthorizationUrl(requestToken);
-
-		System.out.println("url - " + authorizationUrl);
 
 		return Response.status(Response.Status.OK).entity(authorizationUrl).build();
 		
@@ -756,30 +588,21 @@ public class OAuthAuthorizationResource {
 										  @QueryParam("oauth_verifier") String oauth_verifier, 
 										  @QueryParam("denied") String error,
 										  @Context HttpServletRequest req) {
-
+		
 		// Define URLs and callback
-		String pathAll = req.getRequestURL().toString();
-		String pathMain = pathAll.replace("webapi/account/login/twitter_token", "");
-		String successURL = pathMain + "#/ua/user/profile";
-		String callbackUrlTW = pathMain + callbackUrlGPathTW;
+		String callbackUrlTW = defineURL(req, "webapi/account/login/twitter_token", callbackUrlGPathTW);	
+		String pathMain = definePathMain(req, "webapi/account/login/twitter_token");
+		String successURL = defineSuccessUrl(req, "webapi/account/login/twitter_token"); 		
 
 		if (error != null) {
 			String entryUrl = pathMain + "/#/ua/user/login";
 			return Response.temporaryRedirect(UriBuilder.fromUri(entryUrl).build()).build();
 		}
 
-		String token = oauth_token;
-		String verifier = oauth_verifier;
-
-		System.out.println(token);
-		System.out.println(verifier);
-
-		Verifier v = new Verifier(verifier);
-
-		Token requestToken = new Token(token, verifier);
+		Verifier v = new Verifier(oauth_verifier);
+		Token requestToken = new Token(oauth_token, oauth_verifier);
 
 		OAuthService service = null;
-
 		try {
 			service = new ServiceBuilder()
 					.provider(TwitterApi.class)
@@ -793,20 +616,14 @@ public class OAuthAuthorizationResource {
 		}
 
 		Token accessToken = service.getAccessToken(requestToken, v);
-		System.out.println("Twitter access Token - " + accessToken);
+		
 		String tokenTw = accessToken.getToken();
 		String secretTw = accessToken.getSecret();
-		System.out.println(tokenTw + " "+secretTw);
-
+	
 		OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL_TW);
-
 		service.signRequest(accessToken, request);
-
 		org.scribe.model.Response response = request.send();
-
-		System.out.println(response.getCode());
-		System.out.println(response.getBody());
-
+		
 		// JSON string from Google response
 		String json = response.getBody();
 
@@ -814,20 +631,14 @@ public class OAuthAuthorizationResource {
 		String twitterId = null;
 		String name = null;
 		String link = null;
-
 		try {
 			JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
 
 			name = (String) jsonObject.get("name");
-			System.out.println("The first name is: " + name);
-
-			twitterId = (String) jsonObject.get("id_str");
-			System.out.println("id is: " + twitterId);
-
+			twitterId = (String) jsonObject.get("id_str");	
 			String link2 = (String) jsonObject.get("profile_image_url");
-			link = link2.replace("_normal", "");
-			System.out.println("Link to photo: " + link);
+			link = link2.replace("_normal", "");			
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -838,40 +649,32 @@ public class OAuthAuthorizationResource {
 		// getting userId from current session
 		HttpSession session = req.getSession(true);
 
-		// CASE 1: Editing user profile from MyCabinet. Check if session has
-		// parameters
+		// CASE 1: Editing user profile from MyCabinet. Check if session has parameters
 		if (session.getAttribute("userId") != null) {
 
-			// Check if user exist by googleId. If exist - we can't join
-			// accounts - will be error.
+			// Check if user exist by googleId. If exist - we can't join accounts - will be error.
 			// ERROR - when login - two accounts with the same GoogleID
 			User existUserWithTWId = null;
 			try {
-
 				existUserWithTWId = userRep.getByTwitterId(twitterId);
-
 			} catch (Exception e) {
 				return SERVER_ERROR;
 			}
 
 			if (existUserWithTWId != null) {
-				// add params to redirect URL to inform frontend that account is
-				// already in use by another user
+				// add params to redirect URL to inform frontend that account is already in use by another user
 				String errorUrl = successURL + "?join=error";
 				return Response.temporaryRedirect(UriBuilder.fromUri(errorUrl).build()).build();
 			}
 
 			int userId = Integer.parseInt((String) session.getAttribute("userId"));
-			System.out.println(userId);
-
-			// insert in User value of googleId and picture by userId
+			
+			// insert in User value of twitterId and picture by userId
 			User user = null;
 			try {
-
 				user = userRep.getById(userId);
 				user.setTwitterId(twitterId);
-				user.setSocialPhoto(link);				
-
+				user.setSocialPhoto(link);	
 				userRep.update(user);
 
 			} catch (Exception e) {
@@ -889,25 +692,18 @@ public class OAuthAuthorizationResource {
 
 		// CASE 2: Login to site. Session is not set. Find User by FacebookId
 		// CASE 3: Registration. Session is not set. Create User with FacebookId
-		// and SocialPhoto
-
+		
 		// Check if user exist by googleId
 		User user = null;
-
 		try {
-
 			user = userRep.getByTwitterId(twitterId);
-
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
 
 		if (user != null) {
 			// Case 2
-
 			// creating Session for founded user. Setting params
-			System.out.println("creating session");
-
 			setUpSuccessSession(user, session, "success login with Twitter");
 			session.setAttribute("twitterToken", tokenTw);
 			session.setAttribute("twitterSecret", secretTw);			
@@ -918,51 +714,15 @@ public class OAuthAuthorizationResource {
 		}
 
 		// else CASE 3
-
 		// creating User to register
-		User userToReg = new User();
-
-		String userLogin;
-		if (name != null && !name.isEmpty()) {
-			userLogin = name;
-		} else {
-			userLogin = "unknown";
-		}
-
-		userToReg.setName(userLogin);
-		userToReg.setSocialLogin(userLogin);
-
-		userToReg.setSurname("N/A");
-		userToReg.setEmail("N/A");
-		userToReg.setActive(true);
-		userToReg.setAddress("N/A");
-		userToReg.setPhone("N/A");
-		userToReg.setOrganizationInfo("N/A");
-		userToReg.setOrganizationName("N/A");
-		userToReg.setPassword(twitterId);
-		userToReg.setSocialPhoto(link);		
+		User userToReg = createEmptyUser(name);		
+			
 		userToReg.setTwitterId(twitterId);
-
-		UserRole userRole = new UserRole();
-		userRole.setRole("гість");
-		userRole.setId(3);
-		List<UserRole> list = new ArrayList<UserRole>();
-		list.add(userRole);
-		userToReg.setUserRole(list);
-
-		UserType userType = new UserType();
-		userType.setId(1);
-		userToReg.setUserType(userType);
-
-		Date currentDate = new Date(new java.util.Date().getTime());
-		System.out.println(currentDate);
-		userToReg.setRegistrationDate(currentDate);
+		userToReg.setSocialPhoto(link);	
 
 		// inserting user to DB
 		try {
-
 			userRep.insert(userToReg);
-
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
@@ -985,18 +745,13 @@ public class OAuthAuthorizationResource {
 														@QueryParam("secret") String twitterSecret) {
 		
 		// Define URLs and callback
-		String pathAll = req.getRequestURL().toString();
-		String pathMain = pathAll.replace("webapi/account/login/twitter_login_direct", "");
-		String successURL = pathMain + "#/ua/user/profile";
-		String callbackUrlTW = pathMain + callbackUrlGPathTW;
-
-		System.out.println("Twitter token - " + twitterToken);
-		System.out.println("Twitter secret - " + twitterSecret);
+		String callbackUrlTW = defineURL(req, "webapi/account/login/twitter_login_direct", callbackUrlGPathTW);	
+		String pathMain = definePathMain(req, "webapi/account/login/twitter_login_direct");
+		String successURL = defineSuccessUrl(req, "webapi/account/login/twitter_login_direct"); 		
 		
-		Token twitterAccessToken = new Token(twitterToken,twitterSecret);
+		Token twitterAccessToken = new Token(twitterToken, twitterSecret);
 		
 		OAuthService service = null;
-
 		try {
 			service = new ServiceBuilder()
 					.provider(TwitterApi.class)
@@ -1011,28 +766,20 @@ public class OAuthAuthorizationResource {
 		
 		// Request protected resource
 		OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL_TW);
-
 		service.signRequest(twitterAccessToken, request);
+		org.scribe.model.Response response = request.send();		
 
-		org.scribe.model.Response response = request.send();
-
-		System.out.println(response.getCode());
-		System.out.println(response.getBody());
-
-		// JSON string from Google response
+		// JSON string from Twitter response
 		String json = response.getBody();
 
 		// parse string
-		String twitterId = null;
-		
+		String twitterId = null;		
 
 		try {
 			JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
 		
 			twitterId = (String) jsonObject.get("id_str");
-			System.out.println("id is: " + twitterId);			
-
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (NullPointerException ex) {
@@ -1040,16 +787,12 @@ public class OAuthAuthorizationResource {
 		}		
 
 		// Login to site. Session is not set. Find User by googleId
-		HttpSession sessionNew = req.getSession(true);
+		HttpSession session = req.getSession(true);
 
-		// Check if user exist by googleId
+		// Check if user exist by twitterId
 		User user = null;
-
 		try {
-
-			user = userRep.getByTwitterId(twitterId);
-			System.out.println(user);
-
+			user = userRep.getByTwitterId(twitterId);			
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
@@ -1059,9 +802,9 @@ public class OAuthAuthorizationResource {
 		}
 
 		// creating Session for founded user. Setting params
-		setUpSuccessSession(user, sessionNew, "success direct login with Twitter");
-		sessionNew.setAttribute("twitterToken", twitterToken);
-		sessionNew.setAttribute("twitterSecret", twitterSecret);
+		setUpSuccessSession(user, session, "success direct login with Twitter");
+		session.setAttribute("twitterToken", twitterToken);
+		session.setAttribute("twitterSecret", twitterSecret);
 
 		return Response.status(Response.Status.OK).entity(successURL).build();		
 		
@@ -1096,6 +839,67 @@ public class OAuthAuthorizationResource {
 		System.out.println("encoded accessToken -" + accessTokenEncoded);
 		session.setAttribute("accessToken", accessTokenEncoded);
 
+	}
+	
+	private String defineURL(HttpServletRequest req, String reqPath, String callback) {
+		
+		String pathAll = req.getRequestURL().toString();
+		String pathMain = pathAll.replace(reqPath, "");
+		String callbackUrl = pathMain + callback;
+		return callbackUrl;		
+	}
+	
+	private String definePathMain(HttpServletRequest req, String string) {
+		String pathAll = req.getRequestURL().toString();
+		String pathMain = pathAll.replace(string, "");
+		return pathMain;
+	}
+	
+	private String defineSuccessUrl(HttpServletRequest req, String string) {
+		String pathAll = req.getRequestURL().toString();
+		String pathMain = pathAll.replace(string, "");
+		String SuccessUrl = pathMain + "#/ua/user/profile";
+		return SuccessUrl;
+	}
+	
+	private User createEmptyUser(String userName) {
+		
+		User userToReg = new User();
+		
+		String userLogin;
+		if (userName != null && !userName.isEmpty()) {
+			userLogin = userName;
+		} else {
+			userLogin = "unknown";
+		}
+		
+		userToReg.setEmail("N/A");
+		userToReg.setName(userLogin);
+		userToReg.setSocialLogin(userLogin);
+		userToReg.setSurname("N/A");
+		userToReg.setActive(true);
+		userToReg.setAddress("N/A");
+		userToReg.setPhone("N/A");
+		userToReg.setOrganizationInfo("N/A");
+		userToReg.setOrganizationName("N/A");
+		userToReg.setPassword(userLogin);
+
+		UserRole userRole = new UserRole();
+		userRole.setRole("гість");
+		userRole.setId(3);
+		List<UserRole> list = new ArrayList<UserRole>();
+		list.add(userRole);
+		userToReg.setUserRole(list);
+
+		UserType userType = new UserType();
+		userType.setId(1);
+		userToReg.setUserType(userType);
+
+		Date currentDate = new Date(new java.util.Date().getTime());		
+		userToReg.setRegistrationDate(currentDate);
+		
+		return userToReg;
+		
 	}
 
 }

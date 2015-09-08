@@ -7,7 +7,7 @@
 						<p><image src="../resources/img/main_dog.jpg" /></p>
 					</div>
 					<div class="col-xs-9 col-sm-10 col-md-11 col-lg-11">
-						<h2>Пітдвердження реєстрації</h2>
+						<h2>{{ 'REGISTRATION_CONFIRMATION' | translate }}</h2>
 					</div>
 				</div>
 			</div>
@@ -20,14 +20,14 @@
 	<br>
 	<div class="row">
 		
-		<h3> Ссилка для підтвердження реєстрації була вислана вам на пошту. Слідуйте інструкціям ...</h3>
+		<h3>{{ 'REGISTRATION_LINK' | translate }}</h3>
 
 		
 		
 		
 			<div ng-show="errorRegistrationConfirmMessage" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">
 	  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-	  			<span class="sr-only">Error:</span> {{errorRegistrationConfirmMessage}}
+	  			<span class="sr-only">Error:</span> {{ 'REGISTRATION_ERROR' | translate }}
 			</div>
 
 	</div>	

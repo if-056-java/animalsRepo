@@ -45,8 +45,7 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 					$scope.fields = $scope.userInfo;
 					$scope.contentLoading--;
 				},
-				function(error){
-					//$scope.errorMessage = error;
+				function(error){					
 					console.log(error)
 					$scope.contentLoading--;
 				}

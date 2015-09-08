@@ -84,12 +84,10 @@ public class AuthorizationResource {
         }
 		
         //creating session
-        HttpSession session = req.getSession(true);
-        
-        System.out.println(rememberMe);
-        if(rememberMe.equals("ON")){
-        	System.out.println("remember me ON");
-        	session.setMaxInactiveInterval(60*60*24*30);			//session duration - 30 days    	   	
+        HttpSession session = req.getSession(true);      
+       
+        if(rememberMe.equals("ON")){        	
+        	session.setMaxInactiveInterval(60*60*24*30);				//session duration - 30 days    	   	
         } else {
         	System.out.println("remember me OFF");
         	session.setMaxInactiveInterval(60*30*3);					//session duration - 90 min
@@ -98,8 +96,6 @@ public class AuthorizationResource {
         //setSuccessAtribute(session);        
         String sessionSuccess = setUpSuccessSession(user, session, "Successful login"); 
         session.setAttribute("user", user);
-        
-        System.out.println(sessionSuccess);
 
 	    return Response.status(Response.Status.OK).entity(sessionSuccess).build();
 		
@@ -133,17 +129,12 @@ public class AuthorizationResource {
 			
 		if (user==null) return BAD_REQUEST;
 		
-		System.out.println("user acive - " + user.isActive());
-
 		String socialLogin = user.getSocialLogin();		
-		
-		System.out.println(socialLogin);
-		
+				
 		//check if user socialLogin unique
 		String socialLogin2="logintoChange";
 		try {
-			 socialLogin2 = userRep.checkIfUsernameUnique(socialLogin);
-			 System.out.println("socialLogin2 - "+socialLogin2);
+			 socialLogin2 = userRep.checkIfUsernameUnique(socialLogin);			
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
@@ -155,8 +146,7 @@ public class AuthorizationResource {
 			return Response.status(Response.Status.OK).entity(socialLoginIsAlreadyInUse).build();
 		}
 		
-		String emailVerificator = UUID.randomUUID().toString();
-		System.out.println("verivicator -" + emailVerificator);
+		String emailVerificator = UUID.randomUUID().toString();		
 		
 		user.setEmailVerificator(emailVerificator);
 				
@@ -168,8 +158,7 @@ public class AuthorizationResource {
 		
 		//sending mail
 		String recipientEmail = user.getEmail();
-		System.out.println("email - " + recipientEmail);
-		
+				
 		String username = user.getSocialLogin();
 		
 		//Define URLs and callback
@@ -179,17 +168,13 @@ public class AuthorizationResource {
 		
 		String message = "Для підтвердження реєстрації на сайті - "+ pathMain + " пройдіть за вказаною ссилкою - "
 							+ pathMain + "#/ua/user/confirmRegistration?username="+username+"&code="+ emailVerificator;
-		System.out.println("message - " + message);
-		
+				
 		try {
-			System.out.println("sending mail");			
 			MailSender ms = new MailSender();
-			ms.newsSend(recipientEmail, message);
-			System.out.println("mail send. Check!");
+			ms.newsSend(recipientEmail, message);			
 		} catch (Exception e) {			
 			e.printStackTrace();
-		}
-				
+		}				
         
 		String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + "now confirmation should be done" + "\"}"; 
 		System.out.println(regWithoutConfirm);
@@ -216,8 +201,7 @@ public class AuthorizationResource {
 		} catch (Exception e) {
 			return SERVER_ERROR;
 		}
-		
-                        
+		                        
         if (user == null) return NOT_FOUND;
         
         //update user active
@@ -235,8 +219,7 @@ public class AuthorizationResource {
         String sessionSuccessReg = setUpSuccessSession(user, session, "Successful Registration"); 
         session.setAttribute("user", user);        
 		
-	    return Response.status(Response.Status.OK).entity(sessionSuccessReg).build();	 
-		
+	    return Response.status(Response.Status.OK).entity(sessionSuccessReg).build();		
 	
 	}
 	
@@ -258,12 +241,9 @@ public class AuthorizationResource {
 			
 		}
 		
-		//if session has params - returning json with session same params. REFRESH
-		
+		//if session has params - returning json with session same params. REFRESH		
 		String str = buildResponse(session);		
     
-		System.out.println(str);
-
 		return Response.status(Response.Status.OK).entity(str).build();
 		
 	}
@@ -280,9 +260,7 @@ private static String setUpSuccessSession(User user, HttpSession session, String
 		session.setAttribute("successMesage", success);
 		
 		//creating string for accessToken
-		String accessToken = (String)session.getId() + ":" + (String)session.getAttribute("userId");
-		
-		System.out.println("decoded accesToken - " + accessToken);
+		String accessToken = (String)session.getId() + ":" + (String)session.getAttribute("userId");			
 
 		String accessTokenEncoded=null;
 		
@@ -291,9 +269,8 @@ private static String setUpSuccessSession(User user, HttpSession session, String
 			accessTokenEncoded = new String(encoded, "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }	
 		
-		System.out.println("encoded accessToken -" + accessTokenEncoded);
 		session.setAttribute("accessToken", accessTokenEncoded);
 
 		

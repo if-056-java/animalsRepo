@@ -1,5 +1,5 @@
 //created by 41X
-angular.module('animalApp').factory('userAccount',function (Base64, $http, localStorageService, $location, $route, $window, $rootScope){
+angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, localStorageService, $location, $route, $window, $rootScope){
 	
 	return {
 		
@@ -10,37 +10,35 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
             $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; 
                        
 			var memoryMe = localStorageService.get("memoryMe");
-            
+			var def = $q.defer();
+			
 			$http.post("/webapi/account/login/" + memoryMe, {})
 	        .success(function(data){
-	        		        	
-	        	if(data.userId==1){
-	        		$rootScope.errorMessage="Для входу потрібно підтвердити реєстрацію!";
+	        	console.log(data.userId);	        	
+	        	if(data.userId==1){	        		
 	        		console.log("Confirm registration with email");
-	        	} else {
-	        	
+	        		def.resolve(data);
+	        	} else {	        	
 		        	if (localStorageService.get("memoryMe")=="ON"){
 		        		localStorageService.cookie.set("accessToken",data.accessToken,30);	        		
 		        	} else {
 		        		localStorageService.cookie.set("accessToken",data.accessToken,0.065);	//90 min
-		        	}
-		        	
+		        	}		        	
 		        	localStorageService.set("accessToken", data.accessToken);
 		        	localStorageService.set("userId", data.userId);
 		        	localStorageService.set("userName", data.socialLogin);
 		        	localStorageService.set("userRole", data.userRole);
 		        	localStorageService.set("userRoleId", data.userRoleId);
 		        	
-		        	
-			        $location.path("/ua/user/profile");	
-			        $route.reload();
+		        	def.resolve(data);		        	
 	        	}
 	        }) 
 			.error(function(data, status){
 				console.log("zrada");
-				console.log(status);
-				$rootScope.errorMessage="Помилка входу. Перевірте свої дані!";
+				console.log(status);				
+				def.reject("Failed to enter site");
 			});
+			return def.promise;
 		},
 		
 		logout:function(){			
@@ -87,24 +85,23 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		
 		confirmRegistration:function(userLogin,code){
 			
+			var def = $q.defer();
+			
 			$http.post("/webapi/account/confirmRegistration/" + userLogin + "/" + code)
-	        .success(function(data){
-	        		        	
-	        	localStorageService.cookie.set("accessToken",data.accessToken,0.065);  	
-	        	
+	        .success(function(data){	        		        	
+	        	localStorageService.cookie.set("accessToken",data.accessToken,0.065); 	        	
 	        	localStorageService.set("accessToken", data.accessToken);
 	        	localStorageService.set("userId", data.userId);
 	        	localStorageService.set("userName", data.socialLogin);
 	        	localStorageService.set("userRole", data.userRole);
 	        	localStorageService.set("userRoleId", data.userRoleId);
 	        	
-		        $location.path("/ua/user/profile");	
-		        $route.reload();
+	        	def.resolve(data);
 	        })
-	        .error(function(data){				
-				console.log("registration error");
-				$rootScope.errorRegistrationConfirmMessage="Помилка реєстрації! Спробуйте ще раз";
+	        .error(function(data){
+	        	def.reject("Failed to confirm Registration");
 			});
+			return def.promise;
 		
 		},
 			

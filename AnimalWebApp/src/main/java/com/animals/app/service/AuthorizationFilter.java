@@ -58,8 +58,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			final StringTokenizer tokenizer = new StringTokenizer(accessTokenDecoded, ":");
 
 	        String sessionId = tokenizer.nextToken();
-	        String userId = tokenizer.nextToken();
-	        System.out.println(userId);
+	        String userId = tokenizer.nextToken();	        
 	        
 	        int userId2 = Integer.parseInt(userId);
 

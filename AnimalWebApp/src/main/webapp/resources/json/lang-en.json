@@ -126,6 +126,8 @@
   "ENTER_FACEBOOK": "LogIn with Facebook",
   "ENTER_GOOGLE": "LogIn with Google",
   "REGISTRATION": "Sign In",
+  "LOGIN_ERROR" : "Login error! Check out your login and password",
+  "LOGIN_CONFIRM_ERROR": "For entering site first you should confirm registration",
 
   "REGISTRATION_HOMELESS": "Registration of homeless animal",
   "REGISTRATION_OWNED": "Registration of owned animal",
@@ -168,6 +170,10 @@
   "REG_PHONE_TEMPLATE": "Input template",
   "REG_ORGANIZATION_NAME": "Organization name",
   "REG_ORGANIZATION_INFO": "Additional information about organization",
+  
+  "REGISTRATION_CONFIRMATION": "Registration Confirmation",
+  "REGISTRATION_LINK": "Confirmation link was sent to your email. Follow instructions...",
+  "REGISTRATION_ERROR": "Registration error. Try again!",
 
   "USER_PROFILE": "Profile",
   "USER_IMAGE_FROM_SOCIALS": "Image from social",
