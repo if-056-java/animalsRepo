@@ -32,17 +32,7 @@
     <Valve className="org.apache.catalina.valves.CometConnectionManagerValve" />
     -->
 
-	<!--<Resource name="jdbc/animals" auth="Container" type="javax.sql.DataSource"
-		  maxActive="100" maxIdle="30" maxWait="10000"
-		  username="u_remoteuser" password="ZF008NBp" driverClassName="com.mysql.jdbc.Driver"
-		  url="jdbc:mysql://tym.dp.ua:3306/animals"/>-->
-
-    <!--              factory="org.apache.naming.factory.BeanFactory"
-            forceString="local,remote=host"
-            local="localhost"
-            remote="tomcat.apache.org"/>
--->
-	    <!-- DBCP -->
+        <!-- DBCP -->
 	    <Resource name="jdbc/animals" 
               auth="Container" 
               type="javax.sql.DataSource" 
@@ -59,12 +49,14 @@
               initialSize="10"
               removeAbandonedTimeout="60"
               removeAbandoned="true"
-              logAbandoned="true"
-              minEvictableIdleTimeMillis="30000" 
+              minEvictableIdleTimeMillis="30000"
               jmxEnabled="true"
-              jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
+              jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;
+              org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer;
+              org.apache.tomcat.jdbc.pool.interceptor.ResetAbandonedTimer"
               username="u_remoteuser" 
-              password="ZF008NBp" 
+              password="ZF008NBp"
               driverClassName="com.mysql.jdbc.Driver"
               url="jdbc:mysql://tym.dp.ua:3306/animals"/>
+    <!-- logAbandoned="true" - log about abandone connections -->
 </Context>
