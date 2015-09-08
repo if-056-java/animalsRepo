@@ -1,6 +1,6 @@
 angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.select', 'DPController', 'AnimalsAdminValues'])
-    .controller('AnimalsAdminController', ['$scope', 'AnimalsAdminService', 'AnimalsAdminValues', '$filter',
-        function($scope, AnimalsAdminService, AnimalsAdminValues, $filter) {
+    .controller('AnimalsAdminController', ['$scope', 'AnimalsAdminService', 'AnimalsAdminValues', '$filter', '$window',
+        function($scope, AnimalsAdminService, AnimalsAdminValues, $filter, $window) {
 
             AnimalsAdminService.rolesAllowed("модератор");
 
