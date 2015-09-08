@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by oleg on 24.07.2015.
  */
-public class UserRepositoryImpl {
+public class UserRepositoryImpl implements UserRepository {
 
     private SqlSessionFactory sqlSessionFactory;
 
@@ -149,7 +149,7 @@ public class UserRepositoryImpl {
         }
     }
     
-    /** created 41X
+    /** 
      * Returns a User instance from the database.
      * @param googleId value used for lookup.
      * @return A User instance with a GoogleId value equals to pk. null if there is no matching row.
@@ -160,6 +160,38 @@ public class UserRepositoryImpl {
         try{
             UserRepository mapper = sqlSession.getMapper(UserRepository.class);
             return mapper.getByGoogleId(googleId);
+        } finally {
+            sqlSession.close();
+        }
+    }
+    
+    /** 
+     * Returns a User instance from the database.
+     * @param facebookId value used for lookup.
+     * @return A User instance with a FacebookId value equals to pk. null if there is no matching row.
+     */
+    public User getByFacebookId(String facebookId){
+        SqlSession sqlSession =  sqlSessionFactory.openSession();
+
+        try{
+            UserRepository mapper = sqlSession.getMapper(UserRepository.class);
+            return mapper.getByFacebookId(facebookId);
+        } finally {
+            sqlSession.close();
+        }
+    }
+    
+    /** 
+     * Returns a User instance from the database.
+     * @param twitterId value used for lookup.
+     * @return A User instance with a TwitterId value equals to pk. null if there is no matching row.
+     */
+    public User getByTwitterId(String twitterId){
+        SqlSession sqlSession =  sqlSessionFactory.openSession();
+
+        try{
+            UserRepository mapper = sqlSession.getMapper(UserRepository.class);
+            return mapper.getByTwitterId(twitterId);
         } finally {
             sqlSession.close();
         }

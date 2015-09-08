@@ -17,7 +17,7 @@
                         <div class="col-md-8">{{ animal.breed.breedUa }}</div>
                     </div>
                     <hr>
-                    <div class="row" id="">
+                    <div class="row">
                         <div class="col-md-4">{{ 'SEX' | translate }}:</div>
                         <div class="col-md-8">{{ animal.sex }}</div>
                     </div>
@@ -63,8 +63,23 @@
 </div>
 <div class="row">
     <div class="col-md-3 col-md-offset-6 detailed-buttons" >
-        <div class="col-md-6"><a class="btn btn-primary col-md-12" href={{linkButton}} role="button" >{{ textButton }}</a></div>
-        <div class="col-md-6"><a class="btn btn-success col-md-12" href={{linkBack}} role="button">{{ 'BACK' | translate }}</a></div>
+        <div class="col-md-6"><a class="btn btn-success col-md-12" ng-click="openDialog()" role="button" >{{ textButton }}</a></div>
+        <div class="col-md-6"><a class="btn btn-warning col-md-12" href={{linkBack}} role="button">{{ 'BACK' | translate }}</a></div>
     </div>
 </div>
 
+<pop-up-dialog>
+    <div id="popUpDialog-bg" ng-show="showPopUpDialog">
+        <div id="popUpDialog">
+            <div class="content">
+                Content
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-6 detailed-buttons" >
+                        <div class="col-md-6"><a class="btn btn-success col-md-12" role="button">Відправити</a></div>
+                        <div class="col-md-6"><a class="btn btn-warning col-md-12" role="button" ng-click="closeDialog()">Відміна</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</pop-up-dialog>

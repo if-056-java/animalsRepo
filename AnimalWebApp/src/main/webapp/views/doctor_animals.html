@@ -130,9 +130,6 @@
                         <td><strong>{{ 'COLOR' | translate }}</strong></td>
                         <td><strong>{{ 'TRANSPONDER' | translate }}</strong></td>
                         <td><strong>{{ 'BIRTH_DATE' | translate }}</strong></td>
-                        <td>
-                            <image src="../resources/img/ArrowDownGreenGloss.gif"></image>
-                        </td>
                     </tr>
                     </thead>
                     <tbody>
@@ -143,8 +140,7 @@
                         <td>{{ animal.color }}</td>
                         <td>{{ animal.transpNumber }}</td>
                         <td>{{ animal.dateOfBirth }}</td>
-                        <td><a class="btn btn-md btn-warning" href="#/ua/user/doctor/animals/{{ animal.id }}"><i
-                                class="fa fa-spinner fa-pulse"></i></i></a></td>
+                        <td><a class="btn btn-md" href="#/ua/user/doctor/animals/{{ animal.id }}" role="button"><image src="../resources/img/ArrowDownGreenGloss.gif"></image></a></td>
                     </tr>
                     </tbody>
                 </table>

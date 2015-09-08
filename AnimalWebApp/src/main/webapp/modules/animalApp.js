@@ -105,6 +105,14 @@ animalApp .config(['$routeProvider', '$translateProvider',
                 templateUrl: 'views/user_profile.html',
                 controller: 'UserProfileController'
             })
+            .when('/ua/user/profile/animals/:animalId', {
+                templateUrl: 'views/user_animals_detailed.html',
+                controller: 'AnimalsDetailedUserController'
+            })
+            .when('/ua/user/profile/animals/editor/:animalId', {
+                templateUrl: 'views/user_animals_editor.html',
+                controller: 'AnimalsEditorUserController'
+            })
             .when('/ua/animal/:service/:animalId', {
                 templateUrl: 'views/animal_short_info.html',
                 controller: 'AnimalShortInfoController'

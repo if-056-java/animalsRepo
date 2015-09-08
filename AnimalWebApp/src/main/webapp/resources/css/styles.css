@@ -300,3 +300,25 @@ IMG.displayed {
     -o-transition: border 0.2s ease-in-out;
     transition: border 0.2s ease-in-out;
 }
+#popUpDialog-bg{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+}
+#popUpDialog{
+    position: fixed;
+    width: 250px;
+    left: 40%;
+    margin-left: -75px;
+    margin-top: 5%;
+    padding: 15%;
+    border-radius: 5px;
+    background: white;
+}
+#popUpDialog .content{
+    margin-bottom: 15px;
+
+}

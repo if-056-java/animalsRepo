@@ -45,7 +45,54 @@ angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, 
                 def.reject("Failed to update user");
             });
 			return def.promise;			
-		}	
+		},
+		
+		getAnimal: function (animalId) {
+			
+			var def = $q.defer();
+			var id = localStorageService.get("userId");
+			
+			$http.defaults.headers.common['AccessToken'] = localStorageService.get("accessToken");
+			$http.get("/webapi/users/user/"+id+"/animals/"+ animalId)
+			.success(function (data) {
+                def.resolve(data);
+            })
+            .error(function (error) {
+                def.reject("Failed to get animal");
+            });
+			return def.promise;
+		},
+		
+		deleteAnimal: function (animalId) {
+			
+			var def = $q.defer();
+			var id = localStorageService.get("userId");
+						
+			$http.delete("/webapi/users/user/"+id+"/animals/"+ animalId)
+			.success(function (data) {
+                def.resolve(data);
+            })
+            .error(function (error) {
+                def.reject("Failed to delete animal");
+            });
+			return def.promise;
+		},
+		
+		updateAnimal: function(animal) {
+            var def = $q.defer();
+            var id = localStorageService.get("userId");
+            
+            $http.defaults.headers.common['AccessToken'] = localStorageService.get("accessToken");
+            $http.post("/webapi/users/user/"+id+"/animals/animal", animal)
+                .success(function(data) {
+                    def.resolve(data);
+                })
+                .error(function() {
+                    def.reject("Failed to update animal.");
+                });
+
+            return def.promise;
+        }
 		
 	};	
 	

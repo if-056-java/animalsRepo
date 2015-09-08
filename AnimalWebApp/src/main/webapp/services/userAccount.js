@@ -128,9 +128,19 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		        	localStorageService.set("userRole", data.userRole);
 		        	localStorageService.set("userRoleId", data.userRoleId);	
 		        	
-		        	
-		        	localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);	        	
-		        	localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);	        	
+		        	if(data.refreshGoogleToken !== "null"){
+		        		localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);	        	
+		        		localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);		        		
+		        		localStorageService.set("disableGoogleButton", true);			        				        		
+		        	}
+		        	if(data.twitterToken !== "null"){
+		        		localStorageService.cookie.set("twitterToken",data.twitterToken,30);
+		        		localStorageService.cookie.set("twitterSecret",data.twitterSecret,30);		        		
+		        		localStorageService.set("disableTwitterButton", true);		        		
+		        	}
+		        	if(data.facebookToken !== "null"){		        		
+		        		localStorageService.set("disableFacebookButton", true);		        		
+		        	}
 		        	
 		        	$location.path("/ua/user/profile");	
 			        $route.reload();
@@ -147,13 +157,10 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			       	
 		},
 		
-		loginGoogle:function(){
-			
-			console.log("loginGoogle");
-			
+		loginGoogle:function(){		
+		
 			$http.get("/webapi/account/login/google")
-			.success(function(data){
-				console.log("success not direct");
+			.success(function(data){			
 				$window.location.href = (data);				
 			})
 			.error(function(data){
@@ -164,15 +171,11 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		
 		loginDirectGoogle:function(){
 			
-			console.log("loginDirectGoogle");
 			
 			var refreshToken = localStorageService.cookie.get("refreshGoogleToken");			
-			console.log(refreshToken);			
-			
-			
+						
 			$http.get("/webapi/account/login/google_login_direct", {params:{code:refreshToken}})
-			.success(function(data){
-				console.log("success direct");
+			.success(function(data){			
 				$window.location.href = (data);
 			})
 			.error(function(data){
@@ -180,9 +183,50 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 				$rootScope.errorMessage="Помилка входу. Термін дії GoogleRefreshToken закінчився! Спробуйте ще раз!";
 				localStorageService.cookie.remove("refreshGoogleToken");
 			})
-		}
+		},
 		
 		
+		loginFacebook:function(){
+			
+			$http.get("/webapi/account/login/facebook")
+			.success(function(data){				
+				$window.location.href = (data);				
+			})
+			.error(function(data){
+				console.log("error not direct");
+			})
+			
+		},
+		
+
+		loginTwitter:function(){
+						
+			$http.get("/webapi/account/login/twitter")
+			.success(function(data){				
+				$window.location.href = (data);				
+			})
+			.error(function(data){
+				console.log("error not direct");
+			})
+			
+		},
+		
+		loginDirectTwitter:function(){			
+			
+			var twitterToken = localStorageService.cookie.get("twitterToken");
+			var twitterSecret = localStorageService.cookie.get("twitterSecret");
+			
+			$http.get("/webapi/account/login/twitter_login_direct", {params:{token:twitterToken, secret:twitterSecret}})
+			.success(function(data){				
+				$window.location.href = (data);
+			})
+			.error(function(data){
+				console.log("error direct. Maybe aToken expired");
+				$rootScope.errorMessage="Помилка входу. Спробуйте ще раз!";
+				localStorageService.cookie.remove("twitterToken");
+				localStorageService.cookie.remove("twitterSecret");				
+			})
+		}	
 		
 	};	
 	

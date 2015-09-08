@@ -11,6 +11,15 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
     new Spinner(opts).spin(targetContent2);
     $scope.contentLoading = 0;
 	
+    if(localStorageService.get("disableGoogleButton")){
+    	$scope.disableGoogle=true;
+    }
+    if(localStorageService.get("disableTwitterButton")){
+    	$scope.disableTwitter=true;
+    }
+    if(localStorageService.get("disableFacebookButton")){
+    	$scope.disableFacebook=true;
+    }
 	
 	$scope.IsHidden = true;
 	$scope.showPopup = function () {$scope.IsHidden =  false;}    
@@ -96,6 +105,20 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 	$scope.JoinGoogle=function(){	
 		
 		userAccount.loginGoogle();
+		
+		
+	};
+	
+	$scope.JoinFacebook=function(){	
+		
+		userAccount.loginFacebook();
+		
+		
+	};
+	
+	$scope.JoinTwitter=function(){	
+		
+		userAccount.loginTwitter();
 		
 		
 	};

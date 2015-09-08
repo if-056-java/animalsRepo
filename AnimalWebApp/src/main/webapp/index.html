@@ -93,7 +93,7 @@
             </li>
 
 		  <li class="dropdown" translate-cloak>
-				<a ng-show="session()" href="" class="dropdown-toggle" data-toggle="dropdown">{{ 'NAV_MODERATION' | translate }}<b class="caret"></b></a>
+				<a ng-show="(userRole == 'лікар' || userRole == 'модератор')" href="" class="dropdown-toggle" data-toggle="dropdown">{{ 'NAV_MODERATION' | translate }}<b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<li><a href="#ua/user/home/animals" ng-show="userRole == 'модератор'">{{ 'NAV_ANIMAL_LIST' | translate }}</a></li>
 					<li role="presentation" class="divider" ng-show="userRole == 'модератор'"></li>
@@ -240,6 +240,8 @@
  <script src="controllers/RegistrationController.js"></script>
  <script src="controllers/UserConfirmRegistrationController.js"></script>
  <script src="controllers/UserProfileController.js"></script>
+ <script src="controllers/AnimalsDetailedUserController.js"></script>
+ <script src="controllers/AnimalsEditorUserController.js"></script> 
  <script src="controllers/AnimalShortInfoController.js"></script>
  <script src="controllers/MainController.js"></script>
  <script src="services/AnimalsModule.js"></script>

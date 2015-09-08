@@ -11,21 +11,22 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService'])
 			if(service === "found"){
 				$scope.detail=false;
 				$scope.textButton= $filter('translate')('CONTACT_AUTHOR');
-				$scope.linkButton="#";
 				$scope.linkBack="#/ua/animal/found"
 			};
 			if(service === "adoption"){
 				$scope.detail=true;
 				$scope.textButton= $filter('translate')('ADOPT');
-				$scope.linkButton="#";
 				$scope.linkBack="#/ua/animal/adoption";
 			};
 			if(service === "lost") {
 				$scope.detail=true;
 				$scope.textButton= $filter('translate')('CONTACT_OWNER');
-				$scope.linkButton="#";
 				$scope.linkBack="#/ua/animal/lost";
 			};
+
+			$scope.openDialog = function(){
+				$scope.showPopUpDialog = true;
+			}
 
 			this.getAnimal = function(animalId) {
 				AnimalShortInfoService.getAnimal(animalId)
@@ -42,4 +43,17 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService'])
 					});
 			};
 			this.getAnimal(animalId);
-		}]);
+		}])
+	.directive('popUpDialog', function(){
+		return{
+			restrict: 'E',
+			scope: false,
+			controller: function($scope){
+				$scope.showPopUpDialog = false;
+				$scope.closeDialog = function(){
+					$scope.showPopUpDialog = false;
+				}
+			}
+		}
+
+	});
