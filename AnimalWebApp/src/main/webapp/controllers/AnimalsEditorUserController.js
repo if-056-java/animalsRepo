@@ -5,53 +5,79 @@ animalApp.controller('AnimalsEditorUserController', ['$scope', 'userData', '$rou
                                                function($scope, userData, $routeParams, $window, $filter, AnimalsAdminValues, AnimalsAdminService) {
 		
 	//initialize loading spinner
-    var targetContent = document.getElementById('loading-block');    
-    new Spinner(opts).spin(targetContent);   
-    $scope.contentLoading = 0;
-	
-    var animalId = $routeParams.animalId;       //animal id   
-    $scope.animalImage = undefined;
+    var targetContent = document.getElementById('loading-block');
+    new Spinner(opts).spin(targetContent);
+    //This variable decides when spinner loading for contentis closed.
+    $scope.contentLoading = 1;
 
-	$scope.contentLoading++;
-	userData.getAnimal(animalId).then(
-			function(result){
-				$scope.animal=result;
-				$scope.animalImage = "resources/img/noimg.png";				
-                if (result.image != undefined) {
-                    if (result.image.length > 0) {
-                        $scope.animalImage = result.image;
-                    }
-                }
-				$scope.contentLoading--;
-			},
-			function(error){				
-				console.log(error)
-				$scope.contentLoading--;
-			}
-		);
-	
-	/**
+    $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+
+    var animalId = $routeParams.animalId;                       //animal id
+
+    var initialize = function() {
+        if (AnimalsAdminValues.animalTypes.values.length === 0  ||
+            AnimalsAdminValues.animalServices.values.length === 0 ||
+            AnimalsAdminValues.animal.id == undefined ||
+            $scope.contentLoading === 0) {
+            return;
+        }
+
+        $scope.animalTypes = AnimalsAdminValues.animalTypes;        //list of animal types
+        $scope.animalServices = AnimalsAdminValues.animalServices;  //list of animal services
+        $scope.animal = angular.copy(AnimalsAdminValues.animal);     //animal
+        $scope.animalImage = "resources/img/no_img.png";
+
+        if (AnimalsAdminValues.animal.image != undefined) {
+            if (AnimalsAdminValues.animal.image.length > 0) {
+                $scope.animalImage = AnimalsAdminValues.animal.image;
+            }
+        }
+
+        if ($scope.animal.type != undefined) {
+            $scope.getAnimalBreeds();
+        }
+
+        $scope.contentLoading--;
+    }
+
+    /**
      * @return list of animal types.
      */
     AnimalsAdminService.getAnimalTypes()
         .finally(function() {
-        	$scope.animalTypes = AnimalsAdminValues.animalTypes;
+            initialize();
         });
-    
+
+    /**
+     * @return list of animal services.
+     */
+    AnimalsAdminService.getAnimalServices()
+        .finally(function() {
+            initialize();
+        });
+
+    /**
+     * @param animalId id of animal used for lookup.
+     * @return animal instance.
+     */
+    AnimalsAdminService.getAnimal(animalId)
+        .finally(function() {
+            initialize();
+        });
+
     /**
      * @return list of animal breeds according to animal type.
      */
     $scope.getAnimalBreeds = function() {
         $scope.filterAnimalBreedFlag = true;
         AnimalsAdminService.getAnimalBreeds($scope.animal.type.id)
-            .then(function(data) {
-                $scope.animalBreeds = data;
+            .then(function(response) {
+                $scope.animalBreeds = response.data;
             })
             .finally(function() {
                 $scope.filterAnimalBreedFlag = false;
             });
     }
-	
 	
 	$scope.updateAnimal = function(isValid) {
 		if(!isValid){
