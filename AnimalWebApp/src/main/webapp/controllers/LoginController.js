@@ -1,8 +1,8 @@
 //created by 41X
 var animalAppControllers = angular.module('LoginController', []);
 
-animalApp.controller('LoginController', ['$scope', 'userAccount', 'hashPassword', 'localStorageService',
-                                         function($scope, userAccount, hashPassword, localStorageService) {
+animalApp.controller('LoginController', ['$scope', '$location', '$route', 'userAccount', 'hashPassword', 'localStorageService',
+                                         function($scope, $location, $route, userAccount, hashPassword, localStorageService) {
 	
 	$scope.login=function(){			
 		
@@ -17,7 +17,21 @@ animalApp.controller('LoginController', ['$scope', 'userAccount', 'hashPassword'
 		console.log($scope.login.password);
 		console.log(password);
 		
-		userAccount.login(userLogin, password);
+		userAccount.login(userLogin, password).then(
+				function(result){					
+					if(result.userId==1){
+		        		$scope.errorConfirmMessage="Для входу потрібно підтвердити реєстрацію!";
+		        		console.log("Confirm registration with email");		        		
+		        	} else {			        	
+				        $location.path("/ua/user/profile");	
+				        $route.reload();
+		        	}					
+				},
+				function(error){
+					console.log(error);					
+					$scope.errorMessage="Помилка входу. Перевірте свої дані!";
+				}
+		);
 		
 	}	
 	

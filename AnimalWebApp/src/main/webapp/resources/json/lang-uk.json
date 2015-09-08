@@ -126,6 +126,8 @@
   "ENTER_FACEBOOK": "Вхід через Facebook",
   "ENTER_GOOGLE": "Вхід через Google",
   "REGISTRATION": "Реєстрація",
+  "LOGIN_ERROR" : "Помилка входу. Перевірте свої дані!",
+  "LOGIN_CONFIRM_ERROR": "Для входу потрібно підтвердити реєстрацію!",
 
   "REGISTRATION_HOMELESS": "Реєстрація безпритульної тварини",
   "REGISTRATION_OWNED": "Реєстрація власницької тварини",
@@ -168,6 +170,10 @@
   "REG_PHONE_TEMPLATE": "Введіть у вигляді",
   "REG_ORGANIZATION_NAME": "Назва організації",
   "REG_ORGANIZATION_INFO": "Додаткова інформація про організацію",
+  
+  "REGISTRATION_CONFIRMATION": "Підтвердження реєстрації",
+  "REGISTRATION_LINK": " Ссилка для підтвердження реєстрації була вислана вам на пошту. Слідуйте інструкціям ...",
+  "REGISTRATION_ERROR": "Помилка реєстрації! Спробуйте ще раз",
 
   "USER_PROFILE": "Профіль користувача",
   "USER_IMAGE_FROM_SOCIALS": "Фото з соціальної мережі",
