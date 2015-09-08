@@ -15,13 +15,13 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        <!-- Spinner -->
-        <div class="col-xs-7 col-sm-9 col-md-8 col-lg-9" style="top: 320px;" ng-show="contentLoading"
-             id="loading-block">
-        </div>
 
-        <div class="row" ng-show="!contentLoading">
+    <!-- Spinner -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: absolute; z-index: 999; top: 50%;" id="loading-block" ng-show="contentLoading" />
+
+    <div class="container" ng-show="!contentLoading">
+
+        <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success">
                 <div class="row">
 
@@ -35,27 +35,34 @@
                         <!-- Animal type -->
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'TYPE' | translate }}:</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.type.type }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage === 'uk'">{{ animal.type.type }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage !== 'uk'">{{ animal.type.typeEn }}</div>
                         </div>
                         <hr>
                         <!-- Animal breed -->
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'BREED' | translate }}:</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.breed.breedUa }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage === 'uk'">{{ animal.breed.breedUa }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage !== 'uk'">{{ animal.breed.breedEn }}</div>
                         </div>
                         <hr>
 
                         <!-- Animal size -->
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'SIZE' | translate }}:</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.size }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="animal.size === 'NONE'">{{ 'NOT_IDENTIFIED' | translate }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="animal.size === 'SMALL'">{{ 'SIZE_SMALL' | translate }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="animal.size === 'MIDDLE'">{{ 'SIZE_NORMAL' | translate }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="animal.size === 'LARGE'">{{ 'SIZE_LARGE' | translate }}</div>
                         </div>
                         <hr>
 
                         <!-- Animal sex -->
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'SEX' | translate }}:</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.sex }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="animal.sex === 'NONE'">{{ 'NOT_IDENTIFIED' | translate }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="animal.sex === 'MALE'">{{ 'SEX_MALE' | translate }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="animal.sex === 'FEMALE'">{{ 'SEX_FEMALE' | translate }}</div>
                         </div>
                         <hr>
 
@@ -69,14 +76,18 @@
                         <!-- Animal cites -->
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">CITE:</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.cites }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="animal.cites === 'NONE'">{{ 'NOT_IDENTIFIED' | translate }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="animal.cites === 'CITES1'">CITES I</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="animal.cites === 'CITES2'">CITES II</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="animal.cites === 'CITES3'">CITES III</div>
                         </div>
                         <hr>
 
                         <!-- Animal service -->
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'TYPE' | translate }}:</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.service.service }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage === 'uk'">{{ animal.service.service }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage !== 'uk'">{{ animal.service.serviceEn }}</div>
                         </div>
 
                     </div>
@@ -131,7 +142,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" ng-show="!contentLoading">
+        <div class="row" ng-show="animal.user">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success table-responsive">
 
                 <!-- Animal owner -->
@@ -157,14 +168,14 @@
                 </table>
             </div>
         </div>
-        <div class="row" ng-show="!contentLoading">
+        <div class="row">
             <div class="col-xs-12 col-sm-4 col-sm-offset-8 col-md-4 col-md-offset-8 col-lg-3 col-lg-offset-9 detailed-buttons">
                 <div class="col-sm-6 col-md-6 col-lg-6"><a
-                        class="btn btn-warning col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                        class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12"
                         href="#/ua/user/doctor/animals/medical_history/{{ animal.id }}" role="button">{{ 'MEDICAL_CARD'
                     | translate }}</a></div>
                 <div class="col-sm-6 col-md-6 col-lg-6"><a
-                        class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12" href="#/ua/user/doctor/animals"
+                        class="btn btn-warning col-xs-12 col-sm-12 col-md-12 col-lg-12" href="#/ua/user/doctor/animals"
                         role="button">{{ 'BACK' | translate }}</a></div>
             </div>
         </div>

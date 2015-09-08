@@ -9,6 +9,7 @@ public class AnimalService implements Serializable{
 
     private Long id;
     private String service;
+    private String serviceEn;
 
     public Long getId() {
         return id;
@@ -26,6 +27,14 @@ public class AnimalService implements Serializable{
         this.service = service;
     }
 
+    public String getServiceEn() {
+        return serviceEn;
+    }
+
+    public void setServiceEn(String serviceEn) {
+        this.serviceEn = serviceEn;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -34,7 +43,8 @@ public class AnimalService implements Serializable{
         AnimalService that = (AnimalService) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        return !(service != null ? !service.equals(that.service) : that.service != null);
+        if (service != null ? !service.equals(that.service) : that.service != null) return false;
+        return !(serviceEn != null ? !serviceEn.equals(that.serviceEn) : that.serviceEn != null);
 
     }
 
@@ -42,6 +52,7 @@ public class AnimalService implements Serializable{
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (service != null ? service.hashCode() : 0);
+        result = 31 * result + (serviceEn != null ? serviceEn.hashCode() : 0);
         return result;
     }
 
@@ -49,7 +60,8 @@ public class AnimalService implements Serializable{
     public String toString() {
         return "AnimalService{" +
                 "id=" + id +
-                ", service='" + service + "'" +
+                ", service='" + service + '\'' +
+                ", serviceEn='" + serviceEn + '\'' +
                 '}';
     }
 }

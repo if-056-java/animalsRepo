@@ -13,10 +13,12 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
              * @return list of animals.
              */
             this.getAnimals = function() {
+                AnimalsAdminValues.animals.values = [];
 
                 return AnimalsService.getAnimalsForAdmin(AnimalsAdminValues.filter)
-                    .then(function(data) {
-                        AnimalsAdminValues.animals.values = data;
+                    .then(function(response) {
+                        AnimalsAdminValues.animals.values = response.data;
+                        return response;
                     });
             }
 
@@ -25,10 +27,12 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
              * @return count of rows for pagination.
              */
             this.getPagesCount = function() {
+                AnimalsAdminValues.totalItems.count = 0;
 
                 return AnimalsService.getAnimalsPaginatorForAdmin(AnimalsAdminValues.filter)
-                    .then(function(data) {
-                        AnimalsAdminValues.totalItems.count = data.rowsCount;
+                    .then(function(response) {
+                        AnimalsAdminValues.totalItems.count = response.data.rowsCount;
+                        return response;
                     });
             }
 
@@ -49,8 +53,9 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
                 }
 
                 return AnimalsService.getAnimalForAdmin(animalId)
-                    .then(function(data) {
-                        angular.copy(data, AnimalsAdminValues.animal);
+                    .then(function(response) {
+                        angular.copy(response.data, AnimalsAdminValues.animal);
+                        return response;
                     });
             }
 
@@ -84,8 +89,9 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
                 }
 
                 return AnimalsService.getAnimalTypes()
-                    .then(function(data) {
-                        AnimalsAdminValues.animalTypes.values = data;
+                    .then(function(response) {
+                        AnimalsAdminValues.animalTypes.values = response.data;
+                        return response;
                     });
             }
 
@@ -101,8 +107,9 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
                 }
 
                 return AnimalsService.getAnimalServices()
-                    .then(function(data) {
-                        AnimalsAdminValues.animalServices.values = data;
+                    .then(function(response) {
+                        AnimalsAdminValues.animalServices.values = response.data;
+                        return response;
                     });
             }
 
@@ -141,4 +148,17 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
                         console.log(data);
                     });
             };
+
+            /**
+             * @param animalId id of animal used for lookup.
+             * delete animal image.
+             */
+            this.deleteAnimalImage = function(animalId) {
+
+                return AnimalsService.deleteAnimalImageForAdmin(animalId)
+                    .then(function(response) {
+                        AnimalsAdminValues.animal.image = undefined;
+                        return response;
+                    });
+            }
     }]);

@@ -1,7 +1,6 @@
 package app.repository;
 
 import com.animals.app.domain.Animal;
-import com.animals.app.domain.AnimalType;
 import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.repository.Impl.*;
 import org.apache.commons.lang3.RandomStringUtils;

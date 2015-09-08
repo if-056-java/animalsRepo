@@ -10,7 +10,17 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
     new Spinner(opts).spin(targetContent);
     new Spinner(opts).spin(targetContent2);
     $scope.contentLoading = 0;
+    $scope.contentLoading2 = 0;
 	
+    if(localStorageService.get("disableGoogleButton")){
+    	$scope.disableGoogle=true;
+    }
+    if(localStorageService.get("disableTwitterButton")){
+    	$scope.disableTwitter=true;
+    }
+    if(localStorageService.get("disableFacebookButton")){
+    	$scope.disableFacebook=true;
+    }
 	
 	$scope.IsHidden = true;
 	$scope.showPopup = function () {$scope.IsHidden =  false;}    
@@ -36,8 +46,7 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 					$scope.fields = $scope.userInfo;
 					$scope.contentLoading--;
 				},
-				function(error){
-					//$scope.errorMessage = error;
+				function(error){					
 					console.log(error)
 					$scope.contentLoading--;
 				}
@@ -47,12 +56,15 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 //			$scope.userAnimalInfo=data;
 //		});
 		
+		$scope.contentLoading2++;
 		userData.getUserAnimals(id).then(
 				function(result){
-					$scope.userAnimalInfo=result;				
+					$scope.userAnimalInfo=result;
+					$scope.contentLoading2--;
 				},
 				function(error){
 					console.log(error)
+					$scope.contentLoading2--;
 				}
 		);		
 	}

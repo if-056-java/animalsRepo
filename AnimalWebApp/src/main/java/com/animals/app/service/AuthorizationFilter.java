@@ -45,7 +45,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			
 			
 			String accessTokenEncoded = requestContext.getHeaderString(ACCESS_TOKEN_HEADER);
-			
+
 			String accessTokenDecoded=null;
 			
 			try {
@@ -54,12 +54,11 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
-			
+
 			final StringTokenizer tokenizer = new StringTokenizer(accessTokenDecoded, ":");
 
 	        String sessionId = tokenizer.nextToken();
-	        String userId = tokenizer.nextToken();
-	        System.out.println(userId);
+	        String userId = tokenizer.nextToken();	        
 	        
 	        int userId2 = Integer.parseInt(userId);
 

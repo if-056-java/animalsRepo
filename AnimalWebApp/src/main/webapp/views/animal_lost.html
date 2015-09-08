@@ -60,9 +60,9 @@
                     <span class="input-group-addon">{{ 'SIZE' | translate }}:</span>
                     <ol class="nya-bs-select nya-bs-select-mod" style="cursor: pointer" ng-model="filter.animal.size"
                         title="{{ 'NOT_SELECTED' | translate }}">
-                        <li class="nya-bs-option" value="малий"><a>{{ 'SIZE_SMALL' | translate }}</a></li>
-                        <li class="nya-bs-option" value="середній"><a>{{ 'SIZE_NORMAL' | translate }}</a></li>
-                        <li class="nya-bs-option" value="великий"><a>{{ 'SIZE_LARGE' | translate }}</a></li>
+                        <li class="nya-bs-option" value="SMALL"><a>{{ 'SIZE_SMALL' | translate }}</a></li>
+                        <li class="nya-bs-option" value="MIDDLE"><a>{{ 'SIZE_NORMAL' | translate }}</a></li>
+                        <li class="nya-bs-option" value="LARGE"><a>{{ 'SIZE_LARGE' | translate }}</a></li>
                     </ol>
                 </div>
                 <br>
@@ -74,13 +74,13 @@
                 <div class="form-group">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="sex" value="самець" ng-model="filter.animal.sex">
+                            <input type="radio" name="sex" value="MALE" ng-model="filter.animal.sex">
                             {{ 'SEX_MALE' | translate }}
                         </label>
                     </div>
                     <div class="radio">
                         <label>
-                            <input type="radio" name="sex" value="самка" ng-model="filter.animal.sex">
+                            <input type="radio" name="sex" value="FEMALE" ng-model="filter.animal.sex">
                             {{ 'SEX_FEMALE' | translate }}
                         </label>
                     </div>

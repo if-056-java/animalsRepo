@@ -9,17 +9,21 @@
                 <div class="col-md-6 detailed-right">
                     <div class="row">
                         <div class="col-md-4">{{ 'TYPE' | translate }}:</div>
-                        <div class="col-md-8">{{ animal.type.type }}</div>
+                        <div class="col-md-8" ng-if="currentLanguage === 'uk'">{{ animal.type.type }}</div>
+                        <div class="col-md-8" ng-if="currentLanguage !== 'uk'">{{ animal.type.typeEn }}</div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-md-4">{{ 'BREED' | translate }}:</div>
-                        <div class="col-md-8">{{ animal.breed.breedUa }}</div>
+                        <div class="col-md-8" ng-if="currentLanguage === 'uk'">{{ animal.breed.breedUa }}</div>
+                        <div class="col-md-8" ng-if="currentLanguage !== 'uk'">{{ animal.breed.breedEn }}</div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-md-4">{{ 'SEX' | translate }}:</div>
-                        <div class="col-md-8">{{ animal.sex }}</div>
+                        <div class="col-md-8" ng-if="animal.sex === 'NONE'">{{ 'NOT_IDENTIFIED' | translate }}</div>
+                        <div class="col-md-8" ng-if="animal.sex === 'MALE'">{{ 'SEX_MALE' | translate }}</div>
+                        <div class="col-md-8" ng-if="animal.sex === 'FEMALE'">{{ 'SEX_FEMALE' | translate }}</div>
                     </div>
                     <hr>
                     <div class="row">
@@ -29,7 +33,10 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-4">{{ 'SIZE' | translate }}:</div>
-                        <div class="col-md-8">{{ animal.size }}</div>
+                        <div class="col-md-8" ng-if="animal.size === 'NONE'">{{ 'NOT_IDENTIFIED' | translate }}</div>
+                        <div class="col-md-8" ng-if="animal.size === 'SMALL'">{{ 'SIZE_SMALL' | translate }}</div>
+                        <div class="col-md-8" ng-if="animal.size === 'MIDDLE'">{{ 'SIZE_NORMAL' | translate }}</div>
+                        <div class="col-md-8" ng-if="animal.size === 'LARGE'">{{ 'SIZE_LARGE' | translate }}</div>
                     </div>
                     <hr>
                 </div>
@@ -55,7 +62,10 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-4">CITES:</div>
-                    <div class="col-md-8">{{ animal.cites }}</div>
+                    <div class="col-md-8" ng-if="animal.cites === 'NONE'">{{ 'NOT_IDENTIFIED' | translate }}</div>
+                    <div class="col-md-8" ng-if="animal.cites === 'CITES1'">CITES I</div>
+                    <div class="col-md-8" ng-if="animal.cites === 'CITES2'">CITES II</div>
+                    <div class="col-md-8" ng-if="animal.cites === 'CITES3'">CITES III</div>
                 </div>
             </div>
         </div>
@@ -63,8 +73,8 @@
 </div>
 <div class="row">
     <div class="col-md-3 col-md-offset-6 detailed-buttons" >
-        <div class="col-md-6"><a class="btn btn-primary col-md-12" ng-click="openDialog()" role="button" >{{ textButton }}</a></div>
-        <div class="col-md-6"><a class="btn btn-success col-md-12" href={{linkBack}} role="button">{{ 'BACK' | translate }}</a></div>
+        <div class="col-md-6"><a class="btn btn-success col-md-12" ng-click="openDialog()" role="button" >{{ textButton }}</a></div>
+        <div class="col-md-6"><a class="btn btn-warning col-md-12" href={{linkBack}} role="button">{{ 'BACK' | translate }}</a></div>
     </div>
 </div>
 
@@ -75,7 +85,7 @@
                 Content
                 <div class="row">
                     <div class="col-md-3 col-md-offset-6 detailed-buttons" >
-                        <div class="col-md-6"><a class="btn btn-primary col-md-12" role="button">Відправити</a></div>
+                        <div class="col-md-6"><a class="btn btn-success col-md-12" role="button">Відправити</a></div>
                         <div class="col-md-6"><a class="btn btn-warning col-md-12" role="button" ng-click="closeDialog()">Відміна</a></div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 angular.module('AnimalMedicalHistoryController', ['AnimalsDoctorModule', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues'])
-    .controller('AnimalMedicalHistoryController', ['$scope', '$routeParams', '$window', 'AnimalsDoctorService', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues',
-        function($scope, $routeParams, $window, AnimalsDoctorService, AnimalsDoctorValues, AnimalMedicalHistoryValues) {
+    .controller('AnimalMedicalHistoryController', ['$scope', '$routeParams', '$window', 'AnimalsDoctorService', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues', '$filter',
+        function($scope, $routeParams, $window, AnimalsDoctorService, AnimalsDoctorValues, AnimalMedicalHistoryValues, $filter) {
 
             AnimalsDoctorService.rolesAllowed('лікар');
 
@@ -23,7 +23,7 @@ angular.module('AnimalMedicalHistoryController', ['AnimalsDoctorModule', 'Animal
              */
             AnimalsDoctorService.getAnimal(animalId)
                 .finally(function() {
-                    $scope.animalImage = "resources/img/noimg.png";
+                    $scope.animalImage = "resources/img/no_img.png";
                     if (AnimalsDoctorValues.animal.image != undefined) {
                         if (AnimalsDoctorValues.animal.image.length > 0) {
                             $scope.animalImage = AnimalsDoctorValues.animal.image;
@@ -45,6 +45,11 @@ angular.module('AnimalMedicalHistoryController', ['AnimalsDoctorModule', 'Animal
              * @return list of medical history items.
              */
             AnimalsDoctorService.getMedicalHistoryItems(animalId)
+                .then(function (response) {
+                    if ($scope.items.values.length == 0) {
+                        $scope.error = $filter('translate')("ERROR_NO_RECORDS");
+                    }
+                })
                 .finally(function() {
                     $scope.contentLoading--;
                 });

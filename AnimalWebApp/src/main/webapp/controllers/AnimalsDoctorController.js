@@ -1,40 +1,60 @@
 angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController', 'AnimalsDoctorValues', 'AnimalsDoctorModule'])
-    .controller('AnimalsDoctorController', ['$scope', 'AnimalsDoctorService', 'AnimalsDoctorValues',
-        function($scope, AnimalsDoctorService, AnimalsDoctorValues) {
+    .controller('AnimalsDoctorController', ['$scope', 'AnimalsDoctorService', 'AnimalsDoctorValues', '$filter', '$window',
+        function($scope, AnimalsDoctorService, AnimalsDoctorValues, $filter, $window) {
 
             AnimalsDoctorService.rolesAllowed('лікар');
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
-            //This variable decides when spinner loading for contentis closed.
-            $scope.contentLoading = 4;
 
             $scope.filter = AnimalsDoctorValues.filter;            //filter
             $scope.totalItems = AnimalsDoctorValues.totalItems;    //table rows count
             $scope.animals = AnimalsDoctorValues.animals;          //animal instance
 
+            $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+
             /**
              * @return count of rows for pagination.
              */
-            AnimalsDoctorService.getPagesCount()
-                .finally(function() {
-                    $scope.contentLoading--;
-                });
+            var getPagesCount = function() {
+                AnimalsDoctorService.getPagesCount()
+                    .finally(function () {
+                        $scope.contentLoading--;
+                    });
+            }
 
             /**
              * @return list of animals.
              */
-            AnimalsDoctorService.getAnimals()
-                .finally(function() {
-                    $scope.contentLoading--;
-                });
+            var getAnimals = function() {
+                $scope.error = undefined;
+
+                AnimalsDoctorService.getAnimals()
+                    .then(function (response) {
+                        if ($scope.animals.values.length == 0) {
+                            $scope.error = $filter('translate')("ERROR_NO_ANIMALS");
+                        }
+                    })
+                    .finally(function () {
+                        $scope.contentLoading--;
+                    });
+            }
+
+            $scope.getData = function() {
+                $scope.contentLoading = 2;
+                getPagesCount();
+                getAnimals();
+            }
+
+            $scope.getData();
 
             /**
              * @return next page.
              */
             $scope.pageChanged = function() {
-                AnimalsDoctorService.getAnimals();
+                $scope.contentLoading = 1;
+                getAnimals();
             };
 
             /**
@@ -42,31 +62,27 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
              */
             $scope.countChanged = function(count) {
                 $scope.filter.limit = count;
-                AnimalsDoctorService.getAnimals();
+                $scope.contentLoading = 1;
+                getAnimals();
             };
     }])
-    .controller('AnimalsFilterDoctorController', ['$scope', '$filter', 'AnimalsDoctorService', 'AnimalsDoctorValues',
-        function($scope, $filter, AnimalsDoctorService, AnimalsDoctorValues) {
+    .controller('AnimalsFilterDoctorController', ['$scope', '$filter', 'AnimalsDoctorService', 'AnimalsDoctorValues', '$window',
+        function($scope, $filter, AnimalsDoctorService, AnimalsDoctorValues, $window) {
 
             $scope.filter = AnimalsDoctorValues.filter;                  //filter
             $scope.animalTypes = AnimalsDoctorValues.animalTypes;        //list of animal types
             $scope.animalServices = AnimalsDoctorValues.animalServices;  //list of animal services
+            $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
             /**
              * @return list of animal types.
              */
-            AnimalsDoctorService.getAnimalTypes()
-                .finally(function() {
-                    $scope.$parent.contentLoading--;
-                });
+            AnimalsDoctorService.getAnimalTypes();
 
             /**
              * @return list of animal types.
              */
-            AnimalsDoctorService.getAnimalServices()
-                .finally(function() {
-                    $scope.$parent.contentLoading--;
-                });
+            AnimalsDoctorService.getAnimalServices();
 
             /**
              * @return list of animal breeds according to animal type.
@@ -74,8 +90,8 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
             $scope.getAnimalBreeds = function() {
                 $scope.filterAnimalBreedFlag = true;
                 AnimalsDoctorService.getAnimalBreeds($scope.filter.animal.type.id)
-                    .then(function(data) {
-                        $scope.animalBreeds = data;
+                    .then(function(response) {
+                        $scope.animalBreeds = response.data;
                     })
                     .finally(function() {
                         $scope.filterAnimalBreedFlag = false;
@@ -92,6 +108,8 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
                 $scope.filter.animal.breed = undefined;
                 $scope.filter.animal.sex = undefined;
                 $scope.filter.animal.dateOfRegister = undefined;
+
+                $scope.submit(true);
             }
 
             /**
@@ -104,7 +122,6 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
 
                 $scope.filter.animal.dateOfRegister = $filter('date')($scope.filter.animal.dateOfRegister, 'yyyy-MM-dd');
 
-                AnimalsDoctorService.getPagesCount();
-                AnimalsDoctorService.getAnimals();
+                $scope.$parent.getData();
             };
     }]);

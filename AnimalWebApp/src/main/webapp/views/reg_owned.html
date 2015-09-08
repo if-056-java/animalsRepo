@@ -130,9 +130,9 @@
                                         <ol class="nya-bs-select nya-bs-select-mod" id="animal-size"
                                             name="size" style="cursor: pointer"
                                             ng-model="animal.size" title="{{ 'NOT_SELECTED' | translate }}">
-                                            <li class="nya-bs-option" value="малий"><a>{{ 'SIZE_SMALL' | translate }}</a></li>
-                                            <li class="nya-bs-option" value="середній"><a>{{ 'SIZE_NORMAL' | translate }}</a></li>
-                                            <li class="nya-bs-option" value="великий"><a>{{ 'SIZE_LARGE' | translate }}</a></li>
+                                            <li class="nya-bs-option" value="SMALL"><a>{{ 'SIZE_SMALL' | translate }}</a></li>
+                                            <li class="nya-bs-option" value="MIDDLE"><a>{{ 'SIZE_NORMAL' | translate }}</a></li>
+                                            <li class="nya-bs-option" value="LARGE"><a>{{ 'SIZE_LARGE' | translate }}</a></li>
                                         </ol>
                                     </div>
 
@@ -153,10 +153,10 @@
                                         <ol class="nya-bs-select nya-bs-select-mod" id="animal-cites"
                                             name='cites' style="cursor: pointer"
                                             ng-model="animal.cites" title="{{ 'NOT_SELECTED' | translate }}" required>
-                                            <li class="nya-bs-option" value="не визначено"><a>{{ 'NOT_OWNED' | translate }}</a></li>
-                                            <li class="nya-bs-option" value="CITES I"><a>CITES I</a></li>
-                                            <li class="nya-bs-option" value="CITES II"><a>CITES II</a></li>
-                                            <li class="nya-bs-option" value="CITES III"><a>CITES III</a></li>
+                                            <li class="nya-bs-option" value="NONE"><a>{{ 'NOT_OWNED' | translate }}</a></li>
+                                            <li class="nya-bs-option" value="CITES1"><a>CITES I</a></li>
+                                            <li class="nya-bs-option" value="CITES2"><a>CITES II</a></li>
+                                            <li class="nya-bs-option" value="CITES3"><a>CITES III</a></li>
                                         </ol>
                                     </div>
                                     <p ng-show="animalForm.cites.$invalid && !animalForm.cites.$pristine"
@@ -178,13 +178,13 @@
                                          required>
                                         <div class="radio">
                                             <label for="m">
-                                                <input type="radio" id="m" name="sex" value="самець" ng-model="animal.sex">
+                                                <input type="radio" id="m" name="sex" value="MALE" ng-model="animal.sex">
                                                 {{ 'SEX_MALE' | translate }}
                                             </label>
                                         </div>
                                         <div class="radio">
                                             <label for="w">
-                                                <input type="radio" id="w" name="sex" value="самка" ng-model="animal.sex">
+                                                <input type="radio" id="w" name="sex" value="FEMALE" ng-model="animal.sex">
                                                 {{ 'SEX_FEMALE' | translate }}
                                             </label>
                                         </div>

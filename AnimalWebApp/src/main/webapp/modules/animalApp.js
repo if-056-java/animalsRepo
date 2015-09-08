@@ -189,7 +189,8 @@ animalApp.constant('RESOURCES', {
     MEDICAL_HISTORY_ITEMS_PAGINATOR_FOR_DOCTOR: '/webapi/doctor/medical_history/paginator/',
     MEDICAL_HISTORY_ITEM_FOR_DOCTOR_DELETE: '/webapi/doctor/medical_history/item/',
     MEDICAL_HISTORY_ITEM_FOR_DOCTOR_UPDATE: '/webapi/doctor/medical_history/item',
-    MEDICAL_HISTORY_TYPES: '/webapi/animals/medical_history/types'
+    MEDICAL_HISTORY_TYPES: '/webapi/animals/medical_history/types',
+    ANIMAL_IMAGE_DELETE_FOR_ADMIN: '/webapi/admin/animals/image/'
 });
 
 animalApp.config(function(localStorageServiceProvider){

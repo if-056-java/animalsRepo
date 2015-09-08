@@ -18,7 +18,7 @@ public interface AnimalBreedRepository {
             "FROM animalbreeds " +
             "WHERE animalTypeId=#{animalTypeId}";
 
-    final String INSERT_UA = "INSERT INTO animalbreeds (breedUa, animalTypeId) VALUES (#{breedUa}, #{type.id})";
+    final String INSERT = "INSERT INTO animalbreeds (breedUa, breedEn, animalTypeId) VALUES (#{breedUa}, #{breedEn}, #{type.id})";
 
     final String DELETE_BY_ID = "DELETE FROM animalbreeds WHERE id = #{id}";
 
@@ -65,7 +65,7 @@ public interface AnimalBreedRepository {
      * Insert an instance of AnimalBreed into the database.
      * @param animalBreed the instance to be persisted.
      */
-    @Insert(INSERT_UA)
+    @Insert(INSERT)
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert_ua(AnimalBreed animalBreed);
 

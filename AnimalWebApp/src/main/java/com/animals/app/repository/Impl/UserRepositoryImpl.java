@@ -81,6 +81,7 @@ public class UserRepositoryImpl implements UserRepository {
         try{
             UserRepository mapper = sqlSession.getMapper(UserRepository.class);
             return mapper.getById(id);
+
         } finally {
             sqlSession.close();
         }

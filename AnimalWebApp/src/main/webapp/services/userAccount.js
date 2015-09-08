@@ -1,5 +1,5 @@
 //created by 41X
-angular.module('animalApp').factory('userAccount',function (Base64, $http, localStorageService, $location, $route, $window, $rootScope){
+angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, localStorageService, $location, $route, $window, $rootScope){
 	
 	return {
 		
@@ -10,37 +10,31 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
             $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; 
                        
 			var memoryMe = localStorageService.get("memoryMe");
-            
+			var def = $q.defer();
+			
 			$http.post("/webapi/account/login/" + memoryMe, {})
-	        .success(function(data){
-	        		        	
-	        	if(data.userId==1){
-	        		$rootScope.errorMessage="Для входу потрібно підтвердити реєстрацію!";
-	        		console.log("Confirm registration with email");
-	        	} else {
-	        	
+	        .success(function(data){	        	        	
+	        	if(data.userId==1){	
+	        		def.resolve(data);
+	        	} else {	        	
 		        	if (localStorageService.get("memoryMe")=="ON"){
 		        		localStorageService.cookie.set("accessToken",data.accessToken,30);	        		
 		        	} else {
 		        		localStorageService.cookie.set("accessToken",data.accessToken,0.065);	//90 min
-		        	}
-		        	
+		        	}		        	
 		        	localStorageService.set("accessToken", data.accessToken);
 		        	localStorageService.set("userId", data.userId);
 		        	localStorageService.set("userName", data.socialLogin);
 		        	localStorageService.set("userRole", data.userRole);
 		        	localStorageService.set("userRoleId", data.userRoleId);
 		        	
-		        	
-			        $location.path("/ua/user/profile");	
-			        $route.reload();
+		        	def.resolve(data);		        	
 	        	}
 	        }) 
-			.error(function(data, status){
-				console.log("zrada");
-				console.log(status);
-				$rootScope.errorMessage="Помилка входу. Перевірте свої дані!";
+			.error(function(data, status){								
+				def.reject("Failed to enter site");
 			});
+			return def.promise;
 		},
 		
 		logout:function(){			
@@ -65,46 +59,30 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		
 		registerUser:function(user){			
 		
+			var def = $q.defer();
 			
 			$http.post("/webapi/account/registration", user)
 	        .success(function(data){
-	        	if(data.userId==0){
-	        		$rootScope.errorRegistrationMessage="Помилка реєстрації. Даний логін вже використовується!";
-	        		console.log("Registration error. SocialLogin is already exist");
-	        	} else if (data.userId==1) {	        		
-			        $location.path("/ua/user/confirmRegistration");	
-			        $route.reload();
-	        	} else {
-	        		console.log("error");
-	        	}
-	        	
+	        	def.resolve(data);	        	
 	        }) 
-			.error(function(data){				
-				console.log("registration error");
-				$rootScope.errorRegistrationMessage="Помилка реєстрації! Спробуйте ще раз";
+			.error(function(data){
+				def.reject("Failed to register user");
 			});
+			return def.promise;
 		},
 		
 		confirmRegistration:function(userLogin,code){
 			
+			var def = $q.defer();
+			
 			$http.post("/webapi/account/confirmRegistration/" + userLogin + "/" + code)
-	        .success(function(data){
-	        		        	
-	        	localStorageService.cookie.set("accessToken",data.accessToken,0.065);  	
-	        	
-	        	localStorageService.set("accessToken", data.accessToken);
-	        	localStorageService.set("userId", data.userId);
-	        	localStorageService.set("userName", data.socialLogin);
-	        	localStorageService.set("userRole", data.userRole);
-	        	localStorageService.set("userRoleId", data.userRoleId);
-	        	
-		        $location.path("/ua/user/profile");	
-		        $route.reload();
+	        .success(function(data){ 
+	        	def.resolve(data);
 	        })
-	        .error(function(data){				
-				console.log("registration error");
-				$rootScope.errorRegistrationConfirmMessage="Помилка реєстрації! Спробуйте ще раз";
+	        .error(function(data){
+	        	def.reject("Failed to confirm Registration");
 			});
+			return def.promise;
 		
 		},
 			
@@ -128,9 +106,19 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		        	localStorageService.set("userRole", data.userRole);
 		        	localStorageService.set("userRoleId", data.userRoleId);	
 		        	
-		        	
-		        	localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);	        	
-		        	localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);	        	
+		        	if(data.refreshGoogleToken !== "null"){
+		        		localStorageService.set("refreshGoogleToken", data.refreshGoogleToken);	        	
+		        		localStorageService.cookie.set("refreshGoogleToken",data.refreshGoogleToken,30);		        		
+		        		localStorageService.set("disableGoogleButton", true);			        				        		
+		        	}
+		        	if(data.twitterToken !== "null"){
+		        		localStorageService.cookie.set("twitterToken",data.twitterToken,30);
+		        		localStorageService.cookie.set("twitterSecret",data.twitterSecret,30);		        		
+		        		localStorageService.set("disableTwitterButton", true);		        		
+		        	}
+		        	if(data.facebookToken !== "null"){		        		
+		        		localStorageService.set("disableFacebookButton", true);		        		
+		        	}
 		        	
 		        	$location.path("/ua/user/profile");	
 			        $route.reload();
@@ -147,13 +135,10 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			       	
 		},
 		
-		loginGoogle:function(){
-			
-			console.log("loginGoogle");
-			
+		loginGoogle:function(){		
+		
 			$http.get("/webapi/account/login/google")
-			.success(function(data){
-				console.log("success not direct");
+			.success(function(data){			
 				$window.location.href = (data);				
 			})
 			.error(function(data){
@@ -164,15 +149,11 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		
 		loginDirectGoogle:function(){
 			
-			console.log("loginDirectGoogle");
 			
 			var refreshToken = localStorageService.cookie.get("refreshGoogleToken");			
-			console.log(refreshToken);			
-			
-			
+						
 			$http.get("/webapi/account/login/google_login_direct", {params:{code:refreshToken}})
-			.success(function(data){
-				console.log("success direct");
+			.success(function(data){			
 				$window.location.href = (data);
 			})
 			.error(function(data){
@@ -185,11 +166,8 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		
 		loginFacebook:function(){
 			
-			console.log("loginFacebook");
-			
 			$http.get("/webapi/account/login/facebook")
-			.success(function(data){
-				console.log("success not direct");
+			.success(function(data){				
 				$window.location.href = (data);				
 			})
 			.error(function(data){
@@ -200,12 +178,9 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 		
 
 		loginTwitter:function(){
-			
-			console.log("loginTwitter");
-			
+						
 			$http.get("/webapi/account/login/twitter")
-			.success(function(data){
-				console.log("success not direct");
+			.success(function(data){				
 				$window.location.href = (data);				
 			})
 			.error(function(data){
@@ -214,7 +189,22 @@ angular.module('animalApp').factory('userAccount',function (Base64, $http, local
 			
 		},
 		
-		
+		loginDirectTwitter:function(){			
+			
+			var twitterToken = localStorageService.cookie.get("twitterToken");
+			var twitterSecret = localStorageService.cookie.get("twitterSecret");
+			
+			$http.get("/webapi/account/login/twitter_login_direct", {params:{token:twitterToken, secret:twitterSecret}})
+			.success(function(data){				
+				$window.location.href = (data);
+			})
+			.error(function(data){
+				console.log("error direct. Maybe aToken expired");
+				$rootScope.errorMessage="Помилка входу. Спробуйте ще раз!";
+				localStorageService.cookie.remove("twitterToken");
+				localStorageService.cookie.remove("twitterSecret");				
+			})
+		}	
 		
 	};	
 	

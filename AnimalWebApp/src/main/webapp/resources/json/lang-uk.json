@@ -15,7 +15,7 @@
   "NAV_MODERATION": "Модерація",
   "NAV_ANIMAL_LIST": "Реєстр тварин",
   "NAV_USER_LIST": "Реєстр користувачів",
-  "NAV_ANIMAL_LIST_FOR_DOCTOR": "Реєстр тварин(для лікаря)",
+  "NAV_ANIMAL_LIST_FOR_DOCTOR": "Реєстр тварин",
   "NAV_WELCOME_MESSAGE": "Вітаємо",
 
   "QUOTE": "Ми відповідаємо за тих, кого приручили",
@@ -37,7 +37,7 @@
   "SEX_MALE": "самець",
   "SEX_FEMALE": "самка",
   "FILTER": "Фільтрувати",
-  "CANCEL": "Скинути",
+  "CANCEL": "Очистити",
   "COLOR": "Окрас",
   "SIZE": "Розмір",
   "SIZE_SMALL": "маленький",
@@ -129,6 +129,8 @@
   "ENTER_FACEBOOK": "Вхід через Facebook",
   "ENTER_GOOGLE": "Вхід через Google",
   "REGISTRATION": "Реєстрація",
+  "LOGIN_ERROR" : "Помилка входу. Перевірте свої дані!",
+  "LOGIN_CONFIRM_ERROR": "Для входу потрібно підтвердити реєстрацію!",
 
   "REGISTRATION_HOMELESS": "Реєстрація безпритульної тварини",
   "REGISTRATION_OWNED": "Реєстрація власницької тварини",
@@ -171,6 +173,13 @@
   "REG_PHONE_TEMPLATE": "Введіть у вигляді",
   "REG_ORGANIZATION_NAME": "Назва організації",
   "REG_ORGANIZATION_INFO": "Додаткова інформація про організацію",
+  "ERROR_REG_MESSAGE1": "Помилка реєстрації. Даний логін вже використовується!",
+  "ERROR_REG_MESSAGE2": "Помилка реєстрації! Спробуйте ще раз.",
+  "ERROR_REG_MESSAGE3": "Помилка реєстрації!",
+  
+  "REGISTRATION_CONFIRMATION": "Підтвердження реєстрації",
+  "REGISTRATION_LINK": " Ссилка для підтвердження реєстрації була вислана вам на пошту. Слідуйте інструкціям ...",
+  "REGISTRATION_ERROR": "Помилка реєстрації! Спробуйте ще раз",
 
   "USER_PROFILE": "Профіль користувача",
   "USER_IMAGE_FROM_SOCIALS": "Фото з соціальної мережі",
@@ -187,6 +196,7 @@
   "USER_ADD_OWN_ANIMAL": "Додати власну тварину",
   "USER_LIST_OWN_ANIMALS": "Список власних тварин",
   "PERSONAL_DATA": "Дані користувача",
+  "BACK_TO_PROFILE": "Мій кабінет",
 
   "MEDICAL_CARD": "Мед. карта",
   "MEDICAL_CARD_DETAILED": "Медична карта, детальна інформація",
@@ -195,5 +205,16 @@
 
   "ANIMAL_REGISTER": "Реєстр тварин",
   "ANIMAL_DETAILED_INFO": "Детальна інформація про тварину",
-  "ANIMAL_DETAILED_EDIT": "Редагування детальної інформації про тварину"
+  "ANIMAL_DETAILED_EDIT": "Редагування детальної інформації про тварину",
+  "ANIMAL_DETAILED_CONFIRM_DELETE": "Ви дійсно хочете видалити цю тварину ?",
+  "ANIMAL_DETAILED_DELETE_FAILED": "Не вдалось видалити тварину.",
+
+  "DELETE_IMAGE": "Видалити фото",
+  "DELETE_IMAGE_CONFIRM": "Ви дійсно хочете видалити зображення ?",
+  "DELETE_IMAGE_FAILED": "Не вдалось видалити зображення.",
+  "DELETE_IMAGE_NO_IMAGE": "Зображення відсутнє.",
+
+  "ERROR_NO_ANIMALS": "Тварини відсутні.",
+  "ERROR_FILE_SIZE_TO_LARGE": "Розмір файлу завеликий. Максимальний розмір 5Мб.",
+  "ERROR_NO_RECORDS": "Нема записів."
 }

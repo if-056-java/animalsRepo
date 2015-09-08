@@ -6,7 +6,7 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService'])
 
 			var animalId = $routeParams.animalId;
 
-			$scope.animalImage = "resources/img/noimg.png";
+			$scope.animalImage = "resources/img/no_img.png";
 
 			if(service === "found"){
 				$scope.detail=false;

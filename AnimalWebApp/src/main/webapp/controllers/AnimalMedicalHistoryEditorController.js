@@ -10,6 +10,8 @@ angular.module('AnimalMedicalHistoryEditorController', ['DPController', 'Animals
             //This variable decides when spinner loading for contentis closed.
             $scope.contentLoading = 2;
 
+            $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+
             var animalId = $routeParams.animalId;       //animal id
             $scope.animal = AnimalsDoctorValues.animal;  //animal
             $scope.animalImage = undefined;
@@ -23,7 +25,7 @@ angular.module('AnimalMedicalHistoryEditorController', ['DPController', 'Animals
              */
             AnimalsDoctorService.getAnimal(animalId)
                 .finally(function() {
-                    $scope.animalImage = "resources/img/noimg.png";
+                    $scope.animalImage = "resources/img/no_img.png";
                     if (AnimalsDoctorValues.animal.image != undefined) {
                         if (AnimalsDoctorValues.animal.image.length > 0) {
                             $scope.animalImage = AnimalsDoctorValues.animal.image;

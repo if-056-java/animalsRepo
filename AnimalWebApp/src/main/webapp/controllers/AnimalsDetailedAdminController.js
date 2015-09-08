@@ -1,6 +1,6 @@
 angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'AnimalsAdminValues'])
-    .controller('AnimalsDetailedAdminController', ['$scope', '$routeParams', '$window', 'AnimalsAdminService', 'AnimalsAdminValues',
-        function($scope, $routeParams, $window, AnimalsAdminService, AnimalsAdminValues) {
+    .controller('AnimalsDetailedAdminController', ['$scope', '$routeParams', '$window', 'AnimalsAdminService', 'AnimalsAdminValues', '$filter',
+        function($scope, $routeParams, $window, AnimalsAdminService, AnimalsAdminValues, $filter) {
 
             AnimalsAdminService.rolesAllowed("модератор");
 
@@ -9,6 +9,8 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
             new Spinner(opts).spin(targetContent);
             //This variable decides when spinner loading for contentis closed.
             $scope.contentLoading = 1;
+
+            $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
             var animalId = $routeParams.animalId;       //animal id
             $scope.animal = AnimalsAdminValues.animal;  //animal
@@ -20,7 +22,7 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
              */
             AnimalsAdminService.getAnimal(animalId)
                 .finally(function() {
-                    $scope.animalImage = "resources/img/noimg.png";
+                    $scope.animalImage = "resources/img/no_img.png";
                     if (AnimalsAdminValues.animal.image != undefined) {
                         if (AnimalsAdminValues.animal.image.length > 0) {
                             $scope.animalImage = AnimalsAdminValues.animal.image;
@@ -34,12 +36,17 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
              * delete animal.
              */
             $scope.deleteAnimal = function() {
+                if (!confirm($filter('translate')("ANIMAL_DETAILED_CONFIRM_DELETE"))) {
+                    return;
+                }
+
+                $filter('date')($scope.animal.dateOfRegister, 'yyyy-MM-dd')
                 AnimalsAdminService.deleteAnimal($scope.animal.id)
                     .then(function(data) {
                         $window.location.href = "#/ua/user/home/animals";
                     },
                     function(data) {
-                        $window.alert("Animal delete failed.");
+                        $window.alert($filter('translate')("ANIMAL_DETAILED_DELETE_FAILED"));
                     });
             }
 
