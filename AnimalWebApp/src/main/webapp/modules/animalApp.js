@@ -148,7 +148,7 @@ animalApp .config(['$routeProvider', '$translateProvider',
             DEFAULT_VALUE = 'en';
 
             /**
-             * @const Get a browser locale language
+             * @const Get a user locale language
              */
             PREFERRED_LANGUAGE = navigator.language || navigator.userLanguage ||
             navigator.browserLanguage || navigator.systemLanguage || DEFAULT_VALUE;
@@ -157,7 +157,6 @@ animalApp .config(['$routeProvider', '$translateProvider',
             if(PREFERRED_LANGUAGE !== 'en' && PREFERRED_LANGUAGE !== 'uk')
                 return DEFAULT_VALUE;
 
-            console.log(PREFERRED_LANGUAGE);
             return PREFERRED_LANGUAGE;
         });
 
@@ -170,7 +169,6 @@ animalApp .config(['$routeProvider', '$translateProvider',
 
 //Constants
 animalApp.constant('RESOURCES', {
-    RESOURCE: 'http://127.0.0.1:8080/',
     ANIMALS_FOR_ADOPTING_PAGINATOR: 'webapi/animals/adoption/pagenator',
     ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption',
     ANIMALS_FOUND_PAGINATOR: 'webapi/animals/found/pagenator',

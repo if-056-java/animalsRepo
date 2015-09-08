@@ -65,7 +65,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" ng-controller="DPController">
                                     <div class="form-group"
                                          ng-class="{ 'has-error' : animalForm.dateOfBirth.$invalid && !animalForm.dateOfBirth.$pristine }">
-                                        <label for="birth-date" class="control-label required">{{ 'REGISTRATION_DATE' | translate }}:</label>
+                                        <label for="birth-date" class="control-label required">{{ 'BIRTH_DATE' | translate }}:</label>
 
                                         <input id="birth-date" name="dateOfBirth"
                                                placeholder="{{ 'BIRTH_DATE' | translate }}"
@@ -196,7 +196,7 @@
 
                                 <!-- Animal breed -->
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                    <label for="animal-breed">{{ 'INPUT_BREED' | translate }}:</label>
+                                    <label class="required"  for="animal-breed">{{ 'INPUT_BREED' | translate }}:</label>
 
                                     <div class="form-group" name="breed"
                                          ng-class="{ 'has-error' : animalForm.breed.$invalid && !animalForm.breed.$pristine }">
@@ -455,7 +455,9 @@
                         </div>
                     </div>
 
-                    <button type="submit" ng-disabled="animalForm.$invalid" id="submit-form" class="btn btn-success">{{ 'REG_COMPLETE_REGISTRATION' | translate }}</button>
+                    <button type="submit" ng-disabled="animalForm.$invalid"
+                            ng-click="alertSample()"
+                            id="submit-form" class="btn btn-success">{{ 'REG_COMPLETE_REGISTRATION' | translate }}</button>
 
                 </form>
             </div>
