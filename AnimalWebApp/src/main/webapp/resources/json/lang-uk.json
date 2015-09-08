@@ -203,6 +203,7 @@
   "DELETE_IMAGE_NO_IMAGE": "Зображення відсутнє.",
 
   "ERROR_NO_ANIMALS": "Тварини відсутні.",
-  "ERROR_FILE_SIZE_TO_LARGE": "Розмір файлу завеликий. Максимальний розмір 5Мб."
+  "ERROR_FILE_SIZE_TO_LARGE": "Розмір файлу завеликий. Максимальний розмір 5Мб.",
+  "ERROR_NO_RECORDS": "Нема записів."
 
 }

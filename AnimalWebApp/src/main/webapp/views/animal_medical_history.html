@@ -35,14 +35,16 @@
                         <!-- Animal type -->
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'TYPE' | translate }}:</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.type.type }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage === 'uk'">{{ animal.type.type }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage !== 'uk'">{{ animal.type.typeEn }}</div>
                         </div>
                         <hr>
 
                         <!-- Animal breed -->
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'BREED' | translate }}:</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.breed.breedUa }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage === 'uk'">{{ animal.breed.breedUa }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage !== 'uk'">{{ animal.breed.breedEn }}</div>
                         </div>
                         <hr>
 
@@ -86,8 +88,14 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success table-responsive" ng-show="totalItems">
-                <table class="table table-hover">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success table-responsive">
+
+                <!-- Error message -->
+                <h3 class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="error">
+                    Немає записів.</h3>
+
+                <!-- Items list -->
+                <table class="table table-hover" ng-hide="error">
                     <thead>
                     <tr>
                         <td width="10%"><strong>{{ 'TYPE' | translate }}</strong></td>
@@ -99,7 +107,8 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="item in items.values">
-                        <td>{{ item.status.status }}</td>
+                        <td ng-if="currentLanguage === 'uk'">{{ item.status.status }}</td>
+                        <td ng-if="currentLanguage !== 'uk'">{{ item.status.statusEn }}</td>
                         <td>{{ item.user.name + " " + item.user.surname }}</td>
                         <td>{{ item.date }}</td>
                         <td>{{ item.description }}</td>
@@ -112,12 +121,10 @@
                     </tbody>
                 </table>
             </div>
-            <!-- Error message -->
-            <h3 class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="top: 160px;" ng-hide="totalItems">
-                Немає записів.</h3>
+
         </div>
 
-        <div class="row">
+        <div class="row" ng-hide="error">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success text-center">
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
 

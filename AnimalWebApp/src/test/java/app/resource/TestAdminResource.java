@@ -2,7 +2,13 @@ package app.resource;
 
 import com.animals.app.domain.Animal;
 import com.animals.app.domain.AnimalsFilter;
+import com.animals.app.repository.AnimalRepository;
+import com.animals.app.repository.Impl.AnimalRepositoryImpl;
+import com.animals.app.repository.Impl.AnimalServiceRepositoryImpl;
+import com.animals.app.repository.Impl.AnimalTypeRepositoryImpl;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.SerializationUtils;
 import org.json.JSONObject;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -14,14 +20,12 @@ import javax.ws.rs.BadRequestException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
-import java.security.NoSuchAlgorithmException;
+import javax.ws.rs.core.Response;
+import java.sql.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * Created by Rostyslav.Viner on 03.09.2015.
@@ -53,6 +57,21 @@ public class TestAdminResource {
 
         JSONObject json = new JSONObject(result);
         accessToken = json.getString("accessToken");
+
+        AnimalRepository animalRepository = new AnimalRepositoryImpl();
+
+        animal = new Animal();
+        animal.setSex(Animal.SexType.FEMALE);
+        animal.setType(new AnimalTypeRepositoryImpl().getAll().get(0));
+        animal.setSize(Animal.SizeType.LARGE);
+        animal.setDateOfRegister(new Date(System.currentTimeMillis()));
+        animal.setColor(RandomStringUtils.random(10, true, true));
+        animal.setAddress(RandomStringUtils.random(10, true, true));
+        animal.setService(new AnimalServiceRepositoryImpl().getAll().get(0));
+
+        animalRepository.insert(animal);
+
+        assertNotNull(animal.getId());
     }
 
     @AfterClass
@@ -61,76 +80,7 @@ public class TestAdminResource {
     }
 
     @Test
-    public void test01GetAnimals() {
-        assertNotNull(accessToken);
-
-        AnimalsFilter animalsFilter = new AnimalsFilter(1, 10);
-
-        List<Animal> animals = client
-                .target(REST_SERVICE_URL)
-                .path("animals")
-                .request()
-                .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
-
-        assertNotNull(animals);
-        assertNotEquals(animals.size(), 0);
-
-        animal = animals.get(0);
-    }
-
-    @Test(expected = BadRequestException.class)
-    public void test02GetAnimals() {
-        assertNotNull(accessToken);
-
-        List<Animal> animals = client
-                .target(REST_SERVICE_URL)
-                .path("animals")
-                .request()
-                .header("AccessToken", accessToken)
-                .post(null, new GenericType<List<Animal>>() {});
-
-        assertNotNull(animals);
-        assertNotEquals(animals.size(), 0);
-    }
-
-    @Test
-    public void test03GetAnimalsPaginator() {
-        assertNotNull(accessToken);
-
-        AnimalsFilter animalsFilter = new AnimalsFilter();
-
-        String rowCount = client
-                .target(REST_SERVICE_URL)
-                .path("animals/paginator")
-                .request()
-                .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), String.class);
-
-        assertNotNull(rowCount);
-
-        JSONObject json = new JSONObject(rowCount);
-        Long count = json.getLong("rowsCount");
-
-        assertNotNull(count);
-    }
-
-    @Test(expected = BadRequestException.class)
-    public void test04GetAnimalsPaginator() {
-        assertNotNull(accessToken);
-
-        String rowCount = client
-                .target(REST_SERVICE_URL)
-                .path("animals/paginator")
-                .request()
-                .header("AccessToken", accessToken)
-                .post(null, String.class);
-
-        assertNull(rowCount);
-    }
-
-    @Test
-    public void test05GetAnimal() {
+    public void test01GetAnimal() {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
@@ -146,17 +96,155 @@ public class TestAdminResource {
     }
 
     @Test(expected = BadRequestException.class)
-    public void test06GetAnimal() {
+    public void test02GetAnimal() {
         assertNotNull(accessToken);
 
-        Animal expected = client
-                .target(REST_SERVICE_URL)
+        client.target(REST_SERVICE_URL)
                 .path("animals/-1")
                 .request()
                 .header("AccessToken", accessToken)
                 .get(Animal.class);
+    }
 
-        assertNull(expected);
+    @Test(expected = BadRequestException.class)
+    public void test03GetAnimal() {
+        assertNotNull(accessToken);
+
+        client.target(REST_SERVICE_URL)
+                .path("animals/0")
+                .request()
+                .header("AccessToken", accessToken)
+                .get(Animal.class);
+    }
+
+    /*
+     * Animal = null
+     */
+    @Test(expected = BadRequestException.class)
+    public void test04UpdateAnimal() {
+        assertNotNull(accessToken);
+
+        client.target(REST_SERVICE_URL)
+                .path("animals/editor")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(null, Animal.class);
+    }
+
+    /*
+     * Animal.id = null
+     */
+    @Test(expected = BadRequestException.class)
+    public void test05UpdateAnimal() {
+        assertNotNull(accessToken);
+
+        client.target(REST_SERVICE_URL)
+                .path("animals/editor")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(new Animal(), MediaType.APPLICATION_JSON), Animal.class);
+    }
+
+    /*
+     * Animal.id = -1
+     */
+    @Test(expected = BadRequestException.class)
+    public void test06UpdateAnimal() {
+        assertNotNull(accessToken);
+
+        Animal actual = new Animal();
+        actual.setId(new Long(-1));
+
+        client.target(REST_SERVICE_URL)
+                .path("animals/editor")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), Animal.class);
+    }
+
+    /*
+     * Animal.id = 0
+     */
+    @Test(expected = BadRequestException.class)
+    public void test07UpdateAnimal() {
+        assertNotNull(accessToken);
+
+        Animal actual = new Animal();
+        actual.setId(new Long(0));
+
+        client.target(REST_SERVICE_URL)
+                .path("animals/editor")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), Animal.class);
+    }
+
+    @Test
+    public void test08UpdateAnimal() {
+        assertNotNull(accessToken);
+        assertNotNull(animal);
+        assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
+
+        Animal actual = SerializationUtils.clone(animal);
+        System.out.println(animal);
+        System.out.println(actual);
+        actual.getType().setId(new Long(-1));
+
+        String result = client
+                .target(REST_SERVICE_URL)
+                .path("animals/editor")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
+
+        JSONObject json = new JSONObject(result);
+        String filePath = json.getString("filePath");
+
+        System.out.println(filePath);
+    }
+
+    //--------------------------------------------------
+    @Test
+    public void test09DeleteAnimal() {
+        Response response = client
+                .target(REST_SERVICE_URL)
+                .path("animals/-1")
+                .request()
+                .header("AccessToken", accessToken)
+                .delete();
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 400);
+    }
+
+    @Test
+    public void test10DeleteAnimal() {
+        Response response = client
+                .target(REST_SERVICE_URL)
+                .path("animals/0")
+                .request()
+                .header("AccessToken", accessToken)
+                .delete();
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 400);
+    }
+
+    @Test
+    public void test11DeleteAnimal() {
+        assertNotNull(animal);
+        assertNotNull(animal.getId());
+
+        Response response = client
+                .target(REST_SERVICE_URL)
+                .path("animals/" + animal.getId())
+                .request()
+                .header("AccessToken", accessToken)
+                .delete();
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 200);
     }
 
     private static String getMd5(String md5) {

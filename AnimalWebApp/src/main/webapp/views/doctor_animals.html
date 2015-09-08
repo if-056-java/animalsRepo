@@ -134,9 +134,13 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="animal in animals.values">
-                        <td>{{ animal.type.type }}</td>
-                        <td>{{ animal.breed.breedUa }}</td>
-                        <td>{{ animal.sex }}</td>
+                        <td ng-if="currentLanguage === 'uk'">{{ animal.type.type }}</td>
+                        <td ng-if="currentLanguage !== 'uk'">{{ animal.type.typeEn }}</td>
+                        <td ng-if="currentLanguage === 'uk'">{{ animal.breed.breedUa }}</td>
+                        <td ng-if="currentLanguage !== 'uk'">{{ animal.breed.breedEn }}</td>
+                        <td ng-if="animal.sex === 'NONE'">{{ 'NOT_IDENTIFIED' | translate }}</td>
+                        <td ng-if="animal.sex === 'MALE'">{{ 'SEX_MALE' | translate }}</td>
+                        <td ng-if="animal.sex === 'FEMALE'">{{ 'SEX_FEMALE' | translate }}</td>
                         <td>{{ animal.color }}</td>
                         <td>{{ animal.transpNumber }}</td>
                         <td>{{ animal.dateOfBirth }}</td>

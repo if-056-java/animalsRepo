@@ -12,6 +12,8 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
             $scope.totalItems = AnimalsAdminValues.totalItems;    //table rows count
             $scope.animals = AnimalsAdminValues.animals;          //animal instance
 
+            $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+
 
             /**
              * @return count of rows for pagination.
@@ -52,6 +54,7 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
              * @return next page.
              */
             $scope.pageChanged = function() {
+                $scope.contentLoading = 1;
                 getAnimals();
             };
 
@@ -60,6 +63,7 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
              */
             $scope.countChanged = function(count) {
                 $scope.filter.limit = count;
+                $scope.contentLoading = 1;
                 getAnimals();
             };
 

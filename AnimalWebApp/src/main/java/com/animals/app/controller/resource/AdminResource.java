@@ -50,7 +50,7 @@ public class AdminResource {
             return BAD_REQUEST;
         }
 
-        if ((animalsFilter.getPage() == 0) || (animalsFilter.getLimit() == 0)) {
+        if ((animalsFilter.getPage() <= 0) || (animalsFilter.getLimit() <= 0)) {
             return BAD_REQUEST;
         }
 
@@ -117,7 +117,7 @@ public class AdminResource {
     @Path("animals/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response deleteAnimal(@Context HttpServletRequest httpServlet, @PathParam("animalId") long animalId) {
-        if (animalId == 0 || animalId<0) {
+        if (animalId <= 0) {
             return BAD_REQUEST;
         }
 
@@ -149,13 +149,12 @@ public class AdminResource {
     @Path("animals/editor")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAnimal(@Context HttpServletRequest httpServlet, Animal animal) {
-        if(animal == null) {
+        if((animal == null) || (animal.getId() == null) || (animal.getId() <=0)) {
             return BAD_REQUEST;
         }
-
+        System.out.println(animal);
         //check breed, if it new insert it into database
-        if ((animal.getBreed() != null) &&
-                (animal.getBreed().getId() == null) &&
+        if ((animal.getBreed() != null) && (animal.getBreed().getId() == null) &&
                 ((animal.getBreed().getBreedUa() != null) || (animal.getBreed().getBreedEn() != null))) {
             animal.getBreed().setType(animal.getType());
             new AnimalBreedRepositoryImpl().insert_ua(animal.getBreed());
@@ -234,7 +233,7 @@ public class AdminResource {
     @RolesAllowed("модератор")
     @Path("animals/image/{animalId}")
     public Response deleteAnimalImage(@Context HttpServletRequest httpServlet, @PathParam("animalId") long animalId) {
-        if (animalId == 0 || animalId<0) {
+        if (animalId <= 0) {
             return BAD_REQUEST;
         }
 

@@ -203,6 +203,7 @@
   "DELETE_IMAGE_NO_IMAGE": "No image to delete.",
 
   "ERROR_NO_ANIMALS": "No animals.",
-  "ERROR_FILE_SIZE_TO_LARGE": "File size to large. Max size is 5Mb."
+  "ERROR_FILE_SIZE_TO_LARGE": "File size to large. Max size is 5Mb.",
+  "ERROR_NO_RECORDS": "No records."
 
 }

@@ -1,6 +1,6 @@
 angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController', 'AnimalsDoctorValues', 'AnimalsDoctorModule'])
-    .controller('AnimalsDoctorController', ['$scope', 'AnimalsDoctorService', 'AnimalsDoctorValues', '$filter',
-        function($scope, AnimalsDoctorService, AnimalsDoctorValues, $filter) {
+    .controller('AnimalsDoctorController', ['$scope', 'AnimalsDoctorService', 'AnimalsDoctorValues', '$filter', '$window',
+        function($scope, AnimalsDoctorService, AnimalsDoctorValues, $filter, $window) {
 
             AnimalsDoctorService.rolesAllowed('лікар');
 
@@ -11,6 +11,8 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
             $scope.filter = AnimalsDoctorValues.filter;            //filter
             $scope.totalItems = AnimalsDoctorValues.totalItems;    //table rows count
             $scope.animals = AnimalsDoctorValues.animals;          //animal instance
+
+            $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
             /**
              * @return count of rows for pagination.
@@ -51,6 +53,7 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
              * @return next page.
              */
             $scope.pageChanged = function() {
+                $scope.contentLoading = 1;
                 getAnimals();
             };
 
@@ -59,6 +62,7 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
              */
             $scope.countChanged = function(count) {
                 $scope.filter.limit = count;
+                $scope.contentLoading = 1;
                 getAnimals();
             };
     }])

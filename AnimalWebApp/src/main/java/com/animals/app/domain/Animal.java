@@ -12,37 +12,24 @@ import java.sql.Date;
  */
 
 public class Animal implements Serializable{
-    @XmlEnum(String.class)
     public enum SexType {
-        @XmlEnumValue("не визначено")
         NONE,
-        @XmlEnumValue("самець")
         MALE,
-        @XmlEnumValue("самка")
         FEMALE
     }
 
-    @XmlEnum(String.class)
     public enum CitesType {
-        @XmlEnumValue("не визначено")
         NONE,
-        @XmlEnumValue("CITES I")
         CITES1,
-        @XmlEnumValue("CITES II")
         CITES2,
-        @XmlEnumValue("CITES III")
         CITES3
     }
 
     @XmlEnum(String.class)
     public enum SizeType {
-        @XmlEnumValue("не визначено")
         NONE,
-        @XmlEnumValue("малий")
         SMALL,
-        @XmlEnumValue("середній")
         MIDDLE,
-        @XmlEnumValue("великий")
         LARGE
     }
 

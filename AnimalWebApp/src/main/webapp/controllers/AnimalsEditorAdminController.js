@@ -71,8 +71,8 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
             $scope.getAnimalBreeds = function() {
                 $scope.filterAnimalBreedFlag = true;
                 AnimalsAdminService.getAnimalBreeds($scope.animal.type.id)
-                    .then(function(data) {
-                        $scope.animalBreeds = data;
+                    .then(function(response) {
+                        $scope.animalBreeds = response.data;
                     })
                     .finally(function() {
                         $scope.filterAnimalBreedFlag = false;

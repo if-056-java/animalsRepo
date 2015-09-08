@@ -10,6 +10,8 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
             //This variable decides when spinner loading for contentis closed.
             $scope.contentLoading = 1;
 
+            $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+
             var animalId = $routeParams.animalId;       //animal id
             $scope.animal = AnimalsAdminValues.animal;  //animal
             $scope.animalImage = undefined;

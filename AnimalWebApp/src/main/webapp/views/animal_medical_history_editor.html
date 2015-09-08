@@ -81,14 +81,16 @@
                             <!-- Animal type -->
                             <div class="row">
                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'TYPE' | translate }}:</div>
-                                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.type.type }}</div>
+                                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage === 'uk'">{{ animal.type.type }}</div>
+                                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage !== 'uk'">{{ animal.type.typeEn }}</div>
                             </div>
                             <hr>
 
                             <!-- Animal breed -->
                             <div class="row">
                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'BREED' | translate }}:</div>
-                                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.breed.breedUa }}</div>
+                                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage === 'uk'">{{ animal.breed.breedUa }}</div>
+                                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="currentLanguage !== 'uk'">{{ animal.breed.breedEn }}</div>
                             </div>
                             <hr>
 
