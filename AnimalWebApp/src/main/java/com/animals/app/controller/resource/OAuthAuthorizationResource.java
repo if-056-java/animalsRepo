@@ -487,8 +487,9 @@ public class OAuthAuthorizationResource {
 
 	@GET
 	@Path("login/facebook_token") // http://localhost:8080/webapi/account/login/facebook_token
-	public Response getFacebookAccessToken(@QueryParam("code") String token, @QueryParam("error") String error,
-			@Context HttpServletRequest req) {
+	public Response getFacebookAccessToken(@QueryParam("code") String token,
+										   @QueryParam("error") String error,
+										   @Context HttpServletRequest req) {
 
 		// Define URLs and callback
 		String pathAll = req.getRequestURL().toString();
@@ -675,8 +676,7 @@ public class OAuthAuthorizationResource {
 		userToReg.setOrganizationInfo("N/A");
 		userToReg.setOrganizationName("N/A");
 		userToReg.setPassword(facebookId);
-		// userToReg.setSocialPhoto(link);
-		userToReg.setSocialPhoto("link");
+		userToReg.setSocialPhoto(link);		
 		userToReg.setFacebookId(facebookId);
 
 		UserRole userRole = new UserRole();
