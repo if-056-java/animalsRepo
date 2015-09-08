@@ -179,7 +179,10 @@ public class TestAdminResource {
                 .post(Entity.entity(actual, MediaType.APPLICATION_JSON), Animal.class);
     }
 
-    @Test
+    /*
+     * Animal.type.id = -1
+     */
+    @Test(expected = BadRequestException.class)
     public void test08UpdateAnimal() {
         assertNotNull(accessToken);
         assertNotNull(animal);
@@ -187,8 +190,6 @@ public class TestAdminResource {
         assertNotNull(animal.getSex());
 
         Animal actual = SerializationUtils.clone(animal);
-        System.out.println(animal);
-        System.out.println(actual);
         actual.getType().setId(new Long(-1));
 
         String result = client

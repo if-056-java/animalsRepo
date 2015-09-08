@@ -25,7 +25,6 @@ public class Animal implements Serializable{
         CITES3
     }
 
-    @XmlEnum(String.class)
     public enum SizeType {
         NONE,
         SMALL,
