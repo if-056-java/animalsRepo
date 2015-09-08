@@ -1,8 +1,8 @@
 //created by 41X
 var animalAppControllers = angular.module('UserConfirmRegistrationController', []);
 
-animalApp.controller('UserConfirmRegistrationController', ['$scope', '$location', '$route', 'userAccount', 
-                                                           function($scope, $location, $route, userAccount) {
+animalApp.controller('UserConfirmRegistrationController', ['$scope', '$location', '$route', 'userAccount', 'localStorageService', 
+                                                           function($scope, $location, $route, userAccount, localStorageService) {
 	
 	if($location.search().username && $location.search().code){
 		
@@ -12,7 +12,13 @@ animalApp.controller('UserConfirmRegistrationController', ['$scope', '$location'
 		
 		userAccount.confirmRegistration(userLogin,code).then(
 				function(result){
-					console.log(result.accessToken);		        	
+					localStorageService.cookie.set("accessToken",result.accessToken,0.065); 	        	
+		        	localStorageService.set("accessToken", result.accessToken);
+		        	localStorageService.set("userId", result.userId);
+		        	localStorageService.set("userName", result.socialLogin);
+		        	localStorageService.set("userRole", result.userRole);
+		        	localStorageService.set("userRoleId", result.userRoleId);
+		        	
 			        $location.path("/ua/user/profile");	
 			        $route.reload();					
 				},

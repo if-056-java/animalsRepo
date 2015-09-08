@@ -134,9 +134,19 @@
 				 type="submit" ng-disabled="regForm.$invalid">{{ 'REG_COMPLETE_REGISTRATION' | translate }}</button>
 				</div>	  			 			
 			</div>
-				<div ng-show="errorRegistrationMessage" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">
+				<div ng-show="errorRegistrationMessage1" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">
 	  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-	  			<span class="sr-only">Error:</span> {{errorRegistrationMessage}}
+	  			<span class="sr-only">Error:</span> {{ 'ERROR_REG_MESSAGE1' | translate }}
+			</div>
+			</div>
+				<div ng-show="errorRegistrationMessage2" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">
+	  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	  			<span class="sr-only">Error:</span> {{ 'ERROR_REG_MESSAGE2' | translate }}
+			</div>
+			</div>
+				<div ng-show="errorRegistrationMessage3" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">
+	  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	  			<span class="sr-only">Error:</span> {{ 'ERROR_REG_MESSAGE3' | translate }}
 			</div>
 
 		</div>	

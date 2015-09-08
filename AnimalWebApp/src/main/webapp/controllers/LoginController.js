@@ -14,21 +14,17 @@ animalApp.controller('LoginController', ['$scope', '$location', '$route', 'userA
 		
 		localStorageService.set("memoryMe", memoryMe);
 		
-		console.log($scope.login.password);
-		console.log(password);
 		
 		userAccount.login(userLogin, password).then(
 				function(result){					
 					if(result.userId==1){
-		        		$scope.errorConfirmMessage="Для входу потрібно підтвердити реєстрацію!";
-		        		console.log("Confirm registration with email");		        		
+		        		$scope.errorConfirmMessage="Для входу потрібно підтвердити реєстрацію!";		        		  		
 		        	} else {			        	
 				        $location.path("/ua/user/profile");	
 				        $route.reload();
 		        	}					
 				},
 				function(error){
-					console.log(error);					
 					$scope.errorMessage="Помилка входу. Перевірте свої дані!";
 				}
 		);

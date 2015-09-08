@@ -37,59 +37,65 @@
 
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
 
-                                <!-- Animal type -->
+                                <!-- Animal type -->                                
                                 <div class="input-group">
-                                    <span class="input-group-addon">{{ 'TYPE' | translate }}</span>
-                                    <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.type"
-                                        ng-change="getAnimalBreeds()" title="{{ 'NOT_SELECTED' | translate }}">
-                                        <li nya-bs-option="animalType in animalTypes.values">
-                                            <a>{{ animalType.type }}</a>
-                                        </li>
-                                    </ol>
-                                </div>
+	                                <span class="input-group-addon">{{ 'TYPE' | translate }}</span>
+	                                <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.type"
+	                                    ng-change="getAnimalBreeds()" title="{{ 'NOT_SELECTED' | translate }}">
+	                                    <li nya-bs-option="animalType in animalTypes.values">
+	                                        <a ng-if="currentLanguage === 'uk'">{{ animalType.type }}</a>
+	                                        <a ng-if="currentLanguage !== 'uk'">{{ animalType.typeEn }}</a>
+	                                    </li>
+	                                </ol>
+	                            </div>
 
                                 <hr>
 
                                 <!-- Animal breed -->
                                 <div class="input-group" ng-class="{ 'has-error' : animalEditor.breed.$invalid && !animalForm.breed.$pristine }">
-                                    <span class="input-group-addon">{{ 'BREED' | translate }}</span>
-                                    <input type="text" ng-model="animal.breed" name="breed"
-                                           typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8"
-                                           class="form-control border-right-radius" ng-disabled="filterAnimalBreedFlag"
-                                           ng-maxlength="45">
-                                </div>
+	                                <span class="input-group-addon">{{ 'BREED' | translate }}</span>
+	                                <input ng-if="currentLanguage === 'uk'"
+	                                       type="text" ng-model="animal.breed"
+	                                       typeahead="breed as breed.breedUa for breed in animalBreeds | filter:{breedUa:$viewValue} | limitTo:8"
+	                                       class="form-control border-right-radius" ng-disabled="filterAnimalBreedFlag"
+	                                       ng-maxlength="45">
+	                                <input ng-if="currentLanguage !== 'uk'"
+	                                       type="text" ng-model="animal.breed"
+	                                       typeahead="breed as breed.breedEn for breed in animalBreeds | filter:{breedEn:$viewValue} | limitTo:8"
+	                                       class="form-control border-right-radius" ng-disabled="filterAnimalBreedFlag"
+	                                       ng-maxlength="45">
+	                            </div>
 
                                 <hr>
 
                                 <!-- Animal size -->
                                 <div class="input-group">
-                                    <span class="input-group-addon">{{ 'SIZE' | translate }}</span>
-                                    <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.size" title="{{ 'NOT_SELECTED' | translate }}">
-                                        <li class="nya-bs-option" value="не визначено"><a>{{ 'NOT_IDENTIFIED' |
-                                            translate }}</a></li>
-                                        <li class="nya-bs-option" value="малий"><a>{{ 'SIZE_SMALL' | translate }}</a>
-                                        </li>
-                                        <li class="nya-bs-option" value="середній"><a>{{ 'SIZE_NORMAL' | translate
-                                            }}</a></li>
-                                        <li class="nya-bs-option" value="великий"><a>{{ 'SIZE_LARGE' | translate }}</a>
-                                        </li>
-                                    </ol>
-                                </div>
+	                                <span class="input-group-addon">{{ 'SIZE' | translate }}</span>
+	                                <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.size" title="{{ 'NOT_SELECTED' | translate }}">
+	                                    <li class="nya-bs-option" value="NONE"><a>{{ 'NOT_IDENTIFIED' |
+	                                        translate }}</a></li>
+	                                    <li class="nya-bs-option" value="SMALL"><a>{{ 'SIZE_SMALL' | translate }}</a>
+	                                    </li>
+	                                    <li class="nya-bs-option" value="MIDDLE"><a>{{ 'SIZE_NORMAL' | translate }}</a></li>
+	                                    <li class="nya-bs-option" value="LARGE"><a>{{ 'SIZE_LARGE' | translate }}</a>
+	                                    </li>
+	                                </ol>
+	                            </div>
 
                                 <hr>
 
                                 <!-- Animal sex -->
                                 <div class="input-group">
-                                    <span class="input-group-addon">{{ 'SEX' | translate }}</span>
-                                    <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.sex" title="{{ 'NOT_SELECTED' | translate }}">
-                                        <li class="nya-bs-option" value="не визначено"><a>{{ 'NOT_IDENTIFIED' |
-                                            translate }}</a></li>
-                                        <li class="nya-bs-option" value="самець"><a>{{ 'SEX_MALE' | translate }}</a>
-                                        </li>
-                                        <li class="nya-bs-option" value="самка"><a>{{ 'SEX_FEMALE' | translate }}</a>
-                                        </li>
-                                    </ol>
-                                </div>
+	                                <span class="input-group-addon">{{ 'SEX' | translate }}</span>
+	                                <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.sex" title="{{ 'NOT_SELECTED' | translate }}">
+	                                    <li class="nya-bs-option" value="NONE"><a>{{ 'NOT_IDENTIFIED' |
+	                                        translate }}</a></li>
+	                                    <li class="nya-bs-option" value="MALE"><a>{{ 'SEX_MALE' | translate }}</a>
+	                                    </li>
+	                                    <li class="nya-bs-option" value="FEMALE"><a>{{ 'SEX_FEMALE' | translate }}</a>
+	                                    </li>
+	                                </ol>
+	                            </div>
 
                                 <hr>
 
@@ -104,27 +110,28 @@
 
                                 <!-- Animal cites -->
                                 <div class="input-group">
-                                    <span class="input-group-addon">CITES</span>
-                                    <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.cites" title="{{ 'NOT_SELECTED' | translate }}">
-                                        <li class="nya-bs-option" value="не визначено"><a>{{ 'NOT_IDENTIFIED' |
-                                            translate }}</a></li>
-                                        <li class="nya-bs-option" value="CITES I"><a>CITES I</a></li>
-                                        <li class="nya-bs-option" value="CITES II"><a>CITES II</a></li>
-                                        <li class="nya-bs-option" value="CITES III"><a>CITES III</a></li>
-                                    </ol>
-                                </div>
+	                                <span class="input-group-addon">CITES</span>
+	                                <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.cites" title="{{ 'NOT_SELECTED' | translate }}">
+	                                    <li class="nya-bs-option" value="NONE"><a>{{ 'NOT_IDENTIFIED' |
+	                                        translate }}</a></li>
+	                                    <li class="nya-bs-option" value="CITES1"><a>CITES I</a></li>
+	                                    <li class="nya-bs-option" value="CITES2"><a>CITES II</a></li>
+	                                    <li class="nya-bs-option" value="CITES3"><a>CITES III</a></li>
+	                                </ol>
+	                            </div>
 
                                 <hr>
 
                                 <!-- Animal service -->
                                 <div class="input-group">
-                                    <span class="input-group-addon">{{ 'TYPE' | translate }}</span>
-                                    <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.service" title="{{ 'NOT_SELECTED' | translate }}">
-                                        <li nya-bs-option="animalService in animalServices.values">
-                                            <a>{{ animalService.service }}</a>
-                                        </li>
-                                    </ol>
-                                </div>
+	                                <span class="input-group-addon">{{ 'TYPE' | translate }}</span>
+	                                <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.service" title="{{ 'NOT_SELECTED' | translate }}">
+	                                    <li nya-bs-option="animalService in animalServices.values">
+	                                        <a ng-if="currentLanguage === 'uk'">{{ animalService.service }}</a>
+	                                        <a ng-if="currentLanguage !== 'uk'">{{ animalService.serviceEn }}</a>
+	                                    </li>
+	                                </ol>
+	                            </div>
 
                                 <hr>
 

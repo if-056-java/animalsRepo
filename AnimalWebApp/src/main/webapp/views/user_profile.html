@@ -254,9 +254,7 @@
 			<div class = "text-center">
 				<h3> {{ 'USER_LIST_OWN_ANIMALS' | translate }}</h3>
 			</div>
-			
-			<!-- Spinner -->
-       		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-show="contentLoading" id="loading-block2" style="height:200px;"></div>			
+									
 
 			<table class="table table-hover" ng-show="!contentLoading">
             <thead>
@@ -286,6 +284,11 @@
             </tr>    
             </tbody>
         </table>
+        
+        <!-- Spinner -->
+       	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-show="contentLoading2" id="loading-block2" style="height:200px;"></div>
+        
+        
 
 		</div>
 

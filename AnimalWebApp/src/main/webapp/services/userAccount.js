@@ -13,10 +13,8 @@ angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, l
 			var def = $q.defer();
 			
 			$http.post("/webapi/account/login/" + memoryMe, {})
-	        .success(function(data){
-	        	console.log(data.userId);	        	
-	        	if(data.userId==1){	        		
-	        		console.log("Confirm registration with email");
+	        .success(function(data){	        	        	
+	        	if(data.userId==1){	
 	        		def.resolve(data);
 	        	} else {	        	
 		        	if (localStorageService.get("memoryMe")=="ON"){
@@ -33,9 +31,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, l
 		        	def.resolve(data);		        	
 	        	}
 	        }) 
-			.error(function(data, status){
-				console.log("zrada");
-				console.log(status);				
+			.error(function(data, status){								
 				def.reject("Failed to enter site");
 			});
 			return def.promise;
@@ -63,24 +59,16 @@ angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, l
 		
 		registerUser:function(user){			
 		
+			var def = $q.defer();
 			
 			$http.post("/webapi/account/registration", user)
 	        .success(function(data){
-	        	if(data.userId==0){
-	        		$rootScope.errorRegistrationMessage="Помилка реєстрації. Даний логін вже використовується!";
-	        		console.log("Registration error. SocialLogin is already exist");
-	        	} else if (data.userId==1) {	        		
-			        $location.path("/ua/user/confirmRegistration");	
-			        $route.reload();
-	        	} else {
-	        		console.log("error");
-	        	}
-	        	
+	        	def.resolve(data);	        	
 	        }) 
-			.error(function(data){				
-				console.log("registration error");
-				$rootScope.errorRegistrationMessage="Помилка реєстрації! Спробуйте ще раз";
+			.error(function(data){
+				def.reject("Failed to register user");
 			});
+			return def.promise;
 		},
 		
 		confirmRegistration:function(userLogin,code){
@@ -88,14 +76,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, l
 			var def = $q.defer();
 			
 			$http.post("/webapi/account/confirmRegistration/" + userLogin + "/" + code)
-	        .success(function(data){	        		        	
-	        	localStorageService.cookie.set("accessToken",data.accessToken,0.065); 	        	
-	        	localStorageService.set("accessToken", data.accessToken);
-	        	localStorageService.set("userId", data.userId);
-	        	localStorageService.set("userName", data.socialLogin);
-	        	localStorageService.set("userRole", data.userRole);
-	        	localStorageService.set("userRoleId", data.userRoleId);
-	        	
+	        .success(function(data){ 
 	        	def.resolve(data);
 	        })
 	        .error(function(data){
