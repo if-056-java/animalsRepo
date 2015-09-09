@@ -10,38 +10,28 @@ import javax.ws.rs.*;
 import com.animals.app.service.CreateAnimalImage;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataParam;
-import sun.misc.BASE64Decoder;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.*;
 import java.util.List;
 
 @Path("animals")
 @PermitAll
 public class AnimalResource {
+    private static Logger LOG = LogManager.getLogger(AnimalResource.class);
 
+    private final Response BAD_REQUEST  = Response.status(Response.Status.BAD_REQUEST).build();
+    private final Response NOT_FOUND    = Response.status(Response.Status.NOT_FOUND).build();
+    private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+
+    //path to target folder
     @Context
     private HttpServletRequest httpServlet;
 
-    //logger
-    private static Logger LOG = LogManager.getLogger(AnimalResource.class);
-
-    //return response with 400 code
-    private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
-
-    //return response with 404 code
-    private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
-
-    //return response with 500 code
-    private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-
-    CreateAnimalImage createAnimalImage = new CreateAnimalImage();
-    AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+    //animal repository instance
+    private AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
 
     @POST
     @Path("animal")//http:localhost:8080/AnimalWebApp/webapi/animals
@@ -51,51 +41,39 @@ public class AnimalResource {
         if (animal == null)
             return BAD_REQUEST;
 
-        String fileName = createAnimalImage.createAnimalImage(animal.getImage(), httpServlet.getServletContext().getRealPath("/") + "images/");
-        animal.setImage("/images/" + fileName);
+        animal.setImage(getImageURL(animal.getImage()));
 
-        //check breed, if it new insert it into database
-        if ((animal.getBreed() != null) && (animal.getBreed().getId() == null) && (animal.getBreed().getBreedUa() != null)) {
-            animal.getBreed().setType(animal.getType());
-            new AnimalBreedRepositoryImpl().insert_ua(animal.getBreed());
-        }
+        insertBreed(animal);
 
         animalRepository.insert(animal);
         return ok(animal);
     }
 
-    @POST //http:localhost:8080/webapi/adoption/pagenator
-    @Path("adoption/pagenator")
+    @POST
+    @Path("adoption/pagenator")//http:localhost:8080/webapi/adoption/pagenator
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAmountListForAdopting(AnimalsFilter animalsFilter) {
-
-        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
         long pages = animalRepository.getAmountListForAdopting(animalsFilter);
 
         if (pages == 0)
             return Response.status(Response.Status.NOT_FOUND).build();
 
-        String str = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
-
-        return Response.status(Response.Status.OK).entity(str).build();
+        return Response.status(Response.Status.OK).entity(generateRowsCount(pages)).build();
     }
 
-    @POST //http:localhost:8080/webapi/animals/adoption
-    @Path("adoption")
+
+    @POST
+    @Path("adoption")//http:localhost:8080/webapi/animals/adoption
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAllAnimalsForAdopting(AnimalsFilter animalsFilter) {
-        if (animalsFilter == null) {
+        if (!animalsFilter.isAnimalFilterNotEmpty())
             return BAD_REQUEST;
-        }
-        if ((animalsFilter.getPage() == 0) || (animalsFilter.getLimit() == 0)) {
-            return BAD_REQUEST;
-        }
 
-        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
-        //cast list of animals to generic list
         List<Animal> animals = animalRepository.getAllForAdopting(animalsFilter);
+
+        //cast list of animals to generic list
         GenericEntity<List<Animal>> genericAnimals =
                 new GenericEntity<List<Animal>>(animals) {
                 };
@@ -106,38 +84,30 @@ public class AnimalResource {
         return ok(genericAnimals);
     }
 
-    @POST //http:localhost:8080/webapi/found/pagenator
-    @Path("found/pagenator")
+    @POST
+    @Path("found/pagenator")//http:localhost:8080/webapi/found/pagenator
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAmountListFoundAnimals(AnimalsFilter animalsFilter) {
-
-        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
         long pages = animalRepository.getAmountListFoundAnimals(animalsFilter);
 
         if (pages == 0)
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return NOT_FOUND;
 
-        String str = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
-
-        return Response.status(Response.Status.OK).entity(str).build();
+        return Response.status(Response.Status.OK).entity(generateRowsCount(pages)).build();
     }
 
-    @POST //http:localhost:8080/webapi/animals/found
-    @Path("found")
+    @POST
+    @Path("found")//http:localhost:8080/webapi/animals/found
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAllFoundAnimals(AnimalsFilter animalsFilter) {
-        if (animalsFilter == null) {
+        if (!animalsFilter.isAnimalFilterNotEmpty())
             return BAD_REQUEST;
-        }
-        if ((animalsFilter.getPage() == 0) || (animalsFilter.getLimit() == 0)) {
-            return BAD_REQUEST;
-        }
 
-        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
-        //cast list of animals to generic list
         List<Animal> animals = animalRepository.getAllFoundAnimals(animalsFilter);
+
+        //cast list of animals to generic list
         GenericEntity<List<Animal>> genericAnimals =
                 new GenericEntity<List<Animal>>(animals) {
                 };
@@ -148,38 +118,30 @@ public class AnimalResource {
         return ok(genericAnimals);
     }
 
-    @POST //http:localhost:8080/webapi/lost/pagenator
-    @Path("lost/pagenator")
+    @POST
+    @Path("lost/pagenator")//http:localhost:8080/webapi/lost/pagenator
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAmountLostAnimals(AnimalsFilter animalsFilter) {
-
-        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
         long pages = animalRepository.getAmountListLostAnimals(animalsFilter);
 
         if (pages == 0)
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return NOT_FOUND;
 
-        String str = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
-
-        return Response.status(Response.Status.OK).entity(str).build();
+        return Response.status(Response.Status.OK).entity(generateRowsCount(pages)).build();
     }
 
-    @POST //http:localhost:8080/webapi/animals/lost
-    @Path("lost")
+    @POST
+    @Path("lost")//http:localhost:8080/webapi/animals/lost
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAllLostAnimals(AnimalsFilter animalsFilter) {
-        if (animalsFilter == null) {
+        if (!animalsFilter.isAnimalFilterNotEmpty())
             return BAD_REQUEST;
-        }
-        if ((animalsFilter.getPage() == 0) || (animalsFilter.getLimit() == 0)) {
-            return BAD_REQUEST;
-        }
 
-        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
-        //cast list of animals to generic list
         List<Animal> animals = animalRepository.getAllLostAnimals(animalsFilter);
+
+        //cast list of animals to generic list
         GenericEntity<List<Animal>> genericAnimals =
                 new GenericEntity<List<Animal>>(animals) {
                 };
@@ -190,18 +152,15 @@ public class AnimalResource {
         return ok(genericAnimals);
     }
 
-    @GET //http:localhost:8080/webapi/animals/service/id
-    @Path("service/{animalId}")
+    @GET
+    @Path("service/{animalId}")//http:localhost:8080/webapi/animals/service/id
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getShortInfo(@PathParam("animalId") String id) {
 
         if (id == null)
             return BAD_REQUEST;
 
-        int idAnimal = (int) Integer.parseInt(id);
-
-        Animal animalShortInfo = animalRepository.getShortInfoById(idAnimal);
-
+        Animal animalShortInfo = animalRepository.getShortInfoById(Integer.parseInt(id));
 
         if (animalShortInfo == null)
             return NOT_FOUND;
@@ -209,8 +168,8 @@ public class AnimalResource {
         return ok(animalShortInfo);
     }
 
-    @GET //http:localhost:8080/webapi/animals/animal_types
-    @Path("animal_types")
+    @GET
+    @Path("animal_types")//http:localhost:8080/webapi/animals/animal_types
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimalTypes() {
         List<AnimalType> animalTypes = new AnimalTypeRepositoryImpl().getAll();
@@ -218,15 +177,14 @@ public class AnimalResource {
         GenericEntity<List<AnimalType>> genericAnimalTypes =
                 new GenericEntity<List<AnimalType>>(animalTypes) {};
 
-        if (genericAnimalTypes == null) {
+        if (genericAnimalTypes == null)
             return NOT_FOUND;
-        }
 
         return ok(genericAnimalTypes);
     }
 
-    @GET //http:localhost:8080/webapi/animals/animal_services
-    @Path("animal_services")
+    @GET
+    @Path("animal_services")//http:localhost:8080/webapi/animals/animal_services
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimalServices() {
         List<AnimalService> animalServices = new AnimalServiceRepositoryImpl().getAll();
@@ -234,15 +192,14 @@ public class AnimalResource {
         GenericEntity<List<AnimalService>> genericAnimalServices =
                 new GenericEntity<List<AnimalService>>(animalServices) {};
 
-        if (genericAnimalServices == null) {
+        if (genericAnimalServices == null)
             return NOT_FOUND;
-        }
 
         return ok(genericAnimalServices);
     }
 
-    @GET //http:localhost:8080/webapi/animals/animal_breeds
-    @Path("animal_breeds/{id}")
+    @GET
+    @Path("animal_breeds/{id}")//http:localhost:8080/webapi/animals/animal_breeds
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimalBreadsByAnimalTypeId(@PathParam("id") int animalTypeId) {
         if (animalTypeId == 0) {
@@ -262,8 +219,8 @@ public class AnimalResource {
         return ok(genericAnimalBreeds);
     }
 
-    @GET //http:localhost:8080/webapi/animals/mdedical_history/types
-    @Path("medical_history/types")
+    @GET
+    @Path("medical_history/types")//http:localhost:8080/webapi/animals/mdedical_history/types
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimalMedicalHistoryTypes() {
         List<AnimalStatus> animalStatuses = new AnimalStatusRepositoryImpl().getAll();
@@ -279,6 +236,37 @@ public class AnimalResource {
     }
 
     /**
+     * Keep image URL for inserting into database
+     * @param image Image of bytes
+     * @return Image URL
+     */
+    private String getImageURL(String image){
+        return "images/" + CreateAnimalImage.createAnimalImage(image, httpServlet.getServletContext().getRealPath("/") + "images/");
+    }
+
+    /**
+     * Check if breed is exist in database, if not, insert new breed
+     * @param animal Instance of animal class
+     * @return Actual instance of animal class
+     */
+    private Animal insertBreed(Animal animal){
+        if(animal.checkNewBreed(animal.getBreed())) {
+            animal.getBreed().setType(animal.getType());
+            new AnimalBreedRepositoryImpl().insert_ua(animal.getBreed());
+        }
+        return animal;
+    }
+
+    /**
+     * Generate JSON that contain amount rows some instance from database
+     * @param pages Amount records into database
+     * @return JSON object of amount rows
+     */
+    private String generateRowsCount(long pages){
+        return "{\"rowsCount\" : " + String.valueOf(pages) + "}";
+    }
+
+    /**
      * Return response with code 200(OK) and build returned entity
      *
      * @param entity Returned json instance from client
@@ -287,5 +275,4 @@ public class AnimalResource {
     private Response ok(Object entity) {
         return Response.ok().entity(entity).build();
     }
-
 }

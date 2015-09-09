@@ -82,6 +82,10 @@
   "ADOPT": "Adopt",
   "CONTACT_OWNER": "Contact with owner",
   "CONTACT_AUTHOR": "Contact with author",
+  "ANIMAL_REG_COMPLETED": "Registration completed",
+  "BACK_TO_PROFILE": "Back to Profile",
+  "ANIMAL_REGISTERED": "The animal registered! Please, click 'OK' to look list of your animals.",
+  "ANIMAL_SHORT_INFO": "Animal Information",
 
   "CONTACTS": "Contacts",
   "LOCATION": "Location",
@@ -116,6 +120,7 @@
   "ADD": "Add",
   "EDIT": "Edit",
   "SAVE": "Save",
+  "SERVICE_DIALOG_OK_MESSAGE": "Letter sent! ",
 
   "ENTER": "Log In",
   "LOGIN": "Login",
@@ -198,11 +203,12 @@
   "MEDICAL_CARD": "Medical card",
   "MEDICAL_CARD_DETAILED": "Medical card detailed information",
   "MEDICAL_CARD_ADD_RECORD": "Add record in medical card",
-  "DOCTOR": "Лікар",
+  "DOCTOR": "Doctor",
 
   "ANIMAL_REGISTER": "Animal register",
   "ANIMAL_DETAILED_INFO": "Detail information about animal",
   "ANIMAL_DETAILED_EDIT": "Editing detailed information about animal",
+
   "ANIMAL_DETAILED_CONFIRM_DELETE": "Are you sure you want to delete this animal?",
   "ANIMAL_DETAILED_DELETE_FAILED": "Animal delete failed.",
 
@@ -213,6 +219,12 @@
 
   "ERROR_NO_ANIMALS": "No animals.",
   "ERROR_FILE_SIZE_TO_LARGE": "File size to large. Max size is 5Mb.",
-  "ERROR_NO_RECORDS": "No records."
+  "ERROR_NO_RECORDS": "No records.",
+  "ERROR_ANIMAL_NOT_FOUND": "Animal not found.",
+
+  "ADMIN_USERS": "List of users",
+  "ID": "Id",
+  "IS_ACTIVE": "Is blocked",
+  "DETAILED_INFO": "Detailed info"
 
 }

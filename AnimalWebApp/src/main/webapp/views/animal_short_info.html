@@ -1,3 +1,21 @@
+<section id="adoption">
+<div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                    <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
+                        <p>
+                            <image src="../resources/img/main_dog.jpg"/>
+                        </p>
+                    </div>
+                    <div class="col-xs-9 col-sm-10 col-md-11 col-lg-11">
+                        <h2>{{ 'ANIMAL_SHORT_INFO' | translate }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row" style="height: 50px"></div>
 <div class="row">
     <div class="col-md-6 col-md-offset-3 panel panel-success">
@@ -73,22 +91,84 @@
 </div>
 <div class="row">
     <div class="col-md-3 col-md-offset-6 detailed-buttons" >
-        <div class="col-md-6"><a class="btn btn-success col-md-12" ng-click="openDialog()" role="button" >{{ textButton }}</a></div>
-        <div class="col-md-6"><a class="btn btn-warning col-md-12" href={{linkBack}} role="button">{{ 'BACK' | translate }}</a></div>
+        <div class="col-md-7"><a class="btn btn-success col-md-12" ng-click="openDialog()" role="button" >{{ textButton }}</a></div>
+        <div class="col-md-5"><a class="btn btn-warning col-md-12" href={{linkBack}} role="button">{{ 'BACK' | translate }}</a></div>
     </div>
 </div>
+</section>
 
 <pop-up-dialog>
     <div id="popUpDialog-bg" ng-show="showPopUpDialog">
         <div id="popUpDialog">
             <div class="content">
-                Content
-                <div class="row">
-                    <div class="col-md-3 col-md-offset-6 detailed-buttons" >
-                        <div class="col-md-6"><a class="btn btn-success col-md-12" role="button">Відправити</a></div>
-                        <div class="col-md-6"><a class="btn btn-warning col-md-12" role="button" ng-click="closeDialog()">Відміна</a></div>
+
+                <!-- CONTACT FORM https://github.com/jonmbake/bootstrap3-contact-form -->
+
+                <form role="form" name="messageForm"  ng-submit="submit(messageForm.$valid)" novalidate>
+                    <div class="form-group has-feedback"
+                         ng-class="{ 'has-error' : messageForm.messagename.$invalid && !messageForm.messagename.$pristine }">
+                        <label class="control-label" for="messagename">{{ 'NAME' | translate }}</label>
+                        <input type="text" class="form-control" id="messagename" name="messagename" ng-model="message.signup"  placeholder="{{ 'CONTACTS_INPUT_NAME' | translate }}" required=""
+                               ng-minlength="3"/>
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="false"></span>
+                        <span id="messagenameStatus" class="sr-only">(success)</span>
                     </div>
-                </div>
+				 <span ng-show="messageForm.messagename.$invalid && messageForm.messagename.$error.minlength && !messageForm.messagename.$pristine"
+                       class="help-block error">{{ 'CONTACTS_INPUT_NAME_FAILED' | translate }}</span>
+
+                    <div class="form-group has-feedback"
+                         ng-class="{ 'has-error' : messageForm.messageemail.$invalid && !messageForm.messageemail.$pristine }">
+                        <label class="control-label" for="messageemail">{{ 'EMAIL' | translate }}</label>
+                        <input type="email" class="form-control" id="messageemail" name="messageemail" ng-model="message.email"  placeholder="{{ 'CONTACTS_INPUT_EMAIL' | translate }}" required=""
+                               ng-minlength="5"/>
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                        <span id="messageemailStatus" class="sr-only">(success)</span>
+                    </div>
+				  <span ng-show="messageForm.messageemail.$invalid && messageForm.messageemail.$error.email && !messageForm.messageemail.$pristine"
+                        class="help-block error">{{ 'CONTACTS_INPUT_EMAIL_FAILED' | translate }}</span>
+
+                    <div class="form-group has-feedback"
+                         ng-class="{ 'has-error' : messageForm.messagetext.$invalid && !messageForm.messagetext.$pristine }">
+                        <label class="control-label" for="messagetext">{{ 'CONTACTS_MESSAGE' | translate }}</label>
+                        <textarea rows="10" cols="100" class="form-control" id="messagetext" name="messagetext" ng-model="message.text" placeholder="{{ 'CONTACTS_MESSAGE' | translate }}" required/>
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                        <span id="messagetatus" class="sr-only">(success)</span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="input-group">
+                                <div
+                                        vc-recaptcha
+                                        theme="'light'"
+                                        key="'6LdeAQsTAAAAAFYDoWkW8_zNKVu1tu6D-RlLfgnR'"
+                                        on-create="setWidgetId(widgetId)"
+                                        on-success="setResponse(response)"
+                                        on-expire="cbExpiration()">
+                                </div>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                            <div class="input-group">
+                                <!-- Spinner -->
+                                <div ng-show="spinnerloading" id="loading-block"> </div>
+
+                                <div class="alert alert-warning" role="alert" ng-show="startupmessage">{{ 'CONTACTS_STARTUP_MESSAGE' | translate }}</div>
+                                <div class="alert alert-success" role="alert" ng-show="okmessage">{{ 'SERVICE_DIALOG_OK_MESSAGE' | translate }}</div>
+                                <div class="alert alert-danger" role="alert" ng-show="errormessage">{{ 'CONTACTS_ERROR_MESSAGE' | translate }}</div>
+
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    </div><!-- /.row -->
+
+                    <div class="row">
+                        <div class="col-md-6"><button id="messageSubmit" class="btn btn-success col-lg-12" ng-disabled="messageForm.$invalid" type="submit">{{ 'SEND' | translate }}</button></div>
+                        <div class="col-md-6"><button class="btn btn-warning col-lg-12"  ng-click="closeDialog()">Відміна</button></div>
+                    </div>
+                </form>
+                <!-- END CONTACT FORM -->
+
             </div>
         </div>
     </div>

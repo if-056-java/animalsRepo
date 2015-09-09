@@ -13,13 +13,13 @@ import java.io.InputStream;
  */
 public class MyBatisConnectionFactory {
     private static final Logger LOG = Logger.getLogger(MyBatisConnectionFactory.class);
+    private static final String configurationFile = "mybatis-config.xml";
     private static SqlSessionFactory sqlSessionFactory;
 
     public MyBatisConnectionFactory() {
-        String resource = "mybatis-config.xml";
         InputStream inputStream;
         try {
-            inputStream = Resources.getResourceAsStream(resource);
+            inputStream = Resources.getResourceAsStream(configurationFile);
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         } catch (IOException e) {
             LOG.fatal(e);

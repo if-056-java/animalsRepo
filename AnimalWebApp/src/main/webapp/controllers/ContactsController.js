@@ -67,7 +67,7 @@ animalApp.controller('ContactsController', function ($http, $scope, vcRecaptchaS
             console.log($scope.feedback);
             /* MAKE AJAX REQUEST to our server with g-captcha-string */
 
-            $http.post('//localhost:8080/webapi/contacts/mail', $scope.feedback).success(function (response) {
+            $http.post('/webapi/contacts/mail', $scope.feedback).success(function (response) {
 				console.log(response);
                 if (response.success === true) {
                     $scope.spinnerloading = 0;

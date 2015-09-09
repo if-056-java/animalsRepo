@@ -1,6 +1,6 @@
 angular.module('AnimalsDetailedDoctorController', ['AnimalsDoctorModule', 'AnimalsDoctorValues'])
-    .controller('AnimalsDetailedDoctorController', ['$scope', '$routeParams', 'AnimalsDoctorService', 'AnimalsDoctorValues',
-        function($scope, $routeParams, AnimalsDoctorService, AnimalsDoctorValues) {
+    .controller('AnimalsDetailedDoctorController', ['$scope', '$routeParams', 'AnimalsDoctorService', 'AnimalsDoctorValues', '$filter',
+        function($scope, $routeParams, AnimalsDoctorService, AnimalsDoctorValues, $filter) {
 
             AnimalsDoctorService.rolesAllowed('лікар');
 
@@ -19,6 +19,9 @@ angular.module('AnimalsDetailedDoctorController', ['AnimalsDoctorModule', 'Anima
              * @return animal instance.
              */
             AnimalsDoctorService.getAnimal(animalId)
+                .catch(function(respounce) {
+                    $scope.error = $filter('translate')("ERROR_ANIMAL_NOT_FOUND")
+                })
                 .finally(function() {
                     $scope.animalImage = "resources/img/no_img.png";
                     if (AnimalsDoctorValues.animal.image != undefined) {

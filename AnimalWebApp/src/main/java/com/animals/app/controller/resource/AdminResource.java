@@ -7,6 +7,7 @@ import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import sun.misc.BASE64Decoder;
@@ -45,6 +46,9 @@ public class AdminResource {
     /**
      * @param animalsFilter instance used for lookup.
      * @return list of animals.
+     * -------------------------------------------------------------------
+     * AnimalsFilter.page must be set and more than 0
+     * AnimalsFilter.limit must be set and more than 0
      */
     @POST //http:localhost:8080/webapi/admin/animals
     @RolesAllowed({"модератор", "лікар"})
@@ -96,6 +100,8 @@ public class AdminResource {
     /**
      * @param animalId id of animal
      * @return return an animal instance from data base
+     * -------------------------------------------------------------------
+     * animalId must be set and more than 0
      */
     @GET //http:localhost:8080/webapi/animals/{animalId}
     @RolesAllowed({"модератор", "лікар"})
@@ -110,6 +116,10 @@ public class AdminResource {
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
         Animal animal = animalRepository.getById(animalId);
 
+        if (animal == null) {
+            return NOT_FOUND;
+        }
+
         return ok(animal);
     }
 
@@ -117,6 +127,8 @@ public class AdminResource {
      * Delete animal in data base
      * @param animalId id of animal
      * @return return response with status 200
+     * -------------------------------------------------------------------
+     * animalId must be set and more than 0
      */
     @DELETE //http:localhost:8080/webapi/animals/{animalId}
     @RolesAllowed("модератор")
@@ -149,6 +161,15 @@ public class AdminResource {
      * Update animal info in data base
      * @param animal instance to be updated
      * @return return response with status 200
+     * -------------------------------------------------------------------
+     * Animal.id must be set and more than 0
+     * Animal.type.id must be set and more than 0
+     * Animal.size must be set
+     * Animal.dateOfRegister must be set
+     * Animal.color must be set
+     * Animal.address must be set
+     * Animal.service must be set
+     * Animal.service must be set
      */
     @POST //http:localhost:8080/webapi/animals/editor
     @RolesAllowed("модератор")
@@ -172,7 +193,12 @@ public class AdminResource {
 
         //Update animal
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
-        animalRepository.update(animal);
+        try {
+            animalRepository.update(animal);
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return BAD_REQUEST;
+        }
 
         //return relative image path to client
         String json;
@@ -189,6 +215,8 @@ public class AdminResource {
      * Delete animal in data base
      * @param animalId id of animal
      * @return return response with status 200 if ok
+     * -------------------------------------------------------------------
+     * animalId must be set and more than 0
      */
     @DELETE //http:localhost:8080/webapi/animals/image/{animalId}
     @RolesAllowed("модератор")
@@ -287,7 +315,7 @@ public class AdminResource {
             return false;
         }
 
-        if ((animal.getUser() != null) && (animal.getUser().getId() == null)) {
+        if ((animal.getUser() != null) && ((animal.getUser().getId() == null) || (animal.getUser().getId() <= 0))) {
             return false;
         }
 

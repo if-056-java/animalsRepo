@@ -4,11 +4,19 @@
 animalRegistrationModule
     .controller('AnimalHomelessRegController',
         function AnimalHomelessRegController($scope, AnimalRegistrationFactory, localStorageService,
-                                             AnimalRegistrationValues, AnimalRegistrationConstants) {
+                                             AnimalRegistrationValues, AnimalRegistrationConstants, angularPopupBoxes, $filter) {
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
+
+            var successMessage = $filter('translate')('ANIMAL_REGISTERED');
+            //alert success registration
+            $scope.alertSample = function() {
+                angularPopupBoxes.alert(successMessage).result.then(function() {
+                    location.href="#/ua/user/profile";
+                });
+            };
 
             //This variable decides when spinner loading for contents closed.
             $scope.contentLoading = 0;
@@ -25,6 +33,7 @@ animalRegistrationModule
 
             //Insert homeless animal
             $scope.insertHomelessAnimal = function (animal) {
+                console.log('bf: ' +$scope.animal.breed);
                 //Show spinner loading
                 $scope.contentLoading++;
 
@@ -44,6 +53,8 @@ animalRegistrationModule
                     .finally(function() {
                         //hide spinner loading
                         $scope.contentLoading--;
+
+                        console.log('fin: ' +$scope.animal.breed);
 
                         //clear fields
                         AnimalRegistrationValues.address = {
@@ -65,6 +76,6 @@ animalRegistrationModule
 
             //Dependency injection
             AnimalHomelessRegController.$inject = ['$scope', 'AnimalRegistrationFactory', 'localStorageService',
-                                                   'AnimalRegistrationValues', 'AnimalRegistrationConstants'];
+                                                   'AnimalRegistrationValues', 'AnimalRegistrationConstants', 'angularPopupBoxes', '$filter'];
         }
     );

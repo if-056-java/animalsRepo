@@ -125,7 +125,7 @@ public class User implements Serializable, Principal {
         this.isActive = isActive;
     }
 
-        public String getAddress() {
+    public String getAddress() {
         return address;
     }
     

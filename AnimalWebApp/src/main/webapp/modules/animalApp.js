@@ -23,7 +23,8 @@ var animalApp = angular.module('animalApp', [
     'UserConfirmRegistrationController',
     'LocalStorageModule',
     'pascalprecht.translate',
-    'ngCookies'
+    'ngCookies',
+    'AdminUsersModule'
 ]);
 
 animalApp .config(['$routeProvider', '$translateProvider',
@@ -125,6 +126,10 @@ animalApp .config(['$routeProvider', '$translateProvider',
         	    templateUrl: 'views/reg_owned.html',
         	    controller: 'AnimalOwnedRegController'
       	    })
+            .when('/ua/users/admin/users', {
+                templateUrl: 'views/admin_users.html',
+                controller: 'AdminUsersController'
+            })
             .otherwise({
                 redirectTo: '/ua'
             });
@@ -148,7 +153,7 @@ animalApp .config(['$routeProvider', '$translateProvider',
             DEFAULT_VALUE = 'en';
 
             /**
-             * @const Get a browser locale language
+             * @const Get a user locale language
              */
             PREFERRED_LANGUAGE = navigator.language || navigator.userLanguage ||
             navigator.browserLanguage || navigator.systemLanguage || DEFAULT_VALUE;
@@ -157,7 +162,6 @@ animalApp .config(['$routeProvider', '$translateProvider',
             if(PREFERRED_LANGUAGE !== 'en' && PREFERRED_LANGUAGE !== 'uk')
                 return DEFAULT_VALUE;
 
-            console.log(PREFERRED_LANGUAGE);
             return PREFERRED_LANGUAGE;
         });
 
@@ -170,7 +174,6 @@ animalApp .config(['$routeProvider', '$translateProvider',
 
 //Constants
 animalApp.constant('RESOURCES', {
-    RESOURCE: 'http://127.0.0.1:8080/',
     ANIMALS_FOR_ADOPTING_PAGINATOR: 'webapi/animals/adoption/pagenator',
     ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption',
     ANIMALS_FOUND_PAGINATOR: 'webapi/animals/found/pagenator',
@@ -192,7 +195,9 @@ animalApp.constant('RESOURCES', {
     MEDICAL_HISTORY_ITEM_FOR_DOCTOR_DELETE: '/webapi/doctor/medical_history/item/',
     MEDICAL_HISTORY_ITEM_FOR_DOCTOR_UPDATE: '/webapi/doctor/medical_history/item',
     MEDICAL_HISTORY_TYPES: '/webapi/animals/medical_history/types',
-    ANIMAL_IMAGE_DELETE_FOR_ADMIN: '/webapi/admin/animals/image/'
+    ANIMAL_IMAGE_DELETE_FOR_ADMIN: '/webapi/admin/animals/image/',
+    ADMIN_USERS_PAGINATOR: 'webapi/users/admin/users/pagenator',
+    ADMIN_USERS: 'webapi/users/admin/users'
 });
 
 animalApp.config(function(localStorageServiceProvider){

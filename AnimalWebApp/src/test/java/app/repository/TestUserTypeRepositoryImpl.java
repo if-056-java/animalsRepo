@@ -2,10 +2,12 @@ package app.repository;
 
 import com.animals.app.domain.UserType;
 import com.animals.app.repository.Impl.UserTypeRepositoryImpl;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
+import org.junit.*;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -18,13 +20,15 @@ public class TestUserTypeRepositoryImpl {
 
     private static UserTypeRepositoryImpl userTypeRepository;
 
-    @Before
-    public void runBeforeClass() {
+    @BeforeClass
+    public static void runBeforeClass() {
+
+        configureJNDIForJUnit();
         userTypeRepository = new UserTypeRepositoryImpl();
     }
 
-    @After
-    public void runAfterClass() {
+    @AfterClass
+    public static void runAfterClass() {
         userTypeRepository = null;
     }
 
@@ -41,4 +45,32 @@ public class TestUserTypeRepositoryImpl {
 
         assertNotNull(userType);
     }
+
+    private static void configureJNDIForJUnit(){
+        // rcarver - setup the jndi context and the datasource
+        try {
+            // Create initial context
+            System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
+                    "org.apache.naming.java.javaURLContextFactory");
+            System.setProperty(Context.URL_PKG_PREFIXES,
+                    "org.apache.naming");
+            InitialContext ic = new InitialContext();
+
+            ic.createSubcontext("java:");
+            ic.createSubcontext("java:/comp");
+            ic.createSubcontext("java:/comp/env");
+            ic.createSubcontext("java:/comp/env/jdbc");
+
+            // Construct DataSource
+            MysqlConnectionPoolDataSource ds = new MysqlConnectionPoolDataSource();
+            ds.setURL("jdbc:mysql://tym.dp.ua:3306/animals");
+            ds.setUser("u_remoteuser");
+            ds.setPassword("ZF008NBp");
+
+            ic.rebind("java:/comp/env/jdbc/animals", ds);
+        } catch (NamingException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

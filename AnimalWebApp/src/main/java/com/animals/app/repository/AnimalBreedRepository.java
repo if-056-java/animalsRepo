@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * Created by Rostyslav.Viner on 06.08.2015.
  */
+
+@CacheNamespace(implementation=org.mybatis.caches.ehcache.EhcacheCache.class)
 public interface AnimalBreedRepository {
     final String SELECT_BY_ID = "SELECT id, breedUa, breedEn FROM animalbreeds WHERE id=#{id}";
 
@@ -66,7 +68,7 @@ public interface AnimalBreedRepository {
      * @param animalBreed the instance to be persisted.
      */
     @Insert(INSERT)
-    @Options(useGeneratedKeys = true, keyProperty = "id")
+    @Options(useGeneratedKeys = true, keyProperty = "id", flushCache = true)
     void insert_ua(AnimalBreed animalBreed);
 
     /**
@@ -74,5 +76,6 @@ public interface AnimalBreedRepository {
      * @param id primary key value of the instance to be deleted.
      */
     @Delete(DELETE_BY_ID)
+    @Options(flushCache=true)
     void deleteById(long id);
 }

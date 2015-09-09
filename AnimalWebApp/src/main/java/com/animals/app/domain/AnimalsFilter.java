@@ -53,6 +53,10 @@ public class AnimalsFilter {
         this.status = status;
     }
 
+    public boolean isAnimalFilterNotEmpty(){
+        return ((this.page != 0) || (this.limit != 0));
+    }
+
     @Override
     public String toString() {
         return "AnimalsFilter{" +

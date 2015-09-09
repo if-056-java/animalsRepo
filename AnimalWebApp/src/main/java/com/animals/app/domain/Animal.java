@@ -213,6 +213,10 @@ public class Animal implements Serializable{
         this.dateOfTwitter = dateOfTwitter;
     }
 
+    public boolean checkNewBreed(AnimalBreed animalBreed){
+        return ((animalBreed != null) && (animalBreed.getId() == null) && (animalBreed.getBreedUa() != null));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
