@@ -712,43 +712,10 @@ public class TestAdminResource {
     }
 
     /*
-     * Animal.cites = null
-     */
-    @Test
-    public void test23UpdateAnimal() {
-        assertNotNull(accessToken);
-        assertNotNull(animal);
-        assertNotNull(animal.getId());
-        assertNotNull(animal.getType());
-        assertNotNull(animal.getType().getId());
-        assertNotNull(animal.getSize());
-        assertNotNull(animal.getDateOfRegister());
-        assertNotNull(animal.getColor());
-        assertNotNull(animal.getAddress());
-        assertNotNull(animal.getService());
-        assertNotNull(animal.getService().getId());
-
-        Animal actual = SerializationUtils.clone(animal);
-        actual.setCites(null);
-
-        String result = client
-                .target(REST_SERVICE_URL)
-                .path("animals/editor")
-                .request()
-                .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
-    }
-
-    /*
      * Animal.transpNumber.length > LENGTH_TRANSPNUMBER
      */
     @Test(expected = BadRequestException.class)
-    public void test24UpdateAnimal() {
+    public void test23UpdateAnimal() {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
@@ -781,7 +748,7 @@ public class TestAdminResource {
      * Animal.tokenNumber.length > LENGTH_TOKENNUMBER
      */
     @Test(expected = BadRequestException.class)
-    public void test25UpdateAnimal() {
+    public void test24UpdateAnimal() {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
@@ -814,7 +781,7 @@ public class TestAdminResource {
      * Animal.dateOfRegister = null
      */
     @Test(expected = BadRequestException.class)
-    public void test26UpdateAnimal() {
+    public void test25UpdateAnimal() {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
@@ -847,7 +814,7 @@ public class TestAdminResource {
      * Animal.color.length > LENGTH_COLOR
      */
     @Test(expected = BadRequestException.class)
-    public void test27UpdateAnimal() {
+    public void test26UpdateAnimal() {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
@@ -880,7 +847,7 @@ public class TestAdminResource {
      * Animal.description.length > LENGTH_DESCRIPTION
      */
     @Test(expected = BadRequestException.class)
-    public void test28UpdateAnimal() {
+    public void test27UpdateAnimal() {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
@@ -913,7 +880,7 @@ public class TestAdminResource {
      * Animal.address.length > LENGTH_ADDRESS
      */
     @Test(expected = BadRequestException.class)
-    public void test29UpdateAnimal() {
+    public void test28UpdateAnimal() {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
@@ -946,7 +913,7 @@ public class TestAdminResource {
      * Animal.address = null
      */
     @Test(expected = BadRequestException.class)
-    public void test30UpdateAnimal() {
+    public void test29UpdateAnimal() {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
@@ -979,7 +946,7 @@ public class TestAdminResource {
      * Animal.image.length > LENGTH_IMAGE
      */
     @Test(expected = BadRequestException.class)
-    public void test31UpdateAnimal() {
+    public void test30UpdateAnimal() {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
@@ -1009,7 +976,7 @@ public class TestAdminResource {
     }
 
     @Test
-    public void test32DeleteAnimal() {
+    public void test31DeleteAnimal() {
         Response response = client
                 .target(REST_SERVICE_URL)
                 .path("animals/-1")
@@ -1022,7 +989,7 @@ public class TestAdminResource {
     }
 
     @Test
-    public void test33DeleteAnimal() {
+    public void test32DeleteAnimal() {
         Response response = client
                 .target(REST_SERVICE_URL)
                 .path("animals/0")
@@ -1035,7 +1002,7 @@ public class TestAdminResource {
     }
 
     @Test
-    public void test34DeleteAnimal() {
+    public void test33DeleteAnimal() {
         assertNotNull(animal);
         assertNotNull(animal.getId());
 
