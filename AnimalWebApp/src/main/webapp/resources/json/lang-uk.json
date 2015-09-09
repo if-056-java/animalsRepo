@@ -208,6 +208,7 @@
   "ANIMAL_REGISTER": "Реєстр тварин",
   "ANIMAL_DETAILED_INFO": "Детальна інформація про тварину",
   "ANIMAL_DETAILED_EDIT": "Редагування детальної інформації про тварину",
+
   "ANIMAL_DETAILED_CONFIRM_DELETE": "Ви дійсно хочете видалити цю тварину ?",
   "ANIMAL_DETAILED_DELETE_FAILED": "Не вдалось видалити тварину.",
 
@@ -219,5 +220,11 @@
   "ERROR_NO_ANIMALS": "Тварини відсутні.",
   "ERROR_FILE_SIZE_TO_LARGE": "Розмір файлу завеликий. Максимальний розмір 5Мб.",
   "ERROR_NO_RECORDS": "Нема записів.",
-  "ERROR_ANIMAL_NOT_FOUND": "Animal not found."
+  "ERROR_ANIMAL_NOT_FOUND": "Animal not found.",
+
+  "ADMIN_USERS": "Список користувачів",
+  "ID": "Id",
+  "IS_ACTIVE": "Блокування",
+  "DETAILED_INFO": "Детальна інформація"
+
 }
