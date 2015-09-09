@@ -46,12 +46,14 @@
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
-            <dataSource type="JNDI">
-                <!--<property name="initial_context" value="org.jboss.naming.remote.client.InitialContextFactory" />-->
-                <property name="context.java.naming.factory.initial" value="weblogic.jndi.WLInitialContextFactory"/>
-                <property name="context.java.naming.provider.url" value="t3://localhost:8080"/>
-                <property name="data_source" value="java:/comp/env/jdbc/animals"/>
-            </dataSource>
+                <dataSource type="POOLED">
+                    <property name="driver" value="${database.driver}"/>
+                    <property name="url" value="${database.url}"/>
+                    <property name="username" value="${database.username}"/>
+                    <property name="password" value="${database.password}"/>
+                    <property name="poolPingQuery" value="SELECT id FROM animals WHERE id = 1" />
+                    <property name="poolPingEnabled" value="true" />
+                </dataSource>
         </environment>
     </environments>
 
@@ -73,6 +75,10 @@
     </mappers>
 
     <!--
+
+                <dataSource type="JNDI">
+                    <property name="data_source" value="java:/comp/env/jdbc/animals"/>
+                </dataSource>
             <dataSource type="POOLED">
                 <property name="driver" value="${database.driver}"/>
                 <property name="url" value="${database.url}"/>

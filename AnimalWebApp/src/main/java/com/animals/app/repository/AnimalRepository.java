@@ -229,6 +229,7 @@ public interface AnimalRepository {
      */
     @Delete(DELETE)
     @Options(flushCache=true)
+
     void delete(long id);
 
     /**
