@@ -52,7 +52,7 @@ public class TestAdminResource {
 
     @BeforeClass
     public static void runBeforeClass() {
-        configureJNDIForJUnit();
+//        configureJNDIForJUnit();
 
         client = ClientBuilder.newClient();
 
