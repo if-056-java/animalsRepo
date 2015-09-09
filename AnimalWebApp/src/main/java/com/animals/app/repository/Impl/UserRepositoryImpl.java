@@ -1,6 +1,7 @@
 package com.animals.app.repository.Impl;
 
 import com.animals.app.domain.User;
+import com.animals.app.domain.UsersFilter;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import com.animals.app.repository.UserRepository;
 import org.apache.ibatis.session.SqlSession;
@@ -228,5 +229,38 @@ public class UserRepositoryImpl implements UserRepository {
         } finally {
             sqlSession.close();
         }
-    } 
+    }
+
+    /**
+     * @return the list of all User instances from the database.
+     */
+    public List<User> getAdminUsers(UsersFilter usersFilter) {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            UserRepository mapper = session.getMapper(UserRepository.class);
+            return mapper.getAdminUsers(usersFilter);
+        } finally {
+            session.close();
+        }
+    }
+
+    /**
+     * @return count of rows selected by getAdminUsersPaginator
+     */
+    public long getAdminUsersPaginator(UsersFilter usersFilter) {
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            UserRepository mapper = session.getMapper(UserRepository.class);
+            return mapper.getAdminUsersPaginator(usersFilter);
+        } finally {
+            session.close();
+        }
+    }
+
+
+
 }

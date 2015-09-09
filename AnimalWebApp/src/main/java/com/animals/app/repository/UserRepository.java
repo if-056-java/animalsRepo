@@ -1,7 +1,6 @@
 package com.animals.app.repository;
 
-import com.animals.app.domain.User;
-import com.animals.app.domain.UserType;
+import com.animals.app.domain.*;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -76,7 +75,17 @@ public interface UserRepository {
             " UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
             " Password, OrganizationName, OrganizationInfo, IsActive, GoogleId, SocialPhoto" +
             " FROM users WHERE (SocialLogin = #{socialLogin} AND EmailVerificationString = #{emailVerificationString})" ;
-    
+
+    final String SELECT_USER_LIST_FOR_MODERATOR = "<script> " +
+            "SELECT Id, Name, Surname, Email, DateOfRegistration, IsActive " +
+            "FROM users " +
+            "<if test = \"user != null\"> " +
+            "<if test = \"user.isActive != null\"> WHERE isActive = #{isActive} </if> " +
+            "</if> " +
+            "ORDER BY DateOfRegistration " +
+            "LIMIT #{offset}, #{limit} </script>";
+
+    final String SELECT_USER_LIST_FOR_MODERATOR_PAGINATOR = "SELECT count(*) AS count FROM users";
 
     /**
      * Insert an instance of User into the database.
@@ -298,4 +307,25 @@ public interface UserRepository {
     })
     User userVerification(@Param("socialLogin") String socialLogin, 
     						  @Param("emailVerificationString") String emailVerificationString);
+
+
+    /**
+     * @return the list of all User instances from the database.
+     */
+    @Select(SELECT_USER_LIST_FOR_MODERATOR)
+    @Results(value = {
+            @Result(property="id", column="id"),
+            @Result(property="name", column="name"),
+            @Result(property="surname", column="surname"),
+            @Result(property="email", column="email"),
+            @Result(property="registrationDate", column="dateOfRegistration"),
+            @Result(property="isActive", column="isActive")
+    })
+    List<User> getAdminUsers(UsersFilter usersFilter);
+
+    /**
+     * @return count of rows selected by getAdminUsersPaginator
+     */
+    @Select(SELECT_USER_LIST_FOR_MODERATOR_PAGINATOR)
+    long getAdminUsersPaginator(UsersFilter usersFilter);
 }
