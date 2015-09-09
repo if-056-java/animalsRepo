@@ -217,6 +217,7 @@
 
   "ERROR_NO_ANIMALS": "No animals.",
   "ERROR_FILE_SIZE_TO_LARGE": "File size to large. Max size is 5Mb.",
-  "ERROR_NO_RECORDS": "No records."
+  "ERROR_NO_RECORDS": "No records.",
+  "ERROR_ANIMAL_NOT_FOUND": "Animal not found."
 
 }
