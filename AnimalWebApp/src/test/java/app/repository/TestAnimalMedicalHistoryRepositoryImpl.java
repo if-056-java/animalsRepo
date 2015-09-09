@@ -6,6 +6,7 @@ import com.animals.app.repository.Impl.AnimalMedicalHistoryRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalStatusRepositoryImpl;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
+import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -13,6 +14,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -29,6 +33,8 @@ public class TestAnimalMedicalHistoryRepositoryImpl {
 
     @BeforeClass
     public static void runBeforeClass() {
+        configureJNDIForJUnit();
+
         animalMedicalHistoryRepository = new AnimalMedicalHistoryRepositoryImpl();
 
         actual = new AnimalMedicalHistory();
@@ -127,4 +133,32 @@ public class TestAnimalMedicalHistoryRepositoryImpl {
 
         assertNull(expected);
     }
+
+    private static void configureJNDIForJUnit(){
+        // rcarver - setup the jndi context and the datasource
+        try {
+            // Create initial context
+            System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
+                    "org.apache.naming.java.javaURLContextFactory");
+            System.setProperty(Context.URL_PKG_PREFIXES,
+                    "org.apache.naming");
+            InitialContext ic = new InitialContext();
+
+            ic.createSubcontext("java:");
+            ic.createSubcontext("java:/comp");
+            ic.createSubcontext("java:/comp/env");
+            ic.createSubcontext("java:/comp/env/jdbc");
+
+            // Construct DataSource
+            MysqlConnectionPoolDataSource ds = new MysqlConnectionPoolDataSource();
+            ds.setURL("jdbc:mysql://tym.dp.ua:3306/animals");
+            ds.setUser("u_remoteuser");
+            ds.setPassword("ZF008NBp");
+
+            ic.bind("java:/comp/env/jdbc/animals", ds);
+        } catch (NamingException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }
