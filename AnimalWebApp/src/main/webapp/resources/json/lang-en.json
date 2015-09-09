@@ -208,6 +208,7 @@
   "ANIMAL_REGISTER": "Animal register",
   "ANIMAL_DETAILED_INFO": "Detail information about animal",
   "ANIMAL_DETAILED_EDIT": "Editing detailed information about animal",
+
   "ANIMAL_DETAILED_CONFIRM_DELETE": "Are you sure you want to delete this animal?",
   "ANIMAL_DETAILED_DELETE_FAILED": "Animal delete failed.",
 
@@ -219,6 +220,11 @@
   "ERROR_NO_ANIMALS": "No animals.",
   "ERROR_FILE_SIZE_TO_LARGE": "File size to large. Max size is 5Mb.",
   "ERROR_NO_RECORDS": "No records.",
-  "ERROR_ANIMAL_NOT_FOUND": "Animal not found."
+  "ERROR_ANIMAL_NOT_FOUND": "Animal not found.",
+
+  "ADMIN_USERS": "List of users",
+  "ID": "Id",
+  "IS_ACTIVE": "Is blocked",
+  "DETAILED_INFO": "Detailed info"
 
 }
