@@ -79,7 +79,7 @@ public class TestAnimalServiceRepositoryImpl {
             ds.setUser("u_remoteuser");
             ds.setPassword("ZF008NBp");
 
-            ic.bind("java:/comp/env/jdbc/animals", ds);
+            ic.rebind("java:/comp/env/jdbc/animals", ds);
         } catch (NamingException ex) {
             ex.printStackTrace();
         }

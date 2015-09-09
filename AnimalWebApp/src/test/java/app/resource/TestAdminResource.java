@@ -613,6 +613,7 @@ public class TestAdminResource {
     /*
      * Animal.service.id = max int value
      */
+    @Ignore
     @Test(expected = BadRequestException.class)
     public void test20UpdateAnimal() {
         assertNotNull(accessToken);
@@ -1052,7 +1053,7 @@ public class TestAdminResource {
             ds.setUser("u_remoteuser");
             ds.setPassword("ZF008NBp");
 
-            ic.bind("java:/comp/env/jdbc/animals", ds);
+            ic.rebind("java:/comp/env/jdbc/animals", ds);
         } catch (NamingException ex) {
             ex.printStackTrace();
         }
