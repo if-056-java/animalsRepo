@@ -26,7 +26,7 @@ angular.module('ContactsValues', [])
             , position: 'absolute' // Element positioning
         },
         recaptcha : {
-            key: '6LdeAQsTAAAAAFYDoWkW8_zNKVu1tu6D-RlLfgnR'
+            key: '6Les_AsTAAAAAB2_jkT_xBMudI07A5Jmn0kbYods'
         },
         googlemap: {
             latitude : 49.863400
