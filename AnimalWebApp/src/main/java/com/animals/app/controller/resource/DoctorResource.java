@@ -32,12 +32,11 @@ public class DoctorResource {
     //return response with 404 code
     private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
 
-    //return response with 500 code
-    private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-
     /**
      * @param animalId instance used for lookup.
      * @return count of rows for pagination.
+     * -------------------------------------------------------------------
+     * animalId must be set and more than 0
      */
     @GET //http:localhost:8080/webapi/animals/paginator
     @RolesAllowed("лікар")
@@ -45,7 +44,7 @@ public class DoctorResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimalsPaginator(@PathParam("animalId") long animalId) {
-        if(animalId == 0) {
+        if(animalId <= 0) {
             return BAD_REQUEST;
         }
 
@@ -61,6 +60,10 @@ public class DoctorResource {
     /**
      * @param animalId instance used for lookup.
      * @return list of medical history.
+     * -------------------------------------------------------------------
+     * animalId must be set and more than 0
+     * AnimalsFilter.page must be set and more than 0
+     * AnimalsFilter.limit must be set and more than 0
      */
     @POST //http:localhost:8080/webapi/doctor/medical_history/{animalId}
     @RolesAllowed("лікар")
@@ -68,11 +71,11 @@ public class DoctorResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getMedicalHistoryByAnimalId(@PathParam("animalId") long animalId, AnimalsFilter animalsFilter) {
-        if((animalId == 0) || (animalsFilter == null)) {
+        if((animalId <= 0) || (animalsFilter == null)) {
             return BAD_REQUEST;
         }
 
-        if ((animalsFilter.getPage() == 0) || (animalsFilter.getLimit() == 0)) {
+        if ((animalsFilter.getPage() <= 0) || (animalsFilter.getLimit() <= 0)) {
             return BAD_REQUEST;
         }
 
@@ -95,12 +98,14 @@ public class DoctorResource {
      * Delete animal medical history item.
      * @param itemId instance used for lookup.
      * @return status 200 if delete is done.
+     * -------------------------------------------------------------------
+     * itemId must be set and more than 0
      */
     @DELETE //http:localhost:8080/webapi/doctor/medical_history/item/{itemId}
     @RolesAllowed("лікар")
     @Path("medical_history/item/{itemId}")
     public Response deleteMedicalHistoryItemById(@PathParam("itemId") long itemId) {
-        if(itemId == 0) {
+        if(itemId <= 0) {
             return BAD_REQUEST;
         }
 
@@ -115,6 +120,11 @@ public class DoctorResource {
      * @param req instance of HttpServletRequest fo get access to session
      * @param animalMedicalHistory instance of item to be inserted.
      * @return status 200 if delete is done.
+     * -------------------------------------------------------------------
+     * AnimalMedicalHistory.animalId must be set
+     * AnimalMedicalHistory.date must be set
+     * AnimalMedicalHistory.status.id must be set and more than 0
+     * Session value userId must be set
      */
     @POST //http:localhost:8080/webapi/doctor/medical_history/item
     @RolesAllowed("лікар")
@@ -125,12 +135,18 @@ public class DoctorResource {
             return BAD_REQUEST;
         }
 
-        if((animalMedicalHistory.getAnimalId() == null) || (animalMedicalHistory.getDate() == null)
-                || (animalMedicalHistory.getStatus() == null)) {
+        if((animalMedicalHistory.getAnimalId() == null) ||
+                (animalMedicalHistory.getDate() == null)||
+                (animalMedicalHistory.getStatus() == null)) {
             return BAD_REQUEST;
         }
 
-        if (animalMedicalHistory.getStatus().getId() == null) {
+        if (animalMedicalHistory.getAnimalId() <= 0) {
+            return BAD_REQUEST;
+        }
+
+        if ((animalMedicalHistory.getStatus().getId() == null) ||
+                (animalMedicalHistory.getStatus().getId() <= 0)) {
             return BAD_REQUEST;
         }
 

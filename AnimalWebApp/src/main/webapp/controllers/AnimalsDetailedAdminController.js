@@ -21,6 +21,9 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
              * @return animal instance.
              */
             AnimalsAdminService.getAnimal(animalId)
+                .catch(function(respounce) {
+                    $scope.error = $filter('translate')("ERROR_ANIMAL_NOT_FOUND")
+                })
                 .finally(function() {
                     $scope.animalImage = "resources/img/no_img.png";
                     if (AnimalsAdminValues.animal.image != undefined) {
