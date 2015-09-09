@@ -1,6 +1,6 @@
 adminUsersModule
     .factory('AdminUsersFactory',
-    function AdminUsersFactory($http, $q, RESOURCES, AdminUsersValues){
+    function AdminUsersFactory($http, $q, RESOURCES, AdminUsersValues, localStorageService){
 
         //Create instance of current factory
         var factory = {};
@@ -8,6 +8,8 @@ adminUsersModule
         //Get amount users
         factory.getAmountRecords = function() {
             var def = $q.defer();
+            
+            $http.defaults.headers.common['AccessToken'] = localStorageService.get("accessToken");
 
             $http.post(RESOURCES.ADMIN_USERS_PAGINATOR, AdminUsersValues.filter)
                 .success(function (data) {
@@ -25,7 +27,7 @@ adminUsersModule
         //Get list of users
         factory.getListOfAdminUsers = function(){
             var def = $q.defer();
-
+            
             $http.post(RESOURCES.ADMIN_USERS, AdminUsersValues.filter)
                 .success(function (data) {
                     AdminUsersValues.users.values = data;
