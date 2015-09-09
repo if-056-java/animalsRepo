@@ -1,6 +1,6 @@
 angular.module('AnimalsDetailedDoctorController', ['AnimalsDoctorModule', 'AnimalsDoctorValues'])
-    .controller('AnimalsDetailedDoctorController', ['$scope', '$routeParams', 'AnimalsDoctorService', 'AnimalsDoctorValues', '$filter',
-        function($scope, $routeParams, AnimalsDoctorService, AnimalsDoctorValues, $filter) {
+    .controller('AnimalsDetailedDoctorController', ['$scope', '$routeParams', 'AnimalsDoctorService', 'AnimalsDoctorValues', '$filter', '$window',
+        function($scope, $routeParams, AnimalsDoctorService, AnimalsDoctorValues, $filter, $window) {
 
             AnimalsDoctorService.rolesAllowed('лікар');
 
@@ -9,6 +9,8 @@ angular.module('AnimalsDetailedDoctorController', ['AnimalsDoctorModule', 'Anima
             new Spinner(opts).spin(targetContent);
             //This variable decides when spinner loading for contentis closed.
             $scope.contentLoading = 1;
+
+            $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
             var animalId = $routeParams.animalId;       //animal id
             $scope.animal = AnimalsDoctorValues.animal;  //animal
