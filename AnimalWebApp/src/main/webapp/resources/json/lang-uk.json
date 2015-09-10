@@ -220,7 +220,8 @@
   "ERROR_NO_ANIMALS": "Тварини відсутні.",
   "ERROR_FILE_SIZE_TO_LARGE": "Розмір файлу завеликий. Максимальний розмір 5Мб.",
   "ERROR_NO_RECORDS": "Нема записів.",
-  "ERROR_ANIMAL_NOT_FOUND": "Animal not found.",
+  "ERROR_ANIMAL_NOT_FOUND": "Тварину не знайдено.",
+  "ERROR_ANIMAL_UPDATE": "Не вдалось видалити тварину.",
 
   "ADMIN_USERS": "Список користувачів",
   "ID": "Id",

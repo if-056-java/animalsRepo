@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Rostyslav.Viner on 24.07.2015.
  */
-@CacheNamespace(implementation=org.mybatis.caches.ehcache.EhcacheCache.class)
+//@CacheNamespace(implementation=org.mybatis.caches.ehcache.EhcacheCache.class)
 public interface AnimalRepository {
 
     final String INSERT = "INSERT INTO animals (sex, typeId, size, citesType, breed, transpNumber, " +
@@ -196,7 +196,7 @@ public interface AnimalRepository {
      * @param animal the instance to be persisted.
      */
     @Insert(INSERT)
-    @Options(useGeneratedKeys = true, keyProperty = "id", flushCache = true)
+    @Options(useGeneratedKeys = true, keyProperty = "id"/*, flushCache = true*/)
     void insert(Animal animal);
 
     /**
@@ -204,7 +204,7 @@ public interface AnimalRepository {
      * @param animal the instance to be updated.
      */
     @Update(UPDATE)
-    @Options(flushCache=true)
+//    @Options(flushCache=true)
     void update(Animal animal);
 
     /**
@@ -213,7 +213,7 @@ public interface AnimalRepository {
      */
 
     @Update(TWITTER_UPDATE)
-    @Options(flushCache=true)
+//    @Options(flushCache=true)
     void twitterUpdate(Animal animal);
 
     /**
@@ -221,7 +221,7 @@ public interface AnimalRepository {
      * @param animal the instance to be updated.
      */
     @Update(FACEBOOK_UPDATE)
-    @Options(flushCache=true)
+//    @Options(flushCache=true)
     void facebookUpdate(Animal animal);
 
     /**
@@ -229,7 +229,7 @@ public interface AnimalRepository {
      * @param id primary key value of the instance to be deleted.
      */
     @Delete(DELETE)
-    @Options(flushCache=true)
+//    @Options(flushCache=true)
 
     void delete(long id);
 
@@ -286,7 +286,7 @@ public interface AnimalRepository {
             @Result(property="dateOfTwitter", column="dateOfTwitter"),
             @Result(property="color", column="color")
     })
-    @Options(useCache=true)
+//    @Options(useCache=true)
     List<Animal> getAdminAnimals(AnimalsFilter animalsFilter);
 
     /**
@@ -294,7 +294,7 @@ public interface AnimalRepository {
      * @return count of rows selected by getAdminAnimalsListByPage
      */
     @Select(ADMIN_ANIMALS_PAGINATOR)
-    @Options(useCache=true)
+//    @Options(useCache=true)
     long getAdminAnimalsPaginator(AnimalsFilter animalsFilter);
 
     /**
@@ -315,7 +315,7 @@ public interface AnimalRepository {
                     one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById")),
             @Result(property="image", column="image"),
     })
-    @Options(useCache=true)
+//    @Options(useCache=true)
     List<Animal> getAllForAdopting(AnimalsFilter animalsFilter);
 
     /**
@@ -357,7 +357,7 @@ public interface AnimalRepository {
                     one = @One(select = "com.animals.app.repository.AnimalServiceRepository.getById")),
             @Result(property="image", column="image"),
     })
-    @Options(useCache=true)
+//    @Options(useCache=true)
     List<Animal> getAllLostAnimals(AnimalsFilter animalsFilter);
 
     /**
@@ -365,7 +365,7 @@ public interface AnimalRepository {
      * @return count of rows selected by getAllForAdopting
      */
     @Select(SELECT_LIST_FOR_ADOPTING_COUNT)
-    @Options(useCache=true)
+//    @Options(useCache=true)
     long getAmountListForAdopting(AnimalsFilter animalsFilter);
 
     /**
@@ -373,7 +373,7 @@ public interface AnimalRepository {
      * @return count of rows selected by getAllFoundAnimals
      */
     @Select(SELECT_LIST_FOUND_ANIMALS_COUNT)
-    @Options(useCache=true)
+//    @Options(useCache=true)
     long getAmountListFoundAnimals(AnimalsFilter animalsFilter);
 
     /**
@@ -381,7 +381,7 @@ public interface AnimalRepository {
      * @return count of rows selected by getAllLostAnimals
      */
     @Select(SELECT_LIST_LOST_ANIMALS_COUNT)
-    @Options(useCache=true)
+//    @Options(useCache=true)
     long getAmountListLostAnimals(AnimalsFilter animalsFilter);
 
     @Select(USERPROFILE_SELECT_BY_USER_ID)
@@ -396,7 +396,7 @@ public interface AnimalRepository {
             @Result(property="dateOfBirth", column="dateOfBirth"),
             @Result(property="color", column="color")
     })
-    @Options(useCache=true)
+//    @Options(useCache=true)
     List<Animal> getAnimalByUserId(int parseId);
 
     /**

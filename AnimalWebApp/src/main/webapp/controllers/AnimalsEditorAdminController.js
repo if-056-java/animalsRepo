@@ -111,8 +111,8 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
                         AnimalsAdminValues.animal.image = response.data.filePath;
                         $window.location.href = "#/ua/user/home/animals/" + $scope.animal.id;
                     },
-                    function(data) {
-                        console.log('Animal update failed.')
+                    function(response) {
+                        $window.alert($filter('translate')("ERROR_ANIMAL_UPDATE"));
                     });
             }
 
