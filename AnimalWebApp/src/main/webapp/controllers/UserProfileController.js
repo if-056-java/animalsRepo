@@ -65,6 +65,7 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 				UserAnimalsValues.totalItems.count = result.rowsCount;
 			},
 			function(error){
+				UserAnimalsValues.totalItems.count = 0;
 				console.log(error)				
 			}
 		);		
@@ -104,7 +105,10 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
          * @return list of animals with given count of rows.
          */
         $scope.countChanged = function(count) {
-            $scope.filter.limit = count;
+            $scope.filter.limit = count;          
+            if(UserAnimalsValues.totalItems.count<(UserAnimalsValues.filter.page*count)){            	
+            	UserAnimalsValues.filter.page=Math.ceil(UserAnimalsValues.totalItems.count/count);            	
+            }
             $scope.contentLoading2 = 1;
             getAnimals();    		
         };
