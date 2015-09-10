@@ -188,7 +188,8 @@ public interface AnimalRepository {
 
     final String SELECT_SHORT_INFO_BY_ID = "SELECT id, sex, typeId, citesType, breed, " +
             "dateOfBirth, dateOfSterilization, color, dateOfRegister, size, image " +
-            "FROM animals WHERE id = #{id}";
+            "FROM animals WHERE id = #{id}";   
+    
 
     /**
      * Insert an instance of Animal into the database.
@@ -419,5 +420,6 @@ public interface AnimalRepository {
             @Result(property="size", column="size", javaType = Animal.SizeType.class),
             @Result(property="image", column="image")
 	})
-    Animal getShortInfoById(long id);
+    Animal getShortInfoById(long id);    
+   
 }

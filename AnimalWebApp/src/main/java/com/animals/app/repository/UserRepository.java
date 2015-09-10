@@ -86,6 +86,14 @@ public interface UserRepository {
             "LIMIT #{offset}, #{limit} </script>";
 
     final String SELECT_USER_LIST_FOR_MODERATOR_PAGINATOR = "SELECT count(*) AS count FROM users";
+    
+    final String SELECT_ANIMAL_BY_USER_ID_PAGINATOR = "SELECT count(*) AS count " +
+            "FROM animals WHERE userId=#{id}";
+    
+    final String SELECT_ANIMALS_BY_USER_ID = "SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, color " +
+            "FROM animals " +
+            "WHERE userId=#{id} LIMIT #{offset},#{limit}";
+    
 
     /**
      * Insert an instance of User into the database.
@@ -328,4 +336,33 @@ public interface UserRepository {
      */
     @Select(SELECT_USER_LIST_FOR_MODERATOR_PAGINATOR)
     long getAdminUsersPaginator(UsersFilter usersFilter);
+    
+    /**
+     * Returns count of rows selected from DB by method getAnimalByUserIdCount
+     * @return count of rows selected by getAnimalByUserIdCount
+     */
+    @Select(SELECT_ANIMAL_BY_USER_ID_PAGINATOR)
+    long getAnimalByUserIdCount(long id);
+
+    /**
+     * Returns an Animal medical history instance from the database.
+     * @param id primary key value used for lookup.
+     * @return An Animal medical history instance with a primary key value equals to pk. null if there is no matching row.
+     */
+    @Select(SELECT_ANIMALS_BY_USER_ID)
+    @Results(value = {
+            @Result(property="id", column="id"),
+            @Result(property="sex", column="sex", javaType = Animal.SexType.class),
+            @Result(property="type", column="typeId", javaType = AnimalType.class,
+                    one = @One(select = "com.animals.app.repository.AnimalTypeRepository.getById")),
+            @Result(property="breed", column="breed", javaType = AnimalBreed.class,
+                    one = @One(select = "com.animals.app.repository.AnimalBreedRepository.getById")),
+            @Result(property="transpNumber", column="transpNumber"),
+            @Result(property="dateOfBirth", column="dateOfBirth"),
+            @Result(property="color", column="color")
+    })
+    @Options(useCache=true)
+	List<Animal> getUserAnimals(@Param("id") long id, @Param("offset") long offset, @Param("limit") int limit);
+	
+	
 }

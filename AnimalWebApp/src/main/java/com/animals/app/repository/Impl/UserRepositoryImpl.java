@@ -1,10 +1,15 @@
 package com.animals.app.repository.Impl;
 
+import com.animals.app.domain.Animal;
+import com.animals.app.domain.AnimalMedicalHistory;
 import com.animals.app.domain.User;
 import com.animals.app.domain.UsersFilter;
+import com.animals.app.repository.AnimalMedicalHistoryRepository;
+import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import com.animals.app.repository.UserRepository;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionException;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.util.List;
@@ -256,6 +261,31 @@ public class UserRepositoryImpl implements UserRepository {
         try {
             UserRepository mapper = session.getMapper(UserRepository.class);
             return mapper.getAdminUsersPaginator(usersFilter);
+        } finally {
+            session.close();
+        }
+    }
+    
+    /**
+     * Returns count of rows selected from DB by method getAnimalByUserIdCount
+     *
+     * @return count of rows selected by getAnimalByUserIdCount
+     */
+	public long getAnimalByUserIdCount(long id) throws SqlSessionException{		
+        return sqlSessionFactory.openSession().getMapper(UserRepository.class).getAnimalByUserIdCount(id);
+	}
+    
+    /**
+     * Returns an Animal medical history instance from the database.
+     * @param animalId primary key value used for lookup.
+     * @return An Animal medical history instance with a primary key value equals to pk. null if there is no matching row.
+     */
+    public List<Animal> getUserAnimals(long userId, long offset, int limit) {
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+        	UserRepository mapper = session.getMapper(UserRepository.class);
+            return mapper.getUserAnimals(userId, offset, limit);
         } finally {
             session.close();
         }

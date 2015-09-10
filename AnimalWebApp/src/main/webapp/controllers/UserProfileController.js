@@ -1,8 +1,7 @@
-//created by 41X
-var animalAppControllers = angular.module('UserProfileController', []);
+var animalAppControllers = angular.module('UserProfileController', ['UserAnimalsValues']);
 
-animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccount', 'hashPassword', 'localStorageService', '$route', '$location',
-                                               function($scope, userData, userAccount, hashPassword, localStorageService, $route, $location) {
+animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccount', 'hashPassword', 'localStorageService', '$route', '$location', 'UserAnimalsValues',
+                                               function($scope, userData, userAccount, hashPassword, localStorageService, $route, $location, UserAnimalsValues) {
 		
 	//initialize loading spinner
     var targetContent = document.getElementById('loading-block');
@@ -11,6 +10,10 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
     new Spinner(opts).spin(targetContent2);
     $scope.contentLoading = 0;
     $scope.contentLoading2 = 0;
+    
+    $scope.filter = UserAnimalsValues.filter;            //filter
+    $scope.totalItems = UserAnimalsValues.totalItems;    //table rows count
+    $scope.animals = UserAnimalsValues.animals;          //animal instance
 	
     if(localStorageService.get("disableGoogleButton")){
     	$scope.disableGoogle=true;
@@ -31,7 +34,8 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 	
 	if(!localStorageService.get("userId")){
 		userAccount.refreshSession();  		
-	} else {
+	} else {		
+		
 		
 		var id = localStorageService.get("userId");
 		
@@ -54,22 +58,57 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 		
 //		userData.getUserAnimals(id).success(function(data){			//old school
 //			$scope.userAnimalInfo=data;
-//		});
+//		});			
+		$scope.contentLoading2++;		
+		userData.getPaginator(id).then(
+			function(result){				
+				UserAnimalsValues.totalItems.count = result.rowsCount;
+			},
+			function(error){
+				console.log(error)				
+			}
+		);		
 		
-		$scope.contentLoading2++;
-		userData.getUserAnimals(id).then(
-				function(result){
-					$scope.userAnimalInfo=result;
+		
+		var getAnimals = function() { 
+			userData.getUserAnimalsWithFilter(id, UserAnimalsValues.filter).then(		
+				function(result){					
+					UserAnimalsValues.animals.values=result;
 					$scope.contentLoading2--;
+					if ($scope.animals.values.length == 0) {
+                        $scope.error = "ERROR_NO_ANIMALS";
+					}
 				},
-				function(error){
-					console.log(error)
+				function(error){					
 					$scope.contentLoading2--;
 				}
-		);		
-	}
+			);
+		}
 		
-	
+		$scope.getData = function() {
+            getAnimals();
+        };
+        
+        $scope.getData();
+
+		
+		/**
+         * @return next page.
+         */
+        $scope.pageChanged = function() {
+            $scope.contentLoading2 = 1;
+            getAnimals();
+        };
+
+        /**
+         * @return list of animals with given count of rows.
+         */
+        $scope.countChanged = function(count) {
+            $scope.filter.limit = count;
+            $scope.contentLoading2 = 1;
+            getAnimals();    		
+        };
+	}	
 	
 	
     $scope.submitUpdatedForm=function(){  
@@ -131,6 +170,7 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 	} else {
 		$scope.errorJoinMessage=null;
 	}
+	
 	
 	
 }]);

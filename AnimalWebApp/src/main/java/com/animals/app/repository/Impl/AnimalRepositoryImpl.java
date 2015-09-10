@@ -2,6 +2,7 @@ package com.animals.app.repository.Impl;
 
 import com.animals.app.domain.Animal;
 import com.animals.app.domain.AnimalsFilter;
+import com.animals.app.repository.AnimalMedicalHistoryRepository;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import org.apache.ibatis.session.RowBounds;
@@ -179,5 +180,5 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      */
     public Animal getShortInfoById(long id) throws SqlSessionException{
         return sqlSessionFactory.openSession().getMapper(AnimalRepository.class).getShortInfoById(id);
-    }
+    }    
 }

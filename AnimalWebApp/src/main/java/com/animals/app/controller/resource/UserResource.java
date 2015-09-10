@@ -33,10 +33,14 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import com.animals.app.domain.Animal;
+import com.animals.app.domain.AnimalMedicalHistory;
+import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.domain.User;
+import com.animals.app.repository.AnimalMedicalHistoryRepository;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.UserRepository;
 import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
+import com.animals.app.repository.Impl.AnimalMedicalHistoryRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 
@@ -305,14 +309,56 @@ public class UserResource {
             animal.setImage(httpPath);
         }
 
-        //Update animal
-        AnimalRepository animalRepository = new AnimalRepositoryImpl();
-        animalRepository.update(animal);
+        //Update animal        
+        animalRep.update(animal);
 
         //return relative image path to client
         String json = "{\"filePath\":\"" + animal.getImage() + "\"}";
        
         return Response.ok().entity(json).build();
+    }
+    
+    @GET //http:localhost:8080/webapi/users/user/{userId}/animals/paginator    
+    @Path("user/{userId}/animals/paginator/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getUserAnimalsPaginator(@PathParam("userId") long userId) {
+        if(userId <= 0) {
+            return BAD_REQUEST;
+        }
+
+        //get count of row according to filter        
+        long pages = userRep.getAnimalByUserIdCount(userId);
+
+        String json = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
+
+        return Response.ok().entity(json).build();
+    }
+    
+    @POST  //http:localhost:8080/webapi/users/user/{userId}/animals  
+    @Path("user/{userId}/animals")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getMedicalHistoryByAnimalId(@PathParam("userId") long userId, AnimalsFilter animalsFilter) {
+        if((userId <= 0) || (animalsFilter == null)) {
+            return BAD_REQUEST;
+        }
+
+        if ((animalsFilter.getPage() <= 0) || (animalsFilter.getLimit() <= 0)) {
+            return BAD_REQUEST;
+        }
+
+        //get list of animals medical history from data base
+        List<Animal> animals = userRep.getUserAnimals(userId, animalsFilter.getOffset(), animalsFilter.getLimit());
+
+        //cast list of animals to generic list
+        GenericEntity<List<Animal>> genericAnimals = new GenericEntity<List<Animal>>(animals) {};
+
+        if(genericAnimals == null) {
+            return NOT_FOUND;
+        }
+
+        return Response.ok().entity(genericAnimals).build();
     }
 
 	@POST //http:localhost:8080/webapi/users/admin/users/pagenator

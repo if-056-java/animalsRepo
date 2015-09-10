@@ -1,4 +1,3 @@
-//created by 41X
 angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, $location, userAccount, localStorageService){
 	
 	return {
@@ -23,6 +22,31 @@ angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, 
 			var def = $q.defer();
 			
 			$http.get("/webapi/users/user/"+id+"/animals")
+			.success(function (data) {
+                def.resolve(data);
+            })
+            .error(function (error) {
+                def.reject("Failed to get animals");
+            });
+			return def.promise;
+		},
+		
+		getPaginator: function(id){
+			var def = $q.defer();
+			$http.get("/webapi/users/user/"+id+"/animals/paginator")
+			.success(function (data) {
+                def.resolve(data);
+            })
+            .error(function (error) {
+                def.reject("Failed to get animals");
+            });
+			return def.promise;
+		},
+		
+		getUserAnimalsWithFilter: function(id, filter){
+			var def = $q.defer();
+			
+			$http.post("/webapi/users/user/"+id+"/animals", filter)
 			.success(function (data) {
                 def.resolve(data);
             })
@@ -61,7 +85,8 @@ angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, 
                 def.reject("Failed to get animal");
             });
 			return def.promise;
-		},
+		},	
+		
 		
 		deleteAnimal: function (animalId) {
 			

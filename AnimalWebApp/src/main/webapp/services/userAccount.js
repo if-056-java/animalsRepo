@@ -1,4 +1,3 @@
-//created by 41X
 angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, localStorageService, $location, $route, $window, $rootScope){
 	
 	return {
