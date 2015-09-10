@@ -2,7 +2,9 @@ var animalAppControllers = angular.module('UserProfileController', ['UserAnimals
 
 animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccount', 'hashPassword', 'localStorageService', '$route', '$location', 'UserAnimalsValues',
                                                function($scope, userData, userAccount, hashPassword, localStorageService, $route, $location, UserAnimalsValues) {
-		
+	
+	
+	$scope.currentLanguage = localStorage.getItem("NG_TRANSLATE_LANG_KEY");
 	//initialize loading spinner
     var targetContent = document.getElementById('loading-block');
     var targetContent2 = document.getElementById('loading-block2');
@@ -76,8 +78,8 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 				function(result){					
 					UserAnimalsValues.animals.values=result;
 					$scope.contentLoading2--;
-					if ($scope.animals.values.length == 0) {
-                        $scope.error = "ERROR_NO_ANIMALS";
+					if ($scope.animals.values.length == 0) {						
+                        $scope.errorNoAnimals = true;
 					}
 				},
 				function(error){					
