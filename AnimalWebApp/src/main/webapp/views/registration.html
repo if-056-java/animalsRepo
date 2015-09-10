@@ -57,10 +57,11 @@
 		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" >
 			<br>
 			<p>{{ 'REG_REQUIRED_FIELDS_MESSAGE' | translate }}.</p>
-			<div class="form-group">
+			<div class="form-group" data-ng-class="{'has-error':regForm.login.$error.minlength}">
 	    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label" >{{ 'LOGIN' | translate }} *:</label>
 	    		<div class="col-xs-12 col-sm-7 col-md-9 col-lg-9">
-	      		<input class="form-control" type="text" ng-model="fields.socialLogin"  ng-required="true" >
+	      		<input class="form-control" type="text" name="login" ng-model="fields.socialLogin"  ng-required="true" ng-minlength='6'>
+	      		<div ng-show="regForm.login.$error.minlength" class="help-inline">Login should be minimum 6 character</div>
 	    		</div>
 	    	</div>
 			<div class="form-group">
@@ -75,10 +76,11 @@
 	      		<input class="form-control" id="userSurname" ng-model="fields.surname" ng-required="true">
 	    		</div>
 	    	</div>
-	    	<div class="form-group">		    			  		
+	    	<div class="form-group" data-ng-class="{'has-error':regForm.userEmail.$invalid && !regForm.userEmail.$pristine}">		    			  		
 	    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label" >{{ 'EMAIL' | translate }} *:</label>
 	    		<div class="col-xs-12 col-sm-7 col-md-9 col-lg-9">
-	      		<input class="form-control" id="userEmail" type="email" ng-model="fields.email" ng-required="true">
+	      		<input class="form-control" name="userEmail" type="email" ng-model="fields.email" ng-required="true"
+	      		placeholder="{{ 'CONTACTS_INPUT_EMAIL' | translate }}">
 	    		</div>
 	    	</div>
 	    	<div class="form-group" data-ng-class="{'has-error':regForm.password.$error.minlength}">		    			  		
@@ -96,10 +98,12 @@
 	    		<div ng-show="errorConfirmMessage">You can't submit form with not equal fields!</div>
 	    		</div>
 	    	</div>
-	    	<div class="form-group">		    			  		
+	    	<div class="form-group" data-ng-class="{'has-error':regForm.userPhone.$invalid && !regForm.userPhone.$pristine}">		    			  		
 	    		<label class="col-xs-5 col-sm-5 col-md-3 col-lg-3 control-label"  >{{ 'PHONE' | translate }} *:</label>
 	    		<div class="col-xs-12 col-sm-7 col-md-9 col-lg-9">
-	      		<input class="form-control" id="userPhone" type="text" pattern="^[0-9]{3}-[0-9]{7}$"  ng-model="fields.phone">&nbsp; &nbsp;<label>{{ 'REG_PHONE_TEMPLATE' | translate }}: '000-0000000'</label>
+	      		<input class="form-control" name="userPhone" type="text" pattern="^[0-9]{3}-[0-9]{7}$"  ng-model="fields.phone" 
+	      		placeholder="000-0000000">&nbsp; &nbsp;
+	      		<label>{{ 'REG_PHONE_TEMPLATE' | translate }}: '000-0000000'</label>
 	    		</div>
 	    	</div>
 	    	<div class="form-group">		    			  		

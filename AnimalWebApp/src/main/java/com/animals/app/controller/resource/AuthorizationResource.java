@@ -35,6 +35,9 @@ public class AuthorizationResource {
 	private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();	
 	private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 	
+	private final int LONG_SESSION=2592000;
+	private final int SHORT_SESSION= 10800;
+	
 	private UserRepositoryImpl userRep = new UserRepositoryImpl();	
 	
 	
@@ -87,10 +90,9 @@ public class AuthorizationResource {
         HttpSession session = req.getSession(true);      
        
         if(rememberMe.equals("ON")){        	
-        	session.setMaxInactiveInterval(60*60*24*30);				//session duration - 30 days    	   	
-        } else {
-        	System.out.println("remember me OFF");
-        	session.setMaxInactiveInterval(60*30*3);					//session duration - 90 min
+        	session.setMaxInactiveInterval(LONG_SESSION);					//session duration - 30 days    	   	
+        } else {        	
+        	session.setMaxInactiveInterval(SHORT_SESSION);					//session duration - 90 min
         }
         
         //setSuccessAtribute(session);        

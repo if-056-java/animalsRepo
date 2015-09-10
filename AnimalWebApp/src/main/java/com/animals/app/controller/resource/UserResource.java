@@ -33,14 +33,11 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import com.animals.app.domain.Animal;
-import com.animals.app.domain.AnimalMedicalHistory;
 import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.domain.User;
-import com.animals.app.repository.AnimalMedicalHistoryRepository;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.UserRepository;
 import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
-import com.animals.app.repository.Impl.AnimalMedicalHistoryRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 
@@ -54,15 +51,15 @@ import sun.misc.BASE64Decoder;
 @RolesAllowed({"гість", "модератор" , "лікар"})
 public class UserResource {
 	
+	private static Logger LOG = LogManager.getLogger(UserResource.class);
+	
 	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	
 	private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();	
 	private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 	private final Response UNAUTHORIZED = Response.status(Response.Status.UNAUTHORIZED).build();
 	
 	private UserRepository userRep = new UserRepositoryImpl();
-	private AnimalRepository animalRep = new AnimalRepositoryImpl();	
-	
-	private static Logger LOG = LogManager.getLogger(AdminResource.class);
+	private AnimalRepository animalRep = new AnimalRepositoryImpl();		
 	
 	@GET //http:localhost:8080/webapi/users/user/{userId}
 	@Produces(MediaType.APPLICATION_JSON)

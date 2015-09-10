@@ -60,12 +60,9 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 	        String sessionId = tokenizer.nextToken();
 	        String userId = tokenizer.nextToken();	        
 	        
-	        int userId2 = Integer.parseInt(userId);
-
-	        System.out.println("userId - "+session.getAttribute("userId"));
+	        int userId2 = Integer.parseInt(userId);	        
 			
-			if(session.getAttribute("userId")==null){
-				System.out.println("ping new session");
+			if(session.getAttribute("userId")==null){				
 				User user = userRep.getById(userId2);
 				if (user == null) {	        	
 		            throw new WebApplicationException(Response.Status.UNAUTHORIZED);
