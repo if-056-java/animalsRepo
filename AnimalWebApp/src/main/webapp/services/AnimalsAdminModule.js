@@ -27,7 +27,6 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
              * @return count of rows for pagination.
              */
             this.getPagesCount = function() {
-                AnimalsAdminValues.totalItems.count = 0;
 
                 return AnimalsService.getAnimalsPaginatorForAdmin(AnimalsAdminValues.filter)
                     .then(function(response) {

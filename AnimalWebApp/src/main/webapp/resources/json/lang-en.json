@@ -199,6 +199,7 @@
   "USER_LIST_OWN_ANIMALS": "List of own animals",
   "PERSONAL_DATA": "Personal Data",
   "BACK_TO_PROFILE": "Back to Profile",
+  "USER_LIST_OF_ANIMALS_IS_EMPTY": "User List of Animals is Empty",
 
   "MEDICAL_CARD": "Medical card",
   "MEDICAL_CARD_DETAILED": "Medical card detailed information",
@@ -222,6 +223,11 @@
   "ERROR_NO_RECORDS": "No records.",
   "ERROR_ANIMAL_NOT_FOUND": "Animal not found.",
   "ERROR_ANIMAL_UPDATE": "Animal update failed.",
+  "ERROR_FAILED_TO_GET_ANIMALS": "Failed to get animals. Try to refresh page.",
+  "ERROR_FAILED_TO_GET_ROWS_COUNT": "Failed to get pages count. Try to refresh page.",
+  "ERROR_FAILED_TO_GET_ANIMALS_TYPES": "Failed to get animals types. Try to refresh page.",
+  "ERROR_FAILED_TO_GET_ANIMALS_SERVICES": "Failed to get animals services. Try to refresh page.",
+  "ERROR_FAILED_TO_GET_ANIMALS_BREEDS": "Failed to get animals breeds. Try to refresh page.",
 
   "ADMIN_USERS": "List of users",
   "ID": "Id",

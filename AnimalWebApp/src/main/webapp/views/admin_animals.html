@@ -107,11 +107,12 @@
             </div>
 
             <!-- Error message -->
-            <h3 class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="top: 160px;" ng-show="error">
-                {{ error }}</h3>
+            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 panel table-responsive" ng-if="errors.length > 0">
+                <alert ng-repeat="alert in errors" type="danger" close="closeAlert($index)">{{alert.msg}}</alert>
+            </div>
 
             <!-- Animals list -->
-            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 panel panel-success table-responsive" ng-hide="error">
+            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 panel panel-success table-responsive" ng-hide="errorNoAnimals">
                 <table class="table table-hover table-vcenter">
                     <thead>
                     <tr>

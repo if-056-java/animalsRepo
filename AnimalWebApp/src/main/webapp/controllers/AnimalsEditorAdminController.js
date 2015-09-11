@@ -1,6 +1,6 @@
 angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPController', 'naif.base64', 'AnimalsAdminModule', 'AnimalsAdminValues'])
-    .controller('AnimalsEditorAdminController', ['$scope', '$window', '$filter', '$routeParams', 'AnimalsAdminService', 'AnimalsAdminValues',
-        function($scope, $window, $filter, $routeParams, AnimalsAdminService, AnimalsAdminValues) {
+    .controller('AnimalsEditorAdminController', ['$scope', '$window', '$filter', '$routeParams', 'AnimalsAdminService', 'AnimalsAdminValues', '$q',
+        function($scope, $window, $filter, $routeParams, AnimalsAdminService, AnimalsAdminValues, $q) {
 
             AnimalsAdminService.rolesAllowed("модератор");
 
@@ -8,62 +8,60 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
             //This variable decides when spinner loading for contentis closed.
-            $scope.contentLoading = 1;
+            $scope.errors = [];
 
             $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
             var animalId = $routeParams.animalId;                       //animal id
 
             var initialize = function() {
-                if (AnimalsAdminValues.animalTypes.values.length === 0  ||
-                    AnimalsAdminValues.animalServices.values.length === 0 ||
-                    AnimalsAdminValues.animal.id == undefined ||
-                    $scope.contentLoading === 0) {
-                    return;
-                }
+                $scope.contentLoading++;
+                var promises = [];
 
-                $scope.animalTypes = AnimalsAdminValues.animalTypes;        //list of animal types
-                $scope.animalServices = AnimalsAdminValues.animalServices;  //list of animal services
-                $scope.animal = angular.copy(AnimalsAdminValues.animal);     //animal
-                $scope.animalImage = "resources/img/no_img.png";
+                /**
+                 * @return list of animal types.
+                 */
+                promises.push(AnimalsAdminService.getAnimalTypes().catch(function() {
+                    $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS_TYPES")});
+                }));
 
-                if (AnimalsAdminValues.animal.image != undefined) {
-                    if (AnimalsAdminValues.animal.image.length > 0) {
-                        $scope.animalImage = AnimalsAdminValues.animal.image;
-                    }
-                }
+                /**
+                 * @return list of animal services.
+                 */
+                promises.push(AnimalsAdminService.getAnimalServices().catch(function() {
+                    $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS_SERVICES")});
+                }));
 
-                if ($scope.animal.type != undefined) {
-                    $scope.getAnimalBreeds();
-                }
+                /**
+                 * @param animalId id of animal used for lookup.
+                 * @return animal instance.
+                 */
+                promises.push(AnimalsAdminService.getAnimal(animalId).catch(function() {
+                    $scope.errors.push({msg: $filter('translate')("ERROR_ANIMAL_NOT_FOUND")});
+                }));
 
-                $scope.contentLoading--;
+                $q.all(promises)
+                    .finally(function() {
+                        $scope.animalTypes = AnimalsAdminValues.animalTypes;        //list of animal types
+                        $scope.animalServices = AnimalsAdminValues.animalServices;  //list of animal services
+                        $scope.animal = angular.copy(AnimalsAdminValues.animal);     //animal
+                        $scope.animalImage = "resources/img/no_img.png";
+
+                        if (AnimalsAdminValues.animal.image != undefined) {
+                            if (AnimalsAdminValues.animal.image.length > 0) {
+                                $scope.animalImage = AnimalsAdminValues.animal.image;
+                            }
+                        }
+
+                        if ($scope.animal.type != undefined) {
+                            $scope.getAnimalBreeds();
+                        }
+
+                        $scope.contentLoading--;
+                    });
             }
 
-            /**
-             * @return list of animal types.
-             */
-            AnimalsAdminService.getAnimalTypes()
-                .finally(function() {
-                    initialize();
-                });
-
-            /**
-             * @return list of animal services.
-             */
-            AnimalsAdminService.getAnimalServices()
-                .finally(function() {
-                    initialize();
-                });
-
-            /**
-             * @param animalId id of animal used for lookup.
-             * @return animal instance.
-             */
-            AnimalsAdminService.getAnimal(animalId)
-                .finally(function() {
-                    initialize();
-                });
+            initialize();
 
             /**
              * @return list of animal breeds according to animal type.
@@ -73,6 +71,8 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
                 AnimalsAdminService.getAnimalBreeds($scope.animal.type.id)
                     .then(function(response) {
                         $scope.animalBreeds = response.data;
+                    }, function() {
+                        $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS_BREEDS")});
                     })
                     .finally(function() {
                         $scope.filterAnimalBreedFlag = false;

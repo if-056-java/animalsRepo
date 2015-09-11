@@ -1,8 +1,8 @@
 //created by 41X
 var animalAppControllers = angular.module('AnimalsDetailedUserController', [ ]);
 
-animalApp.controller('AnimalsDetailedUserController', ['$scope', 'userData', '$routeParams', '$window', 'AnimalsAdminValues',
-                                               function($scope, userData, $routeParams, $window, AnimalsAdminValues) {
+animalApp.controller('AnimalsDetailedUserController', ['$scope', 'UserDataService', '$routeParams', '$window', 'AnimalsAdminValues',
+                                               function($scope, UserDataService, $routeParams, $window, AnimalsAdminValues) {
 	
 	 //initialize loading spinner
      var targetContent = document.getElementById('loading-block');
@@ -16,7 +16,7 @@ animalApp.controller('AnimalsDetailedUserController', ['$scope', 'userData', '$r
      $scope.animal = AnimalsAdminValues.animal;  //animal
      $scope.animalImage = undefined;	
 	
-     userData.getAnimal(animalId).then(
+     UserDataService.getAnimal(animalId).then(
 			function(result){				
 				angular.copy(result, AnimalsAdminValues.animal);
 				$scope.animalImage = "resources/img/noimg.png";
@@ -34,7 +34,7 @@ animalApp.controller('AnimalsDetailedUserController', ['$scope', 'userData', '$r
 		);
 	
      $scope.deleteAnimal = function() {
-        userData.deleteAnimal($scope.animal.id)
+    	 UserDataService.deleteAnimal($scope.animal.id)
             .then(function(data) {
                 $window.location.href = "#/ua/user/profile";
             },

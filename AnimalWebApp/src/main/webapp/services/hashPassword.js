@@ -1,4 +1,3 @@
-//created by 41X
 angular.module('animalApp').factory('hashPassword',function (){
 	
 	return function (pass){

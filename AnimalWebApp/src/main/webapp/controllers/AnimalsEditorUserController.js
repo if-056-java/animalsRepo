@@ -1,8 +1,8 @@
 //created by 41X
 var animalAppControllers = angular.module('AnimalsEditorUserController', ['AnimalsAdminModule', 'AnimalsAdminValues']);
 
-animalApp.controller('AnimalsEditorUserController', ['$scope', 'userData', '$routeParams', '$window', '$filter', 'AnimalsAdminValues', 'AnimalsAdminService',
-                                               function($scope, userData, $routeParams, $window, $filter, AnimalsAdminValues, AnimalsAdminService) {
+animalApp.controller('AnimalsEditorUserController', ['$scope', 'UserDataService', '$routeParams', '$window', '$filter', 'AnimalsAdminValues', 'AnimalsAdminService',
+                                               function($scope, UserDataService, $routeParams, $window, $filter, AnimalsAdminValues, AnimalsAdminService) {
 		
 	//initialize loading spinner
     var targetContent = document.getElementById('loading-block');
@@ -97,7 +97,7 @@ animalApp.controller('AnimalsEditorUserController', ['$scope', 'userData', '$rou
             $scope.animal.image = $scope.imageFile['filename'] + '\n' + $scope.imageFile['base64'];
         }
         
-        userData.updateAnimal($scope.animal)
+        UserDataService.updateAnimal($scope.animal)
             .then(function(result) {
                 $window.location.href = "#/ua/user/profile/animals/" + animalId;
             },

@@ -1,5 +1,4 @@
-//created by 41X
-angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, localStorageService, $location, $route, $window, $rootScope){
+angular.module('animalApp').factory('AuthenticationService',function (Base64, $q, $http, localStorageService, $location, $route, $window, $rootScope, RESOURCES){
 	
 	return {
 		
@@ -12,7 +11,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, l
 			var memoryMe = localStorageService.get("memoryMe");
 			var def = $q.defer();
 			
-			$http.post("/webapi/account/login/" + memoryMe, {})
+			$http.post(RESOURCES.LOGIN_BASIC + memoryMe, {})
 	        .success(function(data){	        	        	
 	        	if(data.userId==1){	
 	        		def.resolve(data);
@@ -39,7 +38,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, l
 		
 		logout:function(){			
 			
-            $http.get("/webapi/account/logout")
+            $http.get(RESOURCES.LOGOUT)
 	        .success(function(data){
 	        	
 	        	localStorageService.clearAll();	
@@ -61,7 +60,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, l
 		
 			var def = $q.defer();
 			
-			$http.post("/webapi/account/registration", user)
+			$http.post(RESOURCES.REGISTRATION, user)
 	        .success(function(data){
 	        	def.resolve(data);	        	
 	        }) 
@@ -75,7 +74,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, l
 			
 			var def = $q.defer();
 			
-			$http.post("/webapi/account/confirmRegistration/" + userLogin + "/" + code)
+			$http.post(RESOURCES.CONFIRM_REGISTRATION + userLogin + "/" + code)
 	        .success(function(data){ 
 	        	def.resolve(data);
 	        })
@@ -89,7 +88,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, l
 		
 		refreshSession:function(){
 									
-			$http.get("/webapi/account/refresh")
+			$http.get(RESOURCES.REFRESH)
 	        .success(function(data){
 	        	
 	        	if(data.userId==0){
@@ -133,78 +132,7 @@ angular.module('animalApp').factory('userAccount',function (Base64, $q, $http, l
 		        $route.reload();
 			});			
 			       	
-		},
-		
-		loginGoogle:function(){		
-		
-			$http.get("/webapi/account/login/google")
-			.success(function(data){			
-				$window.location.href = (data);				
-			})
-			.error(function(data){
-				console.log("error not direct");
-			})
-			
-		},
-		
-		loginDirectGoogle:function(){
-			
-			
-			var refreshToken = localStorageService.cookie.get("refreshGoogleToken");			
-						
-			$http.get("/webapi/account/login/google_login_direct", {params:{code:refreshToken}})
-			.success(function(data){			
-				$window.location.href = (data);
-			})
-			.error(function(data){
-				console.log("error direct. Maybe RefreshToken expired");
-				$rootScope.errorMessage="Помилка входу. Термін дії GoogleRefreshToken закінчився! Спробуйте ще раз!";
-				localStorageService.cookie.remove("refreshGoogleToken");
-			})
-		},
-		
-		
-		loginFacebook:function(){
-			
-			$http.get("/webapi/account/login/facebook")
-			.success(function(data){				
-				$window.location.href = (data);				
-			})
-			.error(function(data){
-				console.log("error not direct");
-			})
-			
-		},
-		
-
-		loginTwitter:function(){
-						
-			$http.get("/webapi/account/login/twitter")
-			.success(function(data){				
-				$window.location.href = (data);				
-			})
-			.error(function(data){
-				console.log("error not direct");
-			})
-			
-		},
-		
-		loginDirectTwitter:function(){			
-			
-			var twitterToken = localStorageService.cookie.get("twitterToken");
-			var twitterSecret = localStorageService.cookie.get("twitterSecret");
-			
-			$http.get("/webapi/account/login/twitter_login_direct", {params:{token:twitterToken, secret:twitterSecret}})
-			.success(function(data){				
-				$window.location.href = (data);
-			})
-			.error(function(data){
-				console.log("error direct. Maybe aToken expired");
-				$rootScope.errorMessage="Помилка входу. Спробуйте ще раз!";
-				localStorageService.cookie.remove("twitterToken");
-				localStorageService.cookie.remove("twitterSecret");				
-			})
-		}	
+		}			
 		
 	};	
 	

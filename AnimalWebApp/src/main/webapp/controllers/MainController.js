@@ -1,8 +1,8 @@
 //created by 41X
 var animalAppControllers = angular.module('MainController', []);
 
-animalApp.controller('MainController', ['$scope', '$rootScope', 'localStorageService', 'userAccount',
-    function($scope, $rootScope, localStorageService, userAccount) {
+animalApp.controller('MainController', ['$scope', '$rootScope', 'localStorageService', 'AuthenticationService',
+                                function($scope, $rootScope, localStorageService, AuthenticationService) {
 
         if (!localStorageService.cookie.get("accessToken")) {
             localStorageService.clearAll();
@@ -15,7 +15,7 @@ animalApp.controller('MainController', ['$scope', '$rootScope', 'localStorageSer
 
 
         $scope.logout = function() {
-            userAccount.logout();
+        	AuthenticationService.logout();
         };
 
         $scope.session = function(value) {

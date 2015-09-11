@@ -1,4 +1,3 @@
-//created by 41X
 angular.module('animalApp').factory('currentDate', function (){
 	
 	var d = new Date();

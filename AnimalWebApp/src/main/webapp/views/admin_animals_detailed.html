@@ -19,12 +19,16 @@
     <!-- Spinner -->
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: absolute; z-index: 999; top: 50%;" id="loading-block" ng-show="contentLoading" />
 
-    <div class="container" ng-show="!contentLoading">
+    <div class="container" ng-hide="contentLoading">
+
         <!-- Error -->
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: absolute; z-index: 999; top: 50%;" ng-show="error">
-            <h3>{{ error }}</h3>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="error">
+                <alert type="danger">{{ error }}</alert>
+            </div>
         </div>
-        <div class="row" ng-hide="error">
+
+        <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success">
                 <div class="row">
 
@@ -148,7 +152,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" ng-show="animal.user && !error">
+        <div class="row" ng-show="animal.user">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success table-responsive">
 
                 <!-- Animal owner -->
@@ -174,15 +178,15 @@
                 </table>
             </div>
         </div>
-        <div class="row" ng-hide="error">
+        <div class="row">
             <div class="col-xs-12 col-sm-7 col-sm-offset-5 col-md-5 col-md-offset-7 col-lg-4 col-lg-offset-8 detailed-buttons">
                 <div class="col-sm-4 col-md-4 col-lg-4"><a
                         class="btn btn-danger col-xs-12 col-sm-12 col-md-12 col-lg-12" href
-                        ng-click="deleteAnimal()" role="button">{{ 'DELETE' | translate }}</a></div>
+                        ng-click="deleteAnimal()" role="button" ng-disabled="error">{{ 'DELETE' | translate }}</a></div>
                 <div class="col-sm-4 col-md-4 col-lg-4"><a
                         class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12"
-                        href="#/ua/user/home/animals/editor/{{ animal.id }}" role="button">{{ 'UPDATE' |
-                    translate}}</a></div>
+                        href="#/ua/user/home/animals/editor/{{ animal.id }}"
+                        role="button" ng-disabled="error">{{ 'UPDATE' | translate}}</a></div>
 
                 <div class="col-sm-4 col-md-4 col-lg-4"><a
                         class="btn btn-warning col-xs-12 col-sm-12 col-md-12 col-lg-12"

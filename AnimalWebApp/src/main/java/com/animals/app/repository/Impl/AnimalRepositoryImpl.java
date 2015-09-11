@@ -98,7 +98,6 @@ public class AnimalRepositoryImpl implements AnimalRepository {
     }
 
     /**
-     * Created by 41X 08.08.2015
      * Returns count of rows selected from DB by method getAdminAnimalsListByPage
      *
      * @return count of rows selected by getAdminAnimalsListByPage
@@ -179,5 +178,5 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      */
     public Animal getShortInfoById(long id) throws SqlSessionException{
         return sqlSessionFactory.openSession().getMapper(AnimalRepository.class).getShortInfoById(id);
-    }
+    }    
 }
