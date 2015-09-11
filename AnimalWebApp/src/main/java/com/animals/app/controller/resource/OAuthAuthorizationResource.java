@@ -59,8 +59,8 @@ public class OAuthAuthorizationResource {
 	// Facebook OAuth preferences
 	private static final String PROTECTED_RESOURCE_URL_FB = "https://graph.facebook.com/me";
 	private static final String PROTECTED_RESOURCE_URL_FB2 = "https://graph.facebook.com/me?fields=picture.type(large)";
-	private static final String apiKeyF = "669050466528151"; // "926304537416382";
-	private static final String apiSecretF = "b6d47e16e955bae44b692a62e88f093e"; //"d4a862fa422e06f2e06614628a619683";
+	private static final String apiKeyF = "669050466528151"; 
+	private static final String apiSecretF = "b6d47e16e955bae44b692a62e88f093e"; 
 	private static final String callbackUrlGPathFacebook = "webapi/account/login/facebook_token";
 
 	// Twitter OAuth preferences

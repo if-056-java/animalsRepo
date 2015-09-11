@@ -1,4 +1,4 @@
-angular.module('animalApp').factory('AuthenticationService',function (Base64, $q, $http, localStorageService, $location, $route, $window, $rootScope){
+angular.module('animalApp').factory('AuthenticationService',function (Base64, $q, $http, localStorageService, $location, $route, $window, $rootScope, RESOURCES){
 	
 	return {
 		
@@ -11,7 +11,7 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 			var memoryMe = localStorageService.get("memoryMe");
 			var def = $q.defer();
 			
-			$http.post("/webapi/account/login/" + memoryMe, {})
+			$http.post(RESOURCES.LOGIN_BASIC + memoryMe, {})
 	        .success(function(data){	        	        	
 	        	if(data.userId==1){	
 	        		def.resolve(data);
@@ -38,7 +38,7 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 		
 		logout:function(){			
 			
-            $http.get("/webapi/account/logout")
+            $http.get(RESOURCES.LOGOUT)
 	        .success(function(data){
 	        	
 	        	localStorageService.clearAll();	
@@ -60,7 +60,7 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 		
 			var def = $q.defer();
 			
-			$http.post("/webapi/account/registration", user)
+			$http.post(RESOURCES.REGISTRATION, user)
 	        .success(function(data){
 	        	def.resolve(data);	        	
 	        }) 
@@ -74,7 +74,7 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 			
 			var def = $q.defer();
 			
-			$http.post("/webapi/account/confirmRegistration/" + userLogin + "/" + code)
+			$http.post(RESOURCES.CONFIRM_REGISTRATION + userLogin + "/" + code)
 	        .success(function(data){ 
 	        	def.resolve(data);
 	        })
@@ -88,7 +88,7 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 		
 		refreshSession:function(){
 									
-			$http.get("/webapi/account/refresh")
+			$http.get(RESOURCES.REFRESH)
 	        .success(function(data){
 	        	
 	        	if(data.userId==0){

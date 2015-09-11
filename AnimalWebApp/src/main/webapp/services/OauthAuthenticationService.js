@@ -1,10 +1,10 @@
-angular.module('animalApp').factory('OauthAuthenticationService',function ($http, localStorageService, $window, $rootScope){
+angular.module('animalApp').factory('OauthAuthenticationService',function ($http, localStorageService, $window, $rootScope, RESOURCES){
 	
 	return {
 		
 		loginGoogle:function(){		
 			
-			$http.get("/webapi/account/login/google")
+			$http.get(RESOURCES.LOGIN_GOOGLE)
 			.success(function(data){			
 				$window.location.href = (data);				
 			})
@@ -19,7 +19,7 @@ angular.module('animalApp').factory('OauthAuthenticationService',function ($http
 			
 			var refreshToken = localStorageService.cookie.get("refreshGoogleToken");			
 						
-			$http.get("/webapi/account/login/google_login_direct", {params:{code:refreshToken}})
+			$http.get(RESOURCES.LOGIN_GOOGLE_DIRECT, {params:{code:refreshToken}})
 			.success(function(data){			
 				$window.location.href = (data);
 			})
@@ -33,7 +33,7 @@ angular.module('animalApp').factory('OauthAuthenticationService',function ($http
 		
 		loginFacebook:function(){
 			
-			$http.get("/webapi/account/login/facebook")
+			$http.get(RESOURCES.LOGIN_FACEBOOK)
 			.success(function(data){				
 				$window.location.href = (data);				
 			})
@@ -46,7 +46,7 @@ angular.module('animalApp').factory('OauthAuthenticationService',function ($http
 
 		loginTwitter:function(){
 						
-			$http.get("/webapi/account/login/twitter")
+			$http.get(RESOURCES.LOGIN_TWITTER)
 			.success(function(data){				
 				$window.location.href = (data);				
 			})
@@ -61,7 +61,7 @@ angular.module('animalApp').factory('OauthAuthenticationService',function ($http
 			var twitterToken = localStorageService.cookie.get("twitterToken");
 			var twitterSecret = localStorageService.cookie.get("twitterSecret");
 			
-			$http.get("/webapi/account/login/twitter_login_direct", {params:{token:twitterToken, secret:twitterSecret}})
+			$http.get(RESOURCES.LOGIN_TWITTER_DIRECT, {params:{token:twitterToken, secret:twitterSecret}})
 			.success(function(data){				
 				$window.location.href = (data);
 			})
