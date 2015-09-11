@@ -2,7 +2,6 @@ package com.animals.app.repository.Impl;
 
 import com.animals.app.domain.Animal;
 import com.animals.app.domain.AnimalsFilter;
-import com.animals.app.repository.AnimalMedicalHistoryRepository;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import org.apache.ibatis.session.RowBounds;
@@ -99,7 +98,6 @@ public class AnimalRepositoryImpl implements AnimalRepository {
     }
 
     /**
-     * Created by 41X 08.08.2015
      * Returns count of rows selected from DB by method getAdminAnimalsListByPage
      *
      * @return count of rows selected by getAdminAnimalsListByPage

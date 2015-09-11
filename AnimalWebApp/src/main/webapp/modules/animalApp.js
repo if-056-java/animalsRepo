@@ -197,7 +197,22 @@ animalApp.constant('RESOURCES', {
     MEDICAL_HISTORY_TYPES: '/webapi/animals/medical_history/types',
     ANIMAL_IMAGE_DELETE_FOR_ADMIN: '/webapi/admin/animals/image/',
     ADMIN_USERS_PAGINATOR: 'webapi/users/admin/users/pagenator',
-    ADMIN_USERS: 'webapi/users/admin/users'
+    ADMIN_USERS: 'webapi/users/admin/users',
+    LOGIN_GOOGLE: '/webapi/account/login/google',
+    LOGIN_GOOGLE_DIRECT: '/webapi/account/login/google_login_direct', 
+    LOGIN_FACEBOOK: '/webapi/account/login/facebook',
+    LOGIN_TWITTER: '/webapi/account/login/twitter',
+    LOGIN_TWITTER_DIRECT: '/webapi/account/login/twitter_login_direct',   
+    LOGIN_BASIC: '/webapi/account/login/',
+    LOGOUT: '/webapi/account/logout',
+    REGISTRATION: '/webapi/account/registration',
+    CONFIRM_REGISTRATION: '/webapi/account/confirmRegistration/',
+    REFRESH: '/webapi/account/refresh',
+    USER_FOR_USER: '/webapi/users/user/',
+    ANIMALS_FOR_USER: '/webapi/users/user/',
+    PAGINATOR_FOR_USER: '/webapi/users/user/',
+    ANIMALS_FOR_USER_WITH_FILTER: '/webapi/users/user/',
+    
 });
 
 animalApp.config(function(localStorageServiceProvider){

@@ -59,14 +59,14 @@ public class OAuthAuthorizationResource {
 	// Facebook OAuth preferences
 	private static final String PROTECTED_RESOURCE_URL_FB = "https://graph.facebook.com/me";
 	private static final String PROTECTED_RESOURCE_URL_FB2 = "https://graph.facebook.com/me?fields=picture.type(large)";
-	private static final String apiKeyF = "926304537416382";
-	private static final String apiSecretF = "d4a862fa422e06f2e06614628a619683";
+	private static final String apiKeyF = "669050466528151"; 
+	private static final String apiSecretF = "b6d47e16e955bae44b692a62e88f093e"; 
 	private static final String callbackUrlGPathFacebook = "webapi/account/login/facebook_token";
 
 	// Twitter OAuth preferences
 	private static final String PROTECTED_RESOURCE_URL_TW = "https://api.twitter.com/1.1/account/verify_credentials.json";
-	private static final String apiKeyTW = "C9Z3AJ4GVBYxa7exesFpZBZNn";
-	private static final String apiSecretTW = "bYQldGWdEhWGVmnGlMnFQ7hYMFSHHGeWq3ANZyexgFZZ2JYPL6";
+	private static final String apiKeyTW = "hmjWTtWq8NV6OEQx2QFOCzLr8"; 
+	private static final String apiSecretTW = "Ow8X7AFYgnj1CLehu46qgG9k1kZvjEx3twk9BurcSmYuoSe98X";
 	private static final String callbackUrlGPathTW = "webapi/account/login/twitter_token";
 
 	@GET
@@ -454,7 +454,9 @@ public class OAuthAuthorizationResource {
 
 			JSONObject picture = (JSONObject) jsonObject2.get("picture");
 			JSONObject data = (JSONObject) picture.get("data");
-			link = (String) data.get("url");			
+			link = (String) data.get("url");
+//			System.out.println(link);
+//			System.out.println(link.length());
 
 		} catch (ParseException e) {
 			e.printStackTrace();

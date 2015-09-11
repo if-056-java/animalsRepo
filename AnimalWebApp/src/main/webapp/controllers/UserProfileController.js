@@ -1,8 +1,12 @@
 var animalAppControllers = angular.module('UserProfileController', ['UserAnimalsValues']);
 
-animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccount', 'hashPassword', 'localStorageService', '$route', '$location', 'UserAnimalsValues',
-                                               function($scope, userData, userAccount, hashPassword, localStorageService, $route, $location, UserAnimalsValues) {
-		
+animalApp.controller('UserProfileController', ['$scope', 'UserDataService', 'AuthenticationService', 'hashPassword', 'localStorageService', '$route',
+                                               '$location', 'UserAnimalsValues', 'OauthAuthenticationService',
+                                               function($scope, UserDataService, AuthenticationService, hashPassword, localStorageService, $route,
+                                            		   $location, UserAnimalsValues, OauthAuthenticationService) {
+	
+	
+	$scope.currentLanguage = localStorage.getItem("NG_TRANSLATE_LANG_KEY");
 	//initialize loading spinner
     var targetContent = document.getElementById('loading-block');
     var targetContent2 = document.getElementById('loading-block2');
@@ -33,18 +37,18 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 	$scope.fields = null;
 	
 	if(!localStorageService.get("userId")){
-		userAccount.refreshSession();  		
+		AuthenticationService.refreshSession();  		
 	} else {		
 		
 		
 		var id = localStorageService.get("userId");
 		
-//		userData.getUser(id).success(function(data){				//old school
+//		UserDataService.getUser(id).success(function(data){				//old school
 //			$scope.userInfo=data;
 //			$scope.fields = $scope.userInfo;
 //		}) 	
 		$scope.contentLoading++;
-		userData.getUser(id).then(
+		UserDataService.getUser(id).then(
 				function(result){
 					$scope.userInfo=result;
 					$scope.fields = $scope.userInfo;
@@ -56,11 +60,11 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 				}
 			);
 		
-//		userData.getUserAnimals(id).success(function(data){			//old school
+//		UserDataService.getUserAnimals(id).success(function(data){			//old school
 //			$scope.userAnimalInfo=data;
 //		});			
 		$scope.contentLoading2++;		
-		userData.getPaginator(id).then(
+		UserDataService.getPaginator(id).then(
 			function(result){				
 				UserAnimalsValues.totalItems.count = result.rowsCount;
 			},
@@ -72,12 +76,12 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 		
 		
 		var getAnimals = function() { 
-			userData.getUserAnimalsWithFilter(id, UserAnimalsValues.filter).then(		
+			UserDataService.getUserAnimalsWithFilter(id, UserAnimalsValues.filter).then(		
 				function(result){					
 					UserAnimalsValues.animals.values=result;
 					$scope.contentLoading2--;
-					if ($scope.animals.values.length == 0) {
-                        $scope.error = "ERROR_NO_ANIMALS";
+					if ($scope.animals.values.length == 0) {						
+                        $scope.errorNoAnimals = true;
 					}
 				},
 				function(error){					
@@ -125,7 +129,7 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
     	if($scope.passwordNew){    		
     		$scope.fields.password=hashPassword($scope.passwordNew);     		
     	}     	
-		userData.updateUser($scope.fields, $scope.fields.id).then(
+    	UserDataService.updateUser($scope.fields, $scope.fields.id).then(
 				function(result){
 					console.log("user updated");				
 				},
@@ -150,21 +154,21 @@ animalApp.controller('UserProfileController', ['$scope', 'userData', 'userAccoun
 	
 	$scope.JoinGoogle=function(){	
 		
-		userAccount.loginGoogle();
+		OauthAuthenticationService.loginGoogle();
 		
 		
 	};
 	
 	$scope.JoinFacebook=function(){	
 		
-		userAccount.loginFacebook();
+		OauthAuthenticationService.loginFacebook();
 		
 		
 	};
 	
 	$scope.JoinTwitter=function(){	
 		
-		userAccount.loginTwitter();
+		OauthAuthenticationService.loginTwitter();
 		
 		
 	};

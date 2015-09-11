@@ -1,8 +1,10 @@
 //created by 41X
 var animalAppControllers = angular.module('RegistrationController', []);
 
-animalApp.controller('RegistrationController', ['$scope', '$location', '$route', 'currentDate', 'userData', 'userAccount', 'hashPassword',
-                                               function($scope, $location, $route, currentDate, userData, userAccount, hashPassword) {
+animalApp.controller('RegistrationController', ['$scope', '$location', '$route', 'currentDate', 'AuthenticationService',
+                                                'hashPassword', 'OauthAuthenticationService',
+                                               function($scope, $location, $route, currentDate, AuthenticationService,
+                                            		   hashPassword, OauthAuthenticationService) {
 	
 		$scope.submitRegForm=function(){
 			
@@ -17,7 +19,7 @@ animalApp.controller('RegistrationController', ['$scope', '$location', '$route',
 				$scope.errorConfirmMessage=true;				
 			} else {				
 				$scope.fields.password=hashPassword($scope.fields.password); 
-				userAccount.registerUser($scope.fields).then(
+				AuthenticationService.registerUser($scope.fields).then(
 					function(result){					
 						if(result.userId==0){
 				        	$scope.errorRegistrationMessage1="Помилка реєстрації. Даний логін вже використовується!";
@@ -42,19 +44,19 @@ animalApp.controller('RegistrationController', ['$scope', '$location', '$route',
 		
 		$scope.RegisterGoogle=function(){		
 						
-			userAccount.loginGoogle();		
+			OauthAuthenticationService.loginGoogle();		
 			
 		}
 		
 		$scope.RegisterFacebook=function(){		
 			
-			userAccount.loginFacebook();		
+			OauthAuthenticationService.loginFacebook();		
 			
 		}
 		
 		$scope.RegisterTwitter=function(){		
 			
-			userAccount.loginTwitter();		
+			OauthAuthenticationService.loginTwitter();		
 			
 		}
         

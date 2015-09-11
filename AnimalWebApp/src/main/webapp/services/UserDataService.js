@@ -1,4 +1,4 @@
-angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, $location, userAccount, localStorageService){
+angular.module('animalApp').factory('UserDataService',function ($q, $http, $rootScope, $location, localStorageService, RESOURCES){
 	
 	return {
 		
@@ -7,7 +7,7 @@ angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, 
 			var def = $q.defer();
 			
 			$http.defaults.headers.common['AccessToken'] = localStorageService.get("accessToken");
-			$http.get("/webapi/users/user/" + id)
+			$http.get(RESOURCES.USER_FOR_USER + id)
 			.success(function (data) {
                 def.resolve(data);
             })
@@ -21,7 +21,7 @@ angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, 
 			
 			var def = $q.defer();
 			
-			$http.get("/webapi/users/user/"+id+"/animals")
+			$http.get(RESOURCES.ANIMALS_FOR_USER + id + "/animals")
 			.success(function (data) {
                 def.resolve(data);
             })
@@ -33,7 +33,7 @@ angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, 
 		
 		getPaginator: function(id){
 			var def = $q.defer();
-			$http.get("/webapi/users/user/"+id+"/animals/paginator")
+			$http.get(RESOURCES.PAGINATOR_FOR_USER + id + "/animals/paginator")
 			.success(function (data) {
                 def.resolve(data);
             })
@@ -46,7 +46,7 @@ angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, 
 		getUserAnimalsWithFilter: function(id, filter){
 			var def = $q.defer();
 			
-			$http.post("/webapi/users/user/"+id+"/animals", filter)
+			$http.post(RESOURCES.ANIMALS_FOR_USER_WITH_FILTER + id + "/animals", filter)
 			.success(function (data) {
                 def.resolve(data);
             })
@@ -61,7 +61,7 @@ angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, 
 			
 			var def = $q.defer();
 			
-			$http.put("/webapi/users/user/" + id, user)
+			$http.put(RESOURCES.USER_FOR_USER + id, user)
 			.success(function (data) {
                 def.resolve(data);
             })
@@ -77,7 +77,7 @@ angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, 
 			var id = localStorageService.get("userId");
 			
 			$http.defaults.headers.common['AccessToken'] = localStorageService.get("accessToken");
-			$http.get("/webapi/users/user/"+id+"/animals/"+ animalId)
+			$http.get(RESOURCES.USER_FOR_USER + id + "/animals/" + animalId)
 			.success(function (data) {
                 def.resolve(data);
             })
@@ -93,7 +93,7 @@ angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, 
 			var def = $q.defer();
 			var id = localStorageService.get("userId");
 						
-			$http.delete("/webapi/users/user/"+id+"/animals/"+ animalId)
+			$http.delete(RESOURCES.USER_FOR_USER + id + "/animals/" + animalId)
 			.success(function (data) {
                 def.resolve(data);
             })
@@ -108,7 +108,7 @@ angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, 
             var id = localStorageService.get("userId");
             
             $http.defaults.headers.common['AccessToken'] = localStorageService.get("accessToken");
-            $http.post("/webapi/users/user/"+id+"/animals/animal", animal)
+            $http.post(RESOURCES.USER_FOR_USER + id + "/animals/animal", animal)
                 .success(function(data) {
                     def.resolve(data);
                 })

@@ -24,8 +24,7 @@ public class UserSecurityContext implements SecurityContext {
                 return user.getName();
             }            
             
-        };
-		System.out.println("UserSecurityContext start");
+        };		
 	}
 
 	@Override
@@ -35,8 +34,7 @@ public class UserSecurityContext implements SecurityContext {
 
 	@Override
 	public boolean isUserInRole(String role) {			
-		String roleUser = user.getUserRole().get(0).getRole();
-		System.out.println(roleUser);		
+		String roleUser = user.getUserRole().get(0).getRole();			
 		return (role.equals(roleUser));		
 	}
 
