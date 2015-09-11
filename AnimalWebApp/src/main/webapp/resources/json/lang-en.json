@@ -222,6 +222,11 @@
   "ERROR_NO_RECORDS": "No records.",
   "ERROR_ANIMAL_NOT_FOUND": "Animal not found.",
   "ERROR_ANIMAL_UPDATE": "Animal update failed.",
+  "ERROR_FAILED_TO_GET_ANIMALS": "Failed to get animals. Try to refresh page.",
+  "ERROR_FAILED_TO_GET_ROWS_COUNT": "Failed to get pages count. Try to refresh page.",
+  "ERROR_FAILED_TO_GET_ANIMALS_TYPES": "Failed to get animals types. Try to refresh page.",
+  "ERROR_FAILED_TO_GET_ANIMALS_SERVICES": "Failed to get animals services. Try to refresh page.",
+  "ERROR_FAILED_TO_GET_ANIMALS_BREEDS": "Failed to get animals breeds. Try to refresh page.",
 
   "ADMIN_USERS": "List of users",
   "ID": "Id",

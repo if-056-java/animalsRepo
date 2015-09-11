@@ -20,6 +20,14 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: absolute; z-index: 999; top: 50%;" id="loading-block" ng-show="contentLoading" />
 
     <div class="container" ng-show="!contentLoading">
+
+        <!-- Error -->
+        <div class="row" ng-if="errors.length > 0">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <alert ng-repeat="alert in errors" type="danger" close="closeAlert($index)">{{alert.msg}}</alert>
+            </div>
+        </div>
+
         <form name="animalEditor" ng-submit="submit(animalEditor.$valid)" novalidate>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success">
@@ -212,15 +220,16 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-8 col-sm-offset-4 col-md-7 col-md-offset-5 col-lg-6 col-lg-offset-6 detailed-buttons">
-                    <button type="submit" ng-disabled="animalEditor.$invalid" id="submit-form"
+                    <button type="submit" ng-disabled="animalEditor.$invalid || errors.length > 0" id="submit-form"
                             class="btn btn-success col-sm-3 col-md-3 col-lg-3" >{{ 'SAVE' | translate }}</button>
                     <div class="col-sm-3 col-md-3 col-lg-3"><a
                             class="btn btn-danger col-xs-12 col-sm-12 col-md-12 col-lg-12"
-                            href ng-click="deleteImage()" role="button">{{ 'DELETE_IMAGE' | translate }}</a>
+                            href ng-click="deleteImage()" role="button" ng-disabled="errors.length > 0">{{ 'DELETE_IMAGE' | translate }}</a>
                     </div>
                     <div class="col-sm-3 col-md-3 col-lg-3">
                         <a class="btn btn-info col-xs-12 col-sm-12 col-md-12 col-lg-12" href role="button"
-                           onclick="document.getElementById('upload').click();">{{ 'CHANGE_PHOTO' | translate }}</a>
+                           onclick="document.getElementById('upload').click();"
+                           ng-disabled="errors.length > 0">{{ 'CHANGE_PHOTO' | translate }}</a>
                         <input type="file" id="upload" name="photo" ng-model="imageFile" style="visibility: hidden;"
                                maxsize="5000" accept="image/*" base-sixty-four-input />
                     </div>

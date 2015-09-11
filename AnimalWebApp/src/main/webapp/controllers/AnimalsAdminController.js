@@ -11,6 +11,9 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
             $scope.filter = AnimalsAdminValues.filter;            //filter
             $scope.totalItems = AnimalsAdminValues.totalItems;    //table rows count
             $scope.animals = AnimalsAdminValues.animals;          //animal instance
+            $scope.errors = [];
+
+            $scope.contentLoading = 0;
 
             $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
@@ -19,7 +22,12 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
              * @return count of rows for pagination.
              */
             var getPagesCount = function() {
+                $scope.contentLoading++;
+
                 AnimalsAdminService.getPagesCount()
+                    .catch(function() {
+                        $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ROWS_COUNT")});
+                    })
                     .finally(function () {
                         $scope.contentLoading--;
                     });
@@ -29,13 +37,18 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
              * @return list of animals.
              */
             var getAnimals = function() {
-                $scope.error = undefined;
+                $scope.errorNoAnimals = undefined;
+                $scope.contentLoading++;
 
                 AnimalsAdminService.getAnimals()
                     .then(function (response) {
                         if ($scope.animals.values.length == 0) {
-                            $scope.error = $filter('translate')("ERROR_NO_ANIMALS");
+                            $scope.errors.push({msg: $filter('translate')("ERROR_NO_ANIMALS")});
+                            $scope.errorNoAnimals = 1;
                         }
+                    }, function() {
+                        $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS")});
+                        $scope.errorNoAnimals = 1;
                     })
                     .finally(function () {
                         $scope.contentLoading--;
@@ -43,7 +56,6 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
             }
 
             $scope.getData = function() {
-                $scope.contentLoading = 2;
                 getPagesCount();
                 getAnimals();
             }
@@ -54,7 +66,6 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
              * @return next page.
              */
             $scope.pageChanged = function() {
-                $scope.contentLoading = 1;
                 getAnimals();
             };
 
@@ -63,7 +74,7 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
              */
             $scope.countChanged = function(count) {
                 $scope.filter.limit = count;
-                $scope.contentLoading = 1;
+                $scope.filter.page = 1;
                 getAnimals();
             };
 
@@ -82,6 +93,10 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
             $scope.sendFacebook = function (id) {
                 AnimalsAdminService.sendFacebook(id);
             };
+
+            $scope.closeAlert = function(index) {
+                $scope.errors.splice(index, 1);
+            };
     }])
     .controller('AnimalsFilterAdminController', ['$scope', '$filter', 'AnimalsAdminService', 'AnimalsAdminValues', '$window',
         function($scope, $filter, AnimalsAdminService, AnimalsAdminValues, $window) {
@@ -94,12 +109,39 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
             /**
              * @return list of animal types.
              */
-            AnimalsAdminService.getAnimalTypes();
+            var getAnimalTypes = function() {
+                $scope.$parent.contentLoading++;
+
+                AnimalsAdminService.getAnimalTypes()
+                    .catch(function() {
+                        $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS_TYPES")});
+                    })
+                    .finally(function() {
+                        $scope.$parent.contentLoading--;
+                    });
+            }
 
             /**
              * @return list of animal types.
              */
-            AnimalsAdminService.getAnimalServices();
+            var getAnimalServices = function() {
+                $scope.$parent.contentLoading++;
+
+                AnimalsAdminService.getAnimalServices()
+                    .catch(function() {
+                        $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS_SERVICES")});
+                    })
+                    .finally(function() {
+                        $scope.$parent.contentLoading--;
+                    });
+            }
+
+            var getFilterData = function() {
+                getAnimalTypes();
+                getAnimalServices();
+            }
+
+            getFilterData();
 
             /**
              * @return list of animal breeds according to animal type.
@@ -109,6 +151,8 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
                 AnimalsAdminService.getAnimalBreeds($scope.filter.animal.type.id)
                     .then(function(response) {
                         $scope.animalBreeds = response.data;
+                    }, function() {
+                        $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS_BREEDS")});
                     })
                     .finally(function() {
                         $scope.filterAnimalBreedFlag = false;
@@ -138,6 +182,7 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
                 }
 
                 $scope.filter.animal.dateOfRegister = $filter('date')($scope.filter.animal.dateOfRegister, 'yyyy-MM-dd');
+                $scope.filter.page = 1;
 
                 $scope.$parent.getData();
             };
