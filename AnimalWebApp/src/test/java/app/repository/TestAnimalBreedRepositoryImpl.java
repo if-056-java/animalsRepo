@@ -1,10 +1,12 @@
 package app.repository;
 
+import app.JNDIConfigurationForTests;
 import com.animals.app.domain.AnimalBreed;
 import com.animals.app.repository.AnimalBreedRepository;
 import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalTypeRepositoryImpl;
 import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.junit.*;
@@ -25,7 +27,7 @@ import static org.junit.Assert.assertNull;
  * Created by Rostyslav.Viner on 06.08.2015.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestAnimalBreedRepositoryImpl {
+public class TestAnimalBreedRepositoryImpl extends JNDIConfigurationForTests {
 
     private static AnimalBreedRepository animalBreedRepository;
 
@@ -33,14 +35,14 @@ public class TestAnimalBreedRepositoryImpl {
 
     @BeforeClass
     public static void runBeforeClass() throws Exception {
-            configureJNDIForJUnit();
+        configureJNDIForJUnit();
 
-            animalBreedRepository = new AnimalBreedRepositoryImpl();
+        animalBreedRepository = new AnimalBreedRepositoryImpl();
 
-            actual = new AnimalBreed();
-            actual.setBreedUa(RandomStringUtils.random(10, true, true));
-            actual.setBreedEn(RandomStringUtils.random(10, true, true));
-            actual.setType(new AnimalTypeRepositoryImpl().getAll().get(0));
+        actual = new AnimalBreed();
+        actual.setBreedUa(RandomStringUtils.random(10, true, true));
+        actual.setBreedEn(RandomStringUtils.random(10, true, true));
+        actual.setType(new AnimalTypeRepositoryImpl().getAll().get(0));
     }
 
     @AfterClass
@@ -60,7 +62,7 @@ public class TestAnimalBreedRepositoryImpl {
     }
 
     //field breedUa is unique
-    @Test(expected = PersistenceException.class)
+    @Test
     public void test02Insert_ua() {
         assertNotNull(actual);
 
@@ -120,32 +122,4 @@ public class TestAnimalBreedRepositoryImpl {
 
         assertNull(expected);
     }
-
-    private static void configureJNDIForJUnit(){
-        // rcarver - setup the jndi context and the datasource
-        try {
-            // Create initial context
-            System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
-                    "org.apache.naming.java.javaURLContextFactory");
-            System.setProperty(Context.URL_PKG_PREFIXES,
-                    "org.apache.naming");
-            InitialContext ic = new InitialContext();
-
-            ic.createSubcontext("java:");
-            ic.createSubcontext("java:/comp");
-            ic.createSubcontext("java:/comp/env");
-            ic.createSubcontext("java:/comp/env/jdbc");
-
-            // Construct DataSource
-            MysqlConnectionPoolDataSource ds = new MysqlConnectionPoolDataSource();
-            ds.setURL("jdbc:mysql://tym.dp.ua:3306/animals");
-            ds.setUser("u_remoteuser");
-            ds.setPassword("ZF008NBp");
-
-            ic.bind("java:/comp/env/jdbc/animals", ds);
-        } catch (NamingException ex) {
-            ex.printStackTrace();
-        }
-    }
-
 }

@@ -10,6 +10,8 @@ angular.module('AnimalMedicalHistoryController', ['AnimalsDoctorModule', 'Animal
             //This variable decides when spinner loading for contentis closed.
             $scope.contentLoading = 3;
 
+            $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+
             var animalId = $routeParams.animalId;       //animal id
             $scope.animal = AnimalsDoctorValues.animal;  //animal
             $scope.animalImage = undefined;
