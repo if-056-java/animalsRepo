@@ -1,4 +1,4 @@
-angular.module('animalApp').factory('userData',function ($q, $http, $rootScope, $location, userAccount, localStorageService){
+angular.module('animalApp').factory('UserDataService',function ($q, $http, $rootScope, $location, localStorageService){
 	
 	return {
 		

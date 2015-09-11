@@ -1,8 +1,8 @@
 //created by 41X
 var animalAppControllers = angular.module('LoginController', []);
 
-animalApp.controller('LoginController', ['$scope', '$location', '$route', 'userAccount', 'hashPassword', 'localStorageService',
-                                         function($scope, $location, $route, userAccount, hashPassword, localStorageService) {
+animalApp.controller('LoginController', ['$scope', '$location', '$route', 'AuthenticationService', 'hashPassword', 'localStorageService', 'OauthAuthenticationService',
+                                         function($scope, $location, $route, AuthenticationService, hashPassword, localStorageService, OauthAuthenticationService) {
 	
 	$scope.login=function(){			
 		
@@ -15,7 +15,7 @@ animalApp.controller('LoginController', ['$scope', '$location', '$route', 'userA
 		localStorageService.set("memoryMe", memoryMe);
 		
 		
-		userAccount.login(userLogin, password).then(
+		AuthenticationService.login(userLogin, password).then(
 				function(result){					
 					if(result.userId==1){
 		        		$scope.errorConfirmMessage="Для входу потрібно підтвердити реєстрацію!";		        		  		
@@ -34,25 +34,25 @@ animalApp.controller('LoginController', ['$scope', '$location', '$route', 'userA
 	$scope.loginGoogle=function(){		
 		
 		if (localStorageService.cookie.get("refreshGoogleToken")) {
-			userAccount.loginDirectGoogle();			
+			OauthAuthenticationService.loginDirectGoogle();			
 		} else {
-			userAccount.loginGoogle();
+			OauthAuthenticationService.loginGoogle();
 		}
 		
 	}
 	
 	$scope.loginFacebook=function(){		
 		
-		userAccount.loginFacebook();		
+		OauthAuthenticationService.loginFacebook();		
 		
 	}
 	
 	$scope.loginTwitter=function(){		
 		
 		if (localStorageService.cookie.get("twitterToken") && localStorageService.cookie.get("twitterSecret")) {
-			userAccount.loginDirectTwitter();			
+			OauthAuthenticationService.loginDirectTwitter();			
 		} else {
-			userAccount.loginTwitter();		
+			OauthAuthenticationService.loginTwitter();		
 		}
 	}
 	
