@@ -1,6 +1,7 @@
 package app.resource;
 
 import com.animals.app.domain.User;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -11,6 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+//not tested, test will write oleg
+@Ignore
 public class UserClient {
 
     //instance of Jersey Client

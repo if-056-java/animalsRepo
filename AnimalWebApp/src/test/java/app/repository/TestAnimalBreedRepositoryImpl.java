@@ -5,18 +5,11 @@ import com.animals.app.domain.AnimalBreed;
 import com.animals.app.repository.AnimalBreedRepository;
 import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalTypeRepositoryImpl;
-import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.ibatis.exceptions.PersistenceException;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;

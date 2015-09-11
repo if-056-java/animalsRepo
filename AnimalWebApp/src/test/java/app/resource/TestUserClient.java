@@ -14,6 +14,8 @@ import org.junit.runners.MethodSorters;
 import com.animals.app.domain.User;
 import com.animals.app.repository.Impl.UserRoleRepositoryImpl;
 import com.animals.app.repository.Impl.UserTypeRepositoryImpl;
+
+//not tested, test will write oleg
 @Ignore
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestUserClient {

@@ -1,9 +1,11 @@
 package app.resource;
 
+import app.JNDIConfigurationForTests;
 import com.animals.app.domain.AnimalBreed;
 import com.animals.app.domain.AnimalService;
 import com.animals.app.domain.AnimalStatus;
 import com.animals.app.domain.AnimalType;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -21,8 +23,9 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by root on 03.09.2015.
  */
+@Ignore
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestAnimalResource {
+public class TestAnimalResource extends JNDIConfigurationForTests{
     private static Client client;
 
     private static AnimalType animalType;

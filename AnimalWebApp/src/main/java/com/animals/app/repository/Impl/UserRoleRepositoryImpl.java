@@ -25,14 +25,12 @@ public class UserRoleRepositoryImpl {
      * @return A User role instance with a primary key value equals to pk. null if there is no matching row.
      */
     public UserRole getById(int id){
-
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSession session = sqlSessionFactory.openSession();
 
         try{
-            UserRoleRepository mapper = sqlSession.getMapper(UserRoleRepository.class);
-            return mapper.getById(id);
+            return session.getMapper(UserRoleRepository.class).getById(id);
         } finally {
-            sqlSession.close();
+            session.close();
         }
     }
 
@@ -41,16 +39,12 @@ public class UserRoleRepositoryImpl {
      * @return the list of all User roles instances from the database.
      */
     public List<UserRole> getAll(){
-
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSession session = sqlSessionFactory.openSession();
 
         try{
-            UserRoleRepository mapper = sqlSession.getMapper(UserRoleRepository.class);
-            return mapper.getAll();
+            return session.getMapper(UserRoleRepository.class).getAll();
         } finally {
-            sqlSession.close();
+            session.close();
         }
     }
-
-
 }

@@ -26,9 +26,8 @@ public class AnimalStatusRepositoryImpl implements AnimalStatusRepository {
     public List<AnimalStatus> getAll() {
         SqlSession session = sqlSessionFactory.openSession();
 
-        try {
-            AnimalStatusRepository mapper = session.getMapper(AnimalStatusRepository.class);
-            return mapper.getAll();
+        try{
+            return session.getMapper(AnimalStatusRepository.class).getAll();
         } finally {
             session.close();
         }
@@ -42,9 +41,8 @@ public class AnimalStatusRepositoryImpl implements AnimalStatusRepository {
     public AnimalStatus getById(long id) {
         SqlSession session = sqlSessionFactory.openSession();
 
-        try {
-            AnimalStatusRepository mapper = session.getMapper(AnimalStatusRepository.class);
-            return mapper.getById(id);
+        try{
+            return session.getMapper(AnimalStatusRepository.class).getById(id);
         } finally {
             session.close();
         }
