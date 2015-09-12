@@ -1,9 +1,13 @@
 package com.animals.app.controller.resource;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
@@ -52,21 +56,21 @@ public class OAuthAuthorizationResource {
 	private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json";
 	private static final String SCOPE = "https://mail.google.com/ https://www.googleapis.com/auth/userinfo.email";
 	private static final Token EMPTY_TOKEN = null;
-	private static final String apiKeyG = "1061082540782-02vuauouhb8v5caiavepvgkuuiv4t178.apps.googleusercontent.com";
-	private static final String apiSecretG = "rYsnWUSHf4S2z-LHM1oMocJT";
+//	private static final String apiKeyG = "1061082540782-02vuauouhb8v5caiavepvgkuuiv4t178.apps.googleusercontent.com";
+//	private static final String apiSecretG = "rYsnWUSHf4S2z-LHM1oMocJT";
 	private static final String callbackUrlPathG = "webapi/account/login/google_token";
 
 	// Facebook OAuth preferences
 	private static final String PROTECTED_RESOURCE_URL_FB = "https://graph.facebook.com/me";
 	private static final String PROTECTED_RESOURCE_URL_FB2 = "https://graph.facebook.com/me?fields=picture.type(large)";
-	private static final String apiKeyF = "669050466528151"; 
-	private static final String apiSecretF = "b6d47e16e955bae44b692a62e88f093e"; 
+//	private static final String apiKeyF = "669050466528151"; 
+//	private static final String apiSecretF = "b6d47e16e955bae44b692a62e88f093e"; 
 	private static final String callbackUrlGPathFacebook = "webapi/account/login/facebook_token";
 
 	// Twitter OAuth preferences
 	private static final String PROTECTED_RESOURCE_URL_TW = "https://api.twitter.com/1.1/account/verify_credentials.json";
-	private static final String apiKeyTW = "hmjWTtWq8NV6OEQx2QFOCzLr8"; 
-	private static final String apiSecretTW = "Ow8X7AFYgnj1CLehu46qgG9k1kZvjEx3twk9BurcSmYuoSe98X";
+//	private static final String apiKeyTW = "hmjWTtWq8NV6OEQx2QFOCzLr8"; 
+//	private static final String apiSecretTW = "Ow8X7AFYgnj1CLehu46qgG9k1kZvjEx3twk9BurcSmYuoSe98X";
 	private static final String callbackUrlGPathTW = "webapi/account/login/twitter_token";
 
 	@GET
@@ -77,11 +81,12 @@ public class OAuthAuthorizationResource {
 		String callbackUrlG = defineURL(req, "webapi/account/login/google", callbackUrlPathG);
 
 		OAuthService service = null;
+		
 		try {
 			service = new ServiceBuilder()
 					.provider(Google2Api.class)
-					.apiKey(apiKeyG)
-					.apiSecret(apiSecretG)
+					.apiKey(socialsConfig.getProperty("google.apiKey")) 
+					.apiSecret(socialsConfig.getProperty("google.apiSecret"))
 					.callback(callbackUrlG)
 					.scope(SCOPE)
 					.offline(true)
@@ -124,8 +129,8 @@ public class OAuthAuthorizationResource {
 		try {
 			service2 = new ServiceBuilder()
 					.provider(Google2Api.class)
-					.apiKey(apiKeyG)
-					.apiSecret(apiSecretG)
+					.apiKey(socialsConfig.getProperty("google.apiKey")) 
+					.apiSecret(socialsConfig.getProperty("google.apiSecret"))
 					.callback(callbackUrlG)
 					.scope(SCOPE)
 					.offline(true)
@@ -273,8 +278,8 @@ public class OAuthAuthorizationResource {
 		OAuthRequest request = new OAuthRequest(Verb.POST, "https://www.googleapis.com/oauth2/v3/token");
 		request.addBodyParameter("grant_type", "refresh_token");
 		request.addBodyParameter("refresh_token", refreshGoogleToken); 
-		request.addBodyParameter("client_id", apiKeyG);
-		request.addBodyParameter("client_secret", apiSecretG);
+		request.addBodyParameter("client_id", socialsConfig.getProperty("google.apiKey"));
+		request.addBodyParameter("client_secret", socialsConfig.getProperty("google.apiSecret"));
 
 		org.scribe.model.Response response = request.send();
 		
@@ -302,8 +307,8 @@ public class OAuthAuthorizationResource {
 		try {
 			service2 = new ServiceBuilder()
 					.provider(Google2Api.class)
-					.apiKey(apiKeyG)
-					.apiSecret(apiSecretG)
+					.apiKey(socialsConfig.getProperty("google.apiKey")) 
+					.apiSecret(socialsConfig.getProperty("google.apiSecret"))
 					.callback(callbackUrlG)
 					.scope(SCOPE)
 					.build();
@@ -370,8 +375,8 @@ public class OAuthAuthorizationResource {
 		try {
 			service = new ServiceBuilder()
 					.provider(FacebookApi.class)
-					.apiKey(apiKeyF)
-					.apiSecret(apiSecretF)
+					.apiKey(socialsConfig.getProperty("facebook.apiKey")) 
+					.apiSecret(socialsConfig.getProperty("facebook.apiSecret"))
 					.callback(callbackUrlF)
 					.build();
 
@@ -411,8 +416,8 @@ public class OAuthAuthorizationResource {
 		try {
 			service = new ServiceBuilder()
 					.provider(FacebookApi.class)
-					.apiKey(apiKeyF)
-					.apiSecret(apiSecretF)
+					.apiKey(socialsConfig.getProperty("facebook.apiKey")) 
+					.apiSecret(socialsConfig.getProperty("facebook.apiSecret"))
 					.callback(callbackUrlF).build();
 
 		} catch (Exception e1) {
@@ -564,8 +569,8 @@ public class OAuthAuthorizationResource {
 
 		try {
 			service = new ServiceBuilder().provider(TwitterApi.class)
-					.apiKey(apiKeyTW)
-					.apiSecret(apiSecretTW)
+					.apiKey(socialsConfig.getProperty("twitter.consumerKey")) 
+					.apiSecret(socialsConfig.getProperty("twitter.consumerSecret"))
 					.callback(callbackUrlTW)
 					.build();
 
@@ -608,8 +613,8 @@ public class OAuthAuthorizationResource {
 		try {
 			service = new ServiceBuilder()
 					.provider(TwitterApi.class)
-					.apiKey(apiKeyTW)
-					.apiSecret(apiSecretTW)
+					.apiKey(socialsConfig.getProperty("twitter.consumerKey")) 
+					.apiSecret(socialsConfig.getProperty("twitter.consumerSecret"))
 					.callback(callbackUrlTW)
 					.build();
 
@@ -757,8 +762,8 @@ public class OAuthAuthorizationResource {
 		try {
 			service = new ServiceBuilder()
 					.provider(TwitterApi.class)
-					.apiKey(apiKeyTW)
-					.apiSecret(apiSecretTW)
+					.apiKey(socialsConfig.getProperty("twitter.consumerKey")) 
+					.apiSecret(socialsConfig.getProperty("twitter.consumerSecret"))
 					.callback(callbackUrlTW)
 					.build();
 
@@ -903,5 +908,27 @@ public class OAuthAuthorizationResource {
 		return userToReg;
 		
 	}
+	
+	private static Properties socialsConfig = new Properties();
+    {
+        fetchConfig();
+    }
+
+    /**
+     * Open a specific text file containing reCAPTCHA secret key
+     * and verification URL.
+     */
+    private void fetchConfig() {
+        
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("project.properties").getFile());
+
+        try (InputStream input = new FileInputStream(file)) {
+            socialsConfig.load(input);
+        }
+        catch (IOException ex){
+            System.err.println("Cannot open and load mail server properties file. Put it on...");
+        }
+    }
 
 }

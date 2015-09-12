@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.sql.Date;
 import java.util.List;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -20,6 +21,7 @@ import org.hibernate.validator.constraints.Length;
 @XmlRootElement
 public class User implements Serializable, Principal {
 	
+	//@DecimalMin(value = "1")
 	private Integer id;
     
     @Size(min = 2, max = 20, message =  "Name must be between {min} and {max}.")
