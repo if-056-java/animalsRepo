@@ -1,12 +1,15 @@
 package com.animals.app.controller.resource;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,6 +23,8 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.codec.binary.Base64;
 
 import com.animals.app.domain.User;
+import com.animals.app.domain.UserRole;
+import com.animals.app.domain.UserType;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 import com.animals.app.service.MailSender;
 
@@ -84,6 +89,7 @@ public class AuthorizationResource {
         	
         	String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + "now confirmation should be done" + "\"}"; 
         	return Response.status(Response.Status.OK).entity(regWithoutConfirm).build();
+        	//return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(regWithoutConfirm).build();
         }
 		
         //creating session
@@ -126,10 +132,10 @@ public class AuthorizationResource {
 	@Path("registration")//http:localhost:8080/webapi/account/registration
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)	
-	public Response registerUser (@Context HttpServletRequest req, User user) {	
+	public Response registerUser (@Context HttpServletRequest req, @Valid User user) {	
 		
 			
-		if (user==null) return BAD_REQUEST;
+		if (user==null) return BAD_REQUEST;	
 		
 		String socialLogin = user.getSocialLogin();		
 				
@@ -155,6 +161,7 @@ public class AuthorizationResource {
 		try {
 			userRep.insert(user);			
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			return SERVER_ERROR;
 		}
 		
@@ -178,8 +185,7 @@ public class AuthorizationResource {
 			e.printStackTrace();
 		}				
         
-		String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + "now confirmation should be done" + "\"}"; 
-		System.out.println(regWithoutConfirm);
+		String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + "now confirmation should be done" + "\"}"; 		
         
 	    return Response.status(Response.Status.OK).entity(regWithoutConfirm).build();	 
 		

@@ -15,6 +15,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -156,7 +157,7 @@ public class UserResource {
 	@Path("user/{userId}") //http:localhost:8080/webapi/users/user/{userId}
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateUser (User user) {
+	public Response updateUser (@Valid User user) {
 		
 		if (user==null) return BAD_REQUEST;
 		

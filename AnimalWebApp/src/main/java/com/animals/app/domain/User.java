@@ -5,14 +5,23 @@ import java.security.Principal;
 import java.sql.Date;
 import java.util.List;
 
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.validator.constraints.Length;
+
 /**
  * Created by oleg on 22.07.2015.
  */
 
+@XmlRootElement
 public class User implements Serializable, Principal {
 
     private Integer id;
+    
+    @Length(min = 2, max = 6)
     private String name;
+    @Size(min = 2, max = 6, message = "The id must be a valid number")
     private String surname;
     private Date registrationDate;
     private String email;
@@ -20,6 +29,7 @@ public class User implements Serializable, Principal {
     private String phone;
     private String address = "N/A";
     
+    @Length(min = 2, max = 9, message = "The socialLogin")
     private String socialLogin;
     private String organizationName = "N/A";
     private String organizationInfo = "N/A";
@@ -44,11 +54,12 @@ public class User implements Serializable, Principal {
     public void setId(Integer id) {
         this.id = id;
     }
-
+    
+   // @Length(min = 2, max = 6)
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }

@@ -14,6 +14,9 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.util.List;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+
 /**
  * Created by oleg on 24.07.2015.
  */

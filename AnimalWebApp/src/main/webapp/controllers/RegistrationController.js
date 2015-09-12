@@ -10,8 +10,8 @@ animalApp.controller('RegistrationController', ['$scope', '$location', '$route',
 			
 			$scope.errorConfirmMessage=false;        		
 			$scope.fields.active = false; 
-			$scope.fields.userRole = {"id": 3}; //userRole=гість
-			$scope.fields.userType = {"id": 1};	//userType=власник		
+			$scope.fields.userRole = [{"id":3,"role":"гість"}]; //userRole=гість
+			$scope.fields.userType = {"id":1,"type":"власник"};	//userType=власник		
 			
 			$scope.fields.registrationDate = currentDate;
 			
