@@ -5,9 +5,12 @@ import java.security.Principal;
 import java.sql.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
 /**
@@ -16,21 +19,30 @@ import org.hibernate.validator.constraints.Length;
 
 @XmlRootElement
 public class User implements Serializable, Principal {
-
-    private Integer id;
+	
+	private Integer id;
     
-    @Length(min = 2, max = 6)
+    @Size(min = 2, max = 20, message =  "Name must be between {min} and {max}.")
     private String name;
-    @Size(min = 2, max = 6, message = "The id must be a valid number")
-    private String surname;
-    private Date registrationDate;
-    private String email;
-    private String password;
-    private String phone;
-    private String address = "N/A";
     
-    @Length(min = 2, max = 9, message = "The socialLogin")
+    @Size(min = 2, max = 20, message =  "Surname must be between {min} and {max}.") 
+    private String surname;
+    
+    private Date registrationDate;    
+     
+    @Email(message = "{contact.wrong.email}", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
+    private String email;
+    
+    @NotNull
+    private String password;
+    
+    @Pattern(message = "{contact.wrong.phone}", regexp = "^[0-9]{3}-[0-9]{7}$") 
+    private String phone;
+    
+    @Length(min = 4, max = 12, message = "The socialLogin must be between {min} and {max}.")
     private String socialLogin;
+    
+    private String address = "N/A";    
     private String organizationName = "N/A";
     private String organizationInfo = "N/A";
     private boolean isActive = true;
@@ -53,9 +65,8 @@ public class User implements Serializable, Principal {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-    
-   // @Length(min = 2, max = 6)
+    }    
+  
     public String getName() {
         return name;
     }
