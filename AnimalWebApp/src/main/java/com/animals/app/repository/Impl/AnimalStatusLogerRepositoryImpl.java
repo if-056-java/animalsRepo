@@ -2,12 +2,9 @@ package com.animals.app.repository.Impl;
 
 import com.animals.app.domain.AnimalStatus;
 import com.animals.app.repository.AnimalStatusLogerRepository;
-import com.animals.app.repository.AnimalStatusRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-
-import java.util.List;
 
 /**
  * Created by Rostyslav.Viner on 25.08.2015.
@@ -28,9 +25,8 @@ public class AnimalStatusLogerRepositoryImpl implements AnimalStatusLogerReposit
     public AnimalStatus getById(long id) {
         SqlSession session = sqlSessionFactory.openSession();
 
-        try {
-            AnimalStatusLogerRepository mapper = session.getMapper(AnimalStatusLogerRepository.class);
-            return mapper.getById(id);
+        try{
+            return session.getMapper(AnimalStatusLogerRepository.class).getById(id);
         } finally {
             session.close();
         }

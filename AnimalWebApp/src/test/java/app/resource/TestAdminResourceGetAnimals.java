@@ -3,19 +3,17 @@
  */
 package app.resource;
 
+import app.JNDIConfigurationForTests;
 import com.animals.app.domain.*;
-import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONObject;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -31,7 +29,8 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by Rostyslav.Viner on 08.09.2015.
  */
-public class TestAdminResourceGetAnimals {
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
     private static Client client;
 
     private static final String LOGIN = "root";
@@ -493,32 +492,5 @@ public class TestAdminResourceGetAnimals {
         } catch (java.security.NoSuchAlgorithmException e) {
         }
         return null;
-    }
-
-    private static void configureJNDIForJUnit(){
-        // rcarver - setup the jndi context and the datasource
-        try {
-            // Create initial context
-            System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
-                    "org.apache.naming.java.javaURLContextFactory");
-            System.setProperty(Context.URL_PKG_PREFIXES,
-                    "org.apache.naming");
-            InitialContext ic = new InitialContext();
-
-            ic.createSubcontext("java:");
-            ic.createSubcontext("java:/comp");
-            ic.createSubcontext("java:/comp/env");
-            ic.createSubcontext("java:/comp/env/jdbc");
-
-            // Construct DataSource
-            MysqlConnectionPoolDataSource ds = new MysqlConnectionPoolDataSource();
-            ds.setURL("jdbc:mysql://tym.dp.ua:3306/animals");
-            ds.setUser("u_remoteuser");
-            ds.setPassword("ZF008NBp");
-
-            ic.rebind("java:/comp/env/jdbc/animals", ds);
-        } catch (NamingException ex) {
-            ex.printStackTrace();
-        }
     }
 }

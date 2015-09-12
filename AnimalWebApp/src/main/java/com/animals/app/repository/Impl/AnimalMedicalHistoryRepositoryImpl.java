@@ -2,6 +2,7 @@ package com.animals.app.repository.Impl;
 
 import com.animals.app.domain.AnimalMedicalHistory;
 import com.animals.app.domain.AnimalsFilter;
+import com.animals.app.repository.AnimalBreedRepository;
 import com.animals.app.repository.AnimalMedicalHistoryRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -27,9 +28,8 @@ public class AnimalMedicalHistoryRepositoryImpl implements AnimalMedicalHistoryR
     public long getByAnimalIdCount(long id) {
         SqlSession session = sqlSessionFactory.openSession();
 
-        try {
-            AnimalMedicalHistoryRepository mapper = session.getMapper(AnimalMedicalHistoryRepository.class);
-            return mapper.getByAnimalIdCount(id);
+        try{
+            return session.getMapper(AnimalMedicalHistoryRepository.class).getByAnimalIdCount(id);
         } finally {
             session.close();
         }
@@ -43,9 +43,8 @@ public class AnimalMedicalHistoryRepositoryImpl implements AnimalMedicalHistoryR
     public List<AnimalMedicalHistory> getByAnimalId(long animalId, long offset, int limit) {
         SqlSession session = sqlSessionFactory.openSession();
 
-        try {
-            AnimalMedicalHistoryRepository mapper = session.getMapper(AnimalMedicalHistoryRepository.class);
-            return mapper.getByAnimalId(animalId, offset, limit);
+        try{
+            return session.getMapper(AnimalMedicalHistoryRepository.class).getByAnimalId(animalId, offset, limit);
         } finally {
             session.close();
         }
@@ -59,9 +58,8 @@ public class AnimalMedicalHistoryRepositoryImpl implements AnimalMedicalHistoryR
     public AnimalMedicalHistory getById(long id) {
         SqlSession session = sqlSessionFactory.openSession();
 
-        try {
-            AnimalMedicalHistoryRepository mapper = session.getMapper(AnimalMedicalHistoryRepository.class);
-            return mapper.getById(id);
+        try{
+            return session.getMapper(AnimalMedicalHistoryRepository.class).getById(id);
         } finally {
             session.close();
         }
@@ -74,10 +72,8 @@ public class AnimalMedicalHistoryRepositoryImpl implements AnimalMedicalHistoryR
     public void deleteById(long id) {
         SqlSession session = sqlSessionFactory.openSession();
 
-        try {
-            AnimalMedicalHistoryRepository mapper = session.getMapper(AnimalMedicalHistoryRepository.class);
-            mapper.deleteById(id);
-
+        try{
+            session.getMapper(AnimalMedicalHistoryRepository.class).deleteById(id);
             session.commit();
         } finally {
             session.close();
@@ -91,10 +87,8 @@ public class AnimalMedicalHistoryRepositoryImpl implements AnimalMedicalHistoryR
     public void insert(AnimalMedicalHistory animalMedicalHistory) {
         SqlSession session = sqlSessionFactory.openSession();
 
-        try {
-            AnimalMedicalHistoryRepository mapper = session.getMapper(AnimalMedicalHistoryRepository.class);
-            mapper.insert(animalMedicalHistory);
-
+        try{
+            session.getMapper(AnimalMedicalHistoryRepository.class).insert(animalMedicalHistory);
             session.commit();
         } finally {
             session.close();

@@ -25,14 +25,12 @@ public class UserOperationLoggerRepositoryImpl {
      * @return A User operations logger instance with a primary key value equals to pk. null if there is no matching row.
      */
     public UserOperationLogger getById(int id){
-
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSession session = sqlSessionFactory.openSession();
 
         try{
-            UserOperationLoggerRepository mapper = sqlSession.getMapper(UserOperationLoggerRepository.class);
-            return mapper.getById(id);
+            return session.getMapper(UserOperationLoggerRepository.class).getById(id);
         } finally {
-            sqlSession.close();
+            session.close();
         }
     }
 
@@ -41,14 +39,12 @@ public class UserOperationLoggerRepositoryImpl {
      * @return the list of all User operations logger instances from the database.
      */
     public List<UserOperationLogger> getAll(){
-
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSession session = sqlSessionFactory.openSession();
 
         try{
-            UserOperationLoggerRepository mapper = sqlSession.getMapper(UserOperationLoggerRepository.class);
-            return mapper.getAll();
+            return session.getMapper(UserOperationLoggerRepository.class).getAll();
         } finally {
-            sqlSession.close();
+            session.close();
         }
     }
 
