@@ -85,7 +85,9 @@
   "ANIMAL_REG_COMPLETED": "Registration completed",
   "BACK_TO_PROFILE": "Back to Profile",
   "ANIMAL_REGISTERED": "The animal registered! Please, click 'OK' to look list of your animals.",
-  "ANIMAL_SHORT_INFO": "Animal Information",
+  "ANIMAL_SHORT_INFO_ADOPTION": "Animal For Adoption Information",
+  "ANIMAL_SHORT_INFO_LOST": "Lost Animal Information",
+  "ANIMAL_SHORT_INFO_FIND": "Found Animal Information",
 
   "CONTACTS": "Contacts",
   "LOCATION": "Location",

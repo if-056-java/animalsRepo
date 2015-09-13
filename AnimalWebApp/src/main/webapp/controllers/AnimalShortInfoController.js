@@ -14,16 +14,19 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService', 'vcRecapt
 				$scope.detail=false;
 				$scope.textButton= $filter('translate')('CONTACT_AUTHOR');
 				$scope.linkBack="#/ua/animal/found"
+				$scope.textTitle = $filter('translate')('ANIMAL_SHORT_INFO_FIND');
 			};
 			if(service === "adoption"){
 				$scope.detail=true;
 				$scope.textButton= $filter('translate')('ADOPT');
 				$scope.linkBack="#/ua/animal/adoption";
+				$scope.textTitle = $filter('translate')('ANIMAL_SHORT_INFO_ADOPTION');
 			};
 			if(service === "lost") {
 				$scope.detail=true;
 				$scope.textButton= $filter('translate')('CONTACT_OWNER');
 				$scope.linkBack="#/ua/animal/lost";
+				$scope.textTitle = $filter('translate')('ANIMAL_SHORT_INFO_LOST');
 			};
 
 			$scope.openDialog = function(){
@@ -119,7 +122,7 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService', 'vcRecapt
 						$scope.okmessage = 0;
 						$scope.errormessage = 0;
 
-						$scope.feedback.gRecaptchaResponse = $scope.response ;                //g-captcah-reponse for server
+						$scope.message.gRecaptchaResponse = $scope.response ;                //g-captcah-reponse for server
 						console.log($scope.message);
 
 						$scope.closeDialog();

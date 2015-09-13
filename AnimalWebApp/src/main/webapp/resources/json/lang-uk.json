@@ -85,7 +85,9 @@
   "ANIMAL_REG_COMPLETED": "Реєстрацію завершено",
   "BACK_TO_PROFILE": "У кабінет",
   "ANIMAL_REGISTERED": "Тварину зареєстровано! Клікніть 'ОК' щоб переглянути список ваших тварин.",
-  "ANIMAL_SHORT_INFO": "Інформація про тварину",
+  "ANIMAL_SHORT_INFO_ADOPTION": "Інформація про тварину на адопцію",
+  "ANIMAL_SHORT_INFO_LOST": "Інформація про загублену тварину",
+  "ANIMAL_SHORT_INFO_FIND": "Інформація про знайдену тварину",
 
   "CONTACTS": "Контакти",
   "LOCATION": "Місцезнаходження",

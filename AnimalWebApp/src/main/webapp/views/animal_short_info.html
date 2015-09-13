@@ -9,7 +9,7 @@
                         </p>
                     </div>
                     <div class="col-xs-9 col-sm-10 col-md-11 col-lg-11">
-                        <h2>{{ 'ANIMAL_SHORT_INFO' | translate }}</h2>
+                        <h2>{{ textTitle }}</h2>
                     </div>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                 <!-- CONTACT FORM https://github.com/jonmbake/bootstrap3-contact-form -->
 
                 <form role="form" name="messageForm"  ng-submit="submit(messageForm.$valid)" novalidate>
-                    <div class="form-group has-feedback"
+                    <div class="form-group "
                          ng-class="{ 'has-error' : messageForm.messagename.$invalid && !messageForm.messagename.$pristine }">
                         <label class="control-label" for="messagename">{{ 'NAME' | translate }}</label>
                         <input type="text" class="form-control" id="messagename" name="messagename" ng-model="message.signup"  placeholder="{{ 'CONTACTS_INPUT_NAME' | translate }}" required=""
@@ -116,7 +116,7 @@
 				 <span ng-show="messageForm.messagename.$invalid && messageForm.messagename.$error.minlength && !messageForm.messagename.$pristine"
                        class="help-block error">{{ 'CONTACTS_INPUT_NAME_FAILED' | translate }}</span>
 
-                    <div class="form-group has-feedback"
+                    <div class="form-group "
                          ng-class="{ 'has-error' : messageForm.messageemail.$invalid && !messageForm.messageemail.$pristine }">
                         <label class="control-label" for="messageemail">{{ 'EMAIL' | translate }}</label>
                         <input type="email" class="form-control" id="messageemail" name="messageemail" ng-model="message.email"  placeholder="{{ 'CONTACTS_INPUT_EMAIL' | translate }}" required=""
@@ -127,12 +127,12 @@
 				  <span ng-show="messageForm.messageemail.$invalid && messageForm.messageemail.$error.email && !messageForm.messageemail.$pristine"
                         class="help-block error">{{ 'CONTACTS_INPUT_EMAIL_FAILED' | translate }}</span>
 
-                    <div class="form-group has-feedback"
+                    <div class="form-group"
                          ng-class="{ 'has-error' : messageForm.messagetext.$invalid && !messageForm.messagetext.$pristine }">
                         <label class="control-label" for="messagetext">{{ 'CONTACTS_MESSAGE' | translate }}</label>
                         <textarea rows="10" cols="100" class="form-control" id="messagetext" name="messagetext" ng-model="message.text" placeholder="{{ 'CONTACTS_MESSAGE' | translate }}" required/>
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                        <span id="messagetatus" class="sr-only">(success)</span>
+                        <span id="messagestatus" class="sr-only">(success)</span>
                     </div>
 
                     <div class="row">
