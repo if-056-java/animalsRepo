@@ -14,6 +14,7 @@ import sun.misc.BASE64Decoder;
 
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
@@ -54,7 +55,7 @@ public class AdminResource {
     @RolesAllowed({"модератор", "лікар"})
     @Path("animals")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAnimals(AnimalsFilter animalsFilter) {
         if(animalsFilter == null) {
             return BAD_REQUEST;
@@ -82,7 +83,7 @@ public class AdminResource {
     @RolesAllowed({"модератор", "лікар"})
     @Path("animals/paginator")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAnimalsPaginator(AnimalsFilter animalsFilter) {
         if(animalsFilter == null) {
             return BAD_REQUEST;
@@ -106,7 +107,7 @@ public class AdminResource {
     @GET //http:localhost:8080/webapi/animals/{animalId}
     @RolesAllowed({"модератор", "лікар"})
     @Path("animals/{animalId}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAnimal(@PathParam("animalId") long animalId) {
         if (animalId <= 0) {
             return BAD_REQUEST;
@@ -133,7 +134,7 @@ public class AdminResource {
     @DELETE //http:localhost:8080/webapi/animals/{animalId}
     @RolesAllowed("модератор")
     @Path("animals/{animalId}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteAnimal(@Context HttpServletRequest httpServlet, @PathParam("animalId") long animalId) {
         if (animalId <= 0) {
             return BAD_REQUEST;
@@ -175,7 +176,8 @@ public class AdminResource {
     @RolesAllowed("модератор")
     @Path("animals/editor")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAnimal(@Context HttpServletRequest httpServlet, Animal animal) {
+    public Response updateAnimal(@Context HttpServletRequest httpServlet, @Valid Animal animal) {
+        System.out.println(animal);
         if(!validateAnimal(animal)) {
             return BAD_REQUEST;
         }
