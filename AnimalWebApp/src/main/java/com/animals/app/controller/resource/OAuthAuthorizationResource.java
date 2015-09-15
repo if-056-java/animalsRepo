@@ -842,8 +842,6 @@ public class OAuthAuthorizationResource {
 		// creating string for accessToken
 		String accessToken = (String) session.getId() + ":" + (String) session.getAttribute("userId");
 
-		System.out.println("decoded accesToken - " + accessToken);
-
 		String accessTokenEncoded = null;
 
 		try {
@@ -852,8 +850,7 @@ public class OAuthAuthorizationResource {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		System.out.println("encoded accessToken -" + accessTokenEncoded);
+		
 		session.setAttribute("accessToken", accessTokenEncoded);
 
 	}

@@ -53,10 +53,10 @@
               jmxEnabled="true"
               jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;
               org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer;"
-              username="root"
-              password="root"
+              username="u_remoteuser"
+              password="ZF008NBp"
               driverClassName="com.mysql.jdbc.Driver"
-              url="jdbc:mysql://localhost:3306/animals"/>
+              url="jdbc:mysql://tym.dp.ua:3306/animals"/>
     <!-- logAbandoned="true" - log about abandone connections -->
     <!-- org.apache.tomcat.jdbc.pool.interceptor.ResetAbandonedTimer" -->
 </Context>

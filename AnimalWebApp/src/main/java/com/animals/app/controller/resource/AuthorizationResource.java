@@ -193,9 +193,8 @@ public class AuthorizationResource {
 			ms.newsSend(recipientEmail, message);			
 		} catch (Exception e) {			
 			LOG.error(e);
-		}				
-        
-		//String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + CONFIRMATION + "\"}"; 
+		}        
+		
 		String regWithoutConfirm = buildResponseEntity(1, CONFIRMATION);
         
 	    return Response.status(Response.Status.OK).entity(regWithoutConfirm).build();	 

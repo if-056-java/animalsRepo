@@ -43,7 +43,7 @@ public class User implements Serializable, Principal {
     @Pattern(message = "{contact.wrong.phone}", regexp = "^[0-9]{3}-[0-9]{7}$") 
     private String phone;
     
-    @Length(min = 4, max = 16, message = "The socialLogin must be between {min} and {max}.")
+    @Length(min = 6, max = 16, message = "The socialLogin must be between {min} and {max}.")
     private String socialLogin;
     
     @Length(max = 120, message =  "Address must be less than {max} characters.") 
