@@ -21,6 +21,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import com.animals.app.domain.User;
 import com.animals.app.domain.UserRole;
@@ -35,6 +37,8 @@ import com.animals.app.service.MailSender;
 @Path("account")
 @PermitAll 
 public class AuthorizationResource {
+	
+	private static Logger LOG = LogManager.getLogger(AuthorizationResource.class);
 	
 	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	
 	private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();	
@@ -72,6 +76,7 @@ public class AuthorizationResource {
 			byte[] decoded = Base64.decodeBase64(sub);
             usernameAndPassword = new String(decoded, "UTF-8");
         } catch (IOException e) {
+        	LOG.error(e);
             e.printStackTrace();
         }
 
@@ -86,6 +91,7 @@ public class AuthorizationResource {
 		try {
 			user = userRep.checkIfUserExistInDB(username, password);					
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
                         
@@ -149,6 +155,7 @@ public class AuthorizationResource {
 		try {
 			 socialLogin2 = userRep.checkIfUsernameUnique(socialLogin);			
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
 		
@@ -166,7 +173,7 @@ public class AuthorizationResource {
 		try {
 			userRep.insert(user);			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
 		
@@ -185,7 +192,7 @@ public class AuthorizationResource {
 			MailSender ms = new MailSender();
 			ms.newsSend(recipientEmail, message);			
 		} catch (Exception e) {			
-			e.printStackTrace();
+			LOG.error(e);
 		}				
         
 		//String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + CONFIRMATION + "\"}"; 
@@ -209,6 +216,7 @@ public class AuthorizationResource {
 		try {			
 			user = userRep.userVerification(socialLogin, code);				
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
 		                        
@@ -220,6 +228,7 @@ public class AuthorizationResource {
         try {        	
 	        userRep.update(user);        	
         } catch (Exception e) {
+        	LOG.error(e);
 			return SERVER_ERROR;
 		}
                 		
@@ -278,6 +287,7 @@ private static String setUpSuccessSession(User user, HttpSession session, String
 			byte[] encoded = Base64.encodeBase64(accessToken.getBytes());
 			accessTokenEncoded = new String(encoded, "UTF-8");
         } catch (IOException e) {
+        	LOG.error(e);
             e.printStackTrace();
         }	
 		
