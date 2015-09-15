@@ -1,5 +1,6 @@
 package com.animals.app.domain;
 
+import com.animals.app.service.SqlInjection;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.DecimalMin;
@@ -68,6 +69,7 @@ public class Animal implements Serializable{
     private String color;
 
     @Length(max = 100, message = "The description length must be less than {max}.")
+    @SqlInjection(message = "Wrong description.")
     private String description;
 
     private User user;

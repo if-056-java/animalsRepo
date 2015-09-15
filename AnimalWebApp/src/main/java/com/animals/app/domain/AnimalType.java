@@ -1,14 +1,24 @@
 package com.animals.app.domain;
 
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**
  * Created by Rostyslav.Viner on 22.07.2015.
  */
 public class AnimalType implements Serializable{
-
+    @DecimalMin(value = "1")
     private Long id;
+
+    @Length(max = 15, message = "The type length must be less than {max}.")
+    @Pattern(message = "Wrong type.", regexp = "[A-Za-zА-Яа-яіІїЇ0-9'\\-\\s]*")
     private String type;
+
+    @Length(max = 15, message = "The typeEn length must be less than {max}.")
+    @Pattern(message = "Wrong typeEn.", regexp = "[A-Za-zА-Яа-яіІїЇ0-9'\\-\\s]*")
     private String typeEn;
 
     public Long getId() {

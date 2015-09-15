@@ -7,10 +7,12 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
+            $scope.contentLoading = 0;
 
             $scope.filter = AnimalsDoctorValues.filter;            //filter
             $scope.totalItems = AnimalsDoctorValues.totalItems;    //table rows count
             $scope.animals = AnimalsDoctorValues.animals;          //animal instance
+            $scope.errors = [];
 
             $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
@@ -18,7 +20,12 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
              * @return count of rows for pagination.
              */
             var getPagesCount = function() {
+                $scope.contentLoading++;
+
                 AnimalsDoctorService.getPagesCount()
+                    .catch(function() {
+                        $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ROWS_COUNT")});
+                    })
                     .finally(function () {
                         $scope.contentLoading--;
                     });
@@ -29,12 +36,15 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
              */
             var getAnimals = function() {
                 $scope.error = undefined;
+                $scope.contentLoading++;
 
                 AnimalsDoctorService.getAnimals()
                     .then(function (response) {
                         if ($scope.animals.values.length == 0) {
                             $scope.error = $filter('translate')("ERROR_NO_ANIMALS");
                         }
+                    }, function(response) {
+                        $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS")});
                     })
                     .finally(function () {
                         $scope.contentLoading--;
@@ -42,7 +52,6 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
             }
 
             $scope.getData = function() {
-                $scope.contentLoading = 2;
                 getPagesCount();
                 getAnimals();
             }
@@ -53,7 +62,6 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
              * @return next page.
              */
             $scope.pageChanged = function() {
-                $scope.contentLoading = 1;
                 getAnimals();
             };
 
@@ -62,7 +70,7 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
              */
             $scope.countChanged = function(count) {
                 $scope.filter.limit = count;
-                $scope.contentLoading = 1;
+                $scope.filter.page = 1;
                 getAnimals();
             };
     }])
@@ -77,21 +85,48 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
             /**
              * @return list of animal types.
              */
-            AnimalsDoctorService.getAnimalTypes();
+            var getAnimalType = function() {
+                $scope.$parent.contentLoading++;
+
+                AnimalsDoctorService.getAnimalTypes()
+                    .catch(function (response) {
+                        $scope.$parent.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS_TYPES")});
+                    })
+                    .finally(function () {
+                        $scope.$parent.contentLoading--;
+                    });
+            }
+
+            getAnimalType();
 
             /**
              * @return list of animal types.
              */
-            AnimalsDoctorService.getAnimalServices();
+            var getAnimalServices = function() {
+                $scope.$parent.contentLoading++;
+
+                AnimalsDoctorService.getAnimalServices()
+                    .catch(function (response) {
+                        $scope.$parent.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS_SERVICES")});
+                    })
+                    .finally(function () {
+                        $scope.$parent.contentLoading--;
+                    });
+            }
+
+            getAnimalServices();
 
             /**
              * @return list of animal breeds according to animal type.
              */
             $scope.getAnimalBreeds = function() {
                 $scope.filterAnimalBreedFlag = true;
+
                 AnimalsDoctorService.getAnimalBreeds($scope.filter.animal.type.id)
                     .then(function(response) {
                         $scope.animalBreeds = response.data;
+                    }, function(response) {
+                        $scope.$parent.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS_BREEDS")});
                     })
                     .finally(function() {
                         $scope.filterAnimalBreedFlag = false;
@@ -121,6 +156,7 @@ angular.module('AnimalsDoctorController', ['nya.bootstrap.select', 'DPController
                 }
 
                 $scope.filter.animal.dateOfRegister = $filter('date')($scope.filter.animal.dateOfRegister, 'yyyy-MM-dd');
+                $scope.filter.page = 1;
 
                 $scope.$parent.getData();
             };

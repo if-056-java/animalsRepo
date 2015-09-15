@@ -15,6 +15,8 @@ import sun.misc.BASE64Decoder;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
@@ -56,15 +58,7 @@ public class AdminResource {
     @Path("animals")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAnimals(AnimalsFilter animalsFilter) {
-        if(animalsFilter == null) {
-            return BAD_REQUEST;
-        }
-
-        if ((animalsFilter.getPage() <= 0) || (animalsFilter.getLimit() <= 0)) {
-            return BAD_REQUEST;
-        }
-
+    public Response getAnimals(@Valid @NotNull AnimalsFilter animalsFilter) {
         //get list of animals from data base
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
         List<Animal> animals = animalRepository.getAdminAnimals(animalsFilter);
@@ -84,11 +78,7 @@ public class AdminResource {
     @Path("animals/paginator")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAnimalsPaginator(AnimalsFilter animalsFilter) {
-        if(animalsFilter == null) {
-            return BAD_REQUEST;
-        }
-
+    public Response getAnimalsPaginator(@Valid @NotNull AnimalsFilter animalsFilter) {
         //get count of row according to filter
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
         long pages = animalRepository.getAdminAnimalsPaginator(animalsFilter);
@@ -108,11 +98,7 @@ public class AdminResource {
     @RolesAllowed({"модератор", "лікар"})
     @Path("animals/{animalId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAnimal(@PathParam("animalId") long animalId) {
-        if (animalId <= 0) {
-            return BAD_REQUEST;
-        }
-
+    public Response getAnimal(@PathParam("animalId") @DecimalMin(value = "1") long animalId) {
         //get animal by id from data base
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
         Animal animal = animalRepository.getById(animalId);
@@ -135,11 +121,8 @@ public class AdminResource {
     @RolesAllowed("модератор")
     @Path("animals/{animalId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteAnimal(@Context HttpServletRequest httpServlet, @PathParam("animalId") long animalId) {
-        if (animalId <= 0) {
-            return BAD_REQUEST;
-        }
-
+    public Response deleteAnimal(@Context HttpServletRequest httpServlet,
+                                 @PathParam("animalId") @DecimalMin(value = "1") long animalId) {
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
         String restPath = httpServlet.getServletContext().getRealPath("/"); //path to rest root folder
         Animal animal = animalRepository.getById(animalId);
@@ -176,12 +159,7 @@ public class AdminResource {
     @RolesAllowed("модератор")
     @Path("animals/editor")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAnimal(@Context HttpServletRequest httpServlet, @Valid Animal animal) {
-        System.out.println(animal);
-        if(!validateAnimal(animal)) {
-            return BAD_REQUEST;
-        }
-
+    public Response updateAnimal(@Context HttpServletRequest httpServlet, @Valid @NotNull Animal animal) {
         //check breed, if it new insert it into database
         saveNewBreed(animal.getBreed(), animal.getType());
 
@@ -223,11 +201,8 @@ public class AdminResource {
     @DELETE //http:localhost:8080/webapi/animals/image/{animalId}
     @RolesAllowed("модератор")
     @Path("animals/image/{animalId}")
-    public Response deleteAnimalImage(@Context HttpServletRequest httpServlet, @PathParam("animalId") long animalId) {
-        if (animalId <= 0) {
-            return BAD_REQUEST;
-        }
-
+    public Response deleteAnimalImage(@Context HttpServletRequest httpServlet,
+                                      @PathParam("animalId") @DecimalMin(value = "1") long animalId) {
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
         Animal animal = animalRepository.getById(animalId);
 

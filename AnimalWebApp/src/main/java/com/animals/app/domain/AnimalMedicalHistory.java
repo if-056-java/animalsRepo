@@ -1,16 +1,34 @@
 package com.animals.app.domain;
 
+import com.animals.app.service.SqlInjection;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.sql.Date;
 
 /**
  * Created by Rostyslav.Viner on 25.08.2015.
  */
 public class AnimalMedicalHistory {
+    @DecimalMin(value = "1")
     private Long id;
+
+    @NotNull
     private AnimalStatus status;
+
+    @NotNull
+    @DecimalMin(value = "1")
     private Long animalId;
+
     private User user;
+
+    @NotNull
     private Date date;
+
+    @Length(max = 255, message = "The description length must be less than {max}.")
+    @SqlInjection(message = "Wrong description.")
     private String description;
 
     public Long getId() {

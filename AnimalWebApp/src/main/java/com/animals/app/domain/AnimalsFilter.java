@@ -1,13 +1,18 @@
 package com.animals.app.domain;
 
+import javax.validation.constraints.DecimalMin;
+
 /**
  * Created by Rostyslav.Viner on 11.08.2015.
  */
 public class AnimalsFilter {
+    @DecimalMin(value = "1")
     private int page;
+
+    @DecimalMin(value = "1")
     private int limit;
+
     private Animal animal;
-    private int status;
 
     public AnimalsFilter() {
     }
@@ -45,14 +50,6 @@ public class AnimalsFilter {
         this.animal = animal;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public boolean isAnimalFilterNotEmpty(){
         return ((this.page != 0) || (this.limit != 0));
     }
@@ -63,7 +60,6 @@ public class AnimalsFilter {
                 "page=" + page +
                 ", limit=" + limit +
                 ", animal=" + animal +
-                ", status=" + status +
                 '}';
     }
 }

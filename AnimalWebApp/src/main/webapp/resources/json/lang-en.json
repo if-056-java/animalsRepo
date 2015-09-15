@@ -230,6 +230,8 @@
   "ERROR_FAILED_TO_GET_ANIMALS_TYPES": "Failed to get animals types. Try to refresh page.",
   "ERROR_FAILED_TO_GET_ANIMALS_SERVICES": "Failed to get animals services. Try to refresh page.",
   "ERROR_FAILED_TO_GET_ANIMALS_BREEDS": "Failed to get animals breeds. Try to refresh page.",
+  "ERROR_FAILED_TO_GET_ANIMAL_MH_TYPES": "Failed to get animal medical history types. Try to refresh page.",
+  "ERROR_FAILED_TO_GET_MH_ITEMS": "Failed to get animal medical history. Try to refresh page.",
 
   "ADMIN_USERS": "List of users",
   "ID": "Id",

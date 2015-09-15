@@ -1,11 +1,23 @@
 package com.animals.app.domain;
 
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Pattern;
+
 /**
  * Created by Rostyslav.Viner on 25.08.2015.
  */
 public class AnimalStatus {
+    @DecimalMin(value = "1")
     private Long id;
+
+    @Length(max = 45, message = "The status length must be less than {max}.")
+    @Pattern(message = "Wrong status.", regexp = "[A-Za-zА-Яа-яіІїЇ0-9'\\-\\s]*")
     private String status;
+
+    @Length(max = 45, message = "The statusEn length must be less than {max}.")
+    @Pattern(message = "Wrong statusEn.", regexp = "[A-Za-zА-Яа-яіІїЇ0-9'\\-\\s]*")
     private String statusEn;
 
     public Long getId() {
