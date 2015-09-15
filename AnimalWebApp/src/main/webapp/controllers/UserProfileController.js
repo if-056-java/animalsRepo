@@ -41,12 +41,8 @@ animalApp.controller('UserProfileController', ['$scope', 'UserDataService', 'Aut
 	} else {		
 		
 		
-		var id = localStorageService.get("userId");
-		
-//		UserDataService.getUser(id).success(function(data){				//old school
-//			$scope.userInfo=data;
-//			$scope.fields = $scope.userInfo;
-//		}) 	
+		var id = localStorageService.get("userId");		
+
 		$scope.contentLoading++;
 		UserDataService.getUser(id).then(
 				function(result){
@@ -58,11 +54,8 @@ animalApp.controller('UserProfileController', ['$scope', 'UserDataService', 'Aut
 					console.log(error)
 					$scope.contentLoading--;
 				}
-			);
+			);		
 		
-//		UserDataService.getUserAnimals(id).success(function(data){			//old school
-//			$scope.userAnimalInfo=data;
-//		});			
 		$scope.contentLoading2++;		
 		UserDataService.getPaginator(id).then(
 			function(result){				
@@ -120,12 +113,7 @@ animalApp.controller('UserProfileController', ['$scope', 'UserDataService', 'Aut
 	
 	
     $scope.submitUpdatedForm=function(){  
-    	
-    	
-    	if ($scope.passwordNew!=$scope.password_new_confirm){
-			$scope.errorConfirmMessage=true;				
-		} else {				
-		   	
+    	  	
     	if($scope.passwordNew){    		
     		$scope.fields.password=hashPassword($scope.passwordNew);     		
     	}     	
@@ -138,18 +126,12 @@ animalApp.controller('UserProfileController', ['$scope', 'UserDataService', 'Aut
 				}
 		);		
 		$scope.IsHidden =  true;
-		} 
-	
 	};	  
 	
 	$scope.AddOwnAnimal=function(){    	
+    	    	
+    	$location.path("/ua/animal/registration_owned");	    		
     	
-    	if($scope.userInfo.name=="unknown" || $scope.userInfo.surname=="N/A" || $scope.userInfo.address=="N/A" ||
-    			$scope.userInfo.email =="N/A" || $scope.userInfo.phone =="N/A"){    		
-    		$scope.errorAddAnimalMessage="Помилка. Відсутні контактні дані користувача! Відредагуййте профіль користувача";   		
-    	} else {
-    		$location.path("/ua/animal/registration_owned");	    		
-    	}  	
 	};	
 	
 	$scope.JoinGoogle=function(){	

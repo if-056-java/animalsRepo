@@ -18,22 +18,17 @@ animalApp.controller('RegistrationController', ['$scope', '$location', '$route',
 							
 			$scope.fields.password=hashPassword($scope.password); 
 			AuthenticationService.registerUser($scope.fields).then(
-				function(result){					
+				function(result){
 					if(result.userId==0){
-				        $scope.errorRegistrationMessage1="Помилка реєстрації. Даний логін вже використовується!";
-				        console.log("Registration error. SocialLogin is already exist");
-				        		
-				    } else if (result.userId==1){	
+				        $scope.errorRegistrationMessage1=true;
+				        console.log("Registration error. SocialLogin is already exist");	
+					} else if (result.userId==1){	
 				        $location.path("/ua/user/confirmRegistration");	
 						$route.reload();						        
 				    } else {
 				        console.log("error");
-				        $scope.errorRegistrationMessage3="Помилка реєстрації";
+				        $scope.errorRegistrationMessage3=true;
 				    }			
-				},
-				function(error){
-					console.log(error);					
-					$scope.errorRegistrationMessage2="Помилка реєстрації! Спробуйте ще раз";
 				}
 			);    
 	        

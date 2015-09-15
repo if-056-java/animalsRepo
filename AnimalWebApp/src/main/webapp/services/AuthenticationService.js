@@ -64,8 +64,8 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 	        .success(function(data){
 	        	def.resolve(data);	        	
 	        }) 
-			.error(function(data){
-				def.reject("Failed to register user");
+			.error(function(data){				
+				def.resolve(data);
 			});
 			return def.promise;
 		},

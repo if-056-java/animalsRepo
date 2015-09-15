@@ -150,8 +150,8 @@ public class AuthorizationResource {
 		if(socialLogin2 != null && !socialLogin2.isEmpty()){
 						
 			String socialLoginIsAlreadyInUse = setUpDestroyedSession("SocialLogin is already in use by another User"); 
-			
-			return Response.status(Response.Status.OK).entity(socialLoginIsAlreadyInUse).build();
+						
+			return Response.status(Response.Status.BAD_REQUEST).entity(socialLoginIsAlreadyInUse).build();
 		}
 		
 		String emailVerificator = UUID.randomUUID().toString();		
