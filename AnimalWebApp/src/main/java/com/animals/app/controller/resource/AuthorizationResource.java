@@ -43,6 +43,14 @@ public class AuthorizationResource {
 	private final int LONG_SESSION=2592000;
 	private final int SHORT_SESSION= 10800;
 	
+	private static final String LOGIN_CONFIRM_REG = "Now confirmation should be done";
+	private static final String SUCCESSFULL_LOGIN = "Successful login";
+	private static final String SESSION_DESTROYED = "Session destroyed";
+	private static final String LOGIN_NOT_UNIQUE = "SocialLogin is already in use by another User";
+	private static final String CONFIRMATION = "Now confirmation should be done";
+	private static final String SUCCESSFUL_REGISTRATION = "Successful Registration";
+	private static final String DESTROYED_SESSION = "Session Destroyed";
+	
 	private UserRepositoryImpl userRep = new UserRepositoryImpl();	
 	
 	
@@ -84,12 +92,11 @@ public class AuthorizationResource {
         if (user == null) return NOT_FOUND;
 
         // User exist. setting session params(username, userrole, userId etc.) from User
-        
         if (!user.isActive()){
         	
-        	String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + "now confirmation should be done" + "\"}"; 
-        	return Response.status(Response.Status.OK).entity(regWithoutConfirm).build();
-        	//return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(regWithoutConfirm).build();
+        	String regWithoutConfirm = buildResponseEntity(0, LOGIN_CONFIRM_REG);
+        	
+        	return Response.status(Response.Status.BAD_REQUEST).entity(regWithoutConfirm).build();
         }
 		
         //creating session
@@ -102,14 +109,15 @@ public class AuthorizationResource {
         }
         
         //setSuccessAtribute(session);        
-        String sessionSuccess = setUpSuccessSession(user, session, "Successful login"); 
+        String sessionSuccess = setUpSuccessSession(user, session, SUCCESSFULL_LOGIN); 
         session.setAttribute("user", user);
 
 	    return Response.status(Response.Status.OK).entity(sessionSuccess).build();
 		
-	}
+	}	
 	
-	
+
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("logout")//http:localhost:8080/webapi/account/refresh
@@ -121,8 +129,8 @@ public class AuthorizationResource {
 		session.invalidate();	
 		
 		//returning json with empty user		
-		String destroyedSession = setUpDestroyedSession("Session Destroyed"); 
-					
+		String destroyedSession = buildResponseEntity(0, SESSION_DESTROYED);
+							
 		return Response.status(Response.Status.OK).entity(destroyedSession).build();		
 		
 	}
@@ -133,14 +141,11 @@ public class AuthorizationResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)	
 	public Response registerUser (@Context HttpServletRequest req, @Valid User user) {	
-		
-			
-		if (user==null) return BAD_REQUEST;	
-		
+				
 		String socialLogin = user.getSocialLogin();		
 				
 		//check if user socialLogin unique
-		String socialLogin2="logintoChange";
+		String socialLogin2;
 		try {
 			 socialLogin2 = userRep.checkIfUsernameUnique(socialLogin);			
 		} catch (Exception e) {
@@ -149,8 +154,8 @@ public class AuthorizationResource {
 		
 		if(socialLogin2 != null && !socialLogin2.isEmpty()){
 						
-			String socialLoginIsAlreadyInUse = setUpDestroyedSession("SocialLogin is already in use by another User"); 
-						
+			String socialLoginIsAlreadyInUse = buildResponseEntity(0, LOGIN_NOT_UNIQUE);
+			
 			return Response.status(Response.Status.BAD_REQUEST).entity(socialLoginIsAlreadyInUse).build();
 		}
 		
@@ -173,11 +178,9 @@ public class AuthorizationResource {
 		//Define URLs and callback
 		String pathAll = req.getRequestURL().toString(); 
 		String pathMain =pathAll.replace("webapi/account/registration", "");	
-				
-		
-		String message = "Для підтвердження реєстрації на сайті - "+ pathMain + " пройдіть за вказаною ссилкою - "
-							+ pathMain + "#/ua/user/confirmRegistration?username="+username+"&code="+ emailVerificator;
-				
+			
+		String message = buildResponseMessage(pathMain, username, emailVerificator);
+						
 		try {
 			MailSender ms = new MailSender();
 			ms.newsSend(recipientEmail, message);			
@@ -185,21 +188,20 @@ public class AuthorizationResource {
 			e.printStackTrace();
 		}				
         
-		String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + "now confirmation should be done" + "\"}"; 		
+		//String regWithoutConfirm = "{\"userId\" : \"1\", \"message\" : \"" + CONFIRMATION + "\"}"; 
+		String regWithoutConfirm = buildResponseEntity(1, CONFIRMATION);
         
 	    return Response.status(Response.Status.OK).entity(regWithoutConfirm).build();	 
 		
 	}
-	
+
+
 	@POST
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("confirmRegistration/{socialLogin}/{code}")//http:localhost:8080/webapi/account/confirmRegistration/socialLogin/code
 	public Response loginToSite (@Context HttpServletRequest req,
 								 @PathParam ("socialLogin") String socialLogin,
 								 @PathParam ("code") String code) {
-		
-		System.out.println("socialLogin - " + socialLogin);
-		System.out.println("verificator - " + code);	
 		
 		
 		//user Verification. checking if user with verification code exist.    
@@ -224,10 +226,10 @@ public class AuthorizationResource {
 		//creating session
         HttpSession session = req.getSession(true);
 		
-        String sessionSuccessReg = setUpSuccessSession(user, session, "Successful Registration"); 
+        String sessionSuccessReg = setUpSuccessSession(user, session, SUCCESSFUL_REGISTRATION); 
         session.setAttribute("user", user);        
 		
-	    return Response.status(Response.Status.OK).entity(sessionSuccessReg).build();		
+	    return Response.status(Response.Status.OK).entity(sessionSuccessReg).build();	
 	
 	}
 	
@@ -243,7 +245,7 @@ public class AuthorizationResource {
 		//checking if session is stil going on by geting params from it. if not - returning json with empty user	
 		if(session.getAttribute("userId") == null){
 			
-			String destroyedSession = setUpDestroyedSession("Session Destroyed");  
+			String destroyedSession = buildResponseEntity(0, DESTROYED_SESSION);  
 							
 			return Response.status(Response.Status.OK).entity(destroyedSession).build();
 			
@@ -314,16 +316,22 @@ private static String setUpSuccessSession(User user, HttpSession session, String
     			"\"}";		
 		
 		return str;
+	}	
+	
+	
+	private String buildResponseEntity(int i, String message) {
+		
+		String entity = "{\"userId\" : " + i + ", \"message\" : \"" + message + "\"}"; 
+    	
+		return entity;
 	}
 	
-	
-	
-	private static String setUpDestroyedSession(String errorMesage){
+	private String buildResponseMessage(String pathMain, String username, String emailVerificator) {
 		
-		String destroyedSession = "{\"userId\" : \"0\", \"errorMesage\" : \"" + errorMesage + "\"}";   	
+		String message = "Для підтвердження реєстрації на сайті - "+ pathMain + " пройдіть за вказаною ссилкою - "
+				+ pathMain + "#/ua/user/confirmRegistration?username="+username+"&code="+ emailVerificator;
 		
-		return destroyedSession;
-		
-	}	
+		return message;
+	}
 
 }

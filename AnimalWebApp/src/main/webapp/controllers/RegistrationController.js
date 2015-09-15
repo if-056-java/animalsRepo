@@ -13,8 +13,7 @@ animalApp.controller('RegistrationController', ['$scope', '$location', '$route',
 			$scope.fields.userRole = [{"id":3,"role":"гість"}]; //userRole=гість
 			$scope.fields.userType = {"id":1,"type":"власник"};	//userType=власник		
 			
-			$scope.fields.registrationDate = currentDate;
-			
+			$scope.fields.registrationDate = currentDate;			
 							
 			$scope.fields.password=hashPassword($scope.password); 
 			AuthenticationService.registerUser($scope.fields).then(

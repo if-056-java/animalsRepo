@@ -13,25 +13,27 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 			
 			$http.post(RESOURCES.LOGIN_BASIC + memoryMe, {})
 	        .success(function(data){	        	        	
-	        	if(data.userId==1){	
-	        		def.resolve(data);
-	        	} else {	        	
-		        	if (localStorageService.get("memoryMe")=="ON"){
-		        		localStorageService.cookie.set("accessToken",data.accessToken,30);	        		
-		        	} else {
-		        		localStorageService.cookie.set("accessToken",data.accessToken,0.065);	//90 min
-		        	}		        	
-		        	localStorageService.set("accessToken", data.accessToken);
-		        	localStorageService.set("userId", data.userId);
-		        	localStorageService.set("userName", data.socialLogin);
-		        	localStorageService.set("userRole", data.userRole);
-		        	localStorageService.set("userRoleId", data.userRoleId);
+	        		        	
+		        if (localStorageService.get("memoryMe")=="ON"){
+		        	localStorageService.cookie.set("accessToken",data.accessToken,30);	        		
+		        } else {
+		        	localStorageService.cookie.set("accessToken",data.accessToken,0.065);	//90 min
+		        }		        	
+		        localStorageService.set("accessToken", data.accessToken);
+		        localStorageService.set("userId", data.userId);
+		        localStorageService.set("userName", data.socialLogin);
+		        localStorageService.set("userRole", data.userRole);
+		        localStorageService.set("userRoleId", data.userRoleId);
 		        	
-		        	def.resolve(data);		        	
-	        	}
+		        def.resolve(data);		        	
+	        	
 	        }) 
-			.error(function(data, status){								
-				def.reject("Failed to enter site");
+			.error(function(data){
+				if(data.userId==0){	
+	        		def.resolve(data);
+	        	} else {				
+	        		def.reject("Failed to enter site");
+	        	}
 			});
 			return def.promise;
 		},
