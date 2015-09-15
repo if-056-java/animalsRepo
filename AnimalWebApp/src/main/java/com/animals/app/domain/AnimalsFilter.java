@@ -1,5 +1,7 @@
 package com.animals.app.domain;
 
+import java.util.List;
+
 /**
  * Created by Rostyslav.Viner on 11.08.2015.
  */

@@ -2,6 +2,8 @@ package app.repository;
 
 import app.JNDIConfigurationForTests;
 import com.animals.app.domain.AnimalStatus;
+import com.animals.app.domain.AnimalStatusLoger;
+import com.animals.app.repository.Impl.AnimalStatusLogerRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalStatusRepositoryImpl;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
