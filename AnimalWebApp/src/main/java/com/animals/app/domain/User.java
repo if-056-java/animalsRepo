@@ -21,32 +21,40 @@ import org.hibernate.validator.constraints.Length;
 @XmlRootElement
 public class User implements Serializable, Principal {
 	
-	//@DecimalMin(value = "1")
+	@DecimalMin(value = "1")
 	private Integer id;
-    
-    @Size(min = 2, max = 20, message =  "Name must be between {min} and {max}.")
+	    
+	@Length(min = 2, max = 35, message =  "Name must be between {min} and {max}.")
     private String name;
     
-    @Size(min = 2, max = 20, message =  "Surname must be between {min} and {max}.") 
+	@Length(min = 2, max = 45, message =  "Surname must be between {min} and {max}.") 
     private String surname;
     
+	@NotNull
     private Date registrationDate;    
      
     @Email(message = "{contact.wrong.email}", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
     private String email;
     
     @NotNull
+    @Length(max = 40, message =  "Password must be less than {max}  characters.")
     private String password;
     
     @Pattern(message = "{contact.wrong.phone}", regexp = "^[0-9]{3}-[0-9]{7}$") 
     private String phone;
     
-    @Length(min = 4, max = 12, message = "The socialLogin must be between {min} and {max}.")
+    @Length(min = 6, max = 16, message = "The socialLogin must be between {min} and {max}.")
     private String socialLogin;
     
-    private String address = "N/A";    
+    @Length(max = 120, message =  "Address must be less than {max} characters.") 
+    private String address = "N/A"; 
+    
+    @Length(max = 70, message =  "Organization Name must be less than {max} characters.") 
     private String organizationName = "N/A";
+    
+    @Length(max = 100, message =  "Organization Info  must be less than {max} characters.") 
     private String organizationInfo = "N/A";
+    
     private boolean isActive = true;
     
     private String googleId;
