@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by Rostyslav.Viner on 22.07.2015.

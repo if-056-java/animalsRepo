@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.*;
+import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
 import com.animals.app.domain.User;

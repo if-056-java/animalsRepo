@@ -5,6 +5,7 @@ import com.animals.app.domain.Animal;
 import com.animals.app.repository.Impl.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.*;
+import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
 import java.sql.Date;

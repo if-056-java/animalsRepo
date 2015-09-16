@@ -52,7 +52,8 @@
               minEvictableIdleTimeMillis="30000"
               jmxEnabled="true"
               jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;
-              org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer;"
+              org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer;
+              org.apache.tomcat.jdbc.pool.interceptor.ResetAbandonedTimer"
               username="u_remoteuser"
               password="ZF008NBp"
               driverClassName="com.mysql.jdbc.Driver"

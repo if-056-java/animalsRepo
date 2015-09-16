@@ -21,7 +21,7 @@ public class JNDIConfigurationForTests {
     private static String username;
     private static String password;
 
-    protected static void configureJNDIForJUnit() {
+    public static void configureJNDIForJUnit() {
         // rcarver - setup the jndi context and the datasource
         try {
             setSystemProperties();

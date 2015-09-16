@@ -1,10 +1,13 @@
 package com.animals.app.repository.Impl;
 
 import com.animals.app.domain.AnimalStatus;
+import com.animals.app.domain.AnimalStatusLoger;
 import com.animals.app.repository.AnimalStatusLogerRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+
+import java.util.List;
 
 /**
  * Created by Rostyslav.Viner on 25.08.2015.
@@ -22,11 +25,29 @@ public class AnimalStatusLogerRepositoryImpl implements AnimalStatusLogerReposit
      * @param id primary key value used for lookup.
      * @return An Animal status loger instance with a primary key value equals to pk. null if there is no matching row.
      */
-    public AnimalStatus getById(long id) {
+    @Override
+    public AnimalStatusLoger getById(long id) {
         SqlSession session = sqlSessionFactory.openSession();
 
         try{
             return session.getMapper(AnimalStatusLogerRepository.class).getById(id);
+        } finally {
+            session.close();
+        }
+    }
+
+    /**
+     * Returns List of Animal statuses id from the database.
+     *
+     * @param animalId primary key value used for lookup.
+     * @return List of Animal statuses id.
+     */
+    @Override
+    public List<AnimalStatusLoger> getAnimalStatusesByAnimalId(long animalId) {
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try{
+            return session.getMapper(AnimalStatusLogerRepository.class).getAnimalStatusesByAnimalId(animalId);
         } finally {
             session.close();
         }

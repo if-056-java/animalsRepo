@@ -64,12 +64,7 @@ public class UserResource {
 	private final Response UNAUTHORIZED = Response.status(Response.Status.UNAUTHORIZED).build();
 	
 	private final String IMAGE_FOLDER = "images/";
-	private final int LENGTH_TRANSPNUMBER = 15;
-    private final int LENGTH_TOKENNUMBER = 12;
-    private final int LENGTH_COLOR = 20;
-    private final int LENGTH_DESCRIPTION = 100;
-    private final int LENGTH_ADDRESS = 120;
-    private final int LENGTH_IMAGE = 50;
+	private final int LENGTH_IMAGE = 50;
 	
 	private UserRepository userRep = new UserRepositoryImpl();
 	private AnimalRepository animalRep = new AnimalRepositoryImpl();		
@@ -82,10 +77,10 @@ public class UserResource {
 		int parseId = 0;
 		
 		try {
-            if (id == null)
-                return BAD_REQUEST;
+            if (id == null) return BAD_REQUEST;
             parseId = Integer.parseInt(id);
         } catch (NumberFormatException e){
+        	LOG.error(e);
             return BAD_REQUEST;
         }
 		
@@ -97,6 +92,7 @@ public class UserResource {
 			return Response.ok().entity(user).build();
 			
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}	
 		
@@ -110,10 +106,10 @@ public class UserResource {
 		int parseId = 0;
 		
 		try {
-            if (id == null)
-                return BAD_REQUEST;
+            if (id == null) return BAD_REQUEST;
             parseId = Integer.parseInt(id);
         } catch (NumberFormatException e){
+        	LOG.error(e);
             return BAD_REQUEST;
         }
 		
@@ -129,6 +125,7 @@ public class UserResource {
 			return Response.status(Response.Status.OK).entity(genericAnimals).build();
 			
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
 		
@@ -145,6 +142,7 @@ public class UserResource {
 		try {
 			userRep.insert(user);			
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
 		
@@ -165,6 +163,7 @@ public class UserResource {
 		try {
 			id = user.getId();
 		} catch (Exception e) {
+			LOG.error(e);
 			return BAD_REQUEST;
 		}		
 				
@@ -178,6 +177,7 @@ public class UserResource {
 			return Response.ok().entity(updatedUser).build();
 			
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}		
 	}
@@ -243,7 +243,7 @@ public class UserResource {
     @POST //http:localhost:8080/webapi/users/user/{userId}/animals/animal
     @Path("user/{userId}/animals/animal")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAnimal(Animal animal,
+    public Response updateAnimal(@Valid Animal animal,
     							 @PathParam ("userId") String id,
     							 @Context HttpServletRequest req) {
     	
@@ -251,11 +251,7 @@ public class UserResource {
 		
 		if (!session.getAttribute("userId").equals(id)){
 			return UNAUTHORIZED;
-		}  
-    	
-		if(!validateAnimal(animal)) {
-            return BAD_REQUEST;
-        }
+		} 		
 
         //check breed, if it new insert it into database
         saveNewBreed(animal.getBreed(), animal.getType());
@@ -372,73 +368,8 @@ public class UserResource {
 			return NOT_FOUND;
 
 		return Response.ok().entity(genericUsers).build();
-	}
+	}	
 	
-	private Boolean validateAnimal(Animal animal) {
-        if (animal == null) {
-            return false;
-        }
-
-        if ((animal.getId() == null) || (animal.getId() <= 0)) {
-            return false;
-        }
-
-        if (animal.getSex() == null) {
-            return false;
-        }
-
-        if ((animal.getType() == null) || (animal.getType().getId() == null) || (animal.getType().getId() <= 0)) {
-            return false;
-        }
-
-        if (animal.getSize() == null) {
-            return false;
-        }
-
-        if (animal.getBreed() != null) {
-            if (animal.getBreed().getId() == null) {
-                if ((animal.getBreed().getBreedUa() == null) && (animal.getBreed().getBreedEn() == null)) {
-                    return false;
-                }
-            } else if (animal.getBreed().getId() <= 0) {
-                return false;
-            }
-        }
-
-        if ((animal.getTranspNumber() != null) && (animal.getTranspNumber().length() > LENGTH_TRANSPNUMBER)) {
-            return false;
-        }
-
-        if ((animal.getTokenNumber() != null) && (animal.getTokenNumber().length() > LENGTH_TOKENNUMBER)) {
-            return false;
-        }
-
-        if (animal.getDateOfRegister() == null) {
-            return false;
-        }
-
-        if ((animal.getColor() == null) || (animal.getColor().length() > LENGTH_COLOR)) {
-            return false;
-        }
-
-        if ((animal.getDescription() != null) && (animal.getDescription().length() > LENGTH_DESCRIPTION)) {
-            return false;
-        }
-
-        if ((animal.getUser() != null) && ((animal.getUser().getId() == null) || (animal.getUser().getId() <= 0))) {
-            return false;
-        }
-
-        if ((animal.getAddress() == null) || (animal.getAddress().length() > LENGTH_ADDRESS)) {
-            return false;
-        }
-
-        if ((animal.getService() == null) || (animal.getService().getId() == null) || (animal.getService().getId() <= 0)) {
-            return false;
-        }
-
-        return true;
-    }
 
     private String saveNewImage(String rootFolder, String image, Long animalId) {
         if ((rootFolder == null) || (image == null) || (animalId == null)) {
@@ -468,6 +399,7 @@ public class UserResource {
         try {
             decodedBytes = decoder.decodeBuffer(image);
         } catch (IOException e) {
+        	LOG.error(e);
             e.printStackTrace();
         }
 
