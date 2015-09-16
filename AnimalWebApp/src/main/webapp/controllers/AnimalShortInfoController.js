@@ -1,6 +1,6 @@
 angular.module('AnimalShortInfoController', ['AnimalShortInfoService', 'vcRecaptcha','ContactsValues'])
-	.controller('AnimalShortInfoController', ['$scope', 'AnimalShortInfoService',  '$routeParams', '$filter', 'vcRecaptchaService', 'ContactsValues',
-		function($scope, AnimalShortInfoService,  $routeParams, $filter,  vcRecaptchaService, ContactsValues) {
+	.controller('AnimalShortInfoController', ['$scope', 'AnimalShortInfoService', 'AdoptionFactory', '$routeParams', '$filter', 'vcRecaptchaService', 'ContactsValues',
+		function($scope, AnimalShortInfoService, AdoptionFactory, $routeParams, $filter,  vcRecaptchaService, ContactsValues) {
 
 			var service = $routeParams.service;
 
@@ -42,7 +42,81 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService', 'vcRecapt
 								$scope.animalImage = $scope.animal.image;
 							}
 						}
-					},
+
+                            AdoptionFactory.getListOfAnimalStatuses(animalId)
+                                .then(
+                                function(result){
+                                    for(var i = 0; i < result.length; i++){
+                                        if(result[i].animalStatus.id === 14) {
+                                            $("#status-sprite-" + result[i].animal.id)
+                                                .append('<p class="center-block sprite-status catched"></p>');
+                                            $(".sprite-status.catched")
+                                                .attr('title', $filter('translate')('ANIMAL_STATUS_CAUGHT'));
+                                        }
+                                        if(result[i].animalStatus.id === 13) {
+                                            $("#status-sprite-" + result[i].animal.id)
+                                                .append('<p class="center-block sprite-status released"></p>');
+                                            $(".sprite-status.released")
+                                                .attr('title', $filter('translate')('ANIMAL_STATUS_RELEASED'));
+                                        }
+                                        if(result[i].animalStatus.id === 20) {
+                                            $("#status-sprite-" + result[i].animal.id)
+                                                .append('<p class="center-block sprite-status newborn"></p>');
+                                            $(".sprite-status.newborn")
+                                                .attr('title', $filter('translate')('ANIMAL_STATUS_NEWBORN'));
+                                        }
+                                        if(result[i].animalStatus.id === 12) {
+                                            $("#status-sprite-" + result[i].animal.id)
+                                                .append('<p class="center-block sprite-status disinfected"></p>');
+                                            $(".sprite-status.disinfected")
+                                                .attr('title', $filter('translate')('ANIMAL_STATUS_DISINFECTED'));
+                                        }
+                                        if(result[i].animalStatus.id === 16) {
+                                            $("#status-sprite-" + result[i].animal.id)
+                                                .append('<p class="center-block sprite-status vaccinated"></p>');
+                                            $(".sprite-status.vaccinated")
+                                                .attr('title', $filter('translate')('ANIMAL_STATUS_VACCINATED'));
+                                        }
+                                        if(result[i].animalStatus.id === 10) {
+                                            $("#status-sprite-" + result[i].animal.id)
+                                                .append('<p class="center-block sprite-status cured"></p>');
+                                            $(".sprite-status.cured")
+                                                .attr('title', $filter('translate')('ANIMAL_STATUS_CURED'));
+                                        }
+                                        if(result[i].animalStatus.id === 19) {
+                                            $("#status-sprite-" + result[i].animal.id)
+                                                .append('<p class="center-block sprite-status sick"></p>');
+                                            $(".sprite-status.sick")
+                                                .attr('title', $filter('translate')('ANIMAL_STATUS_SICK'));
+                                        }
+                                        if(result[i].animalStatus.id === 22) {
+                                            $("#status-sprite-" + result[i].animal.id)
+                                                .append('<p class="center-block sprite-status injured"></p>');
+                                            $(".sprite-status.injured")
+                                                .attr('title', $filter('translate')('ANIMAL_STATUS_INJURED'));
+                                        }
+                                        if(result[i].animalStatus.id === 17) {
+                                            $("#status-sprite-" + result[i].animal.id)
+                                                .append('<p class="center-block sprite-status adopt"></p>');
+                                            $(".sprite-status.adopt")
+                                                .attr('title', $filter('translate')('ANIMAL_STATUS_ADOPT'));
+                                        }
+                                        if(result[i].animalStatus.id === 18) {
+                                            $("#status-sprite-" + result[i].animal.id)
+                                                .append('<p class="center-block sprite-status custody"></p>');
+                                            $(".sprite-status.custody")
+                                                .attr('title', $filter('translate')('ANIMAL_STATUS_CUSTODY'));
+                                        }
+                                    }
+                                },
+
+                                function(error){
+                                    console.log(error);
+                                    $scope.errorMessage = error;
+                                }
+                            );
+
+                    },
 					function(data) {
 						console.log('Animal retrieval failed.');
 					});
