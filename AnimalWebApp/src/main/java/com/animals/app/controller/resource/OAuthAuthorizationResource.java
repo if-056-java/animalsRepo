@@ -1,9 +1,13 @@
 package com.animals.app.controller.resource;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +22,8 @@ import javax.ws.rs.core.UriBuilder;
 import com.animals.app.service.googleoauth.Google2Api;
 import com.animals.app.service.googleoauth.ServiceBuilder;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -41,8 +47,9 @@ import com.animals.app.repository.Impl.UserRepositoryImpl;
 @Path("account")
 @PermitAll
 public class OAuthAuthorizationResource {
-
-	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
+	
+	private static Logger LOG = LogManager.getLogger(OAuthAuthorizationResource.class);
+	
 	private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
 	private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 
@@ -52,21 +59,15 @@ public class OAuthAuthorizationResource {
 	private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json";
 	private static final String SCOPE = "https://mail.google.com/ https://www.googleapis.com/auth/userinfo.email";
 	private static final Token EMPTY_TOKEN = null;
-	private static final String apiKeyG = "1061082540782-02vuauouhb8v5caiavepvgkuuiv4t178.apps.googleusercontent.com";
-	private static final String apiSecretG = "rYsnWUSHf4S2z-LHM1oMocJT";
 	private static final String callbackUrlPathG = "webapi/account/login/google_token";
 
 	// Facebook OAuth preferences
 	private static final String PROTECTED_RESOURCE_URL_FB = "https://graph.facebook.com/me";
 	private static final String PROTECTED_RESOURCE_URL_FB2 = "https://graph.facebook.com/me?fields=picture.type(large)";
-	private static final String apiKeyF = "669050466528151"; 
-	private static final String apiSecretF = "b6d47e16e955bae44b692a62e88f093e"; 
 	private static final String callbackUrlGPathFacebook = "webapi/account/login/facebook_token";
 
 	// Twitter OAuth preferences
 	private static final String PROTECTED_RESOURCE_URL_TW = "https://api.twitter.com/1.1/account/verify_credentials.json";
-	private static final String apiKeyTW = "hmjWTtWq8NV6OEQx2QFOCzLr8"; 
-	private static final String apiSecretTW = "Ow8X7AFYgnj1CLehu46qgG9k1kZvjEx3twk9BurcSmYuoSe98X";
 	private static final String callbackUrlGPathTW = "webapi/account/login/twitter_token";
 
 	@GET
@@ -77,22 +78,23 @@ public class OAuthAuthorizationResource {
 		String callbackUrlG = defineURL(req, "webapi/account/login/google", callbackUrlPathG);
 
 		OAuthService service = null;
+		
 		try {
 			service = new ServiceBuilder()
 					.provider(Google2Api.class)
-					.apiKey(apiKeyG)
-					.apiSecret(apiSecretG)
+					.apiKey(socialsConfig.getProperty("google.apiKey")) 
+					.apiSecret(socialsConfig.getProperty("google.apiSecret"))
 					.callback(callbackUrlG)
 					.scope(SCOPE)
 					.offline(true)
 					.build();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 		}
 
 		if (service == null) {
-			return Response.status(404).build();
+			return NOT_FOUND;
 		}
 
 		String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
@@ -124,15 +126,15 @@ public class OAuthAuthorizationResource {
 		try {
 			service2 = new ServiceBuilder()
 					.provider(Google2Api.class)
-					.apiKey(apiKeyG)
-					.apiSecret(apiSecretG)
+					.apiKey(socialsConfig.getProperty("google.apiKey")) 
+					.apiSecret(socialsConfig.getProperty("google.apiSecret"))
 					.callback(callbackUrlG)
 					.scope(SCOPE)
 					.offline(true)
 					.build();
 
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+			LOG.error(e);
 		}
 
 		Token accessToken = new Token("ACCESS_TOKEN", "REFRESH_TOKEN");
@@ -163,10 +165,10 @@ public class OAuthAuthorizationResource {
 			link = (String) jsonObject.get("picture");
 			email = (String) jsonObject.get("email");			
 
-		} catch (ParseException e) {
-			e.printStackTrace();
-		} catch (NullPointerException ex) {
-			ex.printStackTrace();
+		} catch (ParseException e) {			
+			LOG.error(e);
+		} catch (NullPointerException ex) {			
+			LOG.error(ex);
 		}
 
 		// getting userId from current session
@@ -181,6 +183,7 @@ public class OAuthAuthorizationResource {
 			try {
 				existUserWithGoogleId = userRep.getByGoogleId(googleId);
 			} catch (Exception e) {
+				LOG.error(e);
 				return SERVER_ERROR;
 			}
 
@@ -203,6 +206,7 @@ public class OAuthAuthorizationResource {
 				userRep.update(user);
 
 			} catch (Exception e) {
+				LOG.error(e);
 				return SERVER_ERROR;
 			}
 
@@ -222,6 +226,7 @@ public class OAuthAuthorizationResource {
 		try {
 			user = userRep.getByGoogleId(googleId);
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
 
@@ -246,6 +251,7 @@ public class OAuthAuthorizationResource {
 		try {
 			userRep.insert(userToReg);
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
 
@@ -273,8 +279,8 @@ public class OAuthAuthorizationResource {
 		OAuthRequest request = new OAuthRequest(Verb.POST, "https://www.googleapis.com/oauth2/v3/token");
 		request.addBodyParameter("grant_type", "refresh_token");
 		request.addBodyParameter("refresh_token", refreshGoogleToken); 
-		request.addBodyParameter("client_id", apiKeyG);
-		request.addBodyParameter("client_secret", apiSecretG);
+		request.addBodyParameter("client_id", socialsConfig.getProperty("google.apiKey"));
+		request.addBodyParameter("client_secret", socialsConfig.getProperty("google.apiSecret"));
 
 		org.scribe.model.Response response = request.send();
 		
@@ -292,9 +298,9 @@ public class OAuthAuthorizationResource {
 			System.out.println("new accessToken is: " + new_access_token);
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			LOG.error(e);			
 		} catch (NullPointerException ex) {
-			ex.printStackTrace();
+			LOG.error(ex);
 		}
 
 		// New request to protected resource with new accessToken and old refreshToken
@@ -302,14 +308,14 @@ public class OAuthAuthorizationResource {
 		try {
 			service2 = new ServiceBuilder()
 					.provider(Google2Api.class)
-					.apiKey(apiKeyG)
-					.apiSecret(apiSecretG)
+					.apiKey(socialsConfig.getProperty("google.apiKey")) 
+					.apiSecret(socialsConfig.getProperty("google.apiSecret"))
 					.callback(callbackUrlG)
 					.scope(SCOPE)
 					.build();
 
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+			LOG.error(e);
 		}
 
 		Token accessToken = new Token(new_access_token, refreshGoogleToken);
@@ -331,9 +337,9 @@ public class OAuthAuthorizationResource {
 			googleId = (String) jsonObject.get("id");			
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			LOG.error(e);			
 		} catch (NullPointerException ex) {
-			ex.printStackTrace();
+			LOG.error(ex);
 		}
 
 		// Login to site. Session is not set. Find User by googleId
@@ -344,6 +350,7 @@ public class OAuthAuthorizationResource {
 		try {
 			user = userRep.getByGoogleId(googleId);			
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
 
@@ -370,13 +377,13 @@ public class OAuthAuthorizationResource {
 		try {
 			service = new ServiceBuilder()
 					.provider(FacebookApi.class)
-					.apiKey(apiKeyF)
-					.apiSecret(apiSecretF)
+					.apiKey(socialsConfig.getProperty("facebook.apiKey")) 
+					.apiSecret(socialsConfig.getProperty("facebook.apiSecret"))
 					.callback(callbackUrlF)
 					.build();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);			
 		}
 
 		if (service == null) {
@@ -411,12 +418,12 @@ public class OAuthAuthorizationResource {
 		try {
 			service = new ServiceBuilder()
 					.provider(FacebookApi.class)
-					.apiKey(apiKeyF)
-					.apiSecret(apiSecretF)
+					.apiKey(socialsConfig.getProperty("facebook.apiKey")) 
+					.apiSecret(socialsConfig.getProperty("facebook.apiSecret"))
 					.callback(callbackUrlF).build();
 
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+			LOG.error(e);			
 		}
 
 		Token accessToken = service.getAccessToken(EMPTY_TOKEN, v);
@@ -459,9 +466,9 @@ public class OAuthAuthorizationResource {
 //			System.out.println(link.length());
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			LOG.error(e);			
 		} catch (NullPointerException ex) {
-			ex.printStackTrace();
+			LOG.error(ex);
 		}
 
 		// getting userId from current session
@@ -515,6 +522,7 @@ public class OAuthAuthorizationResource {
 		try {
 			user = userRep.getByFacebookId(facebookId);
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
 
@@ -540,6 +548,7 @@ public class OAuthAuthorizationResource {
 		try {
 			userRep.insert(userToReg);
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
 
@@ -564,12 +573,13 @@ public class OAuthAuthorizationResource {
 
 		try {
 			service = new ServiceBuilder().provider(TwitterApi.class)
-					.apiKey(apiKeyTW)
-					.apiSecret(apiSecretTW)
+					.apiKey(socialsConfig.getProperty("twitter.consumerKey")) 
+					.apiSecret(socialsConfig.getProperty("twitter.consumerSecret"))
 					.callback(callbackUrlTW)
 					.build();
 
 		} catch (Exception e) {
+			LOG.error(e);
 			e.printStackTrace();
 		}
 
@@ -608,13 +618,13 @@ public class OAuthAuthorizationResource {
 		try {
 			service = new ServiceBuilder()
 					.provider(TwitterApi.class)
-					.apiKey(apiKeyTW)
-					.apiSecret(apiSecretTW)
+					.apiKey(socialsConfig.getProperty("twitter.consumerKey")) 
+					.apiSecret(socialsConfig.getProperty("twitter.consumerSecret"))
 					.callback(callbackUrlTW)
 					.build();
 
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+			LOG.error(e);			
 		}
 
 		Token accessToken = service.getAccessToken(requestToken, v);
@@ -643,9 +653,9 @@ public class OAuthAuthorizationResource {
 			link = link2.replace("_normal", "");			
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			LOG.error(e);			
 		} catch (NullPointerException ex) {
-			ex.printStackTrace();
+			LOG.error(ex);
 		}
 
 		// getting userId from current session
@@ -660,6 +670,7 @@ public class OAuthAuthorizationResource {
 			try {
 				existUserWithTWId = userRep.getByTwitterId(twitterId);
 			} catch (Exception e) {
+				LOG.error(e);
 				return SERVER_ERROR;
 			}
 
@@ -680,6 +691,7 @@ public class OAuthAuthorizationResource {
 				userRep.update(user);
 
 			} catch (Exception e) {
+				LOG.error(e);
 				return SERVER_ERROR;
 			}
 
@@ -700,6 +712,7 @@ public class OAuthAuthorizationResource {
 		try {
 			user = userRep.getByTwitterId(twitterId);
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
 
@@ -726,6 +739,7 @@ public class OAuthAuthorizationResource {
 		try {
 			userRep.insert(userToReg);
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
 
@@ -757,13 +771,13 @@ public class OAuthAuthorizationResource {
 		try {
 			service = new ServiceBuilder()
 					.provider(TwitterApi.class)
-					.apiKey(apiKeyTW)
-					.apiSecret(apiSecretTW)
+					.apiKey(socialsConfig.getProperty("twitter.consumerKey")) 
+					.apiSecret(socialsConfig.getProperty("twitter.consumerSecret"))
 					.callback(callbackUrlTW)
 					.build();
 
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+			LOG.error(e);			
 		}
 		
 		// Request protected resource
@@ -782,10 +796,10 @@ public class OAuthAuthorizationResource {
 			JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
 		
 			twitterId = (String) jsonObject.get("id_str");
-		} catch (ParseException e) {
-			e.printStackTrace();
+		} catch (ParseException e) {			
+			LOG.error(e);
 		} catch (NullPointerException ex) {
-			ex.printStackTrace();
+			LOG.error(ex);
 		}		
 
 		// Login to site. Session is not set. Find User by googleId
@@ -796,6 +810,7 @@ public class OAuthAuthorizationResource {
 		try {
 			user = userRep.getByTwitterId(twitterId);			
 		} catch (Exception e) {
+			LOG.error(e);
 			return SERVER_ERROR;
 		}
 
@@ -827,8 +842,6 @@ public class OAuthAuthorizationResource {
 		// creating string for accessToken
 		String accessToken = (String) session.getId() + ":" + (String) session.getAttribute("userId");
 
-		System.out.println("decoded accesToken - " + accessToken);
-
 		String accessTokenEncoded = null;
 
 		try {
@@ -837,8 +850,7 @@ public class OAuthAuthorizationResource {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		System.out.println("encoded accessToken -" + accessTokenEncoded);
+		
 		session.setAttribute("accessToken", accessTokenEncoded);
 
 	}
@@ -903,5 +915,27 @@ public class OAuthAuthorizationResource {
 		return userToReg;
 		
 	}
+	
+	private static Properties socialsConfig = new Properties();
+    {
+        fetchConfig();
+    }
+
+    /**
+     * Open a specific text file containing reCAPTCHA secret key
+     * and verification URL.
+     */
+    private void fetchConfig() {
+        
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("project.properties").getFile());
+
+        try (InputStream input = new FileInputStream(file)) {
+            socialsConfig.load(input);
+        }
+        catch (IOException ex){
+            System.err.println("Cannot open and load mail server properties file. Put it on...");
+        }
+    }
 
 }

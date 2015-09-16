@@ -17,15 +17,15 @@ animalApp.controller('LoginController', ['$scope', '$location', '$route', 'Authe
 		
 		AuthenticationService.login(userLogin, password).then(
 				function(result){					
-					if(result.userId==1){
-		        		$scope.errorConfirmMessage="Для входу потрібно підтвердити реєстрацію!";		        		  		
+					if(result.userId==0){
+		        		$scope.errorConfirmMessage=true;		        		  		
 		        	} else {			        	
 				        $location.path("/ua/user/profile");	
 				        $route.reload();
 		        	}					
 				},
 				function(error){
-					$scope.errorMessage="Помилка входу. Перевірте свої дані!";
+					$scope.errorMessage=true;
 				}
 		);
 		

@@ -85,7 +85,9 @@
   "ANIMAL_REG_COMPLETED": "Registration completed",
   "BACK_TO_PROFILE": "Back to Profile",
   "ANIMAL_REGISTERED": "The animal registered! Please, click 'OK' to look list of your animals.",
-  "ANIMAL_SHORT_INFO": "Animal Information",
+  "ANIMAL_SHORT_INFO_ADOPTION": "Animal For Adoption Information",
+  "ANIMAL_SHORT_INFO_LOST": "Lost Animal Information",
+  "ANIMAL_SHORT_INFO_FIND": "Found Animal Information",
 
   "CONTACTS": "Contacts",
   "LOCATION": "Location",
@@ -178,6 +180,19 @@
   "ERROR_REG_MESSAGE1": "Registration error! This login is already in use.",
   "ERROR_REG_MESSAGE2": "Registration error! Try Again.",
   "ERROR_REG_MESSAGE3": "Registration error!",
+  "LOGIN_MIN_LENGTH": "Login should be minimum 6 characters",
+  "LOGIN_MAX_LENGTH": "Login should be maximum 16 characters",
+  "NAME_MIN_LENGTH": "Name should be minimum 2 characters",
+  "NAME_MAX_LENGTH": "Name should be maximum 35 characters",
+  "SURNAME_MIN_LENGTH": "Surname should be minimum 2 characters",
+  "SURNAME_MAX_LENGTH": "Surname should be maximum 45 characters",
+  "PASSWORD_MIN_LENGTH": "Password should be minimum 5 characters",
+  "PASSWORD_MAX_LENGTH": "Password should be maximum 16 characters",
+  "PASSWORD_NOT_EQUAL" : "Fields are not equal!",
+  "ADDRESS_MAX_LENGTH" : "Address should be maximum 120 characters",
+  "COMPANY_NAME_MAX_LENGTH": "Company Name should be maximum 70 characters",
+  "COMPANY_INFO_MAX_LENGTH": "Company Info should be maximum 100 characters",
+  
   
   "REGISTRATION_CONFIRMATION": "Registration Confirmation",
   "REGISTRATION_LINK": "Confirmation link was sent to your email. Follow instructions...",
@@ -228,10 +243,24 @@
   "ERROR_FAILED_TO_GET_ANIMALS_TYPES": "Failed to get animals types. Try to refresh page.",
   "ERROR_FAILED_TO_GET_ANIMALS_SERVICES": "Failed to get animals services. Try to refresh page.",
   "ERROR_FAILED_TO_GET_ANIMALS_BREEDS": "Failed to get animals breeds. Try to refresh page.",
+  "ERROR_FAILED_TO_GET_ANIMAL_MH_TYPES": "Failed to get animal medical history types. Try to refresh page.",
+  "ERROR_FAILED_TO_GET_MH_ITEMS": "Failed to get animal medical history. Try to refresh page.",
 
   "ADMIN_USERS": "List of users",
   "ID": "Id",
   "IS_ACTIVE": "Is blocked",
-  "DETAILED_INFO": "Detailed info"
+  "DETAILED_INFO": "Detailed info",
+
+  "ANIMAL_STATUS_CAUGHT": "Caught",
+  "ANIMAL_STATUS_RELEASED": "Released",
+  "ANIMAL_STATUS_NEWBORN": "Newborn",
+  "ANIMAL_STATUS_DISINFECTED": "Disinfected",
+  "ANIMAL_STATUS_VACCINATED": "Vaccinated",
+  "ANIMAL_STATUS_CURED": "Cured",
+  "ANIMAL_STATUS_SICK": "Sick",
+  "ANIMAL_STATUS_INJURED": "Injured",
+  "ANIMAL_STATUS_ADOPT": "In adoption",
+  "ANIMAL_STATUS_CUSTODY": "In custody"
+
 
 }

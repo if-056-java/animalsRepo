@@ -11,6 +11,9 @@ import org.apache.log4j.Logger;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
@@ -29,9 +32,6 @@ public class DoctorResource {
     //return response with 400 code
     private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
 
-    //return response with 404 code
-    private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
-
     /**
      * @param animalId instance used for lookup.
      * @return count of rows for pagination.
@@ -42,12 +42,8 @@ public class DoctorResource {
     @RolesAllowed("лікар")
     @Path("medical_history/paginator/{animalId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getAnimalsPaginator(@PathParam("animalId") long animalId) {
-        if(animalId <= 0) {
-            return BAD_REQUEST;
-        }
-
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAnimalsPaginator(@PathParam("animalId") @DecimalMin(value = "1") long animalId) {
         //get count of row according to filter
         AnimalMedicalHistoryRepository animalMedicalHistory = new AnimalMedicalHistoryRepositoryImpl();
         long pages = animalMedicalHistory.getByAnimalIdCount(animalId);
@@ -59,7 +55,7 @@ public class DoctorResource {
 
     /**
      * @param animalId instance used for lookup.
-     * @return list of medical history.
+     * @return list of medical history items.
      * -------------------------------------------------------------------
      * animalId must be set and more than 0
      * AnimalsFilter.page must be set and more than 0
@@ -69,27 +65,17 @@ public class DoctorResource {
     @RolesAllowed("лікар")
     @Path("medical_history/{animalId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getMedicalHistoryByAnimalId(@PathParam("animalId") long animalId, AnimalsFilter animalsFilter) {
-        if((animalId <= 0) || (animalsFilter == null)) {
-            return BAD_REQUEST;
-        }
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMedicalHistoryByAnimalId(@PathParam("animalId") @DecimalMin(value = "1") long animalId,
+                                                @Valid @NotNull AnimalsFilter animalsFilter) {
 
-        if ((animalsFilter.getPage() <= 0) || (animalsFilter.getLimit() <= 0)) {
-            return BAD_REQUEST;
-        }
-
-        //get list of animals medical history from data base
         AnimalMedicalHistoryRepository animalMedicalHistory = new AnimalMedicalHistoryRepositoryImpl();
-        List<AnimalMedicalHistory> medicalHistory = animalMedicalHistory.getByAnimalId(animalId, animalsFilter.getOffset(), animalsFilter.getLimit());
+        List<AnimalMedicalHistory> medicalHistory = animalMedicalHistory
+                .getByAnimalId(animalId, animalsFilter.getOffset(), animalsFilter.getLimit());
 
         //cast list of animals medical history to generic list
         GenericEntity<List<AnimalMedicalHistory>> genericAnimals =
                 new GenericEntity<List<AnimalMedicalHistory>>(medicalHistory) {};
-
-        if(genericAnimals == null) {
-            return NOT_FOUND;
-        }
 
         return ok(genericAnimals);
     }
@@ -104,11 +90,7 @@ public class DoctorResource {
     @DELETE //http:localhost:8080/webapi/doctor/medical_history/item/{itemId}
     @RolesAllowed("лікар")
     @Path("medical_history/item/{itemId}")
-    public Response deleteMedicalHistoryItemById(@PathParam("itemId") long itemId) {
-        if(itemId <= 0) {
-            return BAD_REQUEST;
-        }
-
+    public Response deleteMedicalHistoryItemById(@PathParam("itemId") @DecimalMin(value = "1") long itemId) {
         AnimalMedicalHistoryRepository animalMedicalHistory = new AnimalMedicalHistoryRepositoryImpl();
         animalMedicalHistory.deleteById(itemId);
 
@@ -126,27 +108,13 @@ public class DoctorResource {
      * AnimalMedicalHistory.status.id must be set and more than 0
      * Session value userId must be set
      */
-    @POST //http:localhost:8080/webapi/doctor/medical_history/item
+    @POST //http://localhost:8080/webapi/doctor/medical_history/item
     @RolesAllowed("лікар")
     @Path("medical_history/item")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateMedicalHistoryItemById(@Context HttpServletRequest req, AnimalMedicalHistory animalMedicalHistory) {
-        if(animalMedicalHistory == null) {
-            return BAD_REQUEST;
-        }
-
-        if((animalMedicalHistory.getAnimalId() == null) ||
-                (animalMedicalHistory.getDate() == null)||
-                (animalMedicalHistory.getStatus() == null)) {
-            return BAD_REQUEST;
-        }
-
-        if (animalMedicalHistory.getAnimalId() <= 0) {
-            return BAD_REQUEST;
-        }
-
-        if ((animalMedicalHistory.getStatus().getId() == null) ||
-                (animalMedicalHistory.getStatus().getId() <= 0)) {
+    public Response updateMedicalHistoryItemById(@Context HttpServletRequest req,
+                                                 @Valid @NotNull AnimalMedicalHistory animalMedicalHistory) {
+        if (animalMedicalHistory.getStatus().getId() == null) {
             return BAD_REQUEST;
         }
 
@@ -173,7 +141,7 @@ public class DoctorResource {
 
     /**
      * Return response with code 200(OK) and build returned entity
-     * @return HTTP code K
+     * @return HTTP code 200
      */
     private Response ok() {
         return Response.ok().build();
@@ -182,7 +150,7 @@ public class DoctorResource {
     /**
      * Return response with code 200(OK) and build returned entity
      * @param entity Returned json instance from client
-     * @return HTTP code K
+     * @return HTTP code 200
      */
     private Response ok(Object entity) {
         return Response.ok().entity(entity).build();

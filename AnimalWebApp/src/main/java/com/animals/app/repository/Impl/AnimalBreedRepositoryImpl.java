@@ -2,6 +2,7 @@ package com.animals.app.repository.Impl;
 
 import com.animals.app.domain.AnimalBreed;
 import com.animals.app.repository.AnimalBreedRepository;
+import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -24,12 +25,10 @@ public class AnimalBreedRepositoryImpl implements AnimalBreedRepository {
      * @return An AnimalBreed instance with a primary key value equals to pk. null if there is no matching row.
      */
     public AnimalBreed getById(long id){
-
         SqlSession session = sqlSessionFactory.openSession();
 
-        try {
-            AnimalBreedRepository mapper = session.getMapper(AnimalBreedRepository.class);
-            return mapper.getById(id);
+        try{
+            return session.getMapper(AnimalBreedRepository.class).getById(id);
         } finally {
             session.close();
         }
@@ -40,12 +39,10 @@ public class AnimalBreedRepositoryImpl implements AnimalBreedRepository {
      * @return the list of all AnimalBreed instances from the database.
      */
     public List<AnimalBreed> getAll(){
-
         SqlSession session = sqlSessionFactory.openSession();
 
-        try {
-            AnimalBreedRepository mapper = session.getMapper(AnimalBreedRepository.class);
-            return mapper.getAll();
+        try{
+            return session.getMapper(AnimalBreedRepository.class).getAll();
         } finally {
             session.close();
         }
@@ -57,51 +54,46 @@ public class AnimalBreedRepositoryImpl implements AnimalBreedRepository {
      * @return the list of all AnimalBreed instances from the database.
      */
     public List<AnimalBreed> getByTypeId(long animalTypeId) {
-
         SqlSession session = sqlSessionFactory.openSession();
 
-        try {
-            AnimalBreedRepository mapper = session.getMapper(AnimalBreedRepository.class);
-            return mapper.getByTypeId(animalTypeId);
+        try{
+            return session.getMapper(AnimalBreedRepository.class).getByTypeId(animalTypeId);
         } finally {
             session.close();
         }
     }
 
     /**
+     * @deprecated Not using.
      * Insert an instance of AnimalBreed into the database.
      * @param animalBreed the instance to be persisted.
      */
+    @Deprecated
     public void insert_ua(AnimalBreed animalBreed) {
-
         SqlSession session = sqlSessionFactory.openSession();
 
-        try {
-            AnimalBreedRepository mapper = session.getMapper(AnimalBreedRepository.class);
-            mapper.insert_ua(animalBreed);
+        try{
+            session.getMapper(AnimalBreedRepository.class).insert_ua(animalBreed);
             session.commit();
         } finally {
             session.close();
         }
-
     }
 
     /**
+     * @deprecated Not using.
      * Delete an instance of AnimalBreed from the database.
      * @param id primary key value of the instance to be deleted.
      */
+    @Deprecated
     public void deleteById(long id) {
-
         SqlSession session = sqlSessionFactory.openSession();
 
-        try {
-            AnimalBreedRepository mapper = session.getMapper(AnimalBreedRepository.class);
-            mapper.deleteById(id);
-
+        try{
+            session.getMapper(AnimalBreedRepository.class).deleteById(id);
             session.commit();
         } finally {
             session.close();
         }
-
     }
 }

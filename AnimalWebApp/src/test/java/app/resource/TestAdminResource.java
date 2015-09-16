@@ -1,5 +1,6 @@
 package app.resource;
 
+import app.JNDIConfigurationForTests;
 import com.animals.app.domain.Animal;
 import com.animals.app.domain.AnimalService;
 import com.animals.app.domain.User;
@@ -7,7 +8,9 @@ import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalServiceRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalTypeRepositoryImpl;
-import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
+import com.animals.app.service.DateSerializer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SerializationUtils;
@@ -15,9 +18,6 @@ import org.json.JSONObject;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -25,6 +25,8 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -32,7 +34,7 @@ import static org.junit.Assert.*;
  * Created by Rostyslav.Viner on 03.09.2015.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestAdminResource {
+public class TestAdminResource extends JNDIConfigurationForTests{
     private static Client client;
 
     private static final String LOGIN = "root";
@@ -147,7 +149,7 @@ public class TestAdminResource {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(null, Animal.class);
+                .post(null, String.class);
     }
 
     /*
@@ -161,7 +163,7 @@ public class TestAdminResource {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(new Animal(), MediaType.APPLICATION_JSON), Animal.class);
+                .post(Entity.entity(null, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -172,6 +174,7 @@ public class TestAdminResource {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -183,12 +186,16 @@ public class TestAdminResource {
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setId(new Long(-1));
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
         client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), Animal.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -199,6 +206,7 @@ public class TestAdminResource {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -210,12 +218,16 @@ public class TestAdminResource {
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setId(new Long(0));
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
         client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), Animal.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -226,6 +238,7 @@ public class TestAdminResource {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -237,13 +250,16 @@ public class TestAdminResource {
 
         Animal actual = SerializationUtils.clone(animal);
         actual.getType().setId(null);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -254,6 +270,7 @@ public class TestAdminResource {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -265,13 +282,16 @@ public class TestAdminResource {
 
         Animal actual = SerializationUtils.clone(animal);
         actual.getType().setId(new Long(-1));
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -282,6 +302,7 @@ public class TestAdminResource {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -293,13 +314,16 @@ public class TestAdminResource {
 
         Animal actual = SerializationUtils.clone(animal);
         actual.getType().setId(new Long(0));
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -310,6 +334,7 @@ public class TestAdminResource {
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -321,24 +346,28 @@ public class TestAdminResource {
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setUser(null);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
         String result = client
                 .target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+        
+        Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
 
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+        assertNotNull(jsonMap);
+        assertNotNull(jsonMap.get("filePath"));
     }
 
     /*
      * Animal.user.id = null
      */
-    @Test(expected = BadRequestException.class)
+    @Test
     public void test12UpdateAnimal() {
         assertNotNull(accessToken);
         assertNotNull(animal);
@@ -354,16 +383,18 @@ public class TestAdminResource {
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setUser(new User());
+        String json = new Gson().toJson(actual);
 
         String result = client
                 .target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
 
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
+        Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
+        String filePath = jsonMap.get("filePath");
+        System.out.println(filePath);
 
         assertNotNull(filePath);
     }
@@ -386,21 +417,13 @@ public class TestAdminResource {
         assertNotNull(animal.getService().getId());
 
         Animal actual = SerializationUtils.clone(animal);
-        User user = new User();
-        user.setId(-1);
-        actual.setUser(user);
+        actual.getUser().setId(new Integer(-1));
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
     }
 
     /*
@@ -421,21 +444,13 @@ public class TestAdminResource {
         assertNotNull(animal.getService().getId());
 
         Animal actual = SerializationUtils.clone(animal);
-        User user = new User();
-        user.setId(0);
-        actual.setUser(user);
+        actual.getUser().setId(new Integer(0));
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
     }
 
     /*
@@ -456,21 +471,13 @@ public class TestAdminResource {
         assertNotNull(animal.getService().getId());
 
         Animal actual = SerializationUtils.clone(animal);
-        User user = new User();
-        user.setId(Integer.MAX_VALUE);
-        actual.setUser(user);
+        actual.getUser().setId(Integer.MAX_VALUE);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
     }
 
 
@@ -613,7 +620,6 @@ public class TestAdminResource {
     /*
      * Animal.service.id = max int value
      */
-    @Ignore
     @Test(expected = BadRequestException.class)
     public void test20UpdateAnimal() {
         assertNotNull(accessToken);
@@ -1030,32 +1036,5 @@ public class TestAdminResource {
         } catch (java.security.NoSuchAlgorithmException e) {
         }
         return null;
-    }
-
-    private static void configureJNDIForJUnit(){
-        // rcarver - setup the jndi context and the datasource
-        try {
-            // Create initial context
-            System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
-                    "org.apache.naming.java.javaURLContextFactory");
-            System.setProperty(Context.URL_PKG_PREFIXES,
-                    "org.apache.naming");
-            InitialContext ic = new InitialContext();
-
-            ic.createSubcontext("java:");
-            ic.createSubcontext("java:/comp");
-            ic.createSubcontext("java:/comp/env");
-            ic.createSubcontext("java:/comp/env/jdbc");
-
-            // Construct DataSource
-            MysqlConnectionPoolDataSource ds = new MysqlConnectionPoolDataSource();
-            ds.setURL("jdbc:mysql://tym.dp.ua:3306/animals");
-            ds.setUser("u_remoteuser");
-            ds.setPassword("ZF008NBp");
-
-            ic.rebind("java:/comp/env/jdbc/animals", ds);
-        } catch (NamingException ex) {
-            ex.printStackTrace();
-        }
     }
 }

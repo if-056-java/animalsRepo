@@ -41,6 +41,21 @@ adoptionModule
             return def.promise;
         };
 
+        factory.getListOfAnimalStatuses = function(animalId){
+            var def = $q.defer();
+
+            $http.get(RESOURCES.ANIMALS_FOR_ADOPTING_STATUSES + animalId)
+                .success(function (data) {
+                    AnimalAdoptionValues.animalStatuses = data;
+                    def.resolve(data);
+                })
+                .error(function () {
+                    def.reject("Failed to get animal statuses");
+                });
+
+            return def.promise;
+        };
+
             factory.getAnimalTypes = function() {
                 var def = $q.defer();
 

@@ -86,6 +86,31 @@ public class AnimalResource {
         return ok(genericAnimals);
     }
 
+    @GET
+    @Path("adoption/{animalId}")//http:localhost:8080/webapi/animals/adoption/animalId
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAnimalStatus(@PathParam("animalId") String id) {
+
+        if (id == null)
+            return BAD_REQUEST;
+
+        List<AnimalStatusLoger> animalStatusLogers =
+                new AnimalStatusLogerRepositoryImpl().getAnimalStatusesByAnimalId(Long.parseLong(id));
+
+        for(int i = 0; i < animalStatusLogers.size(); i++)
+            System.out.println(animalStatusLogers.get(i));
+
+        //cast list of animals to generic list
+        GenericEntity<List<AnimalStatusLoger>> genericAnimals =
+                new GenericEntity<List<AnimalStatusLoger>>(animalStatusLogers) {
+                };
+
+        if (genericAnimals == null)
+            return NOT_FOUND;
+
+        return ok(genericAnimals);
+    }
+
     @POST
     @Path("found/pagenator")//http:localhost:8080/webapi/found/pagenator
     @Consumes(MediaType.APPLICATION_JSON)

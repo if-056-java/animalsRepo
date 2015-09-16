@@ -25,14 +25,12 @@ public class UserOperationTypeRepositoryImpl {
      * @return A User operation type instance with a primary key value equals to pk. null if there is no matching row.
      */
     public UserOperationType getById(int id){
-
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSession session = sqlSessionFactory.openSession();
 
         try{
-            UserOperationTypeRepository mapper = sqlSession.getMapper(UserOperationTypeRepository.class);
-            return mapper.getById(id);
+            return session.getMapper(UserOperationTypeRepository.class).getById(id);
         } finally {
-            sqlSession.close();
+            session.close();
         }
     }
 
@@ -41,14 +39,12 @@ public class UserOperationTypeRepositoryImpl {
      * @return the list of all User operation types instances from the database.
      */
     public List<UserOperationType> getAll(){
-
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSession session = sqlSessionFactory.openSession();
 
         try{
-            UserOperationTypeRepository mapper = sqlSession.getMapper(UserOperationTypeRepository.class);
-            return mapper.getAll();
+            return session.getMapper(UserOperationTypeRepository.class).getAll();
         } finally {
-            sqlSession.close();
+            session.close();
         }
     }
 

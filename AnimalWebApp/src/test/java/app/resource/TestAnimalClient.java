@@ -1,16 +1,15 @@
 package app.resource;
 
+import app.JNDIConfigurationForTests;
 import com.animals.app.domain.Animal;
 import com.animals.app.repository.Impl.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.*;
+import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
 import java.sql.Date;
-import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotSame;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -18,12 +17,14 @@ import static org.junit.Assert.assertNotNull;
  */
 @Ignore
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestAnimalClient {
+public class TestAnimalClient extends JNDIConfigurationForTests {
 
     private static Animal actual;
 
     @BeforeClass
     public static void runBeforeClass() {
+        configureJNDIForJUnit();
+
         actual = new Animal();
         actual.setSex(Animal.SexType.NONE);
         actual.setType(new AnimalTypeRepositoryImpl().getAll().get(0));
@@ -47,81 +48,6 @@ public class TestAnimalClient {
     public static void runAfterClass() {
         actual = null;
     }
-
-/*
-    @Test
-    public void test01Insert() {
-        AnimalClient client = new AnimalClient();
-
-        actual = client.insert(actual);
-
-        assertNotNull(actual);
-    }
-
-    @Test
-    public void test02GetAll() {
-        AnimalClient client = new AnimalClient();
-
-        List<Animal> animalList = client.getAll();
-
-        assertNotNull(animalList);
-    }
-
-    @Test
-    public void test021GetAllForAdopting() {
-        AnimalClient client = new AnimalClient();
-
-        List<Animal> animalList = client.getAllForAdopting();
-
-        assertNotNull(animalList);
-    }
-
-    @Test
-    public void test03Get() {
-        AnimalClient client = new AnimalClient();
-
-        actual = client.get(String.valueOf(actual.getId()));
-
-        assertNotNull(actual);
-    }
-
-    @Test
-    public void test04Update() {
-        AnimalClient client = new AnimalClient();
-
-        Animal expected = client.get(String.valueOf(actual.getId()));
-
-        assertNotNull(expected);
-        assertEquals(expected, actual);
-
-        expected.setTranspNumber(RandomStringUtils.random(10, true, true));
-        expected.setTokenNumber(RandomStringUtils.random(10, true, true));
-        expected.setColor(RandomStringUtils.random(10, true, true));
-        expected.setActive(false);
-        expected.setImage(RandomStringUtils.random(10, true, true));
-
-        expected = client.update(expected);
-
-        assertNotNull(expected);
-        assertNotSame(expected, actual);
-
-        assertNotNull(actual);
-    }
-
-    @Test
-    public void test05Delete() {
-        AnimalClient client = new AnimalClient();
-
-        List<Animal> beforeDelete = client.getAll();
-
-        List<Animal> animals =
-            client.delete(String.valueOf(actual.getId()));
-
-        List<Animal> afterDelete = client.getAll();
-
-        assertNotSame(beforeDelete, afterDelete);
-    }
-*/
 
     @Test
     public void test021GetAllForAdopting() {

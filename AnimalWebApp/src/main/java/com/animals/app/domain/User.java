@@ -5,24 +5,56 @@ import java.security.Principal;
 import java.sql.Date;
 import java.util.List;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+
 /**
  * Created by oleg on 22.07.2015.
  */
 
+@XmlRootElement
 public class User implements Serializable, Principal {
-
-    private Integer id;
+	
+	@DecimalMin(value = "1")
+	private Integer id;
+	    
+	@Length(min = 2, max = 35, message =  "Name must be between {min} and {max}.")
     private String name;
-    private String surname;
-    private Date registrationDate;
-    private String email;
-    private String password;
-    private String phone;
-    private String address = "N/A";
     
+	@Length(min = 2, max = 45, message =  "Surname must be between {min} and {max}.") 
+    private String surname;
+    
+
+    private Date registrationDate;    
+     
+    @Email(message = "{contact.wrong.email}", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
+    private String email;
+    
+
+    @Length(max = 40, message =  "Password must be less than {max}  characters.")
+    private String password;
+    
+    @Pattern(message = "{contact.wrong.phone}", regexp = "^[0-9]{3}-[0-9]{7}$") 
+    private String phone;
+    
+    @Length(min = 6, max = 16, message = "The socialLogin must be between {min} and {max}.")
     private String socialLogin;
+    
+    @Length(max = 120, message =  "Address must be less than {max} characters.") 
+    private String address = "N/A"; 
+    
+    @Length(max = 70, message =  "Organization Name must be less than {max} characters.") 
     private String organizationName = "N/A";
+    
+    @Length(max = 100, message =  "Organization Info  must be less than {max} characters.") 
     private String organizationInfo = "N/A";
+    
     private boolean isActive = true;
     
     private String googleId;
@@ -43,12 +75,12 @@ public class User implements Serializable, Principal {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
+    }    
+  
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }

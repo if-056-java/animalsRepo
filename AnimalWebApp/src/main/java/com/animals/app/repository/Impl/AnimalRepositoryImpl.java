@@ -29,8 +29,13 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      */
     public void insert(Animal animal) throws SqlSessionException{
         SqlSession session = sqlSessionFactory.openSession();
-        session.getMapper(AnimalRepository.class).insert(animal);
-        session.commit();
+
+        try {
+            session.getMapper(AnimalRepository.class).insert(animal);
+            session.commit();
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -40,8 +45,13 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      */
     public void update(Animal animal) throws SqlSessionException{
         SqlSession session = sqlSessionFactory.openSession();
-        session.getMapper(AnimalRepository.class).update(animal);
-        session.commit();
+
+        try {
+            session.getMapper(AnimalRepository.class).update(animal);
+            session.commit();
+        } finally {
+            session.close();
+        }
     }
 
 
@@ -52,8 +62,12 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      */
     public void twitterUpdate(Animal animal) throws SqlSessionException{
         SqlSession session = sqlSessionFactory.openSession();
-        session.getMapper(AnimalRepository.class).twitterUpdate(animal);
-        session.commit();
+        try {
+            session.getMapper(AnimalRepository.class).twitterUpdate(animal);
+            session.commit();
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -63,8 +77,13 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      */
     public void facebookUpdate(Animal animal) throws SqlSessionException{
         SqlSession session = sqlSessionFactory.openSession();
-        session.getMapper(AnimalRepository.class).facebookUpdate(animal);
-        session.commit();
+
+        try {
+            session.getMapper(AnimalRepository.class).facebookUpdate(animal);
+            session.commit();
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -74,8 +93,13 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      */
     public void delete(long id) throws SqlSessionException{
         SqlSession session = sqlSessionFactory.openSession();
-        session.getMapper(AnimalRepository.class).delete(id);
-        session.commit();
+
+        try {
+            session.getMapper(AnimalRepository.class).delete(id);
+            session.commit();
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -85,7 +109,12 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      * @return An Animal instance with a primary key value equals to pk. null if there is no matching row.
      */
     public Animal getById(long id) throws SqlSessionException{
-        return sqlSessionFactory.openSession().getMapper(AnimalRepository.class).getById(id);
+        SqlSession session = sqlSessionFactory.openSession();
+        try {
+            return session.getMapper(AnimalRepository.class).getById(id);
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -94,7 +123,12 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      * @return the list of all Animal instances from the database.
      */
     public List<Animal> getAdminAnimals(AnimalsFilter animalsFilter) throws SqlSessionException{
-        return sqlSessionFactory.openSession().getMapper(AnimalRepository.class).getAdminAnimals(animalsFilter);
+        SqlSession session = sqlSessionFactory.openSession();
+        try{
+            return session.getMapper(AnimalRepository.class).getAdminAnimals(animalsFilter);
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -103,7 +137,13 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      * @return count of rows selected by getAdminAnimalsListByPage
      */
     public long getAdminAnimalsPaginator(AnimalsFilter animalsFilter) throws SqlSessionException{
-        return sqlSessionFactory.openSession().getMapper(AnimalRepository.class).getAdminAnimalsPaginator(animalsFilter);
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try{
+            return session.getMapper(AnimalRepository.class).getAdminAnimalsPaginator(animalsFilter);
+        } finally {
+            session.close();
+        }
     }
 
     /*
@@ -112,7 +152,13 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      * @return the list of all Animal instances from the database.
      */
     public List<Animal> getAllForAdopting(AnimalsFilter animalsFilter) throws SqlSessionException{
-        return sqlSessionFactory.openSession().getMapper(AnimalRepository.class).getAllForAdopting(animalsFilter);
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try{
+            return session.getMapper(AnimalRepository.class).getAllForAdopting(animalsFilter);
+        } finally {
+            session.close();
+        }
     }
 
     /*
@@ -121,7 +167,13 @@ public class AnimalRepositoryImpl implements AnimalRepository {
  * @return the list of all Animal instances from the database.
  */
     public List<Animal> getAllFoundAnimals(AnimalsFilter animalsFilter) throws SqlSessionException{
-        return sqlSessionFactory.openSession().getMapper(AnimalRepository.class).getAllFoundAnimals(animalsFilter);
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try{
+            return session.getMapper(AnimalRepository.class).getAllFoundAnimals(animalsFilter);
+        } finally {
+            session.close();
+        }
     }
 
     /*
@@ -130,7 +182,13 @@ public class AnimalRepositoryImpl implements AnimalRepository {
  * @return the list of all Animal instances from the database.
  */
     public List<Animal> getAllLostAnimals(AnimalsFilter animalsFilter) throws SqlSessionException{
-        return sqlSessionFactory.openSession().getMapper(AnimalRepository.class).getAllLostAnimals(animalsFilter);
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try{
+            return session.getMapper(AnimalRepository.class).getAllLostAnimals(animalsFilter);
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -139,7 +197,13 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      * @return count of rows selected by getAllForAdopting
      */
     public long getAmountListForAdopting(AnimalsFilter animalsFilter) throws SqlSessionException{
-        return sqlSessionFactory.openSession().getMapper(AnimalRepository.class).getAmountListForAdopting(animalsFilter);
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try{
+            return session.getMapper(AnimalRepository.class).getAmountListForAdopting(animalsFilter);
+        } finally {
+            session.close();
+        }
 
     }
 
@@ -149,7 +213,13 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      * @return count of rows selected by getAllFoundAnimals
      */
     public long getAmountListFoundAnimals(AnimalsFilter animalsFilter) throws SqlSessionException{
-        return sqlSessionFactory.openSession().getMapper(AnimalRepository.class).getAmountListFoundAnimals(animalsFilter);
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try{
+            return session.getMapper(AnimalRepository.class).getAmountListFoundAnimals(animalsFilter);
+        } finally {
+            session.close();
+        }
 
     }
 
@@ -159,7 +229,13 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      * @return count of rows selected by getAllLostAnimals
      */
     public long getAmountListLostAnimals(AnimalsFilter animalsFilter) throws SqlSessionException{
-        return sqlSessionFactory.openSession().getMapper(AnimalRepository.class).getAmountListLostAnimals(animalsFilter);
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try{
+            return session.getMapper(AnimalRepository.class).getAmountListLostAnimals(animalsFilter);
+        } finally {
+            session.close();
+        }
     }
 
     /*
@@ -167,7 +243,13 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      * @return the list of Animal instances from the database with UserId.
      */
     public List<Animal> getAnimalByUserId(int parseId) throws SqlSessionException{
-        return sqlSessionFactory.openSession().getMapper(AnimalRepository.class).getAnimalByUserId(parseId);
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try{
+            return session.getMapper(AnimalRepository.class).getAnimalByUserId(parseId);
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -177,6 +259,28 @@ public class AnimalRepositoryImpl implements AnimalRepository {
      * @return An Animal instance with a primary key value equals to pk. null if there is no matching row.
      */
     public Animal getShortInfoById(long id) throws SqlSessionException{
-        return sqlSessionFactory.openSession().getMapper(AnimalRepository.class).getShortInfoById(id);
-    }    
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try{
+            return session.getMapper(AnimalRepository.class).getShortInfoById(id);
+        } finally {
+            session.close();
+        }
+    }
+
+    /**
+     * Returns animal id.
+     * @param id primary key value used for lookup.
+     * @return An Animal id.
+     */
+    @Override
+    public Animal getAnimalId(long id) {
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try{
+            return session.getMapper(AnimalRepository.class).getAnimalId(id);
+        } finally {
+            session.close();
+        }
+    }
 }

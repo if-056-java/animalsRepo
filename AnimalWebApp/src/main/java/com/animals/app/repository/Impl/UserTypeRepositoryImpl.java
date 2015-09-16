@@ -25,14 +25,12 @@ public class UserTypeRepositoryImpl {
      * @return A User type instance with a primary key value equals to pk. null if there is no matching row.
      */
     public UserType getById(int id){
-
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSession session = sqlSessionFactory.openSession();
 
         try{
-            UserTypeRepository mapper = sqlSession.getMapper(UserTypeRepository.class);
-            return mapper.getById(id);
+            return session.getMapper(UserTypeRepository.class).getById(id);
         } finally {
-            sqlSession.close();
+            session.close();
         }
     }
 
@@ -41,14 +39,12 @@ public class UserTypeRepositoryImpl {
      * @return the list of all User types instances from the database.
      */
     public List<UserType> getAll(){
-
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSession session = sqlSessionFactory.openSession();
 
         try{
-            UserTypeRepository mapper = sqlSession.getMapper(UserTypeRepository.class);
-            return mapper.getAll();
+            return session.getMapper(UserTypeRepository.class).getAll();
         } finally {
-            sqlSession.close();
+            session.close();
         }
     }
 }

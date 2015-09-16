@@ -322,3 +322,106 @@ IMG.displayed {
     margin-bottom: 15px;
 
 }
+
+.sprite-status{
+    border:none;
+    border-radius: 0;
+    background: url('../img/animalStatuses/animal-status-sprite-min.png') no-repeat;
+}
+/* Animal statuses sprite */
+.sprite-status.catched{
+    margin: 2px;
+    border-radius: 15px;
+    width: 31px; /* Icon width */
+    height: 30px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0 0; /* Icon background position in sprite */
+}
+
+.sprite-status.released{
+    margin: 2px;
+    border-radius: 15px;
+    width: 31px; /* Icon width */
+    height: 31px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0px -34px; /* Icon background position in sprite */
+}
+
+.sprite-status.newborn{
+    margin: 2px;
+    border-radius: 15px;
+    width: 31px; /* Icon width */
+    height: 31px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0px -66px; /* Icon background position in sprite */
+}
+
+.sprite-status.disinfected{
+    margin: 2px;
+    border-radius: 15px;
+    width: 31px; /* Icon width */
+    height: 31px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0px -98px; /* Icon background position in sprite */
+}
+
+.sprite-status.vaccinated{
+    margin: 2px;
+    border-radius: 15px;
+    width: 31px; /* Icon width */
+    height: 31px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0px -130px; /* Icon background position in sprite */
+}
+
+.sprite-status.cured{
+    margin: 2px;
+    border-radius: 15px;
+    width: 31px; /* Icon width */
+    height: 31px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0px -162px; /* Icon background position in sprite */
+}
+
+.sprite-status.sick{
+    margin: 2px;
+    border-radius: 15px;
+    width: 31px; /* Icon width */
+    height: 31px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0px -194px; /* Icon background position in sprite */
+}
+
+.sprite-status.injured{
+    margin: 2px;
+    border-radius: 15px;
+    width: 31px; /* Icon width */
+    height: 31px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0px -226px; /* Icon background position in sprite */
+}
+
+.sprite-status.adopt{
+    margin: 2px;
+    border-radius: 15px;
+    width: 31px; /* Icon width */
+    height: 31px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0px -258px; /* Icon background position in sprite */
+}
+
+.sprite-status.custody{
+    margin: 2px;
+    border-radius: 15px;
+    width: 31px; /* Icon width */
+    height: 31px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0px -290px; /* Icon background position in sprite */
+}
+
+.simple-side-padding:hover{
+    border: 1px solid #99CC99;
+}
+.simple-side-padding{
+    border: 1px solid #ffffff;
+}
