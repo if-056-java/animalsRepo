@@ -357,7 +357,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
                 .request()
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
-        
+
         Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
 
         assertNotNull(jsonMap);
