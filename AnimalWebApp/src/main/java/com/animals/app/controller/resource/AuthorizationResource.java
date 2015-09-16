@@ -10,6 +10,7 @@ import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -62,7 +63,7 @@ public class AuthorizationResource {
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("login/{rememberMe}")//http:localhost:8080/webapi/account/login
 	public Response loginToSite (@Context HttpServletRequest req, 
-								 @PathParam ("rememberMe") String rememberMe) {
+								 @PathParam ("rememberMe") @NotNull String rememberMe) {
 				
 		//reading header from request
 		String header = req.getHeader("Authorization");
@@ -206,8 +207,8 @@ public class AuthorizationResource {
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("confirmRegistration/{socialLogin}/{code}")//http:localhost:8080/webapi/account/confirmRegistration/socialLogin/code
 	public Response loginToSite (@Context HttpServletRequest req,
-								 @PathParam ("socialLogin") String socialLogin,
-								 @PathParam ("code") String code) {
+								 @PathParam ("socialLogin") @NotNull String socialLogin,
+								 @PathParam ("code") @NotNull String code) {
 		
 		
 		//user Verification. checking if user with verification code exist.    

@@ -55,15 +55,24 @@ public class User implements Serializable, Principal {
     @Length(max = 100, message =  "Organization Info  must be less than {max} characters.") 
     private String organizationInfo = "N/A";
     
-    private boolean isActive = true;
-    
+    @Length(max = 100, message =  "GoogleId  must be less than {max} characters.")
     private String googleId;
+    
+    @Length(max = 100, message =  "FacebookId  must be less than {max} characters.")
     private String facebookId;
+    
+    @Length(max = 100, message =  "TwitterId  must be less than {max} characters.")
     private String twitterId;
+    
+    @Length(max = 300, message =  "SocialPhoto  must be less than {max} characters.")
     private String socialPhoto;
+    
+    private boolean isActive = true;
 
     private List<UserRole> userRole;
     private UserType userType;
+    
+    @Length(max = 45, message =  "Verificator  must be less than {max} characters.")
     private String emailVerificator;
 
     public User() {
