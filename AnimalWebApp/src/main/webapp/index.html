@@ -130,13 +130,41 @@
 <!-- Всі вьюхи вставляємо сюди -->
 <div class="ng-view"></div>
 
-<footer >
-    <div class="container" >
+<footer>
+
+    <!-- Скріпт для Facebook -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        if(localStorage.getItem('NG_TRANSLATE_LANG_KEY')=="uk")
+        js.src = "//connect.facebook.net/uk_UA/sdk.js#xfbml=1&version=v2.4"
+        else js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <!-- Скріпт для Twitter -->
+    <script>!function(d,s,id){
+        var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+        if(!d.getElementById(id)){
+            js=d.createElement(s);
+            js.id=id;js.src=p+'://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js,fjs);
+        }
+    }(document, 'script', 'twitter-wjs');</script>
+
+    <div class="container" ng-controller="StarterPageController" >
         <div class="row">
-            <div class="col-sm-2 col-lg-2" >
+            <div class="col-xs-5 col-sm-3 col-md-2 col-lg-2" >
                 <span class="copyright translate-cloak" translate-cloak>&copy; {{ 'LKP_LEV' | translate }} 2015</span>
             </div>
-
+            <div class="col-xs-2 col-sm-1 col-sm-offset-4 col-md-1 col-md-offset-5 col-lg-1 col-lg-offset-6" >
+                <div class="fb-follow" data-href="https://www.facebook.com/if056" data-layout="button_count" data-show-faces="false"></div>
+            </div>
+            <div class="col-xs-2 col-xs-offset-1 col-sm-1 col-sm-offset-1 col-md-1 col-md-offset-1 col-lg-1 col-lg-offset-1" >
+                <a href="https://twitter.com/ifjava056" class="twitter-follow-button" data-show-count="true" data-lang="{{currentLanguage}}" data-show-screen-name="false" data-dnt="true">Follow @ifjava056</a>
+            </div>
         </div>
     </div>
 </footer>
