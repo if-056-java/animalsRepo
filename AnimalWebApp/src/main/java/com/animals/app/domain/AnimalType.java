@@ -52,18 +52,17 @@ public class AnimalType implements Serializable{
 
         AnimalType that = (AnimalType) o;
 
-        if (!id.equals(that.id)) return false;
-        if (!type.equals(that.type)) return false;
-        if (!typeEn.equals(that.typeEn)) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        return !(typeEn != null ? !typeEn.equals(that.typeEn) : that.typeEn != null);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + type.hashCode();
-        result = 31 * result + typeEn.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (typeEn != null ? typeEn.hashCode() : 0);
         return result;
     }
 
