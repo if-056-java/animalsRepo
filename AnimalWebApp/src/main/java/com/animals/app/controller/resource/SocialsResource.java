@@ -86,7 +86,6 @@ public class SocialsResource {
         }
         else
             return BAD_REQUEST;
-
     }
 
     @POST //http:localhost:8080/webapi/socials/facebook/animalId

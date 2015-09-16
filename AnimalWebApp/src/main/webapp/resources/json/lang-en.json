@@ -258,7 +258,13 @@
   "ANIMAL_STATUS_SICK": "Sick",
   "ANIMAL_STATUS_INJURED": "Injured",
   "ANIMAL_STATUS_ADOPT": "In adoption",
-  "ANIMAL_STATUS_CUSTODY": "In custody"
+  "ANIMAL_STATUS_CUSTODY": "In custody",
 
-
+  "ANIMAL_SHARE_TEXT": "LKP 'Lev'",
+  "ANIMAL_ADOPTION_FACEBOOK_SHARE_MESSAGE": "Animal for adoption! Please, visit this link;)",
+  "ANIMAL_ADOPTION_FACEBOOK_SHARE_CAPTION": "Animal for adoption!",
+  "ANIMAL_FOUND_FACEBOOK_SHARE_MESSAGE": "New found animal! Please, visit this link;)",
+  "ANIMAL_FOUND_FACEBOOK_SHARE_CAPTION": "Found animal!",
+  "ANIMAL_LOST_FACEBOOK_SHARE_MESSAGE": "Lost animal, help! Please, visit this link.",
+  "ANIMAL_LOST_FACEBOOK_SHARE_CAPTION": "Lost animal!"
 }

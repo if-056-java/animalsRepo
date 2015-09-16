@@ -176,9 +176,7 @@ animalApp .config(['$routeProvider', '$translateProvider',
 animalApp.constant('RESOURCES', {
     ANIMALS_FOR_ADOPTING_PAGINATOR: 'webapi/animals/adoption/pagenator',
     ANIMALS_FOR_ADOPTING: 'webapi/animals/adoption',
-
     ANIMALS_FOR_ADOPTING_STATUSES: 'webapi/animals/adoption/',
-
     ANIMALS_FOUND_PAGINATOR: 'webapi/animals/found/pagenator',
     ANIMALS_FOUND: 'webapi/animals/found',
     ANIMALS_LOST_PAGINATOR: 'webapi/animals/lost/pagenator',

@@ -90,7 +90,6 @@ adoptionModule
                 return def.promise;
             };
 
-
         //Inject dependencies
         AdoptionFactory.$inject = ['$q', 'RESOURCES', 'AnimalAdoptionValues'];
 

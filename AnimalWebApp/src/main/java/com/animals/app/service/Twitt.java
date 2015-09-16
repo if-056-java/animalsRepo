@@ -16,7 +16,6 @@ import java.util.Arrays;
 
 public class Twitt implements Serializable {
 
-
     private String message;
     private String media;
 

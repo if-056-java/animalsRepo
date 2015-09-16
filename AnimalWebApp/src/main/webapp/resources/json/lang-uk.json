@@ -257,6 +257,13 @@
   "ANIMAL_STATUS_SICK": "Хвора",
   "ANIMAL_STATUS_INJURED": "Поранена",
   "ANIMAL_STATUS_ADOPT": "На адопцію",
-  "ANIMAL_STATUS_CUSTODY": "На опікунство"
+  "ANIMAL_STATUS_CUSTODY": "На опікунство",
 
+  "ANIMAL_SHARE_TEXT": "ЛКП 'Лев'",
+  "ANIMAL_ADOPTION_FACEBOOK_SHARE_MESSAGE": "Тварина на усиновлення. Будь ласка, перейдіть за посиланням;)",
+  "ANIMAL_ADOPTION_FACEBOOK_SHARE_CAPTION": "Тварина на усиновлення!",
+  "ANIMAL_FOUND_FACEBOOK_SHARE_MESSAGE": "Нова знайдена тварина! Будь ласка, перейдіть за посиланням;)",
+  "ANIMAL_FOUND_FACEBOOK_SHARE_CAPTION": "Знайдена тварина!",
+  "ANIMAL_LOST_FACEBOOK_SHARE_MESSAGE": "Зникла тварина, допоможіть! Будь ласка, перейдіть за посиланням.",
+  "ANIMAL_LOST_FACEBOOK_SHARE_CAPTION": "Зникла тварина!"
 }

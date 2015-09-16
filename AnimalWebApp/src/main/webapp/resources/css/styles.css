@@ -425,3 +425,50 @@ IMG.displayed {
 .simple-side-padding{
     border: 1px solid #ffffff;
 }
+
+.soc-fb{
+    transition:visibility 1s, opacity 1s;
+    opacity:0;
+    visibility: hidden;
+    position: absolute;
+    left: 86px;
+    top: 161px;
+    width: 32px;
+    height: 32px;
+    border:none;
+    border-radius: 0;
+    background: url('../img/socials/share-fb-32.png') no-repeat;
+}
+.soc-fb:hover{
+    cursor: pointer;
+}
+.soc-gg{
+    transition:visibility 1s, opacity 1s;
+    visibility: hidden;
+    position: absolute;
+    left: 123px;
+    top: 161px;
+    width: 32px;
+    height: 32px;
+    border:none;
+    border-radius: 0;
+    background: url('../img/socials/share-gg-32.png') no-repeat;
+}
+.soc-gg:hover{
+    cursor: pointer;
+}
+.soc-tw{
+    transition:visibility 1s, opacity 1s;
+    visibility: hidden;
+    position: absolute;
+    left: 160px;
+    top: 161px;
+    width: 32px;
+    height: 32px;
+    border:none;
+    border-radius: 0;
+    background: url('../img/socials/share-tw-32.png') no-repeat;
+}
+.soc-tw:hover{
+    cursor: pointer;
+}

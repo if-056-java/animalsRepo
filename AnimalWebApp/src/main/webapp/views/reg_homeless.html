@@ -63,7 +63,8 @@
                                         <span class="input-group-addon">{{ 'SIZE' | translate }}:</span>
                                         <ol class="nya-bs-select nya-bs-select-mod" id="animal-size"
                                             name="size" style="cursor: pointer"
-                                            ng-model="animal.size" title="{{ 'NOT_SELECTED' | translate }}">
+                                            ng-model="animal.size" title="{{ 'NOT_SELECTED' | translate }}"
+                                            required>
                                             <li class="nya-bs-option" value="SMALL"><a>{{ 'SIZE_SMALL' | translate }}</a></li>
                                             <li class="nya-bs-option" value="MIDDLE"><a>{{ 'SIZE_NORMAL' | translate }}</a></li>
                                             <li class="nya-bs-option" value="LARGE"><a>{{ 'SIZE_LARGE' | translate }}</a></li>
@@ -138,17 +139,16 @@
 
                                     <div class="form-group"
                                          ng-class="{ 'has-error' : animalForm.sex.$invalid && !animalForm.sex.$pristine }"
-                                         name="sex"
-                                         required>
+                                         name="sex">
                                         <div class="radio">
                                             <label for="m">
-                                                <input type="radio" id="m" name="sex" value="MALE" ng-model="animal.sex">
+                                                <input type="radio" id="m" name="sex" value="MALE" ng-model="animal.sex" required>
                                                 {{ 'SEX_MALE' | translate }}
                                             </label>
                                         </div>
                                         <div class="radio">
                                             <label for="w">
-                                                <input type="radio" id="w" name="sex" value="FEMALE" ng-model="animal.sex">
+                                                <input type="radio" id="w" name="sex" value="FEMALE" ng-model="animal.sex" required>
                                                 {{ 'SEX_FEMALE' | translate }}
                                             </label>
                                         </div>

@@ -120,13 +120,64 @@
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9 simple-border" ng-show="!contentLoading">
                 <div class="row">
                     <div class="col-xs-12 col-lg-4 col-md-4 col-sm-6 simple-side-padding"
-                         style="height:400px; margin-bottom: 10px;" ng-repeat="animal in animals.values">
+                         style="height:420px; margin-bottom: 10px;" ng-repeat="animal in animals.values">
                         <h4 class="blocktext blocktext-h4">{{ 'ADVERT' | translate }} № {{animal.id}}</h4>
 
                         <p class="center-block" id="animal-image-id">
-                            <img ng-src="{{animal.image}}" alt="{{ 'IMAGE_NOT_FOUND' | translate }}"
-                                 height="200" width="200"/>
+                        <div class="image-wrapper" style="position: relative; width: auto; text-align: center;">
+                            <div class="center-block" style="position: relative; width: 200px; height: 200px;">
+                                <img src="#" ng-src="{{animal.image}}" alt="Image not found"
+                                     height="200" width="200">
+                                <p class="soc-fb"
+                                   ng-href
+                                   socialshare
+                                   socialshare-provider="facebook"
+                                   socialshare-type="feed"
+                                   socialshare-via="145634995501895"
+                                   socialshare-to=""
+                                   socialshare-from=""
+                                   socialshare-ref=""
+                                   socialshare-display="popup"
+                                   socialshare-media="{{ animal.image }}"
+                                   socialshare-source=""
+                                   socialshare-description="{{ 'ANIMAL_LOST_FACEBOOK_SHARE_MESSAGE' | translate }}"
+                                   socialshare-text="{{ 'ANIMAL_SHARE_TEXT' | translate }}"
+                                   socialshare-caption="{{ 'ANIMAL_LOST_FACEBOOK_SHARE_CAPTION' | translate }}"
+                                   socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/lost/{{animal.id}}"
+                                   socialshare-redirect-uri="https://www.facebook.com/">
+                                </p>
+                                <p class="soc-gg"
+                                   ng-href
+                                   socialshare
+                                   socialshare-provider="google+"
+                                   socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/lost/{{animal.id}}" >
+                                </p>
+                                <p class="soc-tw"
+                                   ng-href
+                                   socialshare
+                                   socialshare-provider="twitter"
+                                   socialshare-via="{{ 'LKP_LEV' | translate }}"
+                                   socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/lost/{{animal.id}}"
+                                   socialshare-hashtags="lost">
+                                </p>
+                            </div>
+                        </div>
+
                         </p>
+
+                        <script>
+                            $( ".image-wrapper"  ).hover(
+                                    function() {
+                                        $('.soc-fb').css({visibility: 'visible', opacity: 1.0});
+                                        $('.soc-gg').css({visibility: 'visible', opacity: 1.0});
+                                        $('.soc-tw').css({visibility: 'visible', opacity: 1.0});
+                                    }, function() {
+                                        $('.soc-fb').css({visibility: 'hidden', opacity: 0.0});
+                                        $('.soc-gg').css({visibility: 'hidden', opacity: 0.0});
+                                        $('.soc-tw').css({visibility: 'hidden', opacity: 0.0});
+                                    }
+                            );
+                        </script>
 
                         <p ng-if="currentLanguage === 'uk'" class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.type}}</p>
                         <p ng-if="currentLanguage !== 'uk'" class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.typeEn}}</p>
@@ -136,7 +187,8 @@
 
                         <p class="blocktext2 center-block">{{ 'REGISTRATION_DATE' | translate }}: {{animal.dateOfRegister}}</p>
                         <p class="blocktext2 center-block" style="text-aling: center;">
-                            <a class="btn btn-default" role="button" href="#/ua/animal/lost/{{animal.id}}">{{ 'LEARN_MORE' | translate }} »</a>
+                            <a style="position: absolute; bottom: 7px;"
+                               class="btn btn-success" role="button" href="#/ua/animal/lost/{{animal.id}}">{{ 'LEARN_MORE' | translate }} »</a>
                         </p>
                     </div>
                 </div>
@@ -171,4 +223,9 @@
 
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('img[src="#"]').attr('src', '/resources/img/no-image-logo.gif');
+        });
+    </script>
 </section>

@@ -22,7 +22,133 @@
             <div class="row">
                 <div class="panel-body">
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
-                        <img class="img-responsive img-thumbnail center-block" src="{{ animalImage }}">
+                        <div class="image-wrapper" style="position: relative; width: auto; text-align: center;">
+                            <div class="center-block" style="position: relative; width: 200px; height: 200px;">
+                            <img class="img-responsive img-thumbnail center-block" src="{{ animalImage }}">
+                                <p class="soc-fb"
+                                   ng-if="service == 'adoption'"
+                                   ng-href
+                                   socialshare
+                                   socialshare-provider="facebook"
+                                   socialshare-type="feed"
+                                   socialshare-via="145634995501895"
+                                   socialshare-to=""
+                                   socialshare-from=""
+                                   socialshare-ref=""
+                                   socialshare-display="popup"
+                                   socialshare-media="{{ animal.image }}"
+                                   socialshare-source=""
+                                   socialshare-description="{{ 'ANIMAL_ADOPTION_FACEBOOK_SHARE_MESSAGE' | translate }}"
+                                   socialshare-text="{{ 'ANIMAL_SHARE_TEXT' | translate }}"
+                                   socialshare-caption="{{ 'ANIMAL_ADOPTION_FACEBOOK_SHARE_CAPTION' | translate }}"
+                                   socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/adoption/{{animal.id}}"
+                                   socialshare-redirect-uri="https://www.facebook.com/">
+                                </p>
+                                <p class="soc-gg"
+                                   ng-if="service == 'adoption'"
+                                   ng-href
+                                   socialshare
+                                   socialshare-provider="google+"
+                                   socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/adoption/{{animal.id}}" >
+                                </p>
+                                <p class="soc-tw"
+                                   ng-if="service == 'adoption'"
+                                   ng-href
+                                   socialshare
+                                   socialshare-provider="twitter"
+                                   socialshare-via="{{ 'LKP_LEV' | translate }}"
+                                   socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/adoption/{{animal.id}}"
+                                   socialshare-hashtags="adoption">
+                                </p>
+
+                                <p class="soc-fb"
+                                   ng-if="service == 'found'"
+                                   ng-href
+                                   socialshare
+                                   socialshare-provider="facebook"
+                                   socialshare-type="feed"
+                                   socialshare-via="145634995501895"
+                                   socialshare-to=""
+                                   socialshare-from=""
+                                   socialshare-ref=""
+                                   socialshare-display="popup"
+                                   socialshare-media="{{ animal.image }}"
+                                   socialshare-source=""
+                                   socialshare-description="{{ 'ANIMAL_FOUND_FACEBOOK_SHARE_MESSAGE' | translate }}"
+                                   socialshare-text="{{ 'ANIMAL_SHARE_TEXT' | translate }}"
+                                   socialshare-caption="{{ 'ANIMAL_FOUND_FACEBOOK_SHARE_CAPTION' | translate }}"
+                                   socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/found/{{animal.id}}"
+                                   socialshare-redirect-uri="https://www.facebook.com/">
+                                </p>
+                                <p class="soc-gg"
+                                   ng-if="service == 'found'"
+                                   ng-href
+                                   socialshare
+                                   socialshare-provider="google+"
+                                   socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/found/{{animal.id}}" >
+                                </p>
+                                <p class="soc-tw"
+                                   ng-if="service == 'found'"
+                                   ng-href
+                                   socialshare
+                                   socialshare-provider="twitter"
+                                   socialshare-via="{{ 'LKP_LEV' | translate }}"
+                                   socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/found/{{animal.id}}"
+                                   socialshare-hashtags="found">
+                                </p>
+
+                                <p class="soc-fb"
+                                   ng-if="service == 'lost'"
+                                   ng-href
+                                   socialshare
+                                   socialshare-provider="facebook"
+                                   socialshare-type="feed"
+                                   socialshare-via="145634995501895"
+                                   socialshare-to=""
+                                   socialshare-from=""
+                                   socialshare-ref=""
+                                   socialshare-display="popup"
+                                   socialshare-media="{{ animal.image }}"
+                                   socialshare-source=""
+                                   socialshare-description="{{ 'ANIMAL_LOST_FACEBOOK_SHARE_MESSAGE' | translate }}"
+                                   socialshare-text="{{ 'ANIMAL_SHARE_TEXT' | translate }}"
+                                   socialshare-caption="{{ 'ANIMAL_LOST_FACEBOOK_SHARE_CAPTION' | translate }}"
+                                   socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/lost/{{animal.id}}"
+                                   socialshare-redirect-uri="https://www.facebook.com/">
+                                </p>
+                                <p class="soc-gg"
+                                   ng-if="service == 'lost'"
+                                   ng-href
+                                   socialshare
+                                   socialshare-provider="google+"
+                                   socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/lost/{{animal.id}}" >
+                                </p>
+                                <p class="soc-tw"
+                                   ng-if="service == 'lost'"
+                                   ng-href
+                                   socialshare
+                                   socialshare-provider="twitter"
+                                   socialshare-via="{{ 'LKP_LEV' | translate }}"
+                                   socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/lost/{{animal.id}}"
+                                   socialshare-hashtags="lost">
+                                </p>
+                            </div>
+                        </div>
+
+                        <script>
+                            $( ".image-wrapper"  ).hover(
+                                    function() {
+                                        $('.soc-fb').css({visibility: 'visible', opacity: 1.0});
+                                        $('.soc-gg').css({visibility: 'visible', opacity: 1.0});
+                                        $('.soc-tw').css({visibility: 'visible', opacity: 1.0});
+                                    }, function() {
+                                        $('.soc-fb').css({visibility: 'hidden', opacity: 0.0});
+                                        $('.soc-gg').css({visibility: 'hidden', opacity: 0.0});
+                                        $('.soc-tw').css({visibility: 'hidden', opacity: 0.0});
+                                    }
+                            );
+                        </script>
+
                         <p>
                             <div ng-cloak id="status-sprite-{{animal.id}}" class="center-block" style="text-align: center"></div>
                         </p>

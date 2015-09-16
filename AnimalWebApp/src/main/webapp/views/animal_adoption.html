@@ -136,11 +136,61 @@
                         <h4 class="blocktext blocktext-h4">{{ 'ADVERT' | translate }} № {{animal.id}}</h4>
 
                         <p class="center-block" id="animal-image-id">
-                            <img ng-src="{{animal.image}}" alt="{{ 'IMAGE_NOT_FOUND' | translate }}"
-                                 height="200" width="200"/>
+                            <div class="image-wrapper" style="position: relative; width: auto; text-align: center;">
+                                <div class="center-block" style="position: relative; width: 200px; height: 200px;">
+                                    <img src="#" ng-src="{{animal.image}}" alt="Image not found"
+                                        height="200" width="200">
+                                    <p class="soc-fb"
+                                        ng-href
+                                           socialshare
+                                           socialshare-provider="facebook"
+                                           socialshare-type="feed"
+                                           socialshare-via="145634995501895"
+                                           socialshare-to=""
+                                           socialshare-from=""
+                                           socialshare-ref=""
+                                           socialshare-display="popup"
+                                           socialshare-media="{{ animal.image }}"
+                                           socialshare-source=""
+                                           socialshare-description="{{ 'ANIMAL_ADOPTION_FACEBOOK_SHARE_MESSAGE' | translate }}"
+                                           socialshare-text="{{ 'ANIMAL_SHARE_TEXT' | translate }}"
+                                           socialshare-caption="{{ 'ANIMAL_ADOPTION_FACEBOOK_SHARE_CAPTION' | translate }}"
+                                           socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/adoption/{{animal.id}}"
+                                           socialshare-redirect-uri="https://www.facebook.com/">
+                                    </p>
+                                    <p class="soc-gg"
+                                       ng-href
+                                       socialshare
+                                       socialshare-provider="google+"
+                                       socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/adoption/{{animal.id}}" >
+                                    </p>
+                                    <p class="soc-tw"
+                                       ng-href
+                                       socialshare
+                                       socialshare-provider="twitter"
+                                       socialshare-via="{{ 'LKP_LEV' | translate }}"
+                                       socialshare-url="http://lkplev.unicloud.pl/#/ua/animal/adoption/{{animal.id}}"
+                                       socialshare-hashtags="adoption">
+                                    </p>
+                                </div>
+                            </div>
 
-                        <div ng-cloak id="status-sprite-{{animal.id}}" class="center-block" style="text-align: center"></div>
+                            <div ng-cloak id="status-sprite-{{animal.id}}" class="center-block" style="text-align: center"></div>
                         </p>
+
+                        <script>
+                            $( ".image-wrapper"  ).hover(
+                                    function() {
+                                        $('.soc-fb').css({visibility: 'visible', opacity: 1.0});
+                                        $('.soc-gg').css({visibility: 'visible', opacity: 1.0});
+                                        $('.soc-tw').css({visibility: 'visible', opacity: 1.0});
+                                    }, function() {
+                                        $('.soc-fb').css({visibility: 'hidden', opacity: 0.0});
+                                        $('.soc-gg').css({visibility: 'hidden', opacity: 0.0});
+                                        $('.soc-tw').css({visibility: 'hidden', opacity: 0.0});
+                                    }
+                            );
+                        </script>
 
                         <p ng-if="currentLanguage === 'uk'" class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.type}}</p>
                         <p ng-if="currentLanguage !== 'uk'" class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.typeEn}}</p>
@@ -194,6 +244,7 @@
 
         $(document).ready(function() {
                 $('[data-toggle="tooltip"]').tooltip();
+                $('img[src="#"]').attr('src', '/resources/img/no-image-logo.gif');
         });
     </script>
 </section>

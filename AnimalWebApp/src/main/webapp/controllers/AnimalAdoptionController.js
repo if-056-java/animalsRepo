@@ -36,7 +36,6 @@ adoptionModule
                                 function(result){
 
                                     $scope.contentLoading++;
-                                    console.log('> ' + $scope.innerContentLoading);
                                     for(var i = 0; i < result.length; i++){
                                         if(result[i].animalStatus.id === 14) {
                                             $("#status-sprite-" + result[i].animal.id)
