@@ -12,6 +12,7 @@ import java.util.List;
  * Created by Rostyslav.Viner on 22.07.2015.
  */
 
+@XmlRootElement
 public class Animal implements Serializable{
     public enum SexType {
         NONE,

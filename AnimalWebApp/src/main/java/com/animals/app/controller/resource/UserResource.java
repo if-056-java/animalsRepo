@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -70,22 +72,12 @@ public class UserResource {
 	private AnimalRepository animalRep = new AnimalRepositoryImpl();		
 	
 	@GET //http:localhost:8080/webapi/users/user/{userId}
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("user/{userId}") 	
-	public Response getUserById(@PathParam ("userId") String id) {
+	public Response getUserById(@PathParam ("userId") @DecimalMin(value = "1") int id) {
 				
-		int parseId = 0;
-		
 		try {
-            if (id == null) return BAD_REQUEST;
-            parseId = Integer.parseInt(id);
-        } catch (NumberFormatException e){
-        	LOG.error(e);
-            return BAD_REQUEST;
-        }
-		
-		try {
-			User user = userRep.getById(parseId);
+			User user = userRep.getById(id);
 			
 			if (user == null) return NOT_FOUND;
 			
@@ -96,65 +88,13 @@ public class UserResource {
 			return SERVER_ERROR;
 		}	
 		
-	}
-	
-	@GET //http:localhost:8080/webapi/users/user/{userId}/animals
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("user/{userId}/animals") 
-	public Response getAnimalsByUserId(@PathParam ("userId") String id) {
-				
-		int parseId = 0;
-		
-		try {
-            if (id == null) return BAD_REQUEST;
-            parseId = Integer.parseInt(id);
-        } catch (NumberFormatException e){
-        	LOG.error(e);
-            return BAD_REQUEST;
-        }
-		
-		try {
-			List<Animal> animals = animalRep.getAnimalByUserId(parseId);
-			
-			GenericEntity<List<Animal>> genericAnimals =
-			        new GenericEntity<List<Animal>>(animals) {};
-
-			if(genericAnimals == null)
-			    return Response.status(Response.Status.NOT_FOUND).build();
-
-			return Response.status(Response.Status.OK).entity(genericAnimals).build();
-			
-		} catch (Exception e) {
-			LOG.error(e);
-			return SERVER_ERROR;
-		}
-		
-	}
-	
-	@POST
-	@Path("user")//http:localhost:8080/webapi/users/user/
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response insertUser (User user) {		//registration
-		
-		if (user==null) return BAD_REQUEST;
-		
-		try {
-			userRep.insert(user);			
-		} catch (Exception e) {
-			LOG.error(e);
-			return SERVER_ERROR;
-		}
-		
-		return Response.ok().entity(user).build();
-		
-	}
+	}	
 	
 	
 	@PUT 
-	@Path("user/{userId}") //http:localhost:8080/webapi/users/user/{userId}
+	@Path("user/{userId}") //http:localhost:8080/webapi/users/user/{userId}  //User update
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response updateUser (@Valid User user) {
 		
 		if (user==null) return BAD_REQUEST;
@@ -182,16 +122,46 @@ public class UserResource {
 		}		
 	}
 	
+	@POST  //http:localhost:8080/webapi/users/user/{userId}/animals  
+    @Path("user/{userId}/animals")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response geetUserAnimalsByUserId(@PathParam("userId") @DecimalMin(value = "1") long userId, 
+    										@Valid @NotNull AnimalsFilter animalsFilter,
+    										@Context HttpServletRequest req) {
+		
+		HttpSession session = req.getSession(true);
+		if (!session.getAttribute("userId").equals(Long.toString(userId))){
+			return UNAUTHORIZED;
+		}
+		
+		if(animalsFilter == null) return BAD_REQUEST;
+       
+        if ((animalsFilter.getPage() <= 0) || (animalsFilter.getLimit() <= 0)) {
+            return BAD_REQUEST;
+        }
+
+        //get list of user animals from data base
+        List<Animal> animals = userRep.getUserAnimals(userId, animalsFilter.getOffset(), animalsFilter.getLimit());
+
+        //cast list of animals to generic list
+        GenericEntity<List<Animal>> genericAnimals = new GenericEntity<List<Animal>>(animals) {};
+
+        if(genericAnimals == null) {
+            return NOT_FOUND;
+        }
+
+        return Response.ok().entity(genericAnimals).build();
+    }	
+
+	
 	@GET //http:localhost:8080/webapi/users/user/{userId}/animals/{animalId}   
     @Path("user/{userId}/animals/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimal(@PathParam ("userId") String id,
-    						  @PathParam("animalId") long animalId,
+    						  @PathParam("animalId") @DecimalMin(value = "1") long animalId,
     						  @Context HttpServletRequest req) {
-        
-		if (animalId == 0 || animalId<0) {
-            return BAD_REQUEST;
-        }
+        		
 		
 		HttpSession session = req.getSession(true);
 		
@@ -208,14 +178,10 @@ public class UserResource {
 	@DELETE //http:localhost:8080/webapi/users/user/{userId}/animals/{animalId} 
     @Path("user/{userId}/animals/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response deleteAnimal(@PathParam ("userId") String id,
-    							 @PathParam("animalId") long animalId,
+    public Response deleteAnimal(@PathParam ("userId") @NotNull String id,
+    							 @PathParam("animalId") @DecimalMin(value = "1") long animalId,
     							 @Context HttpServletRequest req) {
-
-		if (animalId == 0 || animalId<0) {
-			return BAD_REQUEST;
-		}
-		
+				
 		HttpSession session = req.getSession(true);
 		
 		if (!session.getAttribute("userId").equals(id)){
@@ -244,7 +210,7 @@ public class UserResource {
     @Path("user/{userId}/animals/animal")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAnimal(@Valid Animal animal,
-    							 @PathParam ("userId") String id,
+    							 @PathParam ("userId") @NotNull String id,
     							 @Context HttpServletRequest req) {
     	
     	HttpSession session = req.getSession(true);
@@ -289,7 +255,7 @@ public class UserResource {
     @Path("user/{userId}/animals/paginator/")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getUserAnimalsPaginator(@PathParam("userId") long userId) {
+    public Response getUserAnimalsPaginator(@PathParam("userId") @DecimalMin(value = "1") long userId) {
         if(userId <= 0) {
             return BAD_REQUEST;
         }
@@ -300,33 +266,8 @@ public class UserResource {
         String json = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
 
         return Response.ok().entity(json).build();
-    }
+    }    
     
-    @POST  //http:localhost:8080/webapi/users/user/{userId}/animals  
-    @Path("user/{userId}/animals")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response geetUserAnimalsByUserId(@PathParam("userId") long userId, AnimalsFilter animalsFilter) {
-        if((userId <= 0) || (animalsFilter == null)) {
-            return BAD_REQUEST;
-        }
-
-        if ((animalsFilter.getPage() <= 0) || (animalsFilter.getLimit() <= 0)) {
-            return BAD_REQUEST;
-        }
-
-        //get list of animals medical history from data base
-        List<Animal> animals = userRep.getUserAnimals(userId, animalsFilter.getOffset(), animalsFilter.getLimit());
-
-        //cast list of animals to generic list
-        GenericEntity<List<Animal>> genericAnimals = new GenericEntity<List<Animal>>(animals) {};
-
-        if(genericAnimals == null) {
-            return NOT_FOUND;
-        }
-
-        return Response.ok().entity(genericAnimals).build();
-    }
 
 	@POST //http:localhost:8080/webapi/users/admin/users/pagenator
 	@Path("admin/users/pagenator")
