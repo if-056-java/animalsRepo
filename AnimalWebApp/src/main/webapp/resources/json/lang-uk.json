@@ -246,6 +246,17 @@
   "ADMIN_USERS": "Список користувачів",
   "ID": "Id",
   "IS_ACTIVE": "Блокування",
-  "DETAILED_INFO": "Детальна інформація"
+  "DETAILED_INFO": "Детальна інформація",
+
+  "ANIMAL_STATUS_CAUGHT": "Упіймана",
+  "ANIMAL_STATUS_RELEASED": "Відпущена",
+  "ANIMAL_STATUS_NEWBORN": "Новонароджена",
+  "ANIMAL_STATUS_DISINFECTED": "Продезинфікована",
+  "ANIMAL_STATUS_VACCINATED": "Провакцинована",
+  "ANIMAL_STATUS_CURED": "Вилікувана",
+  "ANIMAL_STATUS_SICK": "Хвора",
+  "ANIMAL_STATUS_INJURED": "Поранена",
+  "ANIMAL_STATUS_ADOPT": "На адопцію",
+  "ANIMAL_STATUS_CUSTODY": "На опікунство"
 
 }

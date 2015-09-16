@@ -108,6 +108,7 @@
             <artifactId>jersey-media-moxy</artifactId>
         </dependency>
 
+        <!-- Javax Servlet -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.servlet</artifactId>
@@ -135,7 +136,7 @@
             <version>3.3.0</version>
         </dependency>
 
-        <!-- MySQL connector -->
+        <!-- MySQL Connector -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -170,7 +171,7 @@
 		  <version>1.3.6</version>
 		</dependency>
 		
-		<!--Json parser-->		
+		<!--Json Parser-->
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>

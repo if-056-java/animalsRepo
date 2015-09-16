@@ -128,16 +128,19 @@
                 {{errorMessage}}</h3>
 
             <!-- List of animals for adoption -->
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9 simple-border" ng-show="!contentLoading">
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9 simple-border"
+                 ng-show="!contentLoading">
                 <div class="row">
-                    <div class="col-xs-12 col-lg-4 col-md-4 col-sm-6 simple-side-padding"
-                         style="height:400px; margin-bottom: 10px;" ng-repeat="animal in animals.values">
+                    <div class="col-xs-12 col-lg-6 col-md-6 col-sm-6 simple-side-padding"
+                         style="position: relative; height:500px; margin-bottom: 25px;" ng-repeat="animal in animals.values">
                         <h4 class="blocktext blocktext-h4">{{ 'ADVERT' | translate }} № {{animal.id}}</h4>
 
                         <p class="center-block" id="animal-image-id">
                             <img ng-src="{{animal.image}}" alt="{{ 'IMAGE_NOT_FOUND' | translate }}"
                                  height="200" width="200"/>
-                        </p>
+
+                        <div ng-cloak id="status-sprite-{{animal.id}}" class="center-block" style="text-align: center"></div>
+                        </p><!--class="sprite-status"-->
 
                         <p ng-if="currentLanguage === 'uk'" class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.type}}</p>
                         <p ng-if="currentLanguage !== 'uk'" class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.typeEn}}</p>
@@ -147,7 +150,8 @@
 
                         <p class="blocktext2 center-block">{{ 'REGISTRATION_DATE' | translate }}: {{animal.dateOfRegister}}</p>
                         <p class="blocktext2 center-block" style="text-aling: center;">
-                            <a class="btn btn-default" role="button" href="#/ua/animal/adoption/{{animal.id}}">{{ 'LEARN_MORE' | translate }} »</a>
+                            <a style="position: absolute; bottom: 7px;"
+                               class="btn btn-success" role="button" href="#/ua/animal/adoption/{{animal.id}}">{{ 'LEARN_MORE' | translate }} »</a>
                         </p>
                     </div>
                 </div>
@@ -170,7 +174,8 @@
                                         {{ filter.limit }} <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
-                                        <li role="menuitem"><a href ng-click="countChanged('15')">15</a></li>
+                                        <li role="menuitem"><a href ng-click="countChanged('10')">10</a></li>
+                                        <li role="menuitem"><a href ng-click="countChanged('20')">20</a></li>
                                         <li role="menuitem"><a href ng-click="countChanged('30')">30</a></li>
                                     </ul>
                                 </div>
@@ -182,4 +187,13 @@
 
         </div>
     </div>
+    <script>
+        (function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        })();
+
+        $(document).ready(function() {
+                $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 </section>

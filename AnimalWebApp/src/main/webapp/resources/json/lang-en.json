@@ -247,6 +247,18 @@
   "ADMIN_USERS": "List of users",
   "ID": "Id",
   "IS_ACTIVE": "Is blocked",
-  "DETAILED_INFO": "Detailed info"
+  "DETAILED_INFO": "Detailed info",
+
+  "ANIMAL_STATUS_CAUGHT": "Caught",
+  "ANIMAL_STATUS_RELEASED": "Released",
+  "ANIMAL_STATUS_NEWBORN": "Newborn",
+  "ANIMAL_STATUS_DISINFECTED": "Disinfected",
+  "ANIMAL_STATUS_VACCINATED": "Vaccinated",
+  "ANIMAL_STATUS_CURED": "Cured",
+  "ANIMAL_STATUS_SICK": "Sick",
+  "ANIMAL_STATUS_INJURED": "Injured",
+  "ANIMAL_STATUS_ADOPT": "In adoption",
+  "ANIMAL_STATUS_CUSTODY": "In custody"
+
 
 }

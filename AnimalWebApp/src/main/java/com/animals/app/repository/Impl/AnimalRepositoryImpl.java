@@ -266,5 +266,21 @@ public class AnimalRepositoryImpl implements AnimalRepository {
         } finally {
             session.close();
         }
-    }    
+    }
+
+    /**
+     * Returns animal id.
+     * @param id primary key value used for lookup.
+     * @return An Animal id.
+     */
+    @Override
+    public Animal getAnimalId(long id) {
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try{
+            return session.getMapper(AnimalRepository.class).getAnimalId(id);
+        } finally {
+            session.close();
+        }
+    }
 }

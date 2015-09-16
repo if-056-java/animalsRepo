@@ -1,6 +1,9 @@
 package com.animals.app.repository;
 
+import com.animals.app.domain.Animal;
 import com.animals.app.domain.AnimalStatus;
+import com.animals.app.domain.AnimalStatusLoger;
+import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -12,20 +15,36 @@ import java.util.List;
  */
 public interface AnimalStatusLogerRepository {
 
-    final String SELECT_BY_ID = "SELECT id, statusId, animalId, date FROM animalstatusesloger WHERE id = #{id}";
+    final String SELECT_BY_ID = "SELECT id, statusId, animalId " +
+            "FROM animalstatusesloger WHERE id = #{id}";
+
+    final String GET_ANIMAL_STATUSES = "SELECT Id, animalId, statusId " +
+            "FROM animalstatusesloger WHERE animalId = #{animalId}";
 
     /**
      * Returns an Animal status loger instance from the database.
+     *
      * @param id primary key value used for lookup.
      * @return An Animal status loger instance with a primary key value equals to pk. null if there is no matching row.
      */
     @Select(SELECT_BY_ID)
     @Results(value = {
-            @Result(property="id", column="id"),
-            @Result(property="status", column="statusId"),
-            @Result(property="animal", column="animalId"),
-            @Result(property="date", column="date")
+            @Result(property = "id", column = "id"),
+            @Result(property="animal", column="animalId", javaType = Animal.class,
+                    one = @One(select = "com.animals.app.repository.AnimalRepository.getById")),
+            @Result(property = "date", column = "date")
 
     })
-    AnimalStatus getById(long id);
+    AnimalStatusLoger getById(long id);
+
+    @Select(GET_ANIMAL_STATUSES)
+    @Results(value = {
+            @Result(property = "id", column = "id"),
+            @Result(property="animal", column="animalId", javaType = Animal.class,
+                    one = @One(select = "com.animals.app.repository.AnimalRepository.getAnimalId")),
+            @Result(property="animalStatus", column="statusId", javaType = AnimalStatus.class,
+                    one = @One(select = "com.animals.app.repository.AnimalStatusRepository.getById")),
+    })
+    List<AnimalStatusLoger> getAnimalStatusesByAnimalId(long animalId);
+
 }
