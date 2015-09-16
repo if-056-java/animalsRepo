@@ -1,9 +1,5 @@
 package com.animals.app.domain;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -13,23 +9,15 @@ import java.sql.Date;
 
 public class Animal implements Serializable{
     public enum SexType {
-        NONE,
-        MALE,
-        FEMALE
+        NONE, MALE, FEMALE
     }
 
     public enum CitesType {
-        NONE,
-        CITES1,
-        CITES2,
-        CITES3
+        NONE, CITES1, CITES2, CITES3
     }
 
     public enum SizeType {
-        NONE,
-        SMALL,
-        MIDDLE,
-        LARGE
+        NONE, SMALL, MIDDLE, LARGE
     }
 
     private Long id;
