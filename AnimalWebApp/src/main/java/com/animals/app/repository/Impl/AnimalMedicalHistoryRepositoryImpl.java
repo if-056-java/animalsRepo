@@ -26,12 +26,8 @@ public class AnimalMedicalHistoryRepositoryImpl implements AnimalMedicalHistoryR
      * @return count of rows selected by getAllForAdopting
      */
     public long getByAnimalIdCount(long id) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalMedicalHistoryRepository.class).getByAnimalIdCount(id);
-        } finally {
-            session.close();
         }
     }
 
@@ -41,12 +37,8 @@ public class AnimalMedicalHistoryRepositoryImpl implements AnimalMedicalHistoryR
      * @return An Animal medical history instance with a primary key value equals to pk. null if there is no matching row.
      */
     public List<AnimalMedicalHistory> getByAnimalId(long animalId, long offset, int limit) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalMedicalHistoryRepository.class).getByAnimalId(animalId, offset, limit);
-        } finally {
-            session.close();
         }
     }
 
@@ -56,12 +48,8 @@ public class AnimalMedicalHistoryRepositoryImpl implements AnimalMedicalHistoryR
      * @return An Animal medical history instance with a primary key value equals to pk. null if there is no matching row.
      */
     public AnimalMedicalHistory getById(long id) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalMedicalHistoryRepository.class).getById(id);
-        } finally {
-            session.close();
         }
     }
 
@@ -70,13 +58,9 @@ public class AnimalMedicalHistoryRepositoryImpl implements AnimalMedicalHistoryR
      * @param id primary key value of the instance to be deleted.
      */
     public void deleteById(long id) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             session.getMapper(AnimalMedicalHistoryRepository.class).deleteById(id);
             session.commit();
-        } finally {
-            session.close();
         }
     }
 
@@ -85,13 +69,9 @@ public class AnimalMedicalHistoryRepositoryImpl implements AnimalMedicalHistoryR
      * @param animalMedicalHistory the instance to be persisted.
      */
     public void insert(AnimalMedicalHistory animalMedicalHistory) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             session.getMapper(AnimalMedicalHistoryRepository.class).insert(animalMedicalHistory);
             session.commit();
-        } finally {
-            session.close();
         }
     }
 }

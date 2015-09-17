@@ -16,13 +16,15 @@ import java.util.Properties;
  * Created by oleg on 12.09.2015.
  */
 public class JNDIConfigurationForTests {
+    private static String url;         //db url
+    private static String username;    //db username
+    private static String password;    //db password
 
-    private static String url;
-    private static String username;
-    private static String password;
-
+    /**
+     * Configuration JNDI for JUnit tests
+     */
     protected static void configureJNDIForJUnit() {
-        // rcarver - setup the jndi context and the datasource
+        //setup the jndi context and the datasource
         try {
             setSystemProperties();
 
@@ -39,10 +41,13 @@ public class JNDIConfigurationForTests {
 
             ic.bind("java:/comp/env/jdbc/animals", ds);
         } catch (NamingException ex) {
-            ex.printStackTrace();
+            System.out.println("Name java: is already bound in this Context");
         }
     }
 
+    /**
+     * Set system properties for using Initial Context
+     */
     private static void setSystemProperties(){
         // Create initial context
         System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
@@ -51,6 +56,11 @@ public class JNDIConfigurationForTests {
                 "org.apache.naming");
     }
 
+    /**
+     * Create vars of environment
+     * @param initialContext Initial context of application in test scope
+     * @throws NamingException Error in environment
+     */
     private static void createSubContext(InitialContext initialContext) throws NamingException{
         initialContext.createSubcontext("java:");
         initialContext.createSubcontext("java:/comp");
@@ -58,6 +68,9 @@ public class JNDIConfigurationForTests {
         initialContext.createSubcontext("java:/comp/env/jdbc");
     }
 
+    /**
+     * Set database properties from .properties file
+     */
     private static void setDataBaseProperties(){
         Properties prop = new Properties();
 
@@ -75,12 +88,17 @@ public class JNDIConfigurationForTests {
         }
     }
 
+    /**
+     * Set data source
+     * @param ds Pool of data source
+     */
     private static void setMySqlDataSourceProperties(MysqlConnectionPoolDataSource ds){
         ds.setURL(getUrl());
         ds.setUser(getUsername());
         ds.setPassword(getPassword());
     }
 
+    //getters and setters of database properties
     public static String getUrl() {
         return url;
     }

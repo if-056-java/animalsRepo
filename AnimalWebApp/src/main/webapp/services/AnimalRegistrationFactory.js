@@ -16,7 +16,8 @@ animalRegistrationModule
                     .success(function (data) {
                         def.resolve(data);
                     })
-                    .error(function () {
+                    .error(function (error) {
+                        console.log(error);
                         def.reject("Failed to insert animals");
                     });
 

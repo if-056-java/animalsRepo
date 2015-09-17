@@ -5,9 +5,12 @@ import com.animals.app.repository.Impl.*;
 
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 
 import com.animals.app.service.CreateAnimalImage;
+import org.apache.ibatis.exceptions.PersistenceException;
+import org.apache.ibatis.session.SqlSessionException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -15,6 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.List;
 
 @Path("animals")
@@ -37,15 +41,23 @@ public class AnimalResource {
     @Path("animal")//http:localhost:8080/AnimalWebApp/webapi/animals
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response insertAnimal(Animal animal) {
+    public Response insertAnimal(@Valid Animal animal) {
         if (animal == null)
             return BAD_REQUEST;
 
         animal.setImage(getImageURL(animal.getImage()));
 
-        insertBreed(animal);
+        /*insertBreed(animal);*/  //not using
 
-        animalRepository.insert(animal);
+        try {
+//            animal.setSize(null);
+            animalRepository.insert(animal);
+        } catch (PersistenceException e){
+            LOG.error(e);
+            return Response.serverError().entity(animal).build();
+            /*return SERVER_ERROR;*/
+        }
+
         return ok(animal);
     }
 

@@ -4,8 +4,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import sun.misc.BASE64Decoder;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
 import java.io.*;
 
 /**
@@ -14,6 +12,9 @@ import java.io.*;
 public class CreateAnimalImage {
     private static final Logger LOG = LogManager.getLogger(CreateAnimalImage.class);
     private static final int BUFFER_SIZE = 1024;
+    private static final int START_OFFSET = 0;
+    private static final int END_OF_FILE = -1;
+    private static final String NEW_IMAGE_FORMAT = ".png";
 
     /**
      * Call save image method and return image URL for insert into database
@@ -37,6 +38,12 @@ public class CreateAnimalImage {
         return null;
     }
 
+    /**
+     * Decode bytes from BASE64
+     * @param image Decode bytes
+     * @return bytes
+     * @throws IOException File isn't image
+     */
     private static byte[] decodedBytes(String image) throws IOException {
         return new BASE64Decoder().decodeBuffer(image);
     }
@@ -51,8 +58,8 @@ public class CreateAnimalImage {
             int read;
             byte[] bytes = new byte[BUFFER_SIZE];
 
-            while ((read = inputStream.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
+            while ((read = inputStream.read(bytes)) != END_OF_FILE) {
+                out.write(bytes, START_OFFSET, read);
             }
             out.flush();
         } catch (IOException e) {
@@ -65,7 +72,7 @@ public class CreateAnimalImage {
      * @return Unique name of image
      */
     private static String imageName(){
-        return System.currentTimeMillis() + ".png";
+        return System.currentTimeMillis() + NEW_IMAGE_FORMAT;
     }
 
     private static String pathToImageStorage(String pathToImageStorage, String fileName){

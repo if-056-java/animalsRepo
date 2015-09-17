@@ -1,12 +1,9 @@
 package com.animals.app.domain;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.List;
 
 /**
  * Created by Rostyslav.Viner on 22.07.2015.
@@ -226,16 +223,16 @@ public class Animal implements Serializable{
 
         Animal animal = (Animal) o;
 
-        if (active != null ? !active.equals(animal.active) : animal.active != null) return false;
+        if (!active.equals(animal.active)) return false;
         if (address != null ? !address.equals(animal.address) : animal.address != null) return false;
-        if (breed != null ? !breed.equals(animal.breed) : animal.breed != null) return false;
+        if (!breed.equals(animal.breed)) return false;
         if (cites != animal.cites) return false;
-        if (color != null ? !color.equals(animal.color) : animal.color != null) return false;
+        if (!color.equals(animal.color)) return false;
         if (!dateOfBirth.equals(animal.dateOfBirth)) return false;
+        if (dateOfFacebook != null ? !dateOfFacebook.equals(animal.dateOfFacebook) : animal.dateOfFacebook != null)
+            return false;
         if (!dateOfRegister.equals(animal.dateOfRegister)) return false;
         if (dateOfSterilization != null ? !dateOfSterilization.equals(animal.dateOfSterilization) : animal.dateOfSterilization != null)
-            return false;
-        if (dateOfFacebook != null ? !dateOfFacebook.equals(animal.dateOfFacebook) : animal.dateOfFacebook != null)
             return false;
         if (dateOfTwitter != null ? !dateOfTwitter.equals(animal.dateOfTwitter) : animal.dateOfTwitter != null)
             return false;
@@ -249,7 +246,7 @@ public class Animal implements Serializable{
         if (transpNumber != null ? !transpNumber.equals(animal.transpNumber) : animal.transpNumber != null)
             return false;
         if (!type.equals(animal.type)) return false;
-        if (user != null ? !user.equals(animal.user) : animal.user != null) return false;
+        if (!user.equals(animal.user)) return false;
 
         return true;
     }
@@ -261,7 +258,7 @@ public class Animal implements Serializable{
         result = 31 * result + type.hashCode();
         result = 31 * result + size.hashCode();
         result = 31 * result + cites.hashCode();
-        result = 31 * result + (breed != null ? breed.hashCode() : 0);
+        result = 31 * result + breed.hashCode();
         result = 31 * result + (transpNumber != null ? transpNumber.hashCode() : 0);
         result = 31 * result + (tokenNumber != null ? tokenNumber.hashCode() : 0);
         result = 31 * result + dateOfRegister.hashCode();
@@ -269,11 +266,11 @@ public class Animal implements Serializable{
         result = 31 * result + (dateOfSterilization != null ? dateOfSterilization.hashCode() : 0);
         result = 31 * result + (dateOfFacebook != null ? dateOfFacebook.hashCode() : 0);
         result = 31 * result + (dateOfTwitter != null ? dateOfTwitter.hashCode() : 0);
-        result = 31 * result + (color != null ? color.hashCode() : 0);
+        result = 31 * result + color.hashCode();
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + user.hashCode();
         result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (active != null ? active.hashCode() : 0);
+        result = 31 * result + active.hashCode();
         result = 31 * result + (image != null ? image.hashCode() : 0);
         result = 31 * result + service.hashCode();
         return result;

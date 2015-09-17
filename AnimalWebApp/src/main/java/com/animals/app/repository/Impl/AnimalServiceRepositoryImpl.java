@@ -23,12 +23,8 @@ public class AnimalServiceRepositoryImpl implements AnimalServiceRepository {
      * @return the list of all Animal service instances from the database.
      */
     public List<AnimalService> getAll(){
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalServiceRepository.class).getAll();
-        } finally {
-            session.close();
         }
     }
 
@@ -38,12 +34,8 @@ public class AnimalServiceRepositoryImpl implements AnimalServiceRepository {
      * @return An Animal service instance with a primary key value equals to pk. null if there is no matching row.
      */
     public AnimalService getById(long id){
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalServiceRepository.class).getById(id);
-        } finally {
-            session.close();
         }
     }
 }

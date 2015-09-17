@@ -25,12 +25,8 @@ public class AnimalBreedRepositoryImpl implements AnimalBreedRepository {
      * @return An AnimalBreed instance with a primary key value equals to pk. null if there is no matching row.
      */
     public AnimalBreed getById(long id){
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalBreedRepository.class).getById(id);
-        } finally {
-            session.close();
         }
     }
 
@@ -39,12 +35,8 @@ public class AnimalBreedRepositoryImpl implements AnimalBreedRepository {
      * @return the list of all AnimalBreed instances from the database.
      */
     public List<AnimalBreed> getAll(){
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalBreedRepository.class).getAll();
-        } finally {
-            session.close();
         }
     }
 
@@ -54,12 +46,8 @@ public class AnimalBreedRepositoryImpl implements AnimalBreedRepository {
      * @return the list of all AnimalBreed instances from the database.
      */
     public List<AnimalBreed> getByTypeId(long animalTypeId) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalBreedRepository.class).getByTypeId(animalTypeId);
-        } finally {
-            session.close();
         }
     }
 
@@ -70,13 +58,9 @@ public class AnimalBreedRepositoryImpl implements AnimalBreedRepository {
      */
     @Deprecated
     public void insert_ua(AnimalBreed animalBreed) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             session.getMapper(AnimalBreedRepository.class).insert_ua(animalBreed);
             session.commit();
-        } finally {
-            session.close();
         }
     }
 
@@ -87,13 +71,9 @@ public class AnimalBreedRepositoryImpl implements AnimalBreedRepository {
      */
     @Deprecated
     public void deleteById(long id) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             session.getMapper(AnimalBreedRepository.class).deleteById(id);
             session.commit();
-        } finally {
-            session.close();
         }
     }
 }

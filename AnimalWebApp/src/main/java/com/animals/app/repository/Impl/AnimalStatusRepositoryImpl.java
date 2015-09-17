@@ -24,12 +24,8 @@ public class AnimalStatusRepositoryImpl implements AnimalStatusRepository {
      * @return the list of all Animal status instances from the database.
      */
     public List<AnimalStatus> getAll() {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalStatusRepository.class).getAll();
-        } finally {
-            session.close();
         }
     }
 
@@ -39,12 +35,8 @@ public class AnimalStatusRepositoryImpl implements AnimalStatusRepository {
      * @return An Animal status instance with a primary key value equals to pk. null if there is no matching row.
      */
     public AnimalStatus getById(long id) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalStatusRepository.class).getById(id);
-        } finally {
-            session.close();
         }
     }
 }

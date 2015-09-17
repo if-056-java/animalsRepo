@@ -27,12 +27,8 @@ public class AnimalStatusLogerRepositoryImpl implements AnimalStatusLogerReposit
      */
     @Override
     public AnimalStatusLoger getById(long id) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalStatusLogerRepository.class).getById(id);
-        } finally {
-            session.close();
         }
     }
 
@@ -44,12 +40,8 @@ public class AnimalStatusLogerRepositoryImpl implements AnimalStatusLogerReposit
      */
     @Override
     public List<AnimalStatusLoger> getAnimalStatusesByAnimalId(long animalId) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalStatusLogerRepository.class).getAnimalStatusesByAnimalId(animalId);
-        } finally {
-            session.close();
         }
     }
 }

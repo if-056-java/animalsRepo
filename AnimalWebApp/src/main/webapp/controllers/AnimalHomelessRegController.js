@@ -33,7 +33,6 @@ animalRegistrationModule
 
             //Insert homeless animal
             $scope.insertHomelessAnimal = function (animal) {
-                console.log('bf: ' +$scope.animal.breed);
                 //Show spinner loading
                 $scope.contentLoading++;
 
@@ -53,8 +52,6 @@ animalRegistrationModule
                     .finally(function() {
                         //hide spinner loading
                         $scope.contentLoading--;
-
-                        console.log('fin: ' +$scope.animal.breed);
 
                         //clear fields
                         AnimalRegistrationValues.address = {

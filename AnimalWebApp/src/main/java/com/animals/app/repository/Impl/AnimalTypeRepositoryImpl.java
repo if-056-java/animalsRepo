@@ -23,12 +23,8 @@ public class AnimalTypeRepositoryImpl implements AnimalTypeRepository {
      * @return the list of all Animal type instances from the database.
      */
     public List<AnimalType> getAll(){
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalTypeRepository.class).getAll();
-        } finally {
-            session.close();
         }
     }
 
@@ -38,12 +34,8 @@ public class AnimalTypeRepositoryImpl implements AnimalTypeRepository {
      * @return A Animal type instance with a primary key value equals to pk. null if there is no matching row.
      */
     public AnimalType getById(long id){
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try{
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AnimalTypeRepository.class).getById(id);
-        } finally {
-            session.close();
         }
     }
 }

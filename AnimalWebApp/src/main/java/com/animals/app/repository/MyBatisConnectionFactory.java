@@ -1,6 +1,7 @@
 package com.animals.app.repository;
 
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionException;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.log4j.Logger;
