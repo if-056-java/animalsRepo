@@ -118,7 +118,7 @@ public class DoctorResource {
         }
 
         HttpSession session = req.getSession(true);
-
+        System.out.println("ss " + session.getId());
         if (session.getAttribute("userId") == null) {
             return BAD_REQUEST;
         }

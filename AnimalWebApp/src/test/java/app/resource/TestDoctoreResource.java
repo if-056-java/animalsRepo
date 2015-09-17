@@ -7,25 +7,13 @@ import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalStatusRepositoryImpl;
 import com.animals.app.service.DateSerializer;
-import com.animals.app.service.ValidationFilterDomainFields;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.glassfish.hk2.api.Factory;
-import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.servlet.ServletContainer;
-import org.glassfish.jersey.test.DeploymentContext;
-import org.glassfish.jersey.test.JerseyTest;
-import org.glassfish.jersey.test.ServletDeploymentContext;
-import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
-import org.glassfish.jersey.test.spi.TestContainerFactory;
-import org.json.JSONObject;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -33,11 +21,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -45,23 +28,19 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Created by Rostyslav.Viner on 04.09.2015.
  */
 @Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestDoctoreResource extends JerseyTest {
+public class TestDoctoreResource extends ResourceTestTemplate {
     private static Logger LOG = LogManager.getLogger(TestDoctoreResource.class);
 
-    private static Client client;
+    protected static Client client;
 
     private static final String LOGIN = "doctor";
     private static final String PASSWORD = "doctor";
@@ -71,47 +50,9 @@ public class TestDoctoreResource extends JerseyTest {
     private static Integer rowsCount;
     private static AnimalMedicalHistory animalMedicalHistory;
 
-    private static final String REST_SERVICE_URL = "http://localhost:9998/doctor";
-    private static final String REST_LOGIN_URL = "http://localhost:9998/account";
+    private static final String REST_SERVICE_URL = BASE_URL + "doctor";
 
     private final int LENGTH_DESCRIPTION = 255;
-
-    @Override
-    protected TestContainerFactory getTestContainerFactory() {
-        return new GrizzlyWebTestContainerFactory();
-    }
-
-    public static class HttpSessionFactory implements Factory<HttpSession> {
-
-        private final HttpServletRequest request;
-        
-        public HttpSessionFactory(Provider<HttpServletRequest> requestProvider) {
-            this.request = requestProvider.get();
-        }
-
-        @Override
-        public HttpSession provide() {
-            return request.getSession();
-        }
-
-        @Override
-        public void dispose(HttpSession t) {
-        }
-    }
-
-
-    @Override
-    protected DeploymentContext configureDeployment() {
-        ResourceConfig config = new ValidationFilterDomainFields();
-        config.register(new AbstractBinder() {
-            @Override
-            protected void configure() {
-                bindFactory(HttpSessionFactory.class).to(HttpSession.class);
-            }
-        });
-        return ServletDeploymentContext.forServlet(
-                new ServletContainer(config)).build();
-    }
 
     @BeforeClass
     public static void runBeforeClass() {
@@ -129,19 +70,8 @@ public class TestDoctoreResource extends JerseyTest {
     }
 
     @Test
-    public void test00Login() {
-        String passwordMd5 = getMd5(PASSWORD);
-        String credentials = "Basic " + Base64.encodeBase64String((LOGIN + ':' + passwordMd5).getBytes());
-
-        String result = client
-                .target(REST_LOGIN_URL)
-                .path("/login/OFF")
-                .request()
-                .header("Authorization", credentials)
-                .post(null, String.class);
-
-        Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
-        accessToken = jsonMap.get("accessToken");
+    public void test00Initialization() {
+        accessToken = login(client, LOGIN, PASSWORD);
 
         assertNotNull(accessToken);
 
@@ -156,7 +86,7 @@ public class TestDoctoreResource extends JerseyTest {
         animalId = animals.get(0).getId();
 
         animalMedicalHistory = new AnimalMedicalHistory();
-        animalMedicalHistory.setDate(new java.sql.Date(new java.util.Date().getTime()));
+        animalMedicalHistory.setDate(new Date(new java.util.Date().getTime()));
         animalMedicalHistory.setStatus(new AnimalStatusRepositoryImpl().getAll().get(0));
         animalMedicalHistory.setDescription(RandomStringUtils.random(LENGTH_DESCRIPTION - 5, true, true));
         animalMedicalHistory.setAnimalId(animalId);
@@ -309,19 +239,5 @@ public class TestDoctoreResource extends JerseyTest {
 
         assertNotNull(response);
         assertEquals(response.getStatus(), 200);
-    }
-
-    private static String getMd5(String md5) {
-        try {
-            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
-            byte[] array = md.digest(md5.getBytes());
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < array.length; ++i) {
-                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
-            }
-            return sb.toString();
-        } catch (java.security.NoSuchAlgorithmException e) {
-        }
-        return null;
     }
 }
