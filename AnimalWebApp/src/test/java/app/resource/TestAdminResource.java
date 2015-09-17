@@ -14,6 +14,8 @@ import com.google.gson.GsonBuilder;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SerializationUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
@@ -35,6 +37,8 @@ import static org.junit.Assert.*;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAdminResource extends JNDIConfigurationForTests{
+    private static Logger LOG = LogManager.getLogger(TestAdminResource.class);
+
     private static Client client;
 
     private static final String LOGIN = "root";
@@ -149,7 +153,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(null, String.class);
+                .post(Entity.entity(null, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -158,12 +162,32 @@ public class TestAdminResource extends JNDIConfigurationForTests{
     @Test(expected = BadRequestException.class)
     public void test05UpdateAnimal() {
         assertNotNull(accessToken);
+        assertNotNull(animal);
+        assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
+        assertNotNull(animal.getType());
+        assertNotNull(animal.getType().getId());
+        assertNotNull(animal.getSize());
+        assertNotNull(animal.getDateOfRegister());
+        assertNotNull(animal.getColor());
+        assertNotNull(animal.getAddress());
+        assertNotNull(animal.getService());
+        assertNotNull(animal.getService().getId());
+
+        Animal actual = SerializationUtils.clone(animal);
+        actual.setId(null);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test05UpdateAnimal - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(null, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -190,6 +214,8 @@ public class TestAdminResource extends JNDIConfigurationForTests{
                 .registerTypeAdapter(Date.class, new DateSerializer())
                 .create()
                 .toJson(actual);
+
+        LOG.debug("TestName: test06UpdateAnimal - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals/editor")
@@ -223,6 +249,8 @@ public class TestAdminResource extends JNDIConfigurationForTests{
                 .create()
                 .toJson(actual);
 
+        LOG.debug("TestName: test07UpdateAnimal - " + json);
+
         client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
@@ -254,6 +282,8 @@ public class TestAdminResource extends JNDIConfigurationForTests{
                 .registerTypeAdapter(Date.class, new DateSerializer())
                 .create()
                 .toJson(actual);
+
+        LOG.debug("TestName: test08UpdateAnimal - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals/editor")
@@ -287,6 +317,8 @@ public class TestAdminResource extends JNDIConfigurationForTests{
                 .create()
                 .toJson(actual);
 
+        LOG.debug("TestName: test09UpdateAnimal - " + json);
+
         client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
@@ -318,6 +350,8 @@ public class TestAdminResource extends JNDIConfigurationForTests{
                 .registerTypeAdapter(Date.class, new DateSerializer())
                 .create()
                 .toJson(actual);
+
+        LOG.debug("TestName: test10UpdateAnimal - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals/editor")
@@ -351,12 +385,16 @@ public class TestAdminResource extends JNDIConfigurationForTests{
                 .create()
                 .toJson(actual);
 
+        LOG.debug("TestName: test11UpdateAnimal - " + json);
+
         String result = client
                 .target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+
+        LOG.debug("TestName: test11UpdateAnimal - " + result);
 
         Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
 
@@ -372,6 +410,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -383,7 +422,12 @@ public class TestAdminResource extends JNDIConfigurationForTests{
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setUser(new User());
-        String json = new Gson().toJson(actual);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test12UpdateAnimal - " + json);
 
         String result = client
                 .target(REST_SERVICE_URL)
@@ -392,11 +436,12 @@ public class TestAdminResource extends JNDIConfigurationForTests{
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
 
-        Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
-        String filePath = jsonMap.get("filePath");
-        System.out.println(filePath);
+        LOG.debug("TestName: test12UpdateAnimal - " + result);
 
-        assertNotNull(filePath);
+        Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
+
+        assertNotNull(jsonMap);
+        assertNotNull(jsonMap.get("filePath"));
     }
 
     /*
@@ -407,6 +452,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -417,13 +463,21 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(animal.getService().getId());
 
         Animal actual = SerializationUtils.clone(animal);
-        actual.getUser().setId(new Integer(-1));
+        User user = new User();
+        user.setId(new Integer(-1));
+        actual.setUser(user);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test13UpdateAnimal - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -434,6 +488,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -444,13 +499,21 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(animal.getService().getId());
 
         Animal actual = SerializationUtils.clone(animal);
-        actual.getUser().setId(new Integer(0));
+        User user = new User();
+        user.setId(new Integer(0));
+        actual.setUser(user);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test14UpdateAnimal - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -461,6 +524,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -471,13 +535,21 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(animal.getService().getId());
 
         Animal actual = SerializationUtils.clone(animal);
-        actual.getUser().setId(Integer.MAX_VALUE);
+        User user = new User();
+        user.setId(Integer.MAX_VALUE);
+        actual.setUser(user);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test15UpdateAnimal - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
 
@@ -489,6 +561,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -500,18 +573,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setService(null);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test16UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -522,6 +595,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -533,18 +607,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setService(new AnimalService());
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test17UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -555,6 +629,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -568,18 +643,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         AnimalService animalService = new AnimalService();
         animalService.setId(new Long(-1));
         actual.setService(animalService);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test18UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -590,6 +665,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -603,18 +679,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         AnimalService animalService = new AnimalService();
         animalService.setId(new Long(0));
         actual.setService(animalService);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test19UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -625,6 +701,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -638,18 +715,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         AnimalService animalService = new AnimalService();
         animalService.setId(new Long(Integer.MAX_VALUE));
         actual.setService(animalService);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test20UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -660,6 +737,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -671,18 +749,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setSex(null);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test21UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -693,6 +771,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -704,18 +783,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setSize(null);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test22UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -726,6 +805,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -737,18 +817,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setTranspNumber(RandomStringUtils.random(LENGTH_TRANSPNUMBER + 1, true, true));
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test23UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -759,6 +839,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -770,18 +851,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setTokenNumber(RandomStringUtils.random(LENGTH_TOKENNUMBER + 1, true, true));
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test24UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -792,6 +873,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -803,18 +885,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setDateOfRegister(null);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test25UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -825,6 +907,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -836,18 +919,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setColor(RandomStringUtils.random(LENGTH_COLOR + 1, true, true));
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test26UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -858,6 +941,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -869,18 +953,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setDescription(RandomStringUtils.random(LENGTH_DESCRIPTION + 1, true, true));
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test27UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -891,6 +975,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -902,18 +987,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setAddress(RandomStringUtils.random(LENGTH_ADDRESS + 1, true, true));
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test28UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -924,6 +1009,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -935,18 +1021,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setAddress(null);
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test29UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     /*
@@ -957,6 +1043,7 @@ public class TestAdminResource extends JNDIConfigurationForTests{
         assertNotNull(accessToken);
         assertNotNull(animal);
         assertNotNull(animal.getId());
+        assertNotNull(animal.getSex());
         assertNotNull(animal.getType());
         assertNotNull(animal.getType().getId());
         assertNotNull(animal.getSize());
@@ -968,18 +1055,18 @@ public class TestAdminResource extends JNDIConfigurationForTests{
 
         Animal actual = SerializationUtils.clone(animal);
         actual.setImage(RandomStringUtils.random(LENGTH_IMAGE + 1, true, true));
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        LOG.debug("TestName: test30UpdateAnimal - " + json);
+
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(actual, MediaType.APPLICATION_JSON), String.class);
-
-        JSONObject json = new JSONObject(result);
-        String filePath = json.getString("filePath");
-
-        assertNotNull(filePath);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
     }
 
     @Test

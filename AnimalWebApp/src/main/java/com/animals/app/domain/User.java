@@ -29,14 +29,14 @@ public class User implements Serializable, Principal {
     
 	@Length(min = 2, max = 45, message =  "Surname must be between {min} and {max}.") 
     private String surname;
-    
 
+    @NotNull(message =  "Registration Date can not be null")
     private Date registrationDate;    
      
     @Email(message = "{contact.wrong.email}", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
     private String email;
-    
 
+    @NotNull(message =  "Password can not be null")
     @Length(max = 40, message =  "Password must be less than {max}  characters.")
     private String password;
     
@@ -56,14 +56,26 @@ public class User implements Serializable, Principal {
     private String organizationInfo = "N/A";
     
     private boolean isActive = true;
-    
+
+    @Length(max = 100, message =  "GoogleId  must be less than {max} characters.")
     private String googleId;
+
+    @Length(max = 100, message =  "FacebookId  must be less than {max} characters.")
     private String facebookId;
+
+    @Length(max = 100, message =  "TwitterId  must be less than {max} characters.")
     private String twitterId;
+
+    @Length(max = 300, message =  "SocialPhoto  must be less than {max} characters.")
     private String socialPhoto;
 
+    @Size(min = 1, message =  "UserRole can not be empty")
     private List<UserRole> userRole;
+
+    @NotNull(message =  "UserType can not be null")
     private UserType userType;
+
+    @Length(max = 45, message =  "Verificator  must be less than {max} characters.")
     private String emailVerificator;
 
     public User() {

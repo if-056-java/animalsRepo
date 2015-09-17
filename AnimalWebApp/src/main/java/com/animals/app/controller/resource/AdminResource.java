@@ -163,6 +163,10 @@ public class AdminResource {
     @Path("animals/editor")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAnimal(@Context HttpServletRequest httpServlet, @Valid @NotNull Animal animal) {
+        if (animal.getId() == null || animal.getType().getId() == null || animal.getService().getId() == null) {
+            return BAD_REQUEST;
+        }
+
         //check breed, if it new insert it into database
         saveNewBreed(animal.getBreed(), animal.getType());
 
