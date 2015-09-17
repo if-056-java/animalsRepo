@@ -5,7 +5,14 @@ import com.animals.app.domain.AnimalBreed;
 import com.animals.app.domain.AnimalService;
 import com.animals.app.domain.AnimalStatus;
 import com.animals.app.domain.AnimalType;
-import jdk.nashorn.internal.ir.annotations.Ignore;
+import com.animals.app.service.ValidationFilterDomainFields;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.ServletContainer;
+import org.glassfish.jersey.test.DeploymentContext;
+import org.glassfish.jersey.test.JerseyTest;
+import org.glassfish.jersey.test.ServletDeploymentContext;
+import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
+import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -13,6 +20,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
@@ -22,19 +30,33 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Created by root on 03.09.2015.
+ * Created by Rostyslav.Viner on 03.09.2015.
  */
-@Ignore
+@Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestAnimalResource extends JNDIConfigurationForTests{
+public class TestAnimalResource extends JerseyTest {
     private static Client client;
 
     private static AnimalType animalType;
 
-    private static final String REST_SERVICE_URL = "http://localhost:8080/webapi/animals";
+    private static final String REST_SERVICE_URL = "http://localhost:9998/animals";
+
+    @Override
+    protected TestContainerFactory getTestContainerFactory() {
+        return new GrizzlyWebTestContainerFactory();
+    }
+
+    @Override
+    protected DeploymentContext configureDeployment() {
+        ResourceConfig config = new ValidationFilterDomainFields();
+        return ServletDeploymentContext.forServlet(
+                new ServletContainer(config)).build();
+    }
 
     @BeforeClass
     public static void runBeforeClass() {
+        JNDIConfigurationForTests.configureJNDIForJUnit();
+
         client = ClientBuilder.newClient();
     }
 
@@ -73,8 +95,26 @@ public class TestAnimalResource extends JNDIConfigurationForTests{
         assertNotEquals(animalBreeds.size(), 0);
     }
 
+    @Test(expected = BadRequestException.class)
+    public void test03GetAnimalBreeds() {
+
+        client.target(REST_SERVICE_URL)
+                .path("/animal_breeds/0")
+                .request()
+                .get(new GenericType<List<AnimalBreed>>() {});
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void test04GetAnimalBreeds() {
+
+        client.target(REST_SERVICE_URL)
+                .path("/animal_breeds/-1")
+                .request()
+                .get(new GenericType<List<AnimalBreed>>() {});
+    }
+
     @Test
-    public void test03GetAnimalServices() {
+    public void test05GetAnimalServices() {
 
         List<AnimalService> animalServices = client
                 .target(REST_SERVICE_URL)
@@ -87,7 +127,7 @@ public class TestAnimalResource extends JNDIConfigurationForTests{
     }
 
     @Test
-    public void test04GetAnimalMedicalHistoryTypes() {
+    public void test06GetAnimalMedicalHistoryTypes() {
 
         List<AnimalStatus> animalStatuses = client
                 .target(REST_SERVICE_URL)

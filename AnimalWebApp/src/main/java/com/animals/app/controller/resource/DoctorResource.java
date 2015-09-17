@@ -41,9 +41,8 @@ public class DoctorResource {
     @GET //http:localhost:8080/webapi/animals/paginator
     @RolesAllowed("лікар")
     @Path("medical_history/paginator/{animalId}")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAnimalsPaginator(@PathParam("animalId") @DecimalMin(value = "1") long animalId) {
+    public Response getAnimalsPaginator(@PathParam("animalId") @NotNull @DecimalMin(value = "1") long animalId) {
         //get count of row according to filter
         AnimalMedicalHistoryRepository animalMedicalHistory = new AnimalMedicalHistoryRepositoryImpl();
         long pages = animalMedicalHistory.getByAnimalIdCount(animalId);
@@ -66,7 +65,7 @@ public class DoctorResource {
     @Path("medical_history/{animalId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getMedicalHistoryByAnimalId(@PathParam("animalId") @DecimalMin(value = "1") long animalId,
+    public Response getMedicalHistoryByAnimalId(@PathParam("animalId") @NotNull @DecimalMin(value = "1") long animalId,
                                                 @Valid @NotNull AnimalsFilter animalsFilter) {
 
         AnimalMedicalHistoryRepository animalMedicalHistory = new AnimalMedicalHistoryRepositoryImpl();
@@ -90,7 +89,7 @@ public class DoctorResource {
     @DELETE //http:localhost:8080/webapi/doctor/medical_history/item/{itemId}
     @RolesAllowed("лікар")
     @Path("medical_history/item/{itemId}")
-    public Response deleteMedicalHistoryItemById(@PathParam("itemId") @DecimalMin(value = "1") long itemId) {
+    public Response deleteMedicalHistoryItemById(@PathParam("itemId") @NotNull @DecimalMin(value = "1") long itemId) {
         AnimalMedicalHistoryRepository animalMedicalHistory = new AnimalMedicalHistoryRepositoryImpl();
         animalMedicalHistory.deleteById(itemId);
 

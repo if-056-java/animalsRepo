@@ -4,11 +4,12 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 
 /**
  * Created by Rostyslav.Viner on 25.08.2015.
  */
-public class AnimalStatus {
+public class AnimalStatus implements Serializable {
     @DecimalMin(value = "1")
     private Long id;
 

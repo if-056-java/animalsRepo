@@ -94,7 +94,7 @@ public class AdminResource {
     @RolesAllowed({"модератор", "лікар"})
     @Path("animals/{animalId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAnimal(@PathParam("animalId") @DecimalMin(value = "1") long animalId) {
+    public Response getAnimal(@PathParam("animalId") @NotNull @DecimalMin(value = "1") long animalId) {
         //get animal by id from data base
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
         Animal animal = animalRepository.getById(animalId);
@@ -118,7 +118,7 @@ public class AdminResource {
     @Path("animals/{animalId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteAnimal(@Context HttpServletRequest httpServlet,
-                                 @PathParam("animalId") @DecimalMin(value = "1") long animalId) {
+                                 @PathParam("animalId") @NotNull @DecimalMin(value = "1") long animalId) {
         Animal animal;
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
         String restPath = httpServlet.getServletContext().getRealPath("/"); //path to rest root folder

@@ -5,9 +5,21 @@ package app.resource;
 
 import app.JNDIConfigurationForTests;
 import com.animals.app.domain.*;
+import com.animals.app.service.ValidationFilterDomainFields;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.json.JSONObject;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.ServletContainer;
+import org.glassfish.jersey.test.DeploymentContext;
+import org.glassfish.jersey.test.JerseyTest;
+import org.glassfish.jersey.test.ServletDeploymentContext;
+import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
+import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -21,7 +33,9 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -30,34 +44,37 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by Rostyslav.Viner on 08.09.2015.
  */
+@Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
+public class TestAdminResourceGetAnimals extends JerseyTest {
+    private static Logger LOG = LogManager.getLogger(TestAdminResourceGetAnimals.class);
+
     private static Client client;
 
     private static final String LOGIN = "root";
     private static final String PASSWORD = "root";
     private static String accessToken;
 
-    private static final String REST_SERVICE_URL = "http://localhost:8080/webapi/admin";
+    private static final String REST_SERVICE_URL = "http://localhost:9998/admin";
+    private static final String REST_LOGIN_URL = "http://localhost:9998/account";
+
+    @Override
+    protected TestContainerFactory getTestContainerFactory() {
+        return new GrizzlyWebTestContainerFactory();
+    }
+
+    @Override
+    protected DeploymentContext configureDeployment() {
+        ResourceConfig config = new ValidationFilterDomainFields();
+        return ServletDeploymentContext.forServlet(
+                new ServletContainer(config)).build();
+    }
 
     @BeforeClass
     public static void runBeforeClass() {
-        configureJNDIForJUnit();
+        JNDIConfigurationForTests.configureJNDIForJUnit();
 
         client = ClientBuilder.newClient();
-
-        String passwordMd5 = getMd5(PASSWORD);
-        String credentials = "Basic " + Base64.encodeBase64String((LOGIN + ':' + passwordMd5).getBytes());
-
-        String result = client
-                .target("http://localhost:8080/webapi/account")
-                .path("/login/OFF")
-                .request()
-                .header("Authorization", credentials)
-                .post(null, String.class);
-
-        JSONObject json = new JSONObject(result);
-        accessToken = json.getString("accessToken");
     }
 
     @AfterClass
@@ -66,17 +83,40 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
     }
 
     @Test
+    public void test00Login() {
+        String passwordMd5 = getMd5(PASSWORD);
+        String credentials = "Basic " + Base64.encodeBase64String((LOGIN + ':' + passwordMd5).getBytes());
+
+        String result = client
+                .target(REST_LOGIN_URL)
+                .path("/login/OFF")
+                .request()
+                .header("Authorization", credentials)
+                .post(null, String.class);
+
+        Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
+        accessToken = jsonMap.get("accessToken");
+
+        assertNotNull(accessToken);
+    }
+
+    @Test
     public void test01GetAnimals() {
         assertNotNull(accessToken);
 
         AnimalsFilter animalsFilter = new AnimalsFilter(1, 5);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test01GetAnimals - " + json);
 
         List<Animal> animals = client
                 .target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertNotEquals(animals.size(), 0);
@@ -93,8 +133,7 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(null, new GenericType<List<Animal>>() {
-                });
+                .post(null, new GenericType<List<Animal>>() {});
     }
 
     /*
@@ -106,13 +145,17 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
 
         AnimalsFilter animalsFilter = new AnimalsFilter();
         animalsFilter.setLimit(5);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test03GetAnimals - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {
-                });
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
     }
 
     /*
@@ -124,13 +167,17 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
 
         AnimalsFilter animalsFilter = new AnimalsFilter();
         animalsFilter.setPage(1);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test04GetAnimals - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {
-                });
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
     }
 
     @Test(expected = BadRequestException.class)
@@ -140,12 +187,17 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         AnimalsFilter animalsFilter = new AnimalsFilter();
         animalsFilter.setPage(-1);
         animalsFilter.setLimit(1);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test05GetAnimals - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
     }
 
     @Test(expected = BadRequestException.class)
@@ -155,12 +207,17 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         AnimalsFilter animalsFilter = new AnimalsFilter();
         animalsFilter.setPage(1);
         animalsFilter.setLimit(-1);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test06GetAnimals - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
     }
 
     @Test(expected = BadRequestException.class)
@@ -170,12 +227,17 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         AnimalsFilter animalsFilter = new AnimalsFilter();
         animalsFilter.setPage(0);
         animalsFilter.setLimit(1);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test07GetAnimals - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
     }
 
     @Test(expected = BadRequestException.class)
@@ -185,13 +247,17 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         AnimalsFilter animalsFilter = new AnimalsFilter();
         animalsFilter.setPage(1);
         animalsFilter.setLimit(0);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test08GetAnimals - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {
-                });
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
     }
 
     /*
@@ -205,13 +271,18 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         Animal animal = new Animal();
         animal.setType(new AnimalType());
         animalsFilter.setAnimal(animal);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test09GetAnimals - " + json);
 
         List<Animal> animals = client
                 .target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertNotEquals(animals.size(), 0);
@@ -233,12 +304,18 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         animal.setType(animalType);
         animalsFilter.setAnimal(animal);
 
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test10GetAnimals - " + json);
+
         List<Animal> animals = client
                 .target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -260,12 +337,18 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         animal.setType(animalType);
         animalsFilter.setAnimal(animal);
 
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test10GetAnimals - " + json);
+
         List<Animal> animals = client
                 .target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -283,12 +366,18 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         animal.setBreed(new AnimalBreed());
         animalsFilter.setAnimal(animal);
 
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test12GetAnimals - " + json);
+
         List<Animal> animals = client
                 .target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertNotEquals(animals.size(), 0);
@@ -310,12 +399,18 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         animal.setBreed(animalBreed);
         animalsFilter.setAnimal(animal);
 
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test13GetAnimals - " + json);
+
         List<Animal> animals = client
                 .target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -337,12 +432,18 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         animal.setBreed(animalBreed);
         animalsFilter.setAnimal(animal);
 
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test14GetAnimals - " + json);
+
         List<Animal> animals = client
                 .target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -360,12 +461,18 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         animal.setService(new AnimalService());
         animalsFilter.setAnimal(animal);
 
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test15GetAnimals - " + json);
+
         List<Animal> animals = client
                 .target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertNotEquals(animals.size(), 0);
@@ -387,12 +494,18 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         animal.setService(animalService);
         animalsFilter.setAnimal(animal);
 
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test16GetAnimals - " + json);
+
         List<Animal> animals = client
                 .target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -414,12 +527,18 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         animal.setService(animalService);
         animalsFilter.setAnimal(animal);
 
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test17GetAnimals - " + json);
+
         List<Animal> animals = client
                 .target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -438,12 +557,18 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
         animal.setTranspNumber(RandomStringUtils.random(20, true, true));
         animalsFilter.setAnimal(animal);
 
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test18GetAnimals - " + json);
+
         List<Animal> animals = client
                 .target(REST_SERVICE_URL)
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -455,19 +580,24 @@ public class TestAdminResourceGetAnimals extends JNDIConfigurationForTests{
 
         AnimalsFilter animalsFilter = new AnimalsFilter(1, 5);
 
-        String rowCount = client
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test19GetAnimals - " + json);
+
+        String result = client
                 .target(REST_SERVICE_URL)
                 .path("animals/paginator")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(animalsFilter, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+
+        LOG.debug("TestName: test19GetAnimals - " + result);
+
+        Long rowCount = new Gson().fromJson(result, JsonObject.class).get("rowsCount").getAsLong();
 
         assertNotNull(rowCount);
-
-        JSONObject json = new JSONObject(rowCount);
-        Long count = json.getLong("rowsCount");
-
-        assertNotNull(count);
     }
 
     @Test(expected = BadRequestException.class)
