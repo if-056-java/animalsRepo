@@ -41,7 +41,7 @@ public class AnimalResource {
     @Path("animal")//http:localhost:8080/AnimalWebApp/webapi/animals
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response insertAnimal(@Valid Animal animal) {
+    public Response insertAnimal( Animal animal) {
         if (animal == null)
             return BAD_REQUEST;
 
@@ -50,12 +50,10 @@ public class AnimalResource {
         /*insertBreed(animal);*/  //not using
 
         try {
-//            animal.setSize(null);
             animalRepository.insert(animal);
-        } catch (PersistenceException e){
+        } catch (PersistenceException e) {
             LOG.error(e);
-            return Response.serverError().entity(animal).build();
-            /*return SERVER_ERROR;*/
+            //return Response.serverError().entity(animal).build();
         }
 
         return ok(animal);
@@ -66,14 +64,20 @@ public class AnimalResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAmountListForAdopting(AnimalsFilter animalsFilter) {
-        long pages = animalRepository.getAmountListForAdopting(animalsFilter);
+        long pages;
 
-        if (pages == 0)
-            return Response.status(Response.Status.NOT_FOUND).build();
+        try {
+            pages = animalRepository.getAmountListForAdopting(animalsFilter);
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
 
-        return Response.status(Response.Status.OK).entity(generateRowsCount(pages)).build();
+        if (pages < 0)
+            return BAD_REQUEST;
+
+        return ok(generateRowsCount(pages));
     }
-
 
     @POST
     @Path("adoption")//http:localhost:8080/webapi/animals/adoption
