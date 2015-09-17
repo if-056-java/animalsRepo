@@ -169,11 +169,10 @@ public class TestAnimalRepositoryImpl extends JNDIConfigurationForTests {
         assertNotNull(actual);
         assertNotNull(actual.getId());
 
-        //Lock wait timeout exceeded; try restarting transaction
-//        animalRepositoryImpl.delete(actual.getId());
-//
-//        Animal expected = animalRepositoryImpl.getById(actual.getId());
-//
-//        assertNull(expected);
+        animalRepositoryImpl.delete(actual.getId());
+
+        Animal expected = animalRepositoryImpl.getById(actual.getId());
+
+        assertNull(expected);
     }
 }

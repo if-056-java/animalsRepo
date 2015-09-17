@@ -2,6 +2,13 @@ package com.animals.app.domain;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.animals.app.service.SqlInjection;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -12,44 +19,71 @@ import java.sql.Date;
 @XmlRootElement
 public class Animal implements Serializable{
     public enum SexType {
-        NONE,
-        MALE,
-        FEMALE
+        NONE, MALE, FEMALE;
     }
 
     public enum CitesType {
-        NONE,
-        CITES1,
-        CITES2,
-        CITES3
+        NONE, CITES1, CITES2, CITES3
     }
 
     public enum SizeType {
-        NONE,
-        SMALL,
-        MIDDLE,
-        LARGE
+        NONE, SMALL, MIDDLE, LARGE
     }
 
+    @DecimalMin(value = "1")
     private Long id;
+
+    @NotNull
     private SexType sex;
+
+    @NotNull
     private AnimalType type;
+
+    @NotNull
     private SizeType size;
+
     private CitesType cites;
+
     private AnimalBreed breed;
+
+    @Length(max = 15, message = "The transpNumber length must be less than {max}.")
     private String transpNumber;
+
+    @Length(max = 12, message = "The tokenNumber length must be less than {max}.")
     private String tokenNumber;
+
+    @NotNull
     private Date dateOfRegister;
+
     private Date dateOfBirth;
+
     private Date dateOfSterilization;
+
     private Date dateOfFacebook;
+
     private Date dateOfTwitter;
+
+    @NotNull(message = "The color must be set.")
+    @Length(max = 20, message = "The color length must be less than {max}.")
+    @Pattern(message = "Wrong color.", regexp = "[A-Za-zА-Яа-яіІїЇ0-9'\\-]*")
     private String color;
+
+    @Length(max = 100, message = "The description length must be less than {max}.")
+    @SqlInjection(message = "Wrong description.")
     private String description;
+
     private User user;
+
+    @NotNull
+    @Length(max = 120, message = "The address length must be less than {max}.")
+    @Pattern(message = "Wrong address.", regexp = "[A-Za-zА-Яа-яіІїЇ0-9'\\.\\-\\s\\,\\/]*")
     private String address;
+
     private Boolean active;
+
     private String image;
+
+    @NotNull
     private AnimalService service;
 
     public Long getId() {
@@ -223,56 +257,56 @@ public class Animal implements Serializable{
 
         Animal animal = (Animal) o;
 
-        if (!active.equals(animal.active)) return false;
-        if (address != null ? !address.equals(animal.address) : animal.address != null) return false;
-        if (!breed.equals(animal.breed)) return false;
+        if (id != null ? !id.equals(animal.id) : animal.id != null) return false;
+        if (sex != animal.sex) return false;
+        if (type != null ? !type.equals(animal.type) : animal.type != null) return false;
+        if (size != animal.size) return false;
         if (cites != animal.cites) return false;
-        if (!color.equals(animal.color)) return false;
-        if (!dateOfBirth.equals(animal.dateOfBirth)) return false;
-        if (dateOfFacebook != null ? !dateOfFacebook.equals(animal.dateOfFacebook) : animal.dateOfFacebook != null)
+        if (breed != null ? !breed.equals(animal.breed) : animal.breed != null) return false;
+        if (transpNumber != null ? !transpNumber.equals(animal.transpNumber) : animal.transpNumber != null)
             return false;
-        if (!dateOfRegister.equals(animal.dateOfRegister)) return false;
+        if (tokenNumber != null ? !tokenNumber.equals(animal.tokenNumber) : animal.tokenNumber != null) return false;
+        if (dateOfRegister != null ? !dateOfRegister.equals(animal.dateOfRegister) : animal.dateOfRegister != null)
+            return false;
+        if (dateOfBirth != null ? !dateOfBirth.equals(animal.dateOfBirth) : animal.dateOfBirth != null) return false;
         if (dateOfSterilization != null ? !dateOfSterilization.equals(animal.dateOfSterilization) : animal.dateOfSterilization != null)
+            return false;
+        if (dateOfFacebook != null ? !dateOfFacebook.equals(animal.dateOfFacebook) : animal.dateOfFacebook != null)
             return false;
         if (dateOfTwitter != null ? !dateOfTwitter.equals(animal.dateOfTwitter) : animal.dateOfTwitter != null)
             return false;
+        if (color != null ? !color.equals(animal.color) : animal.color != null) return false;
         if (description != null ? !description.equals(animal.description) : animal.description != null) return false;
-        if (!id.equals(animal.id)) return false;
+        if (user != null ? !user.equals(animal.user) : animal.user != null) return false;
+        if (address != null ? !address.equals(animal.address) : animal.address != null) return false;
+        if (active != null ? !active.equals(animal.active) : animal.active != null) return false;
         if (image != null ? !image.equals(animal.image) : animal.image != null) return false;
-        if (!service.equals(animal.service)) return false;
-        if (sex != animal.sex) return false;
-        if (size != animal.size) return false;
-        if (tokenNumber != null ? !tokenNumber.equals(animal.tokenNumber) : animal.tokenNumber != null) return false;
-        if (transpNumber != null ? !transpNumber.equals(animal.transpNumber) : animal.transpNumber != null)
-            return false;
-        if (!type.equals(animal.type)) return false;
-        if (!user.equals(animal.user)) return false;
+        return !(service != null ? !service.equals(animal.service) : animal.service != null);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + sex.hashCode();
-        result = 31 * result + type.hashCode();
-        result = 31 * result + size.hashCode();
-        result = 31 * result + cites.hashCode();
-        result = 31 * result + breed.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (size != null ? size.hashCode() : 0);
+        result = 31 * result + (cites != null ? cites.hashCode() : 0);
+        result = 31 * result + (breed != null ? breed.hashCode() : 0);
         result = 31 * result + (transpNumber != null ? transpNumber.hashCode() : 0);
         result = 31 * result + (tokenNumber != null ? tokenNumber.hashCode() : 0);
-        result = 31 * result + dateOfRegister.hashCode();
-        result = 31 * result + dateOfBirth.hashCode();
+        result = 31 * result + (dateOfRegister != null ? dateOfRegister.hashCode() : 0);
+        result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
         result = 31 * result + (dateOfSterilization != null ? dateOfSterilization.hashCode() : 0);
         result = 31 * result + (dateOfFacebook != null ? dateOfFacebook.hashCode() : 0);
         result = 31 * result + (dateOfTwitter != null ? dateOfTwitter.hashCode() : 0);
-        result = 31 * result + color.hashCode();
+        result = 31 * result + (color != null ? color.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + user.hashCode();
+        result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + active.hashCode();
+        result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (image != null ? image.hashCode() : 0);
-        result = 31 * result + service.hashCode();
+        result = 31 * result + (service != null ? service.hashCode() : 0);
         return result;
     }
 

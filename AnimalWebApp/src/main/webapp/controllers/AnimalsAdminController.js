@@ -7,16 +7,14 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
+            $scope.contentLoading = 0;
 
             $scope.filter = AnimalsAdminValues.filter;            //filter
             $scope.totalItems = AnimalsAdminValues.totalItems;    //table rows count
             $scope.animals = AnimalsAdminValues.animals;          //animal instance
             $scope.errors = [];
 
-            $scope.contentLoading = 0;
-
             $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
-
 
             /**
              * @return count of rows for pagination.
@@ -37,18 +35,16 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
              * @return list of animals.
              */
             var getAnimals = function() {
-                $scope.errorNoAnimals = undefined;
+                $scope.error = undefined;
                 $scope.contentLoading++;
 
                 AnimalsAdminService.getAnimals()
                     .then(function (response) {
                         if ($scope.animals.values.length == 0) {
-                            $scope.errors.push({msg: $filter('translate')("ERROR_NO_ANIMALS")});
-                            $scope.errorNoAnimals = 1;
+                            $scope.error = $filter('translate')("ERROR_NO_ANIMALS");
                         }
-                    }, function() {
+                    }, function(response) {
                         $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS")});
-                        $scope.errorNoAnimals = 1;
                     })
                     .finally(function () {
                         $scope.contentLoading--;
@@ -151,7 +147,7 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
                 AnimalsAdminService.getAnimalBreeds($scope.filter.animal.type.id)
                     .then(function(response) {
                         $scope.animalBreeds = response.data;
-                    }, function() {
+                    }, function(response) {
                         $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS_BREEDS")});
                     })
                     .finally(function() {

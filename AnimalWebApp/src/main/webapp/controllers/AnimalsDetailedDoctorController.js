@@ -8,30 +8,41 @@ angular.module('AnimalsDetailedDoctorController', ['AnimalsDoctorModule', 'Anima
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
             //This variable decides when spinner loading for contentis closed.
-            $scope.contentLoading = 1;
+            $scope.contentLoading = 0;
 
             $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
             var animalId = $routeParams.animalId;       //animal id
             $scope.animal = AnimalsDoctorValues.animal;  //animal
             $scope.animalImage = undefined;
+            $scope.errors = [];
 
             /**
              * @param animalId id of animal used for lookup.
              * @return animal instance.
              */
-            AnimalsDoctorService.getAnimal(animalId)
-                .catch(function(respounce) {
-                    $scope.error = $filter('translate')("ERROR_ANIMAL_NOT_FOUND")
-                })
-                .finally(function() {
-                    $scope.animalImage = "resources/img/no_img.png";
-                    if (AnimalsDoctorValues.animal.image != undefined) {
-                        if (AnimalsDoctorValues.animal.image.length > 0) {
-                            $scope.animalImage = AnimalsDoctorValues.animal.image;
-                        }
-                    }
+            var getAnimal = function() {
+                $scope.contentLoading++;
 
-                    $scope.contentLoading--;
-                });
+                AnimalsDoctorService.getAnimal(animalId)
+                    .then(function (respounce) {
+                        $scope.animalImage = "resources/img/no_img.png";
+                        if (AnimalsDoctorValues.animal.image != undefined) {
+                            if (AnimalsDoctorValues.animal.image.length > 0) {
+                                $scope.animalImage = AnimalsDoctorValues.animal.image;
+                            }
+                        }
+
+                        if ($scope.animal.user == undefined) {
+                            $scope.error = $filter('translate')("ERROR_NO_RECORDS");
+                        }
+                    }, function (respounce) {
+                        $scope.errors.push({msg: $filter('translate')("ERROR_ANIMAL_NOT_FOUND")});
+                    })
+                    .finally(function () {
+                        $scope.contentLoading--;
+                    });
+            }
+
+            getAnimal();
         }]);
