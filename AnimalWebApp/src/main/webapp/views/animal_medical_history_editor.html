@@ -19,7 +19,14 @@
     <!-- Spinner -->
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: absolute; z-index: 999; top: 50%;" id="loading-block" ng-show="contentLoading" />
 
-    <div class="container" ng-show="!contentLoading">
+    <!-- Error message -->
+    <div class="container">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert" ng-repeat="alert in errors">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{alert.msg}}
+        </div>
+    </div>
+
+    <div class="container" ng-hide="contentLoading || (errors.length > 0)">
 
         <form name="animalMedicalHistoryEditor" ng-submit="submit(animalMedicalHistoryEditor.$valid)" novalidate>
 

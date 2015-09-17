@@ -19,7 +19,14 @@
     <!-- Spinner -->
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: absolute; z-index: 999; top: 50%;" id="loading-block" ng-show="contentLoading" />
 
-    <div class="container" ng-show="!contentLoading">
+    <!-- Error message -->
+    <div class="container">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert" ng-repeat="alert in errors">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{alert.msg}}
+        </div>
+    </div>
+
+    <div class="container" ng-hide="contentLoading || (errors.length > 0)">
         <div class="row" >
             <!-- Filters -->
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 detailed-bottom" id="animals-admin-left" ng-controller="AnimalsFilterAdminController">
@@ -107,12 +114,12 @@
             </div>
 
             <!-- Error message -->
-            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 panel table-responsive" ng-if="errors.length > 0">
-                <alert ng-repeat="alert in errors" type="danger" close="closeAlert($index)">{{alert.msg}}</alert>
+            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 alert alert-warning" role="alert" ng-show="error">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}
             </div>
 
             <!-- Animals list -->
-            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 panel panel-success table-responsive" ng-hide="errorNoAnimals">
+            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 panel panel-success table-responsive" ng-hide="error">
                 <table class="table table-hover table-vcenter">
                     <thead>
                     <tr>
@@ -154,8 +161,10 @@
 
                 <!-- Pagination -->
                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                    <pagination boundary-links="true" total-items="totalItems.count" ng-model="filter.page" ng-change="pageChanged()" class="paginator" items-per-page="filter.limit"
-                                previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                    <pagination boundary-links="true" total-items="totalItems.count" ng-model="filter.page"
+                                max-size="10" ng-change="pageChanged()" class="paginator" items-per-page="filter.limit"
+                                previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                last-text="&raquo;"></pagination>
                 </div>
 
                 <!-- Row count selector -->

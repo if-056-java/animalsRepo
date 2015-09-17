@@ -19,7 +19,14 @@
     <!-- Spinner -->
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: absolute; z-index: 999; top: 50%;" id="loading-block" ng-show="contentLoading" />
 
-    <div class="container" ng-show="!contentLoading">
+    <!-- Error message -->
+    <div class="container">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert" ng-repeat="alert in errors">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{alert.msg}}
+        </div>
+    </div>
+
+    <div class="container" ng-hide="contentLoading || (errors.length > 0)">
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success">
@@ -88,13 +95,13 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success table-responsive">
+            <!-- Error message -->
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-warning" role="alert" ng-show="error">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}
+            </div>
 
-                <!-- Error message -->
-                <h3 class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="error">
-                    Немає записів.</h3>
-
-                <!-- Items list -->
+            <!-- Items list -->
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success table-responsive" ng-hide="error">
                 <table class="table table-hover" ng-hide="error">
                     <thead>
                     <tr>
@@ -130,8 +137,10 @@
 
                 <!-- Pagination -->
                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                    <pagination boundary-links="true" total-items="totalItems.count" ng-model="filter.page" ng-change="pageChanged()" class="paginator" items-per-page="filter.limit"
-                                previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                    <pagination boundary-links="true" total-items="totalItems.count" ng-model="filter.page"
+                                max-size="10" ng-change="pageChanged()" class="paginator" items-per-page="filter.limit"
+                                previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                last-text="&raquo;"></pagination>
                 </div>
 
                 <!-- Row count selector -->
@@ -154,8 +163,8 @@
 
         <div class="row">
             <div class="col-xs-12 col-sm-5 col-sm-offset-7 col-md-4 col-md-offset-8 col-lg-3 col-lg-offset-9 detailed-buttons">
-                <div class="col-sm-6 col-md-6 col-lg-6"><a class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12" href="#/ua/user/doctor/animals/medical_history/{{ animal.id }}/editor" role="button">{{ 'ADD' | translate }}</a></div>
-                <div class="col-sm-6 col-md-6 col-lg-6"><a class="btn btn-warning col-xs-12 col-sm-12 col-md-12 col-lg-12" href="#/ua/user/doctor/animals/{{ animal.id }}" role="button">{{ 'BACK' | translate }}</a></div>
+                <div class="col-sm-6 col-md-6 col-lg-6"><a class="btn btn-warning col-xs-12 col-sm-12 col-md-12 col-lg-12" href="#/ua/user/doctor/animals/medical_history/{{ animal.id }}/editor" role="button">{{ 'ADD' | translate }}</a></div>
+                <div class="col-sm-6 col-md-6 col-lg-6"><a class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12" href="#/ua/user/doctor/animals/{{ animal.id }}" role="button">{{ 'BACK' | translate }}</a></div>
             </div>
         </div>
     </div>

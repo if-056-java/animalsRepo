@@ -18,12 +18,16 @@ angular.module('AnimalMedicalHistoryController', ['AnimalsDoctorModule', 'Animal
             $scope.filter = AnimalMedicalHistoryValues.filter;            //filter
             $scope.totalItems = AnimalMedicalHistoryValues.totalItems;    //table rows count
             $scope.items = AnimalMedicalHistoryValues.items;
+            $scope.errors = [];
 
             /**
              * @param animalId id of animal used for lookup.
              * @return animal instance.
              */
             AnimalsDoctorService.getAnimal(animalId)
+                .catch(function(respounce) {
+                    $scope.errors.push({msg: $filter('translate')("ERROR_ANIMAL_NOT_FOUND")});
+                })
                 .finally(function() {
                     $scope.animalImage = "resources/img/no_img.png";
                     if (AnimalsDoctorValues.animal.image != undefined) {
@@ -39,6 +43,9 @@ angular.module('AnimalMedicalHistoryController', ['AnimalsDoctorModule', 'Animal
              * @return count of rows for pagination.
              */
             AnimalsDoctorService.getMedicalHistoryPagesCount(animalId)
+                .catch(function(respounce) {
+                    $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ROWS_COUNT")});
+                })
                 .finally(function() {
                     $scope.contentLoading--;
                 });
@@ -47,10 +54,12 @@ angular.module('AnimalMedicalHistoryController', ['AnimalsDoctorModule', 'Animal
              * @return list of medical history items.
              */
             AnimalsDoctorService.getMedicalHistoryItems(animalId)
-                .then(function (response) {
+                .then(function(respounce) {
                     if ($scope.items.values.length == 0) {
                         $scope.error = $filter('translate')("ERROR_NO_RECORDS");
                     }
+                }, function(respounce) {
+                    $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_MH_ITEMS")});
                 })
                 .finally(function() {
                     $scope.contentLoading--;
@@ -73,8 +82,11 @@ angular.module('AnimalMedicalHistoryController', ['AnimalsDoctorModule', 'Animal
 
             $scope.delete = function(itemId) {
                 AnimalsDoctorService.getMedicalHistoryItemDelete(itemId)
-                    .then(function() {}
-                    , function() {
+                    .then(function(respounce) {
+                        if ($scope.items.values.length == 0) {
+                            $scope.error = $filter('translate')("ERROR_NO_RECORDS");
+                        }
+                    }, function(respounce) {
                         $window.alert("Не вдалося видалити елемент.");
                     });
             }

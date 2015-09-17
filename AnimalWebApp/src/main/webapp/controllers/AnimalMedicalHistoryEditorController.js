@@ -18,12 +18,16 @@ angular.module('AnimalMedicalHistoryEditorController', ['DPController', 'Animals
             $scope.itemTypes = AnimalMedicalHistoryValues.itemTypes;
             $scope.item = {};
             $scope.item.animalId = animalId;
+            $scope.errors = [];
 
             /**
              * @param animalId id of animal used for lookup.
              * @return animal instance.
              */
             AnimalsDoctorService.getAnimal(animalId)
+                .catch(function(respounce) {
+                    $scope.errors.push({msg: $filter('translate')("ERROR_ANIMAL_NOT_FOUND")});
+                })
                 .finally(function() {
                     $scope.animalImage = "resources/img/no_img.png";
                     if (AnimalsDoctorValues.animal.image != undefined) {
@@ -36,6 +40,9 @@ angular.module('AnimalMedicalHistoryEditorController', ['DPController', 'Animals
                 });
 
             AnimalsDoctorService.getAnimalMedicalHistoryTypes()
+                .catch(function(respounce) {
+                    $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMAL_MH_TYPES")});
+                })
                 .finally(function() {
                     $scope.contentLoading--;
                 });

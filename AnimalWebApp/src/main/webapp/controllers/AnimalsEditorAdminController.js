@@ -21,14 +21,14 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
                 /**
                  * @return list of animal types.
                  */
-                promises.push(AnimalsAdminService.getAnimalTypes().catch(function() {
+                promises.push(AnimalsAdminService.getAnimalTypes().catch(function(respounce) {
                     $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS_TYPES")});
                 }));
 
                 /**
                  * @return list of animal services.
                  */
-                promises.push(AnimalsAdminService.getAnimalServices().catch(function() {
+                promises.push(AnimalsAdminService.getAnimalServices().catch(function(respounce) {
                     $scope.errors.push({msg: $filter('translate')("ERROR_FAILED_TO_GET_ANIMALS_SERVICES")});
                 }));
 
@@ -36,12 +36,12 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
                  * @param animalId id of animal used for lookup.
                  * @return animal instance.
                  */
-                promises.push(AnimalsAdminService.getAnimal(animalId).catch(function() {
+                promises.push(AnimalsAdminService.getAnimal(animalId).catch(function(respounce) {
                     $scope.errors.push({msg: $filter('translate')("ERROR_ANIMAL_NOT_FOUND")});
                 }));
 
                 $q.all(promises)
-                    .finally(function() {
+                    .then(function (respounce) {
                         $scope.animalTypes = AnimalsAdminValues.animalTypes;        //list of animal types
                         $scope.animalServices = AnimalsAdminValues.animalServices;  //list of animal services
                         $scope.animal = angular.copy(AnimalsAdminValues.animal);     //animal
@@ -56,7 +56,8 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
                         if ($scope.animal.type != undefined) {
                             $scope.getAnimalBreeds();
                         }
-
+                    })
+                    .finally(function() {
                         $scope.contentLoading--;
                     });
             }
@@ -130,10 +131,10 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
                 }
 
                 AnimalsAdminService.deleteAnimalImage($scope.animal.id)
-                    .then(function(data) {
+                    .then(function(response) {
                         $scope.animal.image = undefined;
                         $scope.animalImage = "resources/img/no_img.png";
-                    }, function(data) {
+                    }, function(response) {
                         $window.alert($filter('translate')("DELETE_IMAGE_FAILED"));
                     });
             }

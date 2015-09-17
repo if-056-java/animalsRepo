@@ -23,8 +23,9 @@ public class JNDIConfigurationForTests {
     /**
      * Configuration JNDI for JUnit tests
      */
-    protected static void configureJNDIForJUnit() {
-        //setup the jndi context and the datasource
+    public static void configureJNDIForJUnit() {
+        // rcarver - setup the jndi context and the datasource
+
         try {
             setSystemProperties();
 
