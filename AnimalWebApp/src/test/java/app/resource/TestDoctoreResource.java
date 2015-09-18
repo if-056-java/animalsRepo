@@ -21,6 +21,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -28,7 +30,9 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -109,14 +113,14 @@ public class TestDoctoreResource extends ResourceTestTemplate {
 
         System.out.println(accessToken);
         System.out.println(json);
-
         Response response = client
                 .target(REST_SERVICE_URL)
                 .path("medical_history/item")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), Response.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);
 
+        System.out.println(response.readEntity(String.class));
         assertNotNull(response);
         assertEquals(response.getStatus(), 200);
     }
@@ -132,7 +136,7 @@ public class TestDoctoreResource extends ResourceTestTemplate {
                 .path("medical_history/item")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(null, MediaType.APPLICATION_JSON), Response.class);
+                .post(Entity.entity(null, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);
 
         assertNotNull(response);
         assertEquals(response.getStatus(), 400);
@@ -163,14 +167,258 @@ public class TestDoctoreResource extends ResourceTestTemplate {
                 .path("medical_history/item")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), Response.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 400);
+    }
+
+    /*
+     * AnimalMedicalHistory.status.id = null
+     */
+    @Test
+    public void test04InsertAnimalMedicalHistoryItem() {
+        assertNotNull(accessToken);
+        assertNotNull(animalMedicalHistory);
+        assertNotNull(animalMedicalHistory.getStatus());
+        assertNotNull(animalMedicalHistory.getAnimalId());
+        assertNotNull(animalMedicalHistory.getDate());
+
+        AnimalMedicalHistory actual = SerializationUtils.clone(animalMedicalHistory);
+        actual.getStatus().setId(null);
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test04InsertAnimalMedicalHistoryItem - " + json);
+
+        Response response = client.target(REST_SERVICE_URL)
+                .path("medical_history/item")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 400);
+    }
+
+    /*
+     * AnimalMedicalHistory.status.id = 0
+     */
+    @Test
+    public void test05InsertAnimalMedicalHistoryItem() {
+        assertNotNull(accessToken);
+        assertNotNull(animalMedicalHistory);
+        assertNotNull(animalMedicalHistory.getStatus());
+        assertNotNull(animalMedicalHistory.getAnimalId());
+        assertNotNull(animalMedicalHistory.getDate());
+
+        AnimalMedicalHistory actual = SerializationUtils.clone(animalMedicalHistory);
+        actual.getStatus().setId(new Long(0));
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test05InsertAnimalMedicalHistoryItem - " + json);
+        System.out.println(json);
+        Response response = client.target(REST_SERVICE_URL)
+                .path("medical_history/item")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 400);
+    }
+
+    /*
+     * AnimalMedicalHistory.status.id = -1
+     */
+    @Test
+    public void test06InsertAnimalMedicalHistoryItem() {
+        assertNotNull(accessToken);
+        assertNotNull(animalMedicalHistory);
+        assertNotNull(animalMedicalHistory.getStatus());
+        assertNotNull(animalMedicalHistory.getAnimalId());
+        assertNotNull(animalMedicalHistory.getDate());
+
+        AnimalMedicalHistory actual = SerializationUtils.clone(animalMedicalHistory);
+        actual.getStatus().setId(new Long(-1));
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test06InsertAnimalMedicalHistoryItem - " + json);
+
+        Response response = client.target(REST_SERVICE_URL)
+                .path("medical_history/item")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 400);
+    }
+
+    /*
+     * AnimalMedicalHistory.animalId = null
+     */
+    @Test
+    public void test07InsertAnimalMedicalHistoryItem() {
+        assertNotNull(accessToken);
+        assertNotNull(animalMedicalHistory);
+        assertNotNull(animalMedicalHistory.getStatus());
+        assertNotNull(animalMedicalHistory.getAnimalId());
+        assertNotNull(animalMedicalHistory.getDate());
+
+        AnimalMedicalHistory actual = SerializationUtils.clone(animalMedicalHistory);
+        actual.setAnimalId(null);
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test07InsertAnimalMedicalHistoryItem - " + json);
+
+        Response response = client.target(REST_SERVICE_URL)
+                .path("medical_history/item")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 400);
+    }
+
+    /*
+     * AnimalMedicalHistory.animalId = 0
+     */
+    @Test
+    public void test08InsertAnimalMedicalHistoryItem() {
+        assertNotNull(accessToken);
+        assertNotNull(animalMedicalHistory);
+        assertNotNull(animalMedicalHistory.getStatus());
+        assertNotNull(animalMedicalHistory.getAnimalId());
+        assertNotNull(animalMedicalHistory.getDate());
+
+        AnimalMedicalHistory actual = SerializationUtils.clone(animalMedicalHistory);
+        actual.setAnimalId(new Long(0));
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test08InsertAnimalMedicalHistoryItem - " + json);
+
+        Response response = client.target(REST_SERVICE_URL)
+                .path("medical_history/item")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 400);
+    }
+
+    /*
+     * AnimalMedicalHistory.animalId = -1
+     */
+    @Test
+    public void test09InsertAnimalMedicalHistoryItem() {
+        assertNotNull(accessToken);
+        assertNotNull(animalMedicalHistory);
+        assertNotNull(animalMedicalHistory.getStatus());
+        assertNotNull(animalMedicalHistory.getAnimalId());
+        assertNotNull(animalMedicalHistory.getDate());
+
+        AnimalMedicalHistory actual = SerializationUtils.clone(animalMedicalHistory);
+        actual.setAnimalId(new Long(-1));
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test09InsertAnimalMedicalHistoryItem - " + json);
+
+        Response response = client.target(REST_SERVICE_URL)
+                .path("medical_history/item")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 400);
+    }
+
+    /*
+     * AnimalMedicalHistory.date = null
+     */
+    @Test
+    public void test10InsertAnimalMedicalHistoryItem() {
+        assertNotNull(accessToken);
+        assertNotNull(animalMedicalHistory);
+        assertNotNull(animalMedicalHistory.getStatus());
+        assertNotNull(animalMedicalHistory.getAnimalId());
+        assertNotNull(animalMedicalHistory.getDate());
+
+        AnimalMedicalHistory actual = SerializationUtils.clone(animalMedicalHistory);
+        actual.setDate(null);
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test10InsertAnimalMedicalHistoryItem - " + json);
+
+        Response response = client.target(REST_SERVICE_URL)
+                .path("medical_history/item")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 400);
+    }
+
+    /*
+     * AnimalMedicalHistory.date = wrong format
+     */
+    @Test
+    public void test11InsertAnimalMedicalHistoryItem() {
+        assertNotNull(accessToken);
+        assertNotNull(animalMedicalHistory);
+        assertNotNull(animalMedicalHistory.getStatus());
+        assertNotNull(animalMedicalHistory.getAnimalId());
+        assertNotNull(animalMedicalHistory.getDate());
+
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalMedicalHistory);
+
+        LOG.debug("TestName: test11InsertAnimalMedicalHistoryItem - " + json);
+
+        Response response = client.target(REST_SERVICE_URL)
+                .path("medical_history/item")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);
 
         assertNotNull(response);
         assertEquals(response.getStatus(), 400);
     }
 
     @Test
-    public void test04GetAnimalMedicalHistoryItemsCount() {
+     public void test12GetAnimalMedicalHistoryItemsCount() {
         assertNotNull(accessToken);
         assertNotNull(animalId);
 
@@ -187,8 +435,36 @@ public class TestDoctoreResource extends ResourceTestTemplate {
         assertNotEquals(rowsCount, new Integer(0));
     }
 
+    /*
+     * animalId = 0
+     */
+    @Test(expected = BadRequestException.class)
+    public void test13GetAnimalMedicalHistoryItemsCount() {
+        assertNotNull(accessToken);
+
+        client.target(REST_SERVICE_URL)
+                .path("medical_history/paginator/0")
+                .request()
+                .header("AccessToken", accessToken)
+                .get(String.class);
+    }
+
+    /*
+     * animalId = -1
+     */
+    @Test(expected = BadRequestException.class)
+    public void test14GetAnimalMedicalHistoryItemsCount() {
+        assertNotNull(accessToken);
+
+        client.target(REST_SERVICE_URL)
+                .path("medical_history/paginator/-1")
+                .request()
+                .header("AccessToken", accessToken)
+                .get(String.class);
+    }
+
     @Test
-    public void test05GetAnimalMedicalHistoryItems() {
+    public void test15GetAnimalMedicalHistoryItems() {
         assertNotNull(accessToken);
         assertNotNull(animalId);
         assertNotNull(rowsCount);
@@ -201,17 +477,14 @@ public class TestDoctoreResource extends ResourceTestTemplate {
                 .create()
                 .toJson(animalsFilter);
 
-        LOG.debug("TestName: test03GetAnimalMedicalHistoryItems - " + json);
-
-        System.out.println(accessToken);
-        System.out.println(json);
+        LOG.debug("TestName: test15GetAnimalMedicalHistoryItems - " + json);
 
         List<AnimalMedicalHistory> animalMedicalHistories = client
                 .target(REST_SERVICE_URL)
                 .path("medical_history/" + animalId)
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON),
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"),
                         new GenericType<List<AnimalMedicalHistory>>() {});
 
         assertNotNull(animalMedicalHistories);
@@ -225,8 +498,89 @@ public class TestDoctoreResource extends ResourceTestTemplate {
         }
     }
 
+    /*
+     * animalId = 0
+     */
+    @Test(expected = BadRequestException.class)
+    public void test16GetAnimalMedicalHistoryItems() {
+        assertNotNull(accessToken);
+        assertNotNull(animalId);
+        assertNotNull(rowsCount);
+        assertNotEquals(rowsCount, new Integer(0));
+
+        AnimalsFilter animalsFilter = new AnimalsFilter(1, rowsCount);
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test16GetAnimalMedicalHistoryItems - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("medical_history/0")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"),
+                        new GenericType<List<AnimalMedicalHistory>>() {});
+    }
+
+    /*
+     * animalId = -1
+     */
+    @Test(expected = BadRequestException.class)
+    public void test17GetAnimalMedicalHistoryItems() {
+        assertNotNull(accessToken);
+        assertNotNull(animalId);
+        assertNotNull(rowsCount);
+        assertNotEquals(rowsCount, new Integer(0));
+
+        AnimalsFilter animalsFilter = new AnimalsFilter(1, rowsCount);
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test17GetAnimalMedicalHistoryItems - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("medical_history/-1")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"),
+                        new GenericType<List<AnimalMedicalHistory>>() {});
+    }
+
+    /*
+     * no animalId
+     */
+    @Test(expected = NotFoundException.class)
+    public void test18GetAnimalMedicalHistoryItems() {
+        assertNotNull(accessToken);
+        assertNotNull(animalId);
+        assertNotNull(rowsCount);
+        assertNotEquals(rowsCount, new Integer(0));
+
+        AnimalsFilter animalsFilter = new AnimalsFilter(1, rowsCount);
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test18GetAnimalMedicalHistoryItems - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("medical_history/")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"),
+                        new GenericType<List<AnimalMedicalHistory>>() {});
+    }
+
     @Test
-    public void test06DeleteAnimalMedicalHistoryItem() {
+    public void test25DeleteAnimalMedicalHistoryItem() {
         assertNotNull(animalMedicalHistory);
         assertNotNull(animalMedicalHistory.getId());
 

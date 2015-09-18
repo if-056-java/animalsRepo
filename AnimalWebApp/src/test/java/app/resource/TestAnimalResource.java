@@ -34,24 +34,12 @@ import static org.junit.Assert.assertNotNull;
  */
 @Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestAnimalResource extends JerseyTest {
+public class TestAnimalResource extends ResourceTestTemplate {
     private static Client client;
 
     private static AnimalType animalType;
 
-    private static final String REST_SERVICE_URL = "http://localhost:9998/animals";
-
-    @Override
-    protected TestContainerFactory getTestContainerFactory() {
-        return new GrizzlyWebTestContainerFactory();
-    }
-
-    @Override
-    protected DeploymentContext configureDeployment() {
-        ResourceConfig config = new ValidationFilterDomainFields();
-        return ServletDeploymentContext.forServlet(
-                new ServletContainer(config)).build();
-    }
+    private static final String REST_SERVICE_URL = BASE_URL + "animals";
 
     @BeforeClass
     public static void runBeforeClass() {

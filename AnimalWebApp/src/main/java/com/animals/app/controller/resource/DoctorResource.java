@@ -5,6 +5,7 @@ import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.domain.User;
 import com.animals.app.repository.AnimalMedicalHistoryRepository;
 import com.animals.app.repository.Impl.AnimalMedicalHistoryRepositoryImpl;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -118,7 +119,7 @@ public class DoctorResource {
         }
 
         HttpSession session = req.getSession(true);
-        System.out.println("ss " + session.getId());
+
         if (session.getAttribute("userId") == null) {
             return BAD_REQUEST;
         }
@@ -127,13 +128,19 @@ public class DoctorResource {
         try {
             user.setId(Integer.parseInt((String) session.getAttribute("userId")));
         } catch (ClassCastException e) {
+            LOG.error(e);
             return BAD_REQUEST;
         }
 
         animalMedicalHistory.setUser(user);
 
         AnimalMedicalHistoryRepository animalMedicalHistoryRepository = new AnimalMedicalHistoryRepositoryImpl();
-        animalMedicalHistoryRepository.insert(animalMedicalHistory);
+        //try {
+            animalMedicalHistoryRepository.insert(animalMedicalHistory);
+        /*} catch (PersistenceException e) {
+            LOG.error(e);
+            return BAD_REQUEST;
+        }*/
 
         return ok();
     }

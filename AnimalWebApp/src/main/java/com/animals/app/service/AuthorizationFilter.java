@@ -70,7 +70,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 				session.setAttribute("userId", user.getId().toString());			
 				session.setAttribute("user", user);				
 			}
-			System.out.println(session.getId());
+
 			if (!session.getAttribute("userId").equals(userId)){				
 				throw new WebApplicationException(Response.Status.UNAUTHORIZED);
 			}		

@@ -226,7 +226,6 @@
             <version>2.3.1</version>
         </dependency>
 
-
         <!--Mail-->
         <dependency>
             <groupId>javax.mail</groupId>
@@ -249,12 +248,12 @@
         </dependency>
 
         <!-- JSON -->
-        <dependency>
+        <!--dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20141113</version>
             <scope>test</scope>
-        </dependency>
+        </dependency-->
 
         <!-- JNDI Database Configuration -->
         <dependency>

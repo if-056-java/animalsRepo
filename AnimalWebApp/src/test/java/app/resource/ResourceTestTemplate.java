@@ -35,7 +35,8 @@ public class ResourceTestTemplate extends JerseyTest {
         ResourceConfig config = new ValidationFilterDomainFields();
         config.register(AuthorizationFilter.class);
         return ServletDeploymentContext.forServlet(
-                new ServletContainer(config)).build();
+                new ServletContainer(config))
+                .build();
     }
 
     public String login(Client client, String login, String password) {

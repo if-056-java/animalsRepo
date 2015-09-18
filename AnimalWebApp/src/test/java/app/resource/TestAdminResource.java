@@ -9,22 +9,12 @@ import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalServiceRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalTypeRepositoryImpl;
 import com.animals.app.service.DateSerializer;
-import com.animals.app.service.ValidationFilterDomainFields;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.servlet.ServletContainer;
-import org.glassfish.jersey.test.DeploymentContext;
-import org.glassfish.jersey.test.JerseyTest;
-import org.glassfish.jersey.test.ServletDeploymentContext;
-import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
-import org.glassfish.jersey.test.spi.TestContainerFactory;
-import org.json.JSONObject;
 import org.junit.*;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
@@ -46,7 +36,7 @@ import static org.junit.Assert.*;
  */
 @Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestAdminResource extends JerseyTest {
+public class TestAdminResource extends ResourceTestTemplate {
     private static Logger LOG = LogManager.getLogger(TestAdminResource.class);
 
     private static Client client;
@@ -64,20 +54,7 @@ public class TestAdminResource extends JerseyTest {
     private final int LENGTH_ADDRESS = 120;
     private final int LENGTH_IMAGE = 50;
 
-    private static final String REST_SERVICE_URL = "http://localhost:9998/admin";
-    private static final String REST_LOGIN_URL = "http://localhost:9998/account";
-
-    @Override
-    protected TestContainerFactory getTestContainerFactory() {
-        return new GrizzlyWebTestContainerFactory();
-    }
-
-    @Override
-    protected DeploymentContext configureDeployment() {
-        ResourceConfig config = new ValidationFilterDomainFields();
-        return ServletDeploymentContext.forServlet(
-                new ServletContainer(config)).build();
-    }
+    private static final String REST_SERVICE_URL = BASE_URL + "admin";
 
     @BeforeClass
     public static void runBeforeClass() {
@@ -89,22 +66,14 @@ public class TestAdminResource extends JerseyTest {
     @AfterClass
     public static void runAfterClass() {
         client = null;
+        animal = null;
     }
 
     @Test
-    public void test00Login() {
-        String passwordMd5 = getMd5(PASSWORD);
-        String credentials = "Basic " + Base64.encodeBase64String((LOGIN + ':' + passwordMd5).getBytes());
+    public void test00Initialization() {
+        accessToken = login(client, LOGIN, PASSWORD);
 
-        String result = client
-                .target(REST_LOGIN_URL)
-                .path("/login/OFF")
-                .request()
-                .header("Authorization", credentials)
-                .post(null, String.class);
-
-        JSONObject json = new JSONObject(result);
-        accessToken = json.getString("accessToken");
+        assertNotNull(accessToken);
 
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
 
@@ -185,7 +154,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(null, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(null, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -219,7 +188,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -253,7 +222,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -287,7 +256,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -321,7 +290,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -355,7 +324,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -389,7 +358,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -424,7 +393,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
 
         LOG.debug("TestName: test11UpdateAnimal - " + result);
 
@@ -466,7 +435,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
 
         LOG.debug("TestName: test12UpdateAnimal - " + result);
 
@@ -509,7 +478,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -545,7 +514,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -581,7 +550,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
 
@@ -616,7 +585,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -650,7 +619,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -686,7 +655,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -722,7 +691,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -758,7 +727,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -792,7 +761,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -826,7 +795,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -860,7 +829,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -894,7 +863,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -928,7 +897,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -962,7 +931,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -996,7 +965,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -1030,7 +999,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -1064,7 +1033,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     /*
@@ -1098,7 +1067,7 @@ public class TestAdminResource extends JerseyTest {
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
     @Test
@@ -1146,19 +1115,5 @@ public class TestAdminResource extends JerseyTest {
 
         assertNotNull(response);
         assertEquals(response.getStatus(), 200);
-    }
-
-    private static String getMd5(String md5) {
-        try {
-            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
-            byte[] array = md.digest(md5.getBytes());
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < array.length; ++i) {
-                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
-            }
-            return sb.toString();
-        } catch (java.security.NoSuchAlgorithmException e) {
-        }
-        return null;
     }
 }

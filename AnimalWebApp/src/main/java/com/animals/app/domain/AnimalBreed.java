@@ -2,6 +2,7 @@ package com.animals.app.domain;
 
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class AnimalBreed implements Serializable {
     @Pattern(message = "Wrong breedEn.", regexp = "[A-Za-zА-Яа-яіІїЇ0-9'\\-\\s]*")
     private String breedEn;
 
+    @Valid
     private AnimalType type;
 
     public Long getId() {

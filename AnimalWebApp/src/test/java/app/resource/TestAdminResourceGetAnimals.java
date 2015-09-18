@@ -5,21 +5,12 @@ package app.resource;
 
 import app.JNDIConfigurationForTests;
 import com.animals.app.domain.*;
-import com.animals.app.service.ValidationFilterDomainFields;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.servlet.ServletContainer;
-import org.glassfish.jersey.test.DeploymentContext;
-import org.glassfish.jersey.test.JerseyTest;
-import org.glassfish.jersey.test.ServletDeploymentContext;
-import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
-import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -33,9 +24,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -46,7 +35,7 @@ import static org.junit.Assert.assertNotNull;
  */
 @Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestAdminResourceGetAnimals extends JerseyTest {
+public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
     private static Logger LOG = LogManager.getLogger(TestAdminResourceGetAnimals.class);
 
     private static Client client;
@@ -55,20 +44,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
     private static final String PASSWORD = "root";
     private static String accessToken;
 
-    private static final String REST_SERVICE_URL = "http://localhost:9998/admin";
-    private static final String REST_LOGIN_URL = "http://localhost:9998/account";
-
-    @Override
-    protected TestContainerFactory getTestContainerFactory() {
-        return new GrizzlyWebTestContainerFactory();
-    }
-
-    @Override
-    protected DeploymentContext configureDeployment() {
-        ResourceConfig config = new ValidationFilterDomainFields();
-        return ServletDeploymentContext.forServlet(
-                new ServletContainer(config)).build();
-    }
+    private static final String REST_SERVICE_URL = BASE_URL + "admin";
 
     @BeforeClass
     public static void runBeforeClass() {
@@ -83,19 +59,8 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
     }
 
     @Test
-    public void test00Login() {
-        String passwordMd5 = getMd5(PASSWORD);
-        String credentials = "Basic " + Base64.encodeBase64String((LOGIN + ':' + passwordMd5).getBytes());
-
-        String result = client
-                .target(REST_LOGIN_URL)
-                .path("/login/OFF")
-                .request()
-                .header("Authorization", credentials)
-                .post(null, String.class);
-
-        Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
-        accessToken = jsonMap.get("accessToken");
+    public void test00Initialization() {
+        accessToken = login(client, LOGIN, PASSWORD);
 
         assertNotNull(accessToken);
     }
@@ -116,7 +81,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertNotEquals(animals.size(), 0);
@@ -155,7 +120,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
     }
 
     /*
@@ -177,7 +142,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
     }
 
     @Test(expected = BadRequestException.class)
@@ -197,7 +162,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
     }
 
     @Test(expected = BadRequestException.class)
@@ -217,7 +182,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
     }
 
     @Test(expected = BadRequestException.class)
@@ -237,7 +202,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
     }
 
     @Test(expected = BadRequestException.class)
@@ -257,7 +222,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
     }
 
     /*
@@ -282,7 +247,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertNotEquals(animals.size(), 0);
@@ -315,7 +280,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -348,7 +313,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -377,7 +342,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertNotEquals(animals.size(), 0);
@@ -410,7 +375,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -443,7 +408,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -472,7 +437,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertNotEquals(animals.size(), 0);
@@ -505,7 +470,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -538,7 +503,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -568,7 +533,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
 
         assertNotNull(animals);
         assertEquals(animals.size(), 0);
@@ -591,7 +556,7 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .path("animals/paginator")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
 
         LOG.debug("TestName: test19GetAnimals - " + result);
 
@@ -609,19 +574,5 @@ public class TestAdminResourceGetAnimals extends JerseyTest {
                 .request()
                 .header("AccessToken", accessToken)
                 .post(null, String.class);
-    }
-
-    private static String getMd5(String md5) {
-        try {
-            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
-            byte[] array = md.digest(md5.getBytes());
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < array.length; ++i) {
-                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
-            }
-            return sb.toString();
-        } catch (java.security.NoSuchAlgorithmException e) {
-        }
-        return null;
     }
 }

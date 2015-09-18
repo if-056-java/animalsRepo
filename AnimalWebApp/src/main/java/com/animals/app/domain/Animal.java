@@ -1,5 +1,6 @@
 package com.animals.app.domain;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -37,6 +38,7 @@ public class Animal implements Serializable{
     private SexType sex;
 
     @NotNull
+    @Valid
     private AnimalType type;
 
     @NotNull
@@ -44,6 +46,7 @@ public class Animal implements Serializable{
 
     private CitesType cites;
 
+    @Valid
     private AnimalBreed breed;
 
     @Length(max = 15, message = "The transpNumber length must be less than {max}.")
@@ -84,6 +87,7 @@ public class Animal implements Serializable{
     private String image;
 
     @NotNull
+    @Valid
     private AnimalService service;
 
     public Long getId() {
