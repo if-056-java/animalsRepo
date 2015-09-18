@@ -364,7 +364,7 @@ public class TestAdminResource extends ResourceTestTemplate {
     /*
      * Animal.user = null
      */
-    @Test
+    @Test(expected = BadRequestException.class)
     public void test11UpdateAnimal() {
         assertNotNull(accessToken);
         assertNotNull(animal);
@@ -394,19 +394,20 @@ public class TestAdminResource extends ResourceTestTemplate {
                 .request()
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
-
+        /*
         LOG.debug("TestName: test11UpdateAnimal - " + result);
 
         Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
 
         assertNotNull(jsonMap);
         assertNotNull(jsonMap.get("filePath"));
+        */
     }
 
     /*
      * Animal.user.id = null
      */
-    @Test
+    @Test(expected = BadRequestException.class)
     public void test12UpdateAnimal() {
         assertNotNull(accessToken);
         assertNotNull(animal);
@@ -436,13 +437,14 @@ public class TestAdminResource extends ResourceTestTemplate {
                 .request()
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
-
+        /*
         LOG.debug("TestName: test12UpdateAnimal - " + result);
 
         Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
 
         assertNotNull(jsonMap);
         assertNotNull(jsonMap.get("filePath"));
+        */
     }
 
     /*
