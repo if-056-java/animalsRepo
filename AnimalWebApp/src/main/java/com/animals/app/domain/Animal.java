@@ -8,7 +8,6 @@ import com.animals.app.service.SqlInjection;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.sql.Date;
@@ -16,7 +15,6 @@ import java.sql.Date;
 /**
  * Created by Rostyslav.Viner on 22.07.2015.
  */
-
 @XmlRootElement
 public class Animal implements Serializable{
     public enum SexType {
@@ -37,16 +35,18 @@ public class Animal implements Serializable{
     @NotNull
     private SexType sex;
 
-    @NotNull
     @Valid
+    @NotNull(message = "Field 'Type' can't be empty")
     private AnimalType type;
 
-    @NotNull
+    @NotNull(message = "Field 'Size' can't be empty")
     private SizeType size;
 
+    @NotNull(message = "Field 'Cites' can't be empty")
     private CitesType cites;
 
     @Valid
+    @NotNull(message = "Field 'Breed' can't be empty")
     private AnimalBreed breed;
 
     @Length(max = 15, message = "The transpNumber length must be less than {max}.")

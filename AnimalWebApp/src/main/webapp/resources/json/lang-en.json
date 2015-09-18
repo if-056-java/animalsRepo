@@ -192,8 +192,7 @@
   "ADDRESS_MAX_LENGTH" : "Address should be maximum 120 characters",
   "COMPANY_NAME_MAX_LENGTH": "Company Name should be maximum 70 characters",
   "COMPANY_INFO_MAX_LENGTH": "Company Info should be maximum 100 characters",
-  
-  
+
   "REGISTRATION_CONFIRMATION": "Registration Confirmation",
   "REGISTRATION_LINK": "Confirmation link was sent to your email. Follow instructions...",
   "REGISTRATION_ERROR": "Registration error. Try again!",
@@ -268,5 +267,10 @@
   "ANIMAL_FOUND_FACEBOOK_SHARE_MESSAGE": "New found animal! Please, visit this link;)",
   "ANIMAL_FOUND_FACEBOOK_SHARE_CAPTION": "Found animal!",
   "ANIMAL_LOST_FACEBOOK_SHARE_MESSAGE": "Lost animal, help! Please, visit this link.",
-  "ANIMAL_LOST_FACEBOOK_SHARE_CAPTION": "Lost animal!"
+  "ANIMAL_LOST_FACEBOOK_SHARE_CAPTION": "Lost animal!",
+
+  "HTTP_400": "Error 400: Bad Request",
+  "HTTP_401": "401: Unauthorized Error, please log in or sign in",
+  "HTTP_404": "Error 404: Resource Not Found",
+  "HTTP_500": "500: Internal Server Error, sorry for the inconvenience"
 }

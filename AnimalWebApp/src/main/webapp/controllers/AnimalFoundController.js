@@ -9,7 +9,13 @@ animalFoundModule
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
 
+            //spinner usability
             $scope.contentLoading = 0;
+
+            //define while error block visible
+            $scope.errorsFlag = false;
+
+            //message with errors
             $scope.errorMessage = '';
 
             //Pages
@@ -18,36 +24,47 @@ animalFoundModule
             $scope.animals = AnimalFoundValues.animals;          //animal instance
 
             /**
+             * Get animal list
+             */
+            var initList = function() {
+                $scope.contentLoading++;
+                AnimalFoundFactory.getListOfFoundAnimals()
+                    .then(
+                    function(result){},
+
+                    //fail
+                    function(error){
+                        $scope.errorsFlag = true;
+                        $scope.errorMessage = error;
+                    }
+                )
+                    .finally(function() {
+                        $scope.contentLoading--;
+                    });
+            };
+
+            /**
              * @return count of rows for pagination.
              */
             $scope.contentLoading++;
             AnimalFoundFactory.getAmountRecords()
                 .then(
-                    function(result){},
+                    function(result){
+                        $scope.errorsFlag = false;
+                    },
 
                     //fail
                     function(error){
+                        $scope.errorsFlag = true;
+                        $scope.errorMessage = error;
                         $scope.totalItems.count = 0;
-                        $scope.errorMessage = error;
                     }
                 )
                 .finally(function() {
                     $scope.contentLoading--;
                 });
 
-            $scope.contentLoading++;
-            AnimalFoundFactory.getListOfFoundAnimals()
-                .then(
-                    function(result){},
-
-                    //fail
-                    function(error){
-                        $scope.errorMessage = error;
-                    }
-                )
-                .finally(function() {
-                    $scope.contentLoading--;
-                });
+            initList();
 
             /**
              * @return next page.
@@ -58,9 +75,7 @@ animalFoundModule
                 //scroll to top of the page
                 jQuery('html, body').animate({ scrollTop: 0 }, 500);
 
-                AnimalFoundFactory.getListOfFoundAnimals().finally(function() {
-                    $scope.contentLoading--;
-                });
+                initList();
             };
 
             /**
@@ -68,7 +83,7 @@ animalFoundModule
              */
             $scope.countChanged = function(count) {
                 $scope.filter.limit = count;
-                AnimalFoundFactory.getListOfFoundAnimals();
+                initList();
             };
 
             //Dependency injection
@@ -84,9 +99,36 @@ animalFoundModule
                 $scope.animalTypes = AnimalFoundValues.animalTypes;        //list of animal types
 
                 /**
+                 * Get animal list
+                 */
+                var initList = function() {
+                    $scope.contentLoading++;
+                    AnimalFoundFactory.getListOfFoundAnimals()
+                        .then(
+                        function(result){},
+
+                        //fail
+                        function(error){
+                            $scope.errorsFlag = true;
+                            $scope.errorMessage = error;
+                        }
+                    )
+                        .finally(function() {
+                            $scope.contentLoading--;
+                        });
+                };
+
+                /**
                  * @return list of animal types.
                  */
                 AnimalFoundFactory.getAnimalTypes()
+                    .then(
+                    function(){},
+                    function(error){
+                        $scope.errorsFlag = true;
+                        $scope.$parent.errorMessage = error;
+                    }
+                    )
                     .finally(function() {
                     });
 
@@ -95,9 +137,15 @@ animalFoundModule
                  */
                 $scope.getAnimalBreeds = function() {
                     AnimalFoundFactory.getAnimalBreeds($scope.filter.animal.type.id)
-                        .then(function(data) {
+                        .then(
+                        function(data) {
                             $scope.animalBreeds = data;
-                        })
+                        },
+                        function(error){
+                            $scope.errorsFlag = true;
+                            $scope.$parent.errorMessage = error;
+                        }
+                        )
                         .finally(function() {
                         });
                 };
@@ -122,24 +170,20 @@ animalFoundModule
                  * @return list of animals according to filter values.
                  */
                 $scope.doFilter = function() {
-                    $scope.$parent.contentLoading++;
-
                     AnimalFoundFactory.getAmountRecords()
                         .then(
-                        function(result){},
+                        function(){
+                            $scope.errorsFlag = false;
+                        },
 
                         //fail
                         function(error){
-                             $scope.totalItems.count = 0;
-                             $scope.$parent.errorMessage = error.toString();
+                            $scope.errorsFlag = true;
+                            $scope.totalItems.count = 0;
+                            $scope.$parent.errorMessage = error;
                         });
 
-                    AnimalFoundFactory.getListOfFoundAnimals().finally(
-                        function(){
-                            $scope.$parent.contentLoading--;
-                        }
-                    );
-                    console.log($scope.totalItems.count);
+                    initList();
 
                     jQuery('html, body').animate({ scrollTop: 0 }, 500);
                 };

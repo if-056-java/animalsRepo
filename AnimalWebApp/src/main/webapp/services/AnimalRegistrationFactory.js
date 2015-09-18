@@ -3,7 +3,7 @@
  */
 animalRegistrationModule
     .factory('AnimalRegistrationFactory',
-        function AnimalRegistrationFactory ($http, $q, RESOURCES) {
+        function AnimalRegistrationFactory ($http, $q, RESOURCES, HttpErrorHandlerFactory) {
 
             //Create instance of current factory
             var factory = {};
@@ -16,16 +16,24 @@ animalRegistrationModule
                     .success(function (data) {
                         def.resolve(data);
                     })
-                    .error(function (error) {
-                        console.log(error);
-                        def.reject("Failed to insert animals");
+                    .error(function (data, status) {
+
+                        if(status === 400) {
+                            var resp = [];
+                            data.forEach(function (error) {
+                                resp.push(error.message);
+                            });
+                            def.reject(resp);
+                        }
+                        else
+                            def.reject(HttpErrorHandlerFactory.returnError(status));
                     });
 
                 return def.promise;
             };
 
             //Inject dependencies
-            AnimalRegistrationFactory.$inject = ['$q', 'RESOURCES'];
+            AnimalRegistrationFactory.$inject = ['$q', 'RESOURCES', 'HttpErrorHandlerFactory'];
 
             return factory;
         }
@@ -33,7 +41,7 @@ animalRegistrationModule
 
 animalRegistrationModule
     .factory('AnimalDetailFactory',
-        function AnimalDetailFactory ($http, $q, RESOURCES) {
+        function AnimalDetailFactory ($http, $q, RESOURCES, HttpErrorHandlerFactory) {
 
             //Create instance of current factory
             var factory = {};
@@ -45,8 +53,8 @@ animalRegistrationModule
                     .success(function(data) {
                         def.resolve(data);
                     })
-                    .error(function() {
-                        def.reject("Failed to get animal types");
+                    .error(function(data, status) {
+                        def.reject(HttpErrorHandlerFactory.returnError(status));
                     });
 
                 return def.promise;
@@ -59,15 +67,15 @@ animalRegistrationModule
                     .success(function(data) {
                         def.resolve(data);
                     })
-                    .error(function() {
-                        def.reject("Failed to get breeds");
+                    .error(function(data, status) {
+                        def.reject(HttpErrorHandlerFactory.returnError(status));
                     });
 
                 return def.promise;
             };
 
             //Inject dependencies
-            AnimalDetailFactory.$inject = ['$q', 'RESOURCES'];
+            AnimalDetailFactory.$inject = ['$q', 'RESOURCES', 'HttpErrorHandlerFactory'];
 
             return factory;
         }

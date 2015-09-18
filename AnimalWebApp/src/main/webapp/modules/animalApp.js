@@ -24,7 +24,8 @@ var animalApp = angular.module('animalApp', [
     'LocalStorageModule',
     'pascalprecht.translate',
     'ngCookies',
-    'AdminUsersModule'
+    'AdminUsersModule',
+    'HttpErrorHandlerModule'
 ]);
 
 animalApp .config(['$routeProvider', '$translateProvider',

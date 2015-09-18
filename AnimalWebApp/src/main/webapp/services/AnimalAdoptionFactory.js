@@ -3,7 +3,7 @@
  */
 adoptionModule
     .factory('AdoptionFactory',
-        function AdoptionFactory($http, $q, RESOURCES, AnimalAdoptionValues){
+        function AdoptionFactory($http, $q, RESOURCES, HttpErrorHandlerFactory, AnimalAdoptionValues){
 
         //Create instance of current factory
         var factory = {};
@@ -14,12 +14,15 @@ adoptionModule
 
             $http.post(RESOURCES.ANIMALS_FOR_ADOPTING_PAGINATOR, AnimalAdoptionValues.filter)
                 .success(function (data) {
+                    if(data.rowsCount === 0)
+                        def.reject(HttpErrorHandlerFactory.returnError(404));
+
                     AnimalAdoptionValues.totalItems.count = data.rowsCount;
                     def.resolve(data);
                 })
-                .error(function (error) {
+                .error(function (data, status) {
                     AnimalAdoptionValues.totalItems.count = 0;
-                    def.reject("Failed to get animals");
+                    def.reject(HttpErrorHandlerFactory.returnError(status));
                 });
 
             return def.promise;
@@ -34,8 +37,8 @@ adoptionModule
                     AnimalAdoptionValues.animals.values = data;
                     def.resolve(data);
                 })
-                .error(function () {
-                    def.reject("Failed to get animals");
+                .error(function (data, status) {
+                    def.reject(HttpErrorHandlerFactory.returnError(status));
                 });
 
             return def.promise;
@@ -49,8 +52,8 @@ adoptionModule
                     AnimalAdoptionValues.animalStatuses = data;
                     def.resolve(data);
                 })
-                .error(function () {
-                    def.reject("Failed to get animal statuses");
+                .error(function (data, status) {
+                    def.reject(HttpErrorHandlerFactory.returnError(status));
                 });
 
             return def.promise;
@@ -69,8 +72,8 @@ adoptionModule
                         AnimalAdoptionValues.animalTypes.values = data;
                         def.resolve(data);
                     })
-                    .error(function() {
-                        def.reject("Failed to get animal types");
+                    .error(function(data, status) {
+                        def.reject(HttpErrorHandlerFactory.returnError(status));
                     });
 
                 return def.promise;
@@ -83,15 +86,15 @@ adoptionModule
                     .success(function(data) {
                         def.resolve(data);
                     })
-                    .error(function() {
-                        def.reject("Failed to get breeds");
+                    .error(function(data, status) {
+                        def.reject(HttpErrorHandlerFactory.returnError(status));
                     });
 
                 return def.promise;
             };
 
         //Inject dependencies
-        AdoptionFactory.$inject = ['$q', 'RESOURCES', 'AnimalAdoptionValues'];
+        AdoptionFactory.$inject = ['$q', '$filter', 'RESOURCES', 'HttpErrorHandlerFactory', 'AnimalAdoptionValues'];
 
         return factory;
         }
