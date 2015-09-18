@@ -4,6 +4,7 @@ import com.animals.app.domain.*;
 import com.animals.app.repository.Impl.*;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
@@ -40,7 +41,7 @@ public class AnimalResource {
     @Path("animal")//http:localhost:8080/AnimalWebApp/webapi/animals
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response insertAnimal( Animal animal) {
+    public Response insertAnimal(@Valid Animal animal) {
         if (animal == null)
             return BAD_REQUEST;
 
@@ -52,7 +53,7 @@ public class AnimalResource {
             animalRepository.insert(animal);
         } catch (PersistenceException e) {
             LOG.error(e);
-            //return Response.serverError().entity(animal).build();
+            return Response.serverError().entity(animal).build();
         }
 
         return ok(animal);
@@ -86,14 +87,20 @@ public class AnimalResource {
         if (!animalsFilter.isAnimalFilterNotEmpty())
             return BAD_REQUEST;
 
-        List<Animal> animals = animalRepository.getAllForAdopting(animalsFilter);
+        List<Animal> animals;
+        try {
+            animals = animalRepository.getAllForAdopting(animalsFilter);
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
 
         //cast list of animals to generic list
         GenericEntity<List<Animal>> genericAnimals =
                 new GenericEntity<List<Animal>>(animals) {
                 };
 
-        if (genericAnimals == null)
+        if (animals == null)
             return NOT_FOUND;
 
         return ok(genericAnimals);
@@ -107,11 +114,14 @@ public class AnimalResource {
         if (id == null)
             return BAD_REQUEST;
 
-        List<AnimalStatusLoger> animalStatusLogers =
-                new AnimalStatusLogerRepositoryImpl().getAnimalStatusesByAnimalId(Long.parseLong(id));
+        List<AnimalStatusLoger> animalStatusLogers;
 
-        for(int i = 0; i < animalStatusLogers.size(); i++)
-            System.out.println(animalStatusLogers.get(i));
+        try {
+            animalStatusLogers = new AnimalStatusLogerRepositoryImpl().getAnimalStatusesByAnimalId(Long.parseLong(id));
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
 
         //cast list of animals to generic list
         GenericEntity<List<AnimalStatusLoger>> genericAnimals =
@@ -129,12 +139,19 @@ public class AnimalResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAmountListFoundAnimals(AnimalsFilter animalsFilter) {
-        long pages = animalRepository.getAmountListFoundAnimals(animalsFilter);
+        long pages;
+
+        try {
+            pages = animalRepository.getAmountListFoundAnimals(animalsFilter);
+        } catch (PersistenceException e){
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
 
         if (pages == 0)
             return NOT_FOUND;
 
-        return Response.status(Response.Status.OK).entity(generateRowsCount(pages)).build();
+        return ok(generateRowsCount(pages));
     }
 
     @POST
@@ -145,7 +162,13 @@ public class AnimalResource {
         if (!animalsFilter.isAnimalFilterNotEmpty())
             return BAD_REQUEST;
 
-        List<Animal> animals = animalRepository.getAllFoundAnimals(animalsFilter);
+        List<Animal> animals;
+        try {
+            animals = animalRepository.getAllFoundAnimals(animalsFilter);
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
 
         //cast list of animals to generic list
         GenericEntity<List<Animal>> genericAnimals =
@@ -163,12 +186,19 @@ public class AnimalResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAmountLostAnimals(AnimalsFilter animalsFilter) {
-        long pages = animalRepository.getAmountListLostAnimals(animalsFilter);
+        long pages;
+
+        try {
+            pages = animalRepository.getAmountListLostAnimals(animalsFilter);
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
 
         if (pages == 0)
             return NOT_FOUND;
 
-        return Response.status(Response.Status.OK).entity(generateRowsCount(pages)).build();
+        return ok(generateRowsCount(pages));
     }
 
     @POST
@@ -179,7 +209,13 @@ public class AnimalResource {
         if (!animalsFilter.isAnimalFilterNotEmpty())
             return BAD_REQUEST;
 
-        List<Animal> animals = animalRepository.getAllLostAnimals(animalsFilter);
+        List<Animal> animals;
+        try {
+            animals = animalRepository.getAllLostAnimals(animalsFilter);
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
 
         //cast list of animals to generic list
         GenericEntity<List<Animal>> genericAnimals =
@@ -200,7 +236,13 @@ public class AnimalResource {
         if (id == null)
             return BAD_REQUEST;
 
-        Animal animalShortInfo = animalRepository.getShortInfoById(Integer.parseInt(id));
+        Animal animalShortInfo;
+        try {
+            animalShortInfo = animalRepository.getShortInfoById(Integer.parseInt(id));
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
 
         if (animalShortInfo == null)
             return NOT_FOUND;
@@ -212,7 +254,14 @@ public class AnimalResource {
     @Path("animal_types")//http:localhost:8080/webapi/animals/animal_types
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimalTypes() {
-        List<AnimalType> animalTypes = new AnimalTypeRepositoryImpl().getAll();
+        List<AnimalType> animalTypes;
+
+        try {
+            animalTypes = new AnimalTypeRepositoryImpl().getAll();
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
 
         GenericEntity<List<AnimalType>> genericAnimalTypes =
                 new GenericEntity<List<AnimalType>>(animalTypes) {};
@@ -227,7 +276,14 @@ public class AnimalResource {
     @Path("animal_services")//http:localhost:8080/webapi/animals/animal_services
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimalServices() {
-        List<AnimalService> animalServices = new AnimalServiceRepositoryImpl().getAll();
+        List<AnimalService> animalServices;
+
+        try {
+            animalServices = new AnimalServiceRepositoryImpl().getAll();
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
 
         GenericEntity<List<AnimalService>> genericAnimalServices =
                 new GenericEntity<List<AnimalService>>(animalServices) {};
@@ -246,7 +302,14 @@ public class AnimalResource {
             return BAD_REQUEST;
         }*/
 
-        List<AnimalBreed> animalBreeds = new AnimalBreedRepositoryImpl().getByTypeId(animalTypeId);
+        List<AnimalBreed> animalBreeds;
+
+        try {
+            animalBreeds = new AnimalBreedRepositoryImpl().getByTypeId(animalTypeId);
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
 
         GenericEntity<List<AnimalBreed>> genericAnimalBreeds =
                 new GenericEntity<List<AnimalBreed>>(animalBreeds) {
@@ -263,7 +326,14 @@ public class AnimalResource {
     @Path("medical_history/types")//http:localhost:8080/webapi/animals/mdedical_history/types
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAnimalMedicalHistoryTypes() {
-        List<AnimalStatus> animalStatuses = new AnimalStatusRepositoryImpl().getAll();
+        List<AnimalStatus> animalStatuses;
+
+        try {
+            animalStatuses = new AnimalStatusRepositoryImpl().getAll();
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
 
         GenericEntity<List<AnimalStatus>> genericAnimalStatuses =
                 new GenericEntity<List<AnimalStatus>>(animalStatuses) {};

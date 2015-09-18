@@ -14,12 +14,15 @@ adoptionModule
 
             $http.post(RESOURCES.ANIMALS_FOR_ADOPTING_PAGINATOR, AnimalAdoptionValues.filter)
                 .success(function (data) {
+                    if(data.rowsCount === 0)
+                        def.reject(HttpErrorHandlerFactory.returnError(404));
+
                     AnimalAdoptionValues.totalItems.count = data.rowsCount;
                     def.resolve(data);
                 })
-                .error(function (data, status, header, config) {
+                .error(function (data, status) {
                     AnimalAdoptionValues.totalItems.count = 0;
-                        def.reject(HttpErrorHandlerFactory.returnError(status));
+                    def.reject(HttpErrorHandlerFactory.returnError(status));
                 });
 
             return def.promise;
@@ -34,7 +37,7 @@ adoptionModule
                     AnimalAdoptionValues.animals.values = data;
                     def.resolve(data);
                 })
-                .error(function (data, status, header, config) {
+                .error(function (data, status) {
                     def.reject(HttpErrorHandlerFactory.returnError(status));
                 });
 
@@ -49,7 +52,7 @@ adoptionModule
                     AnimalAdoptionValues.animalStatuses = data;
                     def.resolve(data);
                 })
-                .error(function (data, status, header, config) {
+                .error(function (data, status) {
                     def.reject(HttpErrorHandlerFactory.returnError(status));
                 });
 
@@ -69,7 +72,7 @@ adoptionModule
                         AnimalAdoptionValues.animalTypes.values = data;
                         def.resolve(data);
                     })
-                    .error(function(data, status, header, config) {
+                    .error(function(data, status) {
                         def.reject(HttpErrorHandlerFactory.returnError(status));
                     });
 
@@ -83,7 +86,7 @@ adoptionModule
                     .success(function(data) {
                         def.resolve(data);
                     })
-                    .error(function(data, status, header, config) {
+                    .error(function(data, status) {
                         def.reject(HttpErrorHandlerFactory.returnError(status));
                     });
 

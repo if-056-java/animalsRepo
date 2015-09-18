@@ -111,7 +111,6 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService', 'vcRecapt
                                 },
 
                                 function(error){
-                                    console.log(error);
                                     $scope.errorMessage = error;
                                 }
                             );

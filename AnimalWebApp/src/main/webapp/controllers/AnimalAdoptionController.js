@@ -5,14 +5,17 @@ adoptionModule
     .controller('AdoptionController',
         function AdoptionController($scope, $filter, AdoptionFactory, AnimalAdoptionValues) {
 
-            $scope.header_a_f_l = "Тварини на адопцію :";
-
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
             new Spinner(opts).spin(targetContent);
 
+            //spinner usability
             $scope.contentLoading = 0;
 
+            //define while error block visible
+            $scope.errorsFlag = false;
+
+            //message with errors
             $scope.errorMessage = '';
 
             //Pages
@@ -101,6 +104,7 @@ adoptionModule
                                 },
 
                                 function(error){
+                                    $scope.errorsFlag = true;
                                     $scope.errorMessage = error;
                                 }
                             ).finally(function() {
@@ -109,6 +113,7 @@ adoptionModule
                     },
                     //fail
                     function(error){
+                        $scope.errorsFlag = true;
                         $scope.errorMessage = error;
                     }
                 )
@@ -123,10 +128,13 @@ adoptionModule
             $scope.contentLoading++;
             AdoptionFactory.getAmountRecords()
                 .then(
-                    function(result){},
+                    function(){
+                        $scope.errorsFlag = false;
+                    },
 
                     //fail
                     function(error){
+                        $scope.errorsFlag = true;
                         $scope.totalItems.count = 0;
                         $scope.errorMessage = error;
                     }
@@ -144,7 +152,7 @@ adoptionModule
                 //scroll to top of the page
                 jQuery('html, body').animate({ scrollTop: 0 }, 500);
 
-                initList()
+                initList();
             };
 
             /**
@@ -246,12 +254,14 @@ adoptionModule
                                     },
 
                                     function(error){
+                                        $scope.errorsFlag = true;
                                         $scope.errorMessage = error;
                                     }
                                 );
                         },
                         //fail
                         function(error){
+                            $scope.errorsFlag = true;
                             $scope.errorMessage = error;
                         }
                     )
@@ -264,6 +274,13 @@ adoptionModule
                  * @return list of animal types.
                  */
                 AdoptionFactory.getAnimalTypes()
+                    .then(
+                        function(){},
+                        function(error){
+                            $scope.errorsFlag = true;
+                            $scope.$parent.errorMessage = error;
+                        }
+                    )
                     .finally(function() {
                     });
 
@@ -272,9 +289,15 @@ adoptionModule
                  */
                 $scope.getAnimalBreeds = function() {
                     AdoptionFactory.getAnimalBreeds($scope.filter.animal.type.id)
-                        .then(function(data) {
-                            $scope.animalBreeds = data;
-                        })
+                        .then(
+                            function(data) {
+                                $scope.animalBreeds = data;
+                            },
+                            function(error){
+                                $scope.errorsFlag = true;
+                                $scope.$parent.errorMessage = error;
+                            }
+                        )
                         .finally(function() {
                         });
                 };
@@ -301,12 +324,15 @@ adoptionModule
                 $scope.doFilter = function() {
                     AdoptionFactory.getAmountRecords()
                         .then(
-                        function(result){},
+                        function(){
+                            $scope.errorsFlag = false;
+                        },
 
                         //fail
                         function(error){
+                             $scope.errorsFlag = true;
                              $scope.totalItems.count = 0;
-                             $scope.$parent.errorMessage = error.toString();
+                             $scope.$parent.errorMessage = error;
                         });
 
                     initList();

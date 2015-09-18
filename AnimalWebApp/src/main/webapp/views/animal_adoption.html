@@ -124,8 +124,8 @@
             </div>
 
             <!-- Error message -->
-            <h3 class="col-xs-12 col-sm-8 col-md-9 col-lg-9" ng-show="!totalItems.count" style="color: maroon;">
-                <img src="/resources/img/error-status.png" alt="Error" style="margin-bottom: 10px;"/></br> {{errorMessage}}</h3>
+            <h3 class="col-xs-12 col-sm-8 col-md-9 col-lg-9" ng-hide="!errorsFlag" style="color: maroon;">
+                {{errorMessage}}</h3>
 
             <!-- List of animals for adoption -->
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9 simple-border"

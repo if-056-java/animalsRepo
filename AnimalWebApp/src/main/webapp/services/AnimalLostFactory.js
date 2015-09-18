@@ -3,7 +3,7 @@
  */
 animalLostModule
     .factory('AnimalLostFactory',
-        function AnimalLostFactory($http, $q, RESOURCES, AnimalLostValues){
+        function AnimalLostFactory($http, $q, RESOURCES, HttpErrorHandlerFactory, AnimalLostValues){
 
         //Create instance of current factory
         var factory = {};
@@ -14,12 +14,15 @@ animalLostModule
 
             $http.post(RESOURCES.ANIMALS_LOST_PAGINATOR, AnimalLostValues.filter)
                 .success(function (data) {
+                    if(data.rowsCount === 0)
+                        def.reject(HttpErrorHandlerFactory.returnError(404));
+
                     AnimalLostValues.totalItems.count = data.rowsCount;
                     def.resolve(data);
                 })
-                .error(function (error) {
+                .error(function (data, status) {
                     AnimalLostValues.totalItems.count = 0;
-                    def.reject("Failed to get animals");
+                    def.reject(HttpErrorHandlerFactory.returnError(status));
                 });
 
             return def.promise;
@@ -35,7 +38,7 @@ animalLostModule
                     def.resolve(data);
                 })
                 .error(function () {
-                    def.reject("Failed to get animals");
+                    def.reject(HttpErrorHandlerFactory.returnError(status));
                 });
 
             return def.promise;
@@ -55,7 +58,7 @@ animalLostModule
                         def.resolve(data);
                     })
                     .error(function() {
-                        def.reject("Failed to get animal types");
+                        def.reject(HttpErrorHandlerFactory.returnError(status));
                     });
 
                 return def.promise;
@@ -69,15 +72,14 @@ animalLostModule
                         def.resolve(data);
                     })
                     .error(function() {
-                        def.reject("Failed to get breeds");
+                        def.reject(HttpErrorHandlerFactory.returnError(status));
                     });
 
                 return def.promise;
             };
 
-
         //Inject dependencies
-        AnimalLostFactory.$inject = ['$q', 'RESOURCES', 'AnimalLostValues'];
+        AnimalLostFactory.$inject = ['$q', 'RESOURCES', 'HttpErrorHandlerFactory', 'AnimalLostValues'];
 
         return factory;
         }

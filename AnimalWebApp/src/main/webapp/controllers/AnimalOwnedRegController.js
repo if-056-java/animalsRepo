@@ -18,6 +18,12 @@ animalRegistrationModule
             });
         };
 
+        //use for define visibility of error element
+        $scope.errorsFlag = false;
+
+        //array list of error from back - end validation
+        $scope.errors = [];
+
         //This variable decides when spinner loading for contents closed.
         $scope.contentLoading = 0;
 
@@ -49,6 +55,19 @@ animalRegistrationModule
 
             return AnimalRegistrationFactory
                 .insertHomelessAnimal(animal)
+                .then(
+                function(){
+                    $scope.errorsFlag = false;
+                    $scope.errors = [];
+
+                    //redirect after success registration
+                    $scope.alertSample();
+                },
+                function(error){
+                    $scope.errorsFlag = true;
+                    $scope.errors = error;
+                }
+                )
                 .finally(function() {
                     //hide spinner loading
                     $scope.contentLoading--;

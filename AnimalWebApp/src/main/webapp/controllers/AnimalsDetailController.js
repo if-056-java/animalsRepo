@@ -4,6 +4,12 @@ animalRegistrationModule
             //Show spinner loading
             $scope.$parent.contentLoading++;
 
+            //define while error block visible
+            $scope.errorsFlag = false;
+
+            //message with errors
+            $scope.errorMessage = '';
+
             //locale
             $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
@@ -11,8 +17,9 @@ animalRegistrationModule
                 .then(function(data) {
                     $scope.animalTypes = data;
                 },
-                function(data) {
-                    console.log('Animal retrieval failed.')
+                function(error) {
+                    $scope.errorsFlag = true;
+                    $scope.errorMessage = error;
                 }).finally(function() {
                     //hide spinner loading
                     $scope.$parent.contentLoading--;
@@ -27,10 +34,12 @@ animalRegistrationModule
             $scope.$parent.contentLoading++;
             AnimalDetailFactory.getAnimalBreeds($scope.$parent.animal.type.id)
                 .then(function(data) {
+                    $scope.errorsFlag = false;
                     $scope.animalBreeds = data;
                 },
-                function(data) {
-                    console.log('Animal breeds retrieval failed.')
+                function(error) {
+                    $scope.errorsFlag = true;
+                    $scope.errorMessage = error;
                 }).finally(function() {
                     //hide spinner loading
                     $scope.$parent.contentLoading--;
