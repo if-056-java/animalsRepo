@@ -55,7 +55,7 @@ import sun.misc.BASE64Decoder;
  */
 
 @Path("users")
-@RolesAllowed({"гість", "модератор" , "лікар"})
+@RolesAllowed({"guest", "moderator" , "doctor"})
 public class UserResource {
 	
 	private static Logger LOG = LogManager.getLogger(UserResource.class);

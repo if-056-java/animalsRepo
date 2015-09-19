@@ -2,6 +2,7 @@ package com.animals.app.domain;
 
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.sql.CallableStatement;
@@ -10,12 +11,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.validation.constraints.DecimalMin;
+
 /**
  * Created by oleg on 22.07.2015.
  */
 public class UserRole implements Serializable, TypeHandler<List<? extends UserRole>> {
-
+	
+	@DecimalMin(value = "1")
     private Integer id;
+	
+	@Length(max = 19, message = "The UserRole length must be less than {max}.")
     private String role;
 
     public UserRole() {
@@ -52,8 +58,8 @@ public class UserRole implements Serializable, TypeHandler<List<? extends UserRo
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + role.hashCode();
+        int result = id != null ? id.hashCode() : 0;	
+        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 

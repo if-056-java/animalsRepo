@@ -40,7 +40,7 @@ public class DoctorResource {
      * animalId must be set and more than 0
      */
     @GET //http//:localhost:8080/webapi/animals/paginator
-    @RolesAllowed("лікар")
+    @RolesAllowed("doctor")
     @Path("medical_history/paginator/{animalId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAnimalsPaginator(@PathParam("animalId") @NotNull @DecimalMin(value = "1") long animalId) {
@@ -62,7 +62,7 @@ public class DoctorResource {
      * AnimalsFilter.limit must be set and more than 0
      */
     @POST //http//:localhost:8080/webapi/doctor/medical_history/{animalId}
-    @RolesAllowed("лікар")
+    @RolesAllowed("doctor")
     @Path("medical_history/items")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -94,7 +94,7 @@ public class DoctorResource {
      * itemId must be set and more than 0
      */
     @DELETE //http://localhost:8080/webapi/doctor/medical_history/item/{itemId}
-    @RolesAllowed("лікар")
+    @RolesAllowed("doctor")
     @Path("medical_history/item/{itemId}")
     public Response deleteMedicalHistoryItemById(@PathParam("itemId") @NotNull @DecimalMin(value = "1") long itemId) {
 
@@ -116,7 +116,7 @@ public class DoctorResource {
      * Session value userId must be set
      */
     @POST //http://localhost:8080/webapi/doctor/medical_history/item
-    @RolesAllowed("лікар")
+    @RolesAllowed("doctor")
     @Path("medical_history/item")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateMedicalHistoryItemById(@Context HttpServletRequest req,

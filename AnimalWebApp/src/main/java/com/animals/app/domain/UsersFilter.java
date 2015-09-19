@@ -1,9 +1,15 @@
 package com.animals.app.domain;
 
+import javax.validation.constraints.DecimalMin;
+
 public class UsersFilter {
+	@DecimalMin(value = "1")
     private int page;
+	 
+	@DecimalMin(value = "1")
     private int limit;
-    private User user;
+	
+	private User user;
 
     public UsersFilter() {
     }

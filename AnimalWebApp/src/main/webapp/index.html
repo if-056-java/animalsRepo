@@ -93,13 +93,13 @@
             </li>
 
 		  <li class="dropdown" translate-cloak>
-				<a ng-show="session() && (userRole == 'лікар' || userRole == 'модератор')" href="" class="dropdown-toggle" data-toggle="dropdown">{{ 'NAV_MODERATION' | translate }}<b class="caret"></b></a>
+				<a ng-show="session() && (userRole == 'doctor' || userRole == 'moderator')" href="" class="dropdown-toggle" data-toggle="dropdown">{{ 'NAV_MODERATION' | translate }}<b class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li><a href="#ua/user/home/animals" ng-show="userRole == 'модератор'">{{ 'NAV_ANIMAL_LIST' | translate }}</a></li>
-					<li role="presentation" class="divider" ng-show="userRole == 'модератор'"></li>
-                    <li><a href="#ua/users/admin/users" ng-show="userRole == 'модератор'">{{ 'NAV_USER_LIST' | translate }}</a></li>
+					<li><a href="#ua/user/home/animals" ng-show="userRole == 'moderator'">{{ 'NAV_ANIMAL_LIST' | translate }}</a></li>
+					<li role="presentation" class="divider" ng-show="userRole == 'moderator'"></li>
+                    <li><a href="#ua/users/admin/users" ng-show="userRole == 'moderator'">{{ 'NAV_USER_LIST' | translate }}</a></li>
                     <!--li role="presentation" class="divider" ng-show="userRole == 'лікар'"></li-->
-                    <li><a href="#ua/user/doctor/animals" ng-show="userRole == 'лікар'">{{ 'NAV_ANIMAL_LIST_FOR_DOCTOR' | translate }}</a></li>
+                    <li><a href="#ua/user/doctor/animals" ng-show="userRole == 'doctor'">{{ 'NAV_ANIMAL_LIST_FOR_DOCTOR' | translate }}</a></li>
 				</ul>
             </li>
 		</ul>

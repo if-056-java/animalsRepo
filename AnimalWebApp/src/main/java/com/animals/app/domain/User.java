@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.sql.Date;
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -33,14 +34,14 @@ public class User implements Serializable, Principal {
     @NotNull(message =  "Registration Date can not be null")
     private Date registrationDate;    
      
-    @Email(message = "{contact.wrong.email}", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
+    @Email(message = "Wrong format for contact phone", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
     private String email;
 
     @NotNull(message =  "Password can not be null")
     @Length(max = 40, message =  "Password must be less than {max}  characters.")
     private String password;
     
-    @Pattern(message = "{contact.wrong.phone}", regexp = "^[0-9]{3}-[0-9]{7}$") 
+    @Pattern(message = "Wrong format for email", regexp = "^[0-9]{3}-[0-9]{7}$") 
     private String phone;
     
     @Length(min = 6, max = 16, message = "The socialLogin must be between {min} and {max}.")
@@ -69,9 +70,11 @@ public class User implements Serializable, Principal {
     
     private boolean isActive = true;
     
+    @Valid
     @Size(min = 1, message =  "UserRole can not be empty")
     private List<UserRole> userRole;
     
+    @Valid
     @NotNull(message =  "UserType can not be null")
     private UserType userType;
 

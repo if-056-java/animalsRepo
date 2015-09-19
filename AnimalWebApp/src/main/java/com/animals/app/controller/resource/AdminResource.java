@@ -50,7 +50,7 @@ public class AdminResource {
      * AnimalsFilter.limit must be set and more than 0
      */
     @POST //http:localhost:8080/webapi/admin/animals
-    @RolesAllowed({"модератор", "лікар"})
+    @RolesAllowed({"moderator", "doctor"})
     @Path("animals")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -70,7 +70,7 @@ public class AdminResource {
      * @return count of rows for pagination.
      */
     @POST //http:localhost:8080/webapi/animals/paginator
-    @RolesAllowed({"модератор", "лікар"})
+    @RolesAllowed({"moderator", "doctor"})
     @Path("animals/paginator")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -91,7 +91,7 @@ public class AdminResource {
      * animalId must be set and more than 0
      */
     @GET //http:localhost:8080/webapi/animals/{animalId}
-    @RolesAllowed({"модератор", "лікар"})
+    @RolesAllowed({"moderator", "doctor"})
     @Path("animals/{animalId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAnimal(@PathParam("animalId") @NotNull @DecimalMin(value = "1") long animalId) {
@@ -114,7 +114,7 @@ public class AdminResource {
      * animalId must be set and more than 0
      */
     @DELETE //http:localhost:8080/webapi/animals/{animalId}
-    @RolesAllowed("модератор")
+    @RolesAllowed("moderator")
     @Path("animals/{animalId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteAnimal(@Context HttpServletRequest httpServlet,
@@ -159,7 +159,7 @@ public class AdminResource {
      * Animal.service must be set
      */
     @POST //http:localhost:8080/webapi/animals/editor
-    @RolesAllowed("модератор")
+    @RolesAllowed("moderator")
     @Path("animals/editor")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAnimal(@Context HttpServletRequest httpServlet, @Valid @NotNull Animal animal) {
@@ -206,7 +206,7 @@ public class AdminResource {
      * animalId must be set and more than 0
      */
     @DELETE //http:localhost:8080/webapi/animals/image/{animalId}
-    @RolesAllowed("модератор")
+    @RolesAllowed("moderator")
     @Path("animals/image/{animalId}")
     public Response deleteAnimalImage(@Context HttpServletRequest httpServlet,
                                       @PathParam("animalId") @DecimalMin(value = "1") long animalId) {

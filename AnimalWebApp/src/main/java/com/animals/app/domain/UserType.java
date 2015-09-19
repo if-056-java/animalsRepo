@@ -2,12 +2,19 @@ package com.animals.app.domain;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.DecimalMin;
+
+import org.hibernate.validator.constraints.Length;
+
 /**
  * Created by oleg on 23.07.2015.
  */
 public class UserType implements Serializable{
 
+	@DecimalMin(value = "1")
     private Integer id;
+	
+	@Length(max = 19, message = "The UserType length must be less than {max}.")
     private String type;
 
     public UserType() {
@@ -44,8 +51,8 @@ public class UserType implements Serializable{
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + type.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }
 
