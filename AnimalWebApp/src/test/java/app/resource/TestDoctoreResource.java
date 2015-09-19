@@ -1,3 +1,7 @@
+/*
+ * Create user with login - doctor and password - doctor and role doctor or change credentials in
+ * these values: LOGIN, PASSWORD for this test be passed
+ */
 package app.resource;
 
 import app.JNDIConfigurationForTests;
@@ -96,6 +100,13 @@ public class TestDoctoreResource extends ResourceTestTemplate {
         animalMedicalHistory.setAnimalId(animalId);
     }
 
+    /*
+     * Testing of insert medical history item
+     * Path: /doctor/medical_history/item
+     * Method: post
+     * Send: valid item
+     * Expect: response with status 200
+     */
     @Test
     public void test01InsertAnimalMedicalHistoryItem() {
         assertNotNull(accessToken);
@@ -126,7 +137,11 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalMedicalHistory = null
+     * Testing of insert medical history item
+     * Path: /doctor/medical_history/item
+     * Method: post
+     * Send: null
+     * Expect: response with status 400
      */
     @Test
     public void test02InsertAnimalMedicalHistoryItem() {
@@ -143,7 +158,11 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalMedicalHistory.status = null
+     * Testing of insert medical history item
+     * Path: /doctor/medical_history/item
+     * Method: post
+     * Send: not valid item (status = null)
+     * Expect: response with status 400
      */
     @Test
     public void test03InsertAnimalMedicalHistoryItem() {
@@ -174,7 +193,11 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalMedicalHistory.status.id = null
+     * Testing of insert medical history item
+     * Path: /doctor/medical_history/item
+     * Method: post
+     * Send: not valid item (status.id = null)
+     * Expect: response with status 400
      */
     @Test
     public void test04InsertAnimalMedicalHistoryItem() {
@@ -205,7 +228,11 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalMedicalHistory.status.id = 0
+     * Testing of insert medical history item
+     * Path: /doctor/medical_history/item
+     * Method: post
+     * Send: not valid item (status.id = 0)
+     * Expect: response with status 400
      */
     @Test
     public void test05InsertAnimalMedicalHistoryItem() {
@@ -236,7 +263,11 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalMedicalHistory.status.id = -1
+     * Testing of insert medical history item
+     * Path: /doctor/medical_history/item
+     * Method: post
+     * Send: not valid item (status.id = -1)
+     * Expect: response with status 400
      */
     @Test
     public void test06InsertAnimalMedicalHistoryItem() {
@@ -267,7 +298,11 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalMedicalHistory.animalId = null
+     * Testing of insert medical history item
+     * Path: /doctor/medical_history/item
+     * Method: post
+     * Send: not valid item (animalId = null)
+     * Expect: response with status 400
      */
     @Test
     public void test07InsertAnimalMedicalHistoryItem() {
@@ -298,7 +333,11 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalMedicalHistory.animalId = 0
+     * Testing of insert medical history item
+     * Path: /doctor/medical_history/item
+     * Method: post
+     * Send: not valid item (animalId = 0)
+     * Expect: response with status 400
      */
     @Test
     public void test08InsertAnimalMedicalHistoryItem() {
@@ -329,7 +368,11 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalMedicalHistory.animalId = -1
+     * Testing of insert medical history item
+     * Path: /doctor/medical_history/item
+     * Method: post
+     * Send: not valid item (animalId = -1)
+     * Expect: response with status 400
      */
     @Test
     public void test09InsertAnimalMedicalHistoryItem() {
@@ -360,7 +403,11 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalMedicalHistory.date = null
+     * Testing of insert medical history item
+     * Path: /doctor/medical_history/item
+     * Method: post
+     * Send: not valid item (date = null)
+     * Expect: response with status 400
      */
     @Test
     public void test10InsertAnimalMedicalHistoryItem() {
@@ -391,7 +438,11 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalMedicalHistory.date = wrong format
+     * Testing of insert medical history item
+     * Path: /doctor/medical_history/item
+     * Method: post
+     * Send: not valid item (date with wrong format)
+     * Expect: response with status 400
      */
     @Test
     public void test11InsertAnimalMedicalHistoryItem() {
@@ -417,8 +468,15 @@ public class TestDoctoreResource extends ResourceTestTemplate {
         assertEquals(response.getStatus(), 400);
     }
 
+    /*
+     * Testing of getting medical history items count
+     * Path: /doctor/medical_history/paginator/animalId
+     * Method: get
+     * Send: valid animalId
+     * Expect: json {rowsCount:'count of rows'}
+     */
     @Test
-     public void test12GetAnimalMedicalHistoryItemsCount() {
+    public void test12GetAnimalMedicalHistoryItemsCount() {
         assertNotNull(accessToken);
         assertNotNull(animalId);
 
@@ -436,7 +494,11 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * animalId = 0
+     * Testing of getting medical history items count
+     * Path: /doctor/medical_history/paginator/animalId
+     * Method: get
+     * Send: not valid animalId (animalId = 0)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test13GetAnimalMedicalHistoryItemsCount() {
@@ -450,7 +512,11 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * animalId = -1
+     * Testing of getting medical history items count
+     * Path: /doctor/medical_history/paginator/animalId
+     * Method: get
+     * Send: not valid animalId (animalId = -1)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test14GetAnimalMedicalHistoryItemsCount() {
@@ -463,6 +529,13 @@ public class TestDoctoreResource extends ResourceTestTemplate {
                 .get(String.class);
     }
 
+    /*
+     * Testing of getting medical history items
+     * Path: /doctor/medical_history/items
+     * Method: post
+     * Send: valid AnimalsFilter object
+     * Expect: list of items
+     */
     @Test
     public void test15GetAnimalMedicalHistoryItems() {
         assertNotNull(accessToken);
@@ -471,6 +544,9 @@ public class TestDoctoreResource extends ResourceTestTemplate {
         assertNotEquals(rowsCount, new Integer(0));
 
         AnimalsFilter animalsFilter = new AnimalsFilter(1, rowsCount);
+        Animal animal = new Animal();
+        animal.setId(animalId);
+        animalsFilter.setAnimal(animal);
 
         String json = new GsonBuilder()
                 .registerTypeAdapter(Date.class, new DateSerializer())
@@ -481,7 +557,7 @@ public class TestDoctoreResource extends ResourceTestTemplate {
 
         List<AnimalMedicalHistory> animalMedicalHistories = client
                 .target(REST_SERVICE_URL)
-                .path("medical_history/" + animalId)
+                .path("medical_history/items")
                 .request()
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"),
@@ -499,7 +575,11 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * animalId = 0
+     * Testing of getting medical history items
+     * Path: /doctor/medical_history/items
+     * Method: post
+     * Send: not valid AnimalsFilter object (animal.id = 0)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test16GetAnimalMedicalHistoryItems() {
@@ -509,6 +589,9 @@ public class TestDoctoreResource extends ResourceTestTemplate {
         assertNotEquals(rowsCount, new Integer(0));
 
         AnimalsFilter animalsFilter = new AnimalsFilter(1, rowsCount);
+        Animal animal = new Animal();
+        animal.setId(new Long(0));
+        animalsFilter.setAnimal(animal);
 
         String json = new GsonBuilder()
                 .registerTypeAdapter(Date.class, new DateSerializer())
@@ -518,15 +601,20 @@ public class TestDoctoreResource extends ResourceTestTemplate {
         LOG.debug("TestName: test16GetAnimalMedicalHistoryItems - " + json);
 
         client.target(REST_SERVICE_URL)
-                .path("medical_history/0")
+                .path("medical_history/items")
                 .request()
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"),
-                        new GenericType<List<AnimalMedicalHistory>>() {});
+                        new GenericType<List<AnimalMedicalHistory>>() {
+                        });
     }
 
     /*
-     * animalId = -1
+     * Testing of getting medical history items
+     * Path: /doctor/medical_history/items
+     * Method: post
+     * Send: not valid AnimalsFilter object (animal.id = -1)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test17GetAnimalMedicalHistoryItems() {
@@ -536,6 +624,9 @@ public class TestDoctoreResource extends ResourceTestTemplate {
         assertNotEquals(rowsCount, new Integer(0));
 
         AnimalsFilter animalsFilter = new AnimalsFilter(1, rowsCount);
+        Animal animal = new Animal();
+        animal.setId(new Long(-1));
+        animalsFilter.setAnimal(animal);
 
         String json = new GsonBuilder()
                 .registerTypeAdapter(Date.class, new DateSerializer())
@@ -545,7 +636,7 @@ public class TestDoctoreResource extends ResourceTestTemplate {
         LOG.debug("TestName: test17GetAnimalMedicalHistoryItems - " + json);
 
         client.target(REST_SERVICE_URL)
-                .path("medical_history/-1")
+                .path("medical_history/items")
                 .request()
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"),
@@ -553,10 +644,150 @@ public class TestDoctoreResource extends ResourceTestTemplate {
     }
 
     /*
-     * no animalId
+     * Testing of getting medical history items
+     * Path: /doctor/medical_history/items
+     * Method: post
+     * Send: not valid AnimalsFilter object (page = 0)
+     * Expect: response with status 400
      */
-    @Test(expected = NotFoundException.class)
+    @Test(expected = BadRequestException.class)
     public void test18GetAnimalMedicalHistoryItems() {
+        assertNotNull(accessToken);
+        assertNotNull(animalId);
+        assertNotNull(rowsCount);
+        assertNotEquals(rowsCount, new Integer(0));
+
+        AnimalsFilter animalsFilter = new AnimalsFilter(0, rowsCount);
+        Animal animal = new Animal();
+        animal.setId(animalId);
+        animalsFilter.setAnimal(animal);
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test18GetAnimalMedicalHistoryItems - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("medical_history/items")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"),
+                        new GenericType<List<AnimalMedicalHistory>>() {});
+    }
+
+    /*
+     * Testing of getting medical history items
+     * Path: /doctor/medical_history/items
+     * Method: post
+     * Send: not valid AnimalsFilter object (page = -1)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
+    public void test19GetAnimalMedicalHistoryItems() {
+        assertNotNull(accessToken);
+        assertNotNull(animalId);
+        assertNotNull(rowsCount);
+        assertNotEquals(rowsCount, new Integer(0));
+
+        AnimalsFilter animalsFilter = new AnimalsFilter(-1, rowsCount);
+        Animal animal = new Animal();
+        animal.setId(animalId);
+        animalsFilter.setAnimal(animal);
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test19GetAnimalMedicalHistoryItems - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("medical_history/items")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"),
+                        new GenericType<List<AnimalMedicalHistory>>() {});
+    }
+
+    /*
+     * Testing of getting medical history items
+     * Path: /doctor/medical_history/items
+     * Method: post
+     * Send: not valid AnimalsFilter object (limit = 0)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
+    public void test20GetAnimalMedicalHistoryItems() {
+        assertNotNull(accessToken);
+        assertNotNull(animalId);
+        assertNotNull(rowsCount);
+        assertNotEquals(rowsCount, new Integer(0));
+
+        AnimalsFilter animalsFilter = new AnimalsFilter(1, 0);
+        Animal animal = new Animal();
+        animal.setId(animalId);
+        animalsFilter.setAnimal(animal);
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test20GetAnimalMedicalHistoryItems - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("medical_history/items")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"),
+                        new GenericType<List<AnimalMedicalHistory>>() {});
+    }
+
+    /*
+     * Testing of getting medical history items
+     * Path: /doctor/medical_history/items
+     * Method: post
+     * Send: not valid AnimalsFilter object (limit = -1)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
+    public void test21GetAnimalMedicalHistoryItems() {
+        assertNotNull(accessToken);
+        assertNotNull(animalId);
+        assertNotNull(rowsCount);
+        assertNotEquals(rowsCount, new Integer(0));
+
+        AnimalsFilter animalsFilter = new AnimalsFilter(1, -1);
+        Animal animal = new Animal();
+        animal.setId(animalId);
+        animalsFilter.setAnimal(animal);
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test21GetAnimalMedicalHistoryItems - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("medical_history/items")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"),
+                        new GenericType<List<AnimalMedicalHistory>>() {});
+    }
+
+    /*
+     * Testing of getting medical history items
+     * Path: /doctor/medical_history/animalId
+     * Method: post
+     * Send: not valid AnimalsFilter object (animal = null)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
+    public void test22GetAnimalMedicalHistoryItems() {
         assertNotNull(accessToken);
         assertNotNull(animalId);
         assertNotNull(rowsCount);
@@ -569,16 +800,65 @@ public class TestDoctoreResource extends ResourceTestTemplate {
                 .create()
                 .toJson(animalsFilter);
 
-        LOG.debug("TestName: test18GetAnimalMedicalHistoryItems - " + json);
+        LOG.debug("TestName: test22GetAnimalMedicalHistoryItems - " + json);
 
         client.target(REST_SERVICE_URL)
-                .path("medical_history/")
+                .path("medical_history/items")
                 .request()
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"),
                         new GenericType<List<AnimalMedicalHistory>>() {});
     }
 
+    /*
+     * Testing of deleting medical history item
+     * Path: /doctor/medical_history/item/animalId
+     * Method: delete
+     * Send: not valid animalId (animalId = 0)
+     * Expect: response with status 400
+     */
+    @Test
+    public void test23DeleteAnimalMedicalHistoryItem() {
+
+        Response response = client
+                .target(REST_SERVICE_URL)
+                .path("medical_history/item/0")
+                .request()
+                .header("AccessToken", accessToken)
+                .delete(Response.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 400);
+    }
+
+    /*
+     * Testing of deleting medical history item
+     * Path: /doctor/medical_history/item/animalId
+     * Method: delete
+     * Send: not valid animalId (animalId = -1)
+     * Expect: response with status 400
+     */
+    @Test
+    public void test24DeleteAnimalMedicalHistoryItem() {
+
+        Response response = client
+                .target(REST_SERVICE_URL)
+                .path("medical_history/item/-1")
+                .request()
+                .header("AccessToken", accessToken)
+                .delete(Response.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 400);
+    }
+
+    /*
+     * Testing of deleting medical history item
+     * Path: /doctor/medical_history/item/animalId
+     * Method: delete
+     * Send: valid animalId
+     * Expect: response with status 200
+     */
     @Test
     public void test25DeleteAnimalMedicalHistoryItem() {
         assertNotNull(animalMedicalHistory);

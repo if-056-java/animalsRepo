@@ -1,3 +1,7 @@
+/*
+ * Create user with login - root and password - root and role admin or change credentials in
+ * these values: LOGIN, PASSWORD for this test be passed
+ */
 package app.resource;
 
 import app.JNDIConfigurationForTests;
@@ -91,6 +95,13 @@ public class TestAdminResource extends ResourceTestTemplate {
         assertNotNull(animal.getId());
     }
 
+    /*
+     * Testing of getting animal
+     * Path: /admin/animals/animalId
+     * Method: get
+     * Send: valid animalId
+     * Expect: instance of animal
+     */
     @Test
     public void test01GetAnimal() {
         assertNotNull(accessToken);
@@ -116,7 +127,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * animalId = -1
+     * Testing of getting animal
+     * Path: /admin/animals/animalId
+     * Method: get
+     * Send: not valid animalId (animalId = -1)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test02GetAnimal() {
@@ -130,7 +145,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * animalId = 0
+     * Testing of getting animal
+     * Path: /admin/animals/animalId
+     * Method: get
+     * Send: not valid animalId (animalId = 0)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test03GetAnimal() {
@@ -144,7 +163,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal = null
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test04UpdateAnimal() {
@@ -158,7 +181,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.id = null
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.id = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test05UpdateAnimal() {
@@ -192,7 +219,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.id = -1
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.id = -1)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test06UpdateAnimal() {
@@ -226,7 +257,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.id = 0
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.id = 0)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test07UpdateAnimal() {
@@ -260,7 +295,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.type.id = null
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.type.id = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test08UpdateAnimal() {
@@ -294,7 +333,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.type.id = -1
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.type.id = -1)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test09UpdateAnimal() {
@@ -328,7 +371,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.type.id = 0
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.type.id = 0)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test10UpdateAnimal() {
@@ -362,7 +409,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.user = null
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.user = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test11UpdateAnimal() {
@@ -388,24 +439,19 @@ public class TestAdminResource extends ResourceTestTemplate {
 
         LOG.debug("TestName: test11UpdateAnimal - " + json);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
-        /*
-        LOG.debug("TestName: test11UpdateAnimal - " + result);
-
-        Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
-
-        assertNotNull(jsonMap);
-        assertNotNull(jsonMap.get("filePath"));
-        */
     }
 
     /*
-     * Animal.user.id = null
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.user.id = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test12UpdateAnimal() {
@@ -431,24 +477,19 @@ public class TestAdminResource extends ResourceTestTemplate {
 
         LOG.debug("TestName: test12UpdateAnimal - " + json);
 
-        String result = client
-                .target(REST_SERVICE_URL)
+        client.target(REST_SERVICE_URL)
                 .path("animals/editor")
                 .request()
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
-        /*
-        LOG.debug("TestName: test12UpdateAnimal - " + result);
-
-        Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
-
-        assertNotNull(jsonMap);
-        assertNotNull(jsonMap.get("filePath"));
-        */
     }
 
     /*
-     * Animal.user.id = -1
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.user.id = -1)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test13UpdateAnimal() {
@@ -484,7 +525,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.user.id = 0
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.user.id = 0)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test14UpdateAnimal() {
@@ -520,7 +565,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.user.id = max int value
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.user.id = max int value (no such user in data base))
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test15UpdateAnimal() {
@@ -557,7 +606,11 @@ public class TestAdminResource extends ResourceTestTemplate {
 
 
     /*
-     * Animal.service = null
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.service = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test16UpdateAnimal() {
@@ -591,7 +644,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.service.id = null
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.service.id = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test17UpdateAnimal() {
@@ -625,7 +682,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.service.id = -1
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.service.id = -1)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test18UpdateAnimal() {
@@ -661,7 +722,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.service.id = 0
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.service.id = 0)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test19UpdateAnimal() {
@@ -697,7 +762,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.service.id = max int value
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.service.id = max long value (no such service in data base))
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test20UpdateAnimal() {
@@ -716,7 +785,7 @@ public class TestAdminResource extends ResourceTestTemplate {
 
         Animal actual = SerializationUtils.clone(animal);
         AnimalService animalService = new AnimalService();
-        animalService.setId(new Long(Integer.MAX_VALUE));
+        animalService.setId(new Long(Long.MAX_VALUE));
         actual.setService(animalService);
         String json = new GsonBuilder()
                 .registerTypeAdapter(Date.class, new DateSerializer())
@@ -733,7 +802,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.sex = null
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.sex = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test21UpdateAnimal() {
@@ -767,7 +840,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.size = null
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.size = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test22UpdateAnimal() {
@@ -801,7 +878,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.transpNumber.length > LENGTH_TRANSPNUMBER
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (length of animal.transpNumber = LENGTH_TRANSPNUMBER + 1, max = LENGTH_TRANSPNUMBER)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test23UpdateAnimal() {
@@ -835,7 +916,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.tokenNumber.length > LENGTH_TOKENNUMBER
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (length of animal.tokenNumber = LENGTH_TOKENNUMBER + 1, max = LENGTH_TOKENNUMBER)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test24UpdateAnimal() {
@@ -869,7 +954,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.dateOfRegister = null
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.dateOfRegister = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test25UpdateAnimal() {
@@ -903,7 +992,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.color.length > LENGTH_COLOR
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (length of animal.color = LENGTH_COLOR + 1, max = LENGTH_COLOR)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test26UpdateAnimal() {
@@ -937,7 +1030,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.description.length > LENGTH_DESCRIPTION
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (length of animal.description = LENGTH_DESCRIPTION + 1, max = LENGTH_DESCRIPTION)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test27UpdateAnimal() {
@@ -971,7 +1068,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.address.length > LENGTH_ADDRESS
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (length of animal.address = LENGTH_ADDRESS + 1, max = LENGTH_ADDRESS)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test28UpdateAnimal() {
@@ -1005,7 +1106,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.address = null
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (animal.address = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test29UpdateAnimal() {
@@ -1039,7 +1144,11 @@ public class TestAdminResource extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.image.length > LENGTH_IMAGE
+     * Testing of updating animal
+     * Path: /admin/animals/editor
+     * Method: post
+     * Send: not valid animal (length of animal.image = LENGTH_IMAGE + 1, max = LENGTH_IMAGE)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test30UpdateAnimal() {
@@ -1072,6 +1181,13 @@ public class TestAdminResource extends ResourceTestTemplate {
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 
+    /*
+     * Testing of deleting animal
+     * Path: /admin/animals/animalId
+     * Method: delete
+     * Send: not valid animalId (animalId = -1)
+     * Expect: response with status 400
+     */
     @Test
     public void test31DeleteAnimal() {
         assertNotNull(accessToken);
@@ -1087,6 +1203,13 @@ public class TestAdminResource extends ResourceTestTemplate {
         assertEquals(response.getStatus(), 400);
     }
 
+    /*
+     * Testing of deleting animal
+     * Path: /admin/animals/animalId
+     * Method: delete
+     * Send: not valid animalId (animalId = 0)
+     * Expect: response with status 400
+     */
     @Test
     public void test32DeleteAnimal() {
         assertNotNull(accessToken);
@@ -1102,6 +1225,13 @@ public class TestAdminResource extends ResourceTestTemplate {
         assertEquals(response.getStatus(), 400);
     }
 
+    /*
+     * Testing of deleting animal
+     * Path: /admin/animals/animalId
+     * Method: delete
+     * Send: valid animalId
+     * Expect: response with status 200
+     */
     @Test
     public void test33DeleteAnimal() {
         assertNotNull(accessToken);

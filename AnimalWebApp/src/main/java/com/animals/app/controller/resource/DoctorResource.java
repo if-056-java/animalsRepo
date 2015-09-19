@@ -39,7 +39,7 @@ public class DoctorResource {
      * -------------------------------------------------------------------
      * animalId must be set and more than 0
      */
-    @GET //http:localhost:8080/webapi/animals/paginator
+    @GET //http//:localhost:8080/webapi/animals/paginator
     @RolesAllowed("лікар")
     @Path("medical_history/paginator/{animalId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -54,24 +54,30 @@ public class DoctorResource {
     }
 
     /**
-     * @param animalId instance used for lookup.
+     * @param animalsFilter instance used for lookup.
      * @return list of medical history items.
      * -------------------------------------------------------------------
      * animalId must be set and more than 0
      * AnimalsFilter.page must be set and more than 0
      * AnimalsFilter.limit must be set and more than 0
      */
-    @POST //http:localhost:8080/webapi/doctor/medical_history/{animalId}
+    @POST //http//:localhost:8080/webapi/doctor/medical_history/{animalId}
     @RolesAllowed("лікар")
-    @Path("medical_history/{animalId}")
+    @Path("medical_history/items")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getMedicalHistoryByAnimalId(@PathParam("animalId") @NotNull @DecimalMin(value = "1") long animalId,
-                                                @Valid @NotNull AnimalsFilter animalsFilter) {
+    public Response getMedicalHistoryByAnimalId(@Valid @NotNull AnimalsFilter animalsFilter) {
+        if (animalsFilter.getAnimal() == null) {
+            return BAD_REQUEST;
+        }
+
+        if ((animalsFilter.getAnimal().getId() == null) || (animalsFilter.getAnimal().getId() <= 0)) {
+            return BAD_REQUEST;
+        }
 
         AnimalMedicalHistoryRepository animalMedicalHistory = new AnimalMedicalHistoryRepositoryImpl();
         List<AnimalMedicalHistory> medicalHistory = animalMedicalHistory
-                .getByAnimalId(animalId, animalsFilter.getOffset(), animalsFilter.getLimit());
+                .getByAnimalId(animalsFilter.getAnimal().getId(), animalsFilter.getOffset(), animalsFilter.getLimit());
 
         //cast list of animals medical history to generic list
         GenericEntity<List<AnimalMedicalHistory>> genericAnimals =
@@ -87,10 +93,11 @@ public class DoctorResource {
      * -------------------------------------------------------------------
      * itemId must be set and more than 0
      */
-    @DELETE //http:localhost:8080/webapi/doctor/medical_history/item/{itemId}
+    @DELETE //http://localhost:8080/webapi/doctor/medical_history/item/{itemId}
     @RolesAllowed("лікар")
     @Path("medical_history/item/{itemId}")
     public Response deleteMedicalHistoryItemById(@PathParam("itemId") @NotNull @DecimalMin(value = "1") long itemId) {
+
         AnimalMedicalHistoryRepository animalMedicalHistory = new AnimalMedicalHistoryRepositoryImpl();
         animalMedicalHistory.deleteById(itemId);
 
@@ -135,12 +142,12 @@ public class DoctorResource {
         animalMedicalHistory.setUser(user);
 
         AnimalMedicalHistoryRepository animalMedicalHistoryRepository = new AnimalMedicalHistoryRepositoryImpl();
-        //try {
+        try {
             animalMedicalHistoryRepository.insert(animalMedicalHistory);
-        /*} catch (PersistenceException e) {
+        } catch (PersistenceException e) {
             LOG.error(e);
             return BAD_REQUEST;
-        }*/
+        }
 
         return ok();
     }

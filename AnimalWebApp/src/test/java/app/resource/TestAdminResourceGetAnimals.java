@@ -1,4 +1,6 @@
 /*
+ * Create user with login - root and password - root and role admin or change credentials in
+ * these values: LOGIN, PASSWORD for this test be passed
  * For admin get animals request AnimalFilter.page and AnimalFilter.limit must be set.
  */
 package app.resource;
@@ -65,6 +67,13 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
         assertNotNull(accessToken);
     }
 
+    /*
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: valid AnimalsFilter object
+     * Expect: list of animals
+     */
     @Test
     public void test01GetAnimals() {
         assertNotNull(accessToken);
@@ -88,7 +97,11 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalsFilter = null
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (AnimalsFilter = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test02GetAnimals() {
@@ -98,11 +111,16 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(null, new GenericType<List<Animal>>() {});
+                .post(null, new GenericType<List<Animal>>() {
+                });
     }
 
     /*
-     * AnimalsFilter.page = null
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (page = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test03GetAnimals() {
@@ -124,7 +142,11 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalsFilter.limit = null
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (limit = null)
+     * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
     public void test04GetAnimals() {
@@ -145,6 +167,13 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
     }
 
+    /*
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (page = -1)
+     * Expect: response with status 400
+     */
     @Test(expected = BadRequestException.class)
     public void test05GetAnimals() {
         assertNotNull(accessToken);
@@ -165,6 +194,13 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
     }
 
+    /*
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (limit = -1)
+     * Expect: response with status 400
+     */
     @Test(expected = BadRequestException.class)
     public void test06GetAnimals() {
         assertNotNull(accessToken);
@@ -185,6 +221,13 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
     }
 
+    /*
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (page = 0)
+     * Expect: response with status 400
+     */
     @Test(expected = BadRequestException.class)
     public void test07GetAnimals() {
         assertNotNull(accessToken);
@@ -205,6 +248,13 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
     }
 
+    /*
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (limit = 0)
+     * Expect: response with status 400
+     */
     @Test(expected = BadRequestException.class)
     public void test08GetAnimals() {
         assertNotNull(accessToken);
@@ -226,7 +276,11 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalFilter.animal.type.id = null
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (animal.type.id = null)
+     * Expect: list of animals
      */
     @Test
     public void test09GetAnimals() {
@@ -247,14 +301,19 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {
+                });
 
         assertNotNull(animals);
         assertNotEquals(animals.size(), 0);
     }
 
     /*
-     * AnimalFilter.animal.type.id = -1
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (animal.type.id = -1)
+     * Expect: list of animals
      */
     @Test
     public void test10GetAnimals() {
@@ -287,7 +346,11 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalFilter.animal.type.id = 0
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (animal.type.id = 0)
+     * Expect: list of animals
      */
     @Test
     public void test11GetAnimals() {
@@ -320,7 +383,11 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalFilter.animal.breed.id = null
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (animal.breed.id = null)
+     * Expect: list of animals
      */
     @Test
     public void test12GetAnimals() {
@@ -349,7 +416,11 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalFilter.animal.breed.id = -1
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (animal.breed.id = -1)
+     * Expect: list of animals
      */
     @Test
     public void test13GetAnimals() {
@@ -382,7 +453,11 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalFilter.animal.breed.id = 0
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (animal.breed.id = 0)
+     * Expect: list of animals
      */
     @Test
     public void test14GetAnimals() {
@@ -415,7 +490,11 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalFilter.animal.service.id = null
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (animal.service.id = null)
+     * Expect: list of animals
      */
     @Test
     public void test15GetAnimals() {
@@ -444,7 +523,11 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalFilter.animal.service.id = -1
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (animal.service.id = -1)
+     * Expect: list of animals
      */
     @Test
     public void test16GetAnimals() {
@@ -477,7 +560,11 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
     }
 
     /*
-     * AnimalFilter.animal.service.id = 0
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (animal.service.id = 0)
+     * Expect: list of animals
      */
     @Test
     public void test17GetAnimals() {
@@ -510,7 +597,11 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
     }
 
     /*
-     * Animal.transpNumber max length is 15
+     * Testing of getting animals
+     * Path: /admin/animals
+     * Method: post
+     * Send: not valid AnimalsFilter object (length of animal.transpNumber is 20, max = 15 )
+     * Expect: list of animals
      */
     @Test
     public void test18GetAnimals() {
@@ -539,6 +630,13 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
         assertEquals(animals.size(), 0);
     }
 
+    /*
+     * Testing of getting animals count
+     * Path: /admin/animals/paginator
+     * Method: post
+     * Send: valid AnimalsFilter object
+     * Expect: list of animals
+     */
     @Test
     public void test19GetAnimalsPaginator() {
         assertNotNull(accessToken);
@@ -565,6 +663,13 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
         assertNotNull(rowCount);
     }
 
+    /*
+     * Testing of getting animals count
+     * Path: /admin/animals/paginator
+     * Method: post
+     * Send: not valid AnimalsFilter object (AnimalsFilter = null)
+     * Expect: response with status 400
+     */
     @Test(expected = BadRequestException.class)
     public void test20GetAnimalsPaginator() {
         assertNotNull(accessToken);
@@ -574,5 +679,165 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
                 .request()
                 .header("AccessToken", accessToken)
                 .post(null, String.class);
+    }
+
+    /*
+     * Testing of getting animals count
+     * Path: /admin/animals/paginator
+     * Method: post
+     * Send: not valid AnimalsFilter object (page = null)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
+    public void test21GetAnimalsPaginator() {
+        assertNotNull(accessToken);
+
+        AnimalsFilter animalsFilter = new AnimalsFilter();
+        animalsFilter.setLimit(5);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test21GetAnimals - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("animals/paginator")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
+    }
+
+    /*
+     * Testing of getting animals count
+     * Path: /admin/animals/paginator
+     * Method: post
+     * Send: not valid AnimalsFilter object (page = 0)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
+    public void test22GetAnimalsPaginator() {
+        assertNotNull(accessToken);
+
+        AnimalsFilter animalsFilter = new AnimalsFilter();
+        animalsFilter.setPage(0);
+        animalsFilter.setLimit(5);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test22GetAnimals - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("animals/paginator")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
+    }
+
+    /*
+     * Testing of getting animals count
+     * Path: /admin/animals/paginator
+     * Method: post
+     * Send: not valid AnimalsFilter object (page = -1)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
+    public void test23GetAnimalsPaginator() {
+        assertNotNull(accessToken);
+
+        AnimalsFilter animalsFilter = new AnimalsFilter();
+        animalsFilter.setPage(-1);
+        animalsFilter.setLimit(5);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test23GetAnimals - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("animals/paginator")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
+    }
+
+    /*
+     * Testing of getting animals count
+     * Path: /admin/animals/paginator
+     * Method: post
+     * Send: not valid AnimalsFilter object (limit = null)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
+    public void test24GetAnimalsPaginator() {
+        assertNotNull(accessToken);
+
+        AnimalsFilter animalsFilter = new AnimalsFilter();
+        animalsFilter.setPage(5);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test24GetAnimals - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("animals/paginator")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
+    }
+
+    /*
+     * Testing of getting animals count
+     * Path: /admin/animals/paginator
+     * Method: post
+     * Send: not valid AnimalsFilter object (limit = -1)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
+    public void test25GetAnimalsPaginator() {
+        assertNotNull(accessToken);
+
+        AnimalsFilter animalsFilter = new AnimalsFilter();
+        animalsFilter.setPage(5);
+        animalsFilter.setPage(-1);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test25GetAnimals - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("animals/paginator")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
+    }
+
+    /*
+     * Testing of getting animals count
+     * Path: /admin/animals/paginator
+     * Method: post
+     * Send: not valid AnimalsFilter object (limit = 0)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
+    public void test26GetAnimalsPaginator() {
+        assertNotNull(accessToken);
+
+        AnimalsFilter animalsFilter = new AnimalsFilter();
+        animalsFilter.setPage(5);
+        animalsFilter.setPage(0);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test26GetAnimals - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("animals/paginator")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
     }
 }

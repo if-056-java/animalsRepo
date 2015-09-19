@@ -16,6 +16,7 @@ angular.module('AnimalMedicalHistoryController', ['AnimalsDoctorModule', 'Animal
             $scope.animal = AnimalsDoctorValues.animal;  //animal
             $scope.animalImage = undefined;
             $scope.filter = AnimalMedicalHistoryValues.filter;            //filter
+            $scope.filter.animal.id = animalId;
             $scope.totalItems = AnimalMedicalHistoryValues.totalItems;    //table rows count
             $scope.items = AnimalMedicalHistoryValues.items;
             $scope.errors = [];
@@ -53,7 +54,7 @@ angular.module('AnimalMedicalHistoryController', ['AnimalsDoctorModule', 'Animal
             /**
              * @return list of medical history items.
              */
-            AnimalsDoctorService.getMedicalHistoryItems(animalId)
+            AnimalsDoctorService.getMedicalHistoryItems()
                 .then(function(respounce) {
                     if ($scope.items.values.length == 0) {
                         $scope.error = $filter('translate')("ERROR_NO_RECORDS");

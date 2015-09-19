@@ -192,7 +192,7 @@ animalApp.constant('RESOURCES', {
     ANIMAL_FOR_ADMIN: '/webapi/admin/animals/',
     ANIMAL_FOR_ADMIN_DELETE: '/webapi/admin/animals/',
     ANIMAL_FOR_ADMIN_UPDATE: '/webapi/admin/animals/editor',
-    MEDICAL_HISTORY_ITEMS_FOR_DOCTOR: '/webapi/doctor/medical_history/',
+    MEDICAL_HISTORY_ITEMS_FOR_DOCTOR: '/webapi/doctor/medical_history/items',
     MEDICAL_HISTORY_ITEMS_PAGINATOR_FOR_DOCTOR: '/webapi/doctor/medical_history/paginator/',
     MEDICAL_HISTORY_ITEM_FOR_DOCTOR_DELETE: '/webapi/doctor/medical_history/item/',
     MEDICAL_HISTORY_ITEM_FOR_DOCTOR_UPDATE: '/webapi/doctor/medical_history/item',

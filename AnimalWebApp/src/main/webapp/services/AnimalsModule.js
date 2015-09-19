@@ -81,9 +81,9 @@ angular.module('AnimalsModule', ['LocalStorageModule'])
              * filter instance used for lookup.
              * @return list of animal medical history items.
              */
-            this.getMedicalHistoryItemsForDoctor = function(animalId, filter) {
+            this.getMedicalHistoryItemsForDoctor = function(filter) {
 
-                return $http.post(RESOURCES.MEDICAL_HISTORY_ITEMS_FOR_DOCTOR + animalId, filter);
+                return $http.post(RESOURCES.MEDICAL_HISTORY_ITEMS_FOR_DOCTOR, filter);
             }
 
             /**

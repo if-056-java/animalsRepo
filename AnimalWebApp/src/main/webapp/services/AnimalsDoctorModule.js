@@ -105,9 +105,9 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
              * filter instance used for lookup.
              * @return list of animal medical history items.
              */
-            this.getMedicalHistoryItems = function(animalId) {
+            this.getMedicalHistoryItems = function() {
 
-                return AnimalsService.getMedicalHistoryItemsForDoctor(animalId, AnimalMedicalHistoryValues.filter)
+                return AnimalsService.getMedicalHistoryItemsForDoctor(AnimalMedicalHistoryValues.filter)
                     .then(function(response) {
                         AnimalMedicalHistoryValues.items.values = response.data;
                         return response;
