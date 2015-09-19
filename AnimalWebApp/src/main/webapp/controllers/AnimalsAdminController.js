@@ -2,7 +2,7 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
     .controller('AnimalsAdminController', ['$scope', 'AnimalsAdminService', 'AnimalsAdminValues', '$filter', '$window',
         function($scope, AnimalsAdminService, AnimalsAdminValues, $filter, $window) {
 
-            AnimalsAdminService.rolesAllowed("модератор");
+            AnimalsAdminService.rolesAllowed("moderator");
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');

@@ -2,7 +2,7 @@ angular.module('AnimalMedicalHistoryEditorController', ['DPController', 'Animals
     .controller('AnimalMedicalHistoryEditorController', ['$scope', '$routeParams', '$window', '$filter', 'AnimalsDoctorService', 'AnimalsDoctorValues', 'AnimalMedicalHistoryValues',
         function($scope, $routeParams, $window, $filter, AnimalsDoctorService, AnimalsDoctorValues, AnimalMedicalHistoryValues) {
 
-            AnimalsDoctorService.rolesAllowed('лікар');
+            AnimalsDoctorService.rolesAllowed('doctor');
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
