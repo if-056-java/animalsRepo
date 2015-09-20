@@ -58,7 +58,12 @@ public class AuthorizationResource {
 	
 	private UserRepositoryImpl userRep = new UserRepositoryImpl();	
 	
-	
+	/**
+     * login in to site
+     * @param user credentials in HTTP request header
+     * @param rememberMe option 
+     * @return response with status 200 and parameters for creating session  
+     */
 	@POST
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("login/{rememberMe}")//http:localhost:8080/webapi/account/login
@@ -98,7 +103,6 @@ public class AuthorizationResource {
                         
         if (user == null) return NOT_FOUND;
 
-        // User exist. setting session params(username, userrole, userId etc.) from User
         if (!user.isActive()){
         	
         	String regWithoutConfirm = buildResponseEntity(0, LOGIN_CONFIRM_REG);
@@ -124,7 +128,10 @@ public class AuthorizationResource {
 	}	
 	
 
-
+	/**
+     * logout - destroying current session
+     * @return response with status 200
+     */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("logout")//http:localhost:8080/webapi/account/refresh
@@ -142,7 +149,11 @@ public class AuthorizationResource {
 		
 	}
 	
-	
+	/**
+     * Registration of new user
+     * @param user instance to be added to dataBase  
+     * @return response with status 200. Sending mail to user for registration confirmation
+     */
 	@POST
 	@Path("registration")//http:localhost:8080/webapi/account/registration
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -202,7 +213,12 @@ public class AuthorizationResource {
 		
 	}
 
-
+	/**
+     * Registration confirmation of new user
+     * @param user socialLogin 
+     * @param user verification code  
+     * @return response with status 200 and parameters for creating session 
+     */
 	@POST
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("confirmRegistration/{socialLogin}/{code}")//http:localhost:8080/webapi/account/confirmRegistration/socialLogin/code
@@ -242,7 +258,10 @@ public class AuthorizationResource {
 	
 	}
 	
-	
+	/**
+     * Refresh session - get session parameters from server side to client (need after OAuth authentication)
+     * @return response with status 200 and parameters for creating session 
+     */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("refresh")//http:localhost:8080/webapi/account/refresh

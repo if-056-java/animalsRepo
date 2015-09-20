@@ -71,6 +71,13 @@ public class UserResource {
 	private UserRepository userRep = new UserRepositoryImpl();
 	private AnimalRepository animalRep = new AnimalRepositoryImpl();		
 	
+	
+	/**
+     * @param userId id of user
+     * @return return user instance from data base
+     * -------------------------------------------------------------------
+     * userId must be set and more than 0
+     */
 	@GET //http:localhost:8080/webapi/users/user/{userId}
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("user/{userId}") 	
@@ -90,7 +97,13 @@ public class UserResource {
 		
 	}	
 	
-	
+	/**
+     * Update user info in data base
+     * @param user instance to be updated
+     * @return updated user instance from data base
+     * -------------------------------------------------------------------
+     * User required parameters must be set
+     */
 	@PUT 
 	@Path("user/{userId}") //http:localhost:8080/webapi/users/user/{userId}  //User update
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -122,6 +135,15 @@ public class UserResource {
 		}		
 	}
 	
+	/**
+     * @param animalsFilter instance used for lookup.
+     * @param userId instance used for lookup.
+     * @return list of user animals.
+     * -------------------------------------------------------------------
+     * AnimalsFilter.page must be set and more than 0
+     * AnimalsFilter.limit must be set and more than 0
+     * userId must be set and more than 0
+     */
 	@POST  //http:localhost:8080/webapi/users/user/{userId}/animals  
     @Path("user/{userId}/animals")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -135,12 +157,6 @@ public class UserResource {
 			return UNAUTHORIZED;
 		}
 		
-		if(animalsFilter == null) return BAD_REQUEST;
-       
-        if ((animalsFilter.getPage() <= 0) || (animalsFilter.getLimit() <= 0)) {
-            return BAD_REQUEST;
-        }
-
         //get list of user animals from data base
         List<Animal> animals = userRep.getUserAnimals(userId, animalsFilter.getOffset(), animalsFilter.getLimit());
 
@@ -154,7 +170,14 @@ public class UserResource {
         return Response.ok().entity(genericAnimals).build();
     }	
 
-	
+	/**
+     * @param animalId instance used for lookup.
+     * @param userId instance used for lookup.
+     * @return animal instance with id=animalId for user with id=userId.
+     * -------------------------------------------------------------------
+     * animalId must be set and more than 0
+     * userId must be set and more than 0
+     */
 	@GET //http:localhost:8080/webapi/users/user/{userId}/animals/{animalId}   
     @Path("user/{userId}/animals/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -175,6 +198,15 @@ public class UserResource {
         return Response.ok().entity(animal).build();
     }
 	
+	/**
+     * Delete animal in data base
+     * @param animalId id of animal
+     * @param userId id of user (animal owner)
+     * @return return response with status 200
+     * -------------------------------------------------------------------
+     * animalId must be set and more than 0
+     * userId must be set and more than 0
+     */	
 	@DELETE //http:localhost:8080/webapi/users/user/{userId}/animals/{animalId} 
     @Path("user/{userId}/animals/{animalId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -206,6 +238,16 @@ public class UserResource {
         return Response.ok().build();
     }
 	
+	
+	/**
+     * Delete animal image from data base
+     * @param animalId id of animal
+     * @param userId id of user (animal owner)
+     * @return return response with status 200
+     * -------------------------------------------------------------------
+     * animalId must be set and more than 0
+     * userId must be set and more than 0
+     */	
 	@DELETE //http:localhost:8080/webapi/users/user/{userId}/animals/{animalId} 
     @Path("user/{userId}/animals/{animalId}/image")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -247,10 +289,18 @@ public class UserResource {
         
     }
 	
-    @POST //http:localhost:8080/webapi/users/user/{userId}/animals/animal
+	/**
+     * Add user animal into data base
+     * @param animal instance to be created
+     * @param userId id of user (animal owner)
+     * @return animal instance
+     * -------------------------------------------------------------------
+     * User required parameters must be set
+     */
+	@POST //http:localhost:8080/webapi/users/user/{userId}/animals/animal
     @Path("user/{userId}/animals/animal")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAnimal(@Valid Animal animal,
+    public Response addUserAnimal(@Valid Animal animal,
     							 @PathParam ("userId") @NotNull String id,
     							 @Context HttpServletRequest req) {
     	
@@ -287,11 +337,15 @@ public class UserResource {
         } else {
             json = "{\"filePath\":\"" + animal.getImage() + "\"}";
         }
-
        
         return Response.ok().entity(json).build();
     }
-    
+	
+	
+	/**     
+     * @param userId id of user (animal owner) used for lookup.
+     * @return count of rows for pagination.
+     */
     @GET //http:localhost:8080/webapi/users/user/{userId}/animals/paginator    
     @Path("user/{userId}/animals/paginator/")
     @Consumes(MediaType.APPLICATION_JSON)
