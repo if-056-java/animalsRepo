@@ -1,9 +1,10 @@
 var animalAppControllers = angular.module('RegistrationController', []);
 
 animalApp.controller('RegistrationController', ['$scope', '$location', '$route', 'currentDate', 'AuthenticationService',
-                                                'hashPassword', 'OauthAuthenticationService',
+                                                'hashPassword', 'OauthAuthenticationService', '$filter',
                                                function($scope, $location, $route, currentDate, AuthenticationService,
-                                            		   hashPassword, OauthAuthenticationService) {
+                                            		   hashPassword, OauthAuthenticationService, $filter) {
+		$scope.errors = [];
 	
 		$scope.submitRegForm=function(){
 			
@@ -17,12 +18,18 @@ animalApp.controller('RegistrationController', ['$scope', '$location', '$route',
 			$scope.fields.password=hashPassword($scope.password); 
 			AuthenticationService.registerUser($scope.fields).then(
 				function(result){
+					
 					if(result.userId==0){
 				        $scope.errorRegistrationMessage1=true;
 				        console.log("Registration error. SocialLogin is already exist");	
 					} else if (result.userId==1){	
 				        $location.path("/ua/user/confirmRegistration");	
 						$route.reload();						        
+				    } else if (result.length>0){
+				    	for (i = 0; i < result.length; i++) {				    		
+						    $scope.errors.push({msg: $filter('translate')(result[i])});
+						}
+				    	 $scope.errorRegistrationMessage2=true;				    	 
 				    } else {
 				        console.log("error");
 				        $scope.errorRegistrationMessage3=true;

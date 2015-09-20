@@ -66,8 +66,16 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 	        .success(function(data){
 	        	def.resolve(data);	        	
 	        }) 
-			.error(function(data){				
-				def.resolve(data);
+			.error(function(data, status){				
+			if(status === 400){				
+				var errors = [];
+				for (i = 0; i < data.length; i++) {
+				    errors.push(data[i].path);
+				}						
+				def.resolve(errors);
+			} else {
+				def.resolve(data);				
+			}
 			});
 			return def.promise;
 		},

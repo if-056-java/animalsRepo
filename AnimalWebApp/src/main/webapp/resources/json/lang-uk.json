@@ -272,5 +272,15 @@
   "HTTP_400": "Помилка 400: некоректний запит",
   "HTTP_401": "401: Помилка доступу, увійдіть або зареєструйтесь",
   "HTTP_404": "Помилка 404: ресурс не знайдено",
-  "HTTP_500": "500: Помилка на сервері, вибачте за тимчасові незручності"
+  "HTTP_500": "500: Помилка на сервері, вибачте за тимчасові незручності",
+  
+  "AuthorizationResource.registerUser.arg1.socialLogin": "Помилка реєстрації! Невірний формат поля Логін",
+  "AuthorizationResource.registerUser.arg1.name": "Помилка реєстрації! Невірний формат поля Ім'я",
+  "AuthorizationResource.registerUser.arg1.surname": "Помилка реєстрації! Невірний формат поля Фамілія",
+  "AuthorizationResource.registerUser.arg1.phone": "Помилка реєстрації! Невірний формат поля Телефон",
+  "AuthorizationResource.registerUser.arg1.email": "Помилка реєстрації! Невірний формат поля Еmail!",
+  "AuthorizationResource.registerUser.arg1.password": "Помилка реєстрації! Невірний формат поля Пароль",
+  "AuthorizationResource.registerUser.arg1.address": "Помилка реєстрації! Невірний формат поля Адреса",
+  "AuthorizationResource.registerUser.arg1.organizationName": "Помилка реєстрації! Невірний формат поля Назва організації",
+  "AuthorizationResource.registerUser.arg1.organizationInfo": "Помилка реєстрації! Невірний формат поля Інформація про організацію"
 }

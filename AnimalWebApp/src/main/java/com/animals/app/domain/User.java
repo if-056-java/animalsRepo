@@ -34,7 +34,7 @@ public class User implements Serializable, Principal {
     @NotNull(message =  "Registration Date can not be null")
     private Date registrationDate;    
      
-    @Email(message = "Wrong format for contact phone", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
+    @Email(message = "Wrong format for mail", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
     private String email;
 
     @NotNull(message =  "Password can not be null")

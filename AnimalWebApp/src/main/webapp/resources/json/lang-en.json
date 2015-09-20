@@ -272,5 +272,17 @@
   "HTTP_400": "Error 400: Bad Request",
   "HTTP_401": "401: Unauthorized Error, please log in or sign in",
   "HTTP_404": "Error 404: Resource Not Found",
-  "HTTP_500": "500: Internal Server Error, sorry for the inconvenience"
+  "HTTP_500": "500: Internal Server Error, sorry for the inconvenience",
+  
+  "AuthorizationResource.registerUser.arg1.socialLogin": "Registration Error. Wrong input format for Social Login!",
+  "AuthorizationResource.registerUser.arg1.name": "Registration Error. Wrong input format for user Name!",
+  "AuthorizationResource.registerUser.arg1.surname": "Registration Error. Wrong input format for user Surname!",
+  "AuthorizationResource.registerUser.arg1.phone": "Registration Error. Wrong input format for user Phone!",
+  "AuthorizationResource.registerUser.arg1.email": "Registration Error. Wrong input format for user email!",
+  "AuthorizationResource.registerUser.arg1.password": "Registration Error. Wrong input format for user Password!",
+  "AuthorizationResource.registerUser.arg1.address": "Registration Error. Wrong input format for user Address!",
+  "AuthorizationResource.registerUser.arg1.organizationName": "Registration Error. Wrong input format for user Company name!",
+  "AuthorizationResource.registerUser.arg1.organizationInfo": "Registration Error. Wrong input format for user Company Information!"
+  
+  
 }

@@ -133,45 +133,7 @@ angular.module('animalApp').factory('UserDataService',function ($q, $http, $root
                 def.reject("Failed to delete animal image");
             });
 			return def.promise;
-        },
-        
-        getAnimalServices: function(){
-        	var def = $q.defer();
-        	if (UserAnimalsValues.animalServices.values.length !== 0) {
-                def.resolve(UserAnimalsValues.animalServices.values);
-                return def.promise;
-            }
-        	
-        	$http.get(RESOURCES.ANIMAL_SERVICES)
-        	.success(function(data) {
-        		def.resolve(data);
-        	});
-        	return def.promise;
-        },
-        
-        getAnimalTypes: function(){
-        	var def = $q.defer();
-        	
-        	if (UserAnimalsValues.animalTypes.values.length !== 0) {
-                def.resolve(UserAnimalsValues.animalTypes.values);
-                return def.promise;
-            }
-        	
-        	$http.get(RESOURCES.ANIMAL_TYPES)
-        	.success(function(data) {
-        		def.resolve(data);
-        	});
-        	return def.promise;
-        	
-        },
-        
-        getAnimalBreeds: function(animalTypeId){
-        	
-        	return $http.get(RESOURCES.ANIMAL_BREEDS + animalTypeId)
-
-        	
-        },
-        
+        }      
 		
 	};	
 	

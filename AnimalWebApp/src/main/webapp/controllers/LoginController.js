@@ -1,4 +1,3 @@
-//created by 41X
 var animalAppControllers = angular.module('LoginController', []);
 
 animalApp.controller('LoginController', ['$scope', '$location', '$route', 'AuthenticationService', 'hashPassword', 'localStorageService', 'OauthAuthenticationService',

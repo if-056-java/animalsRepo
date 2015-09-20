@@ -1,4 +1,3 @@
-//created by 41X
 var animalAppControllers = angular.module('MainController', []);
 
 animalApp.controller('MainController', ['$scope', '$rootScope', 'localStorageService', 'AuthenticationService',

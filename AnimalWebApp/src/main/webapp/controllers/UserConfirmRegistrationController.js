@@ -1,4 +1,3 @@
-//created by 41X
 var animalAppControllers = angular.module('UserConfirmRegistrationController', []);
 
 animalApp.controller('UserConfirmRegistrationController', ['$scope', '$location', '$route', 'AuthenticationService', 'localStorageService', 
