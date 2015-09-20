@@ -855,7 +855,7 @@ public class OAuthAuthorizationResource {
 
 	}
 	
-	private String defineURL(HttpServletRequest req, String reqPath, String callback) {
+	private static String defineURL(HttpServletRequest req, String reqPath, String callback) {
 		
 		String pathAll = req.getRequestURL().toString();
 		String pathMain = pathAll.replace(reqPath, "");
@@ -863,20 +863,20 @@ public class OAuthAuthorizationResource {
 		return callbackUrl;		
 	}
 	
-	private String definePathMain(HttpServletRequest req, String string) {
+	private static String definePathMain(HttpServletRequest req, String string) {
 		String pathAll = req.getRequestURL().toString();
 		String pathMain = pathAll.replace(string, "");
 		return pathMain;
 	}
 	
-	private String defineSuccessUrl(HttpServletRequest req, String string) {
+	private static String defineSuccessUrl(HttpServletRequest req, String string) {
 		String pathAll = req.getRequestURL().toString();
 		String pathMain = pathAll.replace(string, "");
 		String SuccessUrl = pathMain + "#/ua/user/profile";
 		return SuccessUrl;
 	}
 	
-	private User createEmptyUser(String userName) {
+	private static User createEmptyUser(String userName) {
 		
 		User userToReg = new User();
 		

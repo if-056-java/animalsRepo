@@ -3,6 +3,7 @@ package com.animals.app.controller.resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
@@ -66,31 +67,40 @@ public class AuthorizationResource {
      */
 	@POST
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	@Path("login/{rememberMe}")//http:localhost:8080/webapi/account/login
+	@Path("login/{rememberMe}")//http:localhost:8080/webapi/account/login/OFF
 	public Response loginToSite (@Context HttpServletRequest req, 
 								 @PathParam ("rememberMe") @NotNull String rememberMe) {
 				
 		//reading header from request
-		String header = req.getHeader("Authorization");
+		String header = null;
+		String sub =null;
+		try{
+			header = req.getHeader("Authorization");
+			sub = header.replaceFirst("Basic" + " ", "");
+		} catch (NullPointerException e) {
+        	LOG.error(e);
+        	return SERVER_ERROR;
+        }
+		
 		
 		//formating header
-		String sub = header.replaceFirst("Basic" + " ", "");
 				
 		String usernameAndPassword=null;
-		
+		String username = null;
+		String password = null;		
 		try {
 			byte[] decoded = Base64.decodeBase64(sub);
             usernameAndPassword = new String(decoded, "UTF-8");
-        } catch (IOException e) {
+            
+            final StringTokenizer tokenizer = new StringTokenizer(usernameAndPassword, ":");
+            
+            username = tokenizer.nextToken();
+            password = tokenizer.nextToken();  
+            
+        } catch (Exception e) {
         	LOG.error(e);
-            e.printStackTrace();
-        }
-
-        final StringTokenizer tokenizer = new StringTokenizer(usernameAndPassword, ":");
-
-        String username = tokenizer.nextToken();
-        String password = tokenizer.nextToken();      
-               
+        	return SERVER_ERROR;
+        }                
                         
         //checking if user exist. If not - return username or password is not correct        
         User user;
@@ -134,7 +144,7 @@ public class AuthorizationResource {
      */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("logout")//http:localhost:8080/webapi/account/refresh
+	@Path("logout")//http:localhost:8080/webapi/account/logout
 	public Response destroySession(@Context HttpServletRequest req) {
 				
 		HttpSession session = req.getSession(true);	
@@ -205,6 +215,7 @@ public class AuthorizationResource {
 			ms.newsSend(recipientEmail, message);			
 		} catch (Exception e) {			
 			LOG.error(e);
+			return SERVER_ERROR;
 		}        
 		
 		String regWithoutConfirm = buildResponseEntity(1, CONFIRMATION);
@@ -275,7 +286,7 @@ public class AuthorizationResource {
 			
 			String destroyedSession = buildResponseEntity(0, DESTROYED_SESSION);  
 							
-			return Response.status(Response.Status.OK).entity(destroyedSession).build();
+			return Response.status(Response.Status.BAD_REQUEST).entity(destroyedSession).build();
 			
 		}
 		
