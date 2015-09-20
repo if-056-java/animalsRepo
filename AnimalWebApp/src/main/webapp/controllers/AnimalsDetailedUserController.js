@@ -5,10 +5,8 @@ animalApp.controller('AnimalsDetailedUserController', ['$scope', 'UserDataServic
                                                function($scope, UserDataService, $routeParams, $window, UserAnimalsValues, 
                                             		   localStorageService, $filter) {
 	
-	if (localStorageService.get('userRole')!=="moderator" && 
-			localStorageService.get('userRole')!=="doctor" && 
-			localStorageService.get('userRole')!=="guest"){
-		$window.location.href = "#ua";
+	if (!localStorageService.get('userRole')){
+		$location.path("#ua");	
 	}
 	
 	 //initialize loading spinner
