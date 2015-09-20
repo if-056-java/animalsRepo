@@ -97,8 +97,7 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 	        		console.log("Refresh Session eror");
 	        		localStorageService.clearAll();
 	        		$location.path("/ua/user/login");	
-			        $route.reload();
-			        $rootScope.errorMessage="Помилка входу. Параметри сесії на сервері задано невірно!";
+			        $route.reload();			       
 	        	} else {        	
 		        	localStorageService.cookie.set("accessToken",data.accessToken,30);	        	
 		        	localStorageService.set("accessToken", data.accessToken);

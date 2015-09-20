@@ -206,6 +206,47 @@ public class UserResource {
         return Response.ok().build();
     }
 	
+	@DELETE //http:localhost:8080/webapi/users/user/{userId}/animals/{animalId} 
+    @Path("user/{userId}/animals/{animalId}/image")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response deleteAnimalImage(@PathParam ("userId") @NotNull String id,
+    							 @PathParam("animalId") @DecimalMin(value = "1") long animalId,
+    							 @Context HttpServletRequest req) {
+				
+		HttpSession session = req.getSession(true);
+		
+		if (!session.getAttribute("userId").equals(id)){
+			return UNAUTHORIZED;
+		}  
+		
+		Animal animal;
+       
+        try {
+            animal = animalRep.getById(animalId);
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return NOT_FOUND;
+        }
+
+        if (animal.getImage() == null) {
+            return Response.ok().build();
+        }
+
+        String restPath = req.getServletContext().getRealPath("/");         //path to rest root folder
+        //delete image
+        File file = new File(restPath + IMAGE_FOLDER + animal.getImage());
+        if (file.exists()) {
+            file.delete();
+        }
+
+        animal.setImage("");
+
+        animalRep.update(animal);
+
+        return Response.ok().build();
+        
+    }
+	
     @POST //http:localhost:8080/webapi/users/user/{userId}/animals/animal
     @Path("user/{userId}/animals/animal")
     @Consumes(MediaType.APPLICATION_JSON)

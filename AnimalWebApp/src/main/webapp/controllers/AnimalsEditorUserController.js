@@ -1,8 +1,9 @@
-//created by 41X
 var animalAppControllers = angular.module('AnimalsEditorUserController', ['AnimalsAdminModule', 'AnimalsAdminValues']);
 
-animalApp.controller('AnimalsEditorUserController', ['$scope', 'UserDataService', '$routeParams', '$window', '$filter', 'AnimalsAdminValues', 'AnimalsAdminService',
-                                               function($scope, UserDataService, $routeParams, $window, $filter, AnimalsAdminValues, AnimalsAdminService) {
+animalApp.controller('AnimalsEditorUserController', ['$scope', 'UserDataService', '$routeParams', '$window', '$filter', 'AnimalsAdminValues',
+                                                     'AnimalsAdminService', 'UserAnimalsValues',
+                                               function($scope, UserDataService, $routeParams, $window, $filter, AnimalsAdminValues, 
+                                            		   AnimalsAdminService, UserAnimalsValues) {
 		
 	//initialize loading spinner
     var targetContent = document.getElementById('loading-block');
@@ -17,19 +18,19 @@ animalApp.controller('AnimalsEditorUserController', ['$scope', 'UserDataService'
     var initialize = function() {
         if (AnimalsAdminValues.animalTypes.values.length === 0  ||
             AnimalsAdminValues.animalServices.values.length === 0 ||
-            AnimalsAdminValues.animal.id == undefined ||
+            UserAnimalsValues.animal.id == undefined ||
             $scope.contentLoading === 0) {
             return;
         }
 
         $scope.animalTypes = AnimalsAdminValues.animalTypes;        //list of animal types
         $scope.animalServices = AnimalsAdminValues.animalServices;  //list of animal services
-        $scope.animal = angular.copy(AnimalsAdminValues.animal);     //animal
+        $scope.animal = angular.copy(UserAnimalsValues.animal);     //animal
         $scope.animalImage = "resources/img/no_img.png";
 
-        if (AnimalsAdminValues.animal.image != undefined) {
-            if (AnimalsAdminValues.animal.image.length > 0) {
-                $scope.animalImage = AnimalsAdminValues.animal.image;
+        if (UserAnimalsValues.animal.image != undefined) {
+            if (UserAnimalsValues.animal.image.length > 0) {
+                $scope.animalImage = UserAnimalsValues.animal.image;
             }
         }
 
@@ -60,10 +61,10 @@ animalApp.controller('AnimalsEditorUserController', ['$scope', 'UserDataService'
      * @param animalId id of animal used for lookup.
      * @return animal instance.
      */
-    AnimalsAdminService.getAnimal(animalId)
-        .finally(function() {
-            initialize();
-        });
+//    AnimalsAdminService.getAnimal(animalId)
+//        .finally(function() {
+//            initialize();
+//        });
 
     /**
      * @return list of animal breeds according to animal type.
@@ -78,7 +79,24 @@ animalApp.controller('AnimalsEditorUserController', ['$scope', 'UserDataService'
                 $scope.filterAnimalBreedFlag = false;
             });
     }
-	
+
+    /**
+     * @param animalId id of animal used for lookup.
+     * @return animal instance.
+     */
+    UserDataService.getAnimal(animalId).then(
+			function(result){				
+				angular.copy(result, UserAnimalsValues.animal);				
+//				$scope.contentLoading--;
+				initialize();
+			},
+			function(error){				
+				console.log(error)
+				$scope.contentLoading--;
+			}
+		);
+
+ 
 	$scope.updateAnimal = function(isValid) {
 		if(!isValid){
             return;
@@ -103,6 +121,28 @@ animalApp.controller('AnimalsEditorUserController', ['$scope', 'UserDataService'
             },
             function(data) {
                 $window.alert("Animal update failed.");
+            });
+    }
+	
+	/*
+     * delete image
+     */
+    $scope.deleteImage = function() {
+        if ($scope.animalImage === "resources/img/no_img.png") {
+            $window.alert($filter('translate')("DELETE_IMAGE_NO_IMAGE"));
+            return;
+        }
+
+        if (!confirm($filter('translate')("DELETE_IMAGE_CONFIRM"))) {
+            return;
+        }
+
+        UserDataService.deleteAnimalImage($scope.animal.id)
+            .then(function(response) {
+                $scope.animal.image = undefined;
+                $scope.animalImage = "resources/img/no_img.png";
+            }, function(response) {
+                $window.alert($filter('translate')("DELETE_IMAGE_FAILED"));
             });
     }
 	

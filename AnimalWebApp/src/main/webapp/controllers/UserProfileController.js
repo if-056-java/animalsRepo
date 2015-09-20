@@ -4,7 +4,7 @@ animalApp.controller('UserProfileController', ['$scope', 'UserDataService', 'Aut
                                                '$location', 'UserAnimalsValues', 'OauthAuthenticationService',
                                                function($scope, UserDataService, AuthenticationService, hashPassword, localStorageService, $route,
                                             		   $location, UserAnimalsValues, OauthAuthenticationService) {
-	
+		
 	
 	$scope.currentLanguage = localStorage.getItem("NG_TRANSLATE_LANG_KEY");
 	//initialize loading spinner
@@ -38,7 +38,13 @@ animalApp.controller('UserProfileController', ['$scope', 'UserDataService', 'Aut
 	
 	if(!localStorageService.get("userId")){
 		AuthenticationService.refreshSession();  		
-	} else {		
+	} else {
+			
+		if (localStorageService.get('userRole')!=="moderator" && 
+				localStorageService.get('userRole')!=="doctor" && 
+				localStorageService.get('userRole')!=="guest"){
+			$location.path("#ua");	
+		}
 		
 		
 		var id = localStorageService.get("userId");		

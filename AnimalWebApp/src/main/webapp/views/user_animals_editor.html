@@ -210,22 +210,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-7 col-sm-offset-5 col-md-5 col-md-offset-7 col-lg-4 col-lg-offset-8 detailed-buttons">
-                        <button type="submit" ng-disabled="animalEditor.$invalid" id="submit-form"
-                                class="btn btn-warning col-sm-4 col-md-4 col-lg-4" >{{ 'SAVE' | translate }}</button>
-                        <div class="col-sm-4 col-md-4 col-lg-4">
-                            <a class="btn btn-info col-xs-12 col-sm-12 col-md-12 col-lg-12" href role="button"
-                               onclick="document.getElementById('upload').click();">{{ 'CHANGE_PHOTO' | translate }}</a>
-                            <input type="file" id="upload" name="photo" ng-model="imageFile" style="visibility: hidden;"
-                                   maxsize="5000" accept="image/*" base-sixty-four-input />
-                        </div>
-                        <div class="col-sm-4 col-md-4 col-lg-4"><a
-                                class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12"
-                                href="#/ua/user/profile/animals/{{ animal.id }}" role="button">{{ 'BACK' | translate }}</a>
-                        </div>
-                    </div>
-                </div>
+                 <div class="row">
+	                <div class="col-xs-12 col-sm-8 col-sm-offset-4 col-md-7 col-md-offset-5 col-lg-6 col-lg-offset-6 detailed-buttons">
+	                    <button type="submit" ng-disabled="animalEditor.$invalid || errors.length > 0" id="submit-form"
+	                            class="btn btn-warning col-sm-3 col-md-3 col-lg-3" >{{ 'SAVE' | translate }}</button>
+	                    <div class="col-sm-3 col-md-3 col-lg-3"><a
+	                            class="btn btn-danger col-xs-12 col-sm-12 col-md-12 col-lg-12"
+	                            href ng-click="deleteImage()" role="button" ng-disabled="errors.length > 0">{{ 'DELETE_IMAGE' | translate }}</a>
+	                    </div>
+	                    <div class="col-sm-3 col-md-3 col-lg-3">
+	                        <a class="btn btn-info col-xs-12 col-sm-12 col-md-12 col-lg-12" href role="button"
+	                           onclick="document.getElementById('upload').click();"
+	                           ng-disabled="errors.length > 0">{{ 'CHANGE_PHOTO' | translate }}</a>
+	                        <input type="file" id="upload" name="photo" ng-model="imageFile" style="visibility: hidden;"
+	                               maxsize="5000" accept="image/*" base-sixty-four-input />
+	                    </div>
+	                    <div class="col-sm-3 col-md-3 col-lg-3"><a
+	                            class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12"
+	                            href="#/ua/user/profile/animals/{{ animal.id }}" role="button">{{ 'BACK' | translate }}</a>
+	                    </div>
+	                </div>
+           		 </div>
             </form>
         </div>
     </div>

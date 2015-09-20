@@ -1,4 +1,3 @@
-//created by 41X
 var animalAppControllers = angular.module('RegistrationController', []);
 
 animalApp.controller('RegistrationController', ['$scope', '$location', '$route', 'currentDate', 'AuthenticationService',

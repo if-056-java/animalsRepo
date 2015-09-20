@@ -899,7 +899,7 @@ public class OAuthAuthorizationResource {
 		userToReg.setPassword(userLogin);
 
 		UserRole userRole = new UserRole();
-		userRole.setRole("гість");
+		userRole.setRole("guest");
 		userRole.setId(3);
 		List<UserRole> list = new ArrayList<UserRole>();
 		list.add(userRole);
