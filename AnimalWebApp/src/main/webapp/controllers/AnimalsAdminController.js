@@ -1,6 +1,6 @@
 angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.select', 'DPController', 'AnimalsAdminValues'])
-    .controller('AnimalsAdminController', ['$scope', 'AnimalsAdminService', 'AnimalsAdminValues', '$filter', '$window',
-        function($scope, AnimalsAdminService, AnimalsAdminValues, $filter, $window) {
+    .controller('AnimalsAdminController', ['$scope', 'AnimalsAdminService', 'AnimalsAdminValues', '$filter', '$window', 'angularPopupBoxes',
+        function($scope, AnimalsAdminService, AnimalsAdminValues, $filter, $window, angularPopupBoxes) {
 
             AnimalsAdminService.rolesAllowed("moderator");
 
@@ -13,6 +13,14 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
             $scope.totalItems = AnimalsAdminValues.totalItems;    //table rows count
             $scope.animals = AnimalsAdminValues.animals;          //animal instance
             $scope.errors = [];
+
+            var successMessage = $filter('translate')('SOCIALS_SENDED');
+            //alert success registration
+            $scope.alertSample = function() {
+                angularPopupBoxes.alert(successMessage).result.then(function() {
+                    location.href="#/ua/admin/animals";
+                });
+            };
 
             $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
@@ -80,6 +88,7 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
              */
             $scope.sendTwitter = function (id) {
                 AnimalsAdminService.sendTwitter(id);
+                $scope.alertSample();
             };
 
             /**
@@ -88,6 +97,7 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
              */
             $scope.sendFacebook = function (id) {
                 AnimalsAdminService.sendFacebook(id);
+               /* $scope.alertSample();*/
             };
 
             $scope.closeAlert = function(index) {
