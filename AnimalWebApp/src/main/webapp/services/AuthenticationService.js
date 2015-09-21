@@ -58,11 +58,11 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 		},
 		
 		
-		registerUser:function(user){			
+		registerUser:function(user, locale){			
 		
 			var def = $q.defer();
 			
-			$http.post(RESOURCES.REGISTRATION, user)
+			$http.post(RESOURCES.REGISTRATION + locale, user)
 	        .success(function(data){
 	        	def.resolve(data);	        	
 	        }) 

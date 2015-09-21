@@ -207,7 +207,7 @@ animalApp.constant('RESOURCES', {
     LOGIN_TWITTER_DIRECT: '/webapi/account/login/twitter_login_direct',   
     LOGIN_BASIC: '/webapi/account/login/',
     LOGOUT: '/webapi/account/logout',
-    REGISTRATION: '/webapi/account/registration',
+    REGISTRATION: '/webapi/account/registration/',
     CONFIRM_REGISTRATION: '/webapi/account/confirmRegistration/',
     REFRESH: '/webapi/account/refresh',
     USER_FOR_USER: '/webapi/users/user/',

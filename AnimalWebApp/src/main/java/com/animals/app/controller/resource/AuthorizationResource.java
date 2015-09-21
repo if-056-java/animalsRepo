@@ -56,11 +56,39 @@ public class AuthorizationResource {
 	private static final String CONFIRMATION = "Now confirmation should be done";
 	private static final String SUCCESSFUL_REGISTRATION = "Successful Registration";
 	private static final String DESTROYED_SESSION = "Session Destroyed";
+	//Session parameters
+	private static final String SESSION_USERNAME = "userName";
+	private static final String SESSION_USER_ID = "userId";
+	private static final String SESSION_USERSURNAME = "userSurname";
+	private static final String SESSION_LOGIN = "socialLogin";
+	private static final String SESSION_ROLE_ID = "userRoleId";
+	private static final String SESSION_USER_ROLE = "userRole";
+	private static final String SESSION_SUCCESS = "successMesage";
+	private static final String SESSION_ACCESS_TOKEN = "accessToken";
+	private static final String SESSION_ID = "sessionId";
+	private static final String SESSION_USER = "user";
+	private static final String SESSION_REMEMBER_ME_ON = "ON";
+	
+	private static final String REFRESH_GOOGLE_TOKEN = "refreshGoogleToken";
+	private static final String TWITTER_TOKEN ="twitterToken";
+	private static final String TWITTER_SECRET ="twitterSecret";
+	private static final String FACEBOOK_TOKEN ="facebookToken";
+	
+	private static final String UA_LOCALE ="uk";
+	private static final String REG_PATH ="webapi/account/registration/";
+	private static final String PATH_CONFIRM_REG ="#/ua/user/confirmRegistration?username=";
+	private static final String PATH_CONFIRM_REG_CODE ="&code=";
+	private static final String REG_TEXT_EN_1 ="For registration confirmation on site - ";
+	private static final String REG_TEXT_EN_2 =" follow next link - ";
+	private static final String REG_TEXT_UA_1 ="Для підтвердження реєстрації на сайті - ";
+	private static final String REG_TEXT_UA_2 =" пройдіть за вказаною ссилкою - ";
+	
+	
 	
 	private UserRepositoryImpl userRep = new UserRepositoryImpl();	
 	
 	/**
-     * login in to site
+     * login into site
      * @param user credentials in HTTP request header
      * @param rememberMe option 
      * @return response with status 200 and parameters for creating session  
@@ -69,19 +97,18 @@ public class AuthorizationResource {
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Path("login/{rememberMe}")//http:localhost:8080/webapi/account/login/OFF
 	public Response loginToSite (@Context HttpServletRequest req, 
-								 @PathParam ("rememberMe") @NotNull String rememberMe) {
+								@PathParam ("rememberMe") @NotNull String rememberMe) {
 				
 		//reading header from request
 		String header = null;
 		String sub =null;
-		try{
+		try {
 			header = req.getHeader("Authorization");
 			sub = header.replaceFirst("Basic" + " ", "");
 		} catch (NullPointerException e) {
-        	LOG.error(e);
-        	return SERVER_ERROR;
-        }
-		
+			LOG.error(e);
+			return SERVER_ERROR;
+}		
 		
 		//formating header
 				
@@ -123,7 +150,7 @@ public class AuthorizationResource {
         //creating session
         HttpSession session = req.getSession(true);      
        
-        if(rememberMe.equals("ON")){        	
+        if(rememberMe.equals(SESSION_REMEMBER_ME_ON)){        	
         	session.setMaxInactiveInterval(LONG_SESSION);					//session duration - 30 days    	   	
         } else {        	
         	session.setMaxInactiveInterval(SHORT_SESSION);					//session duration - 90 min
@@ -131,7 +158,7 @@ public class AuthorizationResource {
         
         //setSuccessAtribute(session);        
         String sessionSuccess = setUpSuccessSession(user, session, SUCCESSFULL_LOGIN); 
-        session.setAttribute("user", user);
+        session.setAttribute(SESSION_USER, user);
 
 	    return Response.status(Response.Status.OK).entity(sessionSuccess).build();
 		
@@ -165,10 +192,12 @@ public class AuthorizationResource {
      * @return response with status 200. Sending mail to user for registration confirmation
      */
 	@POST
-	@Path("registration")//http:localhost:8080/webapi/account/registration
+	@Path("registration/{locale}")//http:localhost:8080/webapi/account/registration/en
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)	
-	public Response registerUser (@Context HttpServletRequest req, @Valid User user) {	
+	public Response registerUser (@Context HttpServletRequest req,
+									@Valid User user,
+									@PathParam ("locale") @NotNull String locale) {	
 				
 		String socialLogin = user.getSocialLogin();		
 				
@@ -206,9 +235,9 @@ public class AuthorizationResource {
 		
 		//Define URLs and callback
 		String pathAll = req.getRequestURL().toString(); 
-		String pathMain =pathAll.replace("webapi/account/registration", "");	
+		String pathMain =pathAll.replace(REG_PATH + locale, "");	
 			
-		String message = buildResponseMessage(pathMain, username, emailVerificator);
+		String message = buildResponseMessage(pathMain, username, emailVerificator, locale);
 						
 		try {
 			MailSender ms = new MailSender();
@@ -263,7 +292,7 @@ public class AuthorizationResource {
         HttpSession session = req.getSession(true);
 		
         String sessionSuccessReg = setUpSuccessSession(user, session, SUCCESSFUL_REGISTRATION); 
-        session.setAttribute("user", user);        
+        session.setAttribute(SESSION_USER, user);        
 		
 	    return Response.status(Response.Status.OK).entity(sessionSuccessReg).build();	
 	
@@ -282,7 +311,7 @@ public class AuthorizationResource {
 		HttpSession session = req.getSession(true);	
 		
 		//checking if session is stil going on by geting params from it. if not - returning json with empty user	
-		if(session.getAttribute("userId") == null){
+		if(session.getAttribute(SESSION_USER_ID) == null){
 			
 			String destroyedSession = buildResponseEntity(0, DESTROYED_SESSION);  
 							
@@ -298,18 +327,19 @@ public class AuthorizationResource {
 	}
 		
 	
-private static String setUpSuccessSession(User user, HttpSession session, String success){
+	private static String setUpSuccessSession(User user, HttpSession session, String success){
+			
+		session.setAttribute(SESSION_USERNAME,user.getName());
+		session.setAttribute(SESSION_USER_ID,user.getId().toString()); 
+		session.setAttribute(SESSION_USERSURNAME,user.getSurname());
+		session.setAttribute(SESSION_LOGIN,user.getSocialLogin());
+		session.setAttribute(SESSION_ROLE_ID,user.getUserRole().get(0).getId().toString());
+		session.setAttribute(SESSION_USER_ROLE,user.getUserRole().get(0).getRole());
+		session.setAttribute(SESSION_SUCCESS, success);
 		
-		session.setAttribute("userName",user.getName());
-		session.setAttribute("userId",user.getId().toString()); 
-		session.setAttribute("userSurname",user.getSurname());
-		session.setAttribute("socialLogin",user.getSocialLogin());
-		session.setAttribute("userRoleId",user.getUserRole().get(0).getId().toString());
-		session.setAttribute("userRole",user.getUserRole().get(0).getRole());
-		session.setAttribute("successMesage", success);
 		
 		//creating string for accessToken
-		String accessToken = (String)session.getId() + ":" + (String)session.getAttribute("userId");			
+		String accessToken = (String)session.getId() + ":" + (String)session.getAttribute(SESSION_USER_ID);			
 
 		String accessTokenEncoded=null;
 		
@@ -321,19 +351,19 @@ private static String setUpSuccessSession(User user, HttpSession session, String
             e.printStackTrace();
         }	
 		
-		session.setAttribute("accessToken", accessTokenEncoded);
+		session.setAttribute(SESSION_ACCESS_TOKEN, accessTokenEncoded);
 
 		
 		//creating JSON string with session params
         String str = "{\"sessionId\" : \"" + (String)session.getId() + 
-        			"\", \"userId\" : \"" + (String)session.getAttribute("userId") +
-        			"\", \"userName\" : \"" + (String)session.getAttribute("userName") +
-        			"\", \"userSurname\" : \"" + (String)session.getAttribute("userSurname") +
-        			"\", \"socialLogin\" : \"" + (String)session.getAttribute("socialLogin") +
-        			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
-        			"\", \"userRoleId\" : \"" + (String)session.getAttribute("userRoleId") +
-        			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
-        			"\", \"accessToken\" : \"" + (String)session.getAttribute("accessToken") +
+        			"\", \"userId\" : \"" + (String)session.getAttribute(SESSION_USER_ID) +
+        			"\", \"userName\" : \"" + (String)session.getAttribute(SESSION_USERNAME) +
+        			"\", \"userSurname\" : \"" + (String)session.getAttribute(SESSION_USERSURNAME) +
+        			"\", \"socialLogin\" : \"" + (String)session.getAttribute(SESSION_LOGIN) +
+        			"\", \"userRole\" : \"" + (String)session.getAttribute(SESSION_USER_ROLE) +
+        			"\", \"userRoleId\" : \"" + (String)session.getAttribute(SESSION_ROLE_ID) +
+        			"\", \"successMesage\" : \"" + (String)session.getAttribute(SESSION_SUCCESS) +
+        			"\", \"accessToken\" : \"" + (String)session.getAttribute(SESSION_ACCESS_TOKEN) +
         			"\"}";
 		return str;
 	};
@@ -341,18 +371,18 @@ private static String setUpSuccessSession(User user, HttpSession session, String
 	private static String buildResponse(HttpSession session){
 		
 		String str = "{\"sessionId\" : \"" + (String)session.getId() + 
-    			"\", \"userId\" : \"" + (String)session.getAttribute("userId") +
-    			"\", \"userName\" : \"" + (String)session.getAttribute("userName") +
-    			"\", \"userSurname\" : \"" + (String)session.getAttribute("userSurname") +
-    			"\", \"socialLogin\" : \"" + (String)session.getAttribute("socialLogin") +
-    			"\", \"userRole\" : \"" + (String)session.getAttribute("userRole") +
-    			"\", \"userRoleId\" : \"" + (String)session.getAttribute("userRoleId") +
-    			"\", \"successMesage\" : \"" + (String)session.getAttribute("successMesage") +
-    			"\", \"accessToken\" : \"" + (String)session.getAttribute("accessToken") +
-    			"\", \"refreshGoogleToken\" : \"" + (String)session.getAttribute("refreshGoogleToken") +
-    			"\", \"twitterToken\" : \"" + (String)session.getAttribute("twitterToken") +
-    			"\", \"twitterSecret\" : \"" + (String)session.getAttribute("twitterSecret") +
-    			"\", \"facebookToken\" : \"" + (String)session.getAttribute("facebookToken") +
+    			"\", \"userId\" : \"" + (String)session.getAttribute(SESSION_USER_ID) +
+    			"\", \"userName\" : \"" + (String)session.getAttribute(SESSION_USERNAME) +
+    			"\", \"userSurname\" : \"" + (String)session.getAttribute(SESSION_USERSURNAME) +
+    			"\", \"socialLogin\" : \"" + (String)session.getAttribute(SESSION_LOGIN) +
+    			"\", \"userRole\" : \"" + (String)session.getAttribute(SESSION_USER_ROLE) +
+    			"\", \"userRoleId\" : \"" + (String)session.getAttribute(SESSION_ROLE_ID) +
+    			"\", \"successMesage\" : \"" + (String)session.getAttribute(SESSION_SUCCESS) +
+    			"\", \"accessToken\" : \"" + (String)session.getAttribute(SESSION_ACCESS_TOKEN) +
+    			"\", \"refreshGoogleToken\" : \"" + (String)session.getAttribute(REFRESH_GOOGLE_TOKEN) +
+    			"\", \"twitterToken\" : \"" + (String)session.getAttribute(TWITTER_TOKEN) +
+    			"\", \"twitterSecret\" : \"" + (String)session.getAttribute(TWITTER_SECRET) +
+    			"\", \"facebookToken\" : \"" + (String)session.getAttribute(FACEBOOK_TOKEN) +
     			"\"}";		
 		
 		return str;
@@ -366,10 +396,17 @@ private static String setUpSuccessSession(User user, HttpSession session, String
 		return entity;
 	}
 	
-	private String buildResponseMessage(String pathMain, String username, String emailVerificator) {
+	private String buildResponseMessage(String pathMain, String username, String emailVerificator, String locale) {
 		
-		String message = "Для підтвердження реєстрації на сайті - "+ pathMain + " пройдіть за вказаною ссилкою - "
-				+ pathMain + "#/ua/user/confirmRegistration?username="+username+"&code="+ emailVerificator;
+		String message;
+		
+		if (locale.equals(UA_LOCALE)){
+			message = REG_TEXT_UA_1+ pathMain + REG_TEXT_UA_2 + pathMain + 
+					PATH_CONFIRM_REG + username + PATH_CONFIRM_REG_CODE + emailVerificator;			
+		} else {
+			message = REG_TEXT_EN_1 + pathMain + REG_TEXT_EN_2 + pathMain + 
+					PATH_CONFIRM_REG + username + PATH_CONFIRM_REG_CODE + emailVerificator;
+		}
 		
 		return message;
 	}

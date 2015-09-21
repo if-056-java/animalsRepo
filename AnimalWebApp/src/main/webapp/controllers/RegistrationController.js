@@ -5,7 +5,9 @@ animalApp.controller('RegistrationController', ['$scope', '$location', '$route',
                                                function($scope, $location, $route, currentDate, AuthenticationService,
                                             		   hashPassword, OauthAuthenticationService, $filter) {
 		$scope.errors = [];
-	
+		
+		var locale = localStorage.getItem("NG_TRANSLATE_LANG_KEY");
+			
 		$scope.submitRegForm=function(){
 			
 			$scope.errorConfirmMessage=false;        		
@@ -16,7 +18,7 @@ animalApp.controller('RegistrationController', ['$scope', '$location', '$route',
 			$scope.fields.registrationDate = currentDate;			
 							
 			$scope.fields.password=hashPassword($scope.password); 
-			AuthenticationService.registerUser($scope.fields).then(
+			AuthenticationService.registerUser($scope.fields, locale).then(
 				function(result){
 					
 					if(result.userId==0){

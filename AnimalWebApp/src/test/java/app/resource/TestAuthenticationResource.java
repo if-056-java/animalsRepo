@@ -1,7 +1,6 @@
 package app.resource;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.sql.Date;
@@ -16,7 +15,6 @@ import javax.ws.rs.ServerErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.codec.binary.Base64;
@@ -29,17 +27,14 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import com.animals.app.domain.Animal;
-import com.animals.app.domain.AnimalType;
 import com.animals.app.domain.User;
 import com.animals.app.domain.UserRole;
 import com.animals.app.domain.UserType;
+import com.animals.app.service.DateSerializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import app.JNDIConfigurationForTests;
-
-import static org.junit.Assert.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAuthenticationResource extends ResourceTestTemplate  {
@@ -90,9 +85,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
 
         String accessToken =  jsonMap.get("accessToken");
         String userLogin = jsonMap.get("socialLogin");
-        String userRole = jsonMap.get("userRole");
-       
-        System.out.println(result);      
+        String userRole = jsonMap.get("userRole"); 
         
         assertNotNull(accessToken);
         assertNotNull(result);
@@ -111,9 +104,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
                 .target(REST_SERVICE_URL)
                 .path("/refresh")
                 .request()                
-                .get(String.class);             
-        
-        System.out.println(result); 
+                .get(String.class);   
         
         assertNotNull(result);  
         
@@ -152,27 +143,20 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     @Test
     public void test05RegisterUser() {    	
 
-    	User user = createEmptyUser("userToReg");   	 
-    	String json = new GsonBuilder()
-                .create()
-                .toJson(user);
-    	
-    	System.out.println(json); //problem with  user RegDate
-    	
     	userLogin = RandomStringUtils.random(10, true, true);
-    	
-    	String json2 = "{\"socialLogin\":\"" + userLogin +"\",\"name\":\"userToRegg\",\"surname\":\"userToRegg\",\"email\":\"userToRegg@rt.iu\",\"phone\""+
-    					":\"000-0111111\",\"active\":false,\"userRole\":[{\"id\":3,\"role\":\"guest\"}],\"userType\":{\"id\":1,\"type\":\"власник\"}," +
-    					"\"registrationDate\":\"2015-09-20\",\"password\":\"b0baee9d279d34fa1dfd71aadb908c3f\"}";
+
+    	User user = createEmptyUser(userLogin);   	 
+    	String json = new GsonBuilder()
+    			.registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(user);      	
     	
         String result = client
                 .target(REST_SERVICE_URL)
-                .path("/registration")
+                .path("/registration/en")
                 .request()                
-                .post(Entity.entity(json2, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);             
-        
-        System.out.println(result);      
-                
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);             
+                        
         assertNotNull(result);
     }
     
@@ -194,24 +178,19 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     @Test (expected = BadRequestException.class)
     public void test07RegisterUserLoginExist() {    	
 
-    	User user = createEmptyUser("userToReg");   	 
+    	User user = createEmptyUser(userLogin);  //userLogin="unknown"; 	 
     	String json = new GsonBuilder()
+    			.registerTypeAdapter(Date.class, new DateSerializer())
                 .create()
-                .toJson(user);
-    	
-    	System.out.println(json); //problem with  user RegDate
-    	
-    	String json2 = "{\"socialLogin\":\"userToRegg5\",\"name\":\"userToRegg\",\"surname\":\"userToRegg\",\"email\":\"userToRegg@rt.iu\",\"phone\""+
-    					":\"000-0111111\",\"active\":false,\"userRole\":[{\"id\":3,\"role\":\"guest\"}],\"userType\":{\"id\":1,\"type\":\"власник\"}," +
-    					"\"registrationDate\":\"2015-09-20\",\"password\":\"b0baee9d279d34fa1dfd71aadb908c3f\"}";
+                .toJson(user); 	
     	
         String result = client
                 .target(REST_SERVICE_URL)
-                .path("/registration")
+                .path("/registration/en")
                 .request()                
-                .post(Entity.entity(json2, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);             
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);        
         
-        System.out.println(result);                    
+                        
         
     }
     
@@ -223,9 +202,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
                 .target(REST_SERVICE_URL)
                 .path("/refresh")
                 .request()                
-                .get(String.class);             
-        
-        System.out.println(result);        
+                .get(String.class);   
         
     }
     
@@ -242,7 +219,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     }
     
     @Test
-    public void test10logOut() { 
+    public void test10logout() { 
     	
         String result = client
                 .target(REST_SERVICE_URL)
