@@ -50,7 +50,7 @@ public class AdminResource {
      * AnimalsFilter.limit must be set and more than 0
      */
     @POST //http:localhost:8080/webapi/admin/animals
-    @RolesAllowed({"moderator", "doctor"})
+    @RolesAllowed("moderator")
     @Path("animals")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -70,7 +70,7 @@ public class AdminResource {
      * @return count of rows for pagination.
      */
     @POST //http:localhost:8080/webapi/animals/paginator
-    @RolesAllowed({"moderator", "doctor"})
+    @RolesAllowed("moderator")
     @Path("animals/paginator")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

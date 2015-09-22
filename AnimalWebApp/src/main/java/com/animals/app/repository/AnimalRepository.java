@@ -21,7 +21,8 @@ public interface AnimalRepository {
             "citesType=#{cites}, breed=#{breed.id}, transpNumber=#{transpNumber}, tokenNumber=#{tokenNumber}, " +
             "dateOfRegister=#{dateOfRegister}, dateOfBirth=#{dateOfBirth}, " +
             "dateOfSterilization=#{dateOfSterilization}, color=#{color}, userId=#{user.id}, " +
-            "address=#{address}, isActive=#{active}, image=#{image}, serviceId=#{service.id} " +
+            "address=#{address}, isActive=#{active}, image=#{image}, serviceId=#{service.id}, " +
+            "description=#{description} " +
             "WHERE id=#{id}";
 
     final String TWITTER_UPDATE = "UPDATE animals SET dateOfTwitter=#{dateOfTwitter} " +
@@ -45,6 +46,10 @@ public interface AnimalRepository {
                 "<if test = \"animal.transpNumber != null\"> AND transpNumber=#{animal.transpNumber} </if> " +
                 "<if test = \"animal.dateOfRegister != null\"> AND dateOfRegister=#{animal.dateOfRegister} </if> " +
                 "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+                "<if test = \"animal.active != null\"> " +
+                    "<if test = \"animal.active == true\"> AND isActive=1 </if> " +
+                    "<if test = \"animal.active == false\"> AND isActive=0 </if> " +
+                "</if>" +
                 "<if test = \"animal.service != null\"> " +
                     "<if test = \"animal.service.id != null\"> AND serviceId=#{animal.service.id} </if> " +
                 "</if>" +
@@ -64,6 +69,10 @@ public interface AnimalRepository {
                 "<if test = \"animal.transpNumber != null\"> AND transpNumber=#{animal.transpNumber} </if> " +
                 "<if test = \"animal.dateOfRegister != null\"> AND dateOfRegister=#{animal.dateOfRegister} </if> " +
                 "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+                "<if test = \"animal.active != null\"> " +
+                    "<if test = \"animal.active == true\"> AND isActive=1 </if> " +
+                    "<if test = \"animal.active == false\"> AND isActive=0 </if> " +
+                "</if>" +
                 "<if test = \"animal.service != null\"> " +
                     "<if test = \"animal.service.id != null\"> AND serviceId=#{animal.service.id} </if> " +
                 "</if>" +
