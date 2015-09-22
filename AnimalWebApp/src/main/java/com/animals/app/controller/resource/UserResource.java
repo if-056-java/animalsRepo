@@ -81,8 +81,15 @@ public class UserResource {
     @GET // http:localhost:8080/webapi/users/user/{userId}
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Path("user/{userId}")
-    public Response getUserById(@PathParam("userId") @DecimalMin(value = "1") int id) {
+    public Response getUserById(@PathParam("userId") @DecimalMin(value = "1") int id,
+                                @Context HttpServletRequest req) {
 
+        HttpSession session = req.getSession(true);
+        
+        if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id))) {
+            return UNAUTHORIZED;
+        }
+        
         try {
             User user = userRep.getById(id);
 
@@ -107,20 +114,16 @@ public class UserResource {
      */
     @PUT
     @Path("user/{userId}") // http:localhost:8080/webapi/users/user/{userId}
-                           // //User update
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response updateUser(@Valid User user) {
+    public Response updateUser(@Valid User user,
+                               @PathParam("userId") @DecimalMin(value = "1") int id,
+                               @Context HttpServletRequest req) {
 
-        if (user == null)
-            return BAD_REQUEST;
-
-        int id;
-        try {
-            id = user.getId();
-        } catch (Exception e) {
-            LOG.error(e);
-            return BAD_REQUEST;
+        HttpSession session = req.getSession(true);
+        
+        if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id))) {
+            return UNAUTHORIZED;
         }
 
         if (userRep.getById(id) == null)
@@ -156,6 +159,7 @@ public class UserResource {
                                             @Context HttpServletRequest req) {
 
         HttpSession session = req.getSession(true);
+        
         if (!session.getAttribute(SESSION_USER_ID).equals(Long.toString(userId))) {
             return UNAUTHORIZED;
         }
@@ -352,10 +356,7 @@ public class UserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response getUserAnimalsPaginator(@PathParam("userId") @DecimalMin(value = "1") long userId) {
-        if (userId <= 0) {
-            return BAD_REQUEST;
-        }
-
+        
         // get count of row according to filter
         long pages = userRep.getAnimalByUserIdCount(userId);
 

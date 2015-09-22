@@ -3,6 +3,9 @@ var animalAppControllers = angular.module('LoginController', []);
 animalApp.controller('LoginController', ['$scope', '$location', '$route', 'AuthenticationService', 'hashPassword', 'localStorageService', 'OauthAuthenticationService',
                                          function($scope, $location, $route, AuthenticationService, hashPassword, localStorageService, OauthAuthenticationService) {
 	
+	$scope.IsHidden = true;
+	$scope.showRenewBlock = function () {$scope.IsHidden =  false;} 
+	
 	$scope.login=function(){			
 		
 		var userLogin = $scope.login.userLogin;

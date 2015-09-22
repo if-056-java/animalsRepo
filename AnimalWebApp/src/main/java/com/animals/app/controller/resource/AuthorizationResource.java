@@ -92,6 +92,7 @@ public class AuthorizationResource {
     public Response loginToSite(@Context HttpServletRequest req, 
                                 @PathParam("rememberMe") @NotNull String rememberMe) {
 
+       
         // reading header from request
         String header = null;
         String sub = null;
