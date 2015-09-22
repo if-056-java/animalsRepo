@@ -1,9 +1,6 @@
 package com.animals.app.controller.resource;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
@@ -27,8 +24,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import com.animals.app.domain.User;
-import com.animals.app.domain.UserRole;
-import com.animals.app.domain.UserType;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 import com.animals.app.service.MailSender;
 
@@ -42,7 +37,6 @@ public class AuthorizationResource {
 
     private static Logger LOG = LogManager.getLogger(AuthorizationResource.class);
 
-    private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
     private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
     private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 
