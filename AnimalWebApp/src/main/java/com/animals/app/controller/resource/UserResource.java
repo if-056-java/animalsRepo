@@ -31,8 +31,6 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.animals.app.domain.UsersFilter;
-
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -361,47 +359,6 @@ public class UserResource {
         String json = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
 
         return Response.ok().entity(json).build();
-    }
-
-    @POST // http:localhost:8080/webapi/users/admin/users/pagenator
-    @Path("admin/users/pagenator")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response getAmountListUsersForAdmin(UsersFilter usersFilter) {
-
-        UserRepositoryImpl userRepository = new UserRepositoryImpl();
-        long pages = userRepository.getAdminUsersPaginator(usersFilter);
-
-        if (pages == 0)
-            return NOT_FOUND;
-
-        String str = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
-
-        return Response.status(Response.Status.OK).entity(str).build();
-    }
-
-    @POST // http:localhost:8080/webapi/admin/users
-    @Path("admin/users")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response getAllUsersForAdmin(UsersFilter usersFilter) {
-        if (usersFilter == null) {
-            return BAD_REQUEST;
-        }
-        if ((usersFilter.getPage() == 0) || (usersFilter.getLimit() == 0)) {
-            return BAD_REQUEST;
-        }
-
-        UserRepositoryImpl userRepository = new UserRepositoryImpl();
-        // cast list of animals to generic list
-        List<User> users = userRepository.getAdminUsers(usersFilter);
-        GenericEntity<List<User>> genericUsers = new GenericEntity<List<User>>(users) {
-        };
-
-        if (genericUsers == null)
-            return NOT_FOUND;
-
-        return Response.ok().entity(genericUsers).build();
     }
 
     private String saveNewImage(String rootFolder, String image, Long animalId) {

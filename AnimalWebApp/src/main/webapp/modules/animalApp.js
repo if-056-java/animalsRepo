@@ -127,7 +127,7 @@ animalApp .config(['$routeProvider', '$translateProvider',
         	    templateUrl: 'views/reg_owned.html',
         	    controller: 'AnimalOwnedRegController'
       	    })
-            .when('/ua/users/admin/users', {
+            .when('/ua/user/admin/users', {
                 templateUrl: 'views/admin_users.html',
                 controller: 'AdminUsersController'
             })
@@ -200,8 +200,8 @@ animalApp.constant('RESOURCES', {
     MEDICAL_HISTORY_ITEM_FOR_DOCTOR_UPDATE: '/webapi/doctor/medical_history/item',
     MEDICAL_HISTORY_TYPES: '/webapi/animals/medical_history/types',
     ANIMAL_IMAGE_DELETE_FOR_ADMIN: '/webapi/admin/animals/image/',
-    ADMIN_USERS_PAGINATOR: 'webapi/users/admin/users/pagenator',
-    ADMIN_USERS: 'webapi/users/admin/users',
+    ADMIN_USERS_PAGINATOR: 'webapi/admin/users/paginator',
+    ADMIN_USERS: 'webapi/admin/users',
     LOGIN_GOOGLE: '/webapi/account/login/google',
     LOGIN_GOOGLE_DIRECT: '/webapi/account/login/google_login_direct', 
     LOGIN_FACEBOOK: '/webapi/account/login/facebook',
