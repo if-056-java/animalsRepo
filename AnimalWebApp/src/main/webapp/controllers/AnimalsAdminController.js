@@ -175,6 +175,7 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
                 $scope.filter.animal.breed = undefined;
                 $scope.filter.animal.sex = undefined;
                 $scope.filter.animal.dateOfRegister = undefined;
+                $scope.filter.animal.active = undefined;
 
                 $scope.submit(true);
             }

@@ -116,11 +116,13 @@
                         </div>
                         <hr>
 
-                        <!-- Animal date of sterilization -->
+                        <!-- Animal status -->
                         <div class="row">
-                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'STERILIZATION_DATE' | translate }}:
-                            </div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.dateOfSterilization }}</div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-44">{{ 'ANIMAL_ACTIVE' | translate}}:</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="animal.active=='true'">
+                                {{ 'YES' | translate}}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="animal.active=='false'">
+                                {{ 'NO' | translate}}</div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
@@ -146,6 +148,16 @@
                             <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ animal.address }}</div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success panel-body">
+                <div class="form-group">
+                    <label for="comment">{{ 'DESCRIPTION' | translate }}:</label>
+                    <textarea class="form-control" rows="3" id="comment" ng-model="animal.description"
+                              name="description" readonly></textarea>
                 </div>
             </div>
         </div>

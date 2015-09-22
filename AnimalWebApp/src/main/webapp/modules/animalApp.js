@@ -189,6 +189,8 @@ animalApp.constant('RESOURCES', {
     ANIMAL_REGISTRATION_IMAGE: 'webapi/animals/animal/image',
     ANIMALS_FOR_ADMIN: '/webapi/admin/animals',
     ANIMALS_FOR_ADMIN_PAGINATOR: '/webapi/admin/animals/paginator',
+    ANIMALS_FOR_DOCTOR: '/webapi/doctor/animals',
+    ANIMALS_FOR_DOCTOR_PAGINATOR: '/webapi/doctor/animals/paginator',
     ANIMAL_FOR_ADMIN: '/webapi/admin/animals/',
     ANIMAL_FOR_ADMIN_DELETE: '/webapi/admin/animals/',
     ANIMAL_FOR_ADMIN_UPDATE: '/webapi/admin/animals/editor',

@@ -104,6 +104,16 @@
 
                     <hr>
 
+                    <!-- Active filter -->
+                    <div class="input-group">
+                        <span class="input-group-addon">{{ 'ANIMAL_ACTIVE' | translate }}</span>
+                        <ol class="nya-bs-select nya-bs-select-mod" ng-model="filter.animal.active" title="{{ 'NOT_SELECTED' | translate }}">
+                            <li class="nya-bs-option" value="true"><a>{{ 'YES' | translate}}</a></li>
+                            <li class="nya-bs-option" value="false"><a>{{ 'NO' | translate}}</a></li>
+                        </ol>
+                    </div>
+
+                    <hr>
 
                     <button type="submit" ng-disabled="animalFilter.$invalid" id="submit-form"
                             class="btn btn-success col-xs-5 col-sm-6 col-md-5 col-lg-5" >{{ 'FILTER' | translate }}</button>
