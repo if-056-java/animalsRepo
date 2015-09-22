@@ -9,8 +9,6 @@ animalApp.controller('LoginController', ['$scope', '$location', '$route', 'Authe
 	$scope.showRenewBlock = function () {$scope.IsHidden =  false;} 
 	
 	$scope.restorePasword=function (){
-		console.log("restore");
-		console.log($scope.mailToRestore);
 		
 		AuthenticationService.restorePassword($scope.mailToRestore, locale).then(
 			function(result){

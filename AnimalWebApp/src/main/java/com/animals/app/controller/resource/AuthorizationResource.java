@@ -46,13 +46,6 @@ public class AuthorizationResource {
     private final int LONG_SESSION = 2592000;
     private final int SHORT_SESSION = 10800;
 
-    private static final String LOGIN_CONFIRM_REG = "Now confirmation should be done";
-    private static final String SUCCESSFULL_LOGIN = "Successful login";
-    private static final String SESSION_DESTROYED = "Session destroyed";
-    private static final String LOGIN_NOT_UNIQUE = "SocialLogin is already in use by another User";
-    private static final String CONFIRMATION = "Now confirmation should be done";
-    private static final String SUCCESSFUL_REGISTRATION = "Successful Registration";
-    private static final String DESTROYED_SESSION = "Session Destroyed";
     // Session parameters
     private static final String SESSION_USERNAME = "userName";
     private static final String SESSION_USER_ID = "userId";
@@ -70,16 +63,35 @@ public class AuthorizationResource {
     private static final String TWITTER_SECRET = "twitterSecret";
     private static final String FACEBOOK_TOKEN = "facebookToken";
 
-    private static final String UA_LOCALE = "uk";
     private static final String REG_PATH = "webapi/account/registration/";
+    private static final String RESTORE_PASSWORD_PATH = "webapi/account/restore_password/";
     private static final String PATH_CONFIRM_REG = "#/ua/user/confirmRegistration?username=";
     private static final String PATH_CONFIRM_REG_CODE = "&code=";
+    
+    private static final String UA_LOCALE = "uk";
+    private static final String LOGIN_CONFIRM_REG = "Now confirmation should be done";
+    private static final String SUCCESSFULL_LOGIN = "Successful login";
+    private static final String SESSION_DESTROYED = "Session destroyed";
+    private static final String LOGIN_NOT_UNIQUE = "SocialLogin is already in use by another User";
+    private static final String CONFIRMATION = "Now confirmation should be done";
+    private static final String SUCCESSFUL_REGISTRATION = "Successful Registration";
+    private static final String DESTROYED_SESSION = "Session Destroyed";
     private static final String REG_TEXT_EN_1 = "For registration confirmation on site - ";
     private static final String REG_TEXT_EN_2 = " follow next link - ";
     private static final String REG_TEXT_UA_1 = "Для підтвердження реєстрації на сайті - ";
     private static final String REG_TEXT_UA_2 = " пройдіть за вказаною ссилкою - ";
+    private static final String RESTORE_TEXT_EN_1 = "Restore password service on site - ";
+    private static final String RESTORE_TEXT_EN_2 = " . User Name - ";
+    private static final String RESTORE_TEXT_EN_3 = " . New Password :";
+    private static final String RESTORE_TEXT_UA_1 = "Сервіс відновлення паролю на сайті - ";
+    private static final String RESTORE_TEXT_UA_2 = " . Ім'я користувача - ";
+    private static final String RESTORE_TEXT_UA_3 = " . Новий пароль :"; 
     private static final String HEADER_AUTHORIZATION = "Authorization";
     private static final String HEADER_BASIC = "Basic";
+    private static final String ERROR_RESTORE_1 ="Ther is many users in DB. My Bug";
+    private static final String ERROR_RESTORE_2 ="Ther is no user with email in database";
+    private static final String ERROR_RESTORE_3 = "User with this email is not active";
+    private static final String SUCCESS_RESTORE ="Password Restored succesfully. Send Via mail";
 
     private UserRepositoryImpl userRep = new UserRepositoryImpl();
 
@@ -187,6 +199,7 @@ public class AuthorizationResource {
     /**
      * Registration of new user 
      * @param user instance to be added to dataBase
+     * @param locale for defining language in mail confirmation
      * @return response with status 200. Sending mail to user for registration confirmation
      */
     @POST
@@ -324,63 +337,47 @@ public class AuthorizationResource {
 
         return Response.status(Response.Status.OK).entity(str).build();
 
-    }
-    
-//    private String email;
-//    
-//    @PathParam("email")
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-// 
-//    @Email(message = "Wrong format for mail", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
-//    public String getEmail() {
-//        return email;
-//    }
+    }    
+
     
     /**
      * restore Password via User Email 
+     * @param email for look up
+     * @param locale for defining language in mail confirmation
      * @return response with status 200
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("restore_password/{email}/{locale}") // http:localhost:8080/webapi/account/restore_password/email/uk
     public Response restorePassword(@Context HttpServletRequest req,
-    								@PathParam("email") @Email String email,
-    								@PathParam("locale") @NotNull String locale) {
-
-        System.out.println(email);
-        System.out.println(locale);
-        
+                                    @PathParam("email") @Email String email,
+                                    @PathParam("locale") @NotNull String locale) {
+               
         // check if user exist with email
         User user;
         try {
-            user = userRep.findUserByEmail(email);
-            System.out.println(user);
+            user = userRep.findUserByEmail(email);            
         } catch (Exception e) {
             LOG.error(e);
-            String aLotOfUsers = buildResponseEntity(-1, "Ther is many users in DB. My Bug");
+            String aLotOfUsers = buildResponseEntity(-1, ERROR_RESTORE_1);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(aLotOfUsers).build(); 
         }
         
         if (user == null){
-        	
-        	String userWithEmailNotFound = buildResponseEntity(0, "Ther is no user with email:" + email + "in database");
-            return Response.status(Response.Status.NOT_FOUND).entity(userWithEmailNotFound).build();        	
+            
+            String userWithEmailNotFound = buildResponseEntity(0, ERROR_RESTORE_2);
+            return Response.status(Response.Status.NOT_FOUND).entity(userWithEmailNotFound).build(); 
         }
         
         if (!user.isActive()){
-        	
-        	String userIsNotActive = buildResponseEntity(-2, "User with this email is not active");
-        	return Response.status(Response.Status.BAD_REQUEST).entity(userIsNotActive).build();
-        	
+            
+            String userIsNotActive = buildResponseEntity(-2, ERROR_RESTORE_3);
+            return Response.status(Response.Status.BAD_REQUEST).entity(userIsNotActive).build();
+            
         }
 
         String newPassword = RandomStringUtils.random(8, true, true);
-        String newPasswordHasshed = getMd5(newPassword);
-        
-        System.out.println("new Password - " + newPassword);
-        System.out.println("new Password hashed - " + newPasswordHasshed);
+        String newPasswordHasshed = getMd5(newPassword);     
 
         user.setPassword(newPasswordHasshed);
 
@@ -398,7 +395,7 @@ public class AuthorizationResource {
 
         // Define URLs and callback
         String pathAll = req.getRequestURL().toString();
-        String pathMain = pathAll.replace("webapi/account/restore_password/"+ email + "/" + locale, "");
+        String pathMain = pathAll.replace(RESTORE_PASSWORD_PATH + email + "/" + locale, "");
 
         String message = buildRestorePasswordMessage(pathMain, username, newPassword, locale);
 
@@ -410,7 +407,7 @@ public class AuthorizationResource {
             return SERVER_ERROR;
         }
 
-        String restorePasswordConfirm = buildResponseEntity(1, "Password Restored succesfully. Send Via mail");
+        String restorePasswordConfirm = buildResponseEntity(1, SUCCESS_RESTORE);
 
         return Response.status(Response.Status.OK).entity(restorePasswordConfirm).build();
 
@@ -501,9 +498,9 @@ public class AuthorizationResource {
         String message;
 
         if (locale.equals(UA_LOCALE)) {
-            message = "Сервіс відновлення паролю на сайті - " + pathMain + " . Ім'я користувача - " + username + " . Новий пароль :" + newPassword;
+            message = RESTORE_TEXT_UA_1 + pathMain + RESTORE_TEXT_UA_2 + username + RESTORE_TEXT_UA_3 + newPassword;
         } else {
-        	message = "Restore password service on site - " + pathMain + " . User Name - " + username + " . New Password :" + newPassword;
+        	message = RESTORE_TEXT_EN_1 + pathMain + RESTORE_TEXT_EN_2 + username + RESTORE_TEXT_EN_3 + newPassword;
         }
 
         return message;
