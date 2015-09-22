@@ -268,10 +268,11 @@
   "ANIMAL_FOUND_FACEBOOK_SHARE_CAPTION": "Found animal!",
   "ANIMAL_LOST_FACEBOOK_SHARE_MESSAGE": "Lost animal, help! Please, visit this link.",
   "ANIMAL_LOST_FACEBOOK_SHARE_CAPTION": "Lost animal!",
+  "ANIMAL_BREED_NOT_FOUND": "Error, breed not chosen, please choose breed from list or if you want to add new breed, please write to support",
 
   "HTTP_400": "Error 400: Bad Request",
   "HTTP_401": "401: Unauthorized Error, please log in or sign in",
-  "HTTP_404": "Error 404: Resource Not Found",
+  "HTTP_404": "Error 404: Information Not Found",
   "HTTP_500": "500: Internal Server Error, sorry for the inconvenience",
   
   "AuthorizationResource.registerUser.arg1.socialLogin": "Registration Error. Wrong input format for Social Login!",

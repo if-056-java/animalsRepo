@@ -428,8 +428,6 @@ IMG.displayed {
 
 .soc-fb{
     transition:visibility 1s, opacity 1s;
-    opacity:0;
-    visibility: hidden;
     position: absolute;
     left: 86px;
     top: 161px;
@@ -444,7 +442,6 @@ IMG.displayed {
 }
 .soc-gg{
     transition:visibility 1s, opacity 1s;
-    visibility: hidden;
     position: absolute;
     left: 123px;
     top: 161px;
@@ -459,7 +456,6 @@ IMG.displayed {
 }
 .soc-tw{
     transition:visibility 1s, opacity 1s;
-    visibility: hidden;
     position: absolute;
     left: 160px;
     top: 161px;

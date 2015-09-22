@@ -20,7 +20,7 @@
     </div>
 
     <!-- Error message -->
-    <h3 class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-controller="AnimalsDetailController" ng-hide="!errorsFlag" style="color: maroon;">
+    <h3 class="alert alert-danger col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-controller="AnimalsDetailController" ng-hide="!errorsFlag">
         {{errorMessage}}<br>{{errors}}</h3>
 
     <div class="container" ng-show="!contentLoading">

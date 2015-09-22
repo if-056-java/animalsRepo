@@ -124,8 +124,7 @@
             </div>
 
             <!-- Error message -->
-            <h3 class="col-xs-12 col-sm-8 col-md-9 col-lg-9" ng-hide="!errorsFlag" style="color: maroon;">
-                {{errorMessage}}</h3>
+            <h3 class="alert alert-danger col-xs-12 col-sm-8 col-md-9 col-lg-9" ng-show="errorMessage" ng-bind="errorMessage"></h3>
 
             <!-- List of animals for adoption -->
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9 simple-border"
@@ -177,20 +176,6 @@
 
                             <div ng-cloak id="status-sprite-{{animal.id}}" class="center-block" style="text-align: center"></div>
                         </p>
-
-                        <script>
-                            $( ".image-wrapper"  ).hover(
-                                    function() {
-                                        $('.soc-fb').css({visibility: 'visible', opacity: 1.0});
-                                        $('.soc-gg').css({visibility: 'visible', opacity: 1.0});
-                                        $('.soc-tw').css({visibility: 'visible', opacity: 1.0});
-                                    }, function() {
-                                        $('.soc-fb').css({visibility: 'hidden', opacity: 0.0});
-                                        $('.soc-gg').css({visibility: 'hidden', opacity: 0.0});
-                                        $('.soc-tw').css({visibility: 'hidden', opacity: 0.0});
-                                    }
-                            );
-                        </script>
 
                         <p ng-if="currentLanguage === 'uk'" class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.type}}</p>
                         <p ng-if="currentLanguage !== 'uk'" class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.typeEn}}</p>

@@ -113,13 +113,12 @@
             </div>
 
             <!-- Error message -->
-            <h3 class="col-xs-12 col-sm-8 col-md-9 col-lg-9" ng-hide="!errorsFlag" style="color: maroon;">
-                {{errorMessage}}</h3>
+            <h3 class="alert alert-danger col-xs-12 col-sm-8 col-md-9 col-lg-9" ng-show="errorMessage" ng-bind="errorMessage"></h3>
 
             <!-- List of lost animals -->
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9 simple-border" ng-show="!contentLoading">
                 <div class="row">
-                    <div class="col-xs-12 col-lg-4 col-md-4 col-sm-6 simple-side-padding"
+                    <div class="col-xs-12 col-lg-6 col-md-6 col-sm-6 simple-side-padding"
                          style="height:420px; margin-bottom: 10px;" ng-repeat="animal in animals.values">
                         <h4 class="blocktext blocktext-h4">{{ 'ADVERT' | translate }} № {{animal.id}}</h4>
 
@@ -165,20 +164,6 @@
 
                         </p>
 
-                        <script>
-                            $( ".image-wrapper"  ).hover(
-                                    function() {
-                                        $('.soc-fb').css({visibility: 'visible', opacity: 1.0});
-                                        $('.soc-gg').css({visibility: 'visible', opacity: 1.0});
-                                        $('.soc-tw').css({visibility: 'visible', opacity: 1.0});
-                                    }, function() {
-                                        $('.soc-fb').css({visibility: 'hidden', opacity: 0.0});
-                                        $('.soc-gg').css({visibility: 'hidden', opacity: 0.0});
-                                        $('.soc-tw').css({visibility: 'hidden', opacity: 0.0});
-                                    }
-                            );
-                        </script>
-
                         <p ng-if="currentLanguage === 'uk'" class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.type}}</p>
                         <p ng-if="currentLanguage !== 'uk'" class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' | translate }}: {{animal.type.typeEn}}</p>
 
@@ -211,7 +196,8 @@
                                         {{ filter.limit }} <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
-                                        <li role="menuitem"><a href ng-click="countChanged('15')">15</a></li>
+                                        <li role="menuitem"><a href ng-click="countChanged('10')">10</a></li>
+                                        <li role="menuitem"><a href ng-click="countChanged('20')">20</a></li>
                                         <li role="menuitem"><a href ng-click="countChanged('30')">30</a></li>
                                     </ul>
                                 </div>

@@ -12,9 +12,6 @@ animalLostModule
             //spinner usability
             $scope.contentLoading = 0;
 
-            //define while error block visible
-            $scope.errorsFlag = false;
-
             //message with errors
             $scope.errorMessage = '';
 
@@ -30,11 +27,10 @@ animalLostModule
                 $scope.contentLoading++;
                 AnimalLostFactory.getListOfLostAnimals()
                     .then(
-                    function(result){},
+                    function(){},
 
                     //fail
                     function(error){
-                        $scope.errorsFlag = true;
                         $scope.errorMessage = error;
                     }
                 )
@@ -49,13 +45,11 @@ animalLostModule
             $scope.contentLoading++;
             AnimalLostFactory.getAmountRecords()
                 .then(
-                    function(result){
-                        $scope.errorsFlag = false;
+                    function(){
                     },
 
                     //fail
                     function(error){
-                        $scope.errorsFlag = true;
                         $scope.errorMessage = error;
                         $scope.totalItems.count = 0;
                     }
@@ -70,8 +64,6 @@ animalLostModule
              * @return next page.
              */
             $scope.pageChanged = function() {
-                $scope.contentLoading++;
-
                 //scroll to top of the page
                 jQuery('html, body').animate({ scrollTop: 0 }, 500);
 
@@ -105,11 +97,10 @@ animalLostModule
                     $scope.contentLoading++;
                     AnimalLostFactory.getListOfLostAnimals()
                         .then(
-                        function(result){},
+                        function(){},
 
                         //fail
                         function(error){
-                            $scope.errorsFlag = true;
                             $scope.errorMessage = error;
                         }
                     )
@@ -125,8 +116,7 @@ animalLostModule
                     .then(
                     function(){},
                     function(error){
-                        $scope.errorsFlag = true;
-                        $scope.$parent.errorMessage = error;
+                        $scope.errorMessage = error;
                     }
                     )
                     .finally(function() {
@@ -143,7 +133,7 @@ animalLostModule
                         },
                         function(error){
                             $scope.errorsFlag = true;
-                            $scope.$parent.errorMessage = error;
+                            $scope.errorMessage = error;
                         }
                         )
                         .finally(function() {
@@ -162,6 +152,7 @@ animalLostModule
                     $scope.filter.animal.dateOfSterilization = undefined;
                     $scope.filter.animal.image = undefined;
 
+                    clearErrorMessage();
                     $scope.doFilter();
                     jQuery('html, body').animate({ scrollTop: 0 }, 500);
                 };
@@ -173,14 +164,15 @@ animalLostModule
                     AnimalLostFactory.getAmountRecords()
                         .then(
                         function(){
-                            $scope.errorsFlag = false;
+                            if($scope.totalItems.count !== 0){
+                                clearErrorMessage();
+                            }
                         },
 
                         //fail
                         function(error){
-                            $scope.errorsFlag = true;
                             $scope.totalItems.count = 0;
-                            $scope.$parent.errorMessage = error;
+                            $scope.errorMessage = error;
                         });
 
                     initList();
@@ -188,6 +180,13 @@ animalLostModule
                     jQuery('html, body').animate({ scrollTop: 0 }, 500);
                 };
 
-        //Dependency injection
+                /**
+                 * Clear error messages
+                 */
+                function clearErrorMessage(){
+                    $scope.errorMessage = '';
+                }
+
+                //Dependency injection
         AnimalLostFilterController.$inject = ['$scope', 'AnimalLostFactory', 'AnimalLostValues', '$window'];
     });

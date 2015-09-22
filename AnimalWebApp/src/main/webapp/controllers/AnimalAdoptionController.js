@@ -2,8 +2,8 @@
  * Created by oleg on 11.08.2015.
  */
 adoptionModule
-    .controller('AdoptionController',
-        function AdoptionController($scope, $filter, AdoptionFactory, AnimalAdoptionValues) {
+    .controller('AnimalAdoptionController',
+        function AnimalAdoptionController($scope, $filter, AdoptionFactory, AnimalAdoptionValues) {
 
             //initialize loading spinner
             var targetContent = document.getElementById('loading-block');
@@ -11,9 +11,6 @@ adoptionModule
 
             //spinner usability
             $scope.contentLoading = 0;
-
-            //define while error block visible
-            $scope.errorsFlag = false;
 
             //message with errors
             $scope.errorMessage = '';
@@ -31,13 +28,11 @@ adoptionModule
                 AdoptionFactory.getListOfAdoptionAnimals()
                     .then(
                     function(result){
-
                         //get statuses for each animal
                         for(var i = 0; i < result.length; i++)
                             AdoptionFactory.getListOfAnimalStatuses(result[i].id)
                                 .then(
                                 function(result){
-
                                     $scope.contentLoading++;
                                     for(var i = 0; i < result.length; i++){
                                         if(result[i].animalStatus.id === 14) {
@@ -102,9 +97,7 @@ adoptionModule
                                         }
                                     }
                                 },
-
                                 function(error){
-                                    $scope.errorsFlag = true;
                                     $scope.errorMessage = error;
                                 }
                             ).finally(function() {
@@ -113,7 +106,6 @@ adoptionModule
                     },
                     //fail
                     function(error){
-                        $scope.errorsFlag = true;
                         $scope.errorMessage = error;
                     }
                 )
@@ -128,13 +120,10 @@ adoptionModule
             $scope.contentLoading++;
             AdoptionFactory.getAmountRecords()
                 .then(
-                    function(){
-                        $scope.errorsFlag = false;
-                    },
+                    function(){},
 
                     //fail
                     function(error){
-                        $scope.errorsFlag = true;
                         $scope.totalItems.count = 0;
                         $scope.errorMessage = error;
                     }
@@ -164,7 +153,7 @@ adoptionModule
             };
 
             //Dependency injection
-            AdoptionController.$inject = ['$scope', '$filter', 'AdoptionFactory', 'AnimalAdoptionValues', '$translate'];
+            AnimalAdoptionController.$inject = ['$scope', '$filter', 'AdoptionFactory', 'AnimalAdoptionValues', '$translate'];
 
         }).controller('AdoptionFilterController',
             function AdoptionFilterController($scope, $filter, AdoptionFactory, AnimalAdoptionValues, $window) {
@@ -183,7 +172,6 @@ adoptionModule
                     AdoptionFactory.getListOfAdoptionAnimals()
                         .then(
                         function(result){
-
                             //get statuses for each animal
                             for(var i = 0; i < result.length; i++)
                                 AdoptionFactory.getListOfAnimalStatuses(result[i].id)
@@ -252,16 +240,13 @@ adoptionModule
                                             }
                                         }
                                     },
-
                                     function(error){
-                                        $scope.errorsFlag = true;
                                         $scope.errorMessage = error;
                                     }
                                 );
                         },
                         //fail
                         function(error){
-                            $scope.errorsFlag = true;
                             $scope.errorMessage = error;
                         }
                     )
@@ -277,8 +262,7 @@ adoptionModule
                     .then(
                         function(){},
                         function(error){
-                            $scope.errorsFlag = true;
-                            $scope.$parent.errorMessage = error;
+                            $scope.errorMessage = error;
                         }
                     )
                     .finally(function() {
@@ -294,8 +278,7 @@ adoptionModule
                                 $scope.animalBreeds = data;
                             },
                             function(error){
-                                $scope.errorsFlag = true;
-                                $scope.$parent.errorMessage = error;
+                                $scope.errorMessage = error;
                             }
                         )
                         .finally(function() {
@@ -314,6 +297,7 @@ adoptionModule
                     $scope.filter.animal.dateOfSterilization = undefined;
                     $scope.filter.animal.image = undefined;
 
+                    clearErrorMessage();
                     $scope.doFilter();
                     jQuery('html, body').animate({ scrollTop: 0 }, 500);
                 };
@@ -325,14 +309,14 @@ adoptionModule
                     AdoptionFactory.getAmountRecords()
                         .then(
                         function(){
-                            $scope.errorsFlag = false;
+                            if($scope.totalItems.count !== 0){
+                                clearErrorMessage();
+                            }
                         },
-
                         //fail
                         function(error){
-                             $scope.errorsFlag = true;
-                             $scope.totalItems.count = 0;
-                             $scope.$parent.errorMessage = error;
+                            $scope.totalItems.count = 0;
+                            $scope.errorMessage = error;
                         });
 
                     initList();
@@ -340,6 +324,13 @@ adoptionModule
                     jQuery('html, body').animate({ scrollTop: 0 }, 500);
                 };
 
-        //Dependency injection
+                /**
+                 * Clear error messages
+                 */
+                function clearErrorMessage(){
+                    $scope.errorMessage = '';
+                }
+
+                //Dependency injection
         AdoptionFilterController.$inject = ['$scope', '$filter', 'AdoptionFactory', 'AnimalAdoptionValues', '$window'];
     });

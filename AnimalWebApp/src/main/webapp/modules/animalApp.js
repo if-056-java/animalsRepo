@@ -37,7 +37,7 @@ animalApp .config(['$routeProvider', '$translateProvider',
             })
             .when('/ua/animal/adoption', {
                 templateUrl: 'views/animal_adoption.html',
-                controller: 'AdoptionController'
+                controller: 'AnimalAdoptionController'
             })
             .when('/ua/animal/found', {
                 templateUrl: 'views/animal_found.html',

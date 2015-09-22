@@ -10,7 +10,6 @@ import java.io.*;
  * Created by oleg on 21.08.2015.
  */
 public class CreateAnimalImage {
-    private static final Logger LOG = LogManager.getLogger(CreateAnimalImage.class);
     private static final int BUFFER_SIZE = 1024;
     private static final int START_OFFSET = 0;
     private static final int END_OF_FILE = -1;
@@ -22,20 +21,15 @@ public class CreateAnimalImage {
      * @param pathToImageStorage Path to image storage folder
      * @return Image name for insert into database
      */
-    public static String createAnimalImage(String imageBytes, String pathToImageStorage) {
+    public static String createAnimalImage(String imageBytes, String pathToImageStorage) throws IOException{
         String fileName = imageName();
 
         try(InputStream is = new ByteArrayInputStream(decodedBytes(imageBytes))) {
             saveImage(is, pathToImageStorage(pathToImageStorage, fileName));
             return fileName;
         } catch (IOException e) {
-            try {
-                throw new IOException("Fail to load image", e);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            throw new IOException("Fail to load image", e);
         }
-        return null;
     }
 
     /**
@@ -53,7 +47,7 @@ public class CreateAnimalImage {
      * @param inputStream Stream of image bytes
      * @param uploadedFileLocation Image storage
      */
-    private static void saveImage(InputStream inputStream, String uploadedFileLocation){
+    private static void saveImage(InputStream inputStream, String uploadedFileLocation) throws IOException{
         try(OutputStream out = new FileOutputStream(new File(uploadedFileLocation))) {
             int read;
             byte[] bytes = new byte[BUFFER_SIZE];
@@ -63,7 +57,7 @@ public class CreateAnimalImage {
             }
             out.flush();
         } catch (IOException e) {
-            LOG.error(e);
+            throw new IOException("Fail to save image", e);
         }
     }
 
