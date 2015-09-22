@@ -129,8 +129,7 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
 
                 return AnimalsService.sendTwitter(id)
                     .then(function(data) {
-                        console.log("twitt sended");
-                        console.log(id);
+
                     });
             };
 
@@ -142,8 +141,7 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
 
                 return AnimalsService.sendFacebook(id)
                     .then(function(data) {
-                        console.log("facebook post sended");
-                        console.log(data);
+
                     });
             };
 

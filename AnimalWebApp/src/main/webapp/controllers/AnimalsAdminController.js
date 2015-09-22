@@ -88,9 +88,8 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
              */
             $scope.sendTwitter = function (id) {
                 AnimalsAdminService.sendTwitter(id);
-                console.log(id);
-                console.log($scope.animalId);
                 $scope.alertSample();
+                $filter('filter')(AnimalsAdminValues.animals.values,{id: id})[0].dateOfTwitter = new Date();
             };
 
             /**
@@ -99,7 +98,8 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
              */
             $scope.sendFacebook = function (id) {
                 AnimalsAdminService.sendFacebook(id);
-               /* $scope.alertSample();*/
+                $scope.alertSample();
+                $filter('filter')(AnimalsAdminValues.animals.values,{id: id})[0].dateOfFacebook = 1;
             };
 
             $scope.closeAlert = function(index) {
