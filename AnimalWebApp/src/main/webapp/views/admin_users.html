@@ -34,7 +34,6 @@
                     </div>
                     <hr>
 
-
                     <button type="submit" id="submit-form"
                             ng-click="doFilter()" class="btn btn-success col-xs-5 col-sm-6 col-md-5 col-lg-5" >{{ 'FILTER' | translate }}</button>
                     <div class="col-xs-2 col-sm-0 col-md-2 col-lg-2"></div>
@@ -63,7 +62,11 @@
                         <td>{{ user.surname }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.registrationDate }}</td>
-                        <td><a href="#/ua/">Detail</a></td>
+                        <td>
+                            <a class="btn btn-md" href="#/ua/user/home/animals/{{ animal.id }}" role="button">
+                                <image src="../resources/img/info-icon.png"></image>
+                            </a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
