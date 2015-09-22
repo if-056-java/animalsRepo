@@ -86,7 +86,7 @@ public class OAuthAuthorizationResource {
     private static final String LOGIN_TWITTER_PATH = "webapi/account/login/twitter";
     private static final String LOGIN_TWITTER_PATH_TOKEN = "webapi/account/login/twitter_token";
     private static final String LOGIN_TWITTER_PATH_DIRECT = "webapi/account/login/twitter_login_direct";
-    private static final String URL_TO_SITE_PROFILE = "/#/ua/user/login";
+    private static final String URL_TO_SITE_PROFILE = "/#/ua/user/profile";
     private static final String URL_TO_SITE_JOIN_ERROR = "?join=error";    
     
     //parameters to get
@@ -204,9 +204,9 @@ public class OAuthAuthorizationResource {
         // Define URLs and callback
         String callbackUrlG = defineURL(req, LOGIN_GOOGLE_PATH_TOKEN, CALLBACK_URL_PATH_GOOGLE);
         String pathMain = definePathMain(req, LOGIN_GOOGLE_PATH_TOKEN);
-        String successURL = defineSuccessUrl(req, LOGIN_GOOGLE_PATH_TOKEN);
+        String successURL = defineSuccessUrl(req, LOGIN_GOOGLE_PATH_TOKEN);       
 
-        if (error != null) {
+        if (error != null) {        	
             String entryUrl = pathMain + URL_TO_SITE_PROFILE;
             return Response.temporaryRedirect(UriBuilder.fromUri(entryUrl).build()).build();
         }
@@ -240,7 +240,8 @@ public class OAuthAuthorizationResource {
 
         // JSON string from Google response
         String json = response.getBody();
-
+        
+        
         // parse string
         String googleId = null;
         String name = null;
@@ -253,7 +254,7 @@ public class OAuthAuthorizationResource {
             name = (String) jsonObject.get(NAME);
             googleId = (String) jsonObject.get(ID);
             link = (String) jsonObject.get(PICTURE);
-            email = (String) jsonObject.get(EMAIL);
+            email = (String) jsonObject.get(EMAIL);            
 
         } catch (ParseException e) {
             LOG.error(e);
@@ -267,7 +268,7 @@ public class OAuthAuthorizationResource {
         // CASE 1: Editing user profile from MyCabinet. Check if session has
         // parameters
         if (session.getAttribute(SESSION_USER_ID) != null) {
-
+        	
             // Check if user exist by googleId. If exist - we can't join accounts - will be error.
             // ERROR - when login - two accounts with the same GoogleID
             User existUserWithGoogleId = null;
@@ -280,7 +281,7 @@ public class OAuthAuthorizationResource {
 
             if (existUserWithGoogleId != null) {
                 // add params to redirect URL to inform frontend that account is
-                // already in use by another user
+                // already in use by another user            	
                 String errorUrl = successURL + URL_TO_SITE_JOIN_ERROR;
                 return Response.temporaryRedirect(UriBuilder.fromUri(errorUrl).build()).build();
             }
@@ -325,7 +326,7 @@ public class OAuthAuthorizationResource {
             // Case 2
             // creating Session for founded user. Setting params
             setUpSuccessSession(user, session, SUCCESS_LOG_MESSAGE);
-            session.setAttribute(REFRESH_GOOGLE_TOKEN, refreshGoogleToken);
+            session.setAttribute(REFRESH_GOOGLE_TOKEN, refreshGoogleToken);          
 
             // Entering to site with Session
             return Response.temporaryRedirect(UriBuilder.fromUri(successURL).build()).build();
