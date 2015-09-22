@@ -18,7 +18,7 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
             //alert success registration
             $scope.alertSample = function() {
                 angularPopupBoxes.alert(successMessage).result.then(function() {
-                    location.href="#/ua/admin/animals";
+                    location.href="#/ua/user/home/animals";
                 });
             };
 
@@ -88,6 +88,8 @@ angular.module('AnimalsAdminController', ['AnimalsAdminModule', 'nya.bootstrap.s
              */
             $scope.sendTwitter = function (id) {
                 AnimalsAdminService.sendTwitter(id);
+                console.log(id);
+                console.log($scope.animalId);
                 $scope.alertSample();
             };
 

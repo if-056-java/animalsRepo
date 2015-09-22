@@ -127,12 +127,10 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
              */
             this.sendTwitter = function (id) {
 
-                console.log("twitt sended");
-                console.log(id);
-
                 return AnimalsService.sendTwitter(id)
                     .then(function(data) {
-                        console.log(data);
+                        console.log("twitt sended");
+                        console.log(id);
                     });
             };
 
