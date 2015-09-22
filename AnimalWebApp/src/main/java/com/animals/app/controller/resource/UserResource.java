@@ -65,8 +65,9 @@ public class UserResource {
     private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
     private final Response UNAUTHORIZED = Response.status(Response.Status.UNAUTHORIZED).build();
 
-    private final String IMAGE_FOLDER = "images/";
-    private final int LENGTH_IMAGE = 50;
+    private static final String IMAGE_FOLDER = "images/";
+    private static final int LENGTH_IMAGE = 50;
+    private static final String SESSION_USER_ID = "userId";
 
     private UserRepository userRep = new UserRepositoryImpl();
     private AnimalRepository animalRep = new AnimalRepositoryImpl();
@@ -155,7 +156,7 @@ public class UserResource {
                                             @Context HttpServletRequest req) {
 
         HttpSession session = req.getSession(true);
-        if (!session.getAttribute("userId").equals(Long.toString(userId))) {
+        if (!session.getAttribute(SESSION_USER_ID).equals(Long.toString(userId))) {
             return UNAUTHORIZED;
         }
 
@@ -189,7 +190,7 @@ public class UserResource {
 
         HttpSession session = req.getSession(true);
 
-        if (!session.getAttribute("userId").equals(id)) {
+        if (!session.getAttribute(SESSION_USER_ID).equals(id)) {
             return UNAUTHORIZED;
         }
 
@@ -217,7 +218,7 @@ public class UserResource {
 
         HttpSession session = req.getSession(true);
 
-        if (!session.getAttribute("userId").equals(id)) {
+        if (!session.getAttribute(SESSION_USER_ID).equals(id)) {
             return UNAUTHORIZED;
         }
 
@@ -257,7 +258,7 @@ public class UserResource {
 
         HttpSession session = req.getSession(true);
 
-        if (!session.getAttribute("userId").equals(id)) {
+        if (!session.getAttribute(SESSION_USER_ID).equals(id)) {
             return UNAUTHORIZED;
         }
 
@@ -308,7 +309,7 @@ public class UserResource {
 
         HttpSession session = req.getSession(true);
 
-        if (!session.getAttribute("userId").equals(id)) {
+        if (!session.getAttribute(SESSION_USER_ID).equals(id)) {
             return UNAUTHORIZED;
         }
 

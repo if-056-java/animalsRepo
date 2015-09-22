@@ -64,8 +64,7 @@ public class AuthorizationResource {
     private static final String SESSION_ROLE_ID = "userRoleId";
     private static final String SESSION_USER_ROLE = "userRole";
     private static final String SESSION_SUCCESS = "successMesage";
-    private static final String SESSION_ACCESS_TOKEN = "accessToken";
-    private static final String SESSION_ID = "sessionId";
+    private static final String SESSION_ACCESS_TOKEN = "accessToken";    
     private static final String SESSION_USER = "user";
     private static final String SESSION_REMEMBER_ME_ON = "ON";
 
@@ -82,16 +81,15 @@ public class AuthorizationResource {
     private static final String REG_TEXT_EN_2 = " follow next link - ";
     private static final String REG_TEXT_UA_1 = "Для підтвердження реєстрації на сайті - ";
     private static final String REG_TEXT_UA_2 = " пройдіть за вказаною ссилкою - ";
+    private static final String HEADER_AUTHORIZATION = "Authorization";
+    private static final String HEADER_BASIC = "Basic";
 
     private UserRepositoryImpl userRep = new UserRepositoryImpl();
 
     /**
      * login into site
-     * 
-     * @param user
-     *            credentials in HTTP request header
-     * @param rememberMe
-     *            option
+     * @param user credentials in HTTP request header
+     * @param rememberMe option
      * @return response with status 200 and parameters for creating session
      */
     @POST
@@ -104,8 +102,8 @@ public class AuthorizationResource {
         String header = null;
         String sub = null;
         try {
-            header = req.getHeader("Authorization");
-            sub = header.replaceFirst("Basic" + " ", "");
+            header = req.getHeader(HEADER_AUTHORIZATION);
+            sub = header.replaceFirst(HEADER_BASIC + " ", "");
         } catch (NullPointerException e) {
             LOG.error(e);
             return SERVER_ERROR;
@@ -154,11 +152,9 @@ public class AuthorizationResource {
         HttpSession session = req.getSession(true);
 
         if (rememberMe.equals(SESSION_REMEMBER_ME_ON)) {
-            session.setMaxInactiveInterval(LONG_SESSION); // session duration -
-                                                          // 30 days
+            session.setMaxInactiveInterval(LONG_SESSION); // session duration - 30 days
         } else {
-            session.setMaxInactiveInterval(SHORT_SESSION); // session duration -
-                                                           // 90 min
+            session.setMaxInactiveInterval(SHORT_SESSION); // session duration -90 min
         }
 
         // setSuccessAtribute(session);
@@ -170,8 +166,7 @@ public class AuthorizationResource {
     }
 
     /**
-     * logout - destroying current session
-     * 
+     * logout - destroying current session     * 
      * @return response with status 200
      */
     @GET

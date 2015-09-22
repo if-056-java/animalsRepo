@@ -145,6 +145,13 @@ public class OAuthAuthorizationResource {
     private static final String TWITTER_SECRET = "twitterSecret";
     private static final String FACEBOOK_TOKEN = "facebookToken";
 
+    /**
+     * OAuth authentication. Google. Phase 1.
+     * login into site with GOOGLE Profile
+     * Get on Google page to confirm authentication
+     * @return authorization URL for further OAuth authentication
+     * with token as URL query parameter
+     */
     @GET
     @Path("login/google") // http:localhost:8080/webapi/account/login/google
     public Response googleLogin(@Context HttpServletRequest req) {
@@ -177,6 +184,18 @@ public class OAuthAuthorizationResource {
         return Response.status(Response.Status.OK).entity(authorizationUrl).build();
     }
 
+    /**
+     * OAuth authentication. Google. Phase 2.
+     * Callback from Google resource with token as query parameter
+     * Change token to Google Access Token to build request
+     * Build request with Access Token to get user data from Google Resource.
+     * Get unique GoogleId, userName, user Email, user profile picture from Google.
+     * Next could be 3 Cases.
+     * Case 1 - Join account with existing one.
+     * Case 2 - Login To site with unique GoogleId
+     * Case 3 - Registering new user 
+     * @return redirect URL to main site
+     */
     @GET
     @Path("login/google_token") // http://localhost:8080/webapi/account/login/google_token
     public Response getGoogleAccessToken(@QueryParam("code") String token, @QueryParam("error") String error,
@@ -336,6 +355,14 @@ public class OAuthAuthorizationResource {
 
     }
 
+    /**
+     * Direct OAuth authentication with Google Refresh Token
+     * @param google Refresh Token.
+     * Change Google refresh Token to Access Token to build request     * 
+     * Build request with Access Token to get unique GoogleId from Google Resource.
+     * Login To site with unique GoogleId
+     * @return redirect URL to main site
+     */
     @GET
     @Path("login/google_login_direct") // http://localhost:8080/webapi/account/login/google_login_direct
     public Response directGoogleLoginWithRefreshToken(@Context HttpServletRequest req,
@@ -435,6 +462,14 @@ public class OAuthAuthorizationResource {
 
     }
 
+    
+    /**
+     * OAuth authentication. Facebook. Phase 1.
+     * login into site with Facebook Profile
+     * Get on Facebook page to confirm authentication
+     * @return authorization URL for further OAuth authentication
+     * with token as URL query parameter
+     */
     @GET
     @Path("login/facebook") // http:localhost:8080/webapi/account/login/facebook
     public Response facebookLogin(@Context HttpServletRequest req) {
@@ -465,6 +500,19 @@ public class OAuthAuthorizationResource {
 
     }
 
+    
+    /**
+     * OAuth authentication. Facebook. Phase 2.
+     * Callback from Facebook resource with token as query parameter
+     * Change token to Facebook Access Token to build request
+     * Build request with Access Token to get user data from Facebook Resource.
+     * Get unique FacebookId, userName, user profile picture from Facebook.
+     * Next could be 3 Cases.
+     * Case 1 - Join account with existing one.
+     * Case 2 - Login To site with unique FacebookId
+     * Case 3 - Registering new user 
+     * @return redirect URL to main site
+     */
     @GET
     @Path("login/facebook_token") // http://localhost:8080/webapi/account/login/facebook_token
     public Response getFacebookAccessToken(@QueryParam("code") String token, @QueryParam("error") String error,
@@ -631,6 +679,14 @@ public class OAuthAuthorizationResource {
 
     }
 
+    
+    /**
+     * OAuth authentication. Twitter. Phase 1.
+     * login into site with Twitter Profile
+     * Get on Twitter page to confirm authentication
+     * @return authorization URL for further OAuth authentication
+     * with Twitter token & Twitter Secret as URL query parameter
+     */
     @GET
     @Path("login/twitter") // http:localhost:8080/webapi/account/login/twitter
     public Response twitterLogin(@Context HttpServletRequest req) {
@@ -664,6 +720,20 @@ public class OAuthAuthorizationResource {
 
     }
 
+    
+    /**
+     * OAuth authentication. Twitter. Phase 2.
+     * Callback from Twitter resource with Twitter token &
+     * Twitter secret as query parameter
+     * Change token to Twitter Access Token to build request
+     * Build request with Access Token to get user data from Twitter Resource.
+     * Get unique TwitterId, userName, user profile picture from Twitter.
+     * Next could be 3 Cases.
+     * Case 1 - Join account with existing one.
+     * Case 2 - Login To site with unique FacebookId
+     * Case 3 - Registering new user 
+     * @return redirect URL to main site
+     */
     @GET
     @Path("login/twitter_token") // http://localhost:8080/webapi/account/login/twitter_token
     public Response getTwitterAccessToken(@QueryParam("oauth_token") String oauth_token,
@@ -827,6 +897,16 @@ public class OAuthAuthorizationResource {
 
     }
 
+    
+    /**
+     * Direct OAuth authentication with Twitter Access Token & Twitter Secret
+     * @param Twitter Access Token
+     * @param Twitter Secret Token.
+     * Build request with Access Token & Secret Token 
+     * to get unique TwitterId from Twitter Resource.
+     * Login To site with unique TwitterId
+     * @return redirect URL to main site
+     */
     @GET
     @Path("login/twitter_login_direct") // http://localhost:8080/webapi/account/login/twitter_login_direct
     public Response directTwitterLoginWithOldAccessToken(@Context HttpServletRequest req,
