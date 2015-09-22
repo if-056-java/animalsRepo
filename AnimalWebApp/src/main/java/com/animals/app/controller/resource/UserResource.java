@@ -279,9 +279,7 @@ public class UserResource {
             return Response.ok().build();
         }
 
-        String restPath = req.getServletContext().getRealPath("/"); // path to
-                                                                    // rest root
-                                                                    // folder
+        String restPath = req.getServletContext().getRealPath("/"); // path to rest root folder
         // delete image
         File file = new File(restPath + IMAGE_FOLDER + animal.getImage());
         if (file.exists()) {
