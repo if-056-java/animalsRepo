@@ -14,7 +14,7 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
              */
             this.getAnimals = function() {
 
-                return AnimalsService.getAnimalsForAdmin(AnimalsDoctorValues.filter)
+                return AnimalsService.getAnimalsForDoctor(AnimalsDoctorValues.filter)
                     .then(function(response) {
                         AnimalsDoctorValues.animals.values = response.data;
                         return response;
@@ -27,7 +27,7 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
              */
             this.getPagesCount = function() {
 
-                return AnimalsService.getAnimalsPaginatorForAdmin(AnimalsDoctorValues.filter)
+                return AnimalsService.getAnimalsPaginatorForDoctor(AnimalsDoctorValues.filter)
                     .then(function(response) {
                         AnimalsDoctorValues.totalItems.count = response.data.rowsCount;
                         return response;
@@ -53,6 +53,7 @@ angular.module('AnimalsDoctorModule', ['AnimalsDoctorValues', 'AnimalMedicalHist
                 return AnimalsService.getAnimalForAdmin(animalId)
                     .then(function(response) {
                         angular.copy(response.data, AnimalsDoctorValues.animal);
+                        AnimalsDoctorValues.animal.active = AnimalsDoctorValues.animal.active.toString();
                         return response;
                     });
             }

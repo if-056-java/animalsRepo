@@ -169,16 +169,14 @@
                             </p>
                             <hr>
 
-                            <!-- Animal date of sterilization -->
-                            <p class="input-group" ng-controller="DPController">
-                                <span class="input-group-addon">{{ 'STERILIZATION_DATE' | translate }}</span>
-                                <input type="text" class="form-control border-right-radius" datepicker-popup="yyyy-MM-dd"
-                                       ng-model="animal.dateOfSterilization"
-                                       is-open="opened" datepicker-options="dateOptions"
-                                       current-text="{{ 'TODAY' | translate }}" clear-text="{{ 'CLEAR' | translate }}"
-                                       close-text="{{ 'CLOSE' | translate }}" close-text="Close"
-                                       ng-click="open($event)"/>
-                            </p>
+                            <!-- Animal status -->
+                            <div class="input-group">
+                                <span class="input-group-addon">{{ 'ANIMAL_ACTIVE' | translate }}</span>
+                                <ol class="nya-bs-select nya-bs-select-mod" ng-model="animal.active" title="{{ 'NOT_SELECTED' | translate }}">
+                                    <li class="nya-bs-option" value="true"><a>{{ 'YES' | translate}}</a></li>
+                                    <li class="nya-bs-option" value="false"><a>{{ 'NO' | translate}}</a></li>
+                                </ol>
+                            </div>
 
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
@@ -217,6 +215,17 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success panel-body">
+                    <div class="form-group">
+                        <label for="comment">{{ 'DESCRIPTION' | translate }}:</label>
+                        <textarea class="form-control" rows="3" id="comment" ng-model="animal.description"
+                              name="description"></textarea>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-xs-12 col-sm-8 col-sm-offset-4 col-md-7 col-md-offset-5 col-lg-6 col-lg-offset-6 detailed-buttons">
                     <button type="submit" ng-disabled="animalEditor.$invalid || errors.length > 0" id="submit-form"

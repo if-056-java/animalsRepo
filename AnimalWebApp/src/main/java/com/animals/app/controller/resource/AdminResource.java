@@ -1,12 +1,10 @@
 package com.animals.app.controller.resource;
 
-import com.animals.app.domain.Animal;
-import com.animals.app.domain.AnimalBreed;
-import com.animals.app.domain.AnimalType;
-import com.animals.app.domain.AnimalsFilter;
+import com.animals.app.domain.*;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
+import com.animals.app.repository.Impl.UserRepositoryImpl;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -50,7 +48,7 @@ public class AdminResource {
      * AnimalsFilter.limit must be set and more than 0
      */
     @POST //http:localhost:8080/webapi/admin/animals
-    @RolesAllowed({"moderator", "doctor"})
+    @RolesAllowed("moderator")
     @Path("animals")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -70,7 +68,7 @@ public class AdminResource {
      * @return count of rows for pagination.
      */
     @POST //http:localhost:8080/webapi/animals/paginator
-    @RolesAllowed({"moderator", "doctor"})
+    @RolesAllowed("moderator")
     @Path("animals/paginator")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -236,6 +234,62 @@ public class AdminResource {
         animalRepository.update(animal);
 
         return ok();
+    }
+
+    /**
+     * @param usersFilter instance used for lookup.
+     * @return count of rows for pagination.
+     */
+    @POST //http:localhost:8080/webapi/admin/users/paginator
+    @Path("users/paginator")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAmountListUsersForAdmin(UsersFilter usersFilter) {
+
+        UserRepositoryImpl userRepository = new UserRepositoryImpl();
+        //get count of row according to filter
+        long pages = userRepository.getAdminUsersPaginator(usersFilter);
+
+        if (pages == 0) {
+            return NOT_FOUND;
+        }
+
+        String json = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
+
+//        return Response.status(Response.Status.OK).entity(str).build();
+        return ok(json);
+    }
+
+    /**
+     * @param usersFilter instance used for lookup.
+     * @return list of users.
+     */
+    @POST //http:localhost:8080/webapi/admin/users
+    @Path("users")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAllUsersForAdmin(UsersFilter usersFilter) {
+
+        if (usersFilter == null) {
+            return BAD_REQUEST;
+        }
+        if ((usersFilter.getPage() == 0) || (usersFilter.getLimit() == 0)) {
+            return BAD_REQUEST;
+        }
+
+        UserRepositoryImpl userRepository = new UserRepositoryImpl();
+        //get list of users from data base
+        List<User> users = userRepository.getAdminUsers(usersFilter);
+
+        //cast list of animals to generic list
+        GenericEntity<List<User>> genericUsers = new GenericEntity<List<User>>(users) {};
+
+        if (genericUsers == null) {
+            return NOT_FOUND;
+        }
+
+        //return Response.ok().entity(genericUsers).build();
+        return ok(genericUsers);
     }
 
     /**

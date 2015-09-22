@@ -122,8 +122,6 @@ public class TestDoctoreResource extends ResourceTestTemplate {
 
         LOG.debug("TestName: test01InsertAnimalMedicalHistoryItem - " + json);
 
-        System.out.println(accessToken);
-        System.out.println(json);
         Response response = client
                 .target(REST_SERVICE_URL)
                 .path("medical_history/item")
@@ -131,7 +129,7 @@ public class TestDoctoreResource extends ResourceTestTemplate {
                 .header("AccessToken", accessToken)
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);
 
-        System.out.println(response.readEntity(String.class));
+
         assertNotNull(response);
         assertEquals(response.getStatus(), 200);
     }
@@ -251,7 +249,7 @@ public class TestDoctoreResource extends ResourceTestTemplate {
                 .toJson(actual);
 
         LOG.debug("TestName: test05InsertAnimalMedicalHistoryItem - " + json);
-        System.out.println(json);
+
         Response response = client.target(REST_SERVICE_URL)
                 .path("medical_history/item")
                 .request()

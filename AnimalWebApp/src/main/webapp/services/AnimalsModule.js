@@ -27,6 +27,24 @@ angular.module('AnimalsModule', ['LocalStorageModule'])
             }
 
             /**
+             * filter instance used for lookup.
+             * @return list of animals.
+             */
+            this.getAnimalsForDoctor = function(filter) {
+
+                return $http.post(RESOURCES.ANIMALS_FOR_DOCTOR, filter);
+            }
+
+            /**
+             * filter instance used for lookup.
+             * @return count of rows for pagination.
+             */
+            this.getAnimalsPaginatorForDoctor = function(filter) {
+
+                return $http.post(RESOURCES.ANIMALS_FOR_DOCTOR_PAGINATOR, filter);
+            }
+
+            /**
              * @param animalId id of animal used for lookup.
              * @return animal instance.
              */

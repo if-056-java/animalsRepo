@@ -54,6 +54,12 @@ p {
 	padding: 15px;
 }
 
+#passwordUpdateBlock {
+	border: 1px solid green;
+	border-radius: 5px;	
+	padding: 10px;
+}
+
 #profileblock {
 	border-right: 1px solid green;
 	border-left: 1px solid green;

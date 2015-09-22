@@ -31,8 +31,6 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.animals.app.domain.UsersFilter;
-
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -55,176 +53,182 @@ import sun.misc.BASE64Decoder;
  */
 
 @Path("users")
-@RolesAllowed({"guest", "moderator" , "doctor"})
+@RolesAllowed({ "guest", "moderator", "doctor" })
 public class UserResource {
-	
-	private static Logger LOG = LogManager.getLogger(UserResource.class);
-	
-	private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();	
-	private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();	
-	private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-	private final Response UNAUTHORIZED = Response.status(Response.Status.UNAUTHORIZED).build();
-	
-	private final String IMAGE_FOLDER = "images/";
-	private final int LENGTH_IMAGE = 50;
-	
-	private UserRepository userRep = new UserRepositoryImpl();
-	private AnimalRepository animalRep = new AnimalRepositoryImpl();		
-	
-	
-	/**
+
+    private static Logger LOG = LogManager.getLogger(UserResource.class);
+
+    private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
+    private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
+    private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+    private final Response UNAUTHORIZED = Response.status(Response.Status.UNAUTHORIZED).build();
+
+    private static final String IMAGE_FOLDER = "images/";
+    private static final int LENGTH_IMAGE = 50;
+    private static final String SESSION_USER_ID = "userId";
+
+    private UserRepository userRep = new UserRepositoryImpl();
+    private AnimalRepository animalRep = new AnimalRepositoryImpl();
+
+    /**
      * @param userId id of user
      * @return return user instance from data base
-     * -------------------------------------------------------------------
+     * -----------------------------------------------------------------
      * userId must be set and more than 0
      */
-	@GET //http:localhost:8080/webapi/users/user/{userId}
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	@Path("user/{userId}") 	
-	public Response getUserById(@PathParam ("userId") @DecimalMin(value = "1") int id) {
-				
-		try {
-			User user = userRep.getById(id);
-			
-			if (user == null) return NOT_FOUND;
-			
-			return Response.ok().entity(user).build();
-			
-		} catch (Exception e) {
-			LOG.error(e);
-			return SERVER_ERROR;
-		}	
-		
-	}	
-	
-	/**
-     * Update user info in data base
+    @GET // http:localhost:8080/webapi/users/user/{userId}
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Path("user/{userId}")
+    public Response getUserById(@PathParam("userId") @DecimalMin(value = "1") int id,
+                                @Context HttpServletRequest req) {
+
+        HttpSession session = req.getSession(true);
+        
+        if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id))) {
+            return UNAUTHORIZED;
+        }
+        
+        try {
+            User user = userRep.getById(id);
+
+            if (user == null)
+                return NOT_FOUND;
+
+            return Response.ok().entity(user).build();
+
+        } catch (Exception e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
+
+    }
+
+    /**
+     * Update user info in data base 
      * @param user instance to be updated
      * @return updated user instance from data base
-     * -------------------------------------------------------------------
+     * -----------------------------------------------------------------
      * User required parameters must be set
      */
-	@PUT 
-	@Path("user/{userId}") //http:localhost:8080/webapi/users/user/{userId}  //User update
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response updateUser (@Valid User user) {
-		
-		if (user==null) return BAD_REQUEST;
-		
-		int id;		
-		try {
-			id = user.getId();
-		} catch (Exception e) {
-			LOG.error(e);
-			return BAD_REQUEST;
-		}		
-				
-		if (userRep.getById(id) == null) return NOT_FOUND;     
-		
-       	try {
-			userRep.update(user);
-			
-			User updatedUser = userRep.getById(id);
-			
-			return Response.ok().entity(updatedUser).build();
-			
-		} catch (Exception e) {
-			LOG.error(e);
-			return SERVER_ERROR;
-		}		
-	}
-	
-	/**
+    @PUT
+    @Path("user/{userId}") // http:localhost:8080/webapi/users/user/{userId}
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response updateUser(@Valid User user,
+                               @PathParam("userId") @DecimalMin(value = "1") int id,
+                               @Context HttpServletRequest req) {
+
+        HttpSession session = req.getSession(true);
+        
+        if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id))) {
+            return UNAUTHORIZED;
+        }
+
+        if (userRep.getById(id) == null)
+            return NOT_FOUND;
+
+        try {
+            userRep.update(user);
+
+            User updatedUser = userRep.getById(id);
+
+            return Response.ok().entity(updatedUser).build();
+
+        } catch (Exception e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
+    }
+
+    /**
      * @param animalsFilter instance used for lookup.
      * @param userId instance used for lookup.
      * @return list of user animals.
-     * -------------------------------------------------------------------
+     *-----------------------------------------------------------------
      * AnimalsFilter.page must be set and more than 0
-     * AnimalsFilter.limit must be set and more than 0
-     * userId must be set and more than 0
+     * AnimalsFilter.limit must be set and more than 0 userId must be set and more than 0
      */
-	@POST  //http:localhost:8080/webapi/users/user/{userId}/animals  
+    @POST // http:localhost:8080/webapi/users/user/{userId}/animals
     @Path("user/{userId}/animals")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response geetUserAnimalsByUserId(@PathParam("userId") @DecimalMin(value = "1") long userId, 
-    										@Valid @NotNull AnimalsFilter animalsFilter,
-    										@Context HttpServletRequest req) {
-		
-		HttpSession session = req.getSession(true);
-		if (!session.getAttribute("userId").equals(Long.toString(userId))){
-			return UNAUTHORIZED;
-		}
-		
-        //get list of user animals from data base
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response geetUserAnimalsByUserId(@PathParam("userId") @DecimalMin(value = "1") long userId,
+                                            @Valid @NotNull AnimalsFilter animalsFilter, 
+                                            @Context HttpServletRequest req) {
+
+        HttpSession session = req.getSession(true);
+        
+        if (!session.getAttribute(SESSION_USER_ID).equals(Long.toString(userId))) {
+            return UNAUTHORIZED;
+        }
+
+        // get list of user animals from data base
         List<Animal> animals = userRep.getUserAnimals(userId, animalsFilter.getOffset(), animalsFilter.getLimit());
 
-        //cast list of animals to generic list
-        GenericEntity<List<Animal>> genericAnimals = new GenericEntity<List<Animal>>(animals) {};
+        // cast list of animals to generic list
+        GenericEntity<List<Animal>> genericAnimals = new GenericEntity<List<Animal>>(animals) {
+        };
 
-        if(genericAnimals == null) {
+        if (genericAnimals == null) {
             return NOT_FOUND;
         }
 
         return Response.ok().entity(genericAnimals).build();
-    }	
+    }
 
-	/**
+    /**
      * @param animalId instance used for lookup.
      * @param userId instance used for lookup.
      * @return animal instance with id=animalId for user with id=userId.
-     * -------------------------------------------------------------------
-     * animalId must be set and more than 0
-     * userId must be set and more than 0
+     * -----------------------------------------------------------------
+     * animalId must be set and more than 0 userId must be set and more than 0
      */
-	@GET //http:localhost:8080/webapi/users/user/{userId}/animals/{animalId}   
+    @GET // http:localhost:8080/webapi/users/user/{userId}/animals/{animalId}
     @Path("user/{userId}/animals/{animalId}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getAnimal(@PathParam ("userId") String id,
-    						  @PathParam("animalId") @DecimalMin(value = "1") long animalId,
-    						  @Context HttpServletRequest req) {
-        		
-		
-		HttpSession session = req.getSession(true);
-		
-		if (!session.getAttribute("userId").equals(id)){
-			return UNAUTHORIZED;
-		}
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response getAnimal(@PathParam("userId") String id,
+                              @PathParam("animalId") @DecimalMin(value = "1") long animalId, 
+                              @Context HttpServletRequest req) {
 
-        //get animal by id from data base        
+        HttpSession session = req.getSession(true);
+
+        if (!session.getAttribute(SESSION_USER_ID).equals(id)) {
+            return UNAUTHORIZED;
+        }
+
+        // get animal by id from data base
         Animal animal = animalRep.getById(animalId);
 
         return Response.ok().entity(animal).build();
     }
-	
-	/**
+
+    /**
      * Delete animal in data base
      * @param animalId id of animal
      * @param userId id of user (animal owner)
      * @return return response with status 200
-     * -------------------------------------------------------------------
-     * animalId must be set and more than 0
-     * userId must be set and more than 0
-     */	
-	@DELETE //http:localhost:8080/webapi/users/user/{userId}/animals/{animalId} 
+     * -----------------------------------------------------------------
+     * animalId must be set and more than 0 userId must be set and
+     * more than 0
+     */
+    @DELETE // http:localhost:8080/webapi/users/user/{userId}/animals/{animalId}
     @Path("user/{userId}/animals/{animalId}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response deleteAnimal(@PathParam ("userId") @NotNull String id,
-    							 @PathParam("animalId") @DecimalMin(value = "1") long animalId,
-    							 @Context HttpServletRequest req) {
-				
-		HttpSession session = req.getSession(true);
-		
-		if (!session.getAttribute("userId").equals(id)){
-			return UNAUTHORIZED;
-		}        
-   
-        String restPath = req.getServletContext().getRealPath("/");				//path to rest root folder   
-        
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response deleteAnimal(@PathParam("userId") @NotNull String id,
+                                 @PathParam("animalId") @DecimalMin(value = "1") long animalId, 
+                                 @Context HttpServletRequest req) {
+
+        HttpSession session = req.getSession(true);
+
+        if (!session.getAttribute(SESSION_USER_ID).equals(id)) {
+            return UNAUTHORIZED;
+        }
+
+        String restPath = req.getServletContext().getRealPath("/"); // path to rest root folder
+
         Animal animal = animalRep.getById(animalId);
 
-        //delete image
+        // delete image
         if (animal.getImage() != null) {
             File file = new File(restPath + animal.getImage());
             if (file.exists()) {
@@ -232,37 +236,36 @@ public class UserResource {
             }
         }
 
-        //delete animal in data base by id
+        // delete animal in data base by id
         animalRep.delete(animalId);
 
         return Response.ok().build();
     }
-	
-	
-	/**
+
+    /**
      * Delete animal image from data base
      * @param animalId id of animal
-     * @param userId id of user (animal owner)
+     * @param userIdid of user (animal owner)
      * @return return response with status 200
-     * -------------------------------------------------------------------
-     * animalId must be set and more than 0
-     * userId must be set and more than 0
-     */	
-	@DELETE //http:localhost:8080/webapi/users/user/{userId}/animals/{animalId} 
+     *-----------------------------------------------------------------
+     * animalId must be set and more than 0 userId must be set and
+     * more than 0
+     */
+    @DELETE // http:localhost:8080/webapi/users/user/{userId}/animals/{animalId}
     @Path("user/{userId}/animals/{animalId}/image")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response deleteAnimalImage(@PathParam ("userId") @NotNull String id,
-    							 @PathParam("animalId") @DecimalMin(value = "1") long animalId,
-    							 @Context HttpServletRequest req) {
-				
-		HttpSession session = req.getSession(true);
-		
-		if (!session.getAttribute("userId").equals(id)){
-			return UNAUTHORIZED;
-		}  
-		
-		Animal animal;
-       
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response deleteAnimalImage(@PathParam("userId") @NotNull String id,
+                                      @PathParam("animalId") @DecimalMin(value = "1") long animalId,
+                                      @Context HttpServletRequest req) {
+
+        HttpSession session = req.getSession(true);
+
+        if (!session.getAttribute(SESSION_USER_ID).equals(id)) {
+            return UNAUTHORIZED;
+        }
+
+        Animal animal;
+
         try {
             animal = animalRep.getById(animalId);
         } catch (PersistenceException e) {
@@ -274,8 +277,8 @@ public class UserResource {
             return Response.ok().build();
         }
 
-        String restPath = req.getServletContext().getRealPath("/");         //path to rest root folder
-        //delete image
+        String restPath = req.getServletContext().getRealPath("/"); // path to rest root folder
+        // delete image
         File file = new File(restPath + IMAGE_FOLDER + animal.getImage());
         if (file.exists()) {
             file.delete();
@@ -286,42 +289,41 @@ public class UserResource {
         animalRep.update(animal);
 
         return Response.ok().build();
-        
+
     }
-	
-	/**
-     * Add user animal into data base
+
+    /**
+     * Add user animal into data base 
      * @param animal instance to be created
      * @param userId id of user (animal owner)
      * @return animal instance
-     * -------------------------------------------------------------------
+     * -----------------------------------------------------------------
      * User required parameters must be set
      */
-	@POST //http:localhost:8080/webapi/users/user/{userId}/animals/animal
+    @POST // http:localhost:8080/webapi/users/user/{userId}/animals/animal
     @Path("user/{userId}/animals/animal")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addUserAnimal(@Valid Animal animal,
-    							 @PathParam ("userId") @NotNull String id,
-    							 @Context HttpServletRequest req) {
-    	
-    	HttpSession session = req.getSession(true);
-		
-		if (!session.getAttribute("userId").equals(id)){
-			return UNAUTHORIZED;
-		} 		
+    public Response addUserAnimal(@Valid Animal animal, 
+                                  @PathParam("userId") @NotNull String id,
+                                  @Context HttpServletRequest req) {
 
-        //check breed, if it new insert it into database
+        HttpSession session = req.getSession(true);
+
+        if (!session.getAttribute(SESSION_USER_ID).equals(id)) {
+            return UNAUTHORIZED;
+        }
+
+        // check breed, if it new insert it into database
         saveNewBreed(animal.getBreed(), animal.getType());
 
-        //save new image if set
-        animal.setImage(saveNewImage(req.getServletContext().getRealPath("/"),
-                animal.getImage(), animal.getId()));
+        // save new image if set
+        animal.setImage(saveNewImage(req.getServletContext().getRealPath("/"), animal.getImage(), animal.getId()));
 
         if ((animal.getImage() != null) && (animal.getImage().length() > LENGTH_IMAGE)) {
             return BAD_REQUEST;
         }
 
-        //Update animal
+        // Update animal
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
         try {
             animalRepository.update(animal);
@@ -330,82 +332,34 @@ public class UserResource {
             return BAD_REQUEST;
         }
 
-        //return relative image path to client
+        // return relative image path to client
         String json;
         if (animal.getImage() == null) {
             json = "{\"filePath\":\"\"}";
         } else {
             json = "{\"filePath\":\"" + animal.getImage() + "\"}";
         }
-       
+
         return Response.ok().entity(json).build();
     }
-	
-	
-	/**     
+
+    /**
      * @param userId id of user (animal owner) used for lookup.
      * @return count of rows for pagination.
      */
-    @GET //http:localhost:8080/webapi/users/user/{userId}/animals/paginator    
+    @GET // http:localhost:8080/webapi/users/user/{userId}/animals/paginator
     @Path("user/{userId}/animals/paginator/")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response getUserAnimalsPaginator(@PathParam("userId") @DecimalMin(value = "1") long userId) {
-        if(userId <= 0) {
-            return BAD_REQUEST;
-        }
-
-        //get count of row according to filter        
+        
+        // get count of row according to filter
         long pages = userRep.getAnimalByUserIdCount(userId);
 
         String json = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
 
         return Response.ok().entity(json).build();
-    }    
-    
-
-	@POST //http:localhost:8080/webapi/users/admin/users/pagenator
-	@Path("admin/users/pagenator")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getAmountListUsersForAdmin(UsersFilter usersFilter) {
-
-		UserRepositoryImpl userRepository = new UserRepositoryImpl();
-		long pages = userRepository.getAdminUsersPaginator(usersFilter);
-
-		if (pages == 0)
-			return NOT_FOUND;
-
-		String str = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
-
-		return Response.status(Response.Status.OK).entity(str).build();
-	}
-
-	@POST //http:localhost:8080/webapi/admin/users
-	@Path("admin/users")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getAllUsersForAdmin(UsersFilter usersFilter) {
-		if (usersFilter == null) {
-			return BAD_REQUEST;
-		}
-		if ((usersFilter.getPage() == 0) || (usersFilter.getLimit() == 0)) {
-			return BAD_REQUEST;
-		}
-
-		UserRepositoryImpl userRepository = new UserRepositoryImpl();
-		//cast list of animals to generic list
-		List<User> users = userRepository.getAdminUsers(usersFilter);
-		GenericEntity<List<User>> genericUsers =
-				new GenericEntity<List<User>>(users) {
-				};
-
-		if (genericUsers == null)
-			return NOT_FOUND;
-
-		return Response.ok().entity(genericUsers).build();
-	}	
-	
+    }
 
     private String saveNewImage(String rootFolder, String image, Long animalId) {
         if ((rootFolder == null) || (image == null) || (animalId == null)) {
@@ -417,14 +371,15 @@ public class UserResource {
         }
 
         String fileName = image.substring(0, image.indexOf('\n'));
-        fileName = new SimpleDateFormat("yyyyMMddHHmmssS").format(new Date()) + fileName.substring(fileName.lastIndexOf('.'));
+        fileName = new SimpleDateFormat("yyyyMMddHHmmssS").format(new Date())
+                + fileName.substring(fileName.lastIndexOf('.'));
         image = image.substring(image.indexOf('\n') + 1);
 
-        //get animal by id from database
+        // get animal by id from database
         AnimalRepository animalRepository = new AnimalRepositoryImpl();
         Animal animal = animalRepository.getById(animalId);
 
-        //delete old image
+        // delete old image
         File file = new File(rootFolder + animal.getImage());
         if (file.exists()) {
             file.delete();
@@ -435,13 +390,13 @@ public class UserResource {
         try {
             decodedBytes = decoder.decodeBuffer(image);
         } catch (IOException e) {
-        	LOG.error(e);
+            LOG.error(e);
             e.printStackTrace();
         }
 
         InputStream is = new ByteArrayInputStream(decodedBytes);
 
-        //Load and save image
+        // Load and save image
         OutputStream out = null;
         try {
             int read = 0;
@@ -474,8 +429,8 @@ public class UserResource {
             return;
         }
 
-        if ((animalBreed.getId() == null) &&
-                ((animalBreed.getBreedUa() != null) || (animalBreed.getBreedEn() != null))) {
+        if ((animalBreed.getId() == null)
+                && ((animalBreed.getBreedUa() != null) || (animalBreed.getBreedEn() != null))) {
             animalBreed.setType(animalType);
             new AnimalBreedRepositoryImpl().insert_ua(animalBreed);
         }

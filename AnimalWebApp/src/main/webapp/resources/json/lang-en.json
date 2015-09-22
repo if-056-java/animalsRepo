@@ -60,6 +60,7 @@
   "CHANGE_PHOTO": "Change image",
   "IMAGE_NOT_FOUND": "Image not found",
   "ANIMAL_BREED": "Animal breed",
+  "ANIMAL_ACTIVE": "Active",
 
   "YES": "Yes",
   "NO": "No",
@@ -85,6 +86,7 @@
   "ANIMAL_REG_COMPLETED": "Registration completed",
   "BACK_TO_PROFILE": "Back to Profile",
   "ANIMAL_REGISTERED": "The animal registered! Please, click 'OK' to look list of your animals.",
+  "SOCIALS_SENDED": "Information about animal was sended! Please, click 'OK' to close this window.",
   "ANIMAL_SHORT_INFO_ADOPTION": "Animal For Adoption Information",
   "ANIMAL_SHORT_INFO_LOST": "Lost Animal Information",
   "ANIMAL_SHORT_INFO_FIND": "Found Animal Information",
@@ -244,6 +246,10 @@
   "ERROR_FAILED_TO_GET_ANIMALS_BREEDS": "Failed to get animals breeds. Try to refresh page.",
   "ERROR_FAILED_TO_GET_ANIMAL_MH_TYPES": "Failed to get animal medical history types. Try to refresh page.",
   "ERROR_FAILED_TO_GET_MH_ITEMS": "Failed to get animal medical history. Try to refresh page.",
+  "RESTORE_SUCCESS": "New Password was sent to your email",
+  "RESTORE_ERROR1": "User with this email wasn't found in DB",
+  "RESTORE_ERROR2": "Too many users with this email in DB",
+  "RESTORE_ERROR3": "User with this email is not active",
 
   "ADMIN_USERS": "List of users",
   "ID": "Id",

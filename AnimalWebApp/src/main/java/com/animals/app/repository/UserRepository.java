@@ -94,6 +94,11 @@ public interface UserRepository {
             "FROM animals " +
             "WHERE userId=#{id} LIMIT #{offset},#{limit}";
     
+    final String SELECT_USER_BY_EMAIL = "SELECT Id, Name, Surname, DateOfRegistration, " +
+            " UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
+            " Password, OrganizationName, OrganizationInfo, IsActive, GoogleId, SocialPhoto" +
+            " FROM users WHERE Email = #{email}";
+    
 
     /**
      * Insert an instance of User into the database.
@@ -360,9 +365,32 @@ public interface UserRepository {
             @Result(property="transpNumber", column="transpNumber"),
             @Result(property="dateOfBirth", column="dateOfBirth"),
             @Result(property="color", column="color")
-    })
+    })    
     @Options(useCache=true)
 	List<Animal> getUserAnimals(@Param("id") long id, @Param("offset") long offset, @Param("limit") int limit);
+
+    @Select(SELECT_USER_BY_EMAIL)
+    @Results(value = {
+            @Result(property="id", column="Id"),
+            @Result(property="name", column="Name"),
+            @Result(property="surname", column="Surname"),
+            @Result(property="registrationDate", column="DateOfRegistration"),
+            @Result(property="userType", column="userTypeId", javaType = UserType.class,
+            one = @One(select = "com.animals.app.repository.UserTypeRepository.getById")),
+            @Result(property="userRole", column="userRoleId", javaType = List.class,
+            many = @Many(select = "com.animals.app.repository.UserRoleRepository.getById")),
+            @Result(property="phone", column="Phone"),
+            @Result(property="address", column="address"),
+            @Result(property="email", column="Email"),
+            @Result(property="socialLogin", column="SocialLogin"),
+            @Result(property="password", column="password"),
+            @Result(property="organizationName", column="OrganizationName"),
+            @Result(property="organizationInfo", column="OrganizationInfo"),
+            @Result(property="isActive", column="IsActive"),
+            @Result(property="googleId", column="GoogleId"),
+            @Result(property="socialPhoto", column="SocialPhoto")
+    })
+	User findUserByEmail(String email);
 	
 	
 }

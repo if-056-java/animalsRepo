@@ -9,7 +9,6 @@ import app.JNDIConfigurationForTests;
 import com.animals.app.domain.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.LogManager;
@@ -29,25 +28,23 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Created by Rostyslav.Viner on 08.09.2015.
  */
 @Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
-    private static Logger LOG = LogManager.getLogger(TestAdminResourceGetAnimals.class);
+public class TestDoctorResourceGetAnimals extends ResourceTestTemplate {
+    private static Logger LOG = LogManager.getLogger(TestDoctorResourceGetAnimals.class);
 
     private static Client client;
 
-    private static final String LOGIN = "root";
-    private static final String PASSWORD = "root";
+    private static final String LOGIN = "doctor";
+    private static final String PASSWORD = "doctor";
     private static String accessToken;
 
-    private static final String REST_SERVICE_URL = BASE_URL + "admin";
+    private static final String REST_SERVICE_URL = BASE_URL + "doctor";
 
     @BeforeClass
     public static void runBeforeClass() {
@@ -112,8 +109,7 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
                 .path("animals")
                 .request()
                 .header("AccessToken", accessToken)
-                .post(null, new GenericType<List<Animal>>() {
-                });
+                .post(null, new GenericType<List<Animal>>() {});
     }
 
     /*
@@ -632,46 +628,6 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
     }
 
     /*
-     * Testing of getting animals
-     * Path: /admin/animals
-     * Method: post
-     * Send: not valid AnimalsFilter object (animal.active type set as string, must be boolean)
-     * Expect: list of animals
-     */
-    @Test
-    public void test19GetAnimals() {
-        assertNotNull(accessToken);
-
-        AnimalsFilter animalsFilter = new AnimalsFilter(1, 5);
-        Animal animal = new Animal();
-        animalsFilter.setAnimal(animal);
-
-        String json = new GsonBuilder()
-                .create()
-                .toJson(animalsFilter);
-
-        JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
-        jsonObject.get("animal").getAsJsonObject().addProperty("active", RandomStringUtils.random(10, true, true));
-
-        json = new GsonBuilder()
-                .create()
-                .toJson(jsonObject);
-
-        LOG.debug("TestName: test19GetAnimals - " + json);
-
-        List<Animal> animals = client
-                .target(REST_SERVICE_URL)
-                .path("animals")
-                .request()
-                .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"),
-                        new GenericType<List<Animal>>() {});
-
-        assertNotNull(animals);
-        assertNotEquals(animals.size(), 0);
-    }
-
-    /*
      * Testing of getting animals count
      * Path: /admin/animals/paginator
      * Method: post
@@ -679,7 +635,7 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
      * Expect: list of animals
      */
     @Test
-    public void test20GetAnimalsPaginator() {
+    public void test19GetAnimalsPaginator() {
         assertNotNull(accessToken);
 
         AnimalsFilter animalsFilter = new AnimalsFilter(1, 5);
@@ -688,7 +644,7 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
                 .create()
                 .toJson(animalsFilter);
 
-        LOG.debug("TestName: test20GetAnimals - " + json);
+        LOG.debug("TestName: test19GetAnimals - " + json);
 
         String result = client
                 .target(REST_SERVICE_URL)
@@ -712,7 +668,7 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
      * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
-    public void test21GetAnimalsPaginator() {
+    public void test20GetAnimalsPaginator() {
         assertNotNull(accessToken);
 
         client.target(REST_SERVICE_URL)
@@ -730,10 +686,37 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
      * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
+    public void test21GetAnimalsPaginator() {
+        assertNotNull(accessToken);
+
+        AnimalsFilter animalsFilter = new AnimalsFilter();
+        animalsFilter.setLimit(5);
+        String json = new GsonBuilder()
+                .create()
+                .toJson(animalsFilter);
+
+        LOG.debug("TestName: test21GetAnimals - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("animals/paginator")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
+    }
+
+    /*
+     * Testing of getting animals count
+     * Path: /admin/animals/paginator
+     * Method: post
+     * Send: not valid AnimalsFilter object (page = 0)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
     public void test22GetAnimalsPaginator() {
         assertNotNull(accessToken);
 
         AnimalsFilter animalsFilter = new AnimalsFilter();
+        animalsFilter.setPage(0);
         animalsFilter.setLimit(5);
         String json = new GsonBuilder()
                 .create()
@@ -752,7 +735,7 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
      * Testing of getting animals count
      * Path: /admin/animals/paginator
      * Method: post
-     * Send: not valid AnimalsFilter object (page = 0)
+     * Send: not valid AnimalsFilter object (page = -1)
      * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
@@ -760,7 +743,7 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
         assertNotNull(accessToken);
 
         AnimalsFilter animalsFilter = new AnimalsFilter();
-        animalsFilter.setPage(0);
+        animalsFilter.setPage(-1);
         animalsFilter.setLimit(5);
         String json = new GsonBuilder()
                 .create()
@@ -779,7 +762,7 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
      * Testing of getting animals count
      * Path: /admin/animals/paginator
      * Method: post
-     * Send: not valid AnimalsFilter object (page = -1)
+     * Send: not valid AnimalsFilter object (limit = null)
      * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
@@ -787,8 +770,7 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
         assertNotNull(accessToken);
 
         AnimalsFilter animalsFilter = new AnimalsFilter();
-        animalsFilter.setPage(-1);
-        animalsFilter.setLimit(5);
+        animalsFilter.setPage(5);
         String json = new GsonBuilder()
                 .create()
                 .toJson(animalsFilter);
@@ -806,7 +788,7 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
      * Testing of getting animals count
      * Path: /admin/animals/paginator
      * Method: post
-     * Send: not valid AnimalsFilter object (limit = null)
+     * Send: not valid AnimalsFilter object (limit = -1)
      * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
@@ -815,6 +797,7 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
 
         AnimalsFilter animalsFilter = new AnimalsFilter();
         animalsFilter.setPage(5);
+        animalsFilter.setPage(-1);
         String json = new GsonBuilder()
                 .create()
                 .toJson(animalsFilter);
@@ -832,38 +815,11 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
      * Testing of getting animals count
      * Path: /admin/animals/paginator
      * Method: post
-     * Send: not valid AnimalsFilter object (limit = -1)
-     * Expect: response with status 400
-     */
-    @Test(expected = BadRequestException.class)
-    public void test26GetAnimalsPaginator() {
-        assertNotNull(accessToken);
-
-        AnimalsFilter animalsFilter = new AnimalsFilter();
-        animalsFilter.setPage(5);
-        animalsFilter.setPage(-1);
-        String json = new GsonBuilder()
-                .create()
-                .toJson(animalsFilter);
-
-        LOG.debug("TestName: test26GetAnimals - " + json);
-
-        client.target(REST_SERVICE_URL)
-                .path("animals/paginator")
-                .request()
-                .header("AccessToken", accessToken)
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
-    }
-
-    /*
-     * Testing of getting animals count
-     * Path: /admin/animals/paginator
-     * Method: post
      * Send: not valid AnimalsFilter object (limit = 0)
      * Expect: response with status 400
      */
     @Test(expected = BadRequestException.class)
-    public void test27GetAnimalsPaginator() {
+    public void test26GetAnimalsPaginator() {
         assertNotNull(accessToken);
 
         AnimalsFilter animalsFilter = new AnimalsFilter();
@@ -873,7 +829,7 @@ public class TestAdminResourceGetAnimals extends ResourceTestTemplate {
                 .create()
                 .toJson(animalsFilter);
 
-        LOG.debug("TestName: test27GetAnimals - " + json);
+        LOG.debug("TestName: test26GetAnimals - " + json);
 
         client.target(REST_SERVICE_URL)
                 .path("animals/paginator")

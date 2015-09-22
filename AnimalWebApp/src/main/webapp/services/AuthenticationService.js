@@ -58,11 +58,11 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 		},
 		
 		
-		registerUser:function(user){			
+		registerUser:function(user, locale){			
 		
 			var def = $q.defer();
 			
-			$http.post(RESOURCES.REGISTRATION, user)
+			$http.post(RESOURCES.REGISTRATION + locale, user)
 	        .success(function(data){
 	        	def.resolve(data);	        	
 	        }) 
@@ -99,14 +99,8 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 		refreshSession:function(){
 									
 			$http.get(RESOURCES.REFRESH)
-	        .success(function(data){
-	        	
-	        	if(data.userId==0){
-	        		console.log("Refresh Session eror");
-	        		localStorageService.clearAll();
-	        		$location.path("/ua/user/login");	
-			        $route.reload();			       
-	        	} else {        	
+	        .success(function(data){	        	
+	        	        		       	
 		        	localStorageService.cookie.set("accessToken",data.accessToken,30);	        	
 		        	localStorageService.set("accessToken", data.accessToken);
 		        	localStorageService.set("userId", data.userId);
@@ -130,18 +124,31 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 		        	
 		        	$location.path("/ua/user/profile");	
 			        $route.reload();
-	        	}
+	        	
 	        	
 	        }) 
 			.error(function(data){
-				localStorageService.set("userId", null);
 				console.log("refresh session error");
 				localStorageService.clearAll();
-				$location.path("/ua");	
+				$location.path("/ua/user/login");	
 		        $route.reload();
 			});			
 			       	
-		}			
+		},
+		
+		restorePassword: function(email, locale){			
+		
+			var def = $q.defer();
+			
+			$http.get(RESOURCES.RESTORE_PASSWORD + email + "/" + locale)
+	        .success(function(data){
+	        	def.resolve(data);	        	
+	        }) 
+			.error(function(data){				
+				def.resolve(data);				
+			});			
+			return def.promise;
+		},
 		
 	};	
 	

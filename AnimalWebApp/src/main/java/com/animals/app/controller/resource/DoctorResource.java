@@ -1,10 +1,13 @@
 package com.animals.app.controller.resource;
 
+import com.animals.app.domain.Animal;
 import com.animals.app.domain.AnimalMedicalHistory;
 import com.animals.app.domain.AnimalsFilter;
 import com.animals.app.domain.User;
 import com.animals.app.repository.AnimalMedicalHistoryRepository;
+import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.Impl.AnimalMedicalHistoryRepositoryImpl;
+import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -32,6 +35,60 @@ public class DoctorResource {
 
     //return response with 400 code
     private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
+
+    /**
+     * @param animalsFilter instance used for lookup.
+     * @return list of animals.
+     * -------------------------------------------------------------------
+     * AnimalsFilter.page must be set and more than 0
+     * AnimalsFilter.limit must be set and more than 0
+     */
+    @POST //http:localhost:8080/webapi/admin/animals
+    @RolesAllowed("doctor")
+    @Path("animals")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAnimals(@Valid @NotNull AnimalsFilter animalsFilter) {
+        if (animalsFilter.getAnimal() == null) {
+            animalsFilter.setAnimal(new Animal());
+        }
+
+        animalsFilter.getAnimal().setActive(true);
+
+        //get list of animals from data base
+        AnimalRepository animalRepository = new AnimalRepositoryImpl();
+        List<Animal> animals = animalRepository.getAdminAnimals(animalsFilter);
+
+        //cast list of animals to generic list
+        GenericEntity<List<Animal>> genericAnimals = new GenericEntity<List<Animal>>(animals) {};
+
+        return ok(genericAnimals);
+    }
+
+    /**
+     * @param animalsFilter instance used for lookup.
+     * @return count of rows for pagination.
+     */
+    @POST //http:localhost:8080/webapi/animals/paginator
+    @RolesAllowed("doctor")
+    @Path("animals/paginator")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAnimalsPaginator(@Valid @NotNull AnimalsFilter animalsFilter) {
+        if (animalsFilter.getAnimal() == null) {
+            animalsFilter.setAnimal(new Animal());
+        }
+
+        animalsFilter.getAnimal().setActive(true);
+
+        //get count of row according to filter
+        AnimalRepository animalRepository = new AnimalRepositoryImpl();
+        long pages = animalRepository.getAdminAnimalsPaginator(animalsFilter);
+
+        String json = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
+
+        return ok(json);
+    }
 
     /**
      * @param animalId instance used for lookup.

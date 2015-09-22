@@ -96,7 +96,6 @@
                             </li>
                         </ul>
                     </li>
-
                     <li class="dropdown" translate-cloak>
                         <a ng-show="session() && (userRole == 'doctor' || userRole == 'moderator')" href=""
                            class="dropdown-toggle" data-toggle="dropdown">{{ 'NAV_MODERATION' | translate }}<b
@@ -105,7 +104,7 @@
                             <li><a href="#ua/user/home/animals" ng-show="userRole == 'moderator'">{{ 'NAV_ANIMAL_LIST' |
                                 translate }}</a></li>
                             <li role="presentation" class="divider" ng-show="userRole == 'moderator'"></li>
-                            <li><a href="#ua/users/admin/users" ng-show="userRole == 'moderator'">{{ 'NAV_USER_LIST' |
+                            <li><a href="#ua/user/admin/users" ng-show="userRole == 'moderator'">{{ 'NAV_USER_LIST' |
                                 translate }}</a></li>
                             <!--li role="presentation" class="divider" ng-show="userRole == 'лікар'"></li-->
                             <li><a href="#ua/user/doctor/animals" ng-show="userRole == 'doctor'">{{
@@ -134,12 +133,10 @@
                                    ng-click="changeLanguage('uk')">{{ 'LANG_UK' | translate }}</a></li>
                         </ul>
                     </div>
-
                 </form>
             </div>
         </div>
     </nav>
-
 </header>
 
 <div class="ng-view" ng-cloak></div>

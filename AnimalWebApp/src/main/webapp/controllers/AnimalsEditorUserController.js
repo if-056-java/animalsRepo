@@ -1,10 +1,15 @@
 var animalAppControllers = angular.module('AnimalsEditorUserController', ['AnimalsAdminModule', 'AnimalsAdminValues']);
 
 animalApp.controller('AnimalsEditorUserController', ['$scope', 'UserDataService', '$routeParams', '$window', '$filter', 'AnimalsAdminValues',
-                                                     'AnimalsAdminService', 'UserAnimalsValues',
+                                                     'AnimalsAdminService', 'UserAnimalsValues', 'localStorageService',
                                                function($scope, UserDataService, $routeParams, $window, $filter, AnimalsAdminValues, 
-                                            		   AnimalsAdminService, UserAnimalsValues) {
-		
+                                            		   AnimalsAdminService, UserAnimalsValues, localStorageService) {
+	
+	if (!localStorageService.get('userRole')){
+		$location.path("#ua");	
+	}
+	
+	
 	//initialize loading spinner
     var targetContent = document.getElementById('loading-block');
     new Spinner(opts).spin(targetContent);

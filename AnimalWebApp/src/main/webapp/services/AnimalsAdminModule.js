@@ -54,6 +54,7 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
                 return AnimalsService.getAnimalForAdmin(animalId)
                     .then(function(response) {
                         angular.copy(response.data, AnimalsAdminValues.animal);
+                        AnimalsAdminValues.animal.active = AnimalsAdminValues.animal.active.toString();
                         return response;
                     });
             }
@@ -126,12 +127,10 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
              */
             this.sendTwitter = function (id) {
 
-                console.log("twitt sended");
-                console.log(id);
-
                 return AnimalsService.sendTwitter(id)
                     .then(function(data) {
-                        console.log(data);
+                        console.log("twitt sended");
+                        console.log(id);
                     });
             };
 
