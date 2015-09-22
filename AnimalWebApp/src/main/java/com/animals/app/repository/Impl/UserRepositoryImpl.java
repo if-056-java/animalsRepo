@@ -203,4 +203,10 @@ public class UserRepositoryImpl implements UserRepository {
             return session.getMapper(UserRepository.class).getUserAnimals(userId, offset, limit);
         }
     }
+
+	public User findUserByEmail(String email) {
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+            return session.getMapper(UserRepository.class).findUserByEmail(email);
+        }
+	}
 }

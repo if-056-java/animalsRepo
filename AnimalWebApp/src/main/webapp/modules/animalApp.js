@@ -210,6 +210,7 @@ animalApp.constant('RESOURCES', {
     LOGIN_BASIC: '/webapi/account/login/',
     LOGOUT: '/webapi/account/logout',
     REGISTRATION: '/webapi/account/registration/',
+    RESTORE_PASSWORD: '/webapi/account/restore_password/',
     CONFIRM_REGISTRATION: '/webapi/account/confirmRegistration/',
     REFRESH: '/webapi/account/refresh',
     USER_FOR_USER: '/webapi/users/user/',

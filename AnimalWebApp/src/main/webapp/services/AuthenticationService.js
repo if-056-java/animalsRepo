@@ -134,7 +134,21 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 		        $route.reload();
 			});			
 			       	
-		}			
+		},
+		
+		restorePassword: function(email, locale){			
+		
+			var def = $q.defer();
+			
+			$http.get(RESOURCES.RESTORE_PASSWORD + email + "/" + locale)
+	        .success(function(data){
+	        	def.resolve(data);	        	
+	        }) 
+			.error(function(data){				
+				def.resolve(data);				
+			});			
+			return def.promise;
+		},
 		
 	};	
 	

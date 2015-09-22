@@ -79,26 +79,46 @@
 				<p>&nbsp;&nbsp;</p>
 				<p ng-click="showRenewBlock()" id = "passwordRenewBlock"> <a href>Forget password?</a></p>				
 			</div>
+		</form>				
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-hide = "IsHidden" id="passwordUpdateBlock">
-				<div class="form-group">
+			
+			<form name="restoreForm" novalidate>
+				<div class="form-group" data-ng-class="{'has-error':restoreForm.userEmail.$invalid && !restoreForm.userEmail.$pristine}">
 		    		<label class="col-xs-12 col-sm-12 col-lg-12 control-label" >Email to send new Password:</label>
 		    		<div class="col-xs-12 col-sm-12 col-lg-12">
-		      		<input class="form-control" id="login" ng-model="emailPassword">
-		      		<label class="col-xs-12 col-sm-12 col-lg-12 control-label"></label>
-	    			<button ng-click="sendMail()" class="form-group btn btn-success btn-md col-xs-12 col-sm-12 col-md-7 col-lg-7" 
-						id = "passwordRenew">Send new Password</button>
+			      		<input class="form-control" name="userEmail" ng-model="mailToRestore" 
+			      		ng-required="true" pattern="[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
+			      		<label class="col-xs-12 col-sm-12 col-lg-12 control-label"></label>
+	    			</div>
 	    		</div>
-	    		
-	    	</div>
-			
+	    		<div class="col-xs-12 col-sm-12 col-lg-12">
+		    		<button ng-click="restorePasword()" class="form-group btn btn-success btn-md col-xs-12 col-sm-12 col-md-7 col-lg-7" 
+							id = "passwordRenew" type="submit" ng-disabled="restoreForm.$invalid">Send new Password</button>
+				</div>	    		
+			</form>
 			</div>
 			
-		</form>				
 		</div>		
 		</div>
 		<br>
 		<div class="col-xs-0 col-sm-2 col-md-4 col-lg-4"></div>
 		<div class="col-xs-12 col-sm-8 col-md-4 col-lg-4">
+			<div ng-show="confirmRestoreMessage" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-success" role="alert">
+	  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	  			<span class="sr-only">Error:</span> {{ 'RESTORE_SUCCESS' | translate }}
+			</div>
+			<div ng-show="errorRestoreMessage1" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">
+	  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	  			<span class="sr-only">Error:</span> {{ 'RESTORE_ERROR1' | translate }}
+			</div>
+			<div ng-show="errorRestoreMessage2" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">
+	  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	  			<span class="sr-only">Error:</span> {{ 'RESTORE_ERROR2' | translate }}
+			</div>
+			<div ng-show="errorRestoreMessage3" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">
+	  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	  			<span class="sr-only">Error:</span> {{ 'RESTORE_ERROR3' | translate }}
+			</div>
 			<div ng-show="errorMessage" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">
 	  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 	  			<span class="sr-only">Error:</span> {{ 'LOGIN_ERROR' | translate }}

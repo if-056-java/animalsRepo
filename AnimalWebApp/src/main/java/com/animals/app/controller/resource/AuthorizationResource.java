@@ -20,8 +20,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.Email;
 
 import com.animals.app.domain.User;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
@@ -36,7 +38,8 @@ import com.animals.app.service.MailSender;
 public class AuthorizationResource {
 
     private static Logger LOG = LogManager.getLogger(AuthorizationResource.class);
-
+    
+    private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
     private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
     private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 
@@ -322,6 +325,97 @@ public class AuthorizationResource {
         return Response.status(Response.Status.OK).entity(str).build();
 
     }
+    
+//    private String email;
+//    
+//    @PathParam("email")
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
+// 
+//    @Email(message = "Wrong format for mail", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
+//    public String getEmail() {
+//        return email;
+//    }
+    
+    /**
+     * restore Password via User Email 
+     * @return response with status 200
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("restore_password/{email}/{locale}") // http:localhost:8080/webapi/account/restore_password/email/uk
+    public Response restorePassword(@Context HttpServletRequest req,
+    								@PathParam("email") @Email String email,
+    								@PathParam("locale") @NotNull String locale) {
+
+        System.out.println(email);
+        System.out.println(locale);
+        
+        // check if user exist with email
+        User user;
+        try {
+            user = userRep.findUserByEmail(email);
+            System.out.println(user);
+        } catch (Exception e) {
+            LOG.error(e);
+            String aLotOfUsers = buildResponseEntity(-1, "Ther is many users in DB. My Bug");
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(aLotOfUsers).build(); 
+        }
+        
+        if (user == null){
+        	
+        	String userWithEmailNotFound = buildResponseEntity(0, "Ther is no user with email:" + email + "in database");
+            return Response.status(Response.Status.NOT_FOUND).entity(userWithEmailNotFound).build();        	
+        }
+        
+        if (!user.isActive()){
+        	
+        	String userIsNotActive = buildResponseEntity(-2, "User with this email is not active");
+        	return Response.status(Response.Status.BAD_REQUEST).entity(userIsNotActive).build();
+        	
+        }
+
+        String newPassword = RandomStringUtils.random(8, true, true);
+        String newPasswordHasshed = getMd5(newPassword);
+        
+        System.out.println("new Password - " + newPassword);
+        System.out.println("new Password hashed - " + newPasswordHasshed);
+
+        user.setPassword(newPasswordHasshed);
+
+        try {
+            userRep.update(user);
+        } catch (Exception e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
+
+        // sending mail
+        String recipientEmail = user.getEmail();
+
+        String username = user.getSocialLogin();
+
+        // Define URLs and callback
+        String pathAll = req.getRequestURL().toString();
+        String pathMain = pathAll.replace("webapi/account/restore_password/"+ email + "/" + locale, "");
+
+        String message = buildRestorePasswordMessage(pathMain, username, newPassword, locale);
+
+        try {
+            MailSender ms = new MailSender();
+            ms.newsSend(recipientEmail, message);
+        } catch (Exception e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
+
+        String restorePasswordConfirm = buildResponseEntity(1, "Password Restored succesfully. Send Via mail");
+
+        return Response.status(Response.Status.OK).entity(restorePasswordConfirm).build();
+
+    }
+    
 
     private static String setUpSuccessSession(User user, HttpSession session, String success) {
 
@@ -400,6 +494,33 @@ public class AuthorizationResource {
         }
 
         return message;
+    }
+    
+    private String buildRestorePasswordMessage(String pathMain, String username, String newPassword, String locale) {
+
+        String message;
+
+        if (locale.equals(UA_LOCALE)) {
+            message = "Сервіс відновлення паролю на сайті - " + pathMain + " . Ім'я користувача - " + username + " . Новий пароль :" + newPassword;
+        } else {
+        	message = "Restore password service on site - " + pathMain + " . User Name - " + username + " . New Password :" + newPassword;
+        }
+
+        return message;
+    }
+    
+    private static String getMd5(String md5) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+        }
+        return null;
     }
 
 }
