@@ -1,5 +1,6 @@
 angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'AnimalsAdminValues'])
-    .controller('AnimalsDetailedAdminController', ['$scope', '$routeParams', '$window', 'AnimalsAdminService', 'AnimalsAdminValues', '$filter',
+    .controller('AnimalsDetailedAdminController', ['$scope', '$routeParams', '$window', 'AnimalsAdminService',
+        'AnimalsAdminValues', '$filter',
         function($scope, $routeParams, $window, AnimalsAdminService, AnimalsAdminValues, $filter) {
 
             AnimalsAdminService.rolesAllowed("moderator");
@@ -62,6 +63,32 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
                     function(data) {
                         $window.alert($filter('translate')("ANIMAL_DETAILED_DELETE_FAILED"));
                     });
+            }
+
+            /**
+             * Convert an image
+             * to a base64 url
+             */
+            function convertImgToBase64URL(){
+                var img = document.getElementById("animalImg");
+                var canvas = document.createElement('canvas');
+                canvas.width = img.clientWidth;
+                canvas.height = img.clientHeight;
+                canvas.getContext('2d').drawImage(img, 1, 1);
+                console.log(canvas.toDataURL());
+                return canvas.toDataURL();
+            }
+
+            $scope.toPdf = function() {
+                var docDefinition = { content: [
+                    { text: 'Пропала ' + $scope.animal.type.type, fontSize: 21, alignment: 'center' },
+                    { text: ' ' },
+                    { image: convertImgToBase64URL(), alignment: 'center', fit: [500, 500] },
+                    { text: ' ' },
+                    { text: 'Прохання звертатись за телефоном: ' + $scope.animal.user.phone, fontSize: 21, alignment: 'center' }
+                ] };
+
+                pdfMake.createPdf(docDefinition).open();
             }
 
         }]);
