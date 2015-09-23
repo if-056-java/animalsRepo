@@ -6,12 +6,14 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 			
 			var authdata = Base64.encode(username + ':' + password);            
             
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; 
                        
 			var memoryMe = localStorageService.get("memoryMe");
 			var def = $q.defer();
 			
-			$http.post(RESOURCES.LOGIN_BASIC + memoryMe, {})
+			$http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; 
+			$http.defaults.headers.common['rememberMe'] = memoryMe;
+			
+			$http.post(RESOURCES.LOGIN_BASIC)
 	        .success(function(data){	        	        	
 	        		        	
 		        if (localStorageService.get("memoryMe")=="ON"){
@@ -62,7 +64,9 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 		
 			var def = $q.defer();
 			
-			$http.post(RESOURCES.REGISTRATION + locale, user)
+			$http.defaults.headers.common['locale'] = locale; 
+			
+			$http.post(RESOURCES.REGISTRATION, user)
 	        .success(function(data){
 	        	def.resolve(data);	        	
 	        }) 
@@ -140,7 +144,9 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 		
 			var def = $q.defer();
 			
-			$http.post(RESOURCES.RESTORE_PASSWORD + locale, email)
+			$http.defaults.headers.common['locale'] = locale; 
+			
+			$http.post(RESOURCES.RESTORE_PASSWORD, email)
 	        .success(function(data){
 	        	def.resolve(data);	        	
 	        }) 

@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -104,11 +105,11 @@ public class AuthorizationResource {
      */
     @POST
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    @Path("login/{rememberMe}") // http:localhost:8080/webapi/account/login/OFF
+    @Path("login") // http:localhost:8080/webapi/account/login/OFF
     public Response loginToSite(@Context HttpServletRequest req, 
-                                @PathParam("rememberMe") @NotNull String rememberMe) {
+                                @HeaderParam("rememberMe") @NotNull String rememberMe) {
 
-       
+        System.out.println(rememberMe);
         // reading header from request
         String header = null;
         String sub = null;
@@ -204,12 +205,12 @@ public class AuthorizationResource {
      * @return response with status 200. Sending mail to user for registration confirmation
      */
     @POST
-    @Path("registration/{locale}") // http:localhost:8080/webapi/account/registration/en
+    @Path("registration") // http:localhost:8080/webapi/account/registration/en
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response registerUser(@Context HttpServletRequest req, 
                                  @Valid User user,
-                                 @PathParam("locale") @NotNull String locale) {
+                                 @HeaderParam("locale") @NotNull String locale) {
 
         String socialLogin = user.getSocialLogin();
         String userEmail = user.getEmail();
@@ -358,12 +359,12 @@ public class AuthorizationResource {
      */
     @POST
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    @Path("restore_password/{locale}") // http:localhost:8080/webapi/account/restore_password/email/uk
+    @Path("restore_password") // http:localhost:8080/webapi/account/restore_password/email/uk
     public Response restorePassword(@Context HttpServletRequest req,
                                     @Email String email,
-                                    @PathParam("locale") @NotNull String locale) {
+                                    @HeaderParam("locale") @NotNull String locale) {
                
-        System.out.println(email);
+        System.out.println(locale);
         // check if user exist with email
         User user;
         try {
