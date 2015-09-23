@@ -282,9 +282,9 @@ public class AuthorizationResource {
      */
     @POST
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    @Path("confirmRegistration/{socialLogin}/{code}") // http:localhost:8080/webapi/account/confirmRegistration/socialLogin/code
+    @Path("confirmRegistration/{code}") // http:localhost:8080/webapi/account/confirmRegistration/socialLogin/code
     public Response loginToSite(@Context HttpServletRequest req, 
-                                @PathParam("socialLogin") @NotNull String socialLogin,
+                                @NotNull String socialLogin,
                                 @PathParam("code") @NotNull String code) {
 
         // user Verification. checking if user with verification code exist.
@@ -324,7 +324,7 @@ public class AuthorizationResource {
      * @return response with status 200 and parameters for creating session
      */
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Path("refresh") // http:localhost:8080/webapi/account/refresh
     public Response refreshSession(@Context HttpServletRequest req) {
 
@@ -356,13 +356,14 @@ public class AuthorizationResource {
      * @param locale for defining language in mail confirmation
      * @return response with status 200
      */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("restore_password/{email}/{locale}") // http:localhost:8080/webapi/account/restore_password/email/uk
+    @POST
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Path("restore_password/{locale}") // http:localhost:8080/webapi/account/restore_password/email/uk
     public Response restorePassword(@Context HttpServletRequest req,
-                                    @PathParam("email") @Email String email,
+                                    @Email String email,
                                     @PathParam("locale") @NotNull String locale) {
                
+        System.out.println(email);
         // check if user exist with email
         User user;
         try {

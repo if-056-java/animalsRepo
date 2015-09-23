@@ -84,7 +84,7 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 			
 			var def = $q.defer();
 			
-			$http.post(RESOURCES.CONFIRM_REGISTRATION + userLogin + "/" + code)
+			$http.post(RESOURCES.CONFIRM_REGISTRATION + code,  userLogin)
 	        .success(function(data){ 
 	        	def.resolve(data);
 	        })
@@ -140,7 +140,7 @@ angular.module('animalApp').factory('AuthenticationService',function (Base64, $q
 		
 			var def = $q.defer();
 			
-			$http.get(RESOURCES.RESTORE_PASSWORD + email + "/" + locale)
+			$http.post(RESOURCES.RESTORE_PASSWORD + locale, email)
 	        .success(function(data){
 	        	def.resolve(data);	        	
 	        }) 
