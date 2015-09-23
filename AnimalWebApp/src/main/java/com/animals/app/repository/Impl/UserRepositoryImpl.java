@@ -87,7 +87,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
     
-    /** created 41X
+    /** 
      * Returns a User instance from the database.
      * @param socialLogin and password primary key value used for lookup.
      * @return A User instance with a primary key value equals to pk. null if there is no matching row.
@@ -98,7 +98,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
     } 
     
-    /** created 41X
+    /** 
      * Returns a String instance from the database.
      * @param socialLogin primary key value used for lookup.
      * @return A String with value equals to pk. null if there is no matching row.
@@ -106,6 +106,17 @@ public class UserRepositoryImpl implements UserRepository {
     public String checkIfUsernameUnique(String socialLogin){
         try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(UserRepository.class).checkIfUsernameUnique(socialLogin);
+        }
+    }
+    
+    /** 
+     * Returns a String instance from the database.
+     * @param userEmail primary key value used for lookup.
+     * @return A String with value equals to pk. null if there is no matching row.
+     */   
+    public String checkIfEmailUnique(String email) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            return session.getMapper(UserRepository.class).checkIfEmailUnique(email);
         }
     }
     
@@ -153,7 +164,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
     
-    /** created 41X
+    /** 
      * Returns a User instance from the database.
      * @param socialLogin and emailVerificator primary key value used for lookup.
      * @return A User instance with a primary key value equals to pk. null if there is no matching row.
@@ -204,9 +215,16 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    /** 
+     * Returns a User instance from the database.
+     * @param String email value used for lookup.
+     * @return A User instance with a email value equals to pk. null if there is no matching row.
+     */
 	public User findUserByEmail(String email) {
 		try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(UserRepository.class).findUserByEmail(email);
         }
 	}
+
+	
 }

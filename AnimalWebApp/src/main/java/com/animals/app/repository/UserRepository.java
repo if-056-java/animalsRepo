@@ -45,8 +45,11 @@ public interface UserRepository {
             " Password, OrganizationName, OrganizationInfo, IsActive " +
             " FROM users";
     
-    final String SELECT_UNIQUE_USERNAME = "SELECT SocialLogin " +		//for registration
+    final String SELECT_UNIQUE_USERNAME = "SELECT SocialLogin " +		
             "FROM users WHERE SocialLogin = #{socialLogin}";
+    
+    final String SELECT_UNIQUE_EMAIL = "SELECT Email " +       
+            "FROM users WHERE Email = #{email}";
     
     final String SELECT_USER_AUTHENTICATION =  "SELECT Id, Name, Surname, DateOfRegistration, " +
             " UserTypeId, UserRoleId, Phone, Address, Email, SocialLogin, " +
@@ -191,12 +194,34 @@ public interface UserRepository {
     })
     List<User> getAll();
     
+    /** 
+     * Returns a String instance from the database.
+     * @param socialLogin primary key value used for lookup.
+     * @return A String with value equals to pk. null if there is no matching row.
+     */
     @Select(SELECT_UNIQUE_USERNAME)
     @Results(value = {
     		@Result(property="socialLogin", column="SocialLogin")
     })    
     String checkIfUsernameUnique(String username);
     
+    /** 
+     * Returns a String instance from the database.
+     * @param userEmail primary key value used for lookup.
+     * @return A String with value equals to pk. null if there is no matching row.
+     */  
+    @Select(SELECT_UNIQUE_EMAIL)
+    @Results(value = {
+            @Result(property="email", column="Email")
+    }) 
+    String checkIfEmailUnique(String email);
+    
+    /** 
+     * Returns a User instance from the database.
+     * @param socialLogin and password primary key value used for lookup.
+     * @return A User instance with a primary key value equals to pk. 
+     * null if there is no matching row.
+     */
     @Select(SELECT_USER_AUTHENTICATION)
     @Results(value = {
     		@Result(property="id", column="Id"),
@@ -219,6 +244,11 @@ public interface UserRepository {
     })
     User checkIfUserExistInDB(@Param("socialLogin") String socialLogin, @Param("password") String password);
     
+    /** 
+     * Returns a User instance from the database.
+     * @param googleId value used for lookup.
+     * @return A User instance with a GoogleId value equals to pk. null if there is no matching row.
+     */
     @Select(SELECT_BY_GOOGLE_ID)
     @Results(value = {
             @Result(property="id", column="Id"),
@@ -241,6 +271,11 @@ public interface UserRepository {
     })
     User getByGoogleId(String googleId);
     
+    /** 
+     * Returns a User instance from the database.
+     * @param facebookId value used for lookup.
+     * @return A User instance with a FacebookId value equals to pk. null if there is no matching row.
+     */
     @Select(SELECT_BY_FACEBOOK_ID)
     @Results(value = {
             @Result(property="id", column="Id"),
@@ -263,6 +298,11 @@ public interface UserRepository {
     })
     User getByFacebookId(String facebookId);
     
+    /** 
+     * Returns a User instance from the database.
+     * @param twitterId value used for lookup.
+     * @return A User instance with a TwitterId value equals to pk. null if there is no matching row.
+     */
     @Select(SELECT_BY_TWITTER_ID)
     @Results(value = {
             @Result(property="id", column="Id"),
@@ -298,6 +338,11 @@ public interface UserRepository {
     })
     User getByIdMedicalHistory(long id);
     
+    /** 
+     * Returns a User instance from the database.
+     * @param socialLogin and emailVerificator primary key value used for lookup.
+     * @return A User instance with a primary key value equals to pk. null if there is no matching row.
+     */
     @Select(SELECT_USER_VERIFICATION)
     @Results(value = {
     		@Result(property="id", column="Id"),
@@ -319,7 +364,7 @@ public interface UserRepository {
             @Result(property="socialPhoto", column="SocialPhoto")
     })
     User userVerification(@Param("socialLogin") String socialLogin, 
-    						  @Param("emailVerificationString") String emailVerificationString);
+                          @Param("emailVerificationString") String emailVerificationString);
 
 
     /**
@@ -369,6 +414,11 @@ public interface UserRepository {
     @Options(useCache=true)
 	List<Animal> getUserAnimals(@Param("id") long id, @Param("offset") long offset, @Param("limit") int limit);
 
+    /** 
+     * Returns a User instance from the database.
+     * @param String email value used for lookup.
+     * @return A User instance with a email value equals to pk. null if there is no matching row.
+     */
     @Select(SELECT_USER_BY_EMAIL)
     @Results(value = {
             @Result(property="id", column="Id"),
@@ -391,6 +441,5 @@ public interface UserRepository {
             @Result(property="socialPhoto", column="SocialPhoto")
     })
 	User findUserByEmail(String email);
-	
 	
 }

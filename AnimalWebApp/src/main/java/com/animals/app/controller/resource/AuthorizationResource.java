@@ -73,6 +73,7 @@ public class AuthorizationResource {
     private static final String SUCCESSFULL_LOGIN = "Successful login";
     private static final String SESSION_DESTROYED = "Session destroyed";
     private static final String LOGIN_NOT_UNIQUE = "SocialLogin is already in use by another User";
+    private static final String EMAIL_NOT_UNIQUE = "Email is already in use by another User";
     private static final String CONFIRMATION = "Now confirmation should be done";
     private static final String SUCCESSFUL_REGISTRATION = "Successful Registration";
     private static final String DESTROYED_SESSION = "Session Destroyed";
@@ -211,21 +212,30 @@ public class AuthorizationResource {
                                  @PathParam("locale") @NotNull String locale) {
 
         String socialLogin = user.getSocialLogin();
+        String userEmail = user.getEmail();
 
         // check if user socialLogin unique
-        String socialLogin2;
+        String socialLoginExist;
+        String userEmailExist;
         try {
-            socialLogin2 = userRep.checkIfUsernameUnique(socialLogin);
+            socialLoginExist = userRep.checkIfUsernameUnique(socialLogin);
+            userEmailExist = userRep.checkIfEmailUnique(userEmail);
         } catch (Exception e) {
             LOG.error(e);
             return SERVER_ERROR;
         }
 
-        if (socialLogin2 != null && !socialLogin2.isEmpty()) {
-
+        if (socialLoginExist != null && !socialLoginExist.isEmpty()) {
+            
             String socialLoginIsAlreadyInUse = buildResponseEntity(0, LOGIN_NOT_UNIQUE);
-
             return Response.status(Response.Status.BAD_REQUEST).entity(socialLoginIsAlreadyInUse).build();
+            
+        }
+        
+        if (userEmailExist != null && !userEmailExist.isEmpty()) {
+
+            String userEmailIsAlreadyInUse = buildResponseEntity(-1, EMAIL_NOT_UNIQUE);
+            return Response.status(Response.Status.BAD_REQUEST).entity(userEmailIsAlreadyInUse).build();
         }
 
         String emailVerificator = UUID.randomUUID().toString();

@@ -198,8 +198,9 @@ public class OAuthAuthorizationResource {
      */
     @GET
     @Path("login/google_token") // http://localhost:8080/webapi/account/login/google_token
-    public Response getGoogleAccessToken(@QueryParam("code") String token, @QueryParam("error") String error,
-            @Context HttpServletRequest req) {
+    public Response getGoogleAccessToken(@QueryParam("code") String token, 
+                                         @QueryParam("error") String error,
+                                         @Context HttpServletRequest req) {
 
         // Define URLs and callback
         String callbackUrlG = defineURL(req, LOGIN_GOOGLE_PATH_TOKEN, CALLBACK_URL_PATH_GOOGLE);
@@ -359,7 +360,7 @@ public class OAuthAuthorizationResource {
     /**
      * Direct OAuth authentication with Google Refresh Token
      * @param google Refresh Token.
-     * Change Google refresh Token to Access Token to build request     * 
+     * Change Google refresh Token to Access Token to build request 
      * Build request with Access Token to get unique GoogleId from Google Resource.
      * Login To site with unique GoogleId
      * @return redirect URL to main site
@@ -492,7 +493,7 @@ public class OAuthAuthorizationResource {
         }
 
         if (service == null) {
-            return Response.status(404).build();
+            return NOT_FOUND;
         }
 
         String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
@@ -711,7 +712,7 @@ public class OAuthAuthorizationResource {
         }
 
         if (service == null) {
-            return Response.status(404).build();
+            return NOT_FOUND;
         }
 
         Token requestToken = service.getRequestToken();

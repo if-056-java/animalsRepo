@@ -24,6 +24,9 @@ animalApp.controller('RegistrationController', ['$scope', '$location', '$route',
 					if(result.userId==0){
 				        $scope.errorRegistrationMessage1=true;
 				        console.log("Registration error. SocialLogin is already exist");	
+					} else if(result.userId==-1){
+						$scope.errorRegistrationMessage4=true;
+				        console.log("Registration error. Email is already exist");						
 					} else if (result.userId==1){	
 				        $location.path("/ua/user/confirmRegistration");	
 						$route.reload();						        

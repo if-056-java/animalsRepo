@@ -137,6 +137,9 @@
   "REGISTRATION": "Sign In",
   "LOGIN_ERROR" : "Login error! Check out your login and password",
   "LOGIN_CONFIRM_ERROR": "For entering site first you should confirm registration",
+  "FORGOT_PASSWORD" : "Forgot password?",
+  "EMAIL_RESTORE" : "Email to send new Password:",
+  "SEND_NEW_PASSWORD" : "Send new Password",
 
   "REGISTRATION_HOMELESS": "Registration of homeless animal",
   "REGISTRATION_OWNED": "Registration of owned animal",
@@ -182,6 +185,7 @@
   "ERROR_REG_MESSAGE1": "Registration error! This login is already in use.",
   "ERROR_REG_MESSAGE2": "Registration error! Try Again.",
   "ERROR_REG_MESSAGE3": "Registration error!",
+  "ERROR_REG_MESSAGE3": "Registration error! This email is already in use.",
   "LOGIN_MIN_LENGTH": "Login should be minimum 6 characters",
   "LOGIN_MAX_LENGTH": "Login should be maximum 16 characters",
   "NAME_MIN_LENGTH": "Name should be minimum 2 characters",

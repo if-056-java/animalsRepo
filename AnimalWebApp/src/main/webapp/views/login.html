@@ -77,14 +77,14 @@
 			<!-- password renew -->
 			<div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">				
 				<p>&nbsp;&nbsp;</p>
-				<p ng-click="showRenewBlock()" id = "passwordRenewBlock"> <a href>Forget password?</a></p>				
+				<p ng-click="showRenewBlock()" id = "passwordRenewBlock"> <a href>{{ 'FORGOT_PASSWORD' | translate }}</a></p>				
 			</div>
 		</form>				
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-hide = "IsHidden" id="passwordUpdateBlock">
 			
 			<form name="restoreForm" novalidate>
 				<div class="form-group" data-ng-class="{'has-error':restoreForm.userEmail.$invalid && !restoreForm.userEmail.$pristine}">
-		    		<label class="col-xs-12 col-sm-12 col-lg-12 control-label" >Email to send new Password:</label>
+		    		<label class="col-xs-12 col-sm-12 col-lg-12 control-label" >{{ 'EMAIL_RESTORE' | translate }}</label>
 		    		<div class="col-xs-12 col-sm-12 col-lg-12">
 			      		<input class="form-control" name="userEmail" ng-model="mailToRestore" 
 			      		ng-required="true" pattern="[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
@@ -92,8 +92,8 @@
 	    			</div>
 	    		</div>
 	    		<div class="col-xs-12 col-sm-12 col-lg-12">
-		    		<button ng-click="restorePasword()" class="form-group btn btn-success btn-md col-xs-12 col-sm-12 col-md-7 col-lg-7" 
-							id = "passwordRenew" type="submit" ng-disabled="restoreForm.$invalid">Send new Password</button>
+		    		<button ng-click="restorePasword()" class="form-group btn btn-success btn-md col-xs-12 col-sm-12 col-md-8 col-lg-8" 
+							id = "passwordRenew" type="submit" ng-disabled="restoreForm.$invalid">{{ 'SEND_NEW_PASSWORD' | translate }}</button>
 				</div>	    		
 			</form>
 			</div>
