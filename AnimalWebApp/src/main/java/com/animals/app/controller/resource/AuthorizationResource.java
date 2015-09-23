@@ -64,8 +64,8 @@ public class AuthorizationResource {
     private static final String TWITTER_SECRET = "twitterSecret";
     private static final String FACEBOOK_TOKEN = "facebookToken";
 
-    private static final String REG_PATH = "webapi/account/registration/";
-    private static final String RESTORE_PASSWORD_PATH = "webapi/account/restore_password/";
+    private static final String REG_PATH = "webapi/account/registration";
+    private static final String RESTORE_PASSWORD_PATH = "webapi/account/restore_password";
     private static final String PATH_CONFIRM_REG = "#/ua/user/confirmRegistration?username=";
     private static final String PATH_CONFIRM_REG_CODE = "&code=";
     
@@ -229,14 +229,14 @@ public class AuthorizationResource {
         if (socialLoginExist != null && !socialLoginExist.isEmpty()) {
             
             String socialLoginIsAlreadyInUse = buildResponseEntity(0, LOGIN_NOT_UNIQUE);
-            return Response.status(Response.Status.BAD_REQUEST).entity(socialLoginIsAlreadyInUse).build();
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(socialLoginIsAlreadyInUse).build();
             
         }
         
         if (userEmailExist != null && !userEmailExist.isEmpty()) {
 
             String userEmailIsAlreadyInUse = buildResponseEntity(-1, EMAIL_NOT_UNIQUE);
-            return Response.status(Response.Status.BAD_REQUEST).entity(userEmailIsAlreadyInUse).build();
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(userEmailIsAlreadyInUse).build();
         }
 
         String emailVerificator = UUID.randomUUID().toString();
@@ -257,7 +257,7 @@ public class AuthorizationResource {
 
         // Define URLs and callback
         String pathAll = req.getRequestURL().toString();
-        String pathMain = pathAll.replace(REG_PATH + locale, "");
+        String pathMain = pathAll.replace(REG_PATH, "");
 
         String message = buildResponseMessage(pathMain, username, emailVerificator, locale);
 
@@ -407,7 +407,7 @@ public class AuthorizationResource {
 
         // Define URLs and callback
         String pathAll = req.getRequestURL().toString();
-        String pathMain = pathAll.replace(RESTORE_PASSWORD_PATH + email + "/" + locale, "");
+        String pathMain = pathAll.replace(RESTORE_PASSWORD_PATH, "");
 
         String message = buildRestorePasswordMessage(pathMain, username, newPassword, locale);
 

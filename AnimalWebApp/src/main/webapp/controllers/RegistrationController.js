@@ -25,16 +25,16 @@ animalApp.controller('RegistrationController', ['$scope', '$location', '$route',
 				        $scope.errorRegistrationMessage1=true;
 				        console.log("Registration error. SocialLogin is already exist");	
 					} else if(result.userId==-1){
-						$scope.errorRegistrationMessage4=true;
+						$scope.errorRegistrationMessage2=true;
 				        console.log("Registration error. Email is already exist");						
 					} else if (result.userId==1){	
 				        $location.path("/ua/user/confirmRegistration");	
-						$route.reload();						        
+						$route.reload();			        
 				    } else if (result.length>0){
 				    	for (i = 0; i < result.length; i++) {				    		
 						    $scope.errors.push({msg: $filter('translate')(result[i])});
 						}
-				    	 $scope.errorRegistrationMessage2=true;				    	 
+				    	 $scope.errorRegistrationMessage4=true;				    	 
 				    } else {
 				        console.log("error");
 				        $scope.errorRegistrationMessage3=true;
