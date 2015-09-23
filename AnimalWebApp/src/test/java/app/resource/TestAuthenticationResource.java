@@ -1,7 +1,6 @@
 package app.resource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -10,12 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotAcceptableException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.ServerErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -30,6 +31,8 @@ import org.junit.runners.MethodSorters;
 import com.animals.app.domain.User;
 import com.animals.app.domain.UserRole;
 import com.animals.app.domain.UserType;
+import com.animals.app.repository.UserRepository;
+import com.animals.app.repository.Impl.UserRepositoryImpl;
 import com.animals.app.service.DateSerializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -50,7 +53,8 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
 	private static final String LOGINW = "rootWrong";
 	private static final String PASSWORDW = "rootWrong";
 	
-	private String userLogin;
+	private static String userLogin;
+	private static User user;
 	
 	private static final String REST_SERVICE_URL = BASE_URL + "account";	
 	
@@ -59,13 +63,23 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     public static void runBeforeClass() {
         JNDIConfigurationForTests.configureJNDIForJUnit();
 
-        client = ClientBuilder.newClient();         
+        client = ClientBuilder.newClient();
+        
+        userLogin = RandomStringUtils.random(10, true, true);
+
+        user = createEmptyUser(userLogin); 
+        
+       
+        
+        
         
     }
 
     @AfterClass
-    public static void runAfterClass() {
-        client = null;
+    public static void runAfterClass() {    
+        
+        client = null;   
+        
     }
     
     @Test
@@ -76,9 +90,10 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
 
         String result = client
                 .target(REST_SERVICE_URL)
-                .path("/login/OFF")
+                .path("/login")
                 .request()
                 .header("Authorization", credentials)
+                .header("rememberMe", "OFF")
                 .post(null, String.class);
 
         Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);
@@ -119,14 +134,15 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
 
         String result = client
                 .target(REST_SERVICE_URL)
-                .path("/login/OFF")
+                .path("/login")
                 .request()
+                .header("rememberMe", "OFF")
                 .header("Authorization", credentials)
                 .post(null, String.class);             
 
     }
     
-    @Test(expected = ServerErrorException.class)
+    @Test(expected = BadRequestException.class)
     public void test04LoginToSiteWithoutHeader() {
 
     	String passwordMd5 = ResourceTestTemplate.getMd5(PASSWORDW);
@@ -134,18 +150,16 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
 
         String result = client
                 .target(REST_SERVICE_URL)
-                .path("/login/OFF")
-                .request()                
+                .path("/login")
+                .request() 
+                .header("Authorization", null)
                 .post(null, String.class);             
 
     }
     
     @Test
-    public void test05RegisterUser() {    	
-
-    	userLogin = RandomStringUtils.random(10, true, true);
-
-    	User user = createEmptyUser(userLogin);   	 
+    public void test05RegisterUser() {    
+    	  	 
     	String json = new GsonBuilder()
     			.registerTypeAdapter(Date.class, new DateSerializer())
                 .create()
@@ -153,8 +167,9 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     	
         String result = client
                 .target(REST_SERVICE_URL)
-                .path("/registration/en")
-                .request()                
+                .path("/registration")
+                .request() 
+                .header("locale", "en")
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);             
                         
         assertNotNull(result);
@@ -164,21 +179,21 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     public void test06LoginToSiteWithoutRegConfirmation() {
 
     	String passwordMd5 = ResourceTestTemplate.getMd5("11111");
-        String credentials = "Basic " + Base64.encodeBase64String(("userToReg" + ':' + passwordMd5).getBytes());
+        String credentials = "Basic " + Base64.encodeBase64String((user.getSocialLogin() + ':' + passwordMd5).getBytes());
 
         String result = client
                 .target(REST_SERVICE_URL)
-                .path("/login/OFF")
+                .path("/login")
                 .request()
                 .header("Authorization", credentials)
+                .header("locale", "en")
                 .post(null, String.class);             
 
     }
     
-    @Test (expected = BadRequestException.class)
-    public void test07RegisterUserLoginExist() {    	
-
-    	User user = createEmptyUser(userLogin);  //userLogin="unknown"; 	 
+    @Test (expected = NotAcceptableException.class)
+    public void test07RegisterUserLoginExist() {   
+        
     	String json = new GsonBuilder()
     			.registerTypeAdapter(Date.class, new DateSerializer())
                 .create()
@@ -186,10 +201,10 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     	
         String result = client
                 .target(REST_SERVICE_URL)
-                .path("/registration/en")
-                .request()                
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);        
-        
+                .path("/registration")                
+                .request()   
+                .header("locale", "en")
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);      
                         
         
     }
@@ -247,17 +262,18 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
         
     }
     
-    @Test
-    @Ignore
+    @Test   
     public void test11loginOauthTwitterDirrectWithResponse() { 
     	
-    	ClientResponse responseMsg = client
+    	Response responseMsg = client
                 .target(REST_SERVICE_URL)
                 .path("/login/twitter_login_direct")
                 .queryParam("token", "70100199-b2aQ9UqRiMCv2Qba2239Hume4YBOLRj3uI4TWUAQn")
                 .queryParam("secret", "09Owdt8vE7OBnEErE2InI7h8u5tqrZ4yLynO2dx3jBKFf")
                 .request() 
-                .get(ClientResponse.class);
+                .get(Response.class);
+    	
+    	System.out.println(responseMsg);
         
     	assertNotNull(responseMsg);
     	assertEquals(200, responseMsg.getStatus());
@@ -275,7 +291,21 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
                 .request()                
                 .get(ClientResponse.class);
     	
-    }    
+    } 
+    
+    @Test (expected = Exception.class)
+    public void test13DeleteUserFromDb() { 
+        
+        int id = user.getId();
+        System.out.println(id);
+        
+        UserRepository userRep = new UserRepositoryImpl();
+        
+        userRep.delete(id);
+                      
+        assertNull(userRep.getById(id));
+        
+    } 
     
     private static User createEmptyUser(String userName) {
 		
@@ -288,7 +318,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
 			userLogin = "unknown";
 		}
 		
-		userToReg.setEmail("yyy@rt.ua");
+		userToReg.setEmail(userLogin +"@rt.ua");
 		userToReg.setName(userLogin);
 		userToReg.setSocialLogin(userLogin);
 		userToReg.setSurname(userLogin);		
