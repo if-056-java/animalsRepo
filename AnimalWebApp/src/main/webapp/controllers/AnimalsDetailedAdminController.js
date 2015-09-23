@@ -72,20 +72,32 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
             function convertImgToBase64URL(){
                 var img = document.getElementById("animalImg");
                 var canvas = document.createElement('canvas');
-                canvas.width = img.clientWidth;
-                canvas.height = img.clientHeight;
-                canvas.getContext('2d').drawImage(img, 1, 1);
-                console.log(canvas.toDataURL());
+
+                if (img.clientWidth <= 400) {
+                    canvas.width = img.clientWidth;
+                    canvas.height = img.clientHeight;
+                    canvas.getContext('2d').drawImage(img, 0, 0);
+                } else {
+                    var c = img.clientWidth / 400;
+                    canvas.width = img.clientWidth / c;
+                    canvas.height = img.clientHeight / c;
+                    canvas.getContext('2d').drawImage(img, 0, 0, img.clientWidth / c, img.clientHeight / c);
+                }
+
                 return canvas.toDataURL();
             }
 
             $scope.toPdf = function() {
                 var docDefinition = { content: [
-                    { text: 'Пропала ' + $scope.animal.type.type, fontSize: 21, alignment: 'center' },
+                    { text: 'Розшукується', fontSize: 35, alignment: 'center', bold: true },
+                    { text: 'Пропала ' + $scope.animal.type.type + ' породи ' + $scope.animal.breed.breedUa, fontSize: 18, alignment: 'center' },
+                    { text: 'Прохання повернути', fontSize: 20, alignment: 'center' },
+                    { text: 'конт. тел.: ' + $scope.animal.user.phone, fontSize: 25, alignment: 'center', bold: true },
                     { text: ' ' },
-                    { image: convertImgToBase64URL(), alignment: 'center', fit: [500, 500] },
+                    { image: convertImgToBase64URL(), alignment: 'center'},
                     { text: ' ' },
-                    { text: 'Прохання звертатись за телефоном: ' + $scope.animal.user.phone, fontSize: 21, alignment: 'center' }
+                    { text: 'Не залишайтесь байдужими, допоможіть знайти', fontSize: 20, alignment: 'center' },
+                    { text: 'ДРУГА !!!', fontSize: 25, alignment: 'center', bold: true }
                 ] };
 
                 pdfMake.createPdf(docDefinition).open();
