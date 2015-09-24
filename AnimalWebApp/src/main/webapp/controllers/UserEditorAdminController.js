@@ -1,4 +1,4 @@
-var animalAppControllers = angular.module('UserEditorAdminController', []);
+var animalAppControllers = angular.module('UserEditorAdminController', ['DPController']);
 
 animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationService', 'localStorageService', '$routeParams', '$window', '$filter',                                               
                                                function($scope, UserModerationService, localStorageService, $routeParams, $window, $filter) {
@@ -16,8 +16,7 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 	UserModerationService.getUser(id).then(
 			function(result){
 				$scope.user=result;				
-				$scope.contentLoading--;
-				console.log($scope.user.userRole[0].role);
+				$scope.contentLoading--;				
 			},
 			function(error){					
 				console.log(error)

@@ -16,8 +16,7 @@ animalApp.controller('UserDetailedAdminController', ['$scope', 'UserModerationSe
 	UserModerationService.getUser(id).then(
 			function(result){
 				$scope.user=result;				
-				$scope.contentLoading--;
-				console.log($scope.user.userRole[0].role);
+				$scope.contentLoading--;				
 			},
 			function(error){					
 				console.log(error)

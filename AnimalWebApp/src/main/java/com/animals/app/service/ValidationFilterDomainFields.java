@@ -22,12 +22,8 @@ import com.animals.app.controller.resource.UserResource;
  */
 public class ValidationFilterDomainFields extends ResourceConfig{
 
-    public ValidationFilterDomainFields(){
-//        property(CommonProperties.FEATURE_AUTO_DISCOVERY_DISABLE, true);
-//        property(ServerProperties.FEATURE_AUTO_DISCOVERY_DISABLE, true);
-//        property(ServerProperties.BV_FEATURE_DISABLE, true);
-        // Resource Package Address     
-        packages("com.animals.app.controller.resource", "com.animals.app.repository.Impl");
+    public ValidationFilterDomainFields(){   
+        packages("com.animals.app.controller.resource");
         //Validation.
         register(ValidationConfigurationContextResolver.class);
         
