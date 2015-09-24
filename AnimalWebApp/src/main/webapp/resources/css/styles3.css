@@ -292,9 +292,25 @@ a:hover, a:focus{
 .align-lang{
     top: -5px;
     margin-bottom: -10px;
-    position: initial;
+    position: inherit;
     margin-top: -10px;
 }
 .white-em{
     color: #fff;
+}
+.titlewrap{
+    display: block;
+    height: 11px;
+    margin-top: 45px;
+    margin-bottom: 40px;
+    padding-top: 5px;
+    max-height: 16px;
+    border-bottom: 1px solid #cacaca;
+    text-align: center;
+}
+.titlewrap h2.title {
+    background: #fff;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: inline;
 }
