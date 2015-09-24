@@ -54,7 +54,6 @@ public class TestAnimalBreedRepositoryImpl extends JNDIConfigurationForTests {
         assertNotNull(actual.getId());
     }
 
-    //field breedUa is unique
     @Test
     public void test02Insert_ua() {
         assertNotNull(actual);

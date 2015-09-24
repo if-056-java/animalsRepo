@@ -88,16 +88,34 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
             }
 
             $scope.toPdf = function() {
+                var getTranslateType = function() {
+                    if ($scope.currentLanguage == 'uk') {
+                        return $scope.animal.type.type;
+                    } else {
+                        return $scope.animal.type.typeEn;
+                    }
+                }
+
+                var getTranslateBreed = function() {
+                    if ($scope.currentLanguage == 'uk') {
+                        return $scope.animal.breed.breedUa;
+                    } else {
+                        return $scope.animal.breed.breedEn;
+                    }
+                }
+
                 var docDefinition = { content: [
-                    { text: 'Розшукується', fontSize: 35, alignment: 'center', bold: true },
-                    { text: 'Пропала ' + $scope.animal.type.type + ' породи ' + $scope.animal.breed.breedUa, fontSize: 18, alignment: 'center' },
-                    { text: 'Прохання повернути', fontSize: 20, alignment: 'center' },
-                    { text: 'конт. тел.: ' + $scope.animal.user.phone, fontSize: 25, alignment: 'center', bold: true },
+                    { text: $filter('translate')("PDF_WANTED"), fontSize: 35, alignment: 'center', bold: true },
+                    { text: $filter('translate')("PDF_LOST"), fontSize: 18, alignment: 'center' },
+                    { text: getTranslateType() + ((getTranslateBreed().length > 0) ? ', ' + getTranslateBreed() : '')
+                        , fontSize: 18, alignment: 'center' },
+                    { text: $filter('translate')("PDF_PLEASE_CALL"), fontSize: 20, alignment: 'center' },
+                    { text: $scope.animal.user.phone, fontSize: 25, alignment: 'center', bold: true },
                     { text: ' ' },
                     { image: convertImgToBase64URL(), alignment: 'center'},
                     { text: ' ' },
-                    { text: 'Не залишайтесь байдужими, допоможіть знайти', fontSize: 20, alignment: 'center' },
-                    { text: 'ДРУГА !!!', fontSize: 25, alignment: 'center', bold: true }
+                    { text: $filter('translate')("PDF_DO_NOT_STAY_INDIFFERENT"), fontSize: 20, alignment: 'center' },
+                    { text: $filter('translate')("PDF_FRIEND"), fontSize: 25, alignment: 'center', bold: true }
                 ] };
 
                 pdfMake.createPdf(docDefinition).open();
