@@ -305,5 +305,12 @@
   "AuthorizationResource.registerUser.arg1.password": "Помилка реєстрації! Невірний формат поля Пароль",
   "AuthorizationResource.registerUser.arg1.address": "Помилка реєстрації! Невірний формат поля Адреса",
   "AuthorizationResource.registerUser.arg1.organizationName": "Помилка реєстрації! Невірний формат поля Назва організації",
-  "AuthorizationResource.registerUser.arg1.organizationInfo": "Помилка реєстрації! Невірний формат поля Інформація про організацію"
+  "AuthorizationResource.registerUser.arg1.organizationInfo": "Помилка реєстрації! Невірний формат поля Інформація про організацію",
+
+  "POSTER": "Оголошення",
+  "PDF_WANTED": "Розшукується",
+  "PDF_LOST": "Пропав домашній улюбленець",
+  "PDF_PLEASE_CALL": "Прохання перезвонити",
+  "PDF_DO_NOT_STAY_INDIFFERENT": "Не залишайтесь байдужими, допоможіть знайти",
+  "PDF_FRIEND": "ДРУГА !!!"
 }
