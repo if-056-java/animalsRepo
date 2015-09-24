@@ -142,13 +142,26 @@ p {
     width:100%;
 }
 .carousel-indicators li{
-    border-radius: 0;
-    width: 60px;
-    background-color: rgba(255,255,255,.95);
+    width: 50px;
+    height: 1px;
+    display: inline-block;
+    opacity: 0.3;
+    cursor: pointer;
+    text-indent: -9999em;
+    border: 3px solid #fff;
+    background: #fff;
+    overflow: hidden;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    -o-border-radius: 1px;
+    border-radius: 1px;
+    vertical-align: middle;
 }
 .carousel-indicators .active{
-    width:60px;
-    height: 12px;
+    width: 50px;
+    height: 1px;
+    opacity: 0.8;
+    cursor: default;
 }
 #main_view{
     margin-top: -40px;
@@ -275,4 +288,13 @@ a:hover, a:focus{
 }
 .er-color{
     color: #a94442;
+}
+.align-lang{
+    top: -5px;
+    margin-bottom: -10px;
+    position: initial;
+    margin-top: -10px;
+}
+.white-em{
+    color: #fff;
 }

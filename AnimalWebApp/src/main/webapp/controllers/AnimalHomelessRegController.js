@@ -87,7 +87,7 @@ animalRegistrationModule
                     }
                     else{
                         $scope.errorsFlag = true;
-                        $scope.errors = $filter('translate')('ANIMAL_BREED_NOT_FOUND');
+                        $scope.alertSample1();
                         $scope.contentLoading--;
                     }
                 }

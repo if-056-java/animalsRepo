@@ -55,7 +55,7 @@
 
             <!-- Бренд і переключення згруповано для покращення показу на мобільних екранах -->
             <div class="navbar-header translate-cloak" translate-cloak>
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -65,7 +65,7 @@
             </div>
 
             <!-- Колекція навігаційних меню та форма для переключення -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
 
                     <li class="dropdown" translate-cloak>
@@ -112,13 +112,21 @@
                     </li>
                 </ul>
                 <!-- Log In Form -->
-                <form class="navbar-form navbar-right nav-form" role="form" translate-cloak>
+                <form class="navbar-collapse navbar-form navbar-right nav-form" role="form" translate-cloak>
 
                     <label ng-show="session()">{{ 'NAV_WELCOME_MESSAGE' | translate }}: {{userName}}</label>
 
-                    <div class="btn-group">
-                        <i id="lang-button" class="fa fa-language dropdown-toggle" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false" title="{{ 'LANGUAGE' | translate }}"></i>
+                    <a class="log-btn" ng-show="!session()" href="#ua/user/login" role="button">{{ 'LOGIN' |
+                        translate }} </a>
+
+                    <a class="log-btn" ng-show="session()" ng-click="logout()" role="button">{{ 'LOGOUT' |
+                        translate }} </a>
+
+                    <div class="btn-group align-lang">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" id="nname">
+                            {{ 'LANGUAGE' | translate }} <i class="glyphicon glyphicon-cog"></i>
+                        </button>
                         <ul class="dropdown-menu">
                             <li><a ng-controller="TranslateController" translate-cloak ng-href
                                    ng-click="changeLanguage('en')">{{ 'LANG_EN' | translate }}</a></li>
@@ -126,12 +134,6 @@
                                    ng-click="changeLanguage('uk')">{{ 'LANG_UK' | translate }}</a></li>
                         </ul>
                     </div>
-
-                    <a class="log-btn" ng-show="!session()" href="#ua/user/login" role="button">{{ 'LOGIN' |
-                        translate }} </a>
-
-                    <a class="log-btn" ng-show="session()" ng-click="logout()" role="button">{{ 'LOGOUT' |
-                        translate }} </a>
                 </form>
             </div>
         </div>
@@ -154,7 +156,6 @@
         </div>
     </div>
 </footer>
-
 
 <!-- Le javascript
 ================================================== -->
