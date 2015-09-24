@@ -101,13 +101,23 @@
                             <hr>                        
                         
                         <!-- User Email -->
-                        <div class="row">
-                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'USER_EMAIL' | translate }}:</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ user.email }}</div> 
-                        </div>
+                        <div class="input-group" ng-class="{ 'has-error' : userEditor.email.$invalid && !userForm.email.$pristine }">
+                                <span class="input-group-addon">{{ 'USER_EMAIL' | translate }}</span>
+                                <input type="text" class="form-control" aria-describedby="basic-addon1"
+                                       name="email" ng-model="user.email"
+                                       ng-maxlength="16">
+                        </div>                         
                         <hr>
                         
+                        
                         <!-- User Phone -->
+                        <div class="input-group" ng-class="{ 'has-error' : userEditor.phone.$invalid && !userForm.phone.$pristine }">
+                                <span class="input-group-addon">{{ 'USER_PHONE' | translate }}</span>
+                                <input type="text" class="form-control" aria-describedby="basic-addon1"
+                                       name="phone" ng-model="user.phone"
+                                       ng-maxlength="16">
+                        </div> 
+                        
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'USER_PHONE' | translate }}:</div>
                             <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ user.phone }}</div> 

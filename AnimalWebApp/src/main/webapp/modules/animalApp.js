@@ -27,8 +27,9 @@ var animalApp = angular.module('animalApp', [
     'AdminUsersModule',
     'HttpErrorHandlerModule',
     'UserDetailedAdminController',
-    'UserEditorAdminController'
-    
+    'UserEditorAdminController',
+    'ui.bootstrap'
+
 ]);
 
 animalApp .config(['$routeProvider', '$translateProvider',

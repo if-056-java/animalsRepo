@@ -12,6 +12,19 @@ animalApp.controller('MainController', ['$scope', '$rootScope', 'localStorageSer
                 localStorageService.cookie.set("accessToken", localStorageService.get("accessToken"), 0.065);
         }
 
+        //carousel
+        $scope.myInterval = 3000;
+        $scope.slides = [
+           {
+              image: 'resources/img/carousel/car-1.jpg'
+           },
+           {
+              image: 'resources/img/carousel/car-2.jpg'
+           },
+           {
+              image: 'resources/img/carousel/car-3.jpg'
+           }
+        ];
 
         $scope.logout = function() {
         	AuthenticationService.logout();
