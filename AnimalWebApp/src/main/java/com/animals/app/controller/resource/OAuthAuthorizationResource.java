@@ -517,15 +517,17 @@ public class OAuthAuthorizationResource {
      */
     @GET
     @Path("login/facebook_token") // http://localhost:8080/webapi/account/login/facebook_token
-    public Response getFacebookAccessToken(@QueryParam("code") String token, @QueryParam("error") String error,
-            @Context HttpServletRequest req) {
+    public Response getFacebookAccessToken(@QueryParam("code") String token,
+                                           @QueryParam("error") String error,
+                                           @QueryParam("error_code") String error2,
+                                           @Context HttpServletRequest req) {
 
         // Define URLs and callback
         String callbackUrlF = defineURL(req, LOGIN_FACEBOOK_PATH_TOKEN, CALLBACK_URL_PATH_FACEBOOK);
         String pathMain = definePathMain(req, LOGIN_FACEBOOK_PATH_TOKEN);
         String successURL = defineSuccessUrl(req, LOGIN_FACEBOOK_PATH_TOKEN);
 
-        if (error != null) {
+        if (error != null || error2 != null) {
             String entryUrl = pathMain + URL_TO_SITE_PROFILE;
             return Response.temporaryRedirect(UriBuilder.fromUri(entryUrl).build()).build();
         }

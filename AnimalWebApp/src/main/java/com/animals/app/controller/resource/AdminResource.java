@@ -12,6 +12,7 @@ import sun.misc.BASE64Decoder;
 
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -34,6 +35,9 @@ public class AdminResource {
 
     //return response with 404 code
     private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
+    
+    //return response with 500 code
+    private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 
     private final String IMAGE_FOLDER = "images/"; //folder for animals images
     //size of fields in data base, table: animals
@@ -290,6 +294,81 @@ public class AdminResource {
 
         //return Response.ok().entity(genericUsers).build();
         return ok(genericUsers);
+    }
+    
+    /**
+     * @param userId id of user
+     * @return return user instance from data base
+     * -----------------------------------------------------------------
+     * userId must be set and more than 0
+     */
+    @GET // http:localhost:8080/webapi/users/user/{userId}
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Path("users/user/{userId}")
+    public Response getUserById(@PathParam("userId") @DecimalMin(value = "1") int id) {
+
+        UserRepositoryImpl userRep = new UserRepositoryImpl();   
+        
+        try {
+            User user = userRep.getById(id);
+
+            if (user == null)
+                return NOT_FOUND;
+
+            return Response.ok().entity(user).build();
+
+        } catch (Exception e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        }
+
+    }
+    
+    /**
+     * Delete user in data base
+     * @param userId id of user 
+     * @return return response with status 200
+     * -----------------------------------------------------------------
+     * userId must be set and more than 0
+     */
+    @DELETE // http:localhost:8080/webapi/users/user/{userId}
+    @Path("users/user/{userId}")
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response deleteAnimal(@PathParam("userId") @NotNull int id) {
+     
+        UserRepositoryImpl userRep = new UserRepositoryImpl(); 
+        
+        // delete user in data base by id
+        userRep.delete(id);
+
+        return Response.ok().build();
+    }
+    
+    /**
+     * Update user instance in data base      
+     * @param userId id of user 
+     * @return return response with status 200
+     * -----------------------------------------------------------------
+     * User required parameters must be set
+     */
+    @PUT // http:localhost:8080/webapi/users/user/{userId}
+    @Path("users/user/{userId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateUser(@Valid User user, 
+                               @PathParam("userId") @NotNull int id) {
+             
+
+        // Update user
+        UserRepositoryImpl userRep = new UserRepositoryImpl(); 
+        try {
+            userRep.update(user);
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return BAD_REQUEST;
+        }       
+
+        return ok();
     }
 
     /**

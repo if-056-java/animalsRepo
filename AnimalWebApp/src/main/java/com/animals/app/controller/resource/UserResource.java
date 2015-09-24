@@ -303,6 +303,7 @@ public class UserResource {
     @POST // http:localhost:8080/webapi/users/user/{userId}/animals/animal
     @Path("user/{userId}/animals/animal")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response addUserAnimal(@Valid Animal animal, 
                                   @PathParam("userId") @NotNull String id,
                                   @Context HttpServletRequest req) {

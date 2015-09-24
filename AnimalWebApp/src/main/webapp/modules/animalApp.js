@@ -132,6 +132,10 @@ animalApp .config(['$routeProvider', '$translateProvider',
                 templateUrl: 'views/admin_users.html',
                 controller: 'AdminUsersController'
             })
+            .when('/ua/user/admin/users/:userId', {
+                templateUrl: 'views/admin_user_detailed.html',
+                controller: 'UserDetailedAdminController'
+            })
             .otherwise({
                 redirectTo: '/ua'
             });
@@ -217,7 +221,8 @@ animalApp.constant('RESOURCES', {
     USER_FOR_USER: '/webapi/users/user/',
     ANIMALS_FOR_USER: '/webapi/users/user/',
     PAGINATOR_FOR_USER: '/webapi/users/user/',
-    ANIMALS_FOR_USER_WITH_FILTER: '/webapi/users/user/'
+    ANIMALS_FOR_USER_WITH_FILTER: '/webapi/users/user/',
+    USER_FOR_ADMIN: '/webapi/admin/users/user/'	
 });
 
 animalApp.config(function(localStorageServiceProvider){
