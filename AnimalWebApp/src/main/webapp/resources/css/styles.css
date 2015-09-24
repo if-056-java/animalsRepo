@@ -1,33 +1,43 @@
 body {
-        padding-top: 40px;
-      }
-section .jumbotron{
+    padding-top: 40px;
+}
 
-		background:#2ecc71;
-		color:#fff;
-		border-radius:0px;
-		height:90px;
-		padding-top: 10px;
-		padding-bottom: 10px;
-  		margin-bottom: 10px;
-		}
+section .jumbotron {
+    background: initial;
+    color: #000;
+    border-radius: 0px;
+    height: 90px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
 section {
-		margin-top: 10px;
-		padding-top: 0px;}
+    margin-top: 10px;
+    padding-top: 0px;
+}
 
 header .navbar {
-  margin-bottom: 0px;
-}
-footer {
-background:#2ecc71;
-padding-top: 10px;
-padding-bottom: 10px;
+    margin-bottom: 0px;
 }
 
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background: rgba(255,255,255,.95);
+    padding-top: 17px;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    color:#919191;
+    border-top:1px solid #eaeaea;
+}
 IMG.displayed {
     display: block;
     margin-left: auto;
-    margin-right: auto }
+    margin-right: auto
+}
 
 .blocktext {
     margin-left: auto;
@@ -64,8 +74,8 @@ IMG.displayed {
 }
 
 .paginator > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
-    background-color: #5cb85c;
-    border-color: #4cae4c;
+    background-color: #337ab7;
+    border-color: #337ab7;
 }
 
 .rows-count {
@@ -147,147 +157,168 @@ IMG.displayed {
     height: 34px;
 }
 
-.simple-border{
+.simple-border {
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;
 }
 
-.blocktext-h4{
+.blocktext-h4 {
     text-align: center;
 }
 
-.sprite-image{
-    border:none;
+.sprite-image {
+    border: none;
     border-radius: 0;
     background: url('../img/animalColors/animal-color-sprite.png') no-repeat;
 }
 
-.onhover:hover{
-    border:1px solid black;
+.onhover{
+    margin:5px;
+    cursor: pointer;
+}
+.onhover:hover {
+    border: 1px solid black;
     border-radius: 3px;
 }
 
-#language-en{
-    border:none;
+#language-en {
+    border: none;
     border-radius: 0;
     background: url('../img/flags/en-icon.png') no-repeat;
     background-size: 25px;
-    margin:3px;
+    margin: 3px;
     display: inline-block;
     width: 25px;
 }
-#language-en:hover{
+
+#language-en:hover {
     cursor: pointer;
 }
 
-#language-uk{
-    border:none;
+#language-uk {
+    border: none;
     border-radius: 0;
     background: url('../img/flags/uk-icon.png') no-repeat;
     background-size: 25px;
-    margin:3px;
+    margin: 3px;
     display: inline-block;
     width: 25px;
 }
-#language-uk:hover{
+
+#language-uk:hover {
     cursor: pointer;
 }
 
-#color-sprites-0{
+#color-sprites-0 {
     width: 113px; /* Icon width */
     height: 90px; /* Icon height */
     display: inline-block; /* Display icon as inline block */
     background-position: 0 0; /* Icon background position in sprite */
 }
-#color-sprites-1{
+
+#color-sprites-1 {
     width: 113px; /* Icon width */
     height: 90px; /* Icon height */
     display: inline-block; /* Display icon as inline block */
     background-position: -120px -390px; /* Icon background position in sprite */
 }
-#color-sprites-2{
+
+#color-sprites-2 {
     width: 113px; /* Icon width */
     height: 90px; /* Icon height */
     display: inline-block; /* Display icon as inline block */
     background-position: -5px -295px; /* Icon background position in sprite */
 }
-#color-sprites-3{
+
+#color-sprites-3 {
     width: 113px; /* Icon width */
     height: 90px; /* Icon height */
     display: inline-block; /* Display icon as inline block */
     background-position: -120px 0; /* Icon background position in sprite */
 }
-#color-sprites-4{
+
+#color-sprites-4 {
     width: 113px; /* Icon width */
     height: 90px; /* Icon height */
     display: inline-block; /* Display icon as inline block */
     background-position: -120px -290px; /* Icon background position in sprite */
 }
-#color-sprites-5{
-     width: 113px; /* Icon width */
-     height: 90px; /* Icon height */
-     display: inline-block; /* Display icon as inline block */
-     background-position: -4px -95px; /* Icon background position in sprite */
-}
-#color-sprites-6{
+
+#color-sprites-5 {
     width: 113px; /* Icon width */
     height: 90px; /* Icon height */
-    display: inline-block; /* Display icon as inline block */ /* Icon background position in sprite */
+    display: inline-block; /* Display icon as inline block */
+    background-position: -4px -95px; /* Icon background position in sprite */
+}
+
+#color-sprites-6 {
+    width: 113px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    /* Icon background position in sprite */
     background-position: -122px -492px;
 }
-#color-sprites-7{
-     width: 113px; /* Icon width */
-     height: 90px; /* Icon height */
-     display: inline-block; /* Display icon as inline block */
-     background-position: -5px -495px; /* Icon background position in sprite */
+
+#color-sprites-7 {
+    width: 113px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: -5px -495px; /* Icon background position in sprite */
 }
-#color-sprites-8{
+
+#color-sprites-8 {
     width: 113px; /* Icon width */
     height: 90px; /* Icon height */
     display: inline-block; /* Display icon as inline block */
     background-position: -5px -390px; /* Icon background position in sprite */
 }
-#color-sprites-9{
-     width: 113px; /* Icon width */
-     height: 90px; /* Icon height */
-     display: inline-block; /* Display icon as inline block */
-     background-position: -3px -200px; /* Icon background position in sprite */
+
+#color-sprites-9 {
+    width: 113px; /* Icon width */
+    height: 90px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: -3px -200px; /* Icon background position in sprite */
 }
-#color-sprites-10{
+
+#color-sprites-10 {
     width: 113px; /* Icon width */
     height: 90px; /* Icon height */
     display: inline-block; /* Display icon as inline block */
     background-position: -119px -200px; /* Icon background position in sprite */
 }
-#color-sprites-11{
+
+#color-sprites-11 {
     width: 113px; /* Icon width */
     height: 90px; /* Icon height */
     display: inline-block; /* Display icon as inline block */
     background-position: -124px -95px; /* Icon background position in sprite */
 }
-#color-sprites-12{
+
+#color-sprites-12 {
     width: 113px; /* Icon width */
     height: 90px; /* Icon height */
     display: inline-block; /* Display icon as inline block */
     background-position: -130px -600px; /* Icon background position in sprite */
 }
-#color-sprites-13{
+
+#color-sprites-13 {
     width: 113px; /* Icon width */
     height: 90px; /* Icon height */
     display: inline-block; /* Display icon as inline block */
     background-position: -12px -600px; /* Icon background position in sprite */
 }
 
-#animal-image-id{
+#animal-image-id {
     display: block;
     text-align: center;
     vertical-align: middle;
 }
 
-.required:after{
-    content:"*";
-    color:red;
+.required:after {
+    content: "*";
+    color: red;
 }
+
 .thumbnail-special {
     display: block;
     max-width: 175px;
@@ -300,15 +331,17 @@ IMG.displayed {
     -o-transition: border 0.2s ease-in-out;
     transition: border 0.2s ease-in-out;
 }
-#popUpDialog-bg{
+
+#popUpDialog-bg {
     position: fixed;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
 }
-#popUpDialog{
+
+#popUpDialog {
     position: fixed;
     width: 600px;
     left: 40%;
@@ -318,18 +351,20 @@ IMG.displayed {
     border-radius: 5px;
     background: white;
 }
-#popUpDialog .content{
+
+#popUpDialog .content {
     margin-bottom: 15px;
 
 }
 
-.sprite-status{
-    border:none;
+.sprite-status {
+    border: none;
     border-radius: 0;
     background: url('../img/animalStatuses/animal-status-sprite-min.png') no-repeat;
 }
+
 /* Animal statuses sprite */
-.sprite-status.catched{
+.sprite-status.catched {
     margin: 2px;
     border-radius: 15px;
     width: 31px; /* Icon width */
@@ -338,7 +373,7 @@ IMG.displayed {
     background-position: 0 0; /* Icon background position in sprite */
 }
 
-.sprite-status.released{
+.sprite-status.released {
     margin: 2px;
     border-radius: 15px;
     width: 31px; /* Icon width */
@@ -347,7 +382,7 @@ IMG.displayed {
     background-position: 0px -34px; /* Icon background position in sprite */
 }
 
-.sprite-status.newborn{
+.sprite-status.newborn {
     margin: 2px;
     border-radius: 15px;
     width: 31px; /* Icon width */
@@ -356,7 +391,7 @@ IMG.displayed {
     background-position: 0px -66px; /* Icon background position in sprite */
 }
 
-.sprite-status.disinfected{
+.sprite-status.disinfected {
     margin: 2px;
     border-radius: 15px;
     width: 31px; /* Icon width */
@@ -365,7 +400,7 @@ IMG.displayed {
     background-position: 0px -98px; /* Icon background position in sprite */
 }
 
-.sprite-status.vaccinated{
+.sprite-status.vaccinated {
     margin: 2px;
     border-radius: 15px;
     width: 31px; /* Icon width */
@@ -374,7 +409,7 @@ IMG.displayed {
     background-position: 0px -130px; /* Icon background position in sprite */
 }
 
-.sprite-status.cured{
+.sprite-status.cured {
     margin: 2px;
     border-radius: 15px;
     width: 31px; /* Icon width */
@@ -383,7 +418,7 @@ IMG.displayed {
     background-position: 0px -162px; /* Icon background position in sprite */
 }
 
-.sprite-status.sick{
+.sprite-status.sick {
     margin: 2px;
     border-radius: 15px;
     width: 31px; /* Icon width */
@@ -392,7 +427,7 @@ IMG.displayed {
     background-position: 0px -194px; /* Icon background position in sprite */
 }
 
-.sprite-status.injured{
+.sprite-status.injured {
     margin: 2px;
     border-radius: 15px;
     width: 31px; /* Icon width */
@@ -401,7 +436,7 @@ IMG.displayed {
     background-position: 0px -226px; /* Icon background position in sprite */
 }
 
-.sprite-status.adopt{
+.sprite-status.adopt {
     margin: 2px;
     border-radius: 15px;
     width: 31px; /* Icon width */
@@ -410,7 +445,7 @@ IMG.displayed {
     background-position: 0px -258px; /* Icon background position in sprite */
 }
 
-.sprite-status.custody{
+.sprite-status.custody {
     margin: 2px;
     border-radius: 15px;
     width: 31px; /* Icon width */
@@ -419,52 +454,63 @@ IMG.displayed {
     background-position: 0px -290px; /* Icon background position in sprite */
 }
 
-.simple-side-padding:hover{
-    border: 1px solid #99CC99;
-}
-.simple-side-padding{
+.simple-side-padding {
     border: 1px solid #ffffff;
+    position: relative;
+    height:500px;
+    margin-bottom: 25px;
+}
+.simple-side-padding-fl {
+    border: 1px solid #ffffff;
+    position: relative;
+    height:420px;
+    margin-bottom: 10px;
 }
 
-.soc-fb{
-    transition:visibility 1s, opacity 1s;
+.soc-fb {
+    transition: visibility 1s, opacity 1s;
     position: absolute;
     left: 86px;
     top: 161px;
     width: 32px;
     height: 32px;
-    border:none;
+    border: none;
     border-radius: 0;
     background: url('../img/socials/share-fb-32.png') no-repeat;
 }
-.soc-fb:hover{
+
+.soc-fb:hover {
     cursor: pointer;
 }
-.soc-gg{
-    transition:visibility 1s, opacity 1s;
+
+.soc-gg {
+    transition: visibility 1s, opacity 1s;
     position: absolute;
     left: 123px;
     top: 161px;
     width: 32px;
     height: 32px;
-    border:none;
+    border: none;
     border-radius: 0;
     background: url('../img/socials/share-gg-32.png') no-repeat;
 }
-.soc-gg:hover{
+
+.soc-gg:hover {
     cursor: pointer;
 }
-.soc-tw{
-    transition:visibility 1s, opacity 1s;
+
+.soc-tw {
+    transition: visibility 1s, opacity 1s;
     position: absolute;
     left: 160px;
     top: 161px;
     width: 32px;
     height: 32px;
-    border:none;
+    border: none;
     border-radius: 0;
     background: url('../img/socials/share-tw-32.png') no-repeat;
 }
-.soc-tw:hover{
+
+.soc-tw:hover {
     cursor: pointer;
 }
