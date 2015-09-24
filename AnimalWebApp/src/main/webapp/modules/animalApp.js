@@ -26,7 +26,10 @@ var animalApp = angular.module('animalApp', [
     'ngCookies',
     'AdminUsersModule',
     'HttpErrorHandlerModule',
+    'UserDetailedAdminController',
+    'UserEditorAdminController',
     'ui.bootstrap'
+
 ]);
 
 animalApp .config(['$routeProvider', '$translateProvider',
@@ -135,6 +138,10 @@ animalApp .config(['$routeProvider', '$translateProvider',
             .when('/ua/user/admin/users/:userId', {
                 templateUrl: 'views/admin_user_detailed.html',
                 controller: 'UserDetailedAdminController'
+            })
+            .when('/ua/user/admin/users/editor/:userId', {
+                templateUrl: 'views/admin_user_editor.html',
+                controller: 'UserEditorAdminController'
             })
             .otherwise({
                 redirectTo: '/ua'

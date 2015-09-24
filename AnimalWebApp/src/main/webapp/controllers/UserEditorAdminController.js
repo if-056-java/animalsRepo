@@ -1,6 +1,6 @@
-var animalAppControllers = angular.module('UserDetailedAdminController', []);
+var animalAppControllers = angular.module('UserEditorAdminController', ['DPController']);
 
-animalApp.controller('UserDetailedAdminController', ['$scope', 'UserModerationService', 'localStorageService', '$routeParams', '$window', '$filter',                                               
+animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationService', 'localStorageService', '$routeParams', '$window', '$filter',                                               
                                                function($scope, UserModerationService, localStorageService, $routeParams, $window, $filter) {
 	
 	//initialize loading spinner
@@ -24,17 +24,14 @@ animalApp.controller('UserDetailedAdminController', ['$scope', 'UserModerationSe
 			}
 		);
 	
-	$scope.deleteUser = function() {
-   	 if (!confirm($filter('translate')("USER_DETAILED_CONFIRM_DELETE"))) {
-            return;
-        }
-   	 
-   	UserModerationService.deleteUser(id)
+	$scope.updateUser = function() {
+   	    	 
+   	UserModerationService.updateUser($scope.user, id)
            .then(function(data) {
-               $window.location.href = "#/ua/user/admin/users";
+               $window.location.href = "#/ua/user/admin/users/" + id;
            },
-           function(data) {
-               $window.alert("Animal delete failed.");
+           function(error) {
+               $window.alert("Animal update failed.");
            });
    }
 	

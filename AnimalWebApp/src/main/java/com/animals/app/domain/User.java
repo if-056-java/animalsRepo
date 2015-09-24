@@ -41,10 +41,10 @@ public class User implements Serializable, Principal {
     @Length(max = 40, message =  "Password must be less than {max}  characters.")
     private String password;
     
-    @Pattern(message = "Wrong format for email", regexp = "^[0-9]{3}-[0-9]{7}$") 
+    @Pattern(message = "Wrong format for phone", regexp = "^[0-9]{3}-[0-9]{7}$") 
     private String phone;
     
-    @Length(min = 4, max = 16, message = "The socialLogin must be between {min} and {max}.")
+    @Length(min = 4, max = 32, message = "The socialLogin must be between {min} and {max}.")
     private String socialLogin;
     
     @Length(max = 120, message =  "Address must be less than {max} characters.") 

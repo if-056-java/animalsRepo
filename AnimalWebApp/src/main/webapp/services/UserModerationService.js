@@ -17,7 +17,7 @@ angular.module('animalApp').factory('UserModerationService',function ($q, $http,
 			return def.promise;
 		},	
 
-		updateUser:function (user , id){
+		updateUser:function (user, id){
 			
 			var def = $q.defer();
 			
