@@ -331,7 +331,7 @@ public class AdminResource {
      * -----------------------------------------------------------------
      * userId must be set and more than 0
      */
-    @DELETE // http:localhost:8080/webapi/users/user/{userId}/animals/{animalId}
+    @DELETE // http:localhost:8080/webapi/users/user/{userId}
     @Path("users/user/{userId}")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response deleteAnimal(@PathParam("userId") @NotNull int id) {
@@ -342,6 +342,33 @@ public class AdminResource {
         userRep.delete(id);
 
         return Response.ok().build();
+    }
+    
+    /**
+     * Update user instance in data base      
+     * @param userId id of user 
+     * @return return response with status 200
+     * -----------------------------------------------------------------
+     * User required parameters must be set
+     */
+    @PUT // http:localhost:8080/webapi/users/user/{userId}
+    @Path("users/user/{userId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateUser(@Valid User user, 
+                               @PathParam("userId") @NotNull int id) {
+             
+
+        // Update user
+        UserRepositoryImpl userRep = new UserRepositoryImpl(); 
+        try {
+            userRep.update(user);
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return BAD_REQUEST;
+        }       
+
+        return ok();
     }
 
     /**
