@@ -90,6 +90,10 @@
   "ANIMAL_SHORT_INFO_ADOPTION": "Animal For Adoption Information",
   "ANIMAL_SHORT_INFO_LOST": "Lost Animal Information",
   "ANIMAL_SHORT_INFO_FIND": "Found Animal Information",
+  "MESSAGE_INPUT_PHONE": "Input phone number",
+  "MESSAGE_INPUT_PHONE_FAILED": "Phone number failed",
+  "MESSAGE_OK": "Message sent!",
+  "MESSAGE_ERROR": "Message not sent. Server error. Please, try again later",
 
   "CONTACTS": "Contacts",
   "LOCATION": "Location",
