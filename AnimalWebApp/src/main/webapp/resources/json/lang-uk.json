@@ -318,5 +318,7 @@
   "AuthorizationResource.registerUser.arg1.password": "Помилка реєстрації! Невірний формат поля Пароль",
   "AuthorizationResource.registerUser.arg1.address": "Помилка реєстрації! Невірний формат поля Адреса",
   "AuthorizationResource.registerUser.arg1.organizationName": "Помилка реєстрації! Невірний формат поля Назва організації",
-  "AuthorizationResource.registerUser.arg1.organizationInfo": "Помилка реєстрації! Невірний формат поля Інформація про організацію"
+  "AuthorizationResource.registerUser.arg1.organizationInfo": "Помилка реєстрації! Невірний формат поля Інформація про організацію",
+
+  "ISACTIVE": "Активні"
 }

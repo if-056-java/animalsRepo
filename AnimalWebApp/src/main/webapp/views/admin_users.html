@@ -26,11 +26,11 @@
                 <form name="userFilter" ng-submit="submit(userFilter.$valid)" novalidate>
 
                     <!-- IsActive filter -->
-                    <label>IsActive:</label>
+                    <label>{{ 'ISACTIVE' | translate }}:</label>
 
                     <div class="checkbox">
                         <label><input type="checkbox" ng-model="filter.user.isActive"
-                                      ng-true-value="'yes'" ng-false-value="">IsActive</label><br>
+                                      ng-true-value="'yes'" ng-false-value="">{{ 'ISACTIVE' | translate }}</label><br>
                     </div>
                     <hr>
 

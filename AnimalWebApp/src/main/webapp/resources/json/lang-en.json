@@ -318,7 +318,7 @@
   "AuthorizationResource.registerUser.arg1.password": "Registration Error. Wrong input format for user Password!",
   "AuthorizationResource.registerUser.arg1.address": "Registration Error. Wrong input format for user Address!",
   "AuthorizationResource.registerUser.arg1.organizationName": "Registration Error. Wrong input format for user Company name!",
-  "AuthorizationResource.registerUser.arg1.organizationInfo": "Registration Error. Wrong input format for user Company Information!"
-  
-  
+  "AuthorizationResource.registerUser.arg1.organizationInfo": "Registration Error. Wrong input format for user Company Information!",
+
+  "ISACTIVE": "IsActive"
 }
