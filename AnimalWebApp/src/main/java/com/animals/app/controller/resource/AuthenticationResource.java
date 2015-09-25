@@ -108,8 +108,7 @@ public class AuthenticationResource {
     @Path("login") // http:localhost:8080/webapi/account/login/OFF
     public Response loginToSite(@Context HttpServletRequest req, 
                                 @HeaderParam("rememberMe") @NotNull String rememberMe) {
-
-        System.out.println(rememberMe);
+       
         // reading header from request
         String header = null;
         String sub = null;
