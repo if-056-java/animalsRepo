@@ -88,7 +88,7 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
             }
 
             $scope.toPdf = function() {
-            	console.log("doPDF");
+            	
                 var getTranslateType = function() {
                     if ($scope.currentLanguage == 'uk') {
                         return $scope.animal.type.type;

@@ -25,6 +25,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -206,7 +207,7 @@ public class TestUserResource extends ResourceTestTemplate {
      * Send: valid user
      * Expect: response with status 400
      */
-    @Test(expected = BadRequestException.class)
+    @Test(expected = NotAuthorizedException.class)
     public void test05UpdateUser() {
         assertNotNull(accessToken);
         assertNotNull(user);

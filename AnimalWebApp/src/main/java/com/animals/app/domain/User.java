@@ -35,6 +35,7 @@ public class User implements Serializable, Principal {
     private Date registrationDate;    
      
     @Email(message = "Wrong format for mail", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
+    @Length(max = 30, message = "The email length must be less than {max}.")
     private String email;
 
     @NotNull(message =  "Password can not be null")

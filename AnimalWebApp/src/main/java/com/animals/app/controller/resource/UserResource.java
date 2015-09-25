@@ -120,7 +120,9 @@ public class UserResource {
 
         HttpSession session = req.getSession(true);
         
-        if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id))) {
+        int idUser = user.getId();
+        
+        if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id))||  idUser!=id) {
             return UNAUTHORIZED;
         }
 
