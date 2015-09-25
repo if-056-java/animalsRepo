@@ -88,6 +88,16 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
             }
 
             $scope.toPdf = function() {
+                if ($scope.animal.user == undefined) {
+                    $window.alert($filter('translate')("MUST_HAVE_OWNER"));
+                    return;
+                }
+
+                if ($scope.animal.user.phone == undefined) {
+                    $window.alert($filter('translate')("YOUR_PHONE_MUST_BE_SET"));
+                    return;
+                }
+
                 var getTranslateType = function() {
                     if ($scope.currentLanguage == 'uk') {
                         return $scope.animal.type.type;
@@ -110,7 +120,7 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
                     { text: getTranslateType() + ((getTranslateBreed().length > 0) ? ', ' + getTranslateBreed() : '')
                         , fontSize: 18, alignment: 'center' },
                     { text: $filter('translate')("PDF_PLEASE_CALL"), fontSize: 20, alignment: 'center' },
-                    { text: $scope.animal.user.phone, fontSize: 25, alignment: 'center', bold: true },
+                    { text: $scope.animal.user.phone , fontSize: 25, alignment: 'center', bold: true },
                     { text: ' ' },
                     { image: convertImgToBase64URL(), alignment: 'center'},
                     { text: ' ' },
