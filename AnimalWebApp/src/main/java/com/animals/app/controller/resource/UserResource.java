@@ -83,7 +83,7 @@ public class UserResource {
                                 @Context HttpServletRequest req) {
 
         HttpSession session = req.getSession(true);
-        
+
         if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id))) {
             return UNAUTHORIZED;
         }
