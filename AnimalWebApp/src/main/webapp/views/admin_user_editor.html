@@ -87,13 +87,14 @@
                                        ng-maxlength="16">
                         </div>                         
                         <hr>
-                    </div>    
-                    <div class="row">
+                    </div>
+                        
+                    
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
                     		
                     	<!-- User Role -->                              
                             <div class="input-group">
-                                &nbsp;<span class="input-group-addon">{{ 'USER_ROLE' | translate }}</span>
+                                <span class="input-group-addon">{{ 'USER_ROLE' | translate }}</span>
                                 <ol class="nya-bs-select nya-bs-select-mod" ng-model="user.userRole[0].role" title="{{ 'NOT_SELECTED' | translate }}">
                                     <li class="nya-bs-option" value="moderator"><a>{{ 'ROLE_MODERATOR' | translate }}</a></li>
                                     <li class="nya-bs-option" value="doctor"><a>{{ 'ROLE_DOCTOR' | translate }}</a></li>
@@ -106,7 +107,7 @@
                         
                         <!-- User Type -->
                         <div class="input-group">
-                                &nbsp;<span class="input-group-addon">{{ 'USER_TYPE' | translate }}</span>
+                                <span class="input-group-addon">{{ 'USER_TYPE' | translate }}</span>
                                 <ol class="nya-bs-select nya-bs-select-mod" ng-model="user.userType.type" title="{{ 'NOT_SELECTED' | translate }}">
                                     <li class="nya-bs-option" value="власник"><a>{{ 'TYPE_OWNER' | translate }}</a></li>
                                     <li class="nya-bs-option" value="ветеринар"><a>{{ 'TYPE_VET' | translate }}</a></li>
@@ -127,24 +128,27 @@
                         </div> 
                         <hr>
                         
+                      
                         <!-- User Active -->
                         <div class="input-group">
                                 <span class="input-group-addon">{{ 'USER_ACTIVE' | translate }}</span>
-                                <ol class="nya-bs-select nya-bs-select-mod" ng-model="user.active" title="{{ 'NOT_SELECTED' | translate }}">
+                                <ol class="nya-bs-select nya-bs-select-mod" ng-model="active" 
+                                	title="{{ 'NOT_SELECTED' | translate }}">
                                     <li class="nya-bs-option" value="true"><a>{{ 'YES' | translate}}</a></li>
                                     <li class="nya-bs-option" value="false"><a>{{ 'NO' | translate}}</a></li>                                  
                                 </ol>
                             </div>
                         <hr>
+                        <br>
                     </div> 
                     
                     
-                </div>
-                </div>      
+               
+                   
               
                     
                 
-                <div class="row">
+                
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
                     
                      <!-- User Address -->
@@ -177,7 +181,8 @@
                         
                                             
                     </div>
-                </div>            
+                 
+                 </div>             
         </div>      
 
       
