@@ -70,7 +70,7 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
              * to a base64 url
              */
             function convertImgToBase64URL(){
-                var img = document.getElementById("animalImg");
+                var img = document.getElementById('animalImg');
                 var canvas = document.createElement('canvas');
 
                 if (img.clientWidth <= 400) {
