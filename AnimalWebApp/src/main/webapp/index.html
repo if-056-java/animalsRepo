@@ -123,8 +123,10 @@
                         translate }} </a>
 
                     <div class="btn-group">
-                        <i id="lang-button" class="fa fa-language dropdown-toggle" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false" title="{{ 'LANGUAGE' | translate }}"></i>
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" id="nname">
+                            {{ 'LANGUAGE' | translate }} <i class="glyphicon glyphicon-cog"></i>
+                        </button>
                         <ul class="dropdown-menu">
                             <li><a ng-controller="TranslateController" translate-cloak ng-href
                                    ng-click="changeLanguage('en')">{{ 'LANG_EN' | translate }}</a></li>
