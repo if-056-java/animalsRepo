@@ -327,5 +327,7 @@
   "PDF_LOST": "Lost pet",
   "PDF_PLEASE_CALL": "Please call",
   "PDF_DO_NOT_STAY_INDIFFERENT": "Do not stay indifferent, help find",
-  "PDF_FRIEND": "a FRIEND!!!"
+  "PDF_FRIEND": "a FRIEND!!!",
+  "YOUR_PHONE_MUST_BE_SET": "Phone must be set. Set phone number at Profile page.",
+  "MUST_HAVE_OWNER": "Animal do not have owner."
 }
