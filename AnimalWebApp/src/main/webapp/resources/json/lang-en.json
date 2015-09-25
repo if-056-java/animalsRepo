@@ -270,8 +270,9 @@
   "ADMIN_USERS": "List of users",
   "ID": "Id",
   "IS_ACTIVE": "Is blocked",
-  "DETAILED_INFO": "Detailed info",
+  "DETAILED_INFO": "Details",
   "ABOUT_US": "About us",
+  "USER_PHONE_EDITOR": "Phone like '000-0000000'",
 
   "GOAL": "Purpose:",
   "GOAL_1": "Control and reduce the number of stray animals.",

@@ -6,7 +6,7 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 	//initialize loading spinner
     var targetContent = document.getElementById('loading-block');
     new Spinner(opts).spin(targetContent);
-    //This variable decides when spinner loading for contentis closed.
+    //This variable decides when spinner loading for content is closed.
     $scope.contentLoading = 1;    
 	
 	var id = $routeParams.userId;	
@@ -46,7 +46,7 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 	               $window.location.href = "#/ua/user/admin/users/" + id;
 	           },
 	           function(error) {
-	               $window.alert("Animal update failed.");
+	               $window.alert("User update failed.");
 	           });
    }
 	
