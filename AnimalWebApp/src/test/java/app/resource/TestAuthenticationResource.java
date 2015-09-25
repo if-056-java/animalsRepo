@@ -272,7 +272,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     @Test
     public void test13PasswordRestoreViaMail() {  
         
-        String json = "\"email\":\"" + userEmail +"\""; 
+        String json = userEmail; 
         System.out.println(json);
         
         String result = client
@@ -290,7 +290,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     @Test (expected = NotFoundException.class)
     public void test14PasswordRestoreViaMailBadEmail() {  
         
-        String json = "\"email\":\"" +"re"+ userEmail +"\""; 
+        String json = "wrong"+userEmail; 
         
         String result = client
                 .target(REST_SERVICE_URL)
@@ -306,7 +306,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     @Test (expected = BadRequestException.class)
     public void test15PasswordRestoreViaMailWrongFormatadEmail() {  
         
-        String json = "\"email\":" + "\"wrong"+"\""; 
+        String json = userEmail + "i@"; 
         
        String result = client
                 .target(REST_SERVICE_URL)

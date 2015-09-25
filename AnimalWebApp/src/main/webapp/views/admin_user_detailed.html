@@ -113,7 +113,7 @@
                 </div>
                 
                 <!-- Social integration -->                
-                <div class="row">
+                <div class="row" ng-show="user.googleId || user.facebookId || user.twitterId">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 panel-body">
                     	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">{{ 'SOCIAL_INTEGRATION' | translate }}:</div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
