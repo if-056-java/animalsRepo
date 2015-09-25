@@ -54,6 +54,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
 	private static final String PASSWORDW = "rootWrong";
 	
 	private static String userLogin;
+	private static String userEmail;
 	private static User user;
 	
 	private static final String REST_SERVICE_URL = BASE_URL + "account";	
@@ -66,12 +67,9 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
         client = ClientBuilder.newClient();
         
         userLogin = RandomStringUtils.random(10, true, true);
+        userEmail = userLogin +"@rt.ua";
 
-        user = createEmptyUser(userLogin); 
-        
-       
-        
-        
+        user = createEmptyUser(userLogin);         
         
     }
 
@@ -272,8 +270,6 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
                 .queryParam("secret", "09Owdt8vE7OBnEErE2InI7h8u5tqrZ4yLynO2dx3jBKFf")
                 .request() 
                 .get(Response.class);
-    	
-    	System.out.println(responseMsg);
         
     	assertNotNull(responseMsg);
     	assertEquals(200, responseMsg.getStatus());
@@ -293,13 +289,14 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     	
     } 
     
-    @Test (expected = Exception.class)
-    public void test13DeleteUserFromDb() { 
-        
-        int id = user.getId();
-        System.out.println(id);
-        
+    @Test
+    public void test13DeleteUserFromDb() {        
+               
         UserRepository userRep = new UserRepositoryImpl();
+        
+        User userToDel = userRep.findUserByEmail(userEmail);      
+        
+        int id = userToDel.getId();       
         
         userRep.delete(id);
                       

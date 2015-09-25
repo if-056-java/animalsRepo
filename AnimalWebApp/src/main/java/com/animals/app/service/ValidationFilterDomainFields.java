@@ -14,7 +14,7 @@ import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.server.validation.ValidationConfig;
 import org.glassfish.jersey.server.validation.internal.InjectingConstraintValidatorFactory;
 
-import com.animals.app.controller.resource.AuthorizationResource;
+import com.animals.app.controller.resource.AuthenticationResource;
 import com.animals.app.controller.resource.UserResource;
 /**
  * ContactCard application configuration

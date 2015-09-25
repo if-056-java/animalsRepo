@@ -36,9 +36,9 @@ import com.animals.app.service.MailSender;
 
 @Path("account")
 @PermitAll
-public class AuthorizationResource {
+public class AuthenticationResource {
 
-    private static Logger LOG = LogManager.getLogger(AuthorizationResource.class);
+    private static Logger LOG = LogManager.getLogger(AuthenticationResource.class);
     
     private final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
     private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();

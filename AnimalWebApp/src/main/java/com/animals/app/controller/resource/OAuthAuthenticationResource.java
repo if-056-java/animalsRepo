@@ -46,9 +46,9 @@ import com.animals.app.repository.Impl.UserRepositoryImpl;
  */
 @Path("account")
 @PermitAll
-public class OAuthAuthorizationResource {
+public class OAuthAuthenticationResource {
 
-    private static Logger LOG = LogManager.getLogger(OAuthAuthorizationResource.class);
+    private static Logger LOG = LogManager.getLogger(OAuthAuthenticationResource.class);
 
     private final Response NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
     private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
