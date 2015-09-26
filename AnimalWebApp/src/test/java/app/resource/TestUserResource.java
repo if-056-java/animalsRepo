@@ -5,14 +5,13 @@
 package app.resource;
 
 import app.JNDIConfigurationForTests;
-import com.animals.app.domain.User;
-import com.animals.app.domain.UserRole;
-import com.animals.app.repository.Impl.UserRepositoryImpl;
-import com.animals.app.repository.Impl.UserRoleRepositoryImpl;
-import com.animals.app.repository.Impl.UserTypeRepositoryImpl;
+import com.animals.app.domain.*;
+import com.animals.app.repository.Impl.*;
 import com.animals.app.repository.UserRepository;
 import com.animals.app.service.DateSerializer;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.log4j.LogManager;
@@ -29,11 +28,14 @@ import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -49,6 +51,7 @@ public class TestUserResource extends ResourceTestTemplate {
 
     private static String accessToken;
     private static User user;
+    private static Animal animal;
 
     private static final String REST_SERVICE_URL = BASE_URL + "users";
 
@@ -62,6 +65,8 @@ public class TestUserResource extends ResourceTestTemplate {
     private static final int LENGTH_ADDRESS = 120;
     private static final int LENGTH_ORGANIZATION_NAME = 70;
     private static final int LENGTH_ORGANIZATION_INFO = 100;
+    private static final int LENGTH_ANIMAL_COLOR = 20;
+    private static final int LENGTH_ANIMAL_ADDRESS = 120;
 
     @BeforeClass
     public static void runBeforeClass() {
@@ -89,8 +94,23 @@ public class TestUserResource extends ResourceTestTemplate {
         userRepository.insert(user);
 
         assertNotNull(user.getId());
-
         user.setPassword(password);
+
+        animal = new Animal();
+        animal.setSex(Animal.SexType.FEMALE);
+        animal.setType(new AnimalTypeRepositoryImpl().getAll().get(0));
+        animal.setSize(Animal.SizeType.LARGE);
+        animal.setCites(Animal.CitesType.NONE);
+        animal.setBreed(new AnimalBreedRepositoryImpl().getByTypeId(animal.getType().getId()).get(0));
+        animal.setDateOfRegister(new Date(System.currentTimeMillis()));
+        animal.setColor(RandomStringUtils.random(LENGTH_ANIMAL_COLOR, true, true));
+        animal.setAddress(RandomStringUtils.random(LENGTH_ANIMAL_ADDRESS, true, true));
+        animal.setService(new AnimalServiceRepositoryImpl().getAll().get(0));
+        animal.setUser(user);
+
+        new AnimalRepositoryImpl().insert(animal);
+
+        assertNotNull(animal.getId());
     }
 
     @AfterClass
@@ -722,5 +742,222 @@ public class TestUserResource extends ResourceTestTemplate {
         new UserRepositoryImpl().update(user);
 
         assertNotEquals(expected.getUserType(), actual.getUserType());
+    }
+
+    /*
+     * Testing of adding animal
+     * Path: /users/user/{userId}/animals/animal
+     * Method: post
+     * Send: valid animal
+     * Expect: response with status 200
+     */
+    @Test
+    public void test18UpdateUserAnimal() {
+        assertNotNull(accessToken);
+        assertNotNull(user);
+        assertNotNull(user.getId());
+        assertNotNull(animal);
+        assertNotNull(animal.getId());
+        assertNotNull(animal.getType());
+        assertNotNull(animal.getType().getId());
+        assertNotNull(animal.getSize());
+        assertNotNull(animal.getDateOfRegister());
+        assertNotNull(animal.getColor());
+        assertNotNull(animal.getAddress());
+        assertNotNull(animal.getService());
+        assertNotNull(animal.getService().getId());
+
+        Animal actual = SerializationUtils.clone(animal);
+        actual.setColor(RandomStringUtils.random(LENGTH_ANIMAL_COLOR, true, true));
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test18UpdateUserAnimal - " + json);
+
+        Response response = client
+                .target(REST_SERVICE_URL)
+                .path("user/" + user.getId() + "/animals/animal")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 200);
+
+        Animal expected = new AnimalRepositoryImpl().getAnimalId(animal.getId());
+
+        assertNotEquals(expected.getColor(), animal.getColor());
+    }
+
+    /*
+     * Testing of getting animals
+     * Path: /users/user/{userId}/animals
+     * Method: post
+     * Send: valid AnimalFilter
+     * Expect: list of animals
+     */
+    @Test
+    public void test19GetUserAnimals() {
+        assertNotNull(accessToken);
+        assertNotNull(user);
+        assertNotNull(user.getId());
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(new AnimalsFilter(1, 5));
+
+        LOG.debug("TestName: test19GetUserAnimals - " + json);
+
+        List<Animal> animals = client
+                .target(REST_SERVICE_URL)
+                .path("user/" + user.getId() + "/animals")
+                .request()
+                .header("AccessToken", accessToken)
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), new GenericType<List<Animal>>() {});
+
+        assertNotNull(animals);
+        assertEquals(animals.size(), 1);
+        assertNotNull(animal);
+
+        animal.setId(animals.get(0).getId());
+    }
+
+    /*
+     * Testing of getting animals count
+     * Path: /users/user/{userId}/animals
+     * Method: get
+     * Send: valid userId
+     * Expect: user animals count
+     */
+    @Test
+    public void test20GetUserAnimalsCount() {
+        assertNotNull(accessToken);
+        assertNotNull(user);
+        assertNotNull(user.getId());
+
+        String count = client
+                .target(REST_SERVICE_URL)
+                .path("user/" + user.getId() + "/animals/paginator/")
+                .request()
+                .header("AccessToken", accessToken)
+                .get(String.class);
+
+        LOG.debug("TestName: test20GetUserAnimalsCount - " + count);
+
+        Long rowCount = new Gson().fromJson(count, JsonObject.class).get("rowsCount").getAsLong();
+
+        assertNotNull(rowCount);
+        assertEquals(rowCount, new Long(1));
+    }
+
+    /*
+     * Testing of getting animals count
+     * Path: /users/user/{userId}/animals
+     * Method: get
+     * Send: not valid userId (userId = -1)
+     * Expect: response with status 400
+    */
+    @Test(expected = BadRequestException.class)
+    public void test21GetUserAnimalsCount() {
+        assertNotNull(accessToken);
+
+        client.target(REST_SERVICE_URL)
+                .path("user/-1/animals/paginator/")
+                .request()
+                .header("AccessToken", accessToken)
+                .get(String.class);
+    }
+
+    /*
+     * Testing of getting animals count
+     * Path: /users/user/{userId}/animals
+     * Method: get
+     * Send: not valid userId (userId = 0)
+     * Expect: response with status 400
+    */
+    @Test(expected = BadRequestException.class)
+    public void test22GetUserAnimalsCount() {
+        assertNotNull(accessToken);
+
+        client.target(REST_SERVICE_URL)
+                .path("user/0/animals/paginator/")
+                .request()
+                .header("AccessToken", accessToken)
+                .get(String.class);
+    }
+
+    /*
+     * Testing of deleting animal
+     * Path: /users/user/{userId}/animals/animalId
+     * Method: delete
+     * Send: valid AnimalFilter
+     * Expect: list of animals
+     */
+    @Test
+    public void test23DeleteUserAnimal() {
+        assertNotNull(accessToken);
+        assertNotNull(user);
+        assertNotNull(user.getId());
+        assertNotNull(animal);
+        assertNotNull(animal.getId());
+
+        Response response = client
+                .target(REST_SERVICE_URL)
+                .path("user/" + user.getId() + "/animals/" + animal.getId())
+                .request()
+                .header("AccessToken", accessToken)
+                .delete(Response.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatus(), 200);
+    }
+
+    /*
+     * Testing of getting user types
+     * Path: /users/user_types
+     * Method: get
+     * Send: -
+     * Expect: list of user types
+     */
+    @Test
+    public void test24GetUserTypes() {
+        assertNotNull(accessToken);
+
+        List<UserType> userTypes = client
+                .target(REST_SERVICE_URL)
+                .path("user_types")
+                .request()
+                .header("AccessToken", accessToken)
+                .get(new GenericType<List<UserType>>() {
+                });
+
+        assertNotNull(userTypes);
+        assertNotEquals(userTypes.size(), 0);
+    }
+
+    /*
+     * Testing of getting user roles
+     * Path: /users/user_roles
+     * Method: get
+     * Send: -
+     * Expect: list of user roles
+     */
+    @Test
+    public void test25GetUserTypes() {
+        assertNotNull(accessToken);
+
+        List<UserRole> userRoles = client
+                .target(REST_SERVICE_URL)
+                .path("user_roles")
+                .request()
+                .header("AccessToken", accessToken)
+                .get(new GenericType<List<UserRole>>() {});
+
+        assertNotNull(userRoles);
+        assertNotEquals(userRoles.size(), 0);
     }
 }
