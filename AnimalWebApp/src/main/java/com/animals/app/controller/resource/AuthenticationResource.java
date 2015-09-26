@@ -153,7 +153,7 @@ public class AuthenticationResource {
         if (user == null)
             return NOT_FOUND;
 
-        if (!user.isActive()) {
+        if (!user.getIsActive()) {
 
             String regWithoutConfirm = buildResponseEntity(0, LOGIN_CONFIRM_REG);
 
@@ -301,7 +301,7 @@ public class AuthenticationResource {
             return NOT_FOUND;
 
         // update user active
-        user.setActive(true);
+        user.setIsActive(true);
 
         try {
             userRep.update(user);
@@ -381,7 +381,7 @@ public class AuthenticationResource {
             return Response.status(Response.Status.NOT_FOUND).entity(userWithEmailNotFound).build(); 
         }
         
-        if (!user.isActive()){
+        if (!user.getIsActive()){
             
             String userIsNotActive = buildResponseEntity(-2, ERROR_RESTORE_3);
             return Response.status(Response.Status.BAD_REQUEST).entity(userIsNotActive).build();

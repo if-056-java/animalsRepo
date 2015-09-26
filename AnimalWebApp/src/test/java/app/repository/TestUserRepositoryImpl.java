@@ -45,7 +45,7 @@ public class TestUserRepositoryImpl extends JNDIConfigurationForTests {
         actual.setPassword(RandomStringUtils.random(10, true, true));
         actual.setOrganizationName(RandomStringUtils.random(10, true, true));
         actual.setOrganizationInfo(RandomStringUtils.random(10, true, true));
-        actual.setActive(true);
+        actual.setIsActive(true);
     }
 
     @AfterClass
@@ -88,7 +88,7 @@ public class TestUserRepositoryImpl extends JNDIConfigurationForTests {
         expected.setSurname(RandomStringUtils.random(10, true, true));
         expected.setEmail(RandomStringUtils.random(10, true, true));
         expected.setPassword(RandomStringUtils.random(10, true, true));
-        expected.setActive(false);
+        expected.setIsActive(false);
         expected.setPhone(RandomStringUtils.random(10, true, true));
 
         userRepository.update(expected);

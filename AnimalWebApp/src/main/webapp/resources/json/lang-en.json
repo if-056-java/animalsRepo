@@ -320,7 +320,7 @@
   "AuthorizationResource.registerUser.arg1.organizationName": "Registration Error. Wrong input format for user Company name!",
   "AuthorizationResource.registerUser.arg1.organizationInfo": "Registration Error. Wrong input format for user Company Information!",
 
-  "ISACTIVE": "IsActive",
+  "IS_ACTIVE": "Active users",
 
   "POSTER": "Poster",
   "PDF_WANTED": "Wanted",

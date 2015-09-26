@@ -81,10 +81,43 @@ adminUsersModule
         $scope.filter = AdminUsersValues.filter;    //filter
 
         /**
+         * @return list of user types.
+         */
+        AdminUsersFactory.getUserTypes()
+            .then(
+            function(data){
+                $scope.userTypes = data;
+            },
+            function(error){
+                $scope.errorMessage = error;
+            }
+        )
+            .finally(function() {
+            });
+
+        /**
+         * @return list of user roles.
+         */
+        AdminUsersFactory.getUserRoles()
+            .then(
+            function(data){
+                $scope.userRoles = data;
+                console.log($scope.userRoles);
+            },
+            function(error){
+                $scope.errorMessage = error;
+            }
+        )
+            .finally(function() {
+            });
+
+        /**
          * reset filter values.
          */
         $scope.reset = function() {
             $scope.filter.user.isActive = undefined;
+            $scope.filter.user.userRole = undefined;
+            $scope.filter.user.userType = undefined;
 
             $scope.doFilter();
             jQuery('html, body').animate({ scrollTop: 0 }, 500);
@@ -94,8 +127,6 @@ adminUsersModule
          * @return list of users according to filter values.
          */
         $scope.doFilter = function() {
-            $scope.$parent.contentLoading++;
-
             AdminUsersFactory.getAmountRecords()
                 .then(
                 function(result){},
@@ -103,16 +134,15 @@ adminUsersModule
                 //fail
                 function(error){
                     $scope.totalItems.count = 0;
-                    $scope.$parent.errorMessage = error.toString();
+                    $scope.errorMessage = error;
                 });
 
+            $scope.contentLoading++;
             AdminUsersFactory.getListOfAdminUsers().finally(
                 function(){
-                    $scope.$parent.contentLoading--;
+                    $scope.contentLoading--;
                 }
             );
-            console.log($scope.totalItems.count);
-
             jQuery('html, body').animate({ scrollTop: 0 }, 500);
         };
 

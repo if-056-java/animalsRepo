@@ -29,7 +29,6 @@ var animalApp = angular.module('animalApp', [
     'UserDetailedAdminController',
     'UserEditorAdminController',
     'ui.bootstrap'
-
 ]);
 
 animalApp .config(['$routeProvider', '$translateProvider',
@@ -229,7 +228,9 @@ animalApp.constant('RESOURCES', {
     ANIMALS_FOR_USER: '/webapi/users/user/',
     PAGINATOR_FOR_USER: '/webapi/users/user/',
     ANIMALS_FOR_USER_WITH_FILTER: '/webapi/users/user/',
-    USER_FOR_ADMIN: '/webapi/admin/users/user/'	
+    USER_FOR_ADMIN: '/webapi/admin/users/user/',
+    USER_TYPES: 'webapi/users/user_types',
+    USER_ROLES: 'webapi/users/user_roles'
 });
 
 animalApp.config(function(localStorageServiceProvider){

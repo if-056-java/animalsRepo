@@ -320,7 +320,7 @@
   "AuthorizationResource.registerUser.arg1.organizationName": "Помилка реєстрації! Невірний формат поля Назва організації",
   "AuthorizationResource.registerUser.arg1.organizationInfo": "Помилка реєстрації! Невірний формат поля Інформація про організацію",
 
-  "ISACTIVE": "Активні",
+  "IS_ACTIVE": "Активні користувачі",
 
   "POSTER": "Оголошення",
   "PDF_WANTED": "Розшукується",

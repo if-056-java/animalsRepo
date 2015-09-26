@@ -1047,7 +1047,7 @@ public class OAuthAuthenticationResource {
         userToReg.setName(userLogin);
         userToReg.setSocialLogin(userLogin);
         userToReg.setSurname(NA);
-        userToReg.setActive(true);
+        userToReg.setIsActive(true);
         userToReg.setAddress(NA);
         userToReg.setPhone(NA);
         userToReg.setOrganizationInfo(NA);

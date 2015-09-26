@@ -31,20 +31,14 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.animals.app.domain.*;
+import com.animals.app.repository.Impl.*;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import com.animals.app.domain.Animal;
-import com.animals.app.domain.AnimalBreed;
-import com.animals.app.domain.AnimalType;
-import com.animals.app.domain.AnimalsFilter;
-import com.animals.app.domain.User;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.UserRepository;
-import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
-import com.animals.app.repository.Impl.AnimalRepositoryImpl;
-import com.animals.app.repository.Impl.UserRepositoryImpl;
 
 import sun.misc.BASE64Decoder;
 
@@ -69,6 +63,9 @@ public class UserResource {
 
     private UserRepository userRep = new UserRepositoryImpl();
     private AnimalRepository animalRep = new AnimalRepositoryImpl();
+    private UserTypeRepositoryImpl userTypeRepository = new UserTypeRepositoryImpl();
+    private UserRoleRepositoryImpl userRoleRepository = new UserRoleRepositoryImpl();
+
 
     /**
      * @param userId id of user
@@ -344,6 +341,42 @@ public class UserResource {
         return Response.ok().entity(json).build();
     }
 
+    @GET
+    @Path("user_types")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUserTypes() {
+        GenericEntity<List<UserType>> genericUserTypes;
+        try {
+            genericUserTypes = new GenericEntity<List<UserType>>(userTypeRepository.getAll()) {};
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        } catch (IllegalArgumentException e) {
+            LOG.warn(e);
+            return NOT_FOUND;
+        }
+
+        return ok(genericUserTypes);
+    }
+
+    @GET
+    @Path("user_roles")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUserRoles() {
+        GenericEntity<List<UserRole>> genericUserRoles;
+        try {
+            genericUserRoles = new GenericEntity<List<UserRole>>(userRoleRepository.getAll()) {};
+        } catch (PersistenceException e) {
+            LOG.error(e);
+            return SERVER_ERROR;
+        } catch (IllegalArgumentException e) {
+            LOG.warn(e);
+            return NOT_FOUND;
+        }
+
+        return ok(genericUserRoles);
+    }
+
     /**
      * @param userId id of user (animal owner) used for lookup.
      * @return count of rows for pagination.
@@ -436,4 +469,16 @@ public class UserResource {
             new AnimalBreedRepositoryImpl().insert_ua(animalBreed);
         }
     }
+
+
+    /**
+     * Return response with code 200(OK) and build returned entity
+     *
+     * @param entity Returned json instance from client
+     * @return HTTP code K
+     */
+    private Response ok(Object entity) {
+        return Response.ok().entity(entity).build();
+    }
 }
+
