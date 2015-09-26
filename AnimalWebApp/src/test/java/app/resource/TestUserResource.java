@@ -82,7 +82,7 @@ public class TestUserResource extends ResourceTestTemplate {
         user.setUserRole(userRoles);
         user.setUserType(new UserTypeRepositoryImpl().getAll().get(0));
 
-        //userRepository.insert(user);
+        userRepository.insert(user);
 
         assertNotNull(user.getId());
 
