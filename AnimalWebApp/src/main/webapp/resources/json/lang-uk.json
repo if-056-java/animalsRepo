@@ -239,11 +239,13 @@
   "ANIMAL_REGISTER": "Реєстр тварин",
   "ANIMAL_DETAILED_INFO": "Детальна інформація про тварину",
   "ANIMAL_DETAILED_EDIT": "Редагування детальної інформації про тварину",
+  "DETAILED": "Детальніше",
 
   "ANIMAL_DETAILED_CONFIRM_DELETE": "Ви дійсно хочете видалити цю тварину ?",
   "ANIMAL_DETAILED_DELETE_FAILED": "Не вдалось видалити тварину.",
   "USER_DETAILED_CONFIRM_DELETE": "Bи дійсно хочете видалити цього користувача ?",
   "USER_DETAILED_DELETE_FAILED": "Не вдалось видалити користувача.",
+  "USER_DETAILED_EDIT": "Редагування користувача",
 
   "DELETE_IMAGE": "Видалити фото",
   "DELETE_IMAGE_CONFIRM": "Ви дійсно хочете видалити зображення ?",

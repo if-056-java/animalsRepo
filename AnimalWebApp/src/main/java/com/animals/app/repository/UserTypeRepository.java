@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface UserTypeRepository {
 
-    final String SELECT_BY_ID = "SELECT Id, Type FROM usertypes WHERE Id = #{id};";
-    final String SELECT_ALL = "SELECT Id, Type FROM usertypes;";
+    final String SELECT_BY_ID = "SELECT Id, Type, TypeUa FROM usertypes WHERE Id = #{id};";
+    final String SELECT_ALL = "SELECT Id, Type, TypeUa FROM usertypes;";
 
     /**
      * Returns a User type instance from the database.
@@ -23,7 +23,8 @@ public interface UserTypeRepository {
     @Select(SELECT_BY_ID)
     @Results(value = {
             @Result(property="id", column="Id"),
-            @Result(property="type", column="Type")
+            @Result(property="type", column="Type"),
+            @Result(property="typeUa", column="TypeUa")
     })
     UserType getById(int id);
 
@@ -34,7 +35,8 @@ public interface UserTypeRepository {
     @Select(SELECT_ALL)
     @Results(value = {
             @Result(property="id", column="Id"),
-            @Result(property="type", column="Type")
+            @Result(property="type", column="Type"),
+            @Result(property="typeUa", column="TypeUa")
     })
     List<UserType> getAll();
 }

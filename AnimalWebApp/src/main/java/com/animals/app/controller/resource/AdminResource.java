@@ -285,7 +285,6 @@ public class AdminResource {
         //get list of users from data base
         List<User> users = userRepository.getAdminUsers(usersFilter);
 
-        System.out.println(usersFilter.getUser());
         //cast list of animals to generic list
         GenericEntity<List<User>> genericUsers = new GenericEntity<List<User>>(users) {};
 
