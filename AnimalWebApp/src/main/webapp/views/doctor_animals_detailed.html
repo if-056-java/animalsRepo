@@ -180,7 +180,8 @@
                     <tr>
                         <td>{{ animal.user.name }}</td>
                         <td>{{ animal.user.surname }}</td>
-                        <td>{{ animal.user.userType.type }}</td>
+                        <td ng-if="currentLanguage === 'uk'">{{ animal.user.userType.typeUa }}</td>
+                        <td ng-if="currentLanguage !== 'uk'">{{ animal.user.userType.type }}</td>
                         <td>{{ animal.user.phone }}</td>
                         <td>{{ animal.user.email }}</td>
                     </tr>

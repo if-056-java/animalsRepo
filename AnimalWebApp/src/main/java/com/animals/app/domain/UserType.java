@@ -14,8 +14,11 @@ public class UserType implements Serializable{
 	@DecimalMin(value = "1")
     private Integer id;
 	
-	@Length(max = 19, message = "The UserType length must be less than {max}.")
+	@Length(max = 19, message = "The type length must be less than {max}.")
     private String type;
+
+    @Length(max = 19, message = "The typeUa length must be less than {max}.")
+    private String typeUa;
 
     public UserType() {
     }
@@ -36,6 +39,14 @@ public class UserType implements Serializable{
         this.type = type;
     }
 
+    public String getTypeUa() {
+        return typeUa;
+    }
+
+    public void setTypeUa(String typeUa) {
+        this.typeUa = typeUa;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,16 +54,17 @@ public class UserType implements Serializable{
 
         UserType userType = (UserType) o;
 
-        if (!id.equals(userType.id)) return false;
-        if (!type.equals(userType.type)) return false;
+        if (id != null ? !id.equals(userType.id) : userType.id != null) return false;
+        if (type != null ? !type.equals(userType.type) : userType.type != null) return false;
+        return !(typeUa != null ? !typeUa.equals(userType.typeUa) : userType.typeUa != null);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (typeUa != null ? typeUa.hashCode() : 0);
         return result;
     }
 
@@ -61,6 +73,7 @@ public class UserType implements Serializable{
         return "UserType{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
+                ", typeUa='" + typeUa + '\'' +
                 '}';
     }
 }
