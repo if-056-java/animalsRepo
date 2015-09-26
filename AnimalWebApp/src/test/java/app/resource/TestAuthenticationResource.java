@@ -353,10 +353,9 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
 		userToReg.setPhone("000-0000001");
 		userToReg.setOrganizationInfo("N/A");
 		userToReg.setOrganizationName("N/A");
-		userToReg.setPassword("13dde29e3e94c008d980dca4fce29e01");
+		userToReg.setPassword(ResourceTestTemplate.getMd5(PASSWORD));
 
-		UserRole userRole = new UserRole();
-		userRole.setRole("guest");
+		UserRole userRole = new UserRole();		
 		userRole.setId(3);
 		List<UserRole> list = new ArrayList<UserRole>();
 		list.add(userRole);

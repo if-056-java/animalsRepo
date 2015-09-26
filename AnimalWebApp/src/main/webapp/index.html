@@ -109,32 +109,39 @@
                             <li><a href="#ua/user/doctor/animals" ng-show="userRole == 'doctor'" data-toggle="collapse" data-target=".navbar-collapse">{{
                                 'NAV_ANIMAL_LIST_FOR_DOCTOR' | translate }}</a></li>
                         </ul>
-                    </li>
+                    </li>  
                 </ul>
+                
+                <!-- Language buton -->
+                <ul class="nav navbar-nav navbar-right">			       
+			        <li class="dropdown">
+			          <button id="languageButon" type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            {{ 'LANGUAGE' | translate }} <i class="glyphicon glyphicon-cog"></i>
+                        </button>
+			          <ul class="dropdown-menu">
+			            <li><a ng-controller="TranslateController" translate-cloak ng-href
+                                   ng-click="changeLanguage('en')">{{ 'LANG_EN' | translate }}</a></li>
+                        <li><a ng-controller="TranslateController" translate-cloak ng-href
+                                   ng-click="changeLanguage('uk')">{{ 'LANG_UK' | translate }}</a></li>
+			          </ul>
+			        </li>
+			      </ul>
+                
                 <!-- Log In Form -->
                 <form class="navbar-collapse navbar-form navbar-right nav-form" role="form" translate-cloak>
 
-                    <label ng-show="session()">{{ 'NAV_WELCOME_MESSAGE' | translate }}: {{userName}}</label>
-
                     <a class="log-btn" ng-show="!session()" href="#ua/user/login" role="button" data-toggle="collapse" data-target=".navbar-collapse">{{ 'LOGIN' |
                         translate }} </a>
+                        
+                    <label ng-show="session()">{{ 'NAV_WELCOME_MESSAGE' | translate }}: {{userName}}</label>
+
 
                     <a class="log-btn" ng-show="session()" ng-click="logout()" role="button" data-toggle="collapse" data-target=".navbar-collapse">{{ 'LOGOUT' |
-                        translate }} </a>
-
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" id="nname">
-                            {{ 'LANGUAGE' | translate }} <i class="glyphicon glyphicon-cog"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a ng-controller="TranslateController" translate-cloak ng-href
-                                   ng-click="changeLanguage('en')">{{ 'LANG_EN' | translate }}</a></li>
-                            <li><a ng-controller="TranslateController" translate-cloak ng-href
-                                   ng-click="changeLanguage('uk')">{{ 'LANG_UK' | translate }}</a></li>
-                        </ul>
-                    </div>
+                        translate }} </a> 
                 </form>
+                	
+                	 
             </div>
         </div>
     </nav>
