@@ -25,7 +25,14 @@ animalApp.controller('MainController', ['$scope', '$rootScope', 'localStorageSer
               image: 'resources/img/carousel/car-3.jpg'
            }
         ];
-
+		
+		//menu collapse on li / a / bnt click
+		$(document).on('click','.navbar-collapse.in',function(e) {
+            if( $(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle' ) {
+                $(this).collapse('hide');
+            }
+        });
+                                    
         $scope.logout = function() {
         	AuthenticationService.logout();
         };
