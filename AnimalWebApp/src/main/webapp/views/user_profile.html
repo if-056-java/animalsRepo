@@ -3,8 +3,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="col-xs-9 col-sm-10 col-md-11 col-lg-11">
-                        <h2>{{ 'USER_PROFILE' | translate }}</h2>
+                    <div class="titlewrap">
+                        <h2 class="title center">
+                            {{ 'USER_PROFILE' | translate }}
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -384,6 +386,7 @@
                         <td><strong>{{ 'COLOR' | translate }}</strong></td>
                         <td><strong>{{ 'TRANSPONDER' | translate }}</strong></td>
                         <td><strong>{{ 'BIRTH_DATE' | translate }}</strong></td>
+                        <td><strong>{{ 'DETAILED' | translate }}</strong></td>
                         <td/>
                     </tr>
                     </thead>
@@ -399,8 +402,8 @@
                         <td>{{ animal.color }}</td>
                         <td>{{ animal.transpNumber }}</td>
                         <td>{{ animal.dateOfBirth }}</td>
-                        <td><a href="#/ua/user/profile/animals/{{ animal.id }}">
-                            <image src="../resources/img/info-icon.png"></image>
+                        <td class="center-link"><a href="#/ua/user/profile/animals/{{ animal.id }}">
+                            <image src="../resources/img/i_icon.png"></image>
                         </a></td>
                     </tr>
                     </tbody>

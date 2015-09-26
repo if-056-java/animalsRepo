@@ -2,14 +2,11 @@
     <div class="jumbotron">
         <div class="container">
             <div class="row">
-                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
-                    <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
-                        <p>
-                            <image src="../resources/img/main_dog.jpg"/>
-                        </p>
-                    </div>
-                    <div class="col-xs-9 col-sm-10 col-md-11 col-lg-">
-                        <h2>{{ 'USER_DETAILED_EDIT' | translate }} ID = {{ user.id }}</h2>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="titlewrap">
+                        <h2 class="title center">
+                            {{ 'USER_DETAILED_EDIT' | translate }}
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -17,12 +14,12 @@
     </div>
 
     <!-- Spinner -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: absolute; z-index: 999; top: 50%;" id="loading-block" ng-show="contentLoading" />
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 admin-anim-spin" id="loading-block" ng-show="contentLoading" />
 
     <div class="container" ng-hide="contentLoading">
         <form name="userEditor" ng-submit="updateUser()" novalidate>
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-success">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-default">
                     <div class="row">
                 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-center">
 
@@ -75,10 +72,10 @@
                             <hr>                        
                         
                         <!-- User Email -->
-                        <div class="input-group" ng-class="{ 'has-error' : userEditor.email.$invalid && !userForm.email.$pristine }">
+                        <div class="input-group" ng-class="{ 'has-error' : userEditor.email.$invalid && !userForm.email.$pristine || userEditor.email.$error.required }">
                                 <span class="input-group-addon">{{ 'USER_EMAIL' | translate }}</span>
-                                <input type="email" class="form-control" aria-describedby="basic-addon1" name="email" ng-model="user.email"  ng-maxlength="30">
-                        </div>                         
+                                <input type="email" class="form-control" aria-describedby="basic-addon1" name="email" ng-model="user.email"  ng-maxlength="30" required>
+                        </div>
                         <hr>
 
                     </div>
@@ -122,12 +119,12 @@
                         <!-- User Active -->
                         <div class="input-group">
                                 <span class="input-group-addon">{{ 'USER_ACTIVE' | translate }}</span>
-                                <ol class="nya-bs-select nya-bs-select-mod" ng-model="active" 
+                                <ol class="nya-bs-select nya-bs-select-mod" ng-model="active"
                                 	title="{{ 'NOT_SELECTED' | translate }}">
                                     <li class="nya-bs-option" value="true"><a>{{ 'YES' | translate}}</a></li>
                                     <li class="nya-bs-option" value="false"><a>{{ 'NO' | translate}}</a></li>                                  
                                 </ol>
-                            </div>
+                        </div>
                         <hr>
                         <br>
 
@@ -172,7 +169,7 @@
                         {{ 'SAVE' | translate }}
                     </button>
                     <div class="col-sm-3 col-md-3 col-lg-3">
-                        <a class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12" href="#/ua/user/admin/users/{{ user.id }}" role="button">
+                        <a class="btn btn-primary col-xs-12 col-sm-12 col-md-12 col-lg-12" href="#/ua/user/admin/users/{{ user.id }}" role="button">
                             {{ 'BACK' | translate }}
                         </a>
                     </div>

@@ -34,7 +34,7 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 	
 	$scope.updateUser = function() {
 		
-		if($scope.user.userRole[0].role=="moderator")$scope.user.userRole[0].id=1
+		if($scope.user.userRole[0].role=="moderator")$scope.user.userRole[0].id=1;
 		if($scope.user.userRole[0].role=="guest")$scope.user.userRole[0].id=3;
 		if($scope.user.userRole[0].role=="doctor")$scope.user.userRole[0].id=4;
 		
@@ -43,7 +43,6 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 		
 		if($scope.active=="true")$scope.user.active=true;
 		if($scope.active=="false")$scope.user.active=false;
-	
    	    	 
 	   	UserModerationService.updateUser($scope.user, id)
 	           .then(function(data) {
@@ -53,7 +52,6 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 	               $window.alert("User update failed.");
 	           });
    }
-	
 	
 	
 	
