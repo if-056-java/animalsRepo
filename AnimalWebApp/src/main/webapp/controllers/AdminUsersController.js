@@ -74,7 +74,7 @@ adminUsersModule
         };
 
         //Dependency injection
-        AdminUsersController.$inject = ['$scope', 'AdminUsersFactory', 'AdminUsersValues'];
+        AdminUsersController.$inject = ['$scope', 'AdminUsersFactory', 'AdminUsersValues', 'localStorageService'];
 
     }).controller('AdminUsersFilter',
     function AdminUsersFilter($scope, AdminUsersFactory, AdminUsersValues, $window) {
