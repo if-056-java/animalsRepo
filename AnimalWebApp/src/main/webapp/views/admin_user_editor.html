@@ -156,6 +156,12 @@
                                 <span class="input-group-addon">{{ 'REG_ORGANIZATION_INFO' | translate }}</span>
                                 <input type="text" class="form-control" aria-describedby="basic-addon1" name="companyInfo" ng-model="user.organizationInfo" ng-maxlength="100">
                         </div>
+                        <br>                      
+                        
+                        <div ng-show="errorUpdateMessage" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">                        
+				               <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				               <span class="sr-only">Error:</span> {{ 'ERROR_UPDATE_MESSAGE' | translate }}
+				       </div>
                                             
                     </div>
                  

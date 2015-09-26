@@ -45,10 +45,8 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 		if($scope.active=="false")$scope.user.isActive=false;
    	    	 
 	   	UserModerationService.updateUser($scope.user, id)
-	           .then(function(result) {
-	        	   console.log("ping2");
+	           .then(function(result) {	        	   
 	        	   if(result.userId==0){
-	        		   console.log("ping");
 	        		   $scope.errorUpdateMessage=true;
 	        	   } else{
 	        		   $window.location.href = "#/ua/user/admin/users/" + id;	        		   
