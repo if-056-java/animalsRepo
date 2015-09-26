@@ -1,6 +1,20 @@
 var animalAppControllers = angular.module('ContactsController', ['vcRecaptcha','ContactsValues']);
 
-animalApp.controller('ContactsController', function ($http, $scope, vcRecaptchaService, ContactsValues) {
+animalApp.controller('ContactsController', function ($http, $scope, vcRecaptchaService, ContactsValues, $window) {
+
+    $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+    console.log($scope.currentLanguage);
+
+    function loadRecapchaScript(d, s, id) {
+        var js, fjs = d.getElementsByTagName('script')[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        if(localStorage.getItem('NG_TRANSLATE_LANG_KEY')=="uk")
+        js.src = "//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded&hl=uk"
+        else js.src = "//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded&hl=en";
+        fjs.parentNode.insertBefore(js, fjs);
+    };
+        loadRecapchaScript(document, 'script', 'api.js');
 
     var myLatlng = new google.maps.LatLng(ContactsValues.googlemap.latitude, ContactsValues.googlemap.longitude),
         mapOptions = {
