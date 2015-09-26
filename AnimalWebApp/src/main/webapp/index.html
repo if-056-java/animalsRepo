@@ -109,15 +109,16 @@
                             <li><a href="#ua/user/doctor/animals" ng-show="userRole == 'doctor'" data-toggle="collapse" data-target=".navbar-collapse">{{
                                 'NAV_ANIMAL_LIST_FOR_DOCTOR' | translate }}</a></li>
                         </ul>
-                    </li>
+                    </li>  
                 </ul>
+
                 <!-- Log In Form -->
                 <form class="navbar-collapse navbar-form navbar-right nav-form" role="form" translate-cloak>
 
-                    <label ng-show="session()">{{ 'NAV_WELCOME_MESSAGE' | translate }}: {{userName}}</label>
-
                     <a class="log-btn" ng-show="!session()" href="#ua/user/login" role="button" data-toggle="collapse" data-target=".navbar-collapse">{{ 'LOGIN' |
                         translate }} </a>
+                        
+                    <label ng-show="session()">{{ 'NAV_WELCOME_MESSAGE' | translate }}: {{userName}}</label>
 
                     <a class="log-btn" ng-show="session()" ng-click="logout()" role="button" data-toggle="collapse" data-target=".navbar-collapse">{{ 'LOGOUT' |
                         translate }} </a>
@@ -135,6 +136,8 @@
                         </ul>
                     </div>
                 </form>
+                	
+                	 
             </div>
         </div>
     </nav>

@@ -14,12 +14,11 @@ public class UserType implements Serializable{
 	@DecimalMin(value = "1")
     private Integer id;
 	
-	@Length(max = 19, message = "The UserType length must be less than {max}.")
+	@Length(max = 19, message = "The type length must be less than {max}.")
     private String type;
 
     @Length(max = 19, message = "The UserTypeUa length must be less than {max}.")
     private String typeUa;
-
 
     public UserType() {
     }
@@ -57,9 +56,7 @@ public class UserType implements Serializable{
 
         if (id != null ? !id.equals(userType.id) : userType.id != null) return false;
         if (type != null ? !type.equals(userType.type) : userType.type != null) return false;
-        if (typeUa != null ? !typeUa.equals(userType.typeUa) : userType.typeUa != null) return false;
-
-        return true;
+        return !(typeUa != null ? !typeUa.equals(userType.typeUa) : userType.typeUa != null);
     }
 
     @Override
