@@ -210,6 +210,10 @@ public class UserResource {
 
         // get animal by id from data base
         Animal animal = animalRep.getById(animalId);
+        
+        if(!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(animal.getUser().getId()))){
+            return UNAUTHORIZED;
+        }
 
         return Response.ok().entity(animal).build();
     }

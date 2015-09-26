@@ -202,14 +202,11 @@
                                     <input type="text" class="form-control" aria-describedby="basic-addon1"
                                            name="address" ng-model="animal.address"
                                            ng-maxlength="120">
-                                </div>                                
-                                
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                
                 <div class="row">
                     <div class="col-xs-12 col-sm-8 col-sm-offset-4 col-md-7 col-md-offset-5 col-lg-6 col-lg-offset-6 detailed-buttons">
                         <button type="submit" ng-disabled="animalEditor.$invalid || errors.length > 0" id="submit-form"
@@ -232,12 +229,6 @@
                     </div>
                 </div>
             </form>
-            
-            <div ng-show="errorUpdateMessage"
-	                             class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">
-	                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-	                            <span class="sr-only">Error:</span> {{ 'ERROR_UPDATE_MESSAGE' | translate }}
-	                        </div>
         </div>
     </div>
 </section>

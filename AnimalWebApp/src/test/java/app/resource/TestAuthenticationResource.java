@@ -56,6 +56,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
 	private static String userLogin;
 	private static String userEmail;
 	private static User user;
+	private static int id;
 	
 	private static final String REST_SERVICE_URL = BASE_URL + "account";	
 	
@@ -67,10 +68,12 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
         client = ClientBuilder.newClient();
         
         userLogin = RandomStringUtils.random(10, true, true);
-        userEmail = userLogin +"@rt.ua";
+        userEmail = userLogin +"@ukr.net";
 
         user = createEmptyUser(userLogin); 
         user.setEmail(userEmail);
+        
+        
         
     }
 
@@ -241,7 +244,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     
     
     @Test   
-    public void test11loginOauthTwitterDirrectWithResponse() { 
+    public void test10loginOauthTwitterDirrectWithResponse() { 
     	
     	Response responseMsg = client
                 .target(REST_SERVICE_URL)
@@ -257,7 +260,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     }
     
     @Test (expected = Exception.class)
-    public void test12loginOauthTwitterDirrectWrongTokens() { 
+    public void test11loginOauthTwitterDirrectWrongTokens() { 
     	
     	String result = client
                 .target(REST_SERVICE_URL)
@@ -269,10 +272,39 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     	
     } 
     
-    @Test
-    public void test13PasswordRestoreViaMail() {  
+    @Test (expected = BadRequestException.class) //user is not active
+    public void test12PasswordRestoreViaMail() {  
         
         String json = userEmail; 
+        System.out.println(json);
+        
+        String result = client
+                .target(REST_SERVICE_URL)
+                .path("/restore_password")                
+                .request() 
+                .header("locale", "en")
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
+               
+        
+        assertNotNull(result);
+       
+    }
+    
+    @Test  //user is active
+    public void test13PasswordRestoreViaMail() { 
+        
+        UserRepository userRep = new UserRepositoryImpl();
+        
+        User userDB = userRep.findUserByEmail(userEmail);      
+        
+        id = userDB.getId();
+        
+        userDB.setIsActive(true);
+        
+       
+        userRep.update(userDB);        
+        
+        String json = userDB.getEmail(); 
         System.out.println(json);
         
         String result = client
@@ -306,7 +338,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     @Test (expected = BadRequestException.class)
     public void test15PasswordRestoreViaMailWrongFormatadEmail() {  
         
-        String json = userEmail + "i@"; 
+       String json = userEmail + "i@"; 
         
        String result = client
                 .target(REST_SERVICE_URL)
@@ -320,15 +352,11 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
        
     }
     
-    @Test
+    @Test    
     public void test16DeleteUserFromDb() {        
                
         UserRepository userRep = new UserRepositoryImpl();
-        
-        User userToDel = userRep.findUserByEmail(userEmail);      
-        
-        int id = userToDel.getId();       
-        
+            
         userRep.delete(id);
                       
         assertNull(userRep.getById(id));
