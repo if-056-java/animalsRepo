@@ -86,7 +86,8 @@ public class OAuthAuthenticationResource {
     private static final String LOGIN_TWITTER_PATH = "webapi/account/login/twitter";
     private static final String LOGIN_TWITTER_PATH_TOKEN = "webapi/account/login/twitter_token";
     private static final String LOGIN_TWITTER_PATH_DIRECT = "webapi/account/login/twitter_login_direct";
-    private static final String URL_TO_SITE_PROFILE = "/#/ua/user/profile";
+    private static final String URL_TO_SITE_PROFILE = "#/ua/user/profile";
+    private static final String URL_TO_SITE_ENTRY = "#/ua/user/login";
     private static final String URL_TO_SITE_JOIN_ERROR = "?join=error";    
     
     //parameters to get
@@ -208,7 +209,7 @@ public class OAuthAuthenticationResource {
         String successURL = defineSuccessUrl(req, LOGIN_GOOGLE_PATH_TOKEN);       
 
         if (error != null) {        	
-            String entryUrl = pathMain + URL_TO_SITE_PROFILE;
+            String entryUrl = pathMain + URL_TO_SITE_ENTRY;
             return Response.temporaryRedirect(UriBuilder.fromUri(entryUrl).build()).build();
         }
 
@@ -528,7 +529,7 @@ public class OAuthAuthenticationResource {
         String successURL = defineSuccessUrl(req, LOGIN_FACEBOOK_PATH_TOKEN);
 
         if (error != null || error2 != null) {
-            String entryUrl = pathMain + URL_TO_SITE_PROFILE;
+            String entryUrl = pathMain + URL_TO_SITE_ENTRY;
             return Response.temporaryRedirect(UriBuilder.fromUri(entryUrl).build()).build();
         }
 
@@ -751,7 +752,7 @@ public class OAuthAuthenticationResource {
         String successURL = defineSuccessUrl(req, LOGIN_TWITTER_PATH_TOKEN);
 
         if (error != null) {
-            String entryUrl = pathMain + URL_TO_SITE_PROFILE;
+            String entryUrl = pathMain + URL_TO_SITE_ENTRY;
             return Response.temporaryRedirect(UriBuilder.fromUri(entryUrl).build()).build();
         }
 

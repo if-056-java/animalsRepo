@@ -1,24 +1,20 @@
 ﻿<section id="main_view">
     <div class="container" id="carousel-container">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="slides_control">
-            <carousel interval="myInterval">
+              <carousel interval="myInterval">
                 <slide ng-repeat="slide in slides" active="slide.active">
                     <img ng-src="{{slide.image}}">
-
                     <div class="carousel-caption">
-                        <h4 ng-show="$index == 0">
-                            {{ 'QUOTE' | translate }}<br><small><em class="white-em">{{ 'QUOTE_AUTHOR' | translate }}</em></small>
-                        </h4>
-                        <h4 ng-show="$index == 1">
-                            {{ 'ACTIVITIES_2' | translate }}<br>
-                            {{ 'ACTIVITIES_3' | translate }}
-                        </h4>
-                        <h4 ng-show="$index == 2">{{ 'ACTIVITIES_1' | translate }}</h4>
+                        <h4 ng-show="$index == 0">{{ 'ACTIVITIES_1' | translate }}</h4>
+                        <h4 ng-show="$index == 1">{{ 'ACTIVITIES_2' | translate }}</h4>
+                        <h4 ng-show="$index == 2">{{ 'ACTIVITIES_3' | translate }}</h4>
                     </div>
                 </slide>
             </carousel>
         </div>
     </div>
+    
+    <div id="quote" class="hidden-xs"><h2 > {{ 'QUOTE' | translate }} <br><small><em class="white-em">{{ 'QUOTE_AUTHOR' | translate }}</em></small></h2></div>
 
     <!-- Goals panel -->
     <div class="container" id="goals-panel">

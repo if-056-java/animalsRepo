@@ -122,16 +122,16 @@
                     <a class="log-btn" ng-show="session()" ng-click="logout()" role="button" data-toggle="collapse" data-target=".navbar-collapse">{{ 'LOGOUT' |
                         translate }} </a>
 
-                    <div class="btn-group align-lang">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false" id="nname">
                             {{ 'LANGUAGE' | translate }} <i class="glyphicon glyphicon-cog"></i>
                         </button>
-                        <ul class="dropdown-menu lang-dd">
+                        <ul class="dropdown-menu">
                             <li><a ng-controller="TranslateController" translate-cloak ng-href
-                                   ng-click="changeLanguage('en')" data-toggle="collapse" data-target=".navbar-collapse">{{ 'LANG_EN' | translate }}</a></li>
+                                   ng-click="changeLanguage('en')">{{ 'LANG_EN' | translate }}</a></li>
                             <li><a ng-controller="TranslateController" translate-cloak ng-href
-                                   ng-click="changeLanguage('uk')" data-toggle="collapse" data-target=".navbar-collapse">{{ 'LANG_UK' | translate }}</a></li>
+                                   ng-click="changeLanguage('uk')">{{ 'LANG_UK' | translate }}</a></li>
                         </ul>
                     </div>
                 </form>

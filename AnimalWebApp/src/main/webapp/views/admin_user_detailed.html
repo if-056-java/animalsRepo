@@ -27,7 +27,7 @@
 
                      <!-- User photo -->
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel-body">
-                    	<h3 class="blocktext">{{ 'USER_IMAGE_FROM_SOCIALS' | translate }}</h3>
+                    	<h3 class="blocktext" >{{ 'USER_IMAGE_FROM_SOCIALS' | translate }}</h3>
                     	<div class="smallIMG">
                         <p><image ng-hide="user.socialPhoto" class="displayed center-block" src="resources/img/no-image.jpg" height="280" /></p>
                         <p><image ng-show="user.socialPhoto" class="displayed center-block" src="{{user.socialPhoto}}" height="280" /></p>
@@ -38,10 +38,10 @@
                         <!-- User Role -->
                         <div class="row">
                         	<div class="col-xs-0 col-sm-0 col-md-2 col-lg-2"></div>
-                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-4">{{ 'USER_ROLE' | translate }}:</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-4" ng-if="user.userRole[0].role === 'moderator'">{{ 'ROLE_MODERATOR' | translate }}</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-4" ng-if="user.userRole[0].role === 'guest'">{{ 'ROLE_GUEST' | translate }}</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-4" ng-if="user.userRole[0].role === 'doctor'">{{ 'ROLE_DOCTOR' | translate }}</div> 
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'USER_ROLE' | translate }}:</div>
+                            <div class="col-xs-8 col-sm-8 col-md-4 col-lg-4" ng-if="user.userRole[0].role === 'moderator'">{{ 'ROLE_MODERATOR' | translate }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-4 col-lg-4" ng-if="user.userRole[0].role === 'guest'">{{ 'ROLE_GUEST' | translate }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-4 col-lg-4" ng-if="user.userRole[0].role === 'doctor'">{{ 'ROLE_DOCTOR' | translate }}</div> 
                         </div>
                         <hr>
                         
@@ -49,8 +49,8 @@
                         <div class="row">
                         	<div class="col-xs-0 col-sm-0 col-md-2 col-lg-2"></div>
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ 'USER_TYPE' | translate }}:</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-4" ng-if="user.userType.type === 'власник'">{{ 'TYPE_OWNER' | translate }}</div>
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-4" ng-if="user.userType.type === 'ветеринар'">{{ 'TYPE_VET' | translate }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-4 col-lg-4" ng-if="user.userType.type === 'owner'">{{ 'TYPE_OWNER' | translate }}</div>
+                            <div class="col-xs-8 col-sm-8 col-md-4 col-lg-4" ng-if="user.userType.type === 'vet'">{{ 'TYPE_VET' | translate }}</div>
                              
                         </div>
                         <hr>
@@ -113,10 +113,11 @@
                 </div>
                 
                 <!-- Social integration -->                
-                <div class="row">
+                <div class="row" ng-show="user.googleId || user.facebookId || user.twitterId">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 panel-body">
-                    	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">{{ 'SOCIAL_INTEGRATION' | translate }}:</div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    	<div class="col-xs-0 col-sm-2 col-md-2 col-lg-2"></div>
+                    	<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">{{ 'SOCIAL_INTEGRATION' | translate }}:</div>
+                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
                         	<div class="text-center">
 		                    	<p ng-show="!user.googleId && !user.facebookId && !user.twitterId">{{ 'NO_INTEGRATION' | translate }} </p>        	                	                   	
 		                    	<a ng-disabled="true" ng-show="user.googleId" class="btn btn-social-icon btn-facebook btn-lg"><i class="fa fa-facebook"></i></a>

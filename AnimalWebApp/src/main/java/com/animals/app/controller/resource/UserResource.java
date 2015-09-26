@@ -80,7 +80,7 @@ public class UserResource {
                                 @Context HttpServletRequest req) {
 
         HttpSession session = req.getSession(true);
-        
+
         if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id))) {
             return UNAUTHORIZED;
         }
@@ -115,9 +115,9 @@ public class UserResource {
                                @PathParam("userId") @DecimalMin(value = "1") int id,
                                @Context HttpServletRequest req) {
 
-        HttpSession session = req.getSession(true);
+        HttpSession session = req.getSession(true); 
         
-        if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id))) {
+        if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id)) ||  id != user.getId()) {
             return UNAUTHORIZED;
         }
 

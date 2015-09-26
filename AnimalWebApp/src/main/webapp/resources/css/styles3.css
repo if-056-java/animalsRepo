@@ -59,6 +59,7 @@ p {
 	padding: 15px;
 }
 
+
 #passwordUpdateBlock {
 	border: 1px solid #eaeaea;
 	border-radius: 5px;	
@@ -87,6 +88,16 @@ p {
 	margin-bottom: -60px;
 	padding: 20px;
 }
+
+#quote {
+	color:white;
+	position: absolute;
+    left: 80px;
+    top: 100px;
+    z-index: 2;
+}
+
+
 
 .usualReg {
 	border: 1px solid #eaeaea;

@@ -6,7 +6,7 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 	//initialize loading spinner
     var targetContent = document.getElementById('loading-block');
     new Spinner(opts).spin(targetContent);
-    //This variable decides when spinner loading for contentis closed.
+    //This variable decides when spinner loading for content is closed.
     $scope.contentLoading = 1;    
 	
 	var id = $routeParams.userId;	
@@ -34,8 +34,8 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 		if($scope.user.userRole[0].role=="guest")$scope.user.userRole[0].id=3;
 		if($scope.user.userRole[0].role=="doctor")$scope.user.userRole[0].id=4;
 		
-		if($scope.user.userType.type=="власник")$scope.user.userType.id=1;
-		if($scope.user.userType.type=="ветеринар")$scope.user.userType.id=2;
+		if($scope.user.userType.type=="owner")$scope.user.userType.id=1;
+		if($scope.user.userType.type=="vet")$scope.user.userType.id=2;
 		
 		if($scope.active=="true")$scope.user.active=true;
 		if($scope.active=="false")$scope.user.active=false;
@@ -46,7 +46,7 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 	               $window.location.href = "#/ua/user/admin/users/" + id;
 	           },
 	           function(error) {
-	               $window.alert("Animal update failed.");
+	               $window.alert("User update failed.");
 	           });
    }
 	
