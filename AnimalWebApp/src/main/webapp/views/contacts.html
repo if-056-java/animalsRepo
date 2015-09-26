@@ -163,7 +163,6 @@
 
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                    <div class="input-group">
                                         <div
                                                 vc-recaptcha
                                                 theme="'light'"
@@ -172,12 +171,10 @@
                                                 on-success="setResponse(response)"
                                                 on-expire="cbExpiration()">
                                         </div>
-                                    </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                    <div class="input-group">
                                         <!-- Spinner -->
-                                        <div ng-show="spinnerloading" id="loading-block"></div>
+                                        <div ng-show="spinnerloading" id="loading-block">.</div>
 
                                         <div class="alert alert-warning" role="alert" ng-show="startupmessage">{{
                                             'CONTACTS_STARTUP_MESSAGE' | translate }}
@@ -188,7 +185,6 @@
                                         <div class="alert alert-danger" role="alert" ng-show="errormessage">{{
                                             'CONTACTS_ERROR_MESSAGE' | translate }}
                                         </div>
-                                    </div>
                                 </div>
                             </div>
                             <button type="submit" id="feedbackSubmit1" class="btn btn-primary btn-lg"
