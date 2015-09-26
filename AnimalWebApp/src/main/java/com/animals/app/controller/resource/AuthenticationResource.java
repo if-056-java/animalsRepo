@@ -52,6 +52,7 @@ public class AuthenticationResource {
     private static final String SESSION_USER_ID = "userId";
     private static final String SESSION_USERSURNAME = "userSurname";
     private static final String SESSION_LOGIN = "socialLogin";
+    private static final String SESSION_USER_EMAIL = "email";
     private static final String SESSION_ROLE_ID = "userRoleId";
     private static final String SESSION_USER_ROLE = "userRole";
     private static final String SESSION_SUCCESS = "successMesage";
@@ -241,6 +242,7 @@ public class AuthenticationResource {
         String emailVerificator = UUID.randomUUID().toString();
 
         user.setEmailVerificator(emailVerificator);
+        user.setIsActive(false);
 
         try {
             userRep.insert(user);
@@ -433,6 +435,7 @@ public class AuthenticationResource {
         session.setAttribute(SESSION_LOGIN, user.getSocialLogin());
         session.setAttribute(SESSION_ROLE_ID, user.getUserRole().get(0).getId().toString());
         session.setAttribute(SESSION_USER_ROLE, user.getUserRole().get(0).getRole());
+        session.setAttribute(SESSION_USER_EMAIL, user.getEmail());
         session.setAttribute(SESSION_SUCCESS, success);
 
         // creating string for accessToken

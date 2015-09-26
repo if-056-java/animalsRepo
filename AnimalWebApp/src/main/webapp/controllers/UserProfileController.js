@@ -124,14 +124,18 @@ animalApp.controller('UserProfileController', ['$scope', 'UserDataService', 'Aut
     		$scope.fields.password=hashPassword($scope.passwordNew);     		
     	}     	
     	UserDataService.updateUser($scope.fields, $scope.fields.id).then(
-				function(result){
-					console.log("user updated");				
+				function(result){					
+					if(result.userId==0){						
+						$scope.errorUpdateMessage=true;
+					} else {						
+						$scope.userInfo=result;
+						$scope.IsHidden =  true;
+					}
 				},
-				function(error){
+				function(error){					
 					console.log(error)
 				}
 		);		
-		$scope.IsHidden =  true;
 	};	  
 	
 	$scope.AddOwnAnimal=function(){    	

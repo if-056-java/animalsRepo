@@ -43,6 +43,18 @@ public class UserRepositoryImpl implements UserRepository {
             session.commit();
         }
     }
+    
+    /**
+     * Update an instance of User in the database (for userRole="guest").
+     * @param user the instance to be updated.
+     */
+    @Override
+    public void updateRestricted(User user) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            session.getMapper(UserRepository.class).updateRestricted(user);
+            session.commit();
+        }        
+    }
 
     /**
      * Delete an instance of User from the database.
@@ -224,7 +236,7 @@ public class UserRepositoryImpl implements UserRepository {
 		try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(UserRepository.class).findUserByEmail(email);
         }
-	}
+	} 
 
 	
 }

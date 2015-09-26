@@ -60,6 +60,8 @@ public class UserResource {
     private static final String IMAGE_FOLDER = "images/";
     private static final int LENGTH_IMAGE = 50;
     private static final String SESSION_USER_ID = "userId";
+    private static final String SESSION_USER_EMAIL = "email";
+    private static final String EMAIL_NOT_UNIQUE = "Email is already in use by another User";
 
     private UserRepository userRep = new UserRepositoryImpl();
     private AnimalRepository animalRep = new AnimalRepositoryImpl();
@@ -88,8 +90,9 @@ public class UserResource {
         try {
             User user = userRep.getById(id);
 
-            if (user == null)
-                return NOT_FOUND;
+            if (user == null){
+                return NOT_FOUND;             
+            }
 
             return Response.ok().entity(user).build();
 
@@ -121,11 +124,23 @@ public class UserResource {
             return UNAUTHORIZED;
         }
 
-        if (userRep.getById(id) == null)
-            return NOT_FOUND;
+        if (userRep.getById(id) == null){
+            return NOT_FOUND;           
+        }
+        
+        //Check if userEmail is unique 
+//        if (!session.getAttribute(SESSION_USER_EMAIL).equals(user.getEmail())){
+        if (!userRep.getById(id).getEmail().equals(user.getEmail())){
+            String userEmailExist = userRep.checkIfEmailUnique(user.getEmail());             
+            if (userEmailExist != null && !userEmailExist.isEmpty()) {
+                String userEmailIsAlreadyInUse = buildResponseEntity(0, EMAIL_NOT_UNIQUE);
+                return Response.status(Response.Status.NOT_ACCEPTABLE).entity(userEmailIsAlreadyInUse).build();            
+            }        
+        }       
+        
 
         try {
-            userRep.update(user);
+            userRep.updateRestricted(user);
 
             User updatedUser = userRep.getById(id);
 
@@ -224,6 +239,10 @@ public class UserResource {
         String restPath = req.getServletContext().getRealPath("/"); // path to rest root folder
 
         Animal animal = animalRep.getById(animalId);
+        
+        if(!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(animal.getUser().getId()))){
+            return UNAUTHORIZED;
+        }
 
         // delete image
         if (animal.getImage() != null) {
@@ -269,6 +288,11 @@ public class UserResource {
             LOG.error(e);
             return NOT_FOUND;
         }
+        
+        if(!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(animal.getUser().getId()))){
+            return UNAUTHORIZED;
+        }
+        
 
         if (animal.getImage() == null) {
             return Response.ok().build();
@@ -468,6 +492,11 @@ public class UserResource {
             animalBreed.setType(animalType);
             new AnimalBreedRepositoryImpl().insert_ua(animalBreed);
         }
+    }
+    
+    private String buildResponseEntity(int i, String message) {
+        String entity = "{\"userId\" : " + i + ", \"message\" : \"" + message + "\"}";
+        return entity;
     }
 
 

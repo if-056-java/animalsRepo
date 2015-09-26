@@ -25,9 +25,13 @@ public interface UserRepository {
     final String UPDATE = "UPDATE users SET Name=#{name}, Surname=#{surname}, " +
             "DateOfRegistration=#{registrationDate}, UserTypeId=#{userType.id}, " +
             "UserRoleId=#{userRole, typeHandler=com.animals.app.domain.UserRole}, Phone=#{phone}, Address=#{address}, " +
-            "Email=#{email}, SocialLogin=#{socialLogin}, Password=#{password}, " +
-            "OrganizationName=#{organizationName}, OrganizationInfo=#{organizationInfo}, " +
-            "IsActive=#{isActive}, GoogleId=#{googleId}, FacebookId=#{facebookId}, TwitterId=#{twitterId}, SocialPhoto=#{socialPhoto} " +
+            "Email=#{email}, Password=#{password}, OrganizationName=#{organizationName}, OrganizationInfo=#{organizationInfo}, " +
+            "IsActive=#{isActive}" +
+            "WHERE Id=#{id}";
+    
+    final String UPDATE_RESTRICTED = "UPDATE users SET Name=#{name}, Surname=#{surname}, " +
+            "DateOfRegistration=#{registrationDate}, Phone=#{phone}, Address=#{address}, " +
+            "Email=#{email}, Password=#{password}, OrganizationName=#{organizationName}, OrganizationInfo=#{organizationInfo}" +
             "WHERE Id=#{id}";
 
     final String DELETE = "DELETE FROM users WHERE Id = #{id}";
@@ -178,6 +182,13 @@ public interface UserRepository {
      */
     @Delete(DELETE)
     void delete(Integer id);
+    
+    /**
+     * Update an instance of User in the database.(for userRole=guest)
+     * @param user the instance to be updated.
+     */
+    @Update(UPDATE_RESTRICTED)
+    void updateRestricted(User user);
 
     /**
      * Returns a User instance from the database.
@@ -495,5 +506,7 @@ public interface UserRepository {
             @Result(property="socialPhoto", column="SocialPhoto")
     })
 	User findUserByEmail(String email);
+
+    
 	
 }

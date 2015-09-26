@@ -96,7 +96,7 @@
 
                             <div class="col-xs-12 col-sm-7 col-md-9 col-lg-9">
                                 <input class="form-control" name="userSurname" ng-model="fields.surname"
-                                       ng-required="true" ng-minlength='2' ng-maxlength='50'> <!-- ng-maxlength='45' -->
+                                       ng-required="true" ng-minlength='2' ng-maxlength='45'> 
                                 <div ng-show="regForm.userSurname.$error.minlength" class="help-inline">{{
                                     'SURNAME_MIN_LENGTH' | translate }}
                                 </div>
@@ -115,8 +115,7 @@
                                        ng-required="true"
                                        pattern="[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
                                        placeholder="{{ 'CONTACTS_INPUT_EMAIL' | translate }}">
-                                <!-- pattern="[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" -->
-                            </div>
+                             </div>
                         </div>
                         <div class="form-group"
                              data-ng-class="{'has-error':regForm.password.$error.minlength || regForm.password.$error.maxlength}">
@@ -125,7 +124,7 @@
 
                             <div class="col-xs-12 col-sm-7 col-md-9 col-lg-9">
                                 <input class="form-control" type="password" name='password' ng-minlength='5'
-                                       ng-maxlength='20' ng-model="password" required> <!-- ng-maxlength='16' -->
+                                       ng-maxlength='20' ng-model="password" required> 
                                 <div ng-show="regForm.password.$error.minlength" class="help-inline">{{
                                     'PASSWORD_MIN_LENGTH' | translate }}
                                 </div>
@@ -166,7 +165,7 @@
 
                             <div class="col-xs-12 col-sm-7 col-md-9 col-lg-9">
 	    			<textarea class="form-control" name="userAdress" rows="2" ng-model="fields.address"
-                              ng-maxlength='150'> <!-- ng-maxlength='120' -->
+                              ng-maxlength='120'> 
 	    			</textarea>
 
                                 <div ng-show="regForm.userAdress.$error.maxlength" class="help-inline">{{
@@ -183,7 +182,7 @@
 
                             <div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
                                 <input class="form-control" name="userCompany" ng-model="fields.organizationName"
-                                       ng-maxlength='75'> <!-- ng-maxlength='70' -->
+                                       ng-maxlength='75'> 
                                 <div ng-show="regForm.userCompany.$error.maxlength" class="help-inline">{{
                                     'COMPANY_NAME_MAX_LENGTH' | translate }}
                                 </div>
@@ -196,7 +195,7 @@
 
                             <div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
 	    			<textarea class="form-control" name="userCompanyInfo" rows="2" ng-model="fields.organizationInfo"
-                              ng-maxlength='110'> <!-- ng-maxlength='100' -->
+                              ng-maxlength='100'> 
 	    			</textarea>
 
                                 <div ng-show="regForm.userCompanyInfo.$error.maxlength" class="help-inline">{{

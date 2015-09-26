@@ -7,7 +7,11 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
     var targetContent = document.getElementById('loading-block');
     new Spinner(opts).spin(targetContent);
     //This variable decides when spinner loading for content is closed.
-    $scope.contentLoading = 1;    
+    $scope.contentLoading = 1; 
+    
+    if (localStorageService.get('userRole')!=="moderator"){
+		$location.path("#ua");	
+	}
 	
 	var id = $routeParams.userId;	
 	

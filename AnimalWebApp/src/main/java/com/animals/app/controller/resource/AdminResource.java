@@ -40,6 +40,7 @@ public class AdminResource {
     private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 
     private final String IMAGE_FOLDER = "images/"; //folder for animals images
+    private static final String EMAIL_NOT_UNIQUE = "Email is already in use by another User";
     //size of fields in data base, table: animals
 
     private final int LENGTH_IMAGE = 50;
@@ -360,8 +361,18 @@ public class AdminResource {
                                @PathParam("userId") @NotNull int id) {
              
 
-        // Update user
         UserRepositoryImpl userRep = new UserRepositoryImpl(); 
+        
+        //Check if userEmail is unique     
+        if (!userRep.getById(id).getEmail().equals(user.getEmail())){
+            String userEmailExist = userRep.checkIfEmailUnique(user.getEmail());             
+            if (userEmailExist != null && !userEmailExist.isEmpty()) {
+                String userEmailIsAlreadyInUse = buildResponseEntity(0, EMAIL_NOT_UNIQUE);
+                return Response.status(Response.Status.NOT_ACCEPTABLE).entity(userEmailIsAlreadyInUse).build();            
+            }        
+        } 
+        
+        // Update user
         try {
             userRep.update(user);
         } catch (PersistenceException e) {
@@ -460,5 +471,10 @@ public class AdminResource {
             animalBreed.setType(animalType);
             new AnimalBreedRepositoryImpl().insert_ua(animalBreed);
         }
+    }
+    
+    private String buildResponseEntity(int i, String message) {
+        String entity = "{\"userId\" : " + i + ", \"message\" : \"" + message + "\"}";
+        return entity;
     }
 }

@@ -264,7 +264,7 @@ public class TestUserResource extends ResourceTestTemplate {
                 .header("AccessToken", accessToken)
                 .put(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), User.class);
 
-        userRepository.update(userDb);
+        userRepository.updateRestricted(userDb);
     }
 
     /*
@@ -693,7 +693,7 @@ public class TestUserResource extends ResourceTestTemplate {
                 .header("AccessToken", accessToken)
                 .put(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), User.class);
 
-        new UserRepositoryImpl().update(user);
+        new UserRepositoryImpl().updateRestricted(user);
 
         assertNotEquals(expected.getUserRole(), actual.getUserRole());
     }
@@ -706,7 +706,7 @@ public class TestUserResource extends ResourceTestTemplate {
      * Send: valid user
      * Expect: userType must be unchanged
      */
-    @Test(expected = BadRequestException.class)
+    @Test
     public void test17UpdateUser() {
         assertNotNull(accessToken);
         assertNotNull(user);
@@ -739,9 +739,9 @@ public class TestUserResource extends ResourceTestTemplate {
                 .header("AccessToken", accessToken)
                 .put(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), User.class);
 
-        new UserRepositoryImpl().update(user);
+        new UserRepositoryImpl().updateRestricted(user);
 
-        assertNotEquals(expected.getUserType(), actual.getUserType());
+        assertEquals(expected.getUserType(), user.getUserType());
     }
 
     /*
