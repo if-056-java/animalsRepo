@@ -72,10 +72,10 @@
                             <hr>                        
                         
                         <!-- User Email -->
-                        <div class="input-group" ng-class="{ 'has-error' : userEditor.email.$invalid && !userForm.email.$pristine }">
+                        <div class="input-group" ng-class="{ 'has-error' : userEditor.email.$invalid && !userForm.email.$pristine || userEditor.email.$error.required }">
                                 <span class="input-group-addon">{{ 'USER_EMAIL' | translate }}</span>
-                                <input type="email" class="form-control" aria-describedby="basic-addon1" name="email" ng-model="user.email"  ng-maxlength="30">
-                        </div>                         
+                                <input type="email" class="form-control" aria-describedby="basic-addon1" name="email" ng-model="user.email"  ng-maxlength="30" required>
+                        </div>
                         <hr>
 
                     </div>
@@ -119,12 +119,12 @@
                         <!-- User Active -->
                         <div class="input-group">
                                 <span class="input-group-addon">{{ 'USER_ACTIVE' | translate }}</span>
-                                <ol class="nya-bs-select nya-bs-select-mod" ng-model="active" 
+                                <ol class="nya-bs-select nya-bs-select-mod" ng-model="active"
                                 	title="{{ 'NOT_SELECTED' | translate }}">
                                     <li class="nya-bs-option" value="true"><a>{{ 'YES' | translate}}</a></li>
                                     <li class="nya-bs-option" value="false"><a>{{ 'NO' | translate}}</a></li>                                  
                                 </ol>
-                            </div>
+                        </div>
                         <hr>
                         <br>
 
