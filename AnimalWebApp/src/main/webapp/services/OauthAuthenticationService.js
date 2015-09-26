@@ -25,7 +25,7 @@ angular.module('animalApp').factory('OauthAuthenticationService',function ($http
 			})
 			.error(function(data){
 				console.log("error direct. Maybe RefreshToken expired");
-				$rootScope.errorMessage="Помилка входу. Термін дії GoogleRefreshToken закінчився! Спробуйте ще раз!";
+				$rootScope.errorMessage2=true;
 				localStorageService.cookie.remove("refreshGoogleToken");
 			})
 		},
@@ -67,7 +67,7 @@ angular.module('animalApp').factory('OauthAuthenticationService',function ($http
 			})
 			.error(function(data){
 				console.log("error direct. Maybe aToken expired");
-				$rootScope.errorMessage="Помилка входу. Спробуйте ще раз!";
+				$rootScope.errorMessage=true;
 				localStorageService.cookie.remove("twitterToken");
 				localStorageService.cookie.remove("twitterSecret");				
 			})

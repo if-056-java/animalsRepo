@@ -138,6 +138,10 @@
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                 <span class="sr-only">Error:</span> {{ 'LOGIN_ERROR' | translate }}
             </div>
+             <div ng-show="errorMessage2" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span> {{ 'LOGIN_GOOGLE_OAUTH_ERROR' | translate }}
+            </div>
             <div ng-show="errorConfirmMessage" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger"
                  role="alert">
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>

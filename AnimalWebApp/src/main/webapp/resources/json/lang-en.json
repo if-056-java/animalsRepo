@@ -141,6 +141,7 @@
   "REGISTRATION": "Sign In",
   "LOGIN_ERROR" : "Login error! Check out your login and password",
   "LOGIN_CONFIRM_ERROR": "For entering site first you should confirm registration",
+  "LOGIN_GOOGLE_OAUTH_ERROR":"Google Refresh token has been expired. Try again!",
 
   "REGISTRATION_HOMELESS": "Registration of homeless animal",
   "REGISTRATION_OWNED": "Registration of owned animal",

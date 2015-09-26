@@ -141,6 +141,7 @@
   "REGISTRATION": "Реєстрація",
   "LOGIN_ERROR" : "Помилка входу. Перевірте свої дані!",
   "LOGIN_CONFIRM_ERROR": "Для входу потрібно підтвердити реєстрацію!",
+  "LOGIN_GOOGLE_OAUTH_ERROR":"Термін дії Google Refresh token вичерпався. Спробуйте ще раз!",
 
   "REGISTRATION_HOMELESS": "Реєстрація безпритульної тварини",
   "REGISTRATION_OWNED": "Реєстрація власницької тварини",
