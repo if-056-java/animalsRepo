@@ -26,7 +26,7 @@ angular.module('animalApp').factory('UserModerationService',function ($q, $http,
                 def.resolve(data);
             })
             .error(function (error) {
-                def.reject("Failed to update user");
+            	def.resolve(error);                
             });
 			return def.promise;			
 		},
