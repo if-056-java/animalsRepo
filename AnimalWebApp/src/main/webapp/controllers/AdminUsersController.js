@@ -2,6 +2,10 @@ adminUsersModule
     .controller('AdminUsersController',
     function AdminUsersController($scope, AdminUsersFactory, AdminUsersValues) {
 
+    	 if (localStorageService.get('userRole')!=="moderator"){
+    			$location.path("#ua");	
+    		}
+    	 
         //initialize loading spinner
         var targetContent = document.getElementById('loading-block');
         new Spinner(opts).spin(targetContent);

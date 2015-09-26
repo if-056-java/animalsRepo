@@ -26,7 +26,7 @@ public interface UserRepository {
             "DateOfRegistration=#{registrationDate}, UserTypeId=#{userType.id}, " +
             "UserRoleId=#{userRole, typeHandler=com.animals.app.domain.UserRole}, Phone=#{phone}, Address=#{address}, " +
             "Email=#{email}, Password=#{password}, OrganizationName=#{organizationName}, OrganizationInfo=#{organizationInfo}, " +
-            "IsActive=#{isActive}" +
+            "IsActive=#{isActive} " +
             "WHERE Id=#{id}";
     
     final String UPDATE_RESTRICTED = "UPDATE users SET Name=#{name}, Surname=#{surname}, " +
@@ -175,13 +175,6 @@ public interface UserRepository {
      */
     @Update(UPDATE)
     void update(User user);
-
-    /**
-     * Delete an instance of User from the database.
-     * @param id primary key value of the instance to be deleted.
-     */
-    @Delete(DELETE)
-    void delete(Integer id);
     
     /**
      * Update an instance of User in the database.(for userRole=guest)
@@ -189,6 +182,14 @@ public interface UserRepository {
      */
     @Update(UPDATE_RESTRICTED)
     void updateRestricted(User user);
+
+    /**
+     * Delete an instance of User from the database.
+     * @param id primary key value of the instance to be deleted.
+     */
+    @Delete(DELETE)
+    void delete(Integer id);    
+    
 
     /**
      * Returns a User instance from the database.

@@ -69,7 +69,7 @@ public class User implements Serializable, Principal {
     @Length(max = 300, message =  "SocialPhoto  must be less than {max} characters.")
     private String socialPhoto;
     
-    private Boolean isActive = true;
+    private Boolean isActive=true;
     
     @Valid
     @Size(min = 1, message =  "UserRole can not be empty")

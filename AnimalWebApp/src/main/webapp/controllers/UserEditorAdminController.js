@@ -19,7 +19,7 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 			function(result){
 				$scope.user=result;				
 				$scope.contentLoading--;
-				if($scope.user.active){ 
+				if($scope.user.isActive){ 
 						$scope.active="true";
 					} else {
 						$scope.active="false";
@@ -41,8 +41,8 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 		if($scope.user.userType.type=="owner")$scope.user.userType.id=1;
 		if($scope.user.userType.type=="vet")$scope.user.userType.id=2;
 		
-		if($scope.active=="true")$scope.user.active=true;
-		if($scope.active=="false")$scope.user.active=false;
+		if($scope.active=="true")$scope.user.isActive=true;
+		if($scope.active=="false")$scope.user.isActive=false;
    	    	 
 	   	UserModerationService.updateUser($scope.user, id)
 	           .then(function(data) {

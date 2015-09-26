@@ -1,6 +1,8 @@
 package com.animals.app.controller.resource;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
@@ -27,6 +29,8 @@ import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Email;
 
 import com.animals.app.domain.User;
+import com.animals.app.domain.UserRole;
+import com.animals.app.domain.UserType;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 import com.animals.app.service.MailSender;
 
@@ -240,9 +244,9 @@ public class AuthenticationResource {
         }
 
         String emailVerificator = UUID.randomUUID().toString();
-
+        
         user.setEmailVerificator(emailVerificator);
-        user.setIsActive(false);
+        setUpNotActiveUser(user);        
 
         try {
             userRep.insert(user);
@@ -275,6 +279,7 @@ public class AuthenticationResource {
         return Response.status(Response.Status.OK).entity(regWithoutConfirm).build();
 
     }
+    
 
     /**
      * Registration confirmation of new user 
@@ -518,6 +523,22 @@ public class AuthenticationResource {
         }
 
         return message;
+    }
+    
+    private void setUpNotActiveUser(User user) {
+        
+        user.setIsActive(false);
+        
+        UserRole userRole = new UserRole();        
+        userRole.setId(3);
+        List<UserRole> list = new ArrayList<UserRole>();
+        list.add(userRole);
+        user.setUserRole(list);
+
+        UserType userType = new UserType();
+        userType.setId(1);
+        user.setUserType(userType);
+        
     }
     
     private static String getMd5(String md5) {
