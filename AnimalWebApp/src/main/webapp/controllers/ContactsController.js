@@ -3,7 +3,6 @@ var animalAppControllers = angular.module('ContactsController', ['vcRecaptcha','
 animalApp.controller('ContactsController', function ($http, $scope, vcRecaptchaService, ContactsValues, $window) {
 
     $scope.currentLanguage = $window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
-    console.log($scope.currentLanguage);
 
     function loadRecapchaScript(d, s, id) {
         var js, fjs = d.getElementsByTagName('script')[0];
