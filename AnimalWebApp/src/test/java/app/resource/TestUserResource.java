@@ -34,6 +34,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -58,6 +59,9 @@ public class TestUserResource extends ResourceTestTemplate {
     private static final int LENGTH_EMAIL = 30;
     private static final int LENGTH_SOCIAL_LOGIN = 30;
     private static final int LENGTH_PHONE = 15;
+    private static final int LENGTH_ADDRESS = 120;
+    private static final int LENGTH_ORGANIZATION_NAME = 70;
+    private static final int LENGTH_ORGANIZATION_INFO = 100;
 
     @BeforeClass
     public static void runBeforeClass() {
@@ -183,6 +187,14 @@ public class TestUserResource extends ResourceTestTemplate {
         assertNotNull(accessToken);
         assertNotNull(user);
         assertNotNull(user.getId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getSurname());
+        assertNotNull(user.getRegistrationDate());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getSocialLogin());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getUserRole());
+        assertNotNull(user.getUserType());
 
         String json = new GsonBuilder()
                 .registerTypeAdapter(Date.class, new DateSerializer())
@@ -217,7 +229,7 @@ public class TestUserResource extends ResourceTestTemplate {
         User userDb = userRepository.getAll().get(0);//change
 
         User actual = SerializationUtils.clone(userDb);
-        actual.setName("test_update");
+        actual.setName(RandomStringUtils.random(LENGTH_NAME, true, true));
 
         String json = new GsonBuilder()
                 .registerTypeAdapter(Date.class, new DateSerializer())
@@ -247,6 +259,14 @@ public class TestUserResource extends ResourceTestTemplate {
         assertNotNull(accessToken);
         assertNotNull(user);
         assertNotNull(user.getId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getSurname());
+        assertNotNull(user.getRegistrationDate());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getSocialLogin());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getUserRole());
+        assertNotNull(user.getUserType());
 
         User actual = SerializationUtils.clone(user);
         actual.setName(RandomStringUtils.random(LENGTH_NAME + 1, true, true));
@@ -277,6 +297,14 @@ public class TestUserResource extends ResourceTestTemplate {
         assertNotNull(accessToken);
         assertNotNull(user);
         assertNotNull(user.getId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getSurname());
+        assertNotNull(user.getRegistrationDate());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getSocialLogin());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getUserRole());
+        assertNotNull(user.getUserType());
 
         User actual = SerializationUtils.clone(user);
         actual.setSurname(RandomStringUtils.random(LENGTH_SURNAME + 1, true, true));
@@ -307,6 +335,14 @@ public class TestUserResource extends ResourceTestTemplate {
         assertNotNull(accessToken);
         assertNotNull(user);
         assertNotNull(user.getId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getSurname());
+        assertNotNull(user.getRegistrationDate());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getSocialLogin());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getUserRole());
+        assertNotNull(user.getUserType());
 
         User actual = SerializationUtils.clone(user);
         actual.setEmail(RandomStringUtils.random(LENGTH_EMAIL, true, true));
@@ -337,6 +373,14 @@ public class TestUserResource extends ResourceTestTemplate {
         assertNotNull(accessToken);
         assertNotNull(user);
         assertNotNull(user.getId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getSurname());
+        assertNotNull(user.getRegistrationDate());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getSocialLogin());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getUserRole());
+        assertNotNull(user.getUserType());
 
         User actual = SerializationUtils.clone(user);
         actual.setEmail(RandomStringUtils.random(LENGTH_EMAIL, true, true) + '@' +
@@ -369,6 +413,14 @@ public class TestUserResource extends ResourceTestTemplate {
         assertNotNull(accessToken);
         assertNotNull(user);
         assertNotNull(user.getId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getSurname());
+        assertNotNull(user.getRegistrationDate());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getSocialLogin());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getUserRole());
+        assertNotNull(user.getUserType());
 
         User actual = SerializationUtils.clone(user);
         actual.setPassword(RandomStringUtils.random(LENGTH_PASSWORD + 1, true, true));
@@ -399,6 +451,14 @@ public class TestUserResource extends ResourceTestTemplate {
         assertNotNull(accessToken);
         assertNotNull(user);
         assertNotNull(user.getId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getSurname());
+        assertNotNull(user.getRegistrationDate());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getSocialLogin());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getUserRole());
+        assertNotNull(user.getUserType());
 
         User actual = SerializationUtils.clone(user);
         actual.setPassword(null);
@@ -429,6 +489,14 @@ public class TestUserResource extends ResourceTestTemplate {
         assertNotNull(accessToken);
         assertNotNull(user);
         assertNotNull(user.getId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getSurname());
+        assertNotNull(user.getRegistrationDate());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getSocialLogin());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getUserRole());
+        assertNotNull(user.getUserType());
 
         User actual = SerializationUtils.clone(user);
         actual.setPhone(RandomStringUtils.random(LENGTH_PHONE, false, true));
@@ -445,5 +513,214 @@ public class TestUserResource extends ResourceTestTemplate {
                 .request()
                 .header("AccessToken", accessToken)
                 .put(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), User.class);
+    }
+
+    /*
+     * Testing of updating user
+     * Path: /users/user/userId
+     * Method: put
+     * Send: not valid user (length of address = LENGTH_ADDRESS + 1, max = LENGTH_ADDRESS)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
+    public void test13UpdateUser() {
+        assertNotNull(accessToken);
+        assertNotNull(user);
+        assertNotNull(user.getId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getSurname());
+        assertNotNull(user.getRegistrationDate());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getSocialLogin());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getUserRole());
+        assertNotNull(user.getUserType());
+
+        User actual = SerializationUtils.clone(user);
+        actual.setAddress(RandomStringUtils.random(LENGTH_ADDRESS + 1, true, true));
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test13UpdateUser - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("user/" + user.getId())
+                .request()
+                .header("AccessToken", accessToken)
+                .put(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), User.class);
+    }
+
+    /*
+     * Testing of updating user
+     * Path: /users/user/userId
+     * Method: put
+     * Send: not valid user (length of organizationName = LENGTH_ORGANIZATION_NAME + 1, max = LENGTH_ORGANIZATION_NAME)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
+    public void test14UpdateUser() {
+        assertNotNull(accessToken);
+        assertNotNull(user);
+        assertNotNull(user.getId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getSurname());
+        assertNotNull(user.getRegistrationDate());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getSocialLogin());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getUserRole());
+        assertNotNull(user.getUserType());
+
+        User actual = SerializationUtils.clone(user);
+        actual.setOrganizationName(RandomStringUtils.random(LENGTH_ORGANIZATION_NAME + 1, true, true));
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test14UpdateUser - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("user/" + user.getId())
+                .request()
+                .header("AccessToken", accessToken)
+                .put(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), User.class);
+    }
+
+    /*
+     * Testing of updating user
+     * Path: /users/user/userId
+     * Method: put
+     * Send: not valid user (length of organizationInfo = LENGTH_ORGANIZATION_INFO + 1, max = LENGTH_ORGANIZATION_INFO)
+     * Expect: response with status 400
+     */
+    @Test(expected = BadRequestException.class)
+    public void test15UpdateUser() {
+        assertNotNull(accessToken);
+        assertNotNull(user);
+        assertNotNull(user.getId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getSurname());
+        assertNotNull(user.getRegistrationDate());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getSocialLogin());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getUserRole());
+        assertNotNull(user.getUserType());
+
+        User actual = SerializationUtils.clone(user);
+        actual.setOrganizationInfo(RandomStringUtils.random(LENGTH_ORGANIZATION_INFO + 1, true, true));
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test15UpdateUser - " + json);
+
+        client.target(REST_SERVICE_URL)
+                .path("user/" + user.getId())
+                .request()
+                .header("AccessToken", accessToken)
+                .put(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), User.class);
+    }
+
+    /*
+     * Testing of updating user
+     * Try to change userRole
+     * Path: /users/user/userId
+     * Method: put
+     * Send: valid user
+     * Expect: userRole must be unchanged
+     */
+    @Test
+    public void test16UpdateUser() {
+        assertNotNull(accessToken);
+        assertNotNull(user);
+        assertNotNull(user.getId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getSurname());
+        assertNotNull(user.getRegistrationDate());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getSocialLogin());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getUserRole());
+        assertNotNull(user.getUserType());
+
+        User actual = SerializationUtils.clone(user);
+
+        List<UserRole> userRoles = new ArrayList<>();
+        userRoles.add(new UserRoleRepositoryImpl().getAll().get(1));
+        actual.setUserRole(userRoles);
+
+        assertNotEquals(user.getUserRole(), actual.getUserRole());
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test16UpdateUser - " + json);
+
+        User expected = client
+                .target(REST_SERVICE_URL)
+                .path("user/" + user.getId())
+                .request()
+                .header("AccessToken", accessToken)
+                .put(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), User.class);
+
+        new UserRepositoryImpl().update(user);
+
+        assertNotEquals(expected.getUserRole(), actual.getUserRole());
+    }
+
+    /*
+     * Testing of updating user
+     * Try to change userType
+     * Path: /users/user/userId
+     * Method: put
+     * Send: valid user
+     * Expect: userType must be unchanged
+     */
+    @Test(expected = BadRequestException.class)
+    public void test17UpdateUser() {
+        assertNotNull(accessToken);
+        assertNotNull(user);
+        assertNotNull(user.getId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getSurname());
+        assertNotNull(user.getRegistrationDate());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getSocialLogin());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getUserRole());
+        assertNotNull(user.getUserType());
+
+        User actual = SerializationUtils.clone(user);
+        actual.setUserType(new UserTypeRepositoryImpl().getAll().get(1));
+
+        assertNotEquals(user.getUserType(), actual.getUserType());
+
+        String json = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .create()
+                .toJson(actual);
+
+        LOG.debug("TestName: test17UpdateUser - " + json);
+
+        User expected = client
+                .target(REST_SERVICE_URL)
+                .path("user/" + user.getId())
+                .request()
+                .header("AccessToken", accessToken)
+                .put(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), User.class);
+
+        new UserRepositoryImpl().update(user);
+
+        assertNotEquals(expected.getUserType(), actual.getUserType());
     }
 }
