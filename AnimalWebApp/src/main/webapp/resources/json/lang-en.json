@@ -278,6 +278,9 @@
   "DETAILED_INFO": "Details",
   "ABOUT_US": "About us",
   "USER_PHONE_EDITOR": "Phone like '000-0000000'",
+  "TYPE_CYNOLOGIST_UNION": "Cynologistic union",
+  "TYPE_ORGANIZATION": "Organization",
+  "TYPE_MISC": "Other",
 
   "GOAL": "Purpose:",
   "GOAL_1": "Control and reduce the number of stray animals.",
