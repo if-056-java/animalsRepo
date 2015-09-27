@@ -80,12 +80,10 @@ public class UserResource {
     @Path("user/{userId}")
     public Response getUserById(@PathParam("userId") @DecimalMin(value = "1") int id,
                                 @Context HttpServletRequest req) {
-
-        HttpSession session = req.getSession(true);
-
-        if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id))) {
+        
+        if (!validate(req, id)) {
             return UNAUTHORIZED;
-        }
+        }       
         
         try {
             User user = userRep.getById(id);
@@ -101,7 +99,7 @@ public class UserResource {
             return SERVER_ERROR;
         }
 
-    }
+    }    
 
     /**
      * Update user info in data base 
@@ -118,26 +116,18 @@ public class UserResource {
                                @PathParam("userId") @DecimalMin(value = "1") int id,
                                @Context HttpServletRequest req) {
 
-        HttpSession session = req.getSession(true); 
-        
-        if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id)) ||  id != user.getId()) {
+        if (!validate(req, id, user)) {
             return UNAUTHORIZED;
-        }
+        } 
 
         if (userRep.getById(id) == null){
             return NOT_FOUND;           
-        }
+        }        
         
-        //Check if userEmail is unique 
-//        if (!session.getAttribute(SESSION_USER_EMAIL).equals(user.getEmail())){
-        if (!userRep.getById(id).getEmail().equals(user.getEmail())){
-            String userEmailExist = userRep.checkIfEmailUnique(user.getEmail());             
-            if (userEmailExist != null && !userEmailExist.isEmpty()) {
-                String userEmailIsAlreadyInUse = buildResponseEntity(0, EMAIL_NOT_UNIQUE);
-                return Response.status(Response.Status.NOT_ACCEPTABLE).entity(userEmailIsAlreadyInUse).build();            
-            }        
-        }       
-        
+        String result = checkIfUserEmailUnique(id, user);
+        if (result != null){
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(result).build();
+        }        
 
         try {
             userRep.updateRestricted(user);
@@ -151,6 +141,7 @@ public class UserResource {
             return SERVER_ERROR;
         }
     }
+    
 
     /**
      * @param animalsFilter instance used for lookup.
@@ -167,12 +158,10 @@ public class UserResource {
     public Response geetUserAnimalsByUserId(@PathParam("userId") @DecimalMin(value = "1") long userId,
                                             @Valid @NotNull AnimalsFilter animalsFilter, 
                                             @Context HttpServletRequest req) {
-
-        HttpSession session = req.getSession(true);
-        
-        if (!session.getAttribute(SESSION_USER_ID).equals(Long.toString(userId))) {
+    
+        if (!validate(req, (int)userId)) {
             return UNAUTHORIZED;
-        }
+        } 
 
         // get list of user animals from data base
         List<Animal> animals = userRep.getUserAnimals(userId, animalsFilter.getOffset(), animalsFilter.getLimit());
@@ -202,21 +191,19 @@ public class UserResource {
                               @PathParam("animalId") @DecimalMin(value = "1") long animalId, 
                               @Context HttpServletRequest req) {
 
-        HttpSession session = req.getSession(true);
-
-        if (!session.getAttribute(SESSION_USER_ID).equals(id)) {
+        if (!validate(req, id)) {
             return UNAUTHORIZED;
-        }
+        }         
 
         // get animal by id from data base
         Animal animal = animalRep.getById(animalId);
-        
-        if(!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(animal.getUser().getId()))){
+                
+        if (!validate(req, animal)) {
             return UNAUTHORIZED;
-        }
+        } 
 
         return Response.ok().entity(animal).build();
-    }
+    }    
 
     /**
      * Delete animal in data base
@@ -234,19 +221,17 @@ public class UserResource {
                                  @PathParam("animalId") @DecimalMin(value = "1") long animalId, 
                                  @Context HttpServletRequest req) {
 
-        HttpSession session = req.getSession(true);
-
-        if (!session.getAttribute(SESSION_USER_ID).equals(id)) {
+        if (!validate(req, id)) {
             return UNAUTHORIZED;
-        }
+        } 
 
         String restPath = req.getServletContext().getRealPath("/"); // path to rest root folder
 
-        Animal animal = animalRep.getById(animalId);
+        Animal animal = animalRep.getById(animalId);        
         
-        if(!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(animal.getUser().getId()))){
+        if (!validate(req, animal)) {
             return UNAUTHORIZED;
-        }
+        } 
 
         // delete image
         if (animal.getImage() != null) {
@@ -278,14 +263,11 @@ public class UserResource {
                                       @PathParam("animalId") @DecimalMin(value = "1") long animalId,
                                       @Context HttpServletRequest req) {
 
-        HttpSession session = req.getSession(true);
-
-        if (!session.getAttribute(SESSION_USER_ID).equals(id)) {
+        if (!validate(req, id)) {
             return UNAUTHORIZED;
-        }
+        } 
 
         Animal animal;
-
         try {
             animal = animalRep.getById(animalId);
         } catch (PersistenceException e) {
@@ -293,10 +275,9 @@ public class UserResource {
             return NOT_FOUND;
         }
         
-        if(!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(animal.getUser().getId()))){
+        if (!validate(req, animal)) {
             return UNAUTHORIZED;
-        }
-        
+        }        
 
         if (animal.getImage() == null) {
             return Response.ok().build();
@@ -333,11 +314,9 @@ public class UserResource {
                                   @PathParam("userId") @NotNull String id,
                                   @Context HttpServletRequest req) {
 
-        HttpSession session = req.getSession(true);
-
-        if (!session.getAttribute(SESSION_USER_ID).equals(id)) {
+        if (!validate(req, id)) {
             return UNAUTHORIZED;
-        }
+        } 
 
         // check breed, if it new insert it into database
         saveNewBreed(animal.getBreed(), animal.getType());
@@ -502,6 +481,51 @@ public class UserResource {
         String entity = "{\"userId\" : " + i + ", \"message\" : \"" + message + "\"}";
         return entity;
     }
+    
+    private String checkIfUserEmailUnique(int id, User user) {
+        //HttpSession session = req.getSession(true);
+        //if (!session.getAttribute(SESSION_USER_EMAIL).equals(user.getEmail())){
+        if (!userRep.getById(id).getEmail().equals(user.getEmail())){
+            String userEmailExist = userRep.checkIfEmailUnique(user.getEmail());             
+            if (userEmailExist != null && !userEmailExist.isEmpty()) {
+                String userEmailIsAlreadyInUse = buildResponseEntity(0, EMAIL_NOT_UNIQUE);
+                return userEmailIsAlreadyInUse;            
+            }        
+        } 
+        return null;
+    }
+
+    private boolean validate(HttpServletRequest req, int id, User user) {
+        HttpSession session = req.getSession(true); 
+        if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id)) ||  id != user.getId()) {
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean validate(HttpServletRequest req, int id) {
+        HttpSession session = req.getSession(true);
+        if (!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(id))) {
+            return false;
+        }        
+        return true;
+    }
+    
+    private boolean validate(HttpServletRequest req, String id) {
+        HttpSession session = req.getSession(true);
+        if (!session.getAttribute(SESSION_USER_ID).equals(id)) {
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean validate(HttpServletRequest req, Animal animal) {
+        HttpSession session = req.getSession(true);
+        if(!session.getAttribute(SESSION_USER_ID).equals(Integer.toString(animal.getUser().getId()))){
+            return false;
+        }
+        return true;
+    }    
 
 
     /**

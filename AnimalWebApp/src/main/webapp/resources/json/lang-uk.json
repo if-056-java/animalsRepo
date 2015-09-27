@@ -231,6 +231,7 @@
   "PERSONAL_DATA": "Дані користувача",
   "BACK_TO_PROFILE": "Мій кабінет",
   "USER_LIST_OF_ANIMALS_IS_EMPTY": "Власні тварини відсутні",
+  "ERROR_JOIN_MESSAGE":"Помилка об'єднання акаунтів. Даний соціальний акаунт вже використовується!",
 
   "MEDICAL_CARD": "Мед. карта",
   "MEDICAL_CARD_DETAILED": "Медична карта, детальна інформація",

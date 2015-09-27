@@ -166,10 +166,8 @@ animalApp.controller('UserProfileController', ['$scope', 'UserDataService', 'Aut
 	};
 	
 	if($location.search().join){
-		$scope.errorJoinMessage="Помилка об'єднання акаунтів. Даний соціальний акаунт вже використовується!"; 
-	} else {
-		$scope.errorJoinMessage=null;
-	}
+		$scope.errorJoinMessage=true; 
+	} 
 	
 	
 	

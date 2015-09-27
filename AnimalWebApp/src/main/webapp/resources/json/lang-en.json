@@ -231,6 +231,7 @@
   "PERSONAL_DATA": "Personal Data",
   "BACK_TO_PROFILE": "Back to Profile",
   "USER_LIST_OF_ANIMALS_IS_EMPTY": "User List of Animals is Empty",
+  "ERROR_JOIN_MESSAGE":"Error while joining accounts. This social account is already in use",
 
   "MEDICAL_CARD": "Medical card",
   "MEDICAL_CARD_DETAILED": "Medical card detailed information",

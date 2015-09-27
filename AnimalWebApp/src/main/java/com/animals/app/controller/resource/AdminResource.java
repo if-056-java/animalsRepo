@@ -261,7 +261,6 @@ public class AdminResource {
 
         String json = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
 
-//        return Response.status(Response.Status.OK).entity(str).build();
         return ok(json);
     }
 
@@ -338,8 +337,7 @@ public class AdminResource {
     public Response deleteAnimal(@PathParam("userId") @NotNull int id) {
      
         UserRepositoryImpl userRep = new UserRepositoryImpl(); 
-        
-        // delete user in data base by id
+                
         userRep.delete(id);
 
         return Response.ok().build();
@@ -362,15 +360,11 @@ public class AdminResource {
 
         UserRepositoryImpl userRep = new UserRepositoryImpl(); 
         
-        //Check if userEmail is unique     
-        if (!userRep.getById(id).getEmail().equals(user.getEmail())){
-            String userEmailExist = userRep.checkIfEmailUnique(user.getEmail());             
-            if (userEmailExist != null && !userEmailExist.isEmpty()) {
-                String userEmailIsAlreadyInUse = buildResponseEntity(0, EMAIL_NOT_UNIQUE);
-                return Response.status(Response.Status.NOT_ACCEPTABLE).entity(userEmailIsAlreadyInUse).build();            
-            }        
-        } 
-        
+        String result = checkIfUserEmailUnique(id, user);
+        if (result != null){
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(result).build();
+        }
+                
         // Update user
         try {
             userRep.update(user);
@@ -475,5 +469,17 @@ public class AdminResource {
     private String buildResponseEntity(int i, String message) {
         String entity = "{\"userId\" : " + i + ", \"message\" : \"" + message + "\"}";
         return entity;
+    }
+    
+    private String checkIfUserEmailUnique(int id, User user) {        
+        UserRepositoryImpl userRep = new UserRepositoryImpl();
+        if (!userRep.getById(id).getEmail().equals(user.getEmail())){
+            String userEmailExist = userRep.checkIfEmailUnique(user.getEmail());             
+            if (userEmailExist != null && !userEmailExist.isEmpty()) {
+                String userEmailIsAlreadyInUse = buildResponseEntity(0, EMAIL_NOT_UNIQUE);
+                return userEmailIsAlreadyInUse;            
+            }        
+        } 
+        return null;
     }
 }
