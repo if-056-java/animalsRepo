@@ -1,5 +1,9 @@
 package com.animals.app.controller.resource;
 
+import com.animals.app.domain.Animal;
+import com.animals.app.domain.User;
+import com.animals.app.repository.Impl.AnimalRepositoryImpl;
+import com.animals.app.repository.Impl.UserRepositoryImpl;
 import com.animals.app.service.Feedback;
 import com.animals.app.service.MailSender;
 import com.animals.app.service.ServiceMessage;
@@ -43,15 +47,16 @@ public class ServiceMessageResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response sendMessage (ServiceMessage message) {
-        String from, text, sender, service, animalId;
+        String email, recipient, tel, text, sender, service, animalId;
 
-        from = message.getEmail();
+        email = message.getEmail();
+        tel = message.getTel();
         text = message.getText();
-        sender = message.getSignup();
+        sender = message.getName();
         animalId = message.getAnimalId();
         service = message.getService();
 
-        if (from == null || from.isEmpty() || text == null || text.isEmpty() || sender == null || sender.isEmpty() || animalId == null || service == null )
+        if (email == null || email.isEmpty() || tel == null || text == null || text.isEmpty() || sender == null || sender.isEmpty() || animalId == null || service == null )
             return BAD_REQUEST;
 
         url = reCaptchaConfig.getProperty("recaptcha.url");
@@ -59,9 +64,12 @@ public class ServiceMessageResource {
 
         JsonObject response = validateCaptcha(serverSecretKey, message.getgRecaptchaResponse());
 
+        AnimalRepositoryImpl animalRepository = new AnimalRepositoryImpl();
+        Animal animal = animalRepository.getById(Integer.parseInt(animalId));
+        recipient = animal.getUser().getEmail();
 
         MailSender mail = new MailSender();
-        mail.serviceMessageSend(from, text, sender, animalId, service);
+        mail.serviceMessageSend(email, recipient, tel, text, sender, animalId, service);
 
         return ok(response.toString());
 
