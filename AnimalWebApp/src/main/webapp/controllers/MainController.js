@@ -82,8 +82,25 @@ animalApp.controller('MainController', ['$scope', '$rootScope', 'localStorageSer
 	        });
 	     }
 	   };
-	});
+	})
 
+
+//directive for ng-show more prioritet than ng-animate (StackOverFlow)   
+.directive('ngShow', function($compile, $animate) {
+    return {
+      priority: 1000,
+      link: function(scope, element, attrs) {
+
+        if (element.hasClass('marg-spin-400')) {          
+          $animate.enabled(false, element)
+          scope.$watch(function() {
+            $animate.enabled(false, element)
+          })
+
+        }
+      }
+    }
+  });
 //initialize loading spinner
     //var targetContent = document.getElementById('loading-block');
     //new Spinner(opts).spin(targetContent);
