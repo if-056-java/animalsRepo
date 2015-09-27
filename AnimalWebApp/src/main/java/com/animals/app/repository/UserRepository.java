@@ -25,8 +25,9 @@ public interface UserRepository {
     final String UPDATE = "UPDATE users SET Name=#{name}, Surname=#{surname}, " +
             "DateOfRegistration=#{registrationDate}, UserTypeId=#{userType.id}, " +
             "UserRoleId=#{userRole, typeHandler=com.animals.app.domain.UserRole}, Phone=#{phone}, Address=#{address}, " +
-            "Email=#{email}, Password=#{password}, OrganizationName=#{organizationName}, OrganizationInfo=#{organizationInfo}, " +
-            "IsActive=#{isActive} " +
+            "Email=#{email}, SocialLogin=#{socialLogin}, Password=#{password}, " +
+            "OrganizationName=#{organizationName}, OrganizationInfo=#{organizationInfo}, " +
+            "IsActive=#{isActive}, GoogleId=#{googleId}, FacebookId=#{facebookId}, TwitterId=#{twitterId}, SocialPhoto=#{socialPhoto} " +
             "WHERE Id=#{id}";
     
     final String UPDATE_RESTRICTED = "UPDATE users SET Name=#{name}, Surname=#{surname}, " +
