@@ -113,11 +113,10 @@
                 </ul>
                 
                 <!-- Language buton -->
-                <ul class="nav navbar-nav navbar-right">			       
+                <ul class="nav navbar-nav navbar-right" translate-cloak>			       
 			        <li class="dropdown">
-			          <a class="dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                            {{ 'LANGUAGE' | translate }} <i class="glyphicon glyphicon-cog"></i>
+			          <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                            {{'LANGUAGE' | translate }} <i class="glyphicon glyphicon-cog"></i>
                         </a>
 			          <ul class="dropdown-menu">
 			            <li><a ng-controller="TranslateController" translate-cloak ng-href
