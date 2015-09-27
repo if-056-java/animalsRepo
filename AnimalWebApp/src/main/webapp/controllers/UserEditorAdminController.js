@@ -37,9 +37,12 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 		if($scope.user.userRole[0].role=="moderator")$scope.user.userRole[0].id=1;
 		if($scope.user.userRole[0].role=="guest")$scope.user.userRole[0].id=3;
 		if($scope.user.userRole[0].role=="doctor")$scope.user.userRole[0].id=4;
-		
+
 		if($scope.user.userType.type=="owner")$scope.user.userType.id=1;
 		if($scope.user.userType.type=="vet")$scope.user.userType.id=2;
+		if($scope.user.userType.type=="cynologist union")$scope.user.userType.id=3;
+		if($scope.user.userType.type=="organization")$scope.user.userType.id=4;
+		if($scope.user.userType.type=="misc")$scope.user.userType.id=5;
 		
 		if($scope.active=="true")$scope.user.isActive=true;
 		if($scope.active=="false")$scope.user.isActive=false;
