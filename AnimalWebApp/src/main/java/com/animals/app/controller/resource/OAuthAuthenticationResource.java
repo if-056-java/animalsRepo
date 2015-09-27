@@ -132,10 +132,8 @@ public class OAuthAuthenticationResource {
     
     // Session parameters
     private static final String SESSION_USERNAME = "userName";
-    private static final String SESSION_USER_ID = "userId";
-    private static final String SESSION_USERSURNAME = "userSurname";
-    private static final String SESSION_LOGIN = "socialLogin";
-    private static final String SESSION_ROLE_ID = "userRoleId";
+    private static final String SESSION_USER_ID = "userId"; 
+    private static final String SESSION_LOGIN = "socialLogin";    
     private static final String SESSION_USER_ROLE = "userRole";
     private static final String SESSION_SUCCESS = "successMesage";
     private static final String SESSION_ACCESS_TOKEN = "accessToken";
@@ -989,9 +987,7 @@ public class OAuthAuthenticationResource {
 
         session.setAttribute(SESSION_USERNAME, user.getName());
         session.setAttribute(SESSION_USER_ID, user.getId().toString());
-        session.setAttribute(SESSION_USERSURNAME, user.getSurname());
         session.setAttribute(SESSION_LOGIN, user.getSocialLogin());
-        session.setAttribute(SESSION_ROLE_ID, user.getUserRole().get(0).getId().toString());
         session.setAttribute(SESSION_USER_ROLE, user.getUserRole().get(0).getRole());
         session.setAttribute(SESSION_SUCCESS, success);
         session.setAttribute(SESSION_USER, user);

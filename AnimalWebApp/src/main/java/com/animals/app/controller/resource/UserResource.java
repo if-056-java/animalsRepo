@@ -60,7 +60,7 @@ public class UserResource {
     private static final String IMAGE_FOLDER = "images/";
     private static final int LENGTH_IMAGE = 50;
     private static final String SESSION_USER_ID = "userId";
-    private static final String SESSION_USER_EMAIL = "email";
+    private static final String SESSION_USER = "user";
     private static final String EMAIL_NOT_UNIQUE = "Email is already in use by another User";
 
     private UserRepository userRep = new UserRepositoryImpl();
@@ -124,7 +124,7 @@ public class UserResource {
             return NOT_FOUND;           
         }        
         
-        String result = checkIfUserEmailUnique(id, user);
+        String result = checkIfUserEmailUnique(req, id, user);
         if (result != null){
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity(result).build();
         }        
@@ -482,11 +482,10 @@ public class UserResource {
         return entity;
     }
     
-    private String checkIfUserEmailUnique(int id, User user) {
-        //HttpSession session = req.getSession(true);
-        //if (!session.getAttribute(SESSION_USER_EMAIL).equals(user.getEmail())){
-        if (!userRep.getById(id).getEmail().equals(user.getEmail())){
-            String userEmailExist = userRep.checkIfEmailUnique(user.getEmail());             
+    private String checkIfUserEmailUnique(HttpServletRequest req, int id, User user) {
+        HttpSession session = req.getSession(true);
+        if (!(((User) session.getAttribute(SESSION_USER)).getEmail().equals(user.getEmail()))){
+            String userEmailExist = userRep.checkIfEmailUnique(user.getEmail());
             if (userEmailExist != null && !userEmailExist.isEmpty()) {
                 String userEmailIsAlreadyInUse = buildResponseEntity(0, EMAIL_NOT_UNIQUE);
                 return userEmailIsAlreadyInUse;            
