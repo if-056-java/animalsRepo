@@ -331,3 +331,7 @@ a:hover, a:focus{
     padding-right: 10px;
     display: inline;
 }
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{
+    cursor:pointer;
+}
