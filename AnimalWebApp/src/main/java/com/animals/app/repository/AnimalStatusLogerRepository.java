@@ -15,11 +15,24 @@ import java.util.List;
  */
 public interface AnimalStatusLogerRepository {
 
+    final String SELECT_ALL = "SELECT Id " +
+            "FROM animalstatusesloger";
+
     final String SELECT_BY_ID = "SELECT id, statusId, animalId " +
             "FROM animalstatusesloger WHERE id = #{id}";
 
     final String GET_ANIMAL_STATUSES = "SELECT Id, animalId, statusId " +
             "FROM animalstatusesloger WHERE animalId = #{animalId}";
+
+    /**
+     * Returns an List of Animal status loger instances from the database.
+     * @return An List of Animal status loger instances with a primary key value equals to pk. null if there is no matching row.
+     */
+    @Select(SELECT_ALL)
+    @Results(value = {
+            @Result(property = "id", column = "id"),
+    })
+    List<AnimalStatusLoger> getAll();
 
     /**
      * Returns an Animal status loger instance from the database.

@@ -21,6 +21,17 @@ public class AnimalStatusLogerRepositoryImpl implements AnimalStatusLogerReposit
     }
 
     /**
+     * Returns an List of Animal status loger instances from the database.
+     * @return An List of Animal status loger instances with a primary key value equals to pk. null if there is no matching row.
+     */
+    @Override
+    public List<AnimalStatusLoger> getAll() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            return session.getMapper(AnimalStatusLogerRepository.class).getAll();
+        }
+    }
+
+    /**
      * Returns an Animal status loger instance from the database.
      * @param id primary key value used for lookup.
      * @return An Animal status loger instance with a primary key value equals to pk. null if there is no matching row.

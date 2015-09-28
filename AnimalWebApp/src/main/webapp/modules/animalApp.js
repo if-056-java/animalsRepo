@@ -33,8 +33,8 @@ var animalApp = angular.module('animalApp', [
     'ngLoadingSpinner'
 ]);
 
-animalApp .config(['$routeProvider', '$translateProvider', '$compileProvider',
-    function($routeProvider, $translateProvider, $compileProvider) {
+animalApp .config(['$routeProvider', '$translateProvider', '$compileProvider', '$modalProvider',
+    function($routeProvider, $translateProvider, $compileProvider, $modalProvider) {
         $routeProvider
             .when('/ua', {
                 templateUrl: 'views/main_view.html',
@@ -188,6 +188,8 @@ animalApp .config(['$routeProvider', '$translateProvider', '$compileProvider',
         //performance on production
         //$compileProvider.debugInfoEnabled(false);
 
+        //modal close issue
+        $modalProvider.options.animation = false;
 
         //for animation
         //$animateProvider.classNameFilter(/view-slide/);

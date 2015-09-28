@@ -272,6 +272,9 @@ a:hover, a:focus{
 .marg-spin-400{
     height:400px;
 }
+.marg-spin-15{
+    top: 15px;
+}
 .height-up{
     height: 50px;
 }
@@ -291,6 +294,9 @@ a:hover, a:focus{
 .txar{
     overflow: overlay;
     resize:none;
+}
+.m-w-100{
+    max-width: 100%;
 }
 .va-init{
     vertical-align: initial;

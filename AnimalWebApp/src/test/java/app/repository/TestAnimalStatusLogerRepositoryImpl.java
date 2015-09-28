@@ -36,18 +36,23 @@ public class TestAnimalStatusLogerRepositoryImpl extends JNDIConfigurationForTes
     }
 
     @Test
-    public void test01GetById() {
-        AnimalStatusLoger expected = animalStatusLogerRepositoryImpl.getById(1);
+    public void test00GetAll(){
+        List<AnimalStatusLoger> expected = new AnimalStatusLogerRepositoryImpl().getAll();
 
         assertNotNull(expected);
     }
 
+    @Test
+    public void test01GetById() {
+        AnimalStatusLoger expected = animalStatusLogerRepositoryImpl.getById(animalStatusLogerRepositoryImpl.getAll().get(0).getId());
 
-    //magical id
+        assertNotNull(expected);
+    }
+
     @Test
     public void test02GetStatusByAnimalId(){
-        List<AnimalStatusLoger> animalStatuses = new AnimalStatusLogerRepositoryImpl().getAnimalStatusesByAnimalId(323);
+        List<AnimalStatusLoger> expected = new AnimalStatusLogerRepositoryImpl().getAnimalStatusesByAnimalId(animalStatusLogerRepositoryImpl.getAll().get(0).getId());
 
-        assertNotNull(animalStatuses);
+        assertNotNull(expected);
     }
 }
