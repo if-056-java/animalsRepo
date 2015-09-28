@@ -281,6 +281,10 @@
   "TYPE_CYNOLOGIST_UNION": "Cynologistic union",
   "TYPE_ORGANIZATION": "Organization",
   "TYPE_MISC": "Other",
+  "USERS": "Users",
+  "ALL": "all",
+  "ACTIVE": "active",
+  "INACTIVE": "inactive",
 
   "GOAL": "Purpose:",
   "GOAL_1": "Control and reduce the number of stray animals.",

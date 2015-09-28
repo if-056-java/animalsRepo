@@ -51,17 +51,17 @@
                     <br>
                     <hr>
 
-                    <!-- Active filter -->
+                    <!-- User isActive filter -->
                     <label>{{ 'IS_ACTIVE' | translate }}:</label>
-
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="sterilization" ng-model="filter.user.isActive"
-                                   ng-true-value="true" ng-false-value="false">
-                            {{ 'YES' | translate }}
-                        </label>
+                    <div class="input-group">
+                        <span class="input-group-addon">{{ 'USERS' | translate }}:</span>
+                        <ol class="nya-bs-select nya-bs-select-mod cur-poi" ng-model="filter.user.isActive"
+                            title="{{ 'ALL' | translate }}">
+                            <li class="nya-bs-option" value="true"><a>{{ 'ACTIVE' | translate}}</a></li>
+                            <li class="nya-bs-option" value="false"><a>{{ 'INACTIVE' | translate}}</a></li>
+                        </ol>
                     </div>
-
+                    <br>
                     <hr>
 
                     <!-- Do filtering -->
@@ -106,10 +106,14 @@
                     </tbody>
                 </table>
             </div>
+
             <!-- Error message -->
-            <h3 class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="top: 160px;" ng-hide="totalItems">
-                Немає записів.</h3>
+            <h3 class="alert alert-danger col-xs-12 col-sm-9 col-md-9 col-lg-9 repeat-animation hide-fade"
+                ng-if="!totalItems.count">
+                {{ 'ERROR_NO_RECORDS' | translate }}
+            </h3>
         </div>
+
         <div class="row" ng-show="!contentLoading">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-default text-center">
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
