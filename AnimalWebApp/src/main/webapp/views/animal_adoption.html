@@ -126,7 +126,7 @@
             <!-- List of animals for adoption -->
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9 simple-border" ng-if="!errorMessage">
                 <div class="row">
-                    <div class="col-xs-12 col-lg-6 col-md-6 col-sm-6 simple-side-padding repeat-animation hide-fade"
+                    <div class="col-xs-12 col-lg-6 col-md-6 col-sm-6 simple-side-padding-fl repeat-animation hide-fade"
                          ng-repeat="animal in animals.values">
                         <h4 class="blocktext blocktext-h4">{{ 'ADVERT' | translate }} № {{animal.id}}</h4>
 
@@ -174,8 +174,10 @@
                             </div>
                         </div>
 
+<!--
                         <div ng-cloak id="status-sprite-{{animal.id}}" class="center-block center-link"></div>
                         </p>
+-->
 
                         <p ng-if="currentLanguage === 'uk'" class="blocktext2 center-block">{{ 'TYPE_OF_ANIMAL' |
                             translate }}: {{animal.type.type}}</p>

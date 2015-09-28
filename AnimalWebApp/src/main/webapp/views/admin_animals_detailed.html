@@ -14,16 +14,14 @@
     </div>
 
     <!-- Spinner -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 admin-anim-spin"
-         id="loading-block" ng-show="contentLoading"/>
+    <div class="spin" us-spinner="{radius:20, width:10, length: 15}"></div>
 
     <!-- Error message -->
-    <div class="container">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-danger" role="alert"
-             ng-repeat="alert in errors">
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{alert.msg}}
-        </div>
-    </div>
+    <h3 class="alert alert-danger col-xs-12 col-sm-12 col-md-12 col-lg-12 repeat-animation hide-fade"
+        ng-repeat="alert in errors">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{alert.msg}}
+    </h3>
+
 
     <div class="container" ng-hide="contentLoading || (errors.length > 0)">
         <div class="row">
@@ -201,12 +199,13 @@
 
         <div class="row">
             <!-- Error message -->
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert alert-warning" role="alert" ng-show="error">
-                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}
-            </div>
+            <h3 class="alert alert-danger col-xs-12 col-sm-12 col-md-12 col-lg-12 repeat-animation hide-fade"
+                ng-if="error" ng-bind="error">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            </h3>
 
             <!-- Animal owner -->
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-default table-responsive" ng-hide="error">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-default table-responsive repeat-animation hide-fade" ng-if="!error">
                 <table class="table table-hover">
                     <thead>
                     <tr>
