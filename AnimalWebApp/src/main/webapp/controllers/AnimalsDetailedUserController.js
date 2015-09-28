@@ -1,9 +1,9 @@
 var animalAppControllers = angular.module('AnimalsDetailedUserController', [ ]);
 
 animalApp.controller('AnimalsDetailedUserController', ['$scope', 'UserDataService', '$routeParams', '$window', 'UserAnimalsValues',
-                                                       'localStorageService', '$filter',
+                                                       'localStorageService', '$filter', '$location',
                                                function($scope, UserDataService, $routeParams, $window, UserAnimalsValues, 
-                                            		   localStorageService, $filter) {
+                                            		   localStorageService, $filter, $location) {
 	
 	if (!localStorageService.get('userRole')){
 		$location.path("#ua");	

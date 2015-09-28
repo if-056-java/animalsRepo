@@ -1,7 +1,9 @@
 var animalAppControllers = angular.module('UserEditorAdminController', ['DPController']);
 
-animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationService', 'localStorageService', '$routeParams', '$window', '$filter',                                               
-                                               function($scope, UserModerationService, localStorageService, $routeParams, $window, $filter) {
+animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationService', 'localStorageService', '$routeParams',
+                                                   '$window', '$filter', '$location',                                              
+                                               function($scope, UserModerationService, localStorageService, $routeParams,
+                                            		   $window, $filter, $location) {
 	
 	//initialize loading spinner
     var targetContent = document.getElementById('loading-block');
@@ -10,7 +12,7 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
     $scope.contentLoading = 1; 
     
     if (localStorageService.get('userRole')!=="moderator"){
-		$location.path("#ua");	
+        $location.path("#ua");	
 	}
 	
 	var id = $routeParams.userId;	

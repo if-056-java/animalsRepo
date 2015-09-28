@@ -1,7 +1,9 @@
 var animalAppControllers = angular.module('UserDetailedAdminController', []);
 
-animalApp.controller('UserDetailedAdminController', ['$scope', 'UserModerationService', 'localStorageService', '$routeParams', '$window', '$filter',                                               
-                                               function($scope, UserModerationService, localStorageService, $routeParams, $window, $filter) {
+animalApp.controller('UserDetailedAdminController', ['$scope', 'UserModerationService', 'localStorageService', '$routeParams',
+                                                     '$window', '$filter', '$location',                                               
+                                               function($scope, UserModerationService, localStorageService, $routeParams,
+                                            		   $window, $filter, $location) {
 	
 	//initialize loading spinner
     var targetContent = document.getElementById('loading-block');
@@ -10,7 +12,7 @@ animalApp.controller('UserDetailedAdminController', ['$scope', 'UserModerationSe
     $scope.contentLoading = 1;
     
     if (localStorageService.get('userRole')!=="moderator"){
-		$location.path("#ua");	
+    	$location.path("#ua");	
 	}
     
     $scope.currentLanguage = localStorage.getItem("NG_TRANSLATE_LANG_KEY");
