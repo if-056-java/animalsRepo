@@ -105,8 +105,7 @@ adminUsersModule
         AdminUsersFactory.getUserRoles()
             .then(
             function(data){
-                $scope.userRoles = data;
-                console.log($scope.userRoles);
+                $scope.userRoles = data;                
             },
             function(error){
                 $scope.errorMessage = error;

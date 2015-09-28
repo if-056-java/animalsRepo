@@ -12,7 +12,7 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
     $scope.contentLoading = 1; 
     
     if (localStorageService.get('userRole')!=="moderator"){
-		$window.location.href("#ua");	
+        $location.path("#ua");	
 	}
 	
 	var id = $routeParams.userId;	
