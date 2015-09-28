@@ -65,6 +65,17 @@ public class AnimalMedicalHistoryRepositoryImpl implements AnimalMedicalHistoryR
     }
 
     /**
+     * Delete all instances of Animal medical history from the database.
+     * @param animalId primary key value of the instance to be deleted.
+     */
+    public void deleteByAnimalId(long animalId) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            session.getMapper(AnimalMedicalHistoryRepository.class).deleteByAnimalId(animalId);
+            session.commit();
+        }
+    }
+
+    /**
      * Insert an instance of Animal medical history into the database.
      * @param animalMedicalHistory the instance to be persisted.
      */
