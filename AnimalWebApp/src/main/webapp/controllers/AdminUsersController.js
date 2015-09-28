@@ -1,6 +1,6 @@
 adminUsersModule
     .controller('AdminUsersController',
-    function AdminUsersController($scope, AdminUsersFactory, AdminUsersValues, localStorageService) {
+    function AdminUsersController($scope, AdminUsersFactory, AdminUsersValues, localStorageService, $location) {
 
     	 if (localStorageService.get('userRole')!=="moderator"){
     			$location.path("#ua");	
