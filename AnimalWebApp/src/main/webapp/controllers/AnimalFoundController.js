@@ -4,14 +4,6 @@
 animalFoundModule
     .controller('AnimalFoundController',
         function AnimalFoundController($scope, AnimalFoundFactory, AnimalFoundValues) {
-
-            //initialize loading spinner
-            var targetContent = document.getElementById('loading-block');
-            new Spinner(opts).spin(targetContent);
-
-            //spinner usability
-            $scope.contentLoading = 0;
-
             //message with errors
             $scope.errorMessage = '';
 
@@ -24,7 +16,6 @@ animalFoundModule
              * Get animal list
              */
             var initList = function() {
-                $scope.contentLoading++;
                 AnimalFoundFactory.getListOfFoundAnimals()
                     .then(
                     function(){},
@@ -33,16 +24,12 @@ animalFoundModule
                     function(error){
                         $scope.errorMessage = error;
                     }
-                )
-                    .finally(function() {
-                        $scope.contentLoading--;
-                    });
+                );
             };
 
             /**
              * @return count of rows for pagination.
              */
-            $scope.contentLoading++;
             AnimalFoundFactory.getAmountRecords()
                 .then(
                     function(){},
@@ -52,10 +39,7 @@ animalFoundModule
                         $scope.errorMessage = error;
                         $scope.totalItems.count = 0;
                     }
-                )
-                .finally(function() {
-                    $scope.contentLoading--;
-                });
+                );
 
             initList();
 
@@ -93,7 +77,6 @@ animalFoundModule
                  * Get animal list
                  */
                 var initList = function() {
-                    $scope.contentLoading++;
                     AnimalFoundFactory.getListOfFoundAnimals()
                         .then(
                         function(result){},
@@ -103,10 +86,7 @@ animalFoundModule
                             $scope.errorsFlag = true;
                             $scope.errorMessage = error;
                         }
-                    )
-                        .finally(function() {
-                            $scope.contentLoading--;
-                        });
+                    );
                 };
 
                 /**
@@ -134,9 +114,7 @@ animalFoundModule
                         function(error){
                             $scope.errorMessage = error;
                         }
-                        )
-                        .finally(function() {
-                        });
+                        );
                 };
 
                 /**

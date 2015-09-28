@@ -83,24 +83,3 @@ animalApp.controller('MainController', ['$scope', '$rootScope', 'localStorageSer
 	     }
 	   };
 	});
-
-//initialize loading spinner
-    //var targetContent = document.getElementById('loading-block');
-    //new Spinner(opts).spin(targetContent);
-
-/*
-    $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-        if (toState.resolve) {
-            console.log('b ' + $scope.contentLoading);
-            $scope.contentLoading = 1;
-            console.log('b ' + $scope.contentLoading);
-        }
-    });
-    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-        if (toState.resolve) {
-            console.log('a ' + $scope.contentLoading);
-            $scope.contentLoading = 0;
-            console.log('a ' + $scope.contentLoading);
-        }
-    });
-*/

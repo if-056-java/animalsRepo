@@ -335,3 +335,11 @@ a:hover, a:focus{
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{
     cursor:pointer;
 }
+.an-allow{}
+.spin{
+    position: relative;
+    top:100px;
+    display: block;
+    left:0;
+    right:0;
+}

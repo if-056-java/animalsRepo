@@ -4,14 +4,6 @@
 adoptionModule
     .controller('AnimalAdoptionController',
         function AnimalAdoptionController($scope, $filter, AdoptionFactory, AnimalAdoptionValues) {
-
-            //initialize loading spinner
-            var targetContent = document.getElementById('loading-block');
-            new Spinner(opts).spin(targetContent);
-
-            //spinner usability
-            $scope.contentLoading = 0;
-
             //Pages
             $scope.filter = AnimalAdoptionValues.filter;            //filter
 
@@ -24,100 +16,19 @@ adoptionModule
              * Get animal list and statuses
              */
             var initList = function(){
-                $scope.contentLoading++;
                 AdoptionFactory.getListOfAdoptionAnimals()
                     .then(
-                    function(result){
-                        //get statuses for each animal
-                        for(var i = 0; i < result.length; i++)
-                            AdoptionFactory.getListOfAnimalStatuses(result[i].id)
-                                .then(
-                                function(result){
-                                    $scope.contentLoading++;
-                                    for(var i = 0; i < result.length; i++){
-                                        if(result[i].animalStatus.id === 14) {
-                                            $("#status-sprite-" + result[i].animal.id)
-                                                .append('<p class="center-block sprite-status catched"></p>');
-                                            $(".sprite-status.catched")
-                                                .attr('title', $filter('translate')('ANIMAL_STATUS_CAUGHT'));
-                                        }
-                                        if(result[i].animalStatus.id === 13) {
-                                            $("#status-sprite-" + result[i].animal.id)
-                                                .append('<p class="center-block sprite-status released"></p>');
-                                            $(".sprite-status.released")
-                                                .attr('title', $filter('translate')('ANIMAL_STATUS_RELEASED'));
-                                        }
-                                        if(result[i].animalStatus.id === 20) {
-                                            $("#status-sprite-" + result[i].animal.id)
-                                                .append('<p class="center-block sprite-status newborn"></p>');
-                                            $(".sprite-status.newborn")
-                                                .attr('title', $filter('translate')('ANIMAL_STATUS_NEWBORN'));
-                                        }
-                                        if(result[i].animalStatus.id === 12) {
-                                            $("#status-sprite-" + result[i].animal.id)
-                                                .append('<p class="center-block sprite-status disinfected"></p>');
-                                            $(".sprite-status.disinfected")
-                                                .attr('title', $filter('translate')('ANIMAL_STATUS_DISINFECTED'));
-                                        }
-                                        if(result[i].animalStatus.id === 16) {
-                                            $("#status-sprite-" + result[i].animal.id)
-                                                .append('<p class="center-block sprite-status vaccinated"></p>');
-                                            $(".sprite-status.vaccinated")
-                                                .attr('title', $filter('translate')('ANIMAL_STATUS_VACCINATED'));
-                                        }
-                                        if(result[i].animalStatus.id === 10) {
-                                            $("#status-sprite-" + result[i].animal.id)
-                                                .append('<p class="center-block sprite-status cured"></p>');
-                                            $(".sprite-status.cured")
-                                                .attr('title', $filter('translate')('ANIMAL_STATUS_CURED'));
-                                        }
-                                        if(result[i].animalStatus.id === 19) {
-                                            $("#status-sprite-" + result[i].animal.id)
-                                                .append('<p class="center-block sprite-status sick"></p>');
-                                            $(".sprite-status.sick")
-                                                .attr('title', $filter('translate')('ANIMAL_STATUS_SICK'));
-                                        }
-                                        if(result[i].animalStatus.id === 22) {
-                                            $("#status-sprite-" + result[i].animal.id)
-                                                .append('<p class="center-block sprite-status injured"></p>');
-                                            $(".sprite-status.injured")
-                                                .attr('title', $filter('translate')('ANIMAL_STATUS_INJURED'));
-                                        }
-                                        if(result[i].animalStatus.id === 17) {
-                                            $("#status-sprite-" + result[i].animal.id)
-                                                .append('<p class="center-block sprite-status adopt"></p>');
-                                            $(".sprite-status.adopt")
-                                                .attr('title', $filter('translate')('ANIMAL_STATUS_ADOPT'));
-                                        }
-                                        if(result[i].animalStatus.id === 18) {
-                                            $("#status-sprite-" + result[i].animal.id)
-                                                .append('<p class="center-block sprite-status custody"></p>');
-                                            $(".sprite-status.custody")
-                                                .attr('title', $filter('translate')('ANIMAL_STATUS_CUSTODY'));
-                                        }
-                                    }
-                                },
-                                function(error){
-                                    $scope.errorMessage = error;
-                                }
-                            ).finally(function() {
-                                    $scope.contentLoading--;
-                                });
-                    },
+                    function(result){},
                     //fail
                     function(error){
                         $scope.errorMessage = error;
                     }
-                )
-                    .finally(function() {
-                        $scope.contentLoading--;
-                    });
+                );
             };
 
             /**
              * @return count of rows for pagination.
              */
-            $scope.contentLoading++;
             AdoptionFactory.getAmountRecords()
                 .then(
                     function(){},
@@ -127,21 +38,17 @@ adoptionModule
                         $scope.totalItems.count = 0;
                         $scope.errorMessage = error;
                     }
-                )
-                .finally(function() {
-                    $scope.contentLoading--;
-                });
-
+                );
             initList();
 
             /**
              * @return next page.
              */
             $scope.pageChanged = function() {
+                initList();
+
                 //scroll to top of the page
                 jQuery('html, body').animate({ scrollTop: 0 }, 500);
-
-                initList();
             };
 
             /**
@@ -168,91 +75,14 @@ adoptionModule
                  * Get animal list and statuses
                  */
                 var initList = function(){
-                    $scope.contentLoading++;
                     AdoptionFactory.getListOfAdoptionAnimals()
                         .then(
-                        function(result){
-                            //get statuses for each animal
-                            for(var i = 0; i < result.length; i++)
-                                AdoptionFactory.getListOfAnimalStatuses(result[i].id)
-                                    .then(
-                                    function(result){
-                                        for(var i = 0; i < result.length; i++){
-                                            if(result[i].animalStatus.id === 14) {
-                                                $("#status-sprite-" + result[i].animal.id)
-                                                    .append('<p class="center-block sprite-status catched"></p>');
-                                                $(".sprite-status.catched")
-                                                    .attr('title', $filter('translate')('ANIMAL_STATUS_CAUGHT'));
-                                            }
-                                            if(result[i].animalStatus.id === 13) {
-                                                $("#status-sprite-" + result[i].animal.id)
-                                                    .append('<p class="center-block sprite-status released"></p>');
-                                                $(".sprite-status.released")
-                                                    .attr('title', $filter('translate')('ANIMAL_STATUS_RELEASED'));
-                                            }
-                                            if(result[i].animalStatus.id === 20) {
-                                                $("#status-sprite-" + result[i].animal.id)
-                                                    .append('<p class="center-block sprite-status newborn"></p>');
-                                                $(".sprite-status.newborn")
-                                                    .attr('title', $filter('translate')('ANIMAL_STATUS_NEWBORN'));
-                                            }
-                                            if(result[i].animalStatus.id === 12) {
-                                                $("#status-sprite-" + result[i].animal.id)
-                                                    .append('<p class="center-block sprite-status disinfected"></p>');
-                                                $(".sprite-status.disinfected")
-                                                    .attr('title', $filter('translate')('ANIMAL_STATUS_DISINFECTED'));
-                                            }
-                                            if(result[i].animalStatus.id === 16) {
-                                                $("#status-sprite-" + result[i].animal.id)
-                                                    .append('<p class="center-block sprite-status vaccinated"></p>');
-                                                $(".sprite-status.vaccinated")
-                                                    .attr('title', $filter('translate')('ANIMAL_STATUS_VACCINATED'));
-                                            }
-                                            if(result[i].animalStatus.id === 10) {
-                                                $("#status-sprite-" + result[i].animal.id)
-                                                    .append('<p class="center-block sprite-status cured"></p>');
-                                                $(".sprite-status.cured")
-                                                    .attr('title', $filter('translate')('ANIMAL_STATUS_CURED'));
-                                            }
-                                            if(result[i].animalStatus.id === 19) {
-                                                $("#status-sprite-" + result[i].animal.id)
-                                                    .append('<p class="center-block sprite-status sick"></p>');
-                                                $(".sprite-status.sick")
-                                                    .attr('title', $filter('translate')('ANIMAL_STATUS_SICK'));
-                                            }
-                                            if(result[i].animalStatus.id === 22) {
-                                                $("#status-sprite-" + result[i].animal.id)
-                                                    .append('<p class="center-block sprite-status injured"></p>');
-                                                $(".sprite-status.injured")
-                                                    .attr('title', $filter('translate')('ANIMAL_STATUS_INJURED'));
-                                            }
-                                            if(result[i].animalStatus.id === 17) {
-                                                $("#status-sprite-" + result[i].animal.id)
-                                                    .append('<p class="center-block sprite-status adopt"></p>');
-                                                $(".sprite-status.adopt")
-                                                    .attr('title', $filter('translate')('ANIMAL_STATUS_ADOPT'));
-                                            }
-                                            if(result[i].animalStatus.id === 18) {
-                                                $("#status-sprite-" + result[i].animal.id)
-                                                    .append('<p class="center-block sprite-status custody"></p>');
-                                                $(".sprite-status.custody")
-                                                    .attr('title', $filter('translate')('ANIMAL_STATUS_CUSTODY'));
-                                            }
-                                        }
-                                    },
-                                    function(error){
-                                        $scope.errorMessage = error;
-                                    }
-                                );
-                        },
+                        function(result){},
                         //fail
                         function(error){
                             $scope.errorMessage = error;
                         }
-                    )
-                        .finally(function() {
-                            $scope.contentLoading--;
-                        });
+                    );
                 };
 
                 /**

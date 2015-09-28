@@ -6,10 +6,6 @@ animalRegistrationModule
         function AnimalHomelessRegController($scope, AnimalRegistrationFactory, localStorageService,
                                              AnimalRegistrationValues, AnimalRegistrationConstants, angularPopupBoxes, $filter, $rootScope) {
 
-            //initialize loading spinner
-            var targetContent = document.getElementById('loading-block');
-            new Spinner(opts).spin(targetContent);
-
             var successMessage = $filter('translate')('ANIMAL_REGISTERED');
             var failedBreedMessage = $filter('translate')('ANIMAL_BREED_NOT_FOUND');
             //alert success registration
@@ -24,14 +20,8 @@ animalRegistrationModule
                 angularPopupBoxes.alert(failedBreedMessage).result.then(function() {});
             };
 
-            //use for define visibility of error element
-            $scope.errorsFlag = false;
-
             //array list of error from back - end validation
             $scope.errors = [];
-
-            //This variable decides when spinner loading for contents closed.
-            $scope.contentLoading = 0;
 
             $scope.animal = {
                 service: { id: AnimalRegistrationConstants.ANIMAL_REGISTRATION_HOMELESS_ID },
@@ -46,9 +36,6 @@ animalRegistrationModule
 
             //Insert homeless animal
             $scope.insertHomelessAnimal = function (animal) {
-                //Show spinner loading
-                $scope.contentLoading++;
-
                 $scope.animal.address = $scope.address.country + ' ' +
                                         $scope.address.town + ' ' +
                                         $scope.address.street + ' ' +
@@ -61,21 +48,16 @@ animalRegistrationModule
                             .insertHomelessAnimal(animal)
                             .then(
                             function(){
-                                $scope.errorsFlag = false;
                                 $scope.errors = [];
 
                                 //redirect after success registration
                                 $scope.alertSample();
                             },
                             function(error){
-                                $scope.errorsFlag = true;
                                 $scope.errors = error;
                             }
                         )
                             .finally(function() {
-                                //hide spinner loading
-                                $scope.contentLoading--;
-
                                 //clear fields
                                 AnimalRegistrationValues.address = {
                                     country:'',
@@ -86,9 +68,7 @@ animalRegistrationModule
                             });
                     }
                     else{
-                        $scope.errorsFlag = true;
                         $scope.alertSample1();
-                        $scope.contentLoading--;
                     }
                 }
             };

@@ -741,7 +741,7 @@ public class TestUserResource extends ResourceTestTemplate {
 
         new UserRepositoryImpl().updateRestricted(user);
 
-        assertEquals(expected.getUserType(), user.getUserType());
+        assertNotEquals(expected.getUserType(), actual.getUserType());
     }
 
     /*

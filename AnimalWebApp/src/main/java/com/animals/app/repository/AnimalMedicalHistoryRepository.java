@@ -22,6 +22,9 @@ public interface AnimalMedicalHistoryRepository {
     final String DELETE_BY_ID = "DELETE " +
             "FROM animalstatusesloger WHERE id = #{id}";
 
+    final String DELETE_BY_ANIMAL_ID = "DELETE " +
+            "FROM animalstatusesloger WHERE animalId = #{animalId}";
+
     final String INSERT = "<script>INSERT INTO animalstatusesloger (statusId, animalId, userId, date, description) " +
             "VALUES (#{status.id}, #{animalId}, #{user.id}, " +
             "<choose>" +
@@ -79,6 +82,13 @@ public interface AnimalMedicalHistoryRepository {
      */
     @Delete(DELETE_BY_ID)
     void deleteById(long id);
+
+    /**
+     * Delete all instances of Animal medical history from the database.
+     * @param animalId primary key value of the instance to be deleted.
+     */
+    @Delete(DELETE_BY_ANIMAL_ID)
+    void deleteByAnimalId(long animalId);
 
     /**
      * Insert an instance of Animal medical history into the database.
