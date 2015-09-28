@@ -892,7 +892,7 @@ public class OAuthAuthenticationResource {
         // creating session
         setUpSuccessSession(userToReg, session, SUCCESS_MESSAGE_REG_TWITTER);
         session.setAttribute("user", userToReg);
-        session.setAttribute(TWITTER_SECRET, tokenTw);
+        session.setAttribute(TWITTER_TOKEN, tokenTw);
         session.setAttribute(TWITTER_SECRET, secretTw);
 
         // Entering to site with Session
