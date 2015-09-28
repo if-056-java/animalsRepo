@@ -3,6 +3,7 @@ package com.animals.app.controller.resource;
 import com.animals.app.domain.*;
 import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
+import com.animals.app.repository.Impl.AnimalMedicalHistoryRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 import org.apache.ibatis.exceptions.PersistenceException;
@@ -140,6 +141,9 @@ public class AdminResource {
                 file.delete();
             }
         }
+
+        //delete animal medical history
+        new AnimalMedicalHistoryRepositoryImpl().deleteByAnimalId(animalId);
 
         //delete animal in data base by id
         animalRepository.delete(animalId);
