@@ -1,6 +1,6 @@
 adminUsersModule
     .controller('AdminUsersController',
-    function AdminUsersController($scope, AdminUsersFactory, AdminUsersValues, localStorageService) {
+    function AdminUsersController($scope, AdminUsersFactory, AdminUsersValues, localStorageService, $location) {
 
     	 if (localStorageService.get('userRole')!=="moderator"){
     			$location.path("#ua");	
@@ -105,8 +105,7 @@ adminUsersModule
         AdminUsersFactory.getUserRoles()
             .then(
             function(data){
-                $scope.userRoles = data;
-                console.log($scope.userRoles);
+                $scope.userRoles = data;                
             },
             function(error){
                 $scope.errorMessage = error;

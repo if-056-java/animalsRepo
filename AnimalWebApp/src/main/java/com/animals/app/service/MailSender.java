@@ -58,7 +58,7 @@ public class MailSender {
         }
 
     //Send service message
-    public MailSender serviceMessageSend(String fromEmail, String text, String sender, String animalId, String service){
+    public MailSender serviceMessageSend(String email, String recipient, String tel, String text, String sender, String animalId, String service){
         Session session = Session.getInstance(MailServerConfig, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(MailServerConfig.getProperty("mail.user"), MailServerConfig.getProperty("mail.userpassword"));
@@ -68,16 +68,26 @@ public class MailSender {
         try {
             Message message = new MimeMessage(session);
             // From
-            message.setFrom(new InternetAddress(fromEmail));
+            message.setFrom(new InternetAddress(MailServerConfig.getProperty("mail.from")));
             // To
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(MailServerConfig.getProperty("mail.from")));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
             // Subject
-            message.setSubject("Запит щодо тварини №" + animalId + " сервісу " + service + " від - " + sender );
+            if (service=="adoption"){
+                message.setSubject("Запит щодо адопції тварини №" + animalId +  " від - " + sender );
+            }
+
+            if (service=="lost"){
+                message.setSubject("Запит щодо загубленої тварини №" + animalId +  " від - " + sender );
+            }
+
+            if (service=="found"){
+                message.setSubject("Запит щодо знайденої тварини №" + animalId +  " від - " + sender );
+            }
 
             // Mail forming
             // Body
             MimeBodyPart p1 = new MimeBodyPart();
-            p1.setText(text + "Відповідь прошу надіслати за адресою - " + fromEmail);
+            p1.setText(text + "Відповідь прошу надіслати за адресою - " + email);
 
             Multipart mp = new MimeMultipart();
             mp.addBodyPart(p1);

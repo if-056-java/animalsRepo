@@ -123,7 +123,7 @@
                     <a class="log-btn" ng-show="!session()" href="#ua/user/login" role="button">{{ 'LOGIN' |
                         translate }} </a>
                         
-                    <label ng-show="session()">{{ 'NAV_WELCOME_MESSAGE' | translate }}: {{userName}}</label>
+                    <label ng-show="session()" class="hidden-xs">{{ 'NAV_WELCOME_MESSAGE' | translate }}: {{userName}}</label>
 
                     <a class="log-btn" ng-show="session()" ng-click="logout()" role="button">{{ 'LOGOUT' |
                         translate }} </a>                   

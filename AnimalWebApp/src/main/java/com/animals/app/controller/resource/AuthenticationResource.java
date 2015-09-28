@@ -53,11 +53,8 @@ public class AuthenticationResource {
 
     // Session parameters
     private static final String SESSION_USERNAME = "userName";
-    private static final String SESSION_USER_ID = "userId";
-    private static final String SESSION_USERSURNAME = "userSurname";
-    private static final String SESSION_LOGIN = "socialLogin";
-    private static final String SESSION_USER_EMAIL = "email";
-    private static final String SESSION_ROLE_ID = "userRoleId";
+    private static final String SESSION_USER_ID = "userId";    
+    private static final String SESSION_LOGIN = "socialLogin"; 
     private static final String SESSION_USER_ROLE = "userRole";
     private static final String SESSION_SUCCESS = "successMesage";
     private static final String SESSION_ACCESS_TOKEN = "accessToken";    
@@ -436,11 +433,8 @@ public class AuthenticationResource {
 
         session.setAttribute(SESSION_USERNAME, user.getName());
         session.setAttribute(SESSION_USER_ID, user.getId().toString());
-        session.setAttribute(SESSION_USERSURNAME, user.getSurname());
         session.setAttribute(SESSION_LOGIN, user.getSocialLogin());
-        session.setAttribute(SESSION_ROLE_ID, user.getUserRole().get(0).getId().toString());
-        session.setAttribute(SESSION_USER_ROLE, user.getUserRole().get(0).getRole());
-        session.setAttribute(SESSION_USER_EMAIL, user.getEmail());
+        session.setAttribute(SESSION_USER_ROLE, user.getUserRole().get(0).getRole()); 
         session.setAttribute(SESSION_SUCCESS, success);
 
         // creating string for accessToken
@@ -461,11 +455,9 @@ public class AuthenticationResource {
         // creating JSON string with session params
         String str = "{\"sessionId\" : \"" + (String) session.getId() + 
                       "\", \"userId\" : \"" + (String) session.getAttribute(SESSION_USER_ID) + 
-                      "\", \"userName\" : \"" + (String) session.getAttribute(SESSION_USERNAME) + 
-                      "\", \"userSurname\" : \"" + (String) session.getAttribute(SESSION_USERSURNAME) +
+                      "\", \"userName\" : \"" + (String) session.getAttribute(SESSION_USERNAME) +                       
                       "\", \"socialLogin\" : \"" + (String) session.getAttribute(SESSION_LOGIN) + 
-                      "\", \"userRole\" : \"" + (String) session.getAttribute(SESSION_USER_ROLE) + 
-                      "\", \"userRoleId\" : \"" + (String) session.getAttribute(SESSION_ROLE_ID) + 
+                      "\", \"userRole\" : \"" + (String) session.getAttribute(SESSION_USER_ROLE) +                      
                       "\", \"successMesage\" : \"" + (String) session.getAttribute(SESSION_SUCCESS) + 
                       "\", \"accessToken\" : \"" + (String) session.getAttribute(SESSION_ACCESS_TOKEN) + "\"}";
         return str;
@@ -476,10 +468,8 @@ public class AuthenticationResource {
         String str = "{\"sessionId\" : \"" + (String) session.getId() + 
                       "\", \"userId\" : \"" + (String) session.getAttribute(SESSION_USER_ID) + 
                       "\", \"userName\" : \"" + (String) session.getAttribute(SESSION_USERNAME) + 
-                      "\", \"userSurname\" : \"" + (String) session.getAttribute(SESSION_USERSURNAME) + 
                       "\", \"socialLogin\" : \"" + (String) session.getAttribute(SESSION_LOGIN) + 
                       "\", \"userRole\" : \"" + (String) session.getAttribute(SESSION_USER_ROLE) + 
-                      "\", \"userRoleId\" : \"" + (String) session.getAttribute(SESSION_ROLE_ID) + 
                       "\", \"successMesage\" : \"" + (String) session.getAttribute(SESSION_SUCCESS) + 
                       "\", \"accessToken\" : \"" + (String) session.getAttribute(SESSION_ACCESS_TOKEN) + 
                       "\", \"refreshGoogleToken\" : \"" + (String) session.getAttribute(REFRESH_GOOGLE_TOKEN) +

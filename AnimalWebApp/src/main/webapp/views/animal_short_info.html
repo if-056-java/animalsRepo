@@ -227,7 +227,7 @@
                     <div class="form-group "
                          ng-class="{ 'has-error' : messageForm.messagename.$invalid && !messageForm.messagename.$pristine }">
                         <label class="control-label" for="messagename">{{ 'NAME' | translate }}</label>
-                        <input type="text" class="form-control" id="messagename" name="messagename" ng-model="message.signup"  placeholder="{{ 'CONTACTS_INPUT_NAME' | translate }}" required=""
+                        <input type="text" class="form-control" id="messagename" name="messagename" ng-model="message.name"  placeholder="{{ 'CONTACTS_INPUT_NAME' | translate }}" required=""
                                ng-minlength="3"/>
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="false"></span>
                         <span id="messagenameStatus" class="sr-only">(success)</span>
@@ -266,7 +266,6 @@
                     </div>
 
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="input-group">
                             <div
                                     vc-recaptcha
                                     theme="'light'"
@@ -274,7 +273,6 @@
                                     on-create="setWidgetId(widgetId)"
                                     on-success="setResponse(response)"
                                     on-expire="cbExpiration()">
-                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -293,7 +291,7 @@
         <div id="modal">
             <div class = "content">
                 <!-- Spinner -->
-                <div ng-show="spinnerloading" id="loading-block"> </div>
+                <div ng-show="spinnerloading" id="loading-block">.</div>
 
                 <div class="alert alert-success" role="alert" ng-show="okmessage">{{ 'MESSAGE_OK' | translate }}</div>
                 <div class="alert alert-danger" role="alert" ng-show="errormessage">{{ 'MESSAGE_ERROR' | translate }}</div>

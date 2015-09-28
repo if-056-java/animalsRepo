@@ -120,6 +120,16 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService', 'vcRecapt
 			};
 			this.getAnimal(animalId);
 
+			function loadRecapchaScript(d, s, id) {
+				var js, fjs = d.getElementsByTagName('script')[0];
+				if (d.getElementById(id)) return;
+				js = d.createElement(s); js.id = id;
+				if(localStorage.getItem('NG_TRANSLATE_LANG_KEY')=="uk")
+					js.src = "//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded&hl=uk"
+				else js.src = "//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded&hl=en";
+				fjs.parentNode.insertBefore(js, fjs);
+			};
+			loadRecapchaScript(document, 'script', 'api.js');
 
 //initialize loading spinner
 			var target = document.getElementById('loading-block')
@@ -202,7 +212,6 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService', 'vcRecapt
 					if (vcRecaptchaService.getResponse !== "") { //if answer from Google is empty
 
 						$scope.spinnerloading = 1;
-						$scope.startupmessage = 0;
 						$scope.okmessage = 0;
 						$scope.errormessage = 0;
 
