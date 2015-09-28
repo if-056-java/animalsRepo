@@ -9,6 +9,10 @@ animalApp.controller('UserDetailedAdminController', ['$scope', 'UserModerationSe
     //This variable decides when spinner loading for contentis closed.
     $scope.contentLoading = 1;
     
+    if (localStorageService.get('userRole')!=="moderator"){
+		$location.path("#ua");	
+	}
+    
     $scope.currentLanguage = localStorage.getItem("NG_TRANSLATE_LANG_KEY");
 	
 	var id = $routeParams.userId;	

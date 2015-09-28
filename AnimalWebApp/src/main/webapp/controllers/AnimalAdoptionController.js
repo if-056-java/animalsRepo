@@ -12,11 +12,11 @@ adoptionModule
             //spinner usability
             $scope.contentLoading = 0;
 
-            //message with errors
-            $scope.errorMessage = '';
-
             //Pages
             $scope.filter = AnimalAdoptionValues.filter;            //filter
+
+            //message with errors
+            $scope.errorMessage = '';
             $scope.totalItems = AnimalAdoptionValues.totalItems;    //table rows count
             $scope.animals = AnimalAdoptionValues.animals;          //animal instance
 

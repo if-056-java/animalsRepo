@@ -86,8 +86,8 @@ public class TestAdminResource extends ResourceTestTemplate {
         animal.setType(new AnimalTypeRepositoryImpl().getAll().get(0));
         animal.setSize(Animal.SizeType.LARGE);
         animal.setDateOfRegister(new Date(System.currentTimeMillis()));
-        animal.setColor(RandomStringUtils.random(10, true, true));
-        animal.setAddress(RandomStringUtils.random(10, true, true));
+        animal.setColor(RandomStringUtils.random(LENGTH_COLOR, true, true));
+        animal.setAddress(RandomStringUtils.random(LENGTH_ADDRESS, true, true));
         animal.setService(new AnimalServiceRepositoryImpl().getAll().get(0));
 
         animalRepository.insert(animal);

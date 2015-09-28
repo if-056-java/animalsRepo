@@ -1,6 +1,8 @@
 package com.animals.app.controller.resource;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
@@ -27,6 +29,8 @@ import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Email;
 
 import com.animals.app.domain.User;
+import com.animals.app.domain.UserRole;
+import com.animals.app.domain.UserType;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 import com.animals.app.service.MailSender;
 
@@ -49,10 +53,8 @@ public class AuthenticationResource {
 
     // Session parameters
     private static final String SESSION_USERNAME = "userName";
-    private static final String SESSION_USER_ID = "userId";
-    private static final String SESSION_USERSURNAME = "userSurname";
-    private static final String SESSION_LOGIN = "socialLogin";
-    private static final String SESSION_ROLE_ID = "userRoleId";
+    private static final String SESSION_USER_ID = "userId";    
+    private static final String SESSION_LOGIN = "socialLogin"; 
     private static final String SESSION_USER_ROLE = "userRole";
     private static final String SESSION_SUCCESS = "successMesage";
     private static final String SESSION_ACCESS_TOKEN = "accessToken";    
@@ -108,8 +110,7 @@ public class AuthenticationResource {
     @Path("login") // http:localhost:8080/webapi/account/login/OFF
     public Response loginToSite(@Context HttpServletRequest req, 
                                 @HeaderParam("rememberMe") @NotNull String rememberMe) {
-
-        System.out.println(rememberMe);
+       
         // reading header from request
         String header = null;
         String sub = null;
@@ -153,7 +154,7 @@ public class AuthenticationResource {
         if (user == null)
             return NOT_FOUND;
 
-        if (!user.isActive()) {
+        if (!user.getIsActive()) {
 
             String regWithoutConfirm = buildResponseEntity(0, LOGIN_CONFIRM_REG);
 
@@ -240,8 +241,9 @@ public class AuthenticationResource {
         }
 
         String emailVerificator = UUID.randomUUID().toString();
-
+        
         user.setEmailVerificator(emailVerificator);
+        setUpNotActiveUser(user);        
 
         try {
             userRep.insert(user);
@@ -274,6 +276,7 @@ public class AuthenticationResource {
         return Response.status(Response.Status.OK).entity(regWithoutConfirm).build();
 
     }
+    
 
     /**
      * Registration confirmation of new user 
@@ -301,7 +304,7 @@ public class AuthenticationResource {
             return NOT_FOUND;
 
         // update user active
-        user.setActive(true);
+        user.setIsActive(true);
 
         try {
             userRep.update(user);
@@ -381,7 +384,7 @@ public class AuthenticationResource {
             return Response.status(Response.Status.NOT_FOUND).entity(userWithEmailNotFound).build(); 
         }
         
-        if (!user.isActive()){
+        if (!user.getIsActive()){
             
             String userIsNotActive = buildResponseEntity(-2, ERROR_RESTORE_3);
             return Response.status(Response.Status.BAD_REQUEST).entity(userIsNotActive).build();
@@ -430,10 +433,8 @@ public class AuthenticationResource {
 
         session.setAttribute(SESSION_USERNAME, user.getName());
         session.setAttribute(SESSION_USER_ID, user.getId().toString());
-        session.setAttribute(SESSION_USERSURNAME, user.getSurname());
         session.setAttribute(SESSION_LOGIN, user.getSocialLogin());
-        session.setAttribute(SESSION_ROLE_ID, user.getUserRole().get(0).getId().toString());
-        session.setAttribute(SESSION_USER_ROLE, user.getUserRole().get(0).getRole());
+        session.setAttribute(SESSION_USER_ROLE, user.getUserRole().get(0).getRole()); 
         session.setAttribute(SESSION_SUCCESS, success);
 
         // creating string for accessToken
@@ -454,11 +455,9 @@ public class AuthenticationResource {
         // creating JSON string with session params
         String str = "{\"sessionId\" : \"" + (String) session.getId() + 
                       "\", \"userId\" : \"" + (String) session.getAttribute(SESSION_USER_ID) + 
-                      "\", \"userName\" : \"" + (String) session.getAttribute(SESSION_USERNAME) + 
-                      "\", \"userSurname\" : \"" + (String) session.getAttribute(SESSION_USERSURNAME) +
+                      "\", \"userName\" : \"" + (String) session.getAttribute(SESSION_USERNAME) +                       
                       "\", \"socialLogin\" : \"" + (String) session.getAttribute(SESSION_LOGIN) + 
-                      "\", \"userRole\" : \"" + (String) session.getAttribute(SESSION_USER_ROLE) + 
-                      "\", \"userRoleId\" : \"" + (String) session.getAttribute(SESSION_ROLE_ID) + 
+                      "\", \"userRole\" : \"" + (String) session.getAttribute(SESSION_USER_ROLE) +                      
                       "\", \"successMesage\" : \"" + (String) session.getAttribute(SESSION_SUCCESS) + 
                       "\", \"accessToken\" : \"" + (String) session.getAttribute(SESSION_ACCESS_TOKEN) + "\"}";
         return str;
@@ -469,10 +468,8 @@ public class AuthenticationResource {
         String str = "{\"sessionId\" : \"" + (String) session.getId() + 
                       "\", \"userId\" : \"" + (String) session.getAttribute(SESSION_USER_ID) + 
                       "\", \"userName\" : \"" + (String) session.getAttribute(SESSION_USERNAME) + 
-                      "\", \"userSurname\" : \"" + (String) session.getAttribute(SESSION_USERSURNAME) + 
                       "\", \"socialLogin\" : \"" + (String) session.getAttribute(SESSION_LOGIN) + 
                       "\", \"userRole\" : \"" + (String) session.getAttribute(SESSION_USER_ROLE) + 
-                      "\", \"userRoleId\" : \"" + (String) session.getAttribute(SESSION_ROLE_ID) + 
                       "\", \"successMesage\" : \"" + (String) session.getAttribute(SESSION_SUCCESS) + 
                       "\", \"accessToken\" : \"" + (String) session.getAttribute(SESSION_ACCESS_TOKEN) + 
                       "\", \"refreshGoogleToken\" : \"" + (String) session.getAttribute(REFRESH_GOOGLE_TOKEN) +
@@ -516,6 +513,22 @@ public class AuthenticationResource {
         }
 
         return message;
+    }
+    
+    private void setUpNotActiveUser(User user) {
+        
+        user.setIsActive(false);
+        
+        UserRole userRole = new UserRole();        
+        userRole.setId(3);
+        List<UserRole> list = new ArrayList<UserRole>();
+        list.add(userRole);
+        user.setUserRole(list);
+
+        UserType userType = new UserType();
+        userType.setId(1);
+        user.setUserType(userType);
+        
     }
     
     private static String getMd5(String md5) {

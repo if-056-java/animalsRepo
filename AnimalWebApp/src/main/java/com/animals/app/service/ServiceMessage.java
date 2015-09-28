@@ -7,19 +7,28 @@ import java.io.Serializable;
  */
 public class ServiceMessage implements Serializable {
 
-    private String signup;
+    private String name;
     private String email;
+    private String tel;
     private String text;
     private String service;
     private String animalId;
     private String gRecaptchaResponse;
 
-    public String getSignup() {
-        return signup;
+    public String getTel() {
+        return tel;
     }
 
-    public void setSignup(String signup) {
-        this.signup = signup;
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String signup) {
+         this.name = signup;
     }
 
     public String getEmail() {
@@ -69,7 +78,7 @@ public class ServiceMessage implements Serializable {
 
         ServiceMessage that = (ServiceMessage) o;
 
-        if (signup != null ? !signup.equals(that.signup) : that.signup != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
         if (text != null ? !text.equals(that.text) : that.text != null) return false;
         if (animalId != null ? !animalId.equals(that.animalId) : that.animalId != null) return false;
@@ -80,7 +89,7 @@ public class ServiceMessage implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = signup != null ? signup.hashCode() : 0;
+        int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (text != null ? text.hashCode() : 0);
         result = 31 * result + (gRecaptchaResponse != null ? gRecaptchaResponse.hashCode() : 0);
@@ -91,12 +100,14 @@ public class ServiceMessage implements Serializable {
 
     @Override
     public String toString() {
-        return service + "Message{" +
-                "animalId" + animalId +
-                ", email=" + email +
-                ", text='" + text +
-                ", signup='" + signup +
-                ", grecaptchaesponse='" + gRecaptchaResponse +
+        return "ServiceMessage{" +
+                "signup='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", tel='" + tel + '\'' +
+                ", text='" + text + '\'' +
+                ", service='" + service + '\'' +
+                ", animalId='" + animalId + '\'' +
+                ", gRecaptchaResponse='" + gRecaptchaResponse + '\'' +
                 '}';
     }
 }

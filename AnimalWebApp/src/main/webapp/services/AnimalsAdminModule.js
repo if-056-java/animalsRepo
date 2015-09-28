@@ -54,6 +54,9 @@ angular.module('AnimalsAdminModule', ['AnimalsAdminValues', 'AnimalsModule'])
                 return AnimalsService.getAnimalForAdmin(animalId)
                     .then(function(response) {
                         angular.copy(response.data, AnimalsAdminValues.animal);
+                        if (AnimalsAdminValues.animal.active == undefined) {
+                            AnimalsAdminValues.animal.active = false;
+                        }
                         AnimalsAdminValues.animal.active = AnimalsAdminValues.animal.active.toString();
                         return response;
                     });

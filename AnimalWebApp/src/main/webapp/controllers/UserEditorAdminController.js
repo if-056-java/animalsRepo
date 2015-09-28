@@ -6,8 +6,12 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 	//initialize loading spinner
     var targetContent = document.getElementById('loading-block');
     new Spinner(opts).spin(targetContent);
-    //This variable decides when spinner loading for contentis closed.
-    $scope.contentLoading = 1;    
+    //This variable decides when spinner loading for content is closed.
+    $scope.contentLoading = 1; 
+    
+    if (localStorageService.get('userRole')!=="moderator"){
+		$location.path("#ua");	
+	}
 	
 	var id = $routeParams.userId;	
 	
@@ -15,7 +19,7 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 			function(result){
 				$scope.user=result;				
 				$scope.contentLoading--;
-				if($scope.user.active){ 
+				if($scope.user.isActive){ 
 						$scope.active="true";
 					} else {
 						$scope.active="false";
@@ -30,26 +34,31 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 	
 	$scope.updateUser = function() {
 		
-		if($scope.user.userRole[0].role=="moderator")$scope.user.userRole[0].id=1
+		if($scope.user.userRole[0].role=="moderator")$scope.user.userRole[0].id=1;
 		if($scope.user.userRole[0].role=="guest")$scope.user.userRole[0].id=3;
 		if($scope.user.userRole[0].role=="doctor")$scope.user.userRole[0].id=4;
+
+		if($scope.user.userType.type=="owner")$scope.user.userType.id=1;
+		if($scope.user.userType.type=="vet")$scope.user.userType.id=2;
+		if($scope.user.userType.type=="cynologist union")$scope.user.userType.id=3;
+		if($scope.user.userType.type=="organization")$scope.user.userType.id=4;
+		if($scope.user.userType.type=="misc")$scope.user.userType.id=5;
 		
-		if($scope.user.userType.type=="власник")$scope.user.userType.id=1;
-		if($scope.user.userType.type=="ветеринар")$scope.user.userType.id=2;
-		
-		if($scope.active=="true")$scope.user.active=true;
-		if($scope.active=="false")$scope.user.active=false;
-	
+		if($scope.active=="true")$scope.user.isActive=true;
+		if($scope.active=="false")$scope.user.isActive=false;
    	    	 
 	   	UserModerationService.updateUser($scope.user, id)
-	           .then(function(data) {
-	               $window.location.href = "#/ua/user/admin/users/" + id;
+	           .then(function(result) {	        	   
+	        	   if(result.userId==0){
+	        		   $scope.errorUpdateMessage=true;
+	        	   } else{
+	        		   $window.location.href = "#/ua/user/admin/users/" + id;	        		   
+	        	   }
 	           },
 	           function(error) {
-	               $window.alert("Animal update failed.");
+	               $window.alert("User update failed.");
 	           });
    }
-	
 	
 	
 	

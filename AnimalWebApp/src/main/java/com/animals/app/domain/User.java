@@ -35,6 +35,7 @@ public class User implements Serializable, Principal {
     private Date registrationDate;    
      
     @Email(message = "Wrong format for mail", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
+    @Length(max = 30, message = "The email length must be less than {max}.")
     private String email;
 
     @NotNull(message =  "Password can not be null")
@@ -68,7 +69,7 @@ public class User implements Serializable, Principal {
     @Length(max = 300, message =  "SocialPhoto  must be less than {max} characters.")
     private String socialPhoto;
     
-    private boolean isActive = true;
+    private Boolean isActive=true;
     
     @Valid
     @Size(min = 1, message =  "UserRole can not be empty")
@@ -164,11 +165,11 @@ public class User implements Serializable, Principal {
         this.organizationInfo = organizationInfo;
     }
 
-    public boolean isActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean isActive) {
+    public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
 
@@ -195,8 +196,6 @@ public class User implements Serializable, Principal {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
-    
-    
 
     public String getGoogleId() {
 		return googleId;

@@ -43,7 +43,7 @@ public class TestUserClient {
         actual.setPassword(RandomStringUtils.random(10, true, true));
         actual.setOrganizationName(RandomStringUtils.random(10, true, true));
         actual.setOrganizationInfo(RandomStringUtils.random(10, true, true));
-        actual.setActive(true);	       
+        actual.setIsActive(true);
         
 	}
 	
@@ -86,7 +86,7 @@ public class TestUserClient {
 
         expected.setName(RandomStringUtils.random(10, true, true));
         expected.setPhone(RandomStringUtils.random(10, true, true));        
-        expected.setActive(false);       
+        expected.setIsActive(false);
 
         expected = client.update(expected);
 

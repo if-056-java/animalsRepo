@@ -29,6 +29,11 @@ public interface UserRepository {
             "OrganizationName=#{organizationName}, OrganizationInfo=#{organizationInfo}, " +
             "IsActive=#{isActive}, GoogleId=#{googleId}, FacebookId=#{facebookId}, TwitterId=#{twitterId}, SocialPhoto=#{socialPhoto} " +
             "WHERE Id=#{id}";
+    
+    final String UPDATE_RESTRICTED = "UPDATE users SET Name=#{name}, Surname=#{surname}, " +
+            "DateOfRegistration=#{registrationDate}, Phone=#{phone}, Address=#{address}, " +
+            "Email=#{email}, Password=#{password}, OrganizationName=#{organizationName}, OrganizationInfo=#{organizationInfo}" +
+            "WHERE Id=#{id}";
 
     final String DELETE = "DELETE FROM users WHERE Id = #{id}";
 
@@ -79,16 +84,70 @@ public interface UserRepository {
             " Password, OrganizationName, OrganizationInfo, IsActive, GoogleId, SocialPhoto" +
             " FROM users WHERE (SocialLogin = #{socialLogin} AND EmailVerificationString = #{emailVerificationString})" ;
 
+    final String ADMIN_ANIMALS = "<script> SELECT id, sex, typeId, breed, transpNumber, dateOfBirth, dateOfFacebook, dateOfTwitter, color " +
+            "FROM animals " +
+            "WHERE id>0 " +
+            "<if test = \"animal != null\">" +
+            "<if test = \"animal.type != null\"> " +
+            "<if test = \"animal.type.id != null\"> AND typeId=#{animal.type.id} </if> " +
+            "</if>" +
+            "<if test = \"animal.breed != null\"> " +
+            "<if test = \"animal.breed.id != null\"> AND breed=#{animal.breed.id} </if> " +
+            "</if>" +
+            "<if test = \"animal.transpNumber != null\"> AND transpNumber=#{animal.transpNumber} </if> " +
+            "<if test = \"animal.dateOfRegister != null\"> AND dateOfRegister=#{animal.dateOfRegister} </if> " +
+            "<if test = \"animal.sex != null\"> AND sex=#{animal.sex} </if> " +
+            "<if test = \"animal.active != null\"> " +
+            "<if test = \"animal.active == true\"> AND isActive=1 </if> " +
+            "<if test = \"animal.active == false\"> AND isActive=0 </if> " +
+            "</if>" +
+            "<if test = \"animal.service != null\"> " +
+            "<if test = \"animal.service.id != null\"> AND serviceId=#{animal.service.id} </if> " +
+            "</if>" +
+            "</if> " +
+            "LIMIT #{offset},#{limit}</script>";
+
     final String SELECT_USER_LIST_FOR_MODERATOR = "<script> " +
             "SELECT Id, Name, Surname, Email, DateOfRegistration, IsActive " +
             "FROM users " +
-            "<if test = \"user != null\"> " +
-            "<if test = \"user.isActive != null\"> WHERE isActive = #{isActive} </if> " +
+            "WHERE id>0 " +
+            "<if test = \"user != null\">" +
+                "<if test = \"user.userType != null\"> " +
+                    "<if test = \"user.userType.id != null\"> AND userTypeId=#{user.userType.id} </if> " +
+                "</if>" +
+                "<if test = \"user.userRole != null\"> " +
+                        " AND userRoleId IN " +
+                    "<foreach item=\"element\" index=\"index\" collection=\"user.userRole\" open=\"(\" separator=\",\" close=\")\">" +
+                        "#{element.id}" +
+                    "</foreach>" +
+                "</if>" +
+                "<if test = \"user.isActive != null\"> " +
+                    "<if test = \"user.isActive == true\"> AND isActive=1 </if> " +
+                    "<if test = \"user.isActive == false\"> AND isActive=0 </if> " +
+                "</if>" +
             "</if> " +
             "ORDER BY DateOfRegistration " +
             "LIMIT #{offset}, #{limit} </script>";
 
-    final String SELECT_USER_LIST_FOR_MODERATOR_PAGINATOR = "SELECT count(*) AS count FROM users";
+    final String SELECT_USER_LIST_FOR_MODERATOR_PAGINATOR = "<script>" +
+            "SELECT count(*) AS count FROM users " +
+            "WHERE id>0" +
+            "<if test = \"user != null\">" +
+            "<if test = \"user.userType != null\"> " +
+                "<if test = \"user.userType.id != null\"> AND userTypeId=#{user.userType.id} </if> " +
+            "</if>" +
+            "<if test = \"user.userRole != null\"> " +
+                    " AND userRoleId IN " +
+                "<foreach item=\"element\" index=\"index\" collection=\"user.userRole\" open=\"(\" separator=\",\" close=\")\">" +
+                    "#{element.id}" +
+                "</foreach>" +
+            "</if>" +
+            "<if test = \"user.isActive != null\"> " +
+                "<if test = \"user.isActive == true\"> AND isActive=1 </if> " +
+                "<if test = \"user.isActive == false\"> AND isActive=0 </if> " +
+            "</if>" +
+            "</if> " +
+            "</script> ";
     
     final String SELECT_ANIMAL_BY_USER_ID_PAGINATOR = "SELECT count(*) AS count " +
             "FROM animals WHERE userId=#{id}";
@@ -117,13 +176,21 @@ public interface UserRepository {
      */
     @Update(UPDATE)
     void update(User user);
+    
+    /**
+     * Update an instance of User in the database.(for userRole=guest)
+     * @param user the instance to be updated.
+     */
+    @Update(UPDATE_RESTRICTED)
+    void updateRestricted(User user);
 
     /**
      * Delete an instance of User from the database.
      * @param id primary key value of the instance to be deleted.
      */
     @Delete(DELETE)
-    void delete(Integer id);
+    void delete(Integer id);    
+    
 
     /**
      * Returns a User instance from the database.
@@ -441,5 +508,7 @@ public interface UserRepository {
             @Result(property="socialPhoto", column="SocialPhoto")
     })
 	User findUserByEmail(String email);
+
+    
 	
 }

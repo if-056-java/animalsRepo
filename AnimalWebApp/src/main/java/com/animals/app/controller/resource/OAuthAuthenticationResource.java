@@ -86,7 +86,8 @@ public class OAuthAuthenticationResource {
     private static final String LOGIN_TWITTER_PATH = "webapi/account/login/twitter";
     private static final String LOGIN_TWITTER_PATH_TOKEN = "webapi/account/login/twitter_token";
     private static final String LOGIN_TWITTER_PATH_DIRECT = "webapi/account/login/twitter_login_direct";
-    private static final String URL_TO_SITE_PROFILE = "/#/ua/user/profile";
+    private static final String URL_TO_SITE_PROFILE = "#/ua/user/profile";
+    private static final String URL_TO_SITE_ENTRY = "#/ua/user/login";
     private static final String URL_TO_SITE_JOIN_ERROR = "?join=error";    
     
     //parameters to get
@@ -131,10 +132,8 @@ public class OAuthAuthenticationResource {
     
     // Session parameters
     private static final String SESSION_USERNAME = "userName";
-    private static final String SESSION_USER_ID = "userId";
-    private static final String SESSION_USERSURNAME = "userSurname";
-    private static final String SESSION_LOGIN = "socialLogin";
-    private static final String SESSION_ROLE_ID = "userRoleId";
+    private static final String SESSION_USER_ID = "userId"; 
+    private static final String SESSION_LOGIN = "socialLogin";    
     private static final String SESSION_USER_ROLE = "userRole";
     private static final String SESSION_SUCCESS = "successMesage";
     private static final String SESSION_ACCESS_TOKEN = "accessToken";
@@ -208,7 +207,7 @@ public class OAuthAuthenticationResource {
         String successURL = defineSuccessUrl(req, LOGIN_GOOGLE_PATH_TOKEN);       
 
         if (error != null) {        	
-            String entryUrl = pathMain + URL_TO_SITE_PROFILE;
+            String entryUrl = pathMain + URL_TO_SITE_ENTRY;
             return Response.temporaryRedirect(UriBuilder.fromUri(entryUrl).build()).build();
         }
 
@@ -528,7 +527,7 @@ public class OAuthAuthenticationResource {
         String successURL = defineSuccessUrl(req, LOGIN_FACEBOOK_PATH_TOKEN);
 
         if (error != null || error2 != null) {
-            String entryUrl = pathMain + URL_TO_SITE_PROFILE;
+            String entryUrl = pathMain + URL_TO_SITE_ENTRY;
             return Response.temporaryRedirect(UriBuilder.fromUri(entryUrl).build()).build();
         }
 
@@ -751,7 +750,7 @@ public class OAuthAuthenticationResource {
         String successURL = defineSuccessUrl(req, LOGIN_TWITTER_PATH_TOKEN);
 
         if (error != null) {
-            String entryUrl = pathMain + URL_TO_SITE_PROFILE;
+            String entryUrl = pathMain + URL_TO_SITE_ENTRY;
             return Response.temporaryRedirect(UriBuilder.fromUri(entryUrl).build()).build();
         }
 
@@ -988,9 +987,7 @@ public class OAuthAuthenticationResource {
 
         session.setAttribute(SESSION_USERNAME, user.getName());
         session.setAttribute(SESSION_USER_ID, user.getId().toString());
-        session.setAttribute(SESSION_USERSURNAME, user.getSurname());
         session.setAttribute(SESSION_LOGIN, user.getSocialLogin());
-        session.setAttribute(SESSION_ROLE_ID, user.getUserRole().get(0).getId().toString());
         session.setAttribute(SESSION_USER_ROLE, user.getUserRole().get(0).getRole());
         session.setAttribute(SESSION_SUCCESS, success);
         session.setAttribute(SESSION_USER, user);
@@ -1047,7 +1044,7 @@ public class OAuthAuthenticationResource {
         userToReg.setName(userLogin);
         userToReg.setSocialLogin(userLogin);
         userToReg.setSurname(NA);
-        userToReg.setActive(true);
+        userToReg.setIsActive(true);
         userToReg.setAddress(NA);
         userToReg.setPhone(NA);
         userToReg.setOrganizationInfo(NA);

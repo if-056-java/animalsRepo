@@ -9,15 +9,15 @@ import javax.ws.rs.core.UriInfo;
 import com.animals.app.domain.User;
 
 public class UserSecurityContext implements SecurityContext {
-	
-	private User user;
-	private Principal principal;
+
+    private User user;
+    private Principal principal;
 	
     @Inject
     javax.inject.Provider<UriInfo> uriInfo;
 
-	public UserSecurityContext(final User user) {
-		this.user = user;
+    public UserSecurityContext(final User user) {
+        this.user = user;
         this.principal = new Principal() {
 
             public String getName() {
@@ -25,27 +25,27 @@ public class UserSecurityContext implements SecurityContext {
             }            
             
         };		
-	}
+    }
 
-	@Override
-	public Principal getUserPrincipal() {
-		 return this.principal;
-	}
+    @Override
+    public Principal getUserPrincipal() {
+        return this.principal;
+    }
 
-	@Override
-	public boolean isUserInRole(String role) {			
-		String roleUser = user.getUserRole().get(0).getRole();			
-		return (role.equals(roleUser));		
-	}
+    @Override
+    public boolean isUserInRole(String role) {			
+        String roleUser = user.getUserRole().get(0).getRole();			
+        return (role.equals(roleUser));		
+    }
 
-	@Override
-	public boolean isSecure() {
-		 return false;
-	}
+    @Override
+    public boolean isSecure() {
+        return false;
+    }
 
-	@Override
-	public String getAuthenticationScheme() {
-		return SecurityContext.BASIC_AUTH;
-	}
+    @Override
+    public String getAuthenticationScheme() {
+        return SecurityContext.BASIC_AUTH;
+    }
 
 }

@@ -45,9 +45,10 @@ public class ResourceTestTemplate extends JerseyTest {
 
         String result = client
                 .target(REST_LOGIN_URL)
-                .path("/login/OFF")
+                .path("/login")
                 .request()
                 .header("Authorization", credentials)
+                .header("rememberMe", "OFF")
                 .post(null, String.class);
 
         Map<String, String> jsonMap = new Gson().fromJson(result, HashMap.class);

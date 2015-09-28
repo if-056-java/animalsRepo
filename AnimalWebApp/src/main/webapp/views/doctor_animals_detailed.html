@@ -2,9 +2,11 @@
     <div class="jumbotron">
         <div class="container">
             <div class="row">
-                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
-                    <div class="col-xs-9 col-sm-10 col-md-11 col-lg-11">
-                        <h2>{{ 'ANIMAL_DETAILED_INFO' | translate }}</h2>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="titlewrap">
+                        <h2 class="title center">
+                            {{ 'ANIMAL_DETAILED_INFO' | translate }}
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -180,7 +182,8 @@
                     <tr>
                         <td>{{ animal.user.name }}</td>
                         <td>{{ animal.user.surname }}</td>
-                        <td>{{ animal.user.userType.type }}</td>
+                        <td ng-if="currentLanguage === 'uk'">{{ animal.user.userType.typeUa }}</td>
+                        <td ng-if="currentLanguage !== 'uk'">{{ animal.user.userType.type }}</td>
                         <td>{{ animal.user.phone }}</td>
                         <td>{{ animal.user.email }}</td>
                     </tr>

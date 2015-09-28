@@ -53,11 +53,11 @@ p {
 #loginblock {
 	border: 1px solid #eaeaea;
 	border-radius: 5px;
-	margin-top: 30px;
 	margin-right: auto;
 	margin-left: auto;	
 	padding: 15px;
 }
+
 
 #passwordUpdateBlock {
 	border: 1px solid #eaeaea;
@@ -87,6 +87,23 @@ p {
 	margin-bottom: -60px;
 	padding: 20px;
 }
+
+#quote {
+	color:white;
+	position: absolute;
+    left: 80px;
+    top: 100px;
+    z-index: 2;
+}
+
+#languageButon {	
+	margin-top:10px;
+	margin-left:15px;		
+}
+
+
+
+
 
 .usualReg {
 	border: 1px solid #eaeaea;
@@ -302,7 +319,7 @@ a:hover, a:focus{
     display: block;
     height: 11px;
     margin-top: 45px;
-    margin-bottom: 40px;
+    margin-bottom: 90px;
     padding-top: 5px;
     max-height: 16px;
     border-bottom: 1px solid #cacaca;
@@ -313,4 +330,8 @@ a:hover, a:focus{
     padding-left: 10px;
     padding-right: 10px;
     display: inline;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{
+    cursor:pointer;
 }

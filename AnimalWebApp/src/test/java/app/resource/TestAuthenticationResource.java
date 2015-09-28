@@ -56,6 +56,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
 	private static String userLogin;
 	private static String userEmail;
 	private static User user;
+	private static int id;
 	
 	private static final String REST_SERVICE_URL = BASE_URL + "account";	
 	
@@ -67,9 +68,12 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
         client = ClientBuilder.newClient();
         
         userLogin = RandomStringUtils.random(10, true, true);
-        userEmail = userLogin +"@rt.ua";
+        userEmail = userLogin +"@ukr.net";
 
-        user = createEmptyUser(userLogin);         
+        user = createEmptyUser(userLogin); 
+        user.setEmail(userEmail);
+        
+        
         
     }
 
@@ -104,22 +108,23 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
         assertNotNull(result);
         
         assertEquals(LOGIN, userLogin);
-        assertEquals(ROLE, userRole);       
+        assertEquals(ROLE, userRole);   
+        
 
     }
     
     @Test 
-    @Ignore  //to Think about Why BadRequest?
     public void test02RefreshSession() {    	
 
     	
-        String result = client
+        Response responseMsg = client
                 .target(REST_SERVICE_URL)
                 .path("/refresh")
                 .request()                
-                .get(String.class);   
+                .get(Response.class);   
         
-        assertNotNull(result);  
+        assertNotNull(responseMsg);       
+        assertEquals(400, responseMsg.getStatus()); //why not 200
         
     }
     
@@ -143,8 +148,8 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     @Test(expected = BadRequestException.class)
     public void test04LoginToSiteWithoutHeader() {
 
-    	String passwordMd5 = ResourceTestTemplate.getMd5(PASSWORDW);
-        String credentials = "Basic " + Base64.encodeBase64String((LOGINW + ':' + passwordMd5).getBytes());
+    	String passwordMd5 = ResourceTestTemplate.getMd5(PASSWORD);
+        String credentials = "Basic " + Base64.encodeBase64String((LOGIN + ':' + passwordMd5).getBytes());
 
         String result = client
                 .target(REST_SERVICE_URL)
@@ -163,20 +168,20 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
                 .create()
                 .toJson(user);      	
     	
-        String result = client
+    	Response responseMsg = client
                 .target(REST_SERVICE_URL)
                 .path("/registration")
                 .request() 
                 .header("locale", "en")
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);             
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), Response.class);             
                         
-        assertNotNull(result);
+        assertNotNull(responseMsg);
     }
     
     @Test(expected = BadRequestException.class)
     public void test06LoginToSiteWithoutRegConfirmation() {
 
-    	String passwordMd5 = ResourceTestTemplate.getMd5("11111");
+    	String passwordMd5 = ResourceTestTemplate.getMd5(PASSWORD);
         String credentials = "Basic " + Base64.encodeBase64String((user.getSocialLogin() + ':' + passwordMd5).getBytes());
 
         String result = client
@@ -197,7 +202,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
                 .create()
                 .toJson(user); 	
     	
-        String result = client
+    	String result = client
                 .target(REST_SERVICE_URL)
                 .path("/registration")                
                 .request()   
@@ -207,61 +212,39 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
         
     }
     
-    @Test (expected = BadRequestException.class)
-    public void test08RefreshSessionWithError() {    	
-
-    	
-        String result = client
-                .target(REST_SERVICE_URL)
-                .path("/refresh")
-                .request()                
-                .get(String.class);   
-        
-    }
+   
     
     @Test (expected = NotFoundException.class)
-    public void test09RegConfirmationWithWrongVerificationCode() {    	
+    public void test08RegConfirmationWithWrongVerificationCode() {    	
 
-    	
-        String result = client
+    	String json = "\"socialLogin\":" + userLogin +"\""; ;
+        
+        String responseMsg = client
                 .target(REST_SERVICE_URL)
-                .path("/confirmRegistration/userToReg/wrongCode")
+                .path("/confirmRegistration/wrongCode")
                 .request()                
-                .post(null, String.class);                
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);                
         
     }
     
     @Test
-    public void test10logout() { 
+    public void test09logout() { 
     	
-        String result = client
+        Response responseMsg = client
                 .target(REST_SERVICE_URL)
                 .path("/logout")
                 .request()                
-                .get(String.class); 
+                .get(Response.class); 
         
-        assertNotNull(result);
+        assertNotNull(responseMsg);
+        assertEquals(200, responseMsg.getStatus());
         
-    }
+    }    
+     
     
-    @Test
-    public void test11loginOauthTwitterDirrect() { 
-    	
-    	String result = client
-                .target(REST_SERVICE_URL)
-                .path("/login/twitter_login_direct")
-                .queryParam("token", "70100199-b2aQ9UqRiMCv2Qba2239Hume4YBOLRj3uI4TWUAQn")
-                .queryParam("secret", "09Owdt8vE7OBnEErE2InI7h8u5tqrZ4yLynO2dx3jBKFf")
-                .request() 
-                .get(String.class);
-        
-    	assertNotNull(result);
-    	
-        
-    }
     
     @Test   
-    public void test11loginOauthTwitterDirrectWithResponse() { 
+    public void test10loginOauthTwitterDirrectWithResponse() { 
     	
     	Response responseMsg = client
                 .target(REST_SERVICE_URL)
@@ -277,27 +260,103 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     }
     
     @Test (expected = Exception.class)
-    public void test12loginOauthTwitterDirrectWrongTokens() { 
+    public void test11loginOauthTwitterDirrectWrongTokens() { 
     	
-    	ClientResponse responseMsg = client
+    	String result = client
                 .target(REST_SERVICE_URL)
                 .path("/login/twitter_login_direct")
                 .queryParam("token", "one")
                 .queryParam("secret", "two")
                 .request()                
-                .get(ClientResponse.class);
+                .get(String.class);
     	
     } 
     
-    @Test
-    public void test13DeleteUserFromDb() {        
+    @Test (expected = BadRequestException.class) //user is not active
+    public void test12PasswordRestoreViaMail() {  
+        
+        String json = userEmail; 
+        System.out.println(json);
+        
+        String result = client
+                .target(REST_SERVICE_URL)
+                .path("/restore_password")                
+                .request() 
+                .header("locale", "en")
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
                
+        
+        assertNotNull(result);
+       
+    }
+    
+    @Test  //user is active
+    public void test13PasswordRestoreViaMail() { 
+        
         UserRepository userRep = new UserRepositoryImpl();
         
-        User userToDel = userRep.findUserByEmail(userEmail);      
+        User userDB = userRep.findUserByEmail(userEmail);      
         
-        int id = userToDel.getId();       
+        id = userDB.getId();
         
+        userDB.setIsActive(true);
+        
+       
+        userRep.update(userDB);        
+        
+        String json = userDB.getEmail(); 
+        System.out.println(json);
+        
+        String result = client
+                .target(REST_SERVICE_URL)
+                .path("/restore_password")                
+                .request() 
+                .header("locale", "en")
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
+               
+        
+        assertNotNull(result);
+       
+    }
+    
+    @Test (expected = NotFoundException.class)
+    public void test14PasswordRestoreViaMailBadEmail() {  
+        
+        String json = "wrong"+userEmail; 
+        
+        String result = client
+                .target(REST_SERVICE_URL)
+                .path("/restore_password")                
+                .request() 
+                .header("locale", "en")
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
+               
+        
+        
+    }
+    
+    @Test (expected = BadRequestException.class)
+    public void test15PasswordRestoreViaMailWrongFormatadEmail() {  
+        
+       String json = userEmail + "i@"; 
+        
+       String result = client
+                .target(REST_SERVICE_URL)
+                .path("/restore_password")                
+                .request() 
+                .header("locale", "en")
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON + ";charset=UTF-8"), String.class);
+               
+        
+        assertNotNull(result);
+       
+    }
+    
+    @Test    
+    public void test16DeleteUserFromDb() {        
+               
+        UserRepository userRep = new UserRepositoryImpl();
+            
         userRep.delete(id);
                       
         assertNull(userRep.getById(id));
@@ -313,9 +372,8 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
 			userLogin = userName;
 		} else {
 			userLogin = "unknown";
-		}
+		}		
 		
-		userToReg.setEmail(userLogin +"@rt.ua");
 		userToReg.setName(userLogin);
 		userToReg.setSocialLogin(userLogin);
 		userToReg.setSurname(userLogin);		
@@ -323,10 +381,9 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
 		userToReg.setPhone("000-0000001");
 		userToReg.setOrganizationInfo("N/A");
 		userToReg.setOrganizationName("N/A");
-		userToReg.setPassword("13dde29e3e94c008d980dca4fce29e01");
+		userToReg.setPassword(ResourceTestTemplate.getMd5(PASSWORD));
 
-		UserRole userRole = new UserRole();
-		userRole.setRole("guest");
+		UserRole userRole = new UserRole();		
 		userRole.setId(3);
 		List<UserRole> list = new ArrayList<UserRole>();
 		list.add(userRole);

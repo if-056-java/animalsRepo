@@ -40,6 +40,7 @@ public class AdminResource {
     private final Response SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 
     private final String IMAGE_FOLDER = "images/"; //folder for animals images
+    private static final String EMAIL_NOT_UNIQUE = "Email is already in use by another User";
     //size of fields in data base, table: animals
 
     private final int LENGTH_IMAGE = 50;
@@ -260,7 +261,6 @@ public class AdminResource {
 
         String json = "{\"rowsCount\" : " + String.valueOf(pages) + "}";
 
-//        return Response.status(Response.Status.OK).entity(str).build();
         return ok(json);
     }
 
@@ -337,8 +337,7 @@ public class AdminResource {
     public Response deleteAnimal(@PathParam("userId") @NotNull int id) {
      
         UserRepositoryImpl userRep = new UserRepositoryImpl(); 
-        
-        // delete user in data base by id
+                
         userRep.delete(id);
 
         return Response.ok().build();
@@ -359,8 +358,14 @@ public class AdminResource {
                                @PathParam("userId") @NotNull int id) {
              
 
-        // Update user
         UserRepositoryImpl userRep = new UserRepositoryImpl(); 
+        
+        String result = checkIfUserEmailUnique(id, user);
+        if (result != null){
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(result).build();
+        }
+                
+        // Update user
         try {
             userRep.update(user);
         } catch (PersistenceException e) {
@@ -459,5 +464,22 @@ public class AdminResource {
             animalBreed.setType(animalType);
             new AnimalBreedRepositoryImpl().insert_ua(animalBreed);
         }
+    }
+    
+    private String buildResponseEntity(int i, String message) {
+        String entity = "{\"userId\" : " + i + ", \"message\" : \"" + message + "\"}";
+        return entity;
+    }
+    
+    private String checkIfUserEmailUnique(int id, User user) {        
+        UserRepositoryImpl userRep = new UserRepositoryImpl();
+        if (!userRep.getById(id).getEmail().equals(user.getEmail())){
+            String userEmailExist = userRep.checkIfEmailUnique(user.getEmail());             
+            if (userEmailExist != null && !userEmailExist.isEmpty()) {
+                String userEmailIsAlreadyInUse = buildResponseEntity(0, EMAIL_NOT_UNIQUE);
+                return userEmailIsAlreadyInUse;            
+            }        
+        } 
+        return null;
     }
 }

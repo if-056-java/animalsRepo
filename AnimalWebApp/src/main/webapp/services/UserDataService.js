@@ -62,11 +62,11 @@ angular.module('animalApp').factory('UserDataService',function ($q, $http, $root
 			var def = $q.defer();
 			
 			$http.put(RESOURCES.USER_FOR_USER + id, user)
-			.success(function (data) {
+			.success(function (data) {				
                 def.resolve(data);
             })
-            .error(function (error) {
-                def.reject("Failed to update user");
+            .error(function (error) {            	
+            	def.resolve(error);
             });
 			return def.promise;			
 		},

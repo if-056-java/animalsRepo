@@ -94,9 +94,8 @@ animalRegistrationModule
             };
 
             $scope.submitForm = function(isValid){
-                if(isValid){
+                if(isValid)
                     $scope.insertHomelessAnimal($scope.animal);
-                }
                 else
                     alert('Невідома помилка.');
             };

@@ -90,6 +90,10 @@
   "ANIMAL_SHORT_INFO_ADOPTION": "Інформація про тварину на адопцію",
   "ANIMAL_SHORT_INFO_LOST": "Інформація про загублену тварину",
   "ANIMAL_SHORT_INFO_FIND": "Інформація про знайдену тварину",
+  "MESSAGE_INPUT_PHONE": "Введіть номер телефону",
+  "MESSAGE_INPUT_PHONE_FAILED": "Не правильний номер телефону",
+  "MESSAGE_OK": "Повідомлення відправлено!",
+  "MESSAGE_ERROR": "Повідомлення не відправлено. Помилка сервера. Спробуйте пізніше!",
 
   "CONTACTS": "Контакти",
   "LOCATION": "Місцезнаходження",
@@ -137,6 +141,7 @@
   "REGISTRATION": "Реєстрація",
   "LOGIN_ERROR" : "Помилка входу. Перевірте свої дані!",
   "LOGIN_CONFIRM_ERROR": "Для входу потрібно підтвердити реєстрацію!",
+  "LOGIN_GOOGLE_OAUTH_ERROR":"Термін дії Google Refresh token вичерпався. Спробуйте ще раз!",
 
   "REGISTRATION_HOMELESS": "Реєстрація безпритульної тварини",
   "REGISTRATION_OWNED": "Реєстрація власницької тварини",
@@ -180,7 +185,7 @@
   "REG_ORGANIZATION_NAME": "Назва організації",
   "REG_ORGANIZATION_INFO": "Додаткова інформація про організацію",
   "ERROR_REG_MESSAGE1": "Помилка реєстрації. Даний логін вже використовується!",
-  "ERROR_REG_MESSAGE2": "Помилка реєстрації! Спробуйте ще раз.",
+  "ERROR_REG_MESSAGE2": "Помилка реєстрації! Даний email вже використовується.",
   "ERROR_REG_MESSAGE3": "Помилка реєстрації!",
   "LOGIN_MIN_LENGTH": "Логін повинен бути не менше 6-ти символів",
   "LOGIN_MAX_LENGTH": "Логін повинен бути не більше 16 символів",
@@ -226,6 +231,7 @@
   "PERSONAL_DATA": "Дані користувача",
   "BACK_TO_PROFILE": "Мій кабінет",
   "USER_LIST_OF_ANIMALS_IS_EMPTY": "Власні тварини відсутні",
+  "ERROR_JOIN_MESSAGE":"Помилка об'єднання акаунтів. Даний соціальний акаунт вже використовується!",
 
   "MEDICAL_CARD": "Мед. карта",
   "MEDICAL_CARD_DETAILED": "Медична карта, детальна інформація",
@@ -235,11 +241,13 @@
   "ANIMAL_REGISTER": "Реєстр тварин",
   "ANIMAL_DETAILED_INFO": "Детальна інформація про тварину",
   "ANIMAL_DETAILED_EDIT": "Редагування детальної інформації про тварину",
+  "DETAILED": "Детальніше",
 
   "ANIMAL_DETAILED_CONFIRM_DELETE": "Ви дійсно хочете видалити цю тварину ?",
   "ANIMAL_DETAILED_DELETE_FAILED": "Не вдалось видалити тварину.",
   "USER_DETAILED_CONFIRM_DELETE": "Bи дійсно хочете видалити цього користувача ?",
   "USER_DETAILED_DELETE_FAILED": "Не вдалось видалити користувача.",
+  "USER_DETAILED_EDIT": "Редагування користувача",
 
   "DELETE_IMAGE": "Видалити фото",
   "DELETE_IMAGE_CONFIRM": "Ви дійсно хочете видалити зображення ?",
@@ -262,12 +270,17 @@
   "RESTORE_ERROR1": "Не знайдено користувача з зазначеним email",
   "RESTORE_ERROR2": "Забагато користувачів з вказаним email",
   "RESTORE_ERROR3": "Користувач з вказаним email є неактивним",
+  "ERROR_UPDATE_MESSAGE": "Вказаний email вже використовується іншим юзером",
 
   "ADMIN_USERS": "Список користувачів",
   "ID": "Id",
   "IS_ACTIVE": "Блокування",
-  "DETAILED_INFO": "Детальна інформація",
+  "DETAILED_INFO": "Детальніше",
   "ABOUT_US": "Про нас",
+  "USER_PHONE_EDITOR": "Телефон у форматі '000-0000000'",
+  "TYPE_CYNOLOGIST_UNION": "Кінологічне об'єднання",
+  "TYPE_ORGANIZATION": "Організація",
+  "TYPE_MISC": "Інше",
 
   "GOAL": "Мета діяльності:",
   "GOAL_1": "Контроль та зменшення чисельності безпритульних тварин.",
@@ -310,15 +323,24 @@
   "EMAIL_TO_SEND_NEW_PASS": "Email на який буде відправлено новий пароль:",
   "ERROR": "Помилка:",
 
-  "AuthorizationResource.registerUser.arg1.socialLogin": "Помилка реєстрації! Невірний формат поля Логін",
-  "AuthorizationResource.registerUser.arg1.name": "Помилка реєстрації! Невірний формат поля Ім'я",
-  "AuthorizationResource.registerUser.arg1.surname": "Помилка реєстрації! Невірний формат поля Фамілія",
-  "AuthorizationResource.registerUser.arg1.phone": "Помилка реєстрації! Невірний формат поля Телефон",
-  "AuthorizationResource.registerUser.arg1.email": "Помилка реєстрації! Невірний формат поля Еmail!",
-  "AuthorizationResource.registerUser.arg1.password": "Помилка реєстрації! Невірний формат поля Пароль",
-  "AuthorizationResource.registerUser.arg1.address": "Помилка реєстрації! Невірний формат поля Адреса",
-  "AuthorizationResource.registerUser.arg1.organizationName": "Помилка реєстрації! Невірний формат поля Назва організації",
-  "AuthorizationResource.registerUser.arg1.organizationInfo": "Помилка реєстрації! Невірний формат поля Інформація про організацію",
+  "AuthenticationResource.registerUser.arg1.socialLogin": "Помилка реєстрації! Невірний формат поля Логін",
+  "AuthenticationResource.registerUser.arg1.name": "Помилка реєстрації! Невірний формат поля Ім'я",
+  "AuthenticationResource.registerUser.arg1.surname": "Помилка реєстрації! Невірний формат поля Фамілія",
+  "AuthenticationResource.registerUser.arg1.phone": "Помилка реєстрації! Невірний формат поля Телефон",
+  "AuthenticationResource.registerUser.arg1.email": "Помилка реєстрації! Невірний формат поля Еmail!",
+  "AuthenticationResource.registerUser.arg1.password": "Помилка реєстрації! Невірний формат поля Пароль",
+  "AuthenticationResource.registerUser.arg1.address": "Помилка реєстрації! Невірний формат поля Адреса",
+  "AuthenticationResource.registerUser.arg1.organizationName": "Помилка реєстрації! Невірний формат поля Назва організації",
+  "AuthenticationResource.registerUser.arg1.organizationInfo": "Помилка реєстрації! Невірний формат поля Інформація про організацію",
 
-  "ISACTIVE": "Активні"
+  "IS_ACTIVE": "Активні користувачі",
+
+  "POSTER": "Оголошення",
+  "PDF_WANTED": "Розшукується",
+  "PDF_LOST": "Пропав домашній улюбленець",
+  "PDF_PLEASE_CALL": "Прохання перезвонити",
+  "PDF_DO_NOT_STAY_INDIFFERENT": "Не залишайтесь байдужими, допоможіть знайти",
+  "PDF_FRIEND": "ДРУГА !!!",
+  "YOUR_PHONE_MUST_BE_SET": "Ви повинні вказати телефон. Вкажіть номер телефону на сторінці Профілю.",
+  "MUST_HAVE_OWNER": "Тварина не має власника."
 }
