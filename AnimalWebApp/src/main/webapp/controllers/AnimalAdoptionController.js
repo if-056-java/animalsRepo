@@ -4,14 +4,6 @@
 adoptionModule
     .controller('AnimalAdoptionController',
         function AnimalAdoptionController($scope, $filter, AdoptionFactory, AnimalAdoptionValues) {
-
-            //initialize loading spinner
-            var targetContent = document.getElementById('loading-block');
-            new Spinner(opts).spin(targetContent);
-
-            //spinner usability
-            $scope.contentLoading = 0;
-
             //Pages
             $scope.filter = AnimalAdoptionValues.filter;            //filter
 
@@ -24,7 +16,6 @@ adoptionModule
              * Get animal list and statuses
              */
             var initList = function(){
-                $scope.contentLoading++;
                 AdoptionFactory.getListOfAdoptionAnimals()
                     .then(
                     function(result){
@@ -33,7 +24,6 @@ adoptionModule
                             AdoptionFactory.getListOfAnimalStatuses(result[i].id)
                                 .then(
                                 function(result){
-                                    $scope.contentLoading++;
                                     for(var i = 0; i < result.length; i++){
                                         if(result[i].animalStatus.id === 14) {
                                             $("#status-sprite-" + result[i].animal.id)
@@ -100,24 +90,18 @@ adoptionModule
                                 function(error){
                                     $scope.errorMessage = error;
                                 }
-                            ).finally(function() {
-                                    $scope.contentLoading--;
-                                });
+                            );
                     },
                     //fail
                     function(error){
                         $scope.errorMessage = error;
                     }
-                )
-                    .finally(function() {
-                        $scope.contentLoading--;
-                    });
+                );
             };
 
             /**
              * @return count of rows for pagination.
              */
-            $scope.contentLoading++;
             AdoptionFactory.getAmountRecords()
                 .then(
                     function(){},
@@ -127,21 +111,17 @@ adoptionModule
                         $scope.totalItems.count = 0;
                         $scope.errorMessage = error;
                     }
-                )
-                .finally(function() {
-                    $scope.contentLoading--;
-                });
-
+                );
             initList();
 
             /**
              * @return next page.
              */
             $scope.pageChanged = function() {
+                initList();
+
                 //scroll to top of the page
                 jQuery('html, body').animate({ scrollTop: 0 }, 500);
-
-                initList();
             };
 
             /**
@@ -168,7 +148,6 @@ adoptionModule
                  * Get animal list and statuses
                  */
                 var initList = function(){
-                    $scope.contentLoading++;
                     AdoptionFactory.getListOfAdoptionAnimals()
                         .then(
                         function(result){
@@ -249,10 +228,7 @@ adoptionModule
                         function(error){
                             $scope.errorMessage = error;
                         }
-                    )
-                        .finally(function() {
-                            $scope.contentLoading--;
-                        });
+                    );
                 };
 
                 /**

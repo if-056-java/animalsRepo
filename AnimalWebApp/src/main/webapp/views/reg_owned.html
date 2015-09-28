@@ -13,19 +13,17 @@
         </div>
     </div>
 
-    <!-- Spinner -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 marg-spin-250" ng-show="contentLoading"
-         id="loading-block">
-    </div>
+    <div class="container" ng-controller="AnimalsDetailController">
+        <!-- Spinner -->
+        <div class="spin" us-spinner="{radius:20, width:10, length: 15}"></div>
 
-    <!-- Error message -->
-    <h3 class="alert alert-danger col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-controller="AnimalsDetailController"
-        ng-hide="!errorsFlag">
-        {{errorMessage}}<br>{{errors}}</h3>
+        <!-- Error message -->
+        <h3 class="alert alert-danger col-xs-12 col-sm-12 col-md-12 col-lg-12 repeat-animation hide-fade"
+            ng-if="errorMessage" ng-bind="errorMessage">
+            <br>{{errors}}</h3>
 
-    <div class="container" ng-show="!contentLoading">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="AnimalsDetailController">
+        <div class="row" ng-hide="errorMessage">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 repeat-animation hide-fade">
                 <form name="animalForm" ng-submit="submitForm(animalForm.$valid)" novalidate>
                     <div class="panel panel-default">
                         <div class="panel-heading">
