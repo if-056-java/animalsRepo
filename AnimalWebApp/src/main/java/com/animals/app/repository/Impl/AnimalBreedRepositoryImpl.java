@@ -2,16 +2,12 @@ package com.animals.app.repository.Impl;
 
 import com.animals.app.domain.AnimalBreed;
 import com.animals.app.repository.AnimalBreedRepository;
-import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.util.List;
 
-/**
- * Created by root on 06.08.2015.
- */
 public class AnimalBreedRepositoryImpl implements AnimalBreedRepository {
     private SqlSessionFactory sqlSessionFactory;
 

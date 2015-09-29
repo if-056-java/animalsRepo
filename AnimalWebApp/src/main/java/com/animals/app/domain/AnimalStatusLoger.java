@@ -3,9 +3,6 @@ package com.animals.app.domain;
 import java.io.Serializable;
 import java.sql.Date;
 
-/**
- * Created by oleg on 03.09.2015.
- */
 public class AnimalStatusLoger implements Serializable {
     private long id;
     private AnimalStatus animalStatus;

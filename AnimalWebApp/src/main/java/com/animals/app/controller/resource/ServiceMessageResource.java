@@ -1,10 +1,7 @@
 package com.animals.app.controller.resource;
 
 import com.animals.app.domain.Animal;
-import com.animals.app.domain.User;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
-import com.animals.app.repository.Impl.UserRepositoryImpl;
-import com.animals.app.service.Feedback;
 import com.animals.app.service.MailSender;
 import com.animals.app.service.ServiceMessage;
 import org.apache.log4j.LogManager;
@@ -27,10 +24,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Properties;
-
-/**
- * Created by Vova on 09.09.2015.
- */
 
 @Path("service")
 public class ServiceMessageResource {

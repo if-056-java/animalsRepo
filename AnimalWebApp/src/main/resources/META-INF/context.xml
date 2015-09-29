@@ -33,7 +33,7 @@
     -->
 
         <!-- DBCP -->
-	    <Resource name="jdbc/animals" 
+	    <Resource name="jdbc/animals"
               auth="Container" 
               type="javax.sql.DataSource" 
               factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
@@ -58,6 +58,34 @@
               password="ZF008NBp"
               driverClassName="com.mysql.jdbc.Driver"
               url="jdbc:mysql://tym.dp.ua:3306/animals"/>
-    <!-- logAbandoned="true" - log about abandone connections -->
-    <!-- org.apache.tomcat.jdbc.pool.interceptor.ResetAbandonedTimer" -->
+        <!-- Description
+            name - name of data source;
+            factory - factory of ds
+            testWhileIdle - indication of whether objects will be validated by the idle object evictor;
+            testOnBorrow - indication of whether objects will be validated before being borrowed from the pool;
+            testOnReturn - indication of whether objects will be validated before being returned to the pool;
+            validationQuery - SQL query that will be used to validate connections from this pool before returning them to the caller;
+            validationInterval - avoid excess validation, only run validation at most at this frequency - time in milliseconds;
+            timeBetweenEvictionRunsMillis - number of milliseconds to sleep between runs of the idle connection validation/cleaner thread;
+            maxActive - maximum number of active connections that can be allocated from this pool at the same time;
+            minIdle - minimum number of established connections that should be kept in the pool at all times;
+            maxWait - maximum number of milliseconds that the pool will wait for a connection to be returned before throwing an exception;
+            initialSize - initial number of connections that are created when the pool is started;
+            removeAbandonedTimeout - timeout in seconds before an abandoned(in use) connection can be removed;
+            removeAbandoned - flag to remove abandoned connections if they exceed the removeAbandonedTimeout;
+            minEvictableIdleTimeMillis - minimum amount of time an object may sit idle in the pool before it is eligible for eviction;
+            jmxEnabled - register the pool with JMX or not;
+            jdbcInterceptors - semicolon separated list of classnames extending org.apache.tomcat.jdbc.pool.JdbcInterceptor class;
+            username - connection username to be passed to our JDBC driver to establish a connection;
+            password - connection password to be passed to our JDBC driver to establish a connection;
+            driverClassName - fully qualified Java class name of the JDBC driver to be used;
+            url - address to remote data base;
+            auth - specify whether the web Application code signs on to the
+                corresponding resource manager programatically, or whether the Container
+                will sign on to the resource manager on behalf of the application. The value
+                of this attribute must be Application or Container. This attribute is required if
+                the web application will use a <resource-ref> element in the web application deployment
+                descriptor, but is optional if the application uses a <resource-env-ref> instead.
+            type - fully qualified Java class name expected by the web application when it performs a lookup for this resource;
+        -->
 </Context>

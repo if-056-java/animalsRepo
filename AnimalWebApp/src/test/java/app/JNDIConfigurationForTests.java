@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-/**
- * Created by oleg on 12.09.2015.
- */
 public class JNDIConfigurationForTests {
     private static String url;         //db url
     private static String username;    //db username

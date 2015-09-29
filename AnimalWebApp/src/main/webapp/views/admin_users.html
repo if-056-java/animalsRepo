@@ -17,6 +17,10 @@
         <!-- Spinner -->
         <div class="spin" us-spinner="{radius:20, width:10, length: 15}"></div>
 
+        <!-- Error message -->
+        <h3 class="alert alert-danger col-xs-12 col-sm-8 col-md-9 col-lg-9 repeat-animation hide-fade"
+            ng-if="errorMessage" ng-bind="errorMessage"></h3>
+
         <div class="row" ng-show="!contentLoading">
                 <br>
                 <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3" ng-controller="AdminUsersFilter" id="users-admin-left">
@@ -61,7 +65,6 @@
                             <li class="nya-bs-option" value="false"><a>{{ 'INACTIVE' | translate}}</a></li>
                         </ol>
                     </div>
-                    <br>
                     <hr>
 
                     <!-- Do filtering -->
@@ -78,7 +81,7 @@
                 </div>
 
             <!-- User list -->
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9 panel panel-default table-responsive repeat-animation hide-fade" ng-if="totalItems">
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9 panel panel-default table-responsive repeat-animation hide-fade" ng-if="!errorMessage">
                 <table class="table table-hover table-vcenter">
                     <thead>
                     <tr>
@@ -106,7 +109,6 @@
                     </tbody>
                 </table>
             </div>
-
             <!-- Error message -->
             <h3 class="alert alert-danger col-xs-12 col-sm-9 col-md-9 col-lg-9 repeat-animation hide-fade"
                 ng-if="!totalItems.count">

@@ -2,9 +2,6 @@ package com.animals.app.domain;
 
 import javax.validation.constraints.DecimalMin;
 
-/**
- * Created by Rostyslav.Viner on 11.08.2015.
- */
 public class AnimalsFilter {
     @DecimalMin(value = "1")
     private int page;

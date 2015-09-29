@@ -8,9 +8,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.util.List;
 
-/**
- * Created by Rostyslav.Viner on 23.07.2015.
- */
 public class AnimalTypeRepositoryImpl implements AnimalTypeRepository {
     private SqlSessionFactory sqlSessionFactory;
 

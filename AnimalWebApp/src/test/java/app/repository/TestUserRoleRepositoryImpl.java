@@ -4,15 +4,13 @@ import app.JNDIConfigurationForTests;
 import com.animals.app.domain.UserRole;
 import com.animals.app.repository.Impl.UserRoleRepositoryImpl;
 import org.junit.*;
+import org.junit.runners.MethodSorters;
 
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by oleg on 24.07.2015.
- */
-
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestUserRoleRepositoryImpl extends JNDIConfigurationForTests{
 
     private static UserRoleRepositoryImpl userRoleRepository;
@@ -29,15 +27,15 @@ public class TestUserRoleRepositoryImpl extends JNDIConfigurationForTests{
     }
 
     @Test
-    public void testGetAll(){
+    public void test01GetAll(){
         List<UserRole> userRoleList = userRoleRepository.getAll();
 
         assertNotNull(userRoleList);
     }
 
     @Test
-    public void testGetById(){
-        UserRole userRole = userRoleRepository.getById(1);
+    public void test02GetById(){
+        UserRole userRole = userRoleRepository.getById(userRoleRepository.getAll().get(0).getId());
 
         assertNotNull(userRole);
     }

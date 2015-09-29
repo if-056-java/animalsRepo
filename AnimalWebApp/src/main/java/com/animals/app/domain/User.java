@@ -15,10 +15,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
-/**
- * Created by oleg on 22.07.2015.
- */
-
 public class User implements Serializable, Principal {
 	
 	@DecimalMin(value = "1")

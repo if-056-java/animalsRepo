@@ -25,10 +25,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-/**
- * Created by Rostyslav.Viner on 25.08.2015.
- */
-
 @Path("doctor")
 public class DoctorResource {
     private static Logger LOG = LogManager.getLogger(DoctorResource.class);

@@ -10,9 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -41,10 +39,6 @@ import com.animals.app.repository.AnimalRepository;
 import com.animals.app.repository.UserRepository;
 
 import sun.misc.BASE64Decoder;
-
-/**
- * Created by 41X on 8/12/2015.
- */
 
 @Path("users")
 @RolesAllowed({ "guest", "moderator", "doctor" })

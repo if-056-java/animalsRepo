@@ -16,9 +16,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Rostyslav.Viner on 24.07.2015.
- */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAnimalRepositoryImpl extends JNDIConfigurationForTests {
     private static final Logger LOG = LogManager.getLogger(TestAnimalRepositoryImpl.class);

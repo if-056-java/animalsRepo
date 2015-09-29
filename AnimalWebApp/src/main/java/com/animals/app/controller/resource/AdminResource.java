@@ -2,7 +2,6 @@ package com.animals.app.controller.resource;
 
 import com.animals.app.domain.*;
 import com.animals.app.repository.AnimalRepository;
-import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalMedicalHistoryRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
@@ -13,7 +12,6 @@ import sun.misc.BASE64Decoder;
 
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;

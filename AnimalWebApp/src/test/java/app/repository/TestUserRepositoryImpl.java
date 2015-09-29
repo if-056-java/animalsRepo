@@ -16,10 +16,6 @@ import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by oleg on 24.07.2015.
- */
-
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestUserRepositoryImpl extends JNDIConfigurationForTests {
 

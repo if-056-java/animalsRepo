@@ -6,16 +6,12 @@ import javax.ws.rs.ext.ContextResolver;
 
 import org.eclipse.persistence.jaxb.BeanValidationMode;
 import org.eclipse.persistence.jaxb.MarshallerProperties;
-import org.glassfish.jersey.CommonProperties;
 import org.glassfish.jersey.moxy.json.MoxyJsonConfig;
 import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.server.validation.ValidationConfig;
 import org.glassfish.jersey.server.validation.internal.InjectingConstraintValidatorFactory;
 
-import com.animals.app.controller.resource.AuthenticationResource;
-import com.animals.app.controller.resource.UserResource;
 /**
  * ContactCard application configuration
  * JAX-RS application

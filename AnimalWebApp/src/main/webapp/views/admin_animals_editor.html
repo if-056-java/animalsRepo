@@ -30,9 +30,9 @@
 
                         <!-- Animal photo -->
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 panel-body">
-                            <img class="img-responsive img-thumbnail center-block" ng-hide="imageFile"
+                            <img class="img-responsive img-thumbnail center-block" ng-if="!imageFile"
                                  ng-src="{{ animalImage }}">
-                            <img class="img-responsive img-thumbnail center-block" ng-show="imageFile"
+                            <img class="img-responsive img-thumbnail center-block repeat-animation hide-fade" ng-if="imageFile"
                                  ng-src="data:{{imageFile.filetype}};base64,{{imageFile.base64}}">
 
                             <p ng-show="animalEditor.photo.$invalid"

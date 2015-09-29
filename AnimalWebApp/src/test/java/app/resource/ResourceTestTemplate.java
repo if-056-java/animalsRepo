@@ -18,9 +18,6 @@ import java.util.Map;
 
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by Rostyslav.Viner on 17.09.2015.
- */
 public class ResourceTestTemplate extends JerseyTest {
     protected static final String BASE_URL = "http://localhost:9998/";
     private static final String REST_LOGIN_URL = BASE_URL + "account";

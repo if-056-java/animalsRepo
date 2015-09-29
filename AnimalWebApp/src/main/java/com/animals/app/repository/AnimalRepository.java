@@ -5,9 +5,6 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
-/**
- * Created by Rostyslav.Viner on 24.07.2015.
- */
 public interface AnimalRepository {
 
     final String INSERT = "INSERT INTO animals (sex, typeId, size, citesType, breed, transpNumber, " +

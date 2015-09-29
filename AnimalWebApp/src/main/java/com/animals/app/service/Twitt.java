@@ -1,18 +1,10 @@
 package com.animals.app.service;
 
-/**
- * Created by aquaneo on 8/19/2015.
- */
-
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.Serializable;
-import java.net.URL;
-import java.util.Arrays;
 
 public class Twitt implements Serializable {
 

@@ -1,4 +1,5 @@
 package com.animals.app.service;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,9 +14,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-/**
- * Created by aquaneo on 8/16/2015.
- */
 public class MailSender {
 
         public MailSender() {  }

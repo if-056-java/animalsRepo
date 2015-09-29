@@ -7,9 +7,6 @@ import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
-/**
- * Created by Rostyslav.Viner on 25.08.2015.
- */
 public interface AnimalStatusRepository {
 
     final String SELECT_ALL = "SELECT id, status, statusEn FROM animalstatuses";

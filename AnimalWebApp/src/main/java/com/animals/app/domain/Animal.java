@@ -12,10 +12,6 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.sql.Date;
 
-/**
- * Created by Rostyslav.Viner on 22.07.2015.
- */
-
 public class Animal implements Serializable{
     public enum SexType {
         NONE, MALE, FEMALE;

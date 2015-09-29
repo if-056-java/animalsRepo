@@ -8,9 +8,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.util.List;
 
-/**
- * Created by oleg on 24.07.2015.
- */
 public class UserRoleRepositoryImpl {
 
     private SqlSessionFactory sqlSessionFactory;

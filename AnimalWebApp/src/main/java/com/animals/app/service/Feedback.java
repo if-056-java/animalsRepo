@@ -1,9 +1,7 @@
 package com.animals.app.service;
 
 import java.io.Serializable;
-/**
- * Created by aquaneo on 8/13/2015.
- */
+
 public class Feedback implements Serializable {
     private String signup;
     private String email;

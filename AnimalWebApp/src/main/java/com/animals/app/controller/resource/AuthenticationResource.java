@@ -34,10 +34,6 @@ import com.animals.app.domain.UserType;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 import com.animals.app.service.MailSender;
 
-/**
- * Created by 41X on 8/16/2015.
- */
-
 @Path("account")
 @PermitAll
 public class AuthenticationResource {

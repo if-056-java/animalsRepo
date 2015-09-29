@@ -30,9 +30,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Rostyslav.Viner on 08.09.2015.
- */
 @Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestDoctorResourceGetAnimals extends ResourceTestTemplate {
