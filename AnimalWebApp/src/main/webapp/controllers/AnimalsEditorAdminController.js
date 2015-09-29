@@ -93,12 +93,8 @@ angular.module('AnimalsEditorAdminController', ['nya.bootstrap.select', 'DPContr
                 $scope.animal.dateOfRegister = $filter('date')($scope.animal.dateOfRegister, 'yyyy-MM-dd');
                 if (typeof $scope.animal.breed != "undefined") {
                     if (typeof $scope.animal.breed.id == "undefined") {
-                        if ($scope.currentLanguage == "en") {
-                            $scope.animal.breed = {breedEn: $scope.animal.breed};
-                        } else {
-                            $scope.animal.breed = {breedUa: $scope.animal.breed};
-                        }
-
+                        $window.alert($filter('translate')('ANIMAL_BREED_NOT_FOUND'));
+                        return;
                     }
                 }
 
