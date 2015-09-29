@@ -20,5 +20,8 @@
   14. Fill your domain information.
   15. Go "Tools&Support / Graph API", choose your application and get your access toket and secret key.
   16. Fill this key's in file: project.properties.
-  17. Register as developer on https://dev.twitter.com/
-  18. 
+  17. Register as developer on https://dev.twitter.com/.
+  18. Go to Application Management and create new application.
+  19. Set proper permission and get Consumer and Access Token keys.
+  20. Fill this key's in file: project.properties.
+
