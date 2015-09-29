@@ -12,27 +12,15 @@ animalApp.controller('MainController', ['$scope', '$rootScope', 'localStorageSer
                 localStorageService.cookie.set("accessToken", localStorageService.get("accessToken"), 0.065);
         }
 
-        //carousel
-        $scope.myInterval = 3000;
-        $scope.slides = [
-           {
-              image: 'resources/img/carousel/car-1.jpg'
-           },
-           {
-              image: 'resources/img/carousel/car-2.jpg'
-           },
-           {
-              image: 'resources/img/carousel/car-3.jpg'
-           }
-        ];
-		
 		//menu collapse on li / a / bnt click
 		$(document).on('click','.navbar-collapse.in',function(e) {
             if( $(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle' ) {
                 $(this).collapse('hide');
             }
         });
-                                    
+
+        $scope.myInterval = 2500;
+
         $scope.logout = function() {
         	AuthenticationService.logout();
         };

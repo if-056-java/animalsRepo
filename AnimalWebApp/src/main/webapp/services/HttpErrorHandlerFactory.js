@@ -1,6 +1,3 @@
-/**
- * Created by oleg on 17.09.2015.
- */
 httpErrorHandlerModule
     .factory('HttpErrorHandlerFactory',
         function HttpErrorHandlerFactory($filter) {

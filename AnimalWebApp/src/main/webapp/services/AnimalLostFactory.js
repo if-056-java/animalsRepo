@@ -1,6 +1,3 @@
-/**
- * Created by oleg on 11.08.2015.
- */
 animalLostModule
     .factory('AnimalLostFactory',
         function AnimalLostFactory($http, $q, RESOURCES, HttpErrorHandlerFactory, AnimalLostValues){

@@ -1,6 +1,3 @@
-/**
- * Created by oleg on 11.08.2015.
- */
 animalFoundModule
     .factory('AnimalFoundFactory',
         function AnimalFoundFactory($http, $q, RESOURCES, HttpErrorHandlerFactory, AnimalFoundValues){

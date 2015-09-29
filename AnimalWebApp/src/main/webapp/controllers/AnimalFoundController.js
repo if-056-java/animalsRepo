@@ -1,6 +1,3 @@
-/**
- * Created by oleg on 11.08.2015.
- */
 animalFoundModule
     .controller('AnimalFoundController',
         function AnimalFoundController($scope, AnimalFoundFactory, AnimalFoundValues) {

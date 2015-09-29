@@ -1,6 +1,3 @@
-/**
- * Created by oleg on 13.08.2015.
- */
 animalRegistrationModule
     .factory('AnimalRegistrationFactory',
         function AnimalRegistrationFactory ($http, $q, RESOURCES, HttpErrorHandlerFactory) {

@@ -1,6 +1,3 @@
-/**
- * Created by Rostyslav.Viner on 20.08.2015.
- */
 angular.module('DPController', ['ui.bootstrap', 'ngLocale', 'DPValues'])
     .controller('DPController', ['$scope', '$locale', 'DPValues', '$translate', function($scope, $locale, DPValues, $translate) {
 

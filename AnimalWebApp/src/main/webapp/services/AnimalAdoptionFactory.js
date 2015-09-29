@@ -1,6 +1,3 @@
-/**
- * Created by oleg on 11.08.2015.
- */
 adoptionModule
     .factory('AdoptionFactory',
         function AdoptionFactory($http, $q, RESOURCES, HttpErrorHandlerFactory, AnimalAdoptionValues){

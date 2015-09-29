@@ -1,6 +1,3 @@
-/**
- * Created by aquarius on 8/25/2015.
- */
 angular.module('ContactsValues', [])
     .value('ContactsValues', {
         spinneropts : {

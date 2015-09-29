@@ -1,6 +1,3 @@
-/**
- * Created by oleg on 23.08.2015.
- */
 animalRegistrationModule
     .controller('AnimalOwnedRegController',
     function AnimalOwnedRegController($scope, AnimalRegistrationFactory, localStorageService,
