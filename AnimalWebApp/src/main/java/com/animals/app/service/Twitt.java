@@ -80,7 +80,6 @@ public class Twitt implements Serializable {
         try {
             status = twitter.updateStatus(statusUpdate);
             //response from twitter server
-            System.out.println("status.toString() = " + status.toString());
 
             long id = status.getId();
             if (id != 0) return true;

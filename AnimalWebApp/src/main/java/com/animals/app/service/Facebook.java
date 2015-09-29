@@ -60,11 +60,6 @@ public class Facebook implements Serializable {
             FacebookType publishMessageResponse =
                     facebookClient.publish(wallId + "/feed", FacebookType.class, Parameter.with("message", message));
 
-            System.out.println("Published message ID: " + publishMessageResponse.getId());
-
-            //attach any media, if you want to
-           //if (!media.equals(null)) **.setMedia(new File(media));
-
                 if (!publishMessageResponse.getId().equals(null))
                     return true;
                 else
