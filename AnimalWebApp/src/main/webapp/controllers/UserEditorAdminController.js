@@ -8,6 +8,8 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 	//initialize loading spinner
     var targetContent = document.getElementById('loading-block');
     new Spinner(opts).spin(targetContent);
+
+    $scope.errorMessage = '';
     //This variable decides when spinner loading for content is closed.
     $scope.contentLoading = 1; 
     
@@ -28,8 +30,8 @@ animalApp.controller('UserEditorAdminController', ['$scope', 'UserModerationServ
 					}
 				;
 			},
-			function(error){					
-				console.log(error)
+			function(error){
+                $scope.errorMessage = error;
 				$scope.contentLoading--;
 			}
 		);

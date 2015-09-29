@@ -14,7 +14,11 @@
     </div>
 
     <!-- Spinner -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 admin-anim-spin" id="loading-block" ng-show="contentLoading" />
+    <div class="spin" us-spinner="{radius:20, width:10, length: 15}"></div>
+
+    <!-- Error message -->
+    <h3 class="alert alert-danger col-xs-12 col-sm-8 col-md-9 col-lg-9 an-allow repeat-animation hide-fade"
+        ng-if="errorMessage" ng-bind="errorMessage"></h3>
 
     <div class="container" ng-hide="contentLoading">
         <div class="row">
@@ -117,8 +121,8 @@
                         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
                         	<div class="text-center">
 		                    	<p ng-show="!user.googleId && !user.facebookId && !user.twitterId">{{ 'NO_INTEGRATION' | translate }} </p>        	                	                   	
-		                    	<a ng-disabled="true" ng-show="user.googleId" class="btn btn-social-icon btn-facebook btn-lg"><i class="fa fa-facebook"></i></a>
-		                    	<a ng-disabled="true" ng-show="user.facebookId"  class="btn btn-social-icon btn-google btn-lg"><i class="fa fa-google"></i></a>
+		                    	<a ng-disabled="true" ng-show="user.facebookId" class="btn btn-social-icon btn-facebook btn-lg"><i class="fa fa-facebook"></i></a>
+		                    	<a ng-disabled="true" ng-show="user.googleId"  class="btn btn-social-icon btn-google btn-lg"><i class="fa fa-google"></i></a>
 		                    	<a ng-disabled="true" ng-show="user.twitterId" class="btn btn-social-icon btn-twitter btn-lg"><i class="fa fa-twitter"></i></a>
 							</div>
                         </div>

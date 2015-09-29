@@ -369,13 +369,11 @@
                     <h3> {{ 'USER_LIST_OWN_ANIMALS' | translate }}</h3>
                 </div>
                 <!-- Error message -->
-                <h3 class="col-xs-12 col-sm-9 col-md-12 col-lg-12" style="top: 15px;" ng-show="errorNoAnimals">
+                <h3 class="col-xs-12 col-sm-9 col-md-12 col-lg-12 marg-spin-15" ng-show="errorNoAnimals">
                     {{ 'USER_LIST_OF_ANIMALS_IS_EMPTY' | translate }}</h3>
 
                 <!-- Spinner -->
-                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-show="contentLoading2" id="loading-block2"
-                     style="height:200px;"></div>
-
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 marg-spin-200" ng-show="contentLoading2" id="loading-block2"></div>
 
                 <table class="table table-hover" ng-show="!contentLoading2 && !errorNoAnimals">
                     <thead>

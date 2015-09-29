@@ -13,8 +13,8 @@
         </div>
     </div>
     </div>
-    <div class="row height-up"></div>
-    <div class="row">
+    <div class="row height-up m-w-100"></div>
+    <div class="row m-w-100">
         <div class="col-md-6 col-md-offset-3 panel panel-default">
             <div class="row">
                 <div class="panel-body">
@@ -24,7 +24,7 @@
                                 <img class="img-responsive img-thumbnail center-block" src="{{ animalImage }}">
 
                                 <p class="soc-fb"
-                                   ng-if="service == 'adoption'"
+                                   ng-if="service === 'adoption'"
                                    ng-href
                                    socialshare
                                    socialshare-provider="facebook"
@@ -143,7 +143,7 @@
                         <div ng-cloak id="status-sprite-{{animal.id}}" class="center-block center-link"></div>
                         </p>
                     </div>
-                    <div class="col-md-6 detailed-right">
+                    <div class="col-md-6 col-xs-12 col-sm-6 col-lg-6 detailed-right">
                         <div class="row">
                             <div class="col-md-4">{{ 'TYPE' | translate }}:</div>
                             <div class="col-md-8" ng-if="currentLanguage === 'uk'">{{ animal.type.type }}</div>
@@ -209,11 +209,11 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row m-w-100">
         <div class="col-md-3 col-md-offset-6 detailed-buttons">
-            <div class="col-md-7"><a class="btn btn-primary col-md-12" ng-click="openDialog()" role="button">{{
+            <div class="col-md-7  col-sm-7 col-lg-7"><a class="btn btn-primary col-md-12" ng-click="openDialog()" role="button">{{
                 textButton }}</a></div>
-            <div class="col-md-5"><a class="btn btn-warning col-md-12" href={{linkBack}} role="button">{{ 'BACK' |
+            <div class="col-md-5 col-sm-5 col-lg-5"><a class="btn btn-warning col-md-12" href={{linkBack}} role="button">{{ 'BACK' |
                 translate }}</a></div>
         </div>
     </div>
@@ -250,7 +250,7 @@
                          ng-class="{ 'has-error' : messageForm.messagetel.$invalid && !messageForm.messagetel.$pristine }">
                         <label class="control-label" for="messagetel">{{ 'PHONE' | translate }}</label>
                         <input type="tel" class="form-control" id="messagetel" name="messagetel" ng-model="message.tel"  placeholder="{{ 'MESSAGE_INPUT_PHONE' | translate }}" required=""
-                               ng-minlength="13"/>
+                               ng-minlength="10"/>
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                         <span id="messagetelStatus" class="sr-only">(success)</span>
                     </div>
@@ -264,8 +264,6 @@
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                         <span id="messagestatus" class="sr-only">(success)</span>
                     </div>
-
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div
                                     vc-recaptcha
                                     theme="'light'"
@@ -274,10 +272,9 @@
                                     on-success="setResponse(response)"
                                     on-expire="cbExpiration()">
                         </div>
-                    </div>
                     <div class="row">
-                        <div class="col-md-6"><button type="submit" id="messageSubmit" class="btn btn-success col-lg-12" ng-disabled="messageForm.$invalid" >{{ 'SEND' | translate }}</button></div>
-                        <div class="col-md-6"><button class="btn btn-warning col-lg-12"  ng-click="closeDialog()">Відміна</button></div>
+                        <div class="col-md-6 col-sm-6 col-lg-6"><button type="submit" id="messageSubmit" class="btn btn-success col-lg-12" ng-disabled="messageForm.$invalid" >{{ 'SEND' | translate }}</button></div>
+                        <div class="col-md-6 col-sm-6 col-lg-6"><button class="btn btn-warning col-lg-12"  ng-click="closeDialog()">Відміна</button></div>
                     </div>
 
                 </form>
@@ -291,14 +288,14 @@
         <div id="modal">
             <div class = "content">
                 <!-- Spinner -->
-                <div ng-show="spinnerloading" id="loading-block">.</div>
+                <div class="spin" us-spinner="{radius:20, width:10, length: 15}"></div>
 
                 <div class="alert alert-success" role="alert" ng-show="okmessage">{{ 'MESSAGE_OK' | translate }}</div>
                 <div class="alert alert-danger" role="alert" ng-show="errormessage">{{ 'MESSAGE_ERROR' | translate }}</div>
 
                 <div class="row">
                     <div class="col-md-4"></div>
-                    <div class="col-md-4"><button  class="btn btn-primary btn-lg" ng-click="closeModal()">OK</button></div>
+                    <div class="col-md-4"><button  class="btn btn-primary btn-lg" ng-show="okmessage" ng-hide="!errormessage" ng-click="closeModal()">OK</button></div>
                     <div class="col-md-4"></div>
                 </div>
             </div>

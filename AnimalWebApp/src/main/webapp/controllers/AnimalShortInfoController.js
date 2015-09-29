@@ -3,7 +3,7 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService', 'vcRecapt
 		function($scope, AnimalShortInfoService, AdoptionFactory, $routeParams, $filter,  vcRecaptchaService, ContactsValues) {
 
 			var service = $routeParams.service;
-
+            $scope.service = service;
 			var animalId = $routeParams.animalId;
 
 			$scope.animalImage = "resources/img/noimg.png";
@@ -29,7 +29,7 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService', 'vcRecapt
 
 			$scope.openDialog = function(){
 				$scope.showPopUpDialog = true;
-			}
+			};
 
 			this.getAnimal = function(animalId) {
 				AnimalShortInfoService.getAnimal(animalId)
@@ -198,16 +198,18 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService', 'vcRecapt
 				$scope.showModal = false;
 				$scope.openDialog = function(){
 					$scope.showPopUpDialog = true;
-				}
+				};
 				$scope.closeDialog = function(){
 					$scope.showPopUpDialog = false;
-				}
+					$scope.okmessage = 0;
+					$scope.errormessage = 0;
+				};
 				$scope.openModal = function(){
 					$scope.showModal = true;
-				}
+				};
 				$scope.closeModal = function(){
 					$scope.showModal = false;
-				}
+				};
 				$scope.submitMessage = function() {
 					if (vcRecaptchaService.getResponse !== "") { //if answer from Google is empty
 

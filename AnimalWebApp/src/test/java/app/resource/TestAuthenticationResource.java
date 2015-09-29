@@ -48,6 +48,8 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
 	private static final String LOGIN = "root";
 	private static final String PASSWORD = "root";
 	private static final String ROLE = "moderator";
+	private static final String TWITTER_TOKEN = "70100199-b2aQ9UqRiMCv2Qba2239Hume4YBOLRj3uI4TWUAQn";
+	private static final String TWITTER_SECRET = "09Owdt8vE7OBnEErE2InI7h8u5tqrZ4yLynO2dx3jBKFf";
 	
 	//Wrong credentials
 	private static final String LOGINW = "rootWrong";
@@ -249,8 +251,8 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     	Response responseMsg = client
                 .target(REST_SERVICE_URL)
                 .path("/login/twitter_login_direct")
-                .queryParam("token", "70100199-b2aQ9UqRiMCv2Qba2239Hume4YBOLRj3uI4TWUAQn")
-                .queryParam("secret", "09Owdt8vE7OBnEErE2InI7h8u5tqrZ4yLynO2dx3jBKFf")
+                .queryParam("token", TWITTER_TOKEN)
+                .queryParam("secret", TWITTER_SECRET)
                 .request() 
                 .get(Response.class);
         
@@ -265,8 +267,8 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
     	String result = client
                 .target(REST_SERVICE_URL)
                 .path("/login/twitter_login_direct")
-                .queryParam("token", "one")
-                .queryParam("secret", "two")
+                .queryParam("token", LOGINW)
+                .queryParam("secret", LOGINW)
                 .request()                
                 .get(String.class);
     	

@@ -28,11 +28,13 @@ var animalApp = angular.module('animalApp', [
     'HttpErrorHandlerModule',
     'UserDetailedAdminController',
     'UserEditorAdminController',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ngAnimate',
+    'ngLoadingSpinner'
 ]);
 
-animalApp .config(['$routeProvider', '$translateProvider',
-    function($routeProvider, $translateProvider) {
+animalApp .config(['$routeProvider', '$translateProvider', '$compileProvider', '$modalProvider',
+    function($routeProvider, $translateProvider, $compileProvider, $modalProvider) {
         $routeProvider
             .when('/ua', {
                 templateUrl: 'views/main_view.html',
@@ -182,6 +184,15 @@ animalApp .config(['$routeProvider', '$translateProvider',
 
         //save lang in storage
         $translateProvider.useLocalStorage();
+
+        //performance on production
+        //$compileProvider.debugInfoEnabled(false);
+
+        //modal close issue
+        $modalProvider.options.animation = false;
+
+        //for animation
+        //$animateProvider.classNameFilter(/view-slide/);
     }]);
 
 //Constants
