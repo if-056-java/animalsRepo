@@ -18,9 +18,6 @@ import javax.ws.rs.core.Response;
 import java.util.Properties;
 
 @Path("socials")
-
-@RolesAllowed("moderator")
-
 public class SocialsResource {
     private static Logger LOG = LogManager.getLogger(SocialsResource.class);
 
