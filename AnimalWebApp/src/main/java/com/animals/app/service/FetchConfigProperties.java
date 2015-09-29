@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-/**
- * Created by aquarius on 9/28/2015.
- */
 public class FetchConfigProperties {
     private static Logger LOG = LogManager.getLogger(FetchConfigProperties.class);
 
