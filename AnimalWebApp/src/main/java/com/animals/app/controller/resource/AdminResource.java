@@ -174,9 +174,6 @@ public class AdminResource {
             return BAD_REQUEST;
         }
 
-        //check breed, if it new insert it into database
-        saveNewBreed(animal.getBreed(), animal.getType());
-
         //save new image if set
         animal.setImage(saveNewImage(httpServlet.getServletContext().getRealPath("/"),
                 animal.getImage(), animal.getId()));
@@ -456,18 +453,6 @@ public class AdminResource {
         }
 
         return IMAGE_FOLDER + fileName;
-    }
-
-    private void saveNewBreed(AnimalBreed animalBreed, AnimalType animalType) {
-        if ((animalBreed == null) || (animalType == null) || (animalType.getId() == null)) {
-            return;
-        }
-
-        if ((animalBreed.getId() == null) &&
-                ((animalBreed.getBreedUa() != null) || (animalBreed.getBreedEn() != null))) {
-            animalBreed.setType(animalType);
-            new AnimalBreedRepositoryImpl().insert_ua(animalBreed);
-        }
     }
     
     private String buildResponseEntity(int i, String message) {
