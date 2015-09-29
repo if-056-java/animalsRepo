@@ -41,7 +41,7 @@ public class SocialsResource {
     @POST //http:localhost:8080/webapi/socials/twitter/animalId
     @Path("/twitter/{animalId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response sendTwitt (@PathParam("animalId") long animalId) {
 
         Twitt twitt;
@@ -91,7 +91,7 @@ public class SocialsResource {
     @POST //http:localhost:8080/webapi/socials/facebook/animalId
     @Path("/facebook/{animalId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response sendFacebook (@PathParam("animalId") long animalId) {
         Facebook facebook;
         String accessToken, wallId ;

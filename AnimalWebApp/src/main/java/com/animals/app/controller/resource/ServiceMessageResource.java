@@ -45,7 +45,7 @@ public class ServiceMessageResource {
     @POST
     @Path("message")//http:localhost:8080/webapi/service/message
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response sendMessage (ServiceMessage message) {
         String email, recipient, tel, text, sender, service, animalId;
 

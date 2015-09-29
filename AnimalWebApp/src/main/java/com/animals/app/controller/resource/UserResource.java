@@ -76,7 +76,7 @@ public class UserResource {
      * userId must be set and more than 0
      */
     @GET // http:localhost:8080/webapi/users/user/{userId}
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("user/{userId}")
     public Response getUserById(@PathParam("userId") @DecimalMin(value = "1") int id,
                                 @Context HttpServletRequest req) {
@@ -111,7 +111,7 @@ public class UserResource {
     @PUT
     @Path("user/{userId}") // http:localhost:8080/webapi/users/user/{userId}
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     public Response updateUser(@Valid User user,
                                @PathParam("userId") @DecimalMin(value = "1") int id,
                                @Context HttpServletRequest req) {
@@ -154,7 +154,7 @@ public class UserResource {
     @POST // http:localhost:8080/webapi/users/user/{userId}/animals
     @Path("user/{userId}/animals")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     public Response geetUserAnimalsByUserId(@PathParam("userId") @DecimalMin(value = "1") long userId,
                                             @Valid @NotNull AnimalsFilter animalsFilter, 
                                             @Context HttpServletRequest req) {
@@ -186,7 +186,7 @@ public class UserResource {
      */
     @GET // http:localhost:8080/webapi/users/user/{userId}/animals/{animalId}
     @Path("user/{userId}/animals/{animalId}")
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAnimal(@PathParam("userId") String id,
                               @PathParam("animalId") @DecimalMin(value = "1") long animalId, 
                               @Context HttpServletRequest req) {
@@ -216,7 +216,7 @@ public class UserResource {
      */
     @DELETE // http:localhost:8080/webapi/users/user/{userId}/animals/{animalId}
     @Path("user/{userId}/animals/{animalId}")
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteAnimal(@PathParam("userId") @NotNull String id,
                                  @PathParam("animalId") @DecimalMin(value = "1") long animalId, 
                                  @Context HttpServletRequest req) {
@@ -258,7 +258,7 @@ public class UserResource {
      */
     @DELETE // http:localhost:8080/webapi/users/user/{userId}/animals/{animalId}
     @Path("user/{userId}/animals/{animalId}/image")
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteAnimalImage(@PathParam("userId") @NotNull String id,
                                       @PathParam("animalId") @DecimalMin(value = "1") long animalId,
                                       @Context HttpServletRequest req) {
@@ -309,7 +309,7 @@ public class UserResource {
     @POST // http:localhost:8080/webapi/users/user/{userId}/animals/animal
     @Path("user/{userId}/animals/animal")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     public Response addUserAnimal(@Valid Animal animal, 
                                   @PathParam("userId") @NotNull String id,
                                   @Context HttpServletRequest req) {
@@ -391,7 +391,7 @@ public class UserResource {
     @GET // http:localhost:8080/webapi/users/user/{userId}/animals/paginator
     @Path("user/{userId}/animals/paginator/")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getUserAnimalsPaginator(@PathParam("userId") @DecimalMin(value = "1") long userId) {
         
         // get count of row according to filter
