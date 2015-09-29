@@ -68,7 +68,7 @@ public class Animal implements Serializable{
 
     @NotNull(message = "The color must be set.")
     @Length(max = 20, message = "The color length must be less than {max}.")
-    @Pattern(message = "Wrong color.", regexp = "[A-Za-zА-Яа-яіІїЇ0-9'\\-]*")
+    @Pattern(message = "Wrong color.", regexp = "[A-Za-zА-Яа-яіІїЇ0-9'\\-\\(\\)]*")
     private String color;
 
     @Length(max = 100, message = "The description length must be less than {max}.")
