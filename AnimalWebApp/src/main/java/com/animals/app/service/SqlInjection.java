@@ -9,9 +9,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Rostyslav.Viner on 15.09.2015.
- */
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = SqlInjection.Validator.class)
 public @interface SqlInjection {

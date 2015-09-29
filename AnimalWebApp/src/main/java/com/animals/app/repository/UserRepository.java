@@ -5,9 +5,6 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
-/**
- * Created by oleg on 24.07.2015.
- */
 public interface UserRepository {
 
     final String INSERT = "<script> " +
@@ -263,7 +260,7 @@ public interface UserRepository {
     
     /** 
      * Returns a String instance from the database.
-     * @param socialLogin primary key value used for lookup.
+     * @param username primary key value used for lookup.
      * @return A String with value equals to pk. null if there is no matching row.
      */
     @Select(SELECT_UNIQUE_USERNAME)
@@ -274,7 +271,7 @@ public interface UserRepository {
     
     /** 
      * Returns a String instance from the database.
-     * @param userEmail primary key value used for lookup.
+     * @param email primary key value used for lookup.
      * @return A String with value equals to pk. null if there is no matching row.
      */  
     @Select(SELECT_UNIQUE_EMAIL)
@@ -508,7 +505,4 @@ public interface UserRepository {
             @Result(property="socialPhoto", column="SocialPhoto")
     })
 	User findUserByEmail(String email);
-
-    
-	
 }

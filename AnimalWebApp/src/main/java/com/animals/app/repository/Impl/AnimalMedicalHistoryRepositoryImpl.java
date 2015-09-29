@@ -1,8 +1,6 @@
 package com.animals.app.repository.Impl;
 
 import com.animals.app.domain.AnimalMedicalHistory;
-import com.animals.app.domain.AnimalsFilter;
-import com.animals.app.repository.AnimalBreedRepository;
 import com.animals.app.repository.AnimalMedicalHistoryRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -10,9 +8,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.util.List;
 
-/**
- * Created by Rostyslav.Viner on 25.08.2015.
- */
 public class AnimalMedicalHistoryRepositoryImpl implements AnimalMedicalHistoryRepository {
 
     private SqlSessionFactory sqlSessionFactory;

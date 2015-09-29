@@ -1,10 +1,7 @@
 package com.animals.app.controller.resource;
 
 import com.animals.app.domain.Animal;
-import com.animals.app.domain.User;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
-import com.animals.app.repository.Impl.UserRepositoryImpl;
-import com.animals.app.service.Feedback;
 import com.animals.app.service.MailSender;
 import com.animals.app.service.ServiceMessage;
 import org.apache.log4j.LogManager;
@@ -28,10 +25,6 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Properties;
 
-/**
- * Created by Vova on 09.09.2015.
- */
-
 @Path("service")
 public class ServiceMessageResource {
     private static Logger LOG = LogManager.getLogger(FeedbackResource.class);
@@ -45,7 +38,7 @@ public class ServiceMessageResource {
     @POST
     @Path("message")//http:localhost:8080/webapi/service/message
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response sendMessage (ServiceMessage message) {
         String email, recipient, tel, text, sender, service, animalId;
 

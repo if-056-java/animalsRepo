@@ -12,10 +12,6 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.sql.Date;
 
-/**
- * Created by Rostyslav.Viner on 22.07.2015.
- */
-@XmlRootElement
 public class Animal implements Serializable{
     public enum SexType {
         NONE, MALE, FEMALE;
@@ -68,7 +64,7 @@ public class Animal implements Serializable{
 
     @NotNull(message = "The color must be set.")
     @Length(max = 20, message = "The color length must be less than {max}.")
-    @Pattern(message = "Wrong color.", regexp = "[A-Za-zА-Яа-яіІїЇ0-9'\\-]*")
+    @Pattern(message = "Wrong color.", regexp = "[A-Za-zА-Яа-яіІїЇ0-9'\\-\\(\\)]*")
     private String color;
 
     @Length(max = 100, message = "The description length must be less than {max}.")

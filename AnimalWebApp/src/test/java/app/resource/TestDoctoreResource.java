@@ -40,9 +40,6 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Rostyslav.Viner on 04.09.2015.
- */
 @Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestDoctoreResource extends ResourceTestTemplate {

@@ -42,7 +42,7 @@ public class FeedbackResource {
         @POST
         @Path("mail")//http:localhost:8080/webapi/contacts/mail
         @Consumes(MediaType.APPLICATION_JSON)
-        @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+        @Produces(MediaType.APPLICATION_JSON)
         public Response sendFeedback (Feedback feedback) {
             String from, text, sender;
 

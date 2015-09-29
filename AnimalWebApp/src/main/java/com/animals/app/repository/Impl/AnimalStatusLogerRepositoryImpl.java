@@ -1,6 +1,5 @@
 package com.animals.app.repository.Impl;
 
-import com.animals.app.domain.AnimalStatus;
 import com.animals.app.domain.AnimalStatusLoger;
 import com.animals.app.repository.AnimalStatusLogerRepository;
 import com.animals.app.repository.MyBatisConnectionFactory;
@@ -9,9 +8,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.util.List;
 
-/**
- * Created by Rostyslav.Viner on 25.08.2015.
- */
 public class AnimalStatusLogerRepositoryImpl implements AnimalStatusLogerRepository {
 
     private SqlSessionFactory sqlSessionFactory;

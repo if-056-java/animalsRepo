@@ -1,4 +1,5 @@
 package com.animals.app.service;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,9 +14,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-/**
- * Created by aquaneo on 8/16/2015.
- */
 public class MailSender {
 
         public MailSender() {  }
@@ -73,21 +71,26 @@ public class MailSender {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
             // Subject
             if (service=="adoption"){
-                message.setSubject("Запит щодо адопції тварини №" + animalId +  " від - " + sender );
+                message.setSubject("Запит щодо адопції тварини №" + animalId +  " від  " + sender );
             }
 
-            if (service=="lost"){
-                message.setSubject("Запит щодо загубленої тварини №" + animalId +  " від - " + sender );
+            if (service.compareTo("lost")==0){
+                message.setSubject("Запит щодо загубленої тварини №" + animalId +  " від  " + sender );
             }
 
             if (service=="found"){
-                message.setSubject("Запит щодо знайденої тварини №" + animalId +  " від - " + sender );
+                message.setSubject("Запит щодо знайденої тварини №" + animalId +  " від  " + sender );
             }
+
+            if ((service!="adoption") && (service!="found") && (service!="lost")) {
+                message.setSubject("Запит щодо тварини №" + animalId +  " сервісу " + service + " від  " + sender );
+            }
+
 
             // Mail forming
             // Body
             MimeBodyPart p1 = new MimeBodyPart();
-            p1.setText(text + "Відповідь прошу надіслати за адресою - " + email);
+            p1.setText(text + " Відповідь прошу надіслати за адресою - " + email + " або за телефоном " + tel);
 
             Multipart mp = new MimeMultipart();
             mp.addBodyPart(p1);

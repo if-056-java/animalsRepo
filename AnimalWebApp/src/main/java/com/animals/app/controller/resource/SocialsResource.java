@@ -8,8 +8,6 @@ import com.animals.app.service.Twitt;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import javax.annotation.security.RolesAllowed;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -21,11 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-/**
- * Created by aquaneo on 8/19/2015.
- */
 @Path("socials")
-//@RolesAllowed("модератор")
 public class SocialsResource {
     private static Logger LOG = LogManager.getLogger(SocialsResource.class);
 
@@ -41,7 +35,7 @@ public class SocialsResource {
     @POST //http:localhost:8080/webapi/socials/twitter/animalId
     @Path("/twitter/{animalId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response sendTwitt (@PathParam("animalId") long animalId) {
 
         Twitt twitt;
@@ -91,7 +85,7 @@ public class SocialsResource {
     @POST //http:localhost:8080/webapi/socials/facebook/animalId
     @Path("/facebook/{animalId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response sendFacebook (@PathParam("animalId") long animalId) {
         Facebook facebook;
         String accessToken, wallId ;

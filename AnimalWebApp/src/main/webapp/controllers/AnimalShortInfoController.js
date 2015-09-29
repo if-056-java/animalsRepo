@@ -201,6 +201,8 @@ angular.module('AnimalShortInfoController', ['AnimalShortInfoService', 'vcRecapt
 				};
 				$scope.closeDialog = function(){
 					$scope.showPopUpDialog = false;
+					$scope.okmessage = 0;
+					$scope.errormessage = 0;
 				};
 				$scope.openModal = function(){
 					$scope.showModal = true;

@@ -16,9 +16,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-/**
- * Created by Rostyslav.Viner on 06.08.2015.
- */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAnimalBreedRepositoryImpl extends JNDIConfigurationForTests {
 

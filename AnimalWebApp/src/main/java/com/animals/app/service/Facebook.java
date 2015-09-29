@@ -5,10 +5,6 @@ import java.io.Serializable;
 import com.restfb.*;
 import com.restfb.types.FacebookType;
 
-
-/**
- * Created by aquarius on 8/28/2015.
- */
 public class Facebook implements Serializable {
 
         private String message;

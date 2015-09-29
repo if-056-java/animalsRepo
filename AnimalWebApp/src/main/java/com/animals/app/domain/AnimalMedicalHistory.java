@@ -10,9 +10,6 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.sql.Date;
 
-/**
- * Created by Rostyslav.Viner on 25.08.2015.
- */
 public class AnimalMedicalHistory implements Serializable {
     @DecimalMin(value = "1")
     private Long id;

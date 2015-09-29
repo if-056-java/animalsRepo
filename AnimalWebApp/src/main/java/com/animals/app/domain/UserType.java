@@ -6,9 +6,6 @@ import javax.validation.constraints.DecimalMin;
 
 import org.hibernate.validator.constraints.Length;
 
-/**
- * Created by oleg on 23.07.2015.
- */
 public class UserType implements Serializable{
 
 	@DecimalMin(value = "1")

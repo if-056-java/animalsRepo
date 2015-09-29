@@ -4,6 +4,7 @@ import app.JNDIConfigurationForTests;
 import com.animals.app.domain.AnimalService;
 import com.animals.app.repository.Impl.AnimalServiceRepositoryImpl;
 import org.junit.*;
+import org.junit.runners.MethodSorters;
 
 import java.util.List;
 
@@ -11,9 +12,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-/**
- * Created by Rostyslav.Viner on 24.07.2015.
- */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAnimalServiceRepositoryImpl extends JNDIConfigurationForTests {
     private static AnimalServiceRepositoryImpl animalServiceRepositoryImpl;
 

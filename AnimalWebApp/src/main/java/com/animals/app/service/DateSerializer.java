@@ -9,10 +9,6 @@ import java.lang.reflect.Type;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
-
-/**
- * Created by root on 17.09.2015.
- */
 public class DateSerializer implements JsonSerializer<Date> {
     @Override
     public JsonElement serialize(Date date, Type type, JsonSerializationContext jsonSerializationContext) {

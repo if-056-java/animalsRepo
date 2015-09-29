@@ -33,9 +33,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by Rostyslav.Viner on 08.09.2015.
- */
 @Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAdminResourceGetAnimals extends ResourceTestTemplate {

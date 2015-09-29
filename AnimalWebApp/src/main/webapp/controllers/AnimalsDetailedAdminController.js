@@ -100,6 +100,10 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
                 }
 
                 var getTranslateType = function() {
+                    if ($scope.animal.type == undefined) {
+                        return;
+                    }
+
                     if ($scope.currentLanguage == 'uk') {
                         return $scope.animal.type.type;
                     } else {
@@ -108,6 +112,10 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
                 }
 
                 var getTranslateBreed = function() {
+                    if ($scope.animal.breed == undefined) {
+                        return;
+                    }
+
                     if ($scope.currentLanguage == 'uk') {
                         return $scope.animal.breed.breedUa;
                     } else {
@@ -118,7 +126,7 @@ angular.module('AnimalsDetailedAdminController', ['AnimalsAdminModule', 'Animals
                 var docDefinition = { content: [
                     { text: $filter('translate')("PDF_WANTED"), fontSize: 35, alignment: 'center', bold: true },
                     { text: $filter('translate')("PDF_LOST"), fontSize: 18, alignment: 'center' },
-                    { text: getTranslateType() + ((getTranslateBreed().length > 0) ? ', ' + getTranslateBreed() : '')
+                    { text: getTranslateType() + ((getTranslateBreed()) ? ', ' + getTranslateBreed() : '')
                         , fontSize: 18, alignment: 'center' },
                     { text: $filter('translate')("PDF_PLEASE_CALL"), fontSize: 20, alignment: 'center' },
                     { text: $scope.animal.user.phone , fontSize: 25, alignment: 'center', bold: true },

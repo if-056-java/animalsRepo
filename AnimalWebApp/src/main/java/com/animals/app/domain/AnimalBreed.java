@@ -7,19 +7,16 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
-/**
- * Created by Rostyslav.Viner on 06.08.2015.
- */
 public class AnimalBreed implements Serializable {
     @DecimalMin(value = "1")
     private Long id;
 
     @Length(max = 45, message = "The breedUa length must be less than {max}.")
-    @Pattern(message = "Wrong breedUa.", regexp = "[A-Za-zА-Яа-яіІїЇЄє0-9'\\-\\s\\(\\)]*")
+    @Pattern(message = "Wrong breedUa.", regexp = "[A-Za-zА-Яа-яіІїЇЄє0-9'\\-\\s\\(\\)\\.]*")
     private String breedUa;
 
     @Length(max = 45, message = "The breedUa length must be less than {max}.")
-    @Pattern(message = "Wrong breedEn.", regexp = "[A-Za-zА-Яа-яіІїЇЄє0-9'\\-\\s\\(\\)]*")
+    @Pattern(message = "Wrong breedEn.", regexp = "[A-Za-zА-Яа-яіІїЇЄє0-9'\\-\\s\\(\\)\\.]*")
     private String breedEn;
 
     @Valid

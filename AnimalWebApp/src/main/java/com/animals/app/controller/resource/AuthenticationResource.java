@@ -34,10 +34,6 @@ import com.animals.app.domain.UserType;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
 import com.animals.app.service.MailSender;
 
-/**
- * Created by 41X on 8/16/2015.
- */
-
 @Path("account")
 @PermitAll
 public class AuthenticationResource {
@@ -106,7 +102,7 @@ public class AuthenticationResource {
      * @return response with status 200 and parameters for creating session
      */
     @POST
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("login") // http:localhost:8080/webapi/account/login/OFF
     public Response loginToSite(@Context HttpServletRequest req, 
                                 @HeaderParam("rememberMe") @NotNull String rememberMe) {
@@ -285,7 +281,7 @@ public class AuthenticationResource {
      * @return response with status 200 and parameters for creating session
      */
     @POST
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("confirmRegistration/{code}") // http:localhost:8080/webapi/account/confirmRegistration/socialLogin/code
     public Response loginToSite(@Context HttpServletRequest req, 
                                 @NotNull String socialLogin,
@@ -328,7 +324,7 @@ public class AuthenticationResource {
      * @return response with status 200 and parameters for creating session
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("refresh") // http:localhost:8080/webapi/account/refresh
     public Response refreshSession(@Context HttpServletRequest req) {
 
@@ -361,7 +357,7 @@ public class AuthenticationResource {
      * @return response with status 200
      */
     @POST
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("restore_password") // http:localhost:8080/webapi/account/restore_password/email/uk
     public Response restorePassword(@Context HttpServletRequest req,
                                     @Email String email,

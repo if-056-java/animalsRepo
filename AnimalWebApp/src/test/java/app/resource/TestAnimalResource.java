@@ -5,14 +5,6 @@ import com.animals.app.domain.AnimalBreed;
 import com.animals.app.domain.AnimalService;
 import com.animals.app.domain.AnimalStatus;
 import com.animals.app.domain.AnimalType;
-import com.animals.app.service.ValidationFilterDomainFields;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.servlet.ServletContainer;
-import org.glassfish.jersey.test.DeploymentContext;
-import org.glassfish.jersey.test.JerseyTest;
-import org.glassfish.jersey.test.ServletDeploymentContext;
-import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
-import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -29,9 +21,6 @@ import java.util.List;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by Rostyslav.Viner on 03.09.2015.
- */
 @Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAnimalResource extends ResourceTestTemplate {

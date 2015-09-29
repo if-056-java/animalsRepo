@@ -7,9 +7,6 @@ import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
-/**
- * Created by oleg on 24.07.2015.
- */
 public interface UserTypeRepository {
 
     final String SELECT_BY_ID = "SELECT Id, Type, TypeUa FROM usertypes WHERE Id = #{id};";

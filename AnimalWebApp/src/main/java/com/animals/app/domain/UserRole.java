@@ -13,9 +13,6 @@ import java.util.List;
 
 import javax.validation.constraints.DecimalMin;
 
-/**
- * Created by oleg on 22.07.2015.
- */
 public class UserRole implements Serializable, TypeHandler<List<? extends UserRole>> {
 	
 	@DecimalMin(value = "1")

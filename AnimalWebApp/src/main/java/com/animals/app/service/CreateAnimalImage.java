@@ -1,14 +1,9 @@
 package com.animals.app.service;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import sun.misc.BASE64Decoder;
 
 import java.io.*;
 
-/**
- * Created by oleg on 21.08.2015.
- */
 public class CreateAnimalImage {
     private static final int BUFFER_SIZE = 1024;
     private static final int START_OFFSET = 0;

@@ -6,9 +6,6 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
-/**
- * Created by Rostyslav.Viner on 22.07.2015.
- */
 public class AnimalService implements Serializable{
     @DecimalMin(value = "1")
     private Long id;

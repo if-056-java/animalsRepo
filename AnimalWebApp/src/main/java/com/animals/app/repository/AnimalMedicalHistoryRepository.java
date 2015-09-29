@@ -5,9 +5,6 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
-/**
- * Created by Rostyslav.Viner on 25.08.2015.
- */
 public interface AnimalMedicalHistoryRepository {
 
     final String SELECT_BY_ANIMAL_ID_PAGINATOR = "SELECT count(*) AS count " +

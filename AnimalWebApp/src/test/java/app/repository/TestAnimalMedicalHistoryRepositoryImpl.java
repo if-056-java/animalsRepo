@@ -18,9 +18,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Rostyslav.Viner on 31.08.2015.
- */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAnimalMedicalHistoryRepositoryImpl extends JNDIConfigurationForTests {
 

@@ -35,9 +35,6 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Rostyslav.Viner on 03.09.2015.
- */
 @Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAdminResource extends ResourceTestTemplate {

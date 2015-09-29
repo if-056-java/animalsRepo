@@ -2,9 +2,6 @@ package com.animals.app.service;
 
 import java.io.Serializable;
 
-/**
- * Created by Vova on 09.09.2015.
- */
 public class ServiceMessage implements Serializable {
 
     private String name;

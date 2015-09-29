@@ -2762,6 +2762,28 @@ select[multiple].form-group-lg .form-control {
   height: 30px;
   line-height: 30px;
 }
+.form-control-message {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 25px;
+  line-height: 1.42857143;
+  text-align: center;
+  pointer-events: none;
+}
+.input-lg + .form-control-message {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+}
+.input-sm + .form-control-message {
+  width: 100%;
+  height: 20px;
+  line-height: 20px;
+}
 .has-success .help-block,
 .has-success .control-label,
 .has-success .radio,

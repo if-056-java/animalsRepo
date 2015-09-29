@@ -2,7 +2,6 @@ package com.animals.app.controller.resource;
 
 import com.animals.app.domain.*;
 import com.animals.app.repository.AnimalRepository;
-import com.animals.app.repository.Impl.AnimalBreedRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalMedicalHistoryRepositoryImpl;
 import com.animals.app.repository.Impl.AnimalRepositoryImpl;
 import com.animals.app.repository.Impl.UserRepositoryImpl;
@@ -13,7 +12,6 @@ import sun.misc.BASE64Decoder;
 
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -174,9 +172,6 @@ public class AdminResource {
             return BAD_REQUEST;
         }
 
-        //check breed, if it new insert it into database
-        saveNewBreed(animal.getBreed(), animal.getType());
-
         //save new image if set
         animal.setImage(saveNewImage(httpServlet.getServletContext().getRealPath("/"),
                 animal.getImage(), animal.getId()));
@@ -252,7 +247,7 @@ public class AdminResource {
     @POST //http:localhost:8080/webapi/admin/users/paginator
     @Path("users/paginator")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAmountListUsersForAdmin(UsersFilter usersFilter) {
 
         UserRepositoryImpl userRepository = new UserRepositoryImpl();
@@ -275,7 +270,7 @@ public class AdminResource {
     @POST //http:localhost:8080/webapi/admin/users
     @Path("users")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllUsersForAdmin(UsersFilter usersFilter) {
 
         if (usersFilter == null) {
@@ -307,7 +302,7 @@ public class AdminResource {
      * userId must be set and more than 0
      */
     @GET // http:localhost:8080/webapi/users/user/{userId}
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("users/user/{userId}")
     public Response getUserById(@PathParam("userId") @DecimalMin(value = "1") int id) {
 
@@ -337,7 +332,7 @@ public class AdminResource {
      */
     @DELETE // http:localhost:8080/webapi/users/user/{userId}
     @Path("users/user/{userId}")
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteAnimal(@PathParam("userId") @NotNull int id) {
      
         UserRepositoryImpl userRep = new UserRepositoryImpl(); 
@@ -456,18 +451,6 @@ public class AdminResource {
         }
 
         return IMAGE_FOLDER + fileName;
-    }
-
-    private void saveNewBreed(AnimalBreed animalBreed, AnimalType animalType) {
-        if ((animalBreed == null) || (animalType == null) || (animalType.getId() == null)) {
-            return;
-        }
-
-        if ((animalBreed.getId() == null) &&
-                ((animalBreed.getBreedUa() != null) || (animalBreed.getBreedEn() != null))) {
-            animalBreed.setType(animalType);
-            new AnimalBreedRepositoryImpl().insert_ua(animalBreed);
-        }
     }
     
     private String buildResponseEntity(int i, String message) {
