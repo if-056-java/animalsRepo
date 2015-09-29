@@ -103,7 +103,7 @@ public class AuthenticationResource {
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("login") // http:localhost:8080/webapi/account/login/OFF
+    @Path("login") // http:localhost:8080/webapi/account/login
     public Response loginToSite(@Context HttpServletRequest req, 
                                 @HeaderParam("rememberMe") @NotNull String rememberMe) {
        
@@ -363,7 +363,6 @@ public class AuthenticationResource {
                                     @Email String email,
                                     @HeaderParam("locale") @NotNull String locale) {
                
-        System.out.println(locale);
         // check if user exist with email
         User user;
         try {
