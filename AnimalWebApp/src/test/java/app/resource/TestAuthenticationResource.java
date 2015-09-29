@@ -241,25 +241,7 @@ public class TestAuthenticationResource extends ResourceTestTemplate  {
         assertNotNull(responseMsg);
         assertEquals(200, responseMsg.getStatus());
         
-    }    
-     
-    
-    
-    @Test   
-    public void test10loginOauthTwitterDirrectWithResponse() { 
-    	
-    	Response responseMsg = client
-                .target(REST_SERVICE_URL)
-                .path("/login/twitter_login_direct")
-                .queryParam("token", TWITTER_TOKEN)
-                .queryParam("secret", TWITTER_SECRET)
-                .request() 
-                .get(Response.class);
-        
-    	assertNotNull(responseMsg);
-    	assertEquals(200, responseMsg.getStatus());
-        
-    }
+    }     
     
     @Test (expected = Exception.class)
     public void test11loginOauthTwitterDirrectWrongTokens() { 
